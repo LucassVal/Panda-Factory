@@ -1955,6 +1955,135 @@
         }
       }
 
+      // ========== FILTROS RÁPIDOS (FUNÇÕES FALTANTES) ==========
+      
+      /**
+       * Botão ✓ - Aplica todos os filtros
+       */
+      function aplicarFiltrosBotao() {
+        console.log('✓ Aplicando todos os filtros...');
+        filtrarClientes();
+        alert('✅ Filtros aplicados!');
+      }
+      
+      /**
+       * Botões de filtro rápido (Meus, Novos, Atrasados)
+       */
+      function filtroRapido(tipo) {
+        const usuarioLogado = sessionStorage.getItem('usuarioLogado') || 'Admin';
+        const hoje = new Date().toISOString().split('T')[0];
+        
+        // Remover classe active dos outros botões
+        document.querySelectorAll('.filter-tag').forEach(btn => btn.classList.remove('active'));
+        
+        // Ativar botão clicado
+        const btnId = 'btnFiltro' + tipo.charAt(0).toUpperCase() + tipo.slice(1);
+        const btn = document.getElementById(btnId);
+        if(btn) btn.classList.add('active');
+        
+        let clientesFiltrados = [];
+        
+        switch(tipo) {
+          case 'meus':
+            clientesFiltrados = clientes.filter(c => c.vendedor === usuarioLogado);
+            break;
+          case 'novos':
+            clientesFiltrados = clientes.filter(c => {
+              const dataCadastro = c.data_cadastro || c.id.split('-').pop();
+              return dataCadastro && dataCadastro.includes(hoje);
+            });
+            break;
+          case 'atrasados':
+            clientesFiltrados = clientes.filter(c => {
+              if(!c.historico) return false;
+              const ultimoContato = c.historico.find(h => h.tipo === 'nota' || h.tipo === 'agendamento');
+              if(!ultimoContato) return true; // Nunca contatado = atrasado
+              const dataUltimo = new Date(ultimoContato.data);
+              const diasSemContato = (new Date() - dataUltimo) / (1000 * 60 * 60 * 24);
+              return diasSemContato > 7; // Mais de 7 dias sem contato
+            });
+            break;
+          default:
+            clientesFiltrados = clientes;
+        }
+        
+        if(isKanbanView) {
+          renderizarKanban(clientesFiltrados);
+        } else {
+          renderizarClientes(clientesFiltrados);
+        }
+      }
+      
+      /**
+       * Botão ✕ - Limpa filtros rápidos
+       */
+      function limparFiltrosRapidos() {
+        // Resetar filtros do formulário
+        document.getElementById('searchInput').value = '';
+        document.getElementById('statusFilter').value = '';
+        document.getElementById('cidadeFilter').value = '';
+        document.getElementById('bairroFilter').value = '';
+        document.getElementById('minArea').value = '';
+        document.getElementById('maxArea').value = '';
+        
+        // Remover classe active de todos os botões rápidos
+        document.querySelectorAll('.filter-tag').forEach(btn => btn.classList.remove('active'));
+        
+        // Re-renderizar com todos os clientes
+        if(isKanbanView) {
+          renderizarKanban(clientes);
+        } else {
+          renderizarClientes(clientes);
+        }
+        
+        console.log('🧹 Filtros limpos!');
+      }
+      
+      /**
+       * Ordenação por campo específico
+       */
+      function ordenarClientes(campo) {
+        // Remover classe active dos outros botões de ordenação
+        document.querySelectorAll('.filter-tag').forEach(btn => {
+          if(btn.textContent.includes('⇅') || btn.textContent.includes('↑') || btn.textContent.includes('↓')) {
+            btn.classList.remove('active');
+          }
+        });
+        
+        // Ordenar
+        let clientesOrdenados = [...clientes];
+        
+        switch(campo) {
+          case 'nome':
+            clientesOrdenados.sort((a, b) => a.nome.localeCompare(b.nome));
+            break;
+          case 'cidade':
+            clientesOrdenados.sort((a, b) => (a.cidade || '').localeCompare(b.cidade || ''));
+            break;
+          case 'bairro':
+            clientesOrdenados.sort((a, b) => (a.bairro || '').localeCompare(b.bairro || ''));
+            break;
+          case 'metragem':
+            clientesOrdenados.sort((a, b) => (parseFloat(b.metragem) || 0) - (parseFloat(a.metragem) || 0));
+            break;
+          case 'estagio':
+            const ordemStatus = { nao_acompanhando: 0, em_acompanhamento: 1, com_orcamento: 2, fechado: 3, finalizado: 4 };
+            clientesOrdenados.sort((a, b) => (ordemStatus[a.status] || 0) - (ordemStatus[b.status] || 0));
+            break;
+          default:
+            clientesOrdenados.sort((a, b) => a.nome.localeCompare(b.nome));
+        }
+        
+        // Re-renderizar
+        if(isKanbanView) {
+          renderizarKanban(clientesOrdenados);
+        } else {
+          renderizarClientes(clientesOrdenados);
+        }
+        
+        console.log('📊 Ordenado por:', campo);
+      }
+
       function atualizarEstatisticas() {
         const totalProspects = clientes.length;
         const emAcompanhamento = clientes.filter(
