@@ -891,6 +891,38 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* FIX: Agenda Drawer Z-Index & Blur */
+      #agendaBackdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(5px);
+        z-index: 1500; /* Behind Drawer */
+        display: none;
+      }
+      #agendaBackdrop.active {
+        display: block;
+      }
+      #agendaDrawer {
+        z-index: 2000; /* Above Backdrop */
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 350px;
+        height: 100%;
+        background: white;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        transition: right 0.3s ease;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      #agendaDrawer.active {
+        right: 0;
+      }
     </style>
   </head>
   <body>
