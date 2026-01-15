@@ -438,6 +438,43 @@ C:/Users/Lucas Valério/Desktop/CRM/
 
 ---
 
+### 🐙 6. Controle de Versão (GitHub)
+
+#### Fluxo de Trabalho Padrão
+
+Para enviar atualizações para o repositório remoto (GitHub), siga rigorosamente a ordem abaixo:
+
+1.  **Verificar Status**: Veja quais arquivos foram alterados.
+
+    ```powershell
+    git status
+    ```
+
+2.  **Adicionar Mudanças**: Prepare os arquivos para o commit.
+
+    ```powershell
+    git add .
+    ```
+
+3.  **Registrar Versão (Commit)**: Salve as mudanças com uma mensagem clara.
+
+    ```powershell
+    git commit -m "tipo(escopo): descrição breve da mudança"
+    ```
+
+    _Exemplos:_
+
+    - `feat(agenda): adicionado botão de novo agendamento`
+    - `fix(filtros): corrigido erro de renderizarLista`
+    - `docs(manual): atualizado guia de instalação`
+
+4.  **Enviar para GitHub (Push)**: Sincronize com a nuvem.
+    ```powershell
+    git push origin main
+    ```
+
+---
+
 ## 📝 PARTE 3: HISTÓRICO DE MUDANÇAS
 
 ### Versão 2.2 (Atual - Janeiro 2026)
