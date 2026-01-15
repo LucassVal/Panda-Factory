@@ -5100,6 +5100,86 @@
         `).join('');
       }
 
+      // ========== SISTEMA DE LOGIN ==========
+      
+      // Lista de usuários (carrega do localStorage ou usa padrão)
+      let usuarios = JSON.parse(localStorage.getItem('crmUsuarios')) || [
+        { login: 'admin', senha: 'admin', nivel: 'admin' }
+      ];
+      
+      /**
+       * Verifica se usuário está logado ao carregar a página
+       */
+      function verificarLogin() {
+        const usuarioLogado = sessionStorage.getItem('usuarioLogado');
+        const loginOverlay = document.getElementById('loginOverlay');
+        
+        if(!usuarioLogado) {
+          // Não logado - mostrar tela de login
+          loginOverlay.style.display = 'flex';
+          document.querySelector('.container').style.display = 'none';
+        } else {
+          // Logado - esconder login e mostrar sistema
+          loginOverlay.style.display = 'none';
+          document.querySelector('.container').style.display = 'block';
+        }
+      }
+      
+      /**
+       * Realiza o login
+       */
+      function fazerLogin() {
+        const user = document.getElementById('loginUser').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        
+        if(!user || !pass) {
+          alert('⚠️ Preencha usuário e senha!');
+          return;
+        }
+        
+        // Verificar credenciais
+        const usuarioEncontrado = usuarios.find(u => 
+          u.login.toLowerCase() === user.toLowerCase() && u.senha === pass
+        );
+        
+        if(usuarioEncontrado) {
+          // Login OK
+          sessionStorage.setItem('usuarioLogado', usuarioEncontrado.login);
+          sessionStorage.setItem('nivelAcesso', usuarioEncontrado.nivel || 'vendedor');
+          
+          // Esconder login, mostrar sistema
+          document.getElementById('loginOverlay').style.display = 'none';
+          document.querySelector('.container').style.display = 'block';
+          
+          console.log('✅ Login realizado:', usuarioEncontrado.login);
+        } else {
+          alert('❌ Usuário ou senha incorretos!');
+          document.getElementById('loginPass').value = '';
+          document.getElementById('loginPass').focus();
+        }
+      }
+      
+      /**
+       * Faz logout
+       */
+      function fazerLogout() {
+        if(confirm('Deseja realmente sair do sistema?')) {
+          sessionStorage.removeItem('usuarioLogado');
+          sessionStorage.removeItem('nivelAcesso');
+          
+          // Mostrar login, esconder sistema
+          document.getElementById('loginOverlay').style.display = 'flex';
+          document.querySelector('.container').style.display = 'none';
+          
+          // Limpar campos
+          document.getElementById('loginUser').value = '';
+          document.getElementById('loginPass').value = '';
+        }
+      }
+      
+      // Verificar login ao carregar página
+      document.addEventListener('DOMContentLoaded', verificarLogin);
+
     </script>
     
     <!-- SCRIPT DE AUTO IMPORTAÇÃO (Gerado pelo Python) -->
