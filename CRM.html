@@ -1411,6 +1411,17 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label required">Telefone(s)</label>
+                <div id="newClientTelefonesContainer">
+                    <div class="phone-input-group" style="display:flex; gap:5px; margin-bottom:5px;">
+                        <input type="text" class="form-input" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)">
+                        <button class="btn btn-sm btn-danger" onclick="removerCampoTelefone(this)" style="display:none;">×</button>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-secondary" onclick="adicionarCampoTelefone('newClientTelefonesContainer')" style="margin-top:5px;">+ Adicionar outro telefone</button>
+            </div>
+
+            <div class="form-group">
                 <label class="form-label required">Cidade/UF</label>
                 <input type="text" class="form-input" id="newClientCidade" placeholder="Ex: Limeira/SP" />
             </div>
@@ -1862,6 +1873,8 @@
         const sortOption = document.getElementById("sortOption").value;
 
         // Filtragem
+        console.log('🔍 Debug Filtros:', { busca, statusFiltro, cidadeFiltro, bairroFiltro });
+        
         let clientesFiltrados = clientes.filter((cliente) => {
           const matchBusca =
             !busca ||
@@ -1873,6 +1886,9 @@
           const matchStatus = !statusFiltro || cliente.status === statusFiltro;
           const matchCidade = !cidadeFiltro || cliente.cidade === cidadeFiltro;
           const matchBairro = !bairroFiltro || cliente.bairro === bairroFiltro;
+          
+          if(!matchCidade && cidadeFiltro) console.log('❌ Cidade mismatch:', cliente.cidade, '!=', cidadeFiltro);
+
           
           // Filtro M²
           const metragem = parseFloat(cliente.metragem) || 0;
@@ -3936,12 +3952,37 @@
           
           document.querySelector('#sidebarTitle span').textContent = `📅 ${dateStr}`;
           const content = document.getElementById('sidebarContent');
-          content.innerHTML = '';
+          content.innerHTML = `
+            <div style="padding:15px; border-bottom:1px solid #eee;">
+                <button class="btn btn-primary" style="width:100%" onclick="toggleFormAgendamento()">+ Novo Agendamento</button>
+                <div id="formNewAgenda" style="display:none; margin-top:15px; background:#f9f9f9; padding:10px; border-radius:8px;">
+                    <input type="time" id="newAgendaTime" class="form-input" style="margin-bottom:5px;">
+                    <input type="text" id="newAgendaDesc" class="form-input" placeholder="Descrição (ex: Reunião)" style="margin-bottom:5px;">
+                    <select id="newAgendaClientSelect" class="form-input" style="margin-bottom:5px;">
+                        <option value="">-- Cliente (Opcional) --</option>
+                    </select>
+                    <button class="btn btn-success btn-sm" onclick="salvarAgendamentoDrawer('${date.toISOString()}')" style="width:100%">Salvar</button>
+                </div>
+            </div>
+            <div id="agendaListContent"></div>
+          `;
+
+          // Popula select de clientes
+          const sel = document.getElementById('newAgendaClientSelect');
+          if(sel) {
+             clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).forEach(c => {
+                 const opt = document.createElement('option');
+                 opt.value = c.id;
+                 opt.text = c.nome;
+                 sel.appendChild(opt);
+             });
+          }
           
           const events = getEventsForDate(date);
+          const listContent = document.getElementById('agendaListContent');
           
           if(events.length === 0) {
-              content.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
+              listContent.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
           } else {
               events.forEach(ev => {
                   content.innerHTML += `
@@ -3961,6 +4002,55 @@
           document.getElementById('agendaBackdrop').classList.add('active');
       }
 
+      // Agenda Helpers
+      function toggleFormAgendamento() {
+          const form = document.getElementById('formNewAgenda');
+          if(form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      }
+
+      function salvarAgendamentoDrawer(dateISO) {
+          const time = document.getElementById('newAgendaTime').value;
+          const desc = document.getElementById('newAgendaDesc').value;
+          const clientId = document.getElementById('newAgendaClientSelect').value;
+          const dateObj = new Date(dateISO);
+          
+          if(!time || !desc) return alert('Preencha horário e descrição');
+          
+          const [hora, min] = time.split(':');
+          dateObj.setHours(parseInt(hora), parseInt(min));
+          
+          if(!window.agendaGlobal) window.agendaGlobal = []; 
+          
+          const novoEvento = {
+              id: Date.now().toString(),
+              data: dateObj.toISOString(),
+              descricao: desc,
+              clienteId: clientId || null,
+              status: 'Pendente'
+          };
+
+          if(clientId) {
+              const cliente = clientes.find(c => c.id === clientId);
+              if(cliente) {
+                  if(!cliente.agendamentos) cliente.agendamentos = [];
+                  cliente.agendamentos.push(novoEvento);
+                  salvarDados(); 
+              }
+          } else {
+              const agendaAvulsa = JSON.parse(localStorage.getItem('crmAgendaAvulsa')) || [];
+              agendaAvulsa.push(novoEvento);
+              localStorage.setItem('crmAgendaAvulsa', JSON.stringify(agendaAvulsa));
+          }
+          
+          alert('Agendamento criado com sucesso!');
+          renderizarAgenda(); 
+          // Re-abrir drawer para mostrar novo item ou apenas atualizar?
+          // Como renderizarAgenda redesenha o grid e fecha o drawer (se não cuidar),
+          // o ideal é atualizar o drawer content. Mas simplificando:
+          
+          abrirAgendaDrawer(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      }
+      
       function fecharAgendaDrawer() {
           document.getElementById('agendaDrawer').classList.remove('active');
           document.getElementById('agendaBackdrop').classList.remove('active');
@@ -3968,6 +4058,59 @@
       
       function fecharSidebarAgenda() { fecharAgendaDrawer(); }
 
+
+      // Agenda Helpers
+      function toggleFormAgendamento() {
+          const form = document.getElementById('formNewAgenda');
+          form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      }
+
+      function salvarAgendamentoDrawer(dateISO) {
+          const time = document.getElementById('newAgendaTime').value;
+          const desc = document.getElementById('newAgendaDesc').value;
+          const clientId = document.getElementById('newAgendaClientSelect').value;
+          const dateObj = new Date(dateISO);
+          
+          if(!time || !desc) return alert('Preencha horário e descrição');
+          
+          const [hora, min] = time.split(':');
+          dateObj.setHours(parseInt(hora), parseInt(min));
+          
+          // Adicionar ao array global de agenda (se existir) ou criar estrutura
+          if(!window.agendaGlobal) window.agendaGlobal = []; // Fallback se não existir
+          
+          // Mas espere, a agenda atual parece ser baseada em histrico de clientes?
+          // getEventsForDate varre clientes. Se for avulso, precisamos de um array global 'agendaAvulsa'.
+          
+          const novoEvento = {
+              id: Date.now().toString(),
+              data: dateObj.toISOString(),
+              descricao: desc,
+              clienteId: clientId || null,
+              status: 'Pendente'
+          };
+
+          // Se tiver cliente vinculado, salvar no histórico do cliente
+          if(clientId) {
+              const cliente = clientes.find(c => c.id === clientId);
+              if(cliente) {
+                  if(!cliente.agendamentos) cliente.agendamentos = [];
+                  cliente.agendamentos.push(novoEvento);
+                  salvarDados(); // Persistir
+              }
+          } else {
+              // Agendamento Avulso - Salvar em array global
+              // Precisamos garantir que getEventsForDate LÊ isso também.
+              // Vamos salvar no localStorage 'crmAgendaAvulsa'
+              const agendaAvulsa = JSON.parse(localStorage.getItem('crmAgendaAvulsa')) || [];
+              agendaAvulsa.push(novoEvento);
+              localStorage.setItem('crmAgendaAvulsa', JSON.stringify(agendaAvulsa));
+          }
+          
+          alert('Agendamento criado com sucesso!');
+          renderizarAgenda(); // Atualizar grid
+          fecharAgendaDrawer();
+      }
 
       // 3. UNIFIED MODAL LOGIC
       function abrirModal(id) {
@@ -4796,6 +4939,39 @@
         `).join('');
       }
 
+    <style>
+      /* FIX: Agenda Drawer Z-Index & Blur */
+      #agendaBackdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(5px);
+        z-index: 1500; /* Behind Drawer */
+        display: none;
+      }
+      #agendaBackdrop.active {
+        display: block;
+      }
+      #agendaDrawer {
+        z-index: 2000; /* Above Backdrop */
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 350px;
+        height: 100%;
+        background: white;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        transition: right 0.3s ease;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      #agendaDrawer.active {
+        right: 0;
+      }
+    </style>
     </script>
     
     <!-- SCRIPT DE AUTO IMPORTAÇÃO (Gerado pelo Python) -->
