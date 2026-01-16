@@ -909,6 +909,7 @@
         <div id="userLoginInfo" style="margin-left:auto; padding:8px 15px; font-size:12px; color:#64748b; border-right:1px solid #e2e8f0;">
           <!-- Populated via JS -->
         </div>
+        <div class="nav-item" onclick="abrirConfig()" style="background:#f97316; color:white; cursor:pointer;">⚙️ Config</div>
         <div class="nav-item" onclick="fazerLogout()" style="background:#fee2e2; color:#b91c1c;">🚪 Sair</div>
       </div>
 
@@ -970,7 +971,7 @@
           <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, código ou cid..." oninput="filtrarClientes()" />
         </div>
         
-        <select class="filter-select" id="statusFilter" onchange="filtrarClientes()">
+        <select class="filter-select" id="statusFilter">
           <option value="">Status▼</option>
           <option value="nao_acompanhando">⚪ Não Acompanhando</option>
           <option value="em_acompanhamento">🟢 Em Acompanhamento</option>
@@ -979,16 +980,16 @@
           <option value="finalizado">🔴 Finalizado</option>
         </select>
         
-        <select class="filter-select" id="cidadeFilter" onchange="filtrarClientes()">
+        <select class="filter-select" id="cidadeFilter">
           <option value="">Cidade▼</option>
         </select>
         
-        <select class="filter-select" id="bairroFilter" onchange="filtrarClientes()">
+        <select class="filter-select" id="bairroFilter">
           <option value="">Bairro▼</option>
         </select>
         
-        <input type="number" id="minArea" placeholder="Min" class="filter-select" style="width: 80px;" onchange="filtrarClientes()">
-        <input type="number" id="maxArea" placeholder="Max" class="filter-select" style="width: 80px;" onchange="filtrarClientes()">
+        <input type="number" id="minArea" placeholder="Min" class="filter-select" style="width: 80px;">
+        <input type="number" id="maxArea" placeholder="Max" class="filter-select" style="width: 80px;">
         </div>
         
         <!-- LINHA 2: AÇÕES (Espaçamento Justificado) -->
@@ -1011,10 +1012,6 @@
         
         <button class="btn" onclick="exportarDados()" style="background: #667eea; color: white; flex: 1;">
           💾 Export
-        </button>
-        
-        <button class="btn" onclick="abrirConfig()" style="background: #f97316; color: white; min-width: 50px;" title="Configurações do Sistema">
-          ⚙️
         </button>
         </div>
         
@@ -2991,11 +2988,12 @@
             // Fonte reset
             document.getElementById('newClientFonteOutro').style.display = 'none';
 
-            // Popular Vendedores (Global Var)
+            // Popular Vendedores (de localStorage)
             const selectVend = document.getElementById('newClientVendedor');
             selectVend.innerHTML = '<option value="">Selecione...</option>';
-            vendedores.forEach(v => {
-                selectVend.innerHTML += `<option value="${v}">${v}</option>`;
+            const crmVendedores = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
+            crmVendedores.forEach(v => {
+                selectVend.innerHTML += `<option value="${v.user}">${v.user}</option>`;
             });
             
             document.getElementById('newClientModal').style.display = 'block';
