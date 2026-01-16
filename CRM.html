@@ -4117,7 +4117,9 @@
           const p = document.getElementById('loginPass').value;
           const users = JSON.parse(localStorage.getItem('crmUsuarios') || '[{"user":"admin","pass":"admin","nome":"Administrador"}]');
           
-          const valid = users.find(user => user.user === u && user.pass === p);
+          const valid = users.find(user => 
+            ((user.user || user.login) === u) && ((user.pass || user.senha) === p)
+          );
           if(valid) {
               sessionStorage.setItem('usuarioAtual', JSON.stringify(valid));
               document.getElementById('loginOverlay').style.display = 'none';

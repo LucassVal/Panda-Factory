@@ -1,0 +1,19 @@
+# Arquivos de debug e temporários
+debug_log.txt
+*.log
+
+# Dados do scraper (grandes e dinâmicos)
+dados/
+!dados/.gitkeep
+
+# Screenshots de debug
+scripts/debug_*.png
+scripts/erro_*.png
+
+# Backups automáticos
+exports/CRM_BACKUP_*.html
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
