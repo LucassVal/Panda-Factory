@@ -48,28 +48,71 @@ goto START_CRM
 echo.
 echo [EXECUÇÃO] Iniciando Scraper de Dados...
 echo ----------------------------------------
-echo ⚠️ Uma nova janela abrirá. Configure os M² no console.
+echo ⚠️ Janela do navegador abrirá. Configure os M² quando pedido.
 echo.
 
 cd scripts
 python scraper_guia_automatico.py
+
+REM Salvar código de erro
+set SCRAPER_ERROR=%ERRORLEVEL%
 cd ..
 
-if %ERRORLEVEL% NEQ 0 (
+if %SCRAPER_ERROR% NEQ 0 (
     echo.
-    echo ❌ Erro durante a atualização. Usando dados antigos.
-    timeout /t 5
+    echo ════════════════════════════════════════════════
+    echo ❌ ERRO DURANTE A ATUALIZAÇÃO
+    echo ════════════════════════════════════════════════
+    echo.
+    echo Código de erro: %SCRAPER_ERROR%
+    echo.
+    echo Possíveis causas:
+    echo  - Credenciais incorretas no script Python
+    echo  - Problema de conexão com a internet
+    echo  - Site do Guia da Construção fora do ar
+    echo  - Playwright não instalado corretamente
+    echo.
+    echo 💡 SOLUÇÃO: Verifique as credenciais e tente novamente.
+    echo.
+    echo ════════════════════════════════════════════════
+    echo.
+    set /p continuar="👉 Deseja abrir o CRM com dados antigos? (S/N) [S]: "
+    
+    if /i "%continuar%"=="N" (
+        echo.
+        echo ⏹️ Operação cancelada pelo usuário.
+        echo.
+        pause
+        exit /b 1
+    )
+    
+    if /i "%continuar%"=="n" (
+        echo.
+        echo ⏹️ Operação cancelada pelo usuário.
+        echo.
+        pause
+        exit /b 1
+    )
+    
+    echo.
+    echo [INFO] Mantendo dados anteriores...
 ) else (
     echo.
-    echo ✅ Atualização concluída com sucesso!
+    echo ════════════════════════════════════════════════
+    echo ✅ ATUALIZAÇÃO CONCLUÍDA COM SUCESSO!
+    echo ════════════════════════════════════════════════
+    echo.
 )
 
 :START_CRM
 echo.
-echo 🚀 Abrindo Dashboard...
+echo 🚀 Abrindo Dashboard do CRM...
 echo ════════════════════════════════════════════════
 start "" "CRM.html"
 echo.
-echo Janela encerrando em 3s...
-timeout /t 3 >nul
+echo ✅ CRM iniciado! Verifique seu navegador.
+echo.
+echo Janela encerrando em 5 segundos...
+echo (Pressione qualquer tecla para fechar agora)
+timeout /t 5
 exit
