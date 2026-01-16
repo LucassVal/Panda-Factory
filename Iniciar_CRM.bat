@@ -37,21 +37,26 @@ set CHECK_RESULT=%ERRORLEVEL%
 echo PowerShell ERRORLEVEL: %CHECK_RESULT% >> %LOG_FILE%
 echo CHECKPOINT: Verificando resultado (%CHECK_RESULT%) >> %LOG_FILE%
 
-if %CHECK_RESULT% EQ 0 (
-    echo CHECKPOINT: Base antiga detectada - indo para RUN_SCRAPER >> %LOG_FILE%
+REM DEBUG: Testar valor antes do IF
+echo DEBUG: Valor de CHECK_RESULT = "%CHECK_RESULT%" >> %LOG_FILE%
+echo DEBUG: Comparando com 0... >> %LOG_FILE%
+
+if "%CHECK_RESULT%"=="0" (
+    echo CHECKPOINT: Condicional TRUE - Base antiga detectada >> %LOG_FILE%
     echo.
     echo [AUTO] Base antiga. Iniciando atualização obrigatória...
+    echo DEBUG: Executando goto RUN_SCRAPER >> %LOG_FILE%
     goto RUN_SCRAPER
-) else (
-    echo CHECKPOINT: Base recente - perguntando usuario >> %LOG_FILE%
-    echo.
-    echo ----------------------------------------------------
-    echo [OPCIONAL] Deseja atualizar mesmo assim?
-    echo (Isso permite alterar os filtros de M² agora)
-    echo.
-    set /p choice="👉 Atualizar agora? (S/N) [N]: "
-    echo Escolha do usuario: %choice% >> %LOG_FILE%
 )
+
+echo CHECKPOINT: Condicional FALSE - Base recente >> %LOG_FILE%
+echo.
+echo ----------------------------------------------------
+echo [OPCIONAL] Deseja atualizar mesmo assim?
+echo (Isso permite alterar os filtros de M² agora)
+echo.
+set /p choice="👉 Atualizar agora? (S/N) [N]: "
+echo Escolha do usuario: %choice% >> %LOG_FILE%
 
 if /i "%choice%"=="S" goto RUN_SCRAPER
 if /i "%choice%"=="s" goto RUN_SCRAPER
