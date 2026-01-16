@@ -2123,8 +2123,13 @@
             finalizado: "Finalizado/Perdido",
           };
 
-          // Pegar telefone e formatar
-          const telefoneRaw = cliente.telefone || cliente.telefones?.[0]?.numero || '';
+          // Pegar telefone e formatar (compatível com string OU objeto)
+          const getTelefone = (tel) => {
+            if (!tel || !Array.isArray(tel) || tel.length === 0) return '';
+            const first = tel[0];
+            return typeof first === 'string' ? first : (first?.numero || '');
+          };
+          const telefoneRaw = cliente.telefone || getTelefone(cliente.telefones) || '';
           const telefoneFormatado = formatarTelefone(telefoneRaw);
 
           card.innerHTML = `
@@ -4243,7 +4248,13 @@
         // ===== POPULAR HEADER =====
         document.getElementById('modalClientName').textContent = cliente.nome || 'Sem nome';
         document.getElementById('modalClientId').textContent = `ID: ${cliente.id}`;
-        document.getElementById('modalClientPhone').textContent = `📞 ${cliente.telefone || cliente.telefones?.[0]?.numero || 'Não informado'}`;
+        // Helper para extrair telefone (string OU objeto)
+        const getTelefone = (tel) => {
+          if (!tel || !Array.isArray(tel) || tel.length === 0) return null;
+          const first = tel[0];
+          return typeof first === 'string' ? first : (first?.numero || null);
+        };
+        document.getElementById('modalClientPhone').textContent = `📞 ${cliente.telefone || getTelefone(cliente.telefones) || 'Não informado'}`;
         document.getElementById('modalClientCity').textContent = `📍 ${cliente.cidade || 'Não informado'}`;
         
         // ===== POPULAR STATUS (TAB 0) =====
