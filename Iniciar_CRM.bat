@@ -30,17 +30,20 @@ echo [SYSTEM] Verificando idade da base de dados...
 echo CHECKPOINT: Verificando idade da base >> %LOG_FILE%
 
 REM PowerShell Check: Returns 0 if update needed (Older than 7 days), 1 if ok (Recent).
-powershell -Command "$json = 'dados/clientes_crm_v2.json'; if (-not (Test-Path $json)) { exit 0 }; $last = (Get-Item $json).LastWriteTime; $days = (New-TimeSpan -Start $last -End (Get-Date)).Days; if ($days -ge 7) { Write-Host '⚠️ Base desatualizada (' $days 'dias).' -ForegroundColor Yellow; exit 0 } else { Write-Host '✅ Base atualizada (' $days 'dias atrás).' -ForegroundColor Green; exit 1 }" 2>>%LOG_FILE%
+powershell -Command "$json = 'dados/clientes_crm_v2.json'; if (-not (Test-Path $json)) { exit 0 }; $last = (Get-Item $json).LastWriteTime; $days = (New-TimeSpan -Start $last -End (Get-Date)).Days; if ($days -ge 7) { Write-Host '⚠️ Base desatualizada (' $days 'dias).' -ForegroundColor Yellow; exit 0 } else { Write-Host '✅ Base atualizada (' $days 'dias atrás).' -ForegroundColor Green; exit 1 }"
 
-echo PowerShell ERRORLEVEL: %ERRORLEVEL% >> %LOG_FILE%
+REM SALVAR ERRORLEVEL IMEDIATAMENTE
+set CHECK_RESULT=%ERRORLEVEL%
+echo PowerShell ERRORLEVEL: %CHECK_RESULT% >> %LOG_FILE%
+echo CHECKPOINT: Verificando resultado (%CHECK_RESULT%) >> %LOG_FILE%
 
-if %ERRORLEVEL% EQ 0 (
-    echo CHECKPOINT: Base antiga detectada >> %LOG_FILE%
+if %CHECK_RESULT% EQ 0 (
+    echo CHECKPOINT: Base antiga detectada - indo para RUN_SCRAPER >> %LOG_FILE%
     echo.
     echo [AUTO] Base antiga. Iniciando atualização obrigatória...
     goto RUN_SCRAPER
 ) else (
-    echo CHECKPOINT: Base recente, perguntando usuario >> %LOG_FILE%
+    echo CHECKPOINT: Base recente - perguntando usuario >> %LOG_FILE%
     echo.
     echo ----------------------------------------------------
     echo [OPCIONAL] Deseja atualizar mesmo assim?
