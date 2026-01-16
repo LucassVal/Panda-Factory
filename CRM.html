@@ -891,38 +891,6 @@
           grid-template-columns: 1fr;
         }
       }
-
-      /* FIX: Agenda Drawer Z-Index & Blur */
-      #agendaBackdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        backdrop-filter: blur(5px);
-        z-index: 1500; /* Behind Drawer */
-        display: none;
-      }
-      #agendaBackdrop.active {
-        display: block;
-      }
-      #agendaDrawer {
-        z-index: 2000; /* Above Backdrop */
-        position: fixed;
-        top: 0;
-        right: -400px;
-        width: 350px;
-        height: 100%;
-        background: white;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-        transition: right 0.3s ease;
-        padding: 20px;
-        overflow-y: auto;
-      }
-      #agendaDrawer.active {
-        right: 0;
-      }
     </style>
   </head>
   <body>
@@ -1443,17 +1411,6 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label required">Telefone(s)</label>
-                <div id="newClientTelefonesContainer">
-                    <div class="phone-input-group" style="display:flex; gap:5px; margin-bottom:5px;">
-                        <input type="text" class="form-input" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)">
-                        <button class="btn btn-sm btn-danger" onclick="removerCampoTelefone(this)" style="display:none;">×</button>
-                    </div>
-                </div>
-                <button class="btn btn-sm btn-secondary" onclick="adicionarCampoTelefone('newClientTelefonesContainer')" style="margin-top:5px;">+ Adicionar outro telefone</button>
-            </div>
-
-            <div class="form-group">
                 <label class="form-label required">Cidade/UF</label>
                 <input type="text" class="form-input" id="newClientCidade" placeholder="Ex: Limeira/SP" />
             </div>
@@ -1905,8 +1862,6 @@
         const sortOption = document.getElementById("sortOption").value;
 
         // Filtragem
-        console.log('🔍 Debug Filtros:', { busca, statusFiltro, cidadeFiltro, bairroFiltro });
-        
         let clientesFiltrados = clientes.filter((cliente) => {
           const matchBusca =
             !busca ||
@@ -1918,9 +1873,6 @@
           const matchStatus = !statusFiltro || cliente.status === statusFiltro;
           const matchCidade = !cidadeFiltro || cliente.cidade === cidadeFiltro;
           const matchBairro = !bairroFiltro || cliente.bairro === bairroFiltro;
-          
-          if(!matchCidade && cidadeFiltro) console.log('❌ Cidade mismatch:', cliente.cidade, '!=', cidadeFiltro);
-
           
           // Filtro M²
           const metragem = parseFloat(cliente.metragem) || 0;
@@ -1953,135 +1905,6 @@
         } else {
             renderizarClientes(clientesFiltrados);
         }
-      }
-
-      // ========== FILTROS RÁPIDOS (FUNÇÕES FALTANTES) ==========
-      
-      /**
-       * Botão ✓ - Aplica todos os filtros
-       */
-      function aplicarFiltrosBotao() {
-        console.log('✓ Aplicando todos os filtros...');
-        filtrarClientes();
-        alert('✅ Filtros aplicados!');
-      }
-      
-      /**
-       * Botões de filtro rápido (Meus, Novos, Atrasados)
-       */
-      function filtroRapido(tipo) {
-        const usuarioLogado = sessionStorage.getItem('usuarioLogado') || 'Admin';
-        const hoje = new Date().toISOString().split('T')[0];
-        
-        // Remover classe active dos outros botões
-        document.querySelectorAll('.filter-tag').forEach(btn => btn.classList.remove('active'));
-        
-        // Ativar botão clicado
-        const btnId = 'btnFiltro' + tipo.charAt(0).toUpperCase() + tipo.slice(1);
-        const btn = document.getElementById(btnId);
-        if(btn) btn.classList.add('active');
-        
-        let clientesFiltrados = [];
-        
-        switch(tipo) {
-          case 'meus':
-            clientesFiltrados = clientes.filter(c => c.vendedor === usuarioLogado);
-            break;
-          case 'novos':
-            clientesFiltrados = clientes.filter(c => {
-              const dataCadastro = c.data_cadastro || c.id.split('-').pop();
-              return dataCadastro && dataCadastro.includes(hoje);
-            });
-            break;
-          case 'atrasados':
-            clientesFiltrados = clientes.filter(c => {
-              if(!c.historico) return false;
-              const ultimoContato = c.historico.find(h => h.tipo === 'nota' || h.tipo === 'agendamento');
-              if(!ultimoContato) return true; // Nunca contatado = atrasado
-              const dataUltimo = new Date(ultimoContato.data);
-              const diasSemContato = (new Date() - dataUltimo) / (1000 * 60 * 60 * 24);
-              return diasSemContato > 7; // Mais de 7 dias sem contato
-            });
-            break;
-          default:
-            clientesFiltrados = clientes;
-        }
-        
-        if(isKanbanView) {
-          renderizarKanban(clientesFiltrados);
-        } else {
-          renderizarClientes(clientesFiltrados);
-        }
-      }
-      
-      /**
-       * Botão ✕ - Limpa filtros rápidos
-       */
-      function limparFiltrosRapidos() {
-        // Resetar filtros do formulário
-        document.getElementById('searchInput').value = '';
-        document.getElementById('statusFilter').value = '';
-        document.getElementById('cidadeFilter').value = '';
-        document.getElementById('bairroFilter').value = '';
-        document.getElementById('minArea').value = '';
-        document.getElementById('maxArea').value = '';
-        
-        // Remover classe active de todos os botões rápidos
-        document.querySelectorAll('.filter-tag').forEach(btn => btn.classList.remove('active'));
-        
-        // Re-renderizar com todos os clientes
-        if(isKanbanView) {
-          renderizarKanban(clientes);
-        } else {
-          renderizarClientes(clientes);
-        }
-        
-        console.log('🧹 Filtros limpos!');
-      }
-      
-      /**
-       * Ordenação por campo específico
-       */
-      function ordenarClientes(campo) {
-        // Remover classe active dos outros botões de ordenação
-        document.querySelectorAll('.filter-tag').forEach(btn => {
-          if(btn.textContent.includes('⇅') || btn.textContent.includes('↑') || btn.textContent.includes('↓')) {
-            btn.classList.remove('active');
-          }
-        });
-        
-        // Ordenar
-        let clientesOrdenados = [...clientes];
-        
-        switch(campo) {
-          case 'nome':
-            clientesOrdenados.sort((a, b) => a.nome.localeCompare(b.nome));
-            break;
-          case 'cidade':
-            clientesOrdenados.sort((a, b) => (a.cidade || '').localeCompare(b.cidade || ''));
-            break;
-          case 'bairro':
-            clientesOrdenados.sort((a, b) => (a.bairro || '').localeCompare(b.bairro || ''));
-            break;
-          case 'metragem':
-            clientesOrdenados.sort((a, b) => (parseFloat(b.metragem) || 0) - (parseFloat(a.metragem) || 0));
-            break;
-          case 'estagio':
-            const ordemStatus = { nao_acompanhando: 0, em_acompanhamento: 1, com_orcamento: 2, fechado: 3, finalizado: 4 };
-            clientesOrdenados.sort((a, b) => (ordemStatus[a.status] || 0) - (ordemStatus[b.status] || 0));
-            break;
-          default:
-            clientesOrdenados.sort((a, b) => a.nome.localeCompare(b.nome));
-        }
-        
-        // Re-renderizar
-        if(isKanbanView) {
-          renderizarKanban(clientesOrdenados);
-        } else {
-          renderizarClientes(clientesOrdenados);
-        }
-        
-        console.log('📊 Ordenado por:', campo);
       }
 
       function atualizarEstatisticas() {
@@ -4113,37 +3936,12 @@
           
           document.querySelector('#sidebarTitle span').textContent = `📅 ${dateStr}`;
           const content = document.getElementById('sidebarContent');
-          content.innerHTML = `
-            <div style="padding:15px; border-bottom:1px solid #eee;">
-                <button class="btn btn-primary" style="width:100%" onclick="toggleFormAgendamento()">+ Novo Agendamento</button>
-                <div id="formNewAgenda" style="display:none; margin-top:15px; background:#f9f9f9; padding:10px; border-radius:8px;">
-                    <input type="time" id="newAgendaTime" class="form-input" style="margin-bottom:5px;">
-                    <input type="text" id="newAgendaDesc" class="form-input" placeholder="Descrição (ex: Reunião)" style="margin-bottom:5px;">
-                    <select id="newAgendaClientSelect" class="form-input" style="margin-bottom:5px;">
-                        <option value="">-- Cliente (Opcional) --</option>
-                    </select>
-                    <button class="btn btn-success btn-sm" onclick="salvarAgendamentoDrawer('${date.toISOString()}')" style="width:100%">Salvar</button>
-                </div>
-            </div>
-            <div id="agendaListContent"></div>
-          `;
-
-          // Popula select de clientes
-          const sel = document.getElementById('newAgendaClientSelect');
-          if(sel) {
-             clientes.sort((a,b)=>a.nome.localeCompare(b.nome)).forEach(c => {
-                 const opt = document.createElement('option');
-                 opt.value = c.id;
-                 opt.text = c.nome;
-                 sel.appendChild(opt);
-             });
-          }
+          content.innerHTML = '';
           
           const events = getEventsForDate(date);
-          const listContent = document.getElementById('agendaListContent');
           
           if(events.length === 0) {
-              listContent.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
+              content.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
           } else {
               events.forEach(ev => {
                   content.innerHTML += `
@@ -4163,55 +3961,6 @@
           document.getElementById('agendaBackdrop').classList.add('active');
       }
 
-      // Agenda Helpers
-      function toggleFormAgendamento() {
-          const form = document.getElementById('formNewAgenda');
-          if(form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
-      }
-
-      function salvarAgendamentoDrawer(dateISO) {
-          const time = document.getElementById('newAgendaTime').value;
-          const desc = document.getElementById('newAgendaDesc').value;
-          const clientId = document.getElementById('newAgendaClientSelect').value;
-          const dateObj = new Date(dateISO);
-          
-          if(!time || !desc) return alert('Preencha horário e descrição');
-          
-          const [hora, min] = time.split(':');
-          dateObj.setHours(parseInt(hora), parseInt(min));
-          
-          if(!window.agendaGlobal) window.agendaGlobal = []; 
-          
-          const novoEvento = {
-              id: Date.now().toString(),
-              data: dateObj.toISOString(),
-              descricao: desc,
-              clienteId: clientId || null,
-              status: 'Pendente'
-          };
-
-          if(clientId) {
-              const cliente = clientes.find(c => c.id === clientId);
-              if(cliente) {
-                  if(!cliente.agendamentos) cliente.agendamentos = [];
-                  cliente.agendamentos.push(novoEvento);
-                  salvarDados(); 
-              }
-          } else {
-              const agendaAvulsa = JSON.parse(localStorage.getItem('crmAgendaAvulsa')) || [];
-              agendaAvulsa.push(novoEvento);
-              localStorage.setItem('crmAgendaAvulsa', JSON.stringify(agendaAvulsa));
-          }
-          
-          alert('Agendamento criado com sucesso!');
-          renderizarAgenda(); 
-          // Re-abrir drawer para mostrar novo item ou apenas atualizar?
-          // Como renderizarAgenda redesenha o grid e fecha o drawer (se não cuidar),
-          // o ideal é atualizar o drawer content. Mas simplificando:
-          
-          abrirAgendaDrawer(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
-      }
-      
       function fecharAgendaDrawer() {
           document.getElementById('agendaDrawer').classList.remove('active');
           document.getElementById('agendaBackdrop').classList.remove('active');
@@ -4219,59 +3968,6 @@
       
       function fecharSidebarAgenda() { fecharAgendaDrawer(); }
 
-
-      // Agenda Helpers
-      function toggleFormAgendamento() {
-          const form = document.getElementById('formNewAgenda');
-          form.style.display = form.style.display === 'none' ? 'block' : 'none';
-      }
-
-      function salvarAgendamentoDrawer(dateISO) {
-          const time = document.getElementById('newAgendaTime').value;
-          const desc = document.getElementById('newAgendaDesc').value;
-          const clientId = document.getElementById('newAgendaClientSelect').value;
-          const dateObj = new Date(dateISO);
-          
-          if(!time || !desc) return alert('Preencha horário e descrição');
-          
-          const [hora, min] = time.split(':');
-          dateObj.setHours(parseInt(hora), parseInt(min));
-          
-          // Adicionar ao array global de agenda (se existir) ou criar estrutura
-          if(!window.agendaGlobal) window.agendaGlobal = []; // Fallback se não existir
-          
-          // Mas espere, a agenda atual parece ser baseada em histrico de clientes?
-          // getEventsForDate varre clientes. Se for avulso, precisamos de um array global 'agendaAvulsa'.
-          
-          const novoEvento = {
-              id: Date.now().toString(),
-              data: dateObj.toISOString(),
-              descricao: desc,
-              clienteId: clientId || null,
-              status: 'Pendente'
-          };
-
-          // Se tiver cliente vinculado, salvar no histórico do cliente
-          if(clientId) {
-              const cliente = clientes.find(c => c.id === clientId);
-              if(cliente) {
-                  if(!cliente.agendamentos) cliente.agendamentos = [];
-                  cliente.agendamentos.push(novoEvento);
-                  salvarDados(); // Persistir
-              }
-          } else {
-              // Agendamento Avulso - Salvar em array global
-              // Precisamos garantir que getEventsForDate LÊ isso também.
-              // Vamos salvar no localStorage 'crmAgendaAvulsa'
-              const agendaAvulsa = JSON.parse(localStorage.getItem('crmAgendaAvulsa')) || [];
-              agendaAvulsa.push(novoEvento);
-              localStorage.setItem('crmAgendaAvulsa', JSON.stringify(agendaAvulsa));
-          }
-          
-          alert('Agendamento criado com sucesso!');
-          renderizarAgenda(); // Atualizar grid
-          fecharAgendaDrawer();
-      }
 
       // 3. UNIFIED MODAL LOGIC
       function abrirModal(id) {
@@ -5099,86 +4795,6 @@
           </div>
         `).join('');
       }
-
-      // ========== SISTEMA DE LOGIN ==========
-      
-      // Lista de usuários (carrega do localStorage ou usa padrão)
-      let usuarios = JSON.parse(localStorage.getItem('crmUsuarios')) || [
-        { login: 'admin', senha: 'admin', nivel: 'admin' }
-      ];
-      
-      /**
-       * Verifica se usuário está logado ao carregar a página
-       */
-      function verificarLogin() {
-        const usuarioLogado = sessionStorage.getItem('usuarioLogado');
-        const loginOverlay = document.getElementById('loginOverlay');
-        
-        if(!usuarioLogado) {
-          // Não logado - mostrar tela de login
-          loginOverlay.style.display = 'flex';
-          document.querySelector('.container').style.display = 'none';
-        } else {
-          // Logado - esconder login e mostrar sistema
-          loginOverlay.style.display = 'none';
-          document.querySelector('.container').style.display = 'block';
-        }
-      }
-      
-      /**
-       * Realiza o login
-       */
-      function fazerLogin() {
-        const user = document.getElementById('loginUser').value.trim();
-        const pass = document.getElementById('loginPass').value;
-        
-        if(!user || !pass) {
-          alert('⚠️ Preencha usuário e senha!');
-          return;
-        }
-        
-        // Verificar credenciais
-        const usuarioEncontrado = usuarios.find(u => 
-          u.login.toLowerCase() === user.toLowerCase() && u.senha === pass
-        );
-        
-        if(usuarioEncontrado) {
-          // Login OK
-          sessionStorage.setItem('usuarioLogado', usuarioEncontrado.login);
-          sessionStorage.setItem('nivelAcesso', usuarioEncontrado.nivel || 'vendedor');
-          
-          // Esconder login, mostrar sistema
-          document.getElementById('loginOverlay').style.display = 'none';
-          document.querySelector('.container').style.display = 'block';
-          
-          console.log('✅ Login realizado:', usuarioEncontrado.login);
-        } else {
-          alert('❌ Usuário ou senha incorretos!');
-          document.getElementById('loginPass').value = '';
-          document.getElementById('loginPass').focus();
-        }
-      }
-      
-      /**
-       * Faz logout
-       */
-      function fazerLogout() {
-        if(confirm('Deseja realmente sair do sistema?')) {
-          sessionStorage.removeItem('usuarioLogado');
-          sessionStorage.removeItem('nivelAcesso');
-          
-          // Mostrar login, esconder sistema
-          document.getElementById('loginOverlay').style.display = 'flex';
-          document.querySelector('.container').style.display = 'none';
-          
-          // Limpar campos
-          document.getElementById('loginUser').value = '';
-          document.getElementById('loginPass').value = '';
-        }
-      }
-      
-      // Verificar login ao carregar página
-      document.addEventListener('DOMContentLoaded', verificarLogin);
 
     </script>
     
