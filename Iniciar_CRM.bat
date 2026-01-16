@@ -76,6 +76,9 @@ if %SCRAPER_ERROR% NEQ 0 (
     echo.
     echo ════════════════════════════════════════════════
     echo.
+    echo 🔴 PRESSIONE QUALQUER TECLA PARA CONTINUAR...
+    pause >nul
+    echo.
     set /p continuar="👉 Deseja abrir o CRM com dados antigos? (S/N) [S]: "
     
     if /i "%continuar%"=="N" (
