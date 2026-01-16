@@ -1425,14 +1425,6 @@
 
             <!-- ... (Cidade, Endereço, Bairro, Metragem, Estágio mantidos igual) ... -->
 
-            <!-- Campo Vendedor -->
-            <div class="form-group">
-                <label class="form-label required">Vendedor Responsável</label>
-                <select id="newClientVendedor" class="form-input">
-                    <option value="">Selecione...</option>
-                    <!-- Populado via JS -->
-                </select>
-            </div>
 
             <div class="form-group">
                 <label class="form-label required">Cidade/UF</label>
@@ -4174,16 +4166,22 @@
         const usuarioAtual = JSON.parse(sessionStorage.getItem('usuarioAtual') || '{}');
         const loginTimestamp = sessionStorage.getItem('loginTimestamp');
         
-        if (usuarioAtual.nome && loginTimestamp) {
+        // Verificar se temos dados de usuário
+        const nomeUsuario = usuarioAtual.nome || usuarioAtual.user || null;
+        
+        if (nomeUsuario && loginTimestamp) {
           const loginDate = new Date(loginTimestamp);
           const hora = loginDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
           
           userInfoDiv.innerHTML = `
             <div style="display:flex; flex-direction:column; line-height:1.3;">
-              <span style="font-weight:600; color:#1e293b;">👤 ${usuarioAtual.nome}</span>
+              <span style="font-weight:600; color:#1e293b;">👤 ${nomeUsuario}</span>
               <span style="font-size:10px; color:#94a3b8;">Login: ${hora}</span>
             </div>
           `;
+        } else {
+          // Se não tiver dados, exibir placeholder
+          userInfoDiv.innerHTML = `<span style="color:#94a3b8; font-size:12px;">Sem usuário</span>`;
         }
       }
       
