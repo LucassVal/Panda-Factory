@@ -964,7 +964,7 @@
         <!-- LINHA 1: FILTROS (Espaçamento Justificado) -->
         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
         <div class="search-box" style="flex: 1; max-width: 250px;">
-          <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, código ou cid..." />
+          <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, código ou cid..." oninput="filtrarClientes()" />
         </div>
         
         <select class="filter-select" id="statusFilter" onchange="filtrarClientes()">
@@ -3925,8 +3925,8 @@
          clientesFiltrados.sort((a, b) => new Date(b.data) - new Date(a.data));
       }
 
-      renderizarLista(clientesFiltrados);
-      atualizarContadores(clientesFiltrados.length);
+      renderizarClientes(clientesFiltrados);
+      // atualizarContadores(clientesFiltrados.length); // Função não existe, removida
       }
 
       function ordenarClientes(field) {
@@ -4134,7 +4134,7 @@
           
           salvarDados();
           alert('Dados atualizados!');
-          renderizarLista(clientes); // Refresh bg
+          renderizarClientes(clientes); // Refresh bg
       }
 
       // ========== LOGIN SYSTEM ==========
