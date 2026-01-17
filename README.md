@@ -511,46 +511,382 @@ TitanGestao/
 
 ---
 
-## 📅 Roadmap e Status
+## 📅 Roadmap Técnico (TitanGestão PRO)
 
-### Fase 1: CRM Finalizado (Janeiro-Fevereiro 2026)
+### 🎯 Sprint 1: Tags de Captação + Importação (15-21 Jan 2026)
 
-| Sprint | Semana    | Entregas                       | Status |
-| ------ | --------- | ------------------------------ | ------ |
-| **1**  | 15-21 Jan | Tags de captação configuráveis | 🔄 30% |
-|        |           | Migração de IDs (scraper)      | ⏳ 0%  |
-|        |           | Importação Excel (MVP)         | ⏳ 0%  |
-| **2**  | 22-28 Jan | White label (logo, cores)      | ⏳ 0%  |
-|        |           | Criptografia AES-256           | ⏳ 0%  |
-|        |           | Sistema de backup              | ⏳ 0%  |
-| **3**  | 29-4 Fev  | Orçamentos PDF                 | ⏳ 0%  |
-|        |           | Multi-usuário + permissões     | ⏳ 0%  |
-| **4**  | 5-11 Fev  | Testes beta + correções        | ⏳ 0%  |
+| Feature                                       | Horas | Status | Prioridade |
+| --------------------------------------------- | ----- | ------ | ---------- |
+| **Tags de Captação Configuráveis**            | 12h   | 🔄 30% | **P0**     |
+| • Interface CRUD (criar/editar/deletar tags)  | 4h    | ⏳     | P0         |
+| • Cores e ícones personalizáveis              | 3h    | ⏳     | P0         |
+| • Aplicar tag ao cadastrar cliente            | 2h    | ⏳     | P0         |
+| • Filtro por fonte de captação                | 3h    | ⏳     | P0         |
+| **Migração de IDs (Scraper)**                 | 6h    | ⏳     | P0         |
+| • Script para renomear IDs antigos            | 3h    | ⏳     | P0         |
+| • Mover ID original para campo `idOriginal`   | 2h    | ⏳     | P0         |
+| • Aplicar tag "Guia da Construção" retroativo | 1h    | ⏳     | P0         |
+| **Importação Excel (MVP)**                    | 15h   | ⏳     | P1         |
+| • Upload de arquivo CSV/XLSX                  | 4h    | ⏳     | P1         |
+| • Preview de dados antes de importar          | 5h    | ⏳     | P1         |
+| • Validação (telefone, email obrigatório)     | 3h    | ⏳     | P1         |
+| • Mapeamento automático de colunas            | 3h    | ⏳     | P1         |
 
-**Entrega:** TitanGestão PRO v3.0 (Módulo CRM completo)
+**Entrega:** Sistema usável para uso pessoal (seu caso)
 
-### Fase 2: PDV + Estoque (Março-Abril 2026)
+---
 
-| Feature                     | Horas Est. | Status |
-| --------------------------- | ---------- | ------ |
-| PDV básico (vendas rápidas) | 15h        | ⏳     |
-| Controle de caixa           | 12h        | ⏳     |
-| Contas a pagar/receber      | 20h        | ⏳     |
-| Orçamentos PDF              | 10h        | ⏳     |
-| Estoque (CRUD produtos)     | 15h        | ⏳     |
-| Movimentações               | 12h        | ⏳     |
-| Alertas estoque mínimo      | 6h         | ⏳     |
-| Integração CRM→PDV→Estoque  | 25h        | ⏳     |
+### 🎨 Sprint 2: White Label + Segurança (22-28 Jan 2026)
 
-**Total:** ~115h (4 semanas)
+| Feature                                 | Horas | Status | Prioridade |
+| --------------------------------------- | ----- | ------ | ---------- |
+| **White Label Configurável**            | 20h   | ⏳     | P1         |
+| • Upload de logo (salvar Base64)        | 5h    | ⏳     | P1         |
+| • Configuração de 5 cores (CSS vars)    | 4h    | ⏳     | P1         |
+| • Seleção de fontes (5 opções + custom) | 6h    | ⏳     | P1         |
+| • Preview ao vivo das mudanças          | 5h    | ⏳     | P1         |
+| **Criptografia AES-256**                | 10h   | ⏳     | P0         |
+| • Definir senha mestra                  | 3h    | ⏳     | P0         |
+| • Criptografar JSON ao salvar           | 4h    | ⏳     | P0         |
+| • Descriptografar ao carregar           | 3h    | ⏳     | P0         |
+| **Sistema de Backup Automático**        | 8h    | ⏳     | P2         |
+| • Backup diário em `exports/backups/`   | 4h    | ⏳     | P2         |
+| • Restauração em 1 clique               | 3h    | ⏳     | P2         |
+| • Limpeza de backups antigos (30 dias)  | 1h    | ⏳     | P2         |
 
-### Fase 3: Integração Total + Launch (Maio 2026)
+**Entrega:** Produto comercializável (sem PDV/Estoque)
 
-- Dashboard unificado (12 gráficos)
-- Sincronização completa entre módulos
-- Testes finais
-- Landing page + checkout (Kiwify)
-- Lançamento oficial
+---
+
+### 📄 Sprint 3: Orçamentos + Multi-Usuário (29 Jan - 4 Fev 2026)
+
+| Feature                                        | Horas | Status | Prioridade |
+| ---------------------------------------------- | ----- | ------ | ---------- |
+| **Geração de Orçamentos PDF**                  | 18h   | ⏳     | P1         |
+| • Template HTML → PDF (jsPDF)                  | 8h    | ⏳     | P1         |
+| • Logo da empresa no cabeçalho                 | 2h    | ⏳     | P1         |
+| • Campos editáveis (itens, valores, obs)       | 5h    | ⏳     | P1         |
+| • Download + Enviar WhatsApp direto            | 3h    | ⏳     | P1         |
+| **Multi-Usuário + Permissões**                 | 20h   | ⏳     | P2         |
+| • CRUD de usuários                             | 6h    | ⏳     | P2         |
+| • 5 níveis predefinidos (admin, gerente, etc)  | 8h    | ⏳     | P2         |
+| • Permissões granulares (ver/editar/deletar)   | 6h    | ⏳     | P2         |
+| **WhatsApp Manual (Agenda)**                   | 2h    | ⏳     | P1         |
+| • Botão "Enviar WhatsApp" ao criar agendamento | 1h    | ⏳     | P1         |
+| • Mensagem pronta (abrir WhatsApp Web)         | 1h    | ⏳     | P1         |
+
+**Entrega:** CRM 100% completo e comercializável
+
+---
+
+### 🧪 Sprint 4: Testes + Refinamento (5-11 Fev 2026)
+
+| Atividade                         | Horas | Status |
+| --------------------------------- | ----- | ------ |
+| Testes com 5 beta users           | 8h    | ⏳     |
+| Correção de bugs críticos         | 10h   | ⏳     |
+| Ajustes de UX baseado em feedback | 6h    | ⏳     |
+| Gravação de VSL (5min)            | 4h    | ⏳     |
+| Criação de Kit do Afiliado        | 8h    | ⏳     |
+| Configuração Kiwify + checkout    | 2h    | ⏳     |
+
+**Entrega:** TitanGestão PRO v3.0 pronto para lançamento
+
+---
+
+### 💰 Fase 2: PDV + Estoque (Mar-Abr 2026)
+
+| Feature                                   | Horas | Status | Prioridade |
+| ----------------------------------------- | ----- | ------ | ---------- |
+| **PDV - Vendas Rápidas**                  | 15h   | ⏳     | P3         |
+| • Busca de produtos                       | 4h    | ⏳     | P3         |
+| • Carrinho de compras                     | 5h    | ⏳     | P3         |
+| • Forma de pagamento                      | 3h    | ⏳     | P3         |
+| • Geração de recibo PDF                   | 3h    | ⏳     | P3         |
+| **Financeiro**                            | 32h   | ⏳     | P3         |
+| • Controle de caixa (abertura/fechamento) | 12h   | ⏳     | P3         |
+| • Contas a pagar                          | 10h   | ⏳     | P3         |
+| • Contas a receber                        | 10h   | ⏳     | P3         |
+| **Estoque**                               | 33h   | ⏳     | P4         |
+| • CRUD de produtos                        | 10h   | ⏳     | P4         |
+| • Movimentações (entrada/saída)           | 12h   | ⏳     | P4         |
+| • Alertas de estoque mínimo               | 6h    | ⏳     | P4         |
+| • Multi-locais                            | 5h    | ⏳     | P4         |
+| **Integração CRM→PDV→Estoque**            | 25h   | ⏳     | P3         |
+| • Venda no PDV baixa estoque              | 8h    | ⏳     | P3         |
+| • Cliente CRM aparece no PDV              | 5h    | ⏳     | P3         |
+| • Histórico de vendas no CRM              | 7h    | ⏳     | P3         |
+| • Dashboard unificado (12 gráficos)       | 5h    | ⏳     | P3         |
+
+**Total:** 105h (~4 semanas)  
+**Entrega:** TitanGestão PRO COMPLETO
+
+---
+
+### 🎬 Fase 3: Polimento + Launch (Mai 2026)
+
+| Atividade                      | Status |
+| ------------------------------ | ------ |
+| Vídeos tutoriais (10x 5-10min) | ⏳     |
+| Documentação completa usuário  | ⏳     |
+| Landing page Kiwify otimizada  | ⏳     |
+| Recrutamento de 20 afiliados   | ⏳     |
+| Lançamento oficial             | ⏳     |
+
+---
+
+## 🚀 Roadmap de Produtos (Ecossistema 12 Meses)
+
+### **Produto 1: TitanGestão PRO**
+
+**Preço:** R$ 149,90 | **Lançamento:** Março 2026 | **Status:** 🔄 80%
+
+**O que é:**
+Sistema completo de gestão (CRM + PDV + Estoque + Financeiro)
+
+**Público-alvo:**
+Pequenas empresas, lojistas, prestadores de serviço
+
+**Features principais:**
+
+- ✅ CRM completo (clientes, funil, histórico)
+- ✅ PDV + Estoque integrado
+- ✅ Agenda com WhatsApp manual
+- ✅ 12 gráficos profissionais
+- ✅ Multi-usuário (até 10 pessoas)
+- ✅ White label (logo, cores, fontes)
+- ✅ Criptografia AES-256
+- ✅ Offline 100%
+
+**Comissão afiliado:** 60% (R$ 89,94/venda)
+
+---
+
+### **Produto 2: TitanAgenda Plus**
+
+**Preço:** R$ 67,90 | **Lançamento:** Junho 2026 | **Status:** ⏳ Planejado
+
+**O que é:**
+Agenda turbinada com automação total via WhatsApp
+
+**Público-alvo:**
+Barbearias, salões, clínicas, consultórios, pet shops
+
+**Features principais:**
+
+- ✅ Tudo do TitanGestão PRO (CRM + Agenda) +
+- 🆕 Lembretes automáticos WhatsApp (24h e 1h antes)
+- 🆕 Confirmação via WhatsApp (cliente responde Sim/Não)
+- 🆕 Link público de agendamento (cliente agenda sozinho)
+- 🆕 Integração Google Calendar
+- 🆕 Relatório de no-show (quem faltou)
+- 🆕 Fila de espera automática
+
+**Requisitos adicionais:**
+
+- Precisa WhatsApp Business API (R$ 29/mês - Evolution API)
+- Ou usa integração Baileys (grátis, self-hosted)
+
+**Upsell natural:** Cliente do TitanGestão que tem muitos agendamentos
+
+**Comissão afiliado:** 60% (R$ 40,74/venda)
+
+---
+
+### **Produto 3: TitanCardápio Digital**
+
+**Preço:** R$ 77,90 | **Lançamento:** Agosto 2026 | **Status:** ⏳ Planejado
+
+**O que é:**
+Cardápio online + pedidos via WhatsApp sem mensalidade
+
+**Público-alvo:**
+Restaurantes, pizzarias, lanchonetes, bares
+
+**Features principais:**
+
+- 🆕 Cardápio bonito (responsivo mobile)
+- 🆕 Link único: `cardapio.seu-dominio.com.br`
+- 🆕 Cliente escolhe produtos → envia pedido WhatsApp
+- 🆕 Categorias (pizzas, bebidas, sobremesas)
+- 🆕 Fotos dos produtos
+- 🆕 Horário de funcionamento
+- 🆕 Taxa de entrega por bairro
+- 🆕 Integração com TitanGestão (salva pedido no CRM)
+
+**Diferencial:**
+
+- SEM mensalidade (iFood cobra 27% + mensalidade)
+- Cliente pede direto no WhatsApp (sem app)
+- Você controla 100% os dados
+
+**Comissão afiliado:** 60% (R$ 46,74/venda)
+
+---
+
+### **Produto 4: TitanVendas Externo**
+
+**Preço:** R$ 87,90 | **Lançamento:** Outubro 2026 | **Status:** ⏳ Planejado
+
+**O que é:**
+CRM mobile (PWA) para vendedores externos com GPS
+
+**Público-alvo:**
+Representantes comerciais, vendedores externos, distribuidoras
+
+**Features principais:**
+
+- 🆕 App instalável (PWA - funciona offline)
+- 🆕 Check-in via GPS (rastrear visitas)
+- 🆕 Cadastro rápido de cliente na rua
+- 🆕 Tirar foto da fachada/cartão
+- 🆕 Pedidos offline (sincroniza depois)
+- 🆕 Rotas otimizadas (Google Maps)
+- 🆕 Relatório de visitas (gerente vê onde vendedor foi)
+- 🆕 Meta diária (quantos clientes visitar)
+
+**Integração:**
+
+- Sincroniza com TitanGestão PRO (escritório)
+- Vendedor usa app na rua
+- Dados salvam no sistema principal
+
+**Comissão afiliado:** 60% (R$ 52,74/venda)
+
+---
+
+### **Produto 5: TitanIA Pro**
+
+**Preço:** R$ 97,90 + R$ 47/mês | **Lançamento:** Dezembro 2026 | **Status:** ⏳ Conceito
+
+**O que é:**
+Atendente virtual IA (GPT-4) que responde WhatsApp 24/7
+
+**Público-alvo:**
+Empresas que recebem 50+ mensagens/dia via WhatsApp
+
+**Features principais:**
+
+- 🤖 Bot atende automaticamente WhatsApp
+- 🤖 Responde perguntas frequentes
+- 🤖 Agenda automaticamente (sem humano)
+- 🤖 Qualifica leads (orçamento, quando compra, etc)
+- 🤖 Salva tudo no CRM automaticamente
+- 🤖 Transfere para humano se necessário
+- 🤖 Treina com seus produtos/serviços
+
+**Modelo de Negócio:**
+
+- Setup: R$ 97,90 (pagamento único)
+- Mensalidade: R$ 47/mês (cobre custo GPT-4)
+
+**Por quê mensalidade:**
+
+- Custo variável (R$ 0,02-0,05 por conversa com IA)
+- Precisa servidor rodando 24/7
+- Impossível cobrar só 1x
+
+**Comissão afiliado:**
+
+- 60% no setup (R$ 58,74)
+- 30% recorrente nas mensalidades (R$ 14,10/mês vitalício)
+
+**Potencial:** Receita recorrente (ARR)
+
+---
+
+### **Produto 6: TitanFull Suite**
+
+**Preço:** R$ 297,00 | **Lançamento:** Janeiro 2027 | **Status:** ⏳ Bundle
+
+**O que é:**
+TODOS os produtos integrados em um pacote
+
+**Inclui:**
+
+- TitanGestão PRO (R$ 149,90)
+- TitanAgenda Plus (R$ 67,90)
+- TitanCardápio (R$ 77,90)
+- TitanVendas Externo (R$ 87,90)
+- TitanIA Pro Setup (R$ 97,90)
+
+**Valor normal:** R$ 481,50  
+**Pacote:** R$ 297,00  
+**Economia:** R$ 184,50 (38% OFF)
+
+**Público-alvo:**
+Empresas que querem automação total
+
+**Mensalidade adicional (opcional):**
+
+- TitanIA Pro: +R$ 47/mês
+
+**Comissão afiliado:** 60% (R$ 178,20/venda + R$ 14,10/mês se ativar IA)
+
+---
+
+## 📊 Projeção de Receita (12 Meses)
+
+### Cenário Conservador (50 afiliados ativos)
+
+| Produto                 | Vendas/Mês | Receita/Mês   | Comissão Afiliado | Lucro Mensal      |
+| ----------------------- | ---------- | ------------- | ----------------- | ----------------- |
+| **TitanGestão PRO**     | 300        | R$ 44.970     | R$ 26.982         | R$ 15.740         |
+| **TitanAgenda Plus**    | 50         | R$ 3.395      | R$ 2.037          | R$ 1.188          |
+| **TitanCardápio**       | 40         | R$ 3.116      | R$ 1.870          | R$ 1.091          |
+| **TitanVendas Externo** | 30         | R$ 2.637      | R$ 1.582          | R$ 923            |
+| **TitanFull Suite**     | 20         | R$ 5.940      | R$ 3.564          | R$ 2.079          |
+| **TitanIA (MRR)**       | 15         | R$ 705        | R$ 212            | R$ 493            |
+| **TOTAL**               | **455**    | **R$ 60.763** | **R$ 36.247**     | **R$ 21.514/mês** |
+
+**Projeção Ano 1:** R$ 258.168 de lucro líquido
+
+---
+
+## 🎯 Estratégia de Lançamento por Produto
+
+### TitanGestão PRO (Março 2026)
+
+- Beta fechado: 20 usuários gratuitos (feedback)
+- Early access: R$ 97 (100 licenças)
+- Lançamento: R$ 149,90 (preço fixo)
+
+### TitanAgenda Plus (Junho 2026)
+
+- Upsell automático no TitanGestão
+- Email para clientes: "Turbine sua agenda"
+- Afiliados ganham comissão dupla (venderam os 2)
+
+### TitanCardápio (Agosto 2026)
+
+- Lançamento agressivo (nicho específico)
+- Parcerias com influencers de gastronomia
+- Comparativo "iFood cobra 27%, nós R$ 77 ÚNICO"
+
+### TitanVendas Externo (Outubro 2026)
+
+- Foco B2B (distribuidoras, atacado)
+- LinkedIn Ads + Google Ads
+- Case de sucesso em vídeo
+
+### TitanIA Pro (Dezembro 2026)
+
+- Produto premium (early adopters)
+- Demo ao vivo (bot atendendo em tempo real)
+- Garantia: "Se não reduzir 50% das mensagens, devolve"
+
+### TitanFull Suite (Janeiro 2027)
+
+- Black Friday da gestão
+- Bundle year-end
+- "Comece 2027 100% organizado"
+
+---
+
+**Total de 6 produtos em 12 meses**  
+**Receita projetada ano 1:** R$ 258K  
+**Ticket médio por cliente:** R$ 187  
+**LTV (Lifetime Value):** R$ 350+ (com upsells)
 
 ---
 
