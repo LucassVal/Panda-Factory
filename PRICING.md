@@ -61,6 +61,34 @@
 - Hotmart: 60% (R$ 89,94) → Nosso lucro: R$ 59,96 - 10% plataforma = **R$ 45**
 - Direto: 0% → Nosso lucro: **R$ 149,90**
 
+### Estratégia Multi-Canal (Ano 1)
+
+**Decisão:** Manter 3 canais simultâneos por 12 meses até consolidar base.
+
+| Canal            | Comissão Total                      | Lucro/Venda | Meta Ano 1 | % Mix |
+| ---------------- | ----------------------------------- | ----------- | ---------- | ----- |
+| **Kiwify**       | 65% (60% afiliado + 5% plataforma)  | R$ 52       | 600 vendas | 40%   |
+| **Hotmart**      | 70% (60% afiliado + 10% plataforma) | R$ 45       | 450 vendas | 30%   |
+| **Site Próprio** | 50-55% (afiliados internos)         | R$ 75       | 450 vendas | 30%   |
+
+**Por quê 3 canais:**
+
+- ✅ **Kiwify:** Afiliados BR, pagamento rápido (7 dias), menor taxa
+- ✅ **Hotmart:** Afiliados LATAM, marca consolidada, alcance internacional
+- ✅ **Site Próprio:** Margem maior, controle total, SEO long-term, programa afiliados customizado
+
+**Resultado Ano 1:**
+
+```
+Kiwify: 600 × R$ 52 = R$ 31.200
+Hotmart: 450 × R$ 45 = R$ 20.250
+Site: 450 × R$ 75 = R$ 33.750
+─────────────────────────────────
+TOTAL: 1.500 vendas = R$ 85.200
+```
+
+**Após 12 meses:** Avaliar qual canal performou melhor e realocar esforços.
+
 ### Upsells (MRR - Mensalidades Opcionais)
 
 #### 1. Usuários Extras (Faixas)
