@@ -149,7 +149,7 @@
 - 📱 **PWA Branded:** Ícone e nome customizado
 - 🏷️ **Marca Própria:** Remova "TitanGestão" (opcional)
 
-**Detalhes:** [FEATURES.md](FEATURES.md) | [DOCUMENTACAO_MESTRE.md](DOCUMENTACAO_MESTRE.md)
+**Detalhes:** [FEATURES.md](FEATURES.md) | [GUIA_PROJETO.md](GUIA_PROJETO.md)
 
 ---
 
@@ -245,7 +245,7 @@ Sincronização:
 - ✅ Confiável: Infraestrutura Google
 - ✅ Simples: Menos código pra manter
 
-**Detalhes:** [README_TECNICO.md](README_TECNICO.md) | [ARQUITETURA.md](ARQUITETURA.md)
+**Detalhes:** [ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)
 
 ---
 
@@ -319,7 +319,7 @@ Sincronização:
 | Hotmart           | 60% + 10% = 70% | R$ 45       | Médio            |
 | tocadobarbaro.com | 0%              | R$ 149,90   | Baixo (SEO)      |
 
-**Detalhes:** [PRICING.md](PRICING.md) | [ANALISE_MERCADO.md](ANALISE_MERCADO.md)
+**Detalhes:** [ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)
 
 ---
 
