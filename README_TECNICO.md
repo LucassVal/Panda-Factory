@@ -1,646 +1,398 @@
-# 🚀 TitanFusion Business Suite - Documentação Técnica
+# 🛠️ README TÉCNICO - TitanGestão PRO v1.0
 
-> **Sistema Modular de Gestão Empresarial | 100% Offline | White Label | Multi-Usuário**
-
-**Versão:** 2.2 (Janeiro 2026)  
-**Status:** Produção Ativa (Módulo CRM) | Roadmap PDV + Estoque  
-**Repositório:** [GitHub - LucassVal/TitanFusion](https://github.com/LucassVal)
+**Para:** Desenvolvedores  
+**Versão:** 1.0 (Lançamento Março 2026)
 
 ---
 
-## 📋 Índice
+## 🚀 Tecnologias (v1.0 Real)
 
-1. [Visão Geral](#-visão-geral)
-2. [Ecossistema de Produtos](#-ecossistema-de-produtos)
-3. [Arquitetura Técnica](#-arquitetura-técnica)
-4. [Comparativo de Módulos](#-comparativo-de-módulos)
-5. [Status de Implementação](#-status-de-implementação)
-6. [Arquitetura Multi-Usuário](#-arquitetura-multi-usuário)
-7. [Roadmap Detalhado](#-roadmap-detalhado)
-8. [Estrutura do Projeto](#-estrutura-do-projeto)
-
----
-
-## 🎯 Visão Geral
-
-### Conceito Core
-
-Sistema de gestão empresarial modular desenvolvido para **pequenas e médias empresas** com foco em:
-
-- **Autonomia**: 100% offline, sem dependências de internet
-- **Privacidade**: Dados criptografados localmente (AES-256)
-- **Portabilidade**: Executável de pendrive sem instalação
-- **Customização**: White label completo para revenda
-- **Economia**: Pagamento único vs mensalidade recorrente
-
-### Filosofia "Arroz com Feijão"
-
-**Princípios de Design:**
-
-- ✅ Features que 80% dos usuários usam 80% do tempo
-- ✅ Interface limpa e intuitiva (curva de aprendizado < 30min)
-- ✅ Performance mantida até 10.000+ registros
-  -✅ Funcionalidades essenciais perfeitamente executadas
-- ❌ Sem features "nice to have" que complicam UX
-
----
-
-## 📦 Ecossistema de Produtos
-
-### Estratégia Modular 3+1
-
-| **Módulo**          | **Preço** | **Público-Alvo**                        | **Status** | **Entrega Prev.** |
-| ------------------- | --------- | --------------------------------------- | ---------- | ----------------- |
-| **TitanCRM**        | R$ 39,99  | Vendedores, consultores, representantes | ✅ 80%     | Fev 2026          |
-| **TitanPDV**        | R$ 39,99  | Lojistas, comerciantes, prestadores     | 🔄 10%     | Abr 2026          |
-| **TitanStock**      | R$ 39,99  | Lojas, distribuidoras, depósitos        | 🔄 5%      | Jun 2026          |
-| **Complete 3-em-1** | R$ 99,99  | Empresas com gestão integrada           | 🔄 Roadmap | Ago 2026          |
-
-**Economia para cliente:** R$ 119,97 → R$ 99,99 (**17% desconto**)
-
----
-
-## 🏗️ Arquitetura Técnica
-
-### Stack Tecnológico (v2.2)
+### Stack Confirmado
 
 ```
-┌─────────────────────────────────────────┐
-│        Interface do Usuário             │
-│  HTML5 + CSS3 + Vanilla JavaScript      │
-│  (SPA - Single Page Application)        │
-└──────────┬──────────────────────────────┘
-           │
-     ┌─────▼─────┐
-     │  Browser  │
-     │  Runtime  │
-     └─────┬─────┘
-           │
-  ┌────────▼────────┐
-  │  LocalStorage   │
-  │  (Primary DB)   │
-  └────────┬────────┘
-           │
-  ┌────────▼────────┐
-  │ Backup JSON     │
-  │ (File System)   │
-  └─────────────────┘
+Frontend:
+├─ HTML5 + CSS3 (Single file)
+├─ JavaScript ES6+ (Vanilla, sem frameworks)
+├─ IndexedDB (banco local)
+├─ Chart.js (local, sem CDN)
+└─ Service Worker (PWA offline)
+
+Backend:
+├─ Google Apps Script (merge multi-user)
+├─ Node.js + Express (auth apenas)
+├─ MongoDB Atlas (usuários)
+└─ Google Drive API (storage)
+
+APIs Externas:
+├─ Google Maps API (autocomplete endereço)
+└─ Google OAuth 2.0 (autenticação)
 ```
-
-| **Camada**         | **Tecnologia**                         | **Justificativa**                             |
-| ------------------ | -------------------------------------- | --------------------------------------------- |
-| **Frontend**       | HTML5 + CSS3 + Vanilla JS (ES6+)       | Zero dependências, máxima compatibilidade     |
-| **Styling**        | CSS Nativo (glassmorphism, gradientes) | Sem frameworks = menor payload, mais controle |
-| **Banco de Dados** | LocalStorage (JSON)                    | Persistência offline, até 10MB/domínio        |
-| **Backup**         | JSON File Export                       | Portabilidade de dados                        |
-| **Criptografia**   | CryptoJS (AES-256)                     | Segurança de dados sensíveis                  |
-| **Gráficos**       | Chart.js (local)                       | Visualização de KPIs e dashboards             |
-| **Scraper**        | Python (Playwright)                    | Importação automática (uso interno)           |
-
-### Dependências Offline
-
-**Crítico:** Todas as bibliotecas são carregadas localmente (zero CDNs em produção)
-
-```html
-<!-- ✅ CORRETO - Assets locais -->
-<script src="assets/js/crypto-js.min.js"></script>
-<script src="assets/js/chart.min.js"></script>
-
-<!-- ❌ ERRADO - CDN bloqueante -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-```
-
-**Bibliotecas Incluídas:**
-
-- `crypto-js.min.js` (180KB) - Criptografia AES-256
-- `chart.min.js` (245KB) - Gráficos e dashboards
-- Google Fonts Offline: Inter, Poppins, Roboto, Outfit, Montserrat
 
 ---
 
-## 🔀 Comparativo de Módulos
+## 📁 Estrutura Projeto
 
-### 1️⃣ **TitanCRM** - Gestão de Relacionamento
+```
+SAAS/
+├── CRM.html                      ← Sistema completo (165KB)
+├── README.md                     ← Docs principal
+├── ROADMAP.md                    ← 8 sprints
+├── ARQUITETURA.md                ← Decisões técnicas
+├── APPS_SCRIPT.md                ← Código Google (pronto)
+│
+├── dados/
+│   └── clientes_crm_v2.json     ← Banco JSON local
+│
+├── scripts/
+│   └── scraper_guia_automatico.py ← Python scraper
+│
+└── docs/
+    ├── PRICING.md
+    ├── FEATURES.md
+    └── FAQ.md
+```
 
-**Objetivo:** Organizar clientes, leads e vendas com histórico completo
+---
 
-| **Feature**              | **Status** | **Descrição Técnica**                                                                                 |
-| ------------------------ | ---------- | ----------------------------------------------------------------------------------------------------- |
-| **Cadastro de Clientes** | ✅         | CRUD completo com 25+ campos (nome, telefone, email, endereço, m², orçamento, etc)                    |
-| **Funil de Vendas**      | ✅         | 7 status customizáveis: Prospect → Qualificado → Proposta → Negociação → Fechamento → Fechado/Perdido |
-| **Histórico Timeline**   | ✅         | Log cronológico de interações (notas, ligações, reuniões, mudanças de status)                         |
-| **Agenda**               | ✅         | Calendário mensal com agendamentos linkados a clientes                                                |
-| **Dashboard KPIs**       | ✅         | Métricas: Total clientes, taxa conversão, valor em pipeline, performance por vendedor                 |
-| **Filtros Avançados**    | ✅         | 2 linhas de filtros: busca, status, localização, área m², data                                        |
-| **Importação em Massa**  | 🔄         | Via Excel/CSV com preview e mapeamento de colunas                                                     |
-| **Tags de Captação**     | 🔄         | Sistema configurável de fontes (ex: Google Ads, Indicação, etc)                                       |
-| **Relatórios PDF**       | ⏳         | Exportação de propostas, contratos e recibos                                                          |
-| **Visualização Kanban**  | ✅         | Arrastar clientes entre colunas de status                                                             |
+## ⚙️ Setup Desenvolvimento
 
-**Estrutura de Dados (JSON):**
+### 1. Clone
+
+```bash
+git clone https://github.com/LucassVal/SAAS.git
+cd SAAS
+```
+
+### 2. Abrir CRM
+
+```bash
+# Método 1: Duplo clique em CRM.html
+
+# Método 2: Servidor local (para PWA funcionar)
+python -m http.server 8000
+# Abrir http://localhost:8000/CRM.html
+```
+
+**Não precisa npm install!** Tudo inline no HTML.
+
+---
+
+## 🔧 Configuração Google (Obrigatório)
+
+### Google Cloud Console
+
+**1. Criar Projeto:**
+
+```
+console.cloud.google.com → Novo Projeto
+Nome: "TitanGestao-Production"
+```
+
+**2. Ativar APIs:**
+
+```
+APIs & Services → Library
+✅ Google Drive API
+✅ Google Maps JavaScript API
+✅ Google Apps Script API
+```
+
+**3. OAuth Credentials:**
+
+```
+APIs & Services → Credentials
+Create → OAuth client ID
+Type: Web application
+Redirect URIs:
+  - https://tocadobarbaro.com/callback
+  - http://localhost:3000/callback (dev)
+
+Download JSON
+```
+
+**4. Google Maps API Key:**
+
+```
+Credentials → Create → API key
+Restrict to: Google Maps JavaScript API
+Add to CRM.html (linha TBD)
+```
+
+---
+
+## 📱 PWA Setup
+
+### Service Worker (já no CRM.html)
 
 ```javascript
+// Registrar SW
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").then(() => console.log("✅ PWA"));
+}
+```
+
+### Testar Offline
+
+```
+Chrome DevTools → Application
+├─ Service Workers → Offline checkbox
+├─ Recarregar página
+└─ Sistema funciona 100%
+```
+
+---
+
+## 🗄️ MongoDB Setup
+
+```
+1. mongodb.com/cloud/atlas
+2. Create FREE M0 cluster
+3. Database Access → Add user (admin/senha)
+4. Network → Add IP: 0.0.0.0/0
+5. Connect → Drivers → Copy string
+```
+
+**Schema:**
+
+```javascript
+// Collection: users
 {
-  "id": "CLI_1737140256789",
-  "nome": "João Silva Construtora",
-  "telefone": "(11) 98765-4321",
-  "email": "joao@construtora.com.br",
-  "endereco": "Rua das Acácias, 123",
-  "bairro": "Jardim Europa",
-  "cidade": "São Paulo",
-  "estado": "SP",
-  "cep": "01234-567",
-  "metrosQuadrados": 350,
-  "orcamento": 850000,
-  "status": "proposta",
-  "atendente": "admin",
-  "fonteCaptacao": "fc_google_ads",
-  "historico": [
-    {
-      "id": "hist_001",
-      "tipo": "nota",
-      "data": "2026-01-15T10:30:00",
-      "texto": "Cliente interessado em projeto residencial",
-      "autor": "admin"
-    }
-  ],
-  "tags": ["alto_valor", "urgente"],
-  "criadoEm": "2026-01-10T14:22:00",
-  "atualizadoEm": "2026-01-15T10:30:00"
+  email: String,
+  senha: String, // bcrypt
+  codigoAtivacao: String,
+  driveToken: { access, refresh, expires },
+  folderId: String
 }
-```
 
----
-
-### 2️⃣ **TitanPDV** - Ponto de Venda e Financeiro
-
-**Objetivo:** Controlar dinheiro, vendas e contas da empresa
-
-| **Feature**               | **Status** | **Descrição Técnica**                                           |
-| ------------------------- | ---------- | --------------------------------------------------------------- |
-| **Controle de Caixa**     | ⏳         | Abertura/fechamento diário com conferência de valores           |
-| **PDV Simplificado**      | ⏳         | Venda rápida com busca de produtos e impressão de cupom         |
-| **Contas a Pagar**        | ⏳         | Gestão de fornecedores, vencimentos e baixas                    |
-| **Contas a Receber**      | ⏳         | Controle de clientes, parcelas e recebimentos                   |
-| **Fluxo de Caixa**        | ⏳         | Visão diária/semanal/mensal de entradas e saídas                |
-| **Emissão de Orçamentos** | ⏳         | Templates personalizáveis com logo e assinatura                 |
-| **Recibos/Notas**         | ⏳         | Geração de comprovantes PDF                                     |
-| **Categorização**         | ⏳         | Classificação de despesas (operacional, pessoal, impostos, etc) |
-| **Relatório DRE**         | ⏳         | Demonstrativo de resultados (Receitas - Despesas = Lucro)       |
-| **Integração CRM**        | ⏳         | Clientes do CRM aparecem automaticamente no PDV                 |
-
-**Estrutura Planejada:**
-
-```javascript
+// Collection: licenses
 {
-  "movimentacoes": [
-    {
-      "id": "MOV_001",
-      "tipo": "entrada", // ou "saida"
-      "categoria": "venda",
-      "valor": 1500.00,
-      "descricao": "Venda produto #42",
-      "clienteId": "CLI_1737140256789", // Link com CRM
-      "dataHora": "2026-01-15T16:45:00",
-      "formaPagamento": "pix",
-      "responsavel": "admin"
-    }
-  ],
-  "contasPagar": [...],
-  "contasReceber": [...]
+  codigo: "TIT-ABC123",
+  usado: Boolean,
+  userId: ObjectId
 }
 ```
 
 ---
 
-### 3️⃣ **TitanStock** - Gestão de Estoque
+## 🔐 Apps Script Deploy
 
-**Objetivo:** Controlar produtos, entradas, saídas e inventário
+**Ver:** [`APPS_SCRIPT.md`](APPS_SCRIPT.md)
 
-| **Feature**               | **Status** | **Descrição Técnica**                                    |
-| ------------------------- | ---------- | -------------------------------------------------------- |
-| **Cadastro de Produtos**  | ⏳         | CRUD com SKU, nome, descrição, categoria, foto           |
-| **Controle de Estoque**   | ⏳         | Quantidade disponível, reservada, em trânsito            |
-| **Movimentações**         | ⏳         | Registro de entradas (compras) e saídas (vendas, perdas) |
-| **Estoque Mínimo**        | ⏳         | Alertas automáticos quando produto está acabando         |
-| **Multi-Locais**          | ⏳         | Controle separado por depósito/loja                      |
-| **Rastreamento de Lotes** | ⏳         | Validade, fornecedor, data de entrada                    |
-| **Inventário Físico**     | ⏳         | Conferência de estoque com ajustes                       |
-| **Precificação**          | ⏳         | Custo, margem, preço venda, descontos                    |
-| **Integração PDV**        | ⏳         | Venda no PDV baixa estoque automaticamente               |
-| **Relatórios**            | ⏳         | Curva ABC, giro de estoque, produtos parados             |
+**Resumo:**
 
-**Estrutura Planejada:**
+```
+1. script.google.com
+2. Novo → "TitanGestao-Merge"
+3. Colar código (APPS_SCRIPT.md)
+4. Settings → Script Properties (API keys)
+5. Deploy → Web app
+6. Triggers → mergeClienteData() every 3s
+```
+
+---
+
+## 🧪 Testes v1.0
+
+### Teste 1: Offline Puro
+
+```
+1. Abrir CRM.html (sem internet)
+2. Cadastrar cliente
+3. localStorage tem dados ✅
+4. Fechar/reabrir → dados persistem ✅
+```
+
+### Teste 2: Google Maps
+
+```
+1. Campo endereço → digitar "Rua Augusta, 1"
+2. Sugestões aparecem ✅
+3. Clicar sugestão → preenche tudo ✅
+```
+
+### Teste 3: Multi-User Sync
+
+```
+1. Conectar Google Drive (OAuth)
+2. Abrir 2 abas
+3. Aba 1: Editar cliente
+4. Aba 2: Atualiza em 3s ✅
+```
+
+---
+
+## 🚀 Deploy Produção
+
+### Frontend (Vercel)
+
+```bash
+npm i -g vercel
+vercel
+
+# Custom domain
+vercel domains add tocadobarbaro.com
+```
+
+### Backend (Railway)
+
+```bash
+# railway.app
+Novo projeto → Deploy from GitHub
+Env vars: MONGODB_URI, GOOGLE_CLIENT_ID, etc
+```
+
+---
+
+## 📊 Funcionalidades v1.0 (Real)
+
+**✅ TEM:**
+
+- CRM completo (CRUD, histórico, funil)
+- Tags captação customizáveis
+- Telefone internacional (país + formato)
+- Google Maps autocomplete
+- Campos customizáveis
+- Importação Excel
+- White label
+- PWA offline
+- Multi-usuário (10 users)
+- Apps Script sync
+- Orçamentos PDF
+- Gráficos (12 Chart.js)
+- Estoque básico
+- PDV básico (sem gateway)
+- Financeiro básico
+- Agenda
+
+**❌ NÃO TEM (v2.0+):**
+
+- Gateway pagamento (PagSeguro, Mercado Pago) → v2.5
+- Impressora térmica → v1.1
+- IA WhatsApp → v2.0
+- Nota fiscal → v3.0
+- Zapier → v2.5
+
+---
+
+## 🐛 Troubleshooting
+
+**"Google Maps não carrega:"**
+
+```
+Verificar API key válida
+Billing ativado no Google Cloud ($200 grátis/mês)
+```
+
+**"Apps Script timeout:"**
+
+```
+Reduzir batch (processar menos clientes por vez)
+```
+
+**"OAuth error:"**
+
+```
+Verificar redirect URI configurada
+Token expirado → renova automático
+```
+
+---
+
+## 💡 Notas Importantes v1.0
+
+### PIX (Forma Pagamento)
 
 ```javascript
-{
-  "produtos": [
-    {
-      "id": "PROD_001",
-      "sku": "MAD-OAK-200",
-      "nome": "Madeira Carvalho 2m",
-      "categoria": "madeiras",
-      "unidade": "m²",
-      "estoque": {
-        "disponivel": 150,
-        "reservado": 20,
-        "minimo": 50
-      },
-      "precificacao": {
-        "custo": 45.00,
-        "margemPorcentagem": 60,
-        "precoVenda": 72.00
-      },
-      "fornecedor": "Madeirinha Ltda",
-      "locais": {
-        "deposito_principal": 120,
-        "loja_centro": 30
-      }
-    }
-  ]
-}
+// Cliente cadastra chave PIX
+configuracoes.pixChave = "11987654321"; // telefone, email, etc
+configuracoes.pixNome = "João Silva";
+
+// No PDV, mostra:
+("Pagar via PIX: 11987654321 (João Silva)");
+// Ou gera QR code (biblioteca qrcode.js)
 ```
 
----
+**Sem integração bancária!** Cliente mostra chave ou QR, comprador paga manualmente.
 
-### 4️⃣ **TitanFusion Complete** - Sistema Integrado
+### Multi-Local (Usar com Cuidado)
 
-**Objetivo:** Unificar CRM + PDV + Estoque com sincronização automática
+**Se ativar:**
 
-| **Feature**                 | **Status** | **Descrição Técnica**                                                |
-| --------------------------- | ---------- | -------------------------------------------------------------------- |
-| **Dashboard Unificado**     | ⏳         | Visão 360° (vendas + finanças + estoque)                             |
-| **Sincronização CRM→PDV**   | ⏳         | Cliente cadastrado no CRM já aparece no PDV                          |
-| **Sincronização PDV→Stock** | ⏳         | Venda realizada baixa estoque automaticamente                        |
-| **Histórico Integrado**     | ⏳         | Timeline do cliente mostra vendas, pagamentos e interações           |
-| **Relatórios Cruzados**     | ⏳         | Ex: "Produtos mais vendidos por fonte de captação"                   |
-| **Automações**              | ⏳         | Ex: Estoque baixo → criar nota no CRM para recompra                  |
-| **Fluxo Completo**          | ⏳         | Lead (CRM) → Venda (PDV) → Baixa Estoque (Stock) → Recebimento (PDV) |
+- Fontes captação por local
+- Estoques separados
+- Relatórios por local
+- **Complexidade +50%**
 
-**Exemplo de Fluxo Integrado:**
+**Recomendação:** Só ativar se REAL necessidade (2+ locais físicos).
 
-```
-1. Cliente "João Silva" cadastrado no CRM (fonte: Google Ads)
-2. Vendedor move para "Fechado" no funil
-3. Sistema pergunta: "Registrar venda no PDV?"
-4. Venda R$ 1.500 criada automaticamente
-5. Produtos selecionados baixam do estoque
-6. Recibo gerado com dados do cliente
-7. Histórico do CRM atualizado com venda
-```
-
----
-
-## 📊 Status de Implementação
-
-### Matriz de Features (Janeiro 2026)
-
-| **Módulo**   | **Funcionalidade** | **Status**         | **% Completo** | **Prioridade** |
-| ------------ | ------------------ | ------------------ | -------------- | -------------- |
-| **CRM**      | Cadastro clientes  | ✅ Completo        | 100%           | -              |
-| **CRM**      | Funil de vendas    | ✅ Completo        | 100%           | -              |
-| **CRM**      | Histórico timeline | ✅ Completo        | 100%           | -              |
-| **CRM**      | Agenda             | ✅ Completo        | 95%            | P2             |
-| **CRM**      | Dashboard          | ✅ Completo        | 90%            | P3             |
-| **CRM**      | Filtros avançados  | ✅ Completo        | 100%           | -              |
-| **CRM**      | Tags de captação   | 🔄 Desenvolvimento | 30%            | **P0**         |
-| **CRM**      | Importação Excel   | 🔄 Planejamento    | 20%            | **P1**         |
-| **CRM**      | White label UI     | 🔄 Planejamento    | 0%             | **P1**         |
-| **CRM**      | Criptografia dados | ⏳ Pendente        | 0%             | **P0**         |
-| **CRM**      | Multi-usuário      | ⏳ Pendente        | 0%             | P2             |
-| **PDV**      | Todas features     | ⏳ Roadmap         | 0%             | P3             |
-| **Stock**    | Todas features     | ⏳ Roadmap         | 0%             | P4             |
-| **Complete** | Integração         | ⏳ Roadmap         | 0%             | P5             |
-
-**Legenda:**
-
-- ✅ Completo e testado
-- 🔄 Em desenvolvimento ativo
-- ⏳ Planejado, não iniciado
-- **P0** = Crítico (1-2 semanas)
-- **P1** = Alta (mês 1)
-- **P2** = Média (mês 2)
-- **P3** = Baixa (mês 3+)
-
----
-
-## 👥 Arquitetura Multi-Usuário
-
-### Conceito de Trabalho Colaborativo
-
-**Cenário:** Pequena empresa com 3-10 funcionários usando o mesmo sistema
-
-### Abordagens Possíveis
-
-#### **Opção A: Compartilhamento de Arquivo (Atual)**
-
-**Como funciona:**
-
-- Arquivo CRM.html + `dados/clientes_crm_v2.json` em pasta compartilhada (rede local ou Dropbox)
-- Cada usuário abre o CRM no navegador
-- LocalStorage individual + sincronização manual via "Exportar/Importar"
-
-**Prós:**
-
-- ✅ Simples de implementar (já funciona)
-- ✅ Não precisa servidor
-- ✅ Dados centralizados em um JSON
-
-**Contras:**
-
-- ❌ Risco de conflitos (2 pessoas editando ao mesmo tempo)
-- ❌ Usuário precisa "Recarregar dados" manualmente
-- ❌ Sem controle de permissões
-
-#### **Opção B: Sincronização Automática (Planejado)**
-
-**Como funciona:**
-
-- Polling a cada 30s: `fetch('dados/clientes_crm_v2.json')` verifica timestamp
-- Se JSON mudou → recarrega dados automaticamente
-- Lock de edição: Quando usuário abre ficha, "trava" registro com flag `editadoPor`
-
-**Prós:**
-
-- ✅ Sincronização em tempo quase-real
-- ✅ Previne conflitos
-- ✅ Experiência fluida
-
-**Contras:**
-
-- ❌ Precisa pasta compartilhada (rede local ou nuvem)
-- ❌ Complexidade moderada
-
-#### **Opção C: Servidor Local SQLite (Futuro)**
-
-**Como funciona:**
-
-- Python Flask + SQLite rodando em PC "servidor" da empresa
-- Clientes (outros PCs) acessam via `http://192.168.1.100:5000`
-- Banco de dados centralizado com controle de concorrência
-
-**Prós:**
-
-- ✅ Multi-usuário real
-- ✅ Controle de permissões (admin vs vendedor)
-- ✅ Auditoria completa (quem alterou o quê)
-
-**Contras:**
-
-- ❌ Precisa configurar "servidor" (PC sempre ligado)
-- ❌ Quebra filosofia "100% no navegador"
-
-### Decisão de Implementação (Proposta)
-
-**Para v3.0 (White Label):**
-
-- ✅ **Opção B** (Sincronização Automática)
-- Pasta compartilhada: `\\servidor\crm\` ou `Dropbox\TitanCRM\`
-- Lock de edição com timeout (5min sem atividade = libera)
-- Notificação visual: "Dados atualizados por [Usuário]"
-
-**Estrutura Técnica:**
+### WhatsApp (Scripts Opcionais)
 
 ```javascript
-// Sincronização automática
-setInterval(async () => {
-  const response = await fetch("dados/clientes_crm_v2.json");
-  const data = await response.json();
-
-  if (data.timestampModificacao > ultimaAtualizacao) {
-    // Dados mudaram → recarregar
-    mostrarNotificacao("📥 Dados atualizados por " + data.ultimoEditor);
-    carregarDados();
-  }
-}, 30000); // 30 segundos
-
-// Lock de edição
-function abrirCliente(id) {
-  clientes[id].editadoPor = usuarioLogado;
-  clientes[id].editadoEm = new Date().toISOString();
-  salvarDados();
+// Botão WhatsApp abre Web
+function abrirWhatsApp(telefone) {
+  window.open(`https://wa.me/${telefone}`);
 }
 
-function fecharCliente(id) {
-  delete clientes[id].editadoPor;
-  salvarDados();
-}
+// Cliente pode adicionar script próprio
+// (exemplo: Chatwoot, Evolution API)
+```
+
+**IA WhatsApp 24/7** = v2.0 (R$ 47/mês SaaS opcional)
+
+---
+
+## 📚 Recursos Técnicos
+
+**Google Docs:**
+
+- [Drive API](https://developers.google.com/drive/api/guides/about-sdk)
+- [Apps Script](https://developers.google.com/apps-script)
+- [OAuth 2.0](https://developers.google.com/identity/protocols/oauth2)
+- [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)
+
+**Libraries:**
+
+- [Chart.js](https://www.chartjs.org/docs/latest/)
+- [jsPDF](https://github.com/parallax/jsPDF)
+- [IndexedDB](https://web.dev/indexeddb/)
+
+---
+
+## 🔄 Git Workflow
+
+```bash
+# Feature branch
+git checkout -b feature/nome
+
+# Commits
+git add .
+git commit -m "feat(modulo): descrição"
+
+# Push
+git push origin feature/nome
+
+# Merge
+git checkout main
+git merge feature/nome
 ```
 
 ---
 
-## 🗺️ Roadmap Detalhado
+## ✅ Checklist Pré-Launch
 
-### **Fase 1: CRM White Label** (Jan-Fev 2026)
-
-**Objetivo:** Finalizar módulo CRM para comercialização
-
-| **Sprint**   | **Semana**   | **Entregas**                                | **Horas Est.** |
-| ------------ | ------------ | ------------------------------------------- | -------------- |
-| **Sprint 1** | 15-21 Jan    | Tags de captação configuráveis              | 12h            |
-|              |              | Migração IDs (clientes importados)          | 6h             |
-|              |              | Sistema de importação Excel (MVP)           | 15h            |
-| **Sprint 2** | 22-28 Jan    | Interface white label (logo, cores, fontes) | 20h            |
-|              |              | Criptografia AES-256 (CryptoJS)             | 10h            |
-|              |              | Testes de penetração de dados               | 8h             |
-| **Sprint 3** | 29 Jan-4 Fev | Relatórios PDF (jsPDF)                      | 18h            |
-|              |              | Sistema de backup automático                | 6h             |
-|              |              | Documentação completa usuário final         | 10h            |
-| **Sprint 4** | 5-11 Fev     | Testes com usuários beta                    | 15h            |
-|              |              | Correções de bugs                           | 10h            |
-|              |              | Preparação para lançamento (Kiwify)         | 8h             |
-
-**Entrega:** TitanCRM v3.0 (Comercializável)
+- [ ] Google Cloud configurado
+- [ ] Apps Script rodando
+- [ ] MongoDB criado
+- [ ] OAuth funcionando
+- [ ] Google Maps API ativa
+- [ ] PWA offline OK
+- [ ] Multi-user testado (2 abas)
+- [ ] Build minificado (build.js)
+- [ ] Landing page Kiwify
+- [ ] 5 beta testers
 
 ---
 
-### **Fase 2: TitanPDV** (Mar-Abr 2026)
+**Dúvidas Técnicas?** [FAQ.md](FAQ.md) | [ARQUITETURA.md](ARQUITETURA.md)
 
-| **Feature**                             | **Complexidade** | **Horas Est.** |
-| --------------------------------------- | ---------------- | -------------- |
-| Controle de caixa (abertura/fechamento) | Média            | 15h            |
-| Contas a pagar/receber (CRUD)           | Alta             | 20h            |
-| PDV simplificado (vendas rápidas)       | Baixa            | 10h            |
-| Emissão de orçamentos PDF               | Média            | 12h            |
-| Fluxo de caixa (gráficos)               | Baixa            | 8h             |
-| Integração básica com CRM               | Alta             | 18h            |
-| Testes e documentação                   | -                | 15h            |
-
-**Total Estimado:** 98h (~3 semanas)
-
----
-
-### **Fase 3: TitanStock** (Mai-Jun 2026)
-
-| **Feature**                           | **Complexidade** | **Horas Est.** |
-| ------------------------------------- | ---------------- | -------------- |
-| CRUD de produtos                      | Baixa            | 10h            |
-| Controle de movimentações             | Média            | 15h            |
-| Alertas de estoque mínimo             | Baixa            | 6h             |
-| Multi-locais (depósitos)              | Alta             | 20h            |
-| Inventário físico                     | Média            | 12h            |
-| Integração com PDV (baixa automática) | Alta             | 18h            |
-| Relatórios (curva ABC, giro)          | Média            | 14h            |
-| Testes e documentação                 | -                | 15h            |
-
-**Total Estimado:** 110h (~4 semanas)
-
----
-
-### **Fase 4: Complete 3-em-1** (Jul-Ago 2026)
-
-| **Feature**                    | **Complexidade** | **Horas Est.** |
-| ------------------------------ | ---------------- | -------------- |
-| Dashboard unificado            | Alta             | 25h            |
-| Sincronização CRM→PDV→Stock    | Muito Alta       | 40h            |
-| Relatórios cruzados            | Média            | 18h            |
-| Automações inteligentes        | Alta             | 30h            |
-| Testes de integração completos | -                | 25h            |
-| Documentação técnica + usuário | -                | 20h            |
-
-**Total Estimado:** 158h (~5 semanas)
-
----
-
-## 📁 Estrutura do Projeto
-
-### Organização Atual (v2.2)
-
-```
-TitanCRM/
-├── CRM.html                          ⭐ Sistema principal (165KB)
-├── README_TECNICO.md                 📖 Este documento
-├── DOCUMENTACAO_MESTRE.md            📜 Regras e governança
-├── Iniciar_CRM.bat                   ▶️ Launcher Windows
-│
-├── assets/                           🎨 Recursos estáticos
-│   ├── css/
-│   │   └── main.css                  (inline no HTML atual)
-│   ├── js/
-│   │   ├── crypto-js.min.js         (180KB)
-│   │   └── chart.min.js             (245KB)
-│   ├── fonts/
-│   │   ├── Inter.woff2
-│   │   ├── Poppins.woff2
-│   │   └── Roboto.woff2
-│   └── img/
-│       └── default-logo.png
-│
-├── dados/                            🔒 Banco de dados
-│   ├── clientes_crm_v2.json         BASE ATIVA
-│   └── relatorios/                   Outputs do scraper
-│
-├── scripts/                          🐍 Automação Python
-│   ├── scraper_guia_automatico.py   Web scraping
-│   └── importar_excel.py            (planejado)
-│
-├── exports/                          💾 Backups
-│   └── CRM_BACKUP_*.html
-│
-└── docs/                             📚 Documentação
-    ├── manual_usuario.md
-    └── guia_desenvolvendor.md
-```
-
-### Estrutura Planejada (v3.0 Complete)
-
-```
-TitanFusion/
-├── index.html                        🏠 Launcher principal
-├── config.json                       ⚙️ Configuração white label
-│
-├── modules/                          📦 Módulos independentes
-│   ├── crm/
-│   │   └── crm.html
-│   ├── pdv/
-│   │   └── pdv.html
-│   └── stock/
-│       └── stock.html
-│
-├── shared/                           🔗 Recursos compartilhados
-│   ├── core.js                       Funções comuns
-│   ├── storage.js                    Abstração localStorage
-│   └── theme.js                      Sistema de temas
-│
-├── data/                             💾 Dados centralizados
-│   ├── clientes.json
-│   ├── vendas.json
-│   ├── produtos.json
-│   ├── movimentacoes.json
-│   └── logs.json                     Auditoria
-│
-└── plugins/                          🔌 Extensões
-    ├── whatsapp/                     (futuro)
-    └── pdf-generator/                (jsPDF wrapper)
-```
-
----
-
-## 🛡️ Regras de Desenvolvimento
-
-### Golden Rules (do DOCUMENTACAO_MESTRE.md)
-
-1. **Dados do Usuário são Sagrados**
-   - ❌ NUNCA modificar estrutura JSON sem migração
-   - ✅ SEMPRE criar backup antes de editar
-
-2. **Compatibilidade Offline Obrigatória**
-   - ❌ NUNCA usar CDN em produção
-   - ✅ SEMPRE incluir assets localmente
-
-3. **Consulta Prévia para Mudanças Estruturais**
-   - ❌ NUNCA refatorar sem perguntar ao usuário
-   - ✅ SEMPRE documentar impacto antes de implementar
-
-4. **Performance Garantida**
-   - ✅ Sistema deve ser fluido até 10.000 registros
-   - ✅ Busca instantânea (< 300ms)
-   - ✅ Carregamento inicial < 2s
-
----
-
-## 💼 Modelo de Negócio
-
-### Precificação Estratégica
-
-| **Concorrente** | **Modelo**  | **Custo Anual** | **Limitações**                   |
-| --------------- | ----------- | --------------- | -------------------------------- |
-| RD Station CRM  | Mensalidade | R$ 1.188/ano    | Precisa internet, dados na nuvem |
-| Pipedrive       | Mensalidade | R$ 1.800/ano    | SaaS, limite de usuários         |
-| Bling ERP       | Mensalidade | R$ 720/ano      | Focado e-commerce                |
-| **TitanFusion** | **Único**   | **R$ 99,99**    | **Offline, ilimitado**           |
-
-**ROI para cliente:** Economia de R$ 600-1.700/ano
-
-### Estratégia de Lançamento
-
-**Canais:**
-
-- 🛒 Kiwify (checkout + entrega digital)
-- 🎓 Hotmart (marketplace + afiliados)
-- 📦 Eduzz (alternativa)
-
-**Funil de Vendas:**
-
-1. **Isca Digital:** Planilha grátis de controle de clientes
-2. **Tripwire:** TitanCRM (R$ 39,99)
-3. **Core Offer:** TitanFusion Complete (R$ 99,99)
-4. **Upsell:** Consultoria de implementação (R$ 197)
-
----
-
-## 📞 Suporte e Contribuição
-
-**Desenvolvedor:**  
-Lucas Valério  
-📧 [email]  
-💻 [GitHub](https://github.com/LucassVal)
-
-**Status do Projeto:** Ativo | Produção (CRM)  
-**Licença:** Proprietário | White Label permitido  
-**Última Atualização:** 17 Janeiro 2026
-
----
-
-**Versão Documento:** 1.0 (Consolidado Técnico)  
-**Baseado em:** DOCUMENTACAO_MESTRE.md v2.0
+**Issues:** [GitHub Issues](https://github.com/LucassVal/SAAS/issues)

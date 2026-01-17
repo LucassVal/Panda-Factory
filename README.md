@@ -90,19 +90,23 @@
 
 ### 2. PDV (Ponto de Venda)
 
-- 🛒 **Vendas Rápidas:** Interface otimizada para caixa
-- 💰 **Múltiplas Formas:** Dinheiro, PIX, Cartão, Boleto
-- 🧾 **Recibos PDF:** Impressão automática com logo
-- 📦 **Baixa Estoque:** Integração automática com estoque
-- 💵 **Controle de Caixa:** Abertura, fechamento, sangria
+- 🛒 **Vendas Rápidas:** Interface simples (canhoto ou digital WhatsApp)
+- 💰 **Formas Pagamento:** Dinheiro, PIX (chave manual cadastrada), Cartão (registro manual)
+- 🧾 **Recibos PDF:** Gerar e enviar por WhatsApp
+- 📦 **Baixa Estoque:** Integração automática
+- 💵 **Controle Caixa:** Abertura, fechamento, sangria
+- ⚠️ **Impressora Térmica:** Suporte em desenvolvimento (v1.1)
+
+> **Nota:** Gateways de pagamento (PagSeguro, Mercado Pago) requerem CNPJ e vêm em v2.5
 
 ### 3. Estoque
 
 - 📦 **Cadastro de Produtos:** Código, descrição, preço, foto
-- ➕➖ **Movimentações:** Entrada, saída, transferência entre locais
-- ⚠️ **Alertas:** Notifica quando atinge estoque mínimo
-- 🏢 **Multi-Local:** Farmácia matriz vs filial (exemplo)
+- ➕➖ **Movimentações:** Entrada, saída, transferência
+- ⚠️ **Alertas:** Notifica estoque mínimo
 - 📊 **Relatórios:** Curva ABC, giro, produtos parados
+
+> **⚠️ Multi-Local:** Suportado, mas aumenta complexidade (fonte captação por local, estoque separado, etc). Avaliar necessidade antes de ativar.
 
 ### 4. Financeiro
 
@@ -117,15 +121,17 @@
 - 📅 **Calendário Mensal:** Visualização clara dos agendamentos
 - ⏰ **Tipos:** Reunião, ligação, visita, outros (personalizável)
 - 👤 **Vínculo Cliente:** Agenda ligada ao histórico do CRM
-- 📱 **Confirmação WhatsApp:** Botão manual (API em v2.0)
+- 📱 **WhatsApp Manual:** Botão abre WhatsApp Web (scripts opcionais pra automação)
+
+> **Nota:** Cliente pode configurar scripts próprios para automação. IA WhatsApp 24/7 vem em v2.0.
 
 ### 6. Multi-Usuário + Permissões
 
 - 👥 **Até 10 Usuários:** Incluídos no plano base
-- 🔐 **5 Níveis:** Admin, Gerente, Vendedor, Financeiro, Estoquista
+- 🔐 **Níveis Customizáveis:** Admin, Gerente, Vendedor, Financeiro, Estoquista (ou criar próprios)
 - 📋 **Permissões Granulares:** Controle quem vê/edita o quê
-- 🔄 **Sync Tempo Real:** Google Drive + Backend merge agent
-- 📝 **Auditoria:** Log de quem alterou o quê e quando
+- 🔄 **Sync Tempo Real:** Google Drive + Apps Script (merge a cada 3s)
+- 📝 **Auditoria:** Log completo de alterações
 
 ### 7. Relatórios + Dashboard
 
