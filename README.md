@@ -40,10 +40,10 @@
 | **Lojistas**               | PDV + Estoque      | Controle de vendas e produtos     |
 | **Prestadores de Serviço** | CRM + Agenda       | Gestão de clientes e agendamentos |
 | **Barbearias/Salões**      | CRM + Agenda + PDV | Tudo integrado                    |
-| **Delivery/Pizzaria**      | CRM + PDV          | Pedidos e clientes organizados    |
 | **Consultores**            | CRM + Orçamentos   | Funil de vendas profissional      |
+| **Pequenas Empresas**      | CRM + Financeiro   | Organização completa              |
 
-**Mercado:** 9,3 milhões de PMEs no Brasil sem sistema adequado  
+**Mercado:** 9,3 milhões de PMEs no Brasil + 26M LATAM sem sistema adequado  
 **Preço concorrente:** R$ 720-1.800/ano (mensalidades)  
 **TitanGestão:** R$ 149,90 para sempre
 
@@ -462,34 +462,22 @@ Sincronização:
 
 ## 📚 Documentação Completa
 
-### Para Negócio/Estratégia
+### 📖 Documentos Principais (8 arquivos)
 
-| Documento                                          | Descrição                            |
-| -------------------------------------------------- | ------------------------------------ |
-| [ANALISE_MERCADO.md](ANALISE_MERCADO.md)           | Viabilidade, concorrentes, projeções |
-| [PRICING.md](PRICING.md)                           | Modelo de negócio e pricing          |
-| [ESTRATEGIA_AQUISICAO.md](ESTRATEGIA_AQUISICAO.md) | Marketing e vendas                   |
-| [FEATURES.md](FEATURES.md)                         | Todas as funcionalidades             |
+| Documento                                              | Descrição                                       |
+| ------------------------------------------------------ | ----------------------------------------------- |
+| **[README.md](README.md)**                             | Visão geral e enciclopédia navegável            |
+| **[GUIA_PROJETO.md](GUIA_PROJETO.md)**                 | Guia completo: decisões, regras, features       |
+| **[ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)** | Arquitetura: Stack, Apps Script, PWA, setup dev |
+| **[ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)**     | Negócio: Pricing, mercado, marketing, LATAM     |
+| **[ROADMAP.md](ROADMAP.md)**                           | Implementação: 8 sprints detalhados             |
+| **[FEATURES.md](FEATURES.md)**                         | 89 funcionalidades por módulo                   |
+| **[FAQ.md](FAQ.md)**                                   | Perguntas frequentes                            |
+| **[FUTURO_IA.md](FUTURO_IA.md)**                       | Roadmap IA v2.0+                                |
 
-### Para Desenvolvimento
+### 📦 Arquivos Arquivados
 
-| Documento                                        | Descrição                          |
-| ------------------------------------------------ | ---------------------------------- |
-| [README_TECNICO.md](README_TECNICO.md)           | Stack, arquitetura, setup          |
-| [ARQUITETURA.md](ARQUITETURA.md)                 | Decisões técnicas detalhadas       |
-| [ROADMAP.md](ROADMAP.md)                         | Plano de implementação (8 sprints) |
-| [DOCUMENTACAO_MESTRE.md](DOCUMENTACAO_MESTRE.md) | Doc completa consolidada           |
-
-### Para Futuro
-
-| Documento                    | Descrição               |
-| ---------------------------- | ----------------------- |
-| [FUTURO_IA.md](FUTURO_IA.md) | Agentes IA e automações |
-| [FAQ.md](FAQ.md)             | Perguntas frequentes    |
-
-### Índice Navegável
-
-**[📋 DOCS_INDEX.md](DOCS_INDEX.md)** - Tabela completa com todos os documentos
+Documentos antigos preservados em [`_archive/`](_archive/) (não deletados - backup seguro!)
 
 ---
 
