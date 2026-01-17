@@ -1,510 +1,667 @@
-# 🔒 CRM - DOCUMENTAÇÃO MESTRE DO PROJETO
+# 🔒 TITANGESTÃO PRO - DOCUMENTAÇÃO MESTRE V3.0
 
-> **Este é o documento ÚNICO e DEFINITIVO do projeto. Toda alteração deve consultar este arquivo primeiro.**
+> **Fonte única da verdade. Toda decisão técnica, estratégica e comercial está documentada aqui.**
+
+**Última atualização:** 17 Janeiro 2026  
+**Versão:** 3.0 (Consolidação Final)  
+**Status:** ATIVO E OBRIGATÓRIO
 
 ---
 
-## 🚨 PARTE 1: REGRAS DE OURO (GOVERNANÇA)
+## 📑 ÍNDICE
 
-### 📜 PRINCÍPIOS FUNDAMENTAIS
+1. [Visão do Produto](#1-visão-do-produto)
+2. [Decisões Estratégicas](#2-decisões-estratégicas)
+3. [Arquitetura Técnica](#3-arquitetura-técnica)
+4. [Roadmap de Desenvolvimento](#4-roadmap-de-desenvolvimento)
+5. [Modelo de Negócio](#5-modelo-de-negócio)
+6. [Análise de Mercado](#6-análise-de-mercado)
+7. [Governança e Regras](#7-governança-e-regras)
+
+---
+
+## 1. VISÃO DO PRODUTO
+
+### 1.1 Conceito Final (DECISÃO CONSOLIDADA)
+
+**TitanGestão PRO: Sistema PWA Híbrido de Gestão Empresarial**
+
+Sistema completo de gestão (CRM + PDV + Estoque + Financeiro) que:
+
+- ✅ **Funciona offline** após primeiro login (PWA)
+- ✅ **Sincroniza com Google Drive** do cliente (dados dele, não nossos)
+- ✅ **Login obrigatório** (anti-pirataria máxima)
+- ✅ **Pagamento único** R$ 149,90 / $39 USD
+- ✅ **Multi-dispositivo** (PC, tablet, mobile)
+- ✅ **Instalável** como app nativo
+
+### 1.2 USP (Unique Selling Proposition)
+
+**"O único sistema de gestão que funciona offline E online, com seus dados na SUA nuvem, sem mensalidade."**
+
+**Diferenciais vs Concorrentes:**
+| Característica | TitanGestão | RD Station | Bling | Excel |
+|---|---|---|---|---|
+| Preço (3 anos) | R$ 149,90 | R$ 3.564 | R$ 2.160 | Grátis |
+| Funciona offline | ✅ | ❌ | ❌ | ✅ |
+| Dados na nuvem DO CLIENTE | ✅ | ❌ | ❌ | ⚠️ |
+| Profissional | ✅ | ✅ | ✅ | ❌ |
+| Multi-dispositivo | ✅ | ✅ | ✅ | ⚠️ |
+
+### 1.3 Público-Alvo
+
+**Primário (Brasil):**
+
+- 12 milhões de MEIs
+- PMEs até 10 funcionários
+- Setores: Comércio, Serviços, Indústria pequena
+
+**Secundário (Internacional):**
+
+- América Latina (México, Argentina, Colômbia, Chile)
+- Países em desenvolvimento
+- Mercado 10x maior que Brasil
+
+**Perfis:**
+
+1. Lojista (precisa PDV + Estoque)
+2. Prestador de serviços (precisa CRM + Agenda)
+3. Barbearia/Salão (precisa CRM + Agenda + PDV)
+4. Pizzaria/Delivery (precisa CRM + PDV)
+5. Consultor/Vendedor (precisa só CRM)
+
+---
+
+## 2. DECISÕES ESTRATÉGICAS
+
+### 2.1 Modelo de Produto (FINAL - 17/01/2026)
+
+**Decisão:** UM único produto (TitanGestão PRO) com PWA híbrido
+
+❌ **Rejeitado:**
+
+- Offline puro (sem proteção anti-pirataria)
+- SaaS puro (perde USP "funciona offline")
+- Múltiplos SKUs (CRM, PDV, Estoque separados - complexo demais)
+
+✅ **Aprovado:**
+
+- PWA híbrido (melhor dos 2 mundos)
+- Login obrigatório na ativação
+- Funciona offline após cachear
+- Sincronização Google Drive opcional
+- R$ 149,90 pagamento único
+
+### 2.2 Proteção Anti-Pirataria
+
+**Estratégia Multi-Camadas:**
+
+1. **Login Obrigatório** (Camada 1 - Crítica)
+   - Impossível usar sem ativar
+   - Validação em tocadobarbaro.com
+   - Ban remoto se detectar abuso
+
+2. **Watermark Único** (Camada 2 - Rastreamento)
+   - Build ID em cada versão
+   - Metadata em comentário HTML (Base64)
+   - Se vazar, identifica origem
+
+3. **Ofuscação de Código** (Camada 3 - Dificulta)
+   - Minificação + obfuscation
+   - Renomeação de variáveis
+   - String encoding
+
+4. **Velocidade > Proteção** (Camada 4 - Estratégica)
+   - Lançar primeiro = dominar mercado
+   - Afiliados = lock-in de rede
+   - Ecossistema de produtos = switching cost
+
+**Conclusão:** Proteção básica (1+2) é SUFICIENTE. Preço R$ 149 não vale esforço de piratear profissionalmente.
+
+### 2.3 LGPD e Privacidade
+
+**Posicionamento Legal:**
+
+```
+CONTROLADOR DE DADOS: Cliente (empresa que compra)
+FORNECEDOR DE SOFTWARE: TitanGestão (nós)
+```
+
+**Implementação (Sprint 2):**
+
+- Modal de termos LGPD (primeira abertura)
+- Checkbox de aceite
+- Funcionalidades: exportar dados, excluir permanente, auditoria
+- Isenção de responsabilidade clara
+
+**Vantagem Competitiva:**
+
+- Dados no Google Drive DO CLIENTE
+- Nós não acessamos nada
+- Privacidade total
+
+---
+
+## 3. ARQUITETURA TÉCNICA
+
+### 3.1 Stack Tecnológico (v3.0)
+
+**Frontend:**
+
+```
+- HTML5 + CSS3 + Vanilla JavaScript (ES6+)
+- PWA (Service Worker + manifest.json)
+- IndexedDB (banco local)
+- Chart.js (gráficos - offline)
+- CryptoJS (criptografia opcional)
+```
+
+**Backend:**
+
+```
+- Node.js + Express
+- MongoDB Atlas (usuários + licenças)
+- Google Drive API (sincronização)
+- OAuth2 (autenticação Google)
+```
+
+**Hospedagem:**
+
+```
+- Frontend: tocadobarbaro.com (Vercel/Railway)
+- Backend: Railway/DigitalOcean (R$ 30-50/mês)
+- Banco: MongoDB Atlas (grátis até 500k usuários)
+```
+
+### 3.2 Arquitetura PWA (Decisão Final)
+
+```
+┌─────────────────────────────────────────┐
+│  COMPRA (Kiwify/Site)                   │
+│  R$ 149,90 pagamento único              │
+└──────────┬──────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────┐
+│  ATIVAÇÃO (Online OBRIGATÓRIO)          │
+│  1. Acessa tocadobarbaro.com            │
+│  2. Código de ativação                  │
+│  3. Cria senha                          │
+│  4. Service Worker cacheia app         │
+└──────────┬──────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────┐
+│  USO OFFLINE (Após cache)               │
+│  • App funciona SEM internet            │
+│  • Dados em IndexedDB local             │
+│  • Mudanças salvam localmente           │
+└──────────┬──────────────────────────────┘
+           │
+           ▼ (OPCIONAL)
+┌─────────────────────────────────────────┐
+│  SINCRONIZAÇÃO CLOUD                    │
+│  • Cliente conecta Google Drive         │
+│  • Dados sincronizam a cada 3s          │
+│  • Backup automático                    │
+│  • Multi-dispositivo                    │
+└─────────────────────────────────────────┘
+```
+
+### 3.3 Estrutura de Dados
+
+**localStorage (v2.x - Atual):**
+
+```javascript
+localStorage.setItem("clientesCRM", JSON.stringify(clientes));
+localStorage.setItem("vendedores", JSON.stringify(vendedores));
+localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
+```
+
+**IndexedDB (v3.0 - PWA):**
+
+```javascript
+const db = await openDB("TitanGestao", 1, {
+  upgrade(db) {
+    db.createObjectStore("clientes", { keyPath: "id" });
+    db.createObjectStore("vendas", { keyPath: "id" });
+    db.createObjectStore("produtos", { keyPath: "id" });
+    db.createObjectStore("sync_queue", { keyPath: "id" });
+  },
+});
+```
+
+**Google Drive Sync:**
+
+```
+Google Drive do Cliente/
+└── TitanGestao/
+    ├── clientes.json (sincronizado)
+    ├── vendas.json
+    ├── produtos.json
+    ├── config.json
+    └── backups/
+        ├── clientes_20260117.json
+        └── clientes_20260116.json
+```
+
+---
+
+## 4. ROADMAP DE DESENVOLVIMENTO
+
+### 4.1 Timeline Consolidado
+
+**22 Fevereiro 2026:** Lançamento MVP PWA  
+**Abril 2026:** Expansão multi-canal  
+**Junho 2026:** Agente IA (MRR)
+
+### 4.2 Sprint Breakdown
+
+#### Sprint 1-2: Features Core (15-28 Jan 2026)
+
+| Feature                        | Horas | Prioridade | Status |
+| ------------------------------ | ----- | ---------- | ------ |
+| Tags de captação configuráveis | 12h   | P0         | ⏳     |
+| Importação Excel (MVP)         | 15h   | P1         | ⏳     |
+| White label (logo, cores)      | 20h   | P1         | ⏳     |
+| Multi-usuário + permissões     | 20h   | P2         | ⏳     |
+| Geração orçamentos PDF         | 18h   | P1         | ⏳     |
+
+**Entrega:** CRM 100% funcional offline
+
+#### Sprint 3-4: PWA + Backend (29 Jan - 11 Fev 2026)
+
+| Feature                        | Horas | Prioridade | Status |
+| ------------------------------ | ----- | ---------- | ------ |
+| Service Worker (cache offline) | 12h   | P0         | ⏳     |
+| IndexedDB migration            | 10h   | P0         | ⏳     |
+| Backend Node.js                | 15h   | P0         | ⏳     |
+| Sistema de login               | 12h   | P0         | ⏳     |
+| Google Drive API               | 20h   | P1         | ⏳     |
+| Manifest.json + PWA install    | 6h    | P1         | ⏳     |
+
+**Entrega:** Sistema PWA completo
+
+#### Sprint 5: Polish + Launch (12-22 Fev 2026)
+
+| Atividade               | Horas | Status |
+| ----------------------- | ----- | ------ |
+| Testes com 5 beta users | 8h    | ⏳     |
+| Correção bugs críticos  | 10h   | ⏳     |
+| VSL gravação (5min)     | 4h    | ⏳     |
+| Landing page Kiwify     | 6h    | ⏳     |
+| Kit afiliados           | 8h    | ⏳     |
+
+**Entrega:** Lançamento oficial
+
+### 4.3 Roadmap Futuro (Pós-Lançamento)
+
+**Abril 2026:**
+
+- Hotmart Brasil
+- Área de afiliados própria
+- Versão espanhol (LATAM)
+
+**Junho 2026:**
+
+- Agente IA WhatsApp (R$ 47/mês)
+- MRR ativo
+
+**Setembro 2026:**
+
+- PDV completo (vendas, caixa)
+- Estoque (produtos, movimentações)
+- Integração total CRM→PDV→Estoque
+
+---
+
+## 5. MODELO DE NEGÓCIO
+
+### 5.1 Pricing Strategy
+
+**Produto Base:**
+
+- Brasil: R$ 149,90 (pagamento único)
+- Internacional: $39 USD
+- Comissão afiliados: 50-60%
+
+**Upsell (Opcional):**
+
+- Agente IA WhatsApp: R$ 47/mês
+- Templates Premium: R$ 27 (único)
+- Consultoria Setup: R$ 197 (único)
+
+### 5.2 Canais de Venda
+
+#### Brasil
+
+| Can al                     | Comissão        | Seu Lucro/Venda | Vantagem           | Desvantagem         |
+| -------------------------- | --------------- | --------------- | ------------------ | ------------------- |
+| **Kiwify**                 | 60% + 5% = 65%  | R$ 52           | Afiliados volume   | Comissão alta       |
+| **Hotmart**                | 60% + 10% = 70% | R$ 45           | Marketplace grande | Comissão maior      |
+| **tocadobarbaro.com**      | 0%              | R$ 149,90       | Lucro 100%         | Pouco tráfego       |
+| **Área Afiliados Própria** | 50-55%          | R$ 75           | Controle total     | Precisa desenvolver |
+
+**Decisão:** Fase 1 = Kiwify + Site próprio | Fase 2 = Adicionar Hotmart + área própria
+
+#### Internacional (América Latina)
+
+| País      | População | PIB per capita | Potencial     | Adaptação         |
+| --------- | --------- | -------------- | ------------- | ----------------- |
+| México    | 130M      | $10k           | 🔥 Alto       | Traduzir espanhol |
+| Argentina | 46M       | $12k           | ⚠️ Médio      | Economia instável |
+| Colômbia  | 51M       | $8k            | ⚡ Médio-Alto | Mercado crescendo |
+| Chile     | 19M       | $16k           | ⚡ Médio      | Concorrência alta |
+
+**Plataforma:** Hotmart Global (opera em todos)
+
+### 5.3 Projeção de Receita (12 Meses)
+
+```
+MÊS 1-3 (Lançamento):
+├─ 300 vendas/mês × R$ 149,90 = R$ 44.970
+├─ Comissão Kiwify (65%) = -R$ 29.230
+├─ Custo servidor = -R$ 50
+└─ LUCRO MENSAL: R$ 15.690
+
+MÊS 4-6 (Expansão):
+├─ 500 vendas/mês × R$ 149,90 = R$ 74.950
+├─ Comissão (65%) = -R$ 48.718
+├─ Custo = -R$ 100
+└─ LUCRO MENSAL: R$ 26.132
+
+MÊS 7-12 (MRR Ativo):
+├─ 500 vendas × R$ 149,90 = R$ 74.950
+├─ 150 assinantes IA × R$ 47 = R$ 7.050
+├─ Total receita = R$ 82.000
+├─ Comissões + custos = -R$ 50.000
+└─ LUCRO MENSAL: R$ 32.000
+
+TOTAL ANO 1: R$ 336.000
+```
+
+**ROI Estimado:**
+
+- Investimento: R$ 5.000 (desenvolvimento + marketing inicial)
+- Retorno: R$ 336.000
+- **ROI: 6.620%** 🚀
+
+### 5.4 LTV (Lifetime Value) por Cliente
+
+```
+Cliente Típico:
+├─ Compra TitanGestão: R$ 149,90
+├─ Compra Templates (30%): +R$ 8,10
+├─ Assina IA (20% após 6 meses): +R$ 282 (6 meses)
+└─ LTV MÉDIO: R$ 440
+
+Cliente VIP:
+├─ Compra TitanGestão: R$ 149,90
+├─ Compra Consultoria: +R$ 197
+├─ Assina IA (12 meses): +R$ 564
+└─ LTV Alto: R$ 911
+```
+
+---
+
+## 6. ANÁLISE DE MERCADO
+
+### 6.1 Tamanho do Mercado
+
+**Brasil:**
+
+- 12 milhões de MEIs
+- 60% sem sistema de gestão = 7,2M potenciais
+- 0,5% de penetração = 36.000 clientes (realistic)
+- **Mercado endereçável:** R$ 5,4 milhões
+
+**América Latina:**
+
+- 50 milhões de pequenos negócios
+- 70% sem gestão adequada = 35M
+- 0,1% penetração = 35.000 clientes
+- **Mercado endereçável:** $1,3 milhões USD
+
+### 6.2 Análise Competitiva
+
+#### Concorrentes Diretos (SaaS Brasileiro)
+
+| Solução         | Preço/ano | Offline | Dados Cliente | Market Share |
+| --------------- | --------- | ------- | ------------- | ------------ |
+| **RD Station**  | R$ 1.188  | ❌      | ❌            | 15%          |
+| **Pipedrive**   | R$ 1.800  | ❌      | ❌            | 10%          |
+| **Bling**       | R$ 720    | ❌      | ❌            | 8%           |
+| **Excel**       | Grátis    | ✅      | ✅            | 60%          |
+| **TitanGestão** | R$ 149    | ✅      | ✅            | 0% (novo)    |
+
+**Insight:** Competimos com Excel (60% do mercado), NÃO com SaaS premium.
+
+#### Concorrentes Indiretos (Infoprodutos)
+
+**Hotmart/Kiwify:**
+
+- "CRM": 47 resultados (maioria cursos)
+- "Sistema de gestão": 12 produtos (planilhas Excel)
+- **GAP:** Zero software real offline + pagamento único
+
+**Oportunidade:** Ser TOP 1 em "CRM infoproduto"
+
+### 6.3 Análise SWOT
+
+#### Forças (Strengths)
+
+- ✅ Preço disruptivo (10x mais barato)
+- ✅ USP clara (offline + nuvem cliente)
+- ✅ PWA (instala como app)
+- ✅ Zero custo operacional (após 10 vendas)
+- ✅ Proteção anti-pirataria (login)
+
+#### Fraquezas (Weaknesses)
+
+- ⚠️ Marca nova (zero reconhecimento)
+- ⚠️ Equipe de 1 pessoa (desenvolvimento lento)
+- ⚠️ Sem capital marketing (depende afiliados)
+- ⚠️ Funcionalidades básicas (v1.0)
+
+#### Oportunidades (Opportunities)
+
+- 🔥 Mercado gigante sem solução (7M+ Brasil)
+- 🔥 Kiwify crescendo (afiliados procurando produtos)
+- 🔥 LATAM desatendida (10x mercado BR)
+- 🔥 Tendência anti-SaaS (cansaço de mensalidades)
+
+#### Ameaças (Threats)
+
+- ⚠️ Concorrente grande copiar modelo
+- ⚠️ Google/Microsoft mudarem APIs
+- ⚠️ Regulação LGPD mais rígida
+- ⚠️ Recessão econômica (corte de gastos)
+
+### 6.4 Análise Realista: Estou Viajando? 🔍
+
+**RESPOSTA HONESTA:**
+
+✅ **SIM, é viável:**
+
+1. Mercado gigante (7M+ sem solução)
+2. Preço disruptivo (95% mais barato)
+3. USP defensável (offline + nuvem cliente)
+4. Modelo escalável (afiliados vendem)
+5. Custo marginal zero (software)
+
+⚠️ **MAS cuidado com:**
+
+1. **Expectativa de volume:** 300 vendas/mês = otimista
+   - Realista: 50-100 vendas/mês no início
+   - Precisa 6-12 meses pra escalar
+
+2. **Comissão afiliados:** 60% = agressivo
+   - Muitos produtos pagam 30-40%
+   - Mas necessário pra competir
+
+3. **Penetração internacional:** 0,1% = desafiador
+   - Barreira: idioma, pagamento, confiança
+   - Focar Brasil primeiro, LATAM depois
+
+4. **MRR (Agente IA):** 20% conversão = otimista
+   - Realista: 5-10% no primeiro ano
+   - Precisa educar mercado sobre valor
+
+**Projeção CONSERVADORA (Realista):**
+
+```
+ANO 1:
+├─ Mês 1-3: 50 vendas/mês (beta/early)
+├─ Mês 4-6: 150 vendas/mês (afiliados)
+├─ Mês 7-12: 250 vendas/mês (escala)
+└─ TOTAL: 1.800 vendas × R$ 52 lucro = R$ 93.600
+
+ANO 2:
+├─ 400 vendas/mês (consolidado)
+├─ 50 assinantes IA (R$ 2.350/mês)
+└─ TOTAL: R$ 278.000
+
+ANO 3:
+├─ 500 vendas/mês (maduro)
+├─ 150 assinantes IA
+└─ TOTAL: R$ 368.000
+```
+
+**Conclusão:** Projeto É VIÁVEL, mas projeções precisam ser **35% do otimista** nos primeiros 12 meses.
+
+### 6.5 Benchmarks Realistas
+
+**Infoprodutos similares (Hotmart):**
+
+- Produto médio: 50-200 vendas/mês
+- Top 10%: 500-1000 vendas/mês
+- Top 1%: 2000+ vendas/mês
+
+**Afiliados ativos:**
+
+- Comum: 5-20 afiliados gerando vendas
+- Bom: 50-100 afiliados
+- Excelente: 200+ afiliados
+
+**Meta realista Ano 1:** Top 25% (150-300 vendas/mês)
+
+---
+
+## 7. GOVERNANÇA E REGRAS
+
+### 7.1 Regras de Ouro (Inalteradas da v2.0)
 
 #### REGRA ABSOLUTA #1: Consulta Obrigatória
 
-**Antes de QUALQUER alteração no código, o agente AI DEVE:**
+Antes de QUALQUER alteração:
 
-1. ✅ **Consultar** este documento completo
-2. ✅ **Verificar** se a mudança está alinhada com a arquitetura documentada
-3. ✅ **Validar** com o usuário ANTES de implementar mudanças estruturais
+1. ✅ Consultar esta documentação
+2. ✅ Verificar impacto global
+3. ✅ Validar com usuário se estrutural
 
-**PROIBIDO (Zona Vermelha):**
-
-- ❌ Fazer mudanças estruturais sem consulta prévia
-- ❌ Ignorar a arquitetura documentada
-- ❌ Remover funcionalidades existentes sem autorização explícita
-- ❌ Alterar comportamento de features sem discussão com usuário
-
----
-
-### 🚫 O QUE NUNCA FAZER (ZONA CRÍTICA)
-
-#### 1. Dados do Usuário (INTOCÁVEL)
-
-- ❌ **NUNCA** modificar a estrutura do JSON sem backup
-- ❌ **NUNCA** apagar campos existentes do banco de dados
-- ❌ **NUNCA** remover o sistema de salvamento automático
-- ❌ **NUNCA** alterar IDs de clientes existentes
-
-#### 2. Funcionalidades Core (PROTEGIDAS)
-
-- ❌ **NUNCA** quebrar o sistema de importação automática
-- ❌ **NUNCA** remover ou renomear IDs de elementos HTML sem verificar dependências JS
-- ❌ **NUNCA** alterar a estrutura de `localStorage` sem migração de dados
-- ❌ **NUNCA** quebrar compatibilidade com dados salvos
-
-#### 3. Compatibilidade (OBRIGATÓRIA)
-
-- ❌ **NUNCA** usar bibliotecas externas via CDN (deve ser offline)
-- ❌ **NUNCA** adicionar dependências que exijam internet
-- ❌ **NUNCA** quebrar compatibilidade com Chrome/Edge
-
----
-
-### ✅ FLUXO OBRIGATÓRIO PARA MUDANÇAS
-
-```
-┌─────────────────────┐
-│ Usuário solicita    │
-│ mudança             │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ 1. Consultar        │
-│    este documento   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ 2. Verificar        │
-│    impacto global   │
-└──────────┬──────────┘
-           │
-           ▼
-      ┌─────────┐
-      │Mudança  │
-      │estrutu- │◄─── SIM ──┐
-      │ral ou   │            │
-      │afeta    │            │
-      │dados?   │            │
-      └────┬────┘            │
-           │                 │
-          NÃO         ┌──────────────┐
-           │          │ PARAR e      │
-           ▼          │ PERGUNTAR ao │
-    ┌──────────┐     │ usuário      │
-    │Implemen- │     └──────┬───────┘
-    │tar com   │            │
-    │documen-  │            │
-    │tação     │◄───────────┘
-    └────┬─────┘  Após aprovação
-         │
-         ▼
-    [CONCLUÍDO]
-```
-
-#### Checklist Pré-Implementação
-
-Antes de qualquer código, pergunte a si mesmo:
-
-- [ ] Li a documentação completa?
-- [ ] Entendi o impacto da mudança?
-- [ ] Verifiquei se afeta dados do usuário?
-- [ ] Esta mudança é reversível?
-- [ ] Preciso perguntar ao usuário primeiro?
-- [ ] Documentei a mudança planejada?
-- [ ] **🔴 CRIEI BACKUP ANTES DE EDITAR?** ← OBRIGATÓRIO!
-
----
-
-### 🔐 REGRA DE BACKUP OBRIGATÓRIO (NOVA - 2026-01-15)
-
-> **⚠️ REGRA CRÍTICA**: NUNCA edite CRM.html sem backup primeiro!
-
-#### Comando de Backup (PowerShell)
-
-**ANTES DE QUALQUER EDIÇÃO**, execute:
+#### REGRA ABSOLUTA #2: Backup Obrigatório
 
 ```powershell
-Copy-Item "C:\Users\Lucas Valério\Desktop\CRM\CRM.html" `
-          "C:\Users\Lucas Valério\Desktop\CRM\exports\CRM_BACKUP_$(Get-Date -Format 'yyyyMMdd_HHmmss').html"
+Copy-Item "CRM.html" "exports\CRM_BACKUP_$(Get-Date -Format 'yyyyMMdd_HHmmss').html"
 ```
 
-#### Checklist Pré-Edição OBRIGATÓRIO
+### 7.2 O Que NUNCA Fazer
+
+❌ Modificar estrutura JSON sem backup  
+❌ Quebrar compatibilidade com dados salvos  
+❌ Usar CDN (deve ser offline)  
+❌ Remover funcionalidades sem autorização
+
+### 7.3 Comunicação Obrigatória
+
+**Template de pergunta para mudanças estruturais:**
 
 ```
-┌─────────────────────────────────┐
-│  ANTES DE EDITAR CRM.html       │
-├─────────────────────────────────┤
-│ [ ] Backup criado em exports/   │
-│ [ ] Nome: CRM_BACKUP_YYYYMMDD   │
-│ [ ] Tamanho verificado (~185KB) │
-│ [ ] Arquivo abre no navegador   │
-└─────────────────────────────────┘
-```
-
-#### Por Que Isso é CRÍTICO
-
-**2026-01-15**: Perdemos 4 funções críticas:
-
-1. [formatarTelefone()](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/CRM.html#2052-2072) - Formatação (xx) xxxxx-xxxx
-2. [aplicarFiltrosBotao()](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/CRM.html#2606-2624) - Botão ✓ de filtros
-3. [abrirConfig()](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/CRM.html#4635-4650) - Modal de configurações
-4. Templates WhatsApp - Sistema completo
-
-**SEM BACKUP** = Reimplementar tudo do zero (25+ minutos perdidos)
-
-#### Script de Backup Automático (Futuro)
-
-Criar `backup_auto.bat`:
-
-```batch
-@echo off
-set TIMESTAMP=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%
-set TIMESTAMP=%TIMESTAMP: =0%
-copy "CRM.html" "exports\CRM_BACKUP_%TIMESTAMP%.html"
-echo ✅ Backup criado: CRM_BACKUP_%TIMESTAMP%.html
-pause
-```
-
----
-
-### 📊 SISTEMA DE CLASSIFICAÇÃO DE RISCO
-
-| Nível          | Descrição                              | Exemplos                                            | Ação Obrigatória                 |
-| -------------- | -------------------------------------- | --------------------------------------------------- | -------------------------------- |
-| 🟢 **BAIXO**   | Mudanças visuais sem impacto funcional | CSS, cores, espaçamentos, typos                     | Implementar direto               |
-| 🟡 **MÉDIO**   | Nova funcionalidade ou UI              | Novo botão, novo filtro, nova modal                 | Explicar antes de fazer          |
-| 🟠 **ALTO**    | Modificação estrutural                 | Refatorar JS, mudar estrutura de dados, novo módulo | **PERGUNTAR OBRIGATORIAMENTE**   |
-| 🔴 **CRÍTICO** | Risco de perda de dados                | Mudar salvamento, deletar features, migração de DB  | **APROVAÇÃO EXPLÍCITA + BACKUP** |
-
----
-
-### 🛡️ ÁREAS INTOCÁVEIS (SEM AUTORIZAÇÃO)
-
-#### 1. Sistema de Dados
-
-```javascript
-// ZONA CRÍTICA - NÃO TOCAR
-function salvarDados() {
-  /* ... */
-}
-function carregarDados() {
-  /* ... */
-}
-localStorage.setItem("clientesCRM" /* ... */);
-localStorage.setItem("crmDados_v2" /* ... */);
-```
-
-#### 2. Importação Automática
-
-```javascript
-// CORE FEATURE - PROTEGIDA
-function importarAutomatico() {
-  /* ... */
-}
-function ativarImportacaoAutomatica() {
-  /* ... */
-}
-```
-
-#### 3. IDs de Elementos Críticos
-
-```html
-<!-- NÃO RENOMEAR SEM MAPEAR DEPENDÊNCIAS -->
-<div id="clientsGrid"></div>
-<div id="clientModal"></div>
-<canvas id="statusChart"></canvas>
-<div id="inicio-view"></div>
-<div id="contatos-view"></div>
-```
-
----
-
-### 🤝 COMUNICAÇÃO COM O USUÁRIO
-
-#### Quando Perguntar ANTES de Implementar
-
-1. **Mudanças de Comportamento**: "Isso vai mudar como [feature] funciona. Posso prosseguir?"
-2. **Refatorações Grandes**: "Vou reorganizar [módulo]. Deseja revisar o plano primeiro?"
-3. **Remoção de Features**: "Esta mudança remove [funcionalidade]. Confirma?"
-4. **Risco de Dados**: "Esta operação pode afetar dados salvos. Fazer backup primeiro?"
-
-#### Modelo de Notificação Obrigatória
-
-```
-⚠️ ATENÇÃO: Mudança de Risco [NÍVEL]
+⚠️ MUDANÇA DE ALTO IMPACTO
 
 **O que vou fazer:**
-[Descrição clara e objetiva]
+[Descrição clara]
 
 **Impacto:**
-- [Lista de efeitos colaterais]
-- [Arquivos/funções afetadas]
+- [Arquivos afetados]
+- [Funcionalidades alteradas]
 
 **Alternativas:**
 1. [Opção A - recomendada]
 2. [Opção B]
 
-**Recomendação:** [Sua sugestão técnica]
+**Recomendação:** [Sua sugestão]
 
-Posso prosseguir? (Aguardando confirmação explícita)
+Posso prosseguir?
 ```
 
 ---
 
-## 📚 PARTE 2: ENCICLOPÉDIA DO PROJETO
+## 📊 ANEXOS
 
-### 🎯 1. Visão do Produto
+### A. Stack Completo
 
-#### Conceito Core
+**Desenvolvimento:**
 
-Sistema de gestão empresarial (ERP/CRM) que roda **100% offline no navegador**, sem servidor, sem mensalidades e com foco total em privacidade e portabilidade.
+- Node.js 18+
+- Git + GitHub
+- VS Code
 
-**Slogan:** _"Leve sua empresa no bolso. Sem mensalidades, sem nuvem, 100% seguro."_
+**Frontend:**
 
-#### Público-Alvo
+- HTML5, CSS3, JavaScript ES6+
+- Chart.js, CryptoJS
+- Service Worker API
 
-- Pequenos empreendedores
-- Autônomos e vendedores
-- Profissionais que valorizam privacidade de dados
-- Signore Marcenaria (cliente atual)
+**Backend:**
 
-#### Diferenciais Competitivos
+- Express.js
+- MongoDB Atlas
+- Google Drive API v3
 
-1. **Portabilidade Absoluta**: Roda em Pen Drive, não precisa instalar
-2. **Privacidade Total**: Dados criptografados (planejado), sem envio para nuvem
-3. **Sem Mensalidade**: Pagamento único vitalício
-4. **Whitelabel**: Totalmente personalizável (planejado)
+**DevOps:**
 
----
+- Vercel (frontend)
+- Railway (backend)
+- GitHub Actions (CI/CD futuro)
 
-### 🏗️ 2. Arquitetura Técnica
+### B. Links Úteis
 
-#### Stack Atual (**v2.2 - PRODUÇÃO ATIVA**)
+- Repository: https://github.com/LucassVal/SAAS
+- Domain: tocadobarbaro.com
+- Kiwify: [configurar]
+- Hotmart: [configurar]
 
-| Componente            | Tecnologia                  | Status         | Localização                                                                                                                        |
-| --------------------- | --------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **Sistema Principal** | Single HTML File (SPA)      | ✅ ATIVO       | [CRM.html](file:///c:/Users/Lucas%20Valério/Desktop/CRM/CRM.html) (165 KB)                                                         |
-| **Banco de Dados**    | localStorage + JSON local   | ✅ Funcional   | [dados/clientes_crm_v2.json](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/dados/clientes_crm_v2.json)                         |
-| **Gráficos**          | Chart.js (CDN)              | ✅ Ativo       | Inline no HTML                                                                                                                     |
-| **UI Framework**      | Custom CSS (Gradientes)     | ✅ Premium     | Inline no HTML                                                                                                                     |
-| **Scraper**           | Python + Playwright         | ✅ Operacional | [scripts/scraper_guia_automatico.py](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/scripts/scraper_guia_automatico.py) (23 KB) |
-| **Importação**        | HTML Parser (BeautifulSoup) | ✅ Funcional   | [scripts/importar_guia_construcao.py](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/scripts/importar_guia_construcao.py)       |
+### C. Métricas de Sucesso
 
-#### Estrutura Real do Projeto
+**Mês 1:**
 
-```
-C:/Users/Lucas Valério/Desktop/CRM/
-│
-├── CRM.html                          ← ⭐ Sistema completo (165 KB)
-├── README.md                         ← Documentação técnica
-├── LEIA-ME.txt                       ← Guia rápido do usuário
-├── Iniciar_CRM.bat                   ← Atalho de inicialização
-├── Importar_Clientes.bat             ← Atalho do scraper
-├── crm_icon.png                      ← Ícone da aplicação (432 KB)
-├── import_icon.png                   ← Ícone de importação (468 KB)
-│
-├── dados/                            ← 🔒 BANCO DE DADOS (CRÍTICO)
-│   ├── clientes_crm_v2.json         ← BASE PRINCIPAL (backup diário recomendado)
-│   ├── clientes_crm.json            ← Backup antigo
-│   └── relatorios/                  ← Relatórios do scraper
-│       ├── guia_construcao_relatorio_*.html
-│       └── guia_construcao_screenshot_*.png
-│
-├── scripts/                          ← Automação Python
-│   ├── scraper_guia_automatico.py   ← ⭐ Scraper principal (23 KB)
-│   ├── importar_guia_construcao.py  ← Parser de HTML
-│   ├── extrair_clientes.py          ← Extrator de dados
-│   ├── organize_relatorio.py        ← Organizador de relatórios
-│   └── README.md                    ← Doc dos scripts
-│
-├── exports/                          ← Exportações do CRM
-│   └── crm-export-*.json            ← Backups manuais
-│
-└── docs/                             ← Documentação
-    ├── manual_completo.md           ← Manual de uso completo (428 linhas)
-    └── whatsapp_automation_plan.md  ← Plano de automação WhatsApp (411 linhas)
-```
+- [ ] 50 vendas
+- [ ] 5 afiliados ativos
+- [ ] 0 bugs críticos
+
+**Mês 3:**
+
+- [ ] 150 vendas
+- [ ] 20 afiliados
+- [ ] NPS > 8
+
+**Mês 6:**
+
+- [ ] 250 vendas/mês
+- [ ] 50 afiliados
+- [ ] 10 depoimentos em vídeo
+
+**Mês 12:**
+
+- [ ] 400 vendas/mês
+- [ ] 100 afiliados
+- [ ] 50 assinantes IA (MRR R$ 2.350)
 
 ---
 
-### ⚙️ 3. Funcionalidades Implementadas (v2.2)
+**FIM DA DOCUMENTAÇÃO MESTRE V3.0**
 
-#### ✅ Módulos Ativos
+Este documento consolida TODAS as decisões estratégicas, técnicas e comerciais do projeto TitanGestão PRO. É a fonte única da verdade e deve ser consultado antes de qualquer implementação ou mudança de direção.
 
-##### 📊 Dashboard & Relatórios ([inicio-view](file:///c:/Users/Lucas%20Valério/Desktop/CRM/CRM.html#L918))
-
-- **Visão Geral**: Cards de KPI (Total Prospects, Fechados, Perdidos)
-- **Gráficos Visuais** (Chart.js):
-  - Status dos Clientes (Donut Chart)
-  - Valor por Status (Bar Chart)
-  - Prospects vs Acompanhamento (Doughnut)
-- **Performance por Vendedor**: Tabela dinâmica
-- **Filtro de Período**: Últimos 7 dias, Este Mês, Este Ano
-
-##### 👥 CRM & Gestão de Clientes ([contatos-view](file:///c:/Users/Lucas%20Valério/Desktop/CRM/CRM.html#L965))
-
-- **3 Formas de Cadastro**:
-
-  1. Manual (botão "+ Novo Cliente")
-  2. Scraper Automático (Python + Playwright)
-  3. Upload HTML (importação manual)
-
-- **6 Fontes de Captação**:
-
-  - `GC` - Guia da Construção
-  - `APPARATO` - Marcenaria Apparato
-  - `APTTA` - Marcenaria Aptta
-  - `SIGNORE` - Showroom Signore
-  - `GOOGLE` - Google Ads
-  - `META` - Facebook/Instagram Ads
-
-- **Filtros Avançados** (2 linhas):
-
-  - **Linha 1**: Busca, Status, Cidade, Bairro, Min/Max m², Ações
-  - **Linha 2**: Meus Clientes, Novos (Hoje), Atrasados, Ordenação (Nome, Bairro, Cidade, M²)
-
-- **Visualizações**:
-  - Lista de Cards (padrão)
-  - Kanban Board (arrastar colunas)
-
-##### 📅 Agenda
-
-- **Calendário Mensal**: Navegação por mês/ano
-- **Agendamentos Clicáveis**: Cada item abre a ficha do cliente
-- **Day Drawer**: Painel superior com detalhes do dia selecionado
-
-##### 🔐 Sistema de Login
-
-- **Autenticação Local**: Sem conexão com servidor
-- **Níveis de Acesso**: Admin, Vendedor
-- **Sessão Persistente**: sessionStorage
-
-##### 🎨 Ficha Unificada do Cliente
-
-- **Tab "Atendimento"**: Status + Timeline + Ações Rápidas
-- **Tab "Dados Cadastrais"**: Formulário de edição
-- **Histórico Unificado**: Notas + Agendamentos + Mudanças de Status
-
----
-
-### 🔴 Funcionalidades Pendentes (Roadmap)
-
-#### Alta Prioridade (Semana 1-2)
-
-- [ ] **Criptografia de Dados** (CRÍTICO)
-  - Implementar CryptoJS para arquivo `.dat`
-  - Senha mestre ao salvar/carregar
-
-#### Média Prioridade (Semana 3-4)
-
-- [ ] **Geração de PDF**
-  - Orçamentos personalizados com logo
-  - Recibos de venda
-- [ ] **Whitelabel Completo**
-  - Upload de logo (salvar como Base64)
-  - Customização de cores via CSS Variables
-
-#### Baixa Prioridade (Mês 2)
-
-- [ ] **PWA (Progressive Web App)**
-  - `manifest.json` para "Instalar Aplicativo"
-  - Service Worker para cache offline
-- [ ] **Modo Escuro**
-- [ ] **Exportação Excel** (SheetJS)
-
----
-
-### 💼 4. Estratégia Comercial (Futuro)
-
-#### Modelo de Negócio
-
-- **Preço**: R$ 69,99 (BR) / US$ 15.00 (INT)
-- **Licença**: Vitalícia (compra única)
-- **Comissão Afiliados**: 60%
-
-#### Funil de Vendas
-
-1. Venda Principal: CRM Completo
-2. Order Bump: "50 Scripts de Venda Prontos" (+R$ 14,90)
-3. Upsell: "Módulo Cardápio Digital" (+R$ 29,90)
-
----
-
-### 🎓 5. Documentação e Recursos
-
-#### Arquivos de Documentação
-
-- [README.md](file:///C:/Users/Lucas%20Valério/Desktop/CRM/README.md) - Setup e troubleshooting
-- [LEIA-ME.txt](file:///C:/Users/Lucas%20Valério/Desktop/CRM/LEIA-ME.txt) - Guia rápido
-- [docs/manual_completo.md](file:///C:/Users/Lucas%20Valério/Desktop/CRM/docs/manual_completo.md) - Manual detalhado
-- [docs/whatsapp_automation_plan.md](file:///C:/Users/Lucas%20Valério/Desktop/CRM/docs/whatsapp_automation_plan.md) - Plano WhatsApp
-
-#### Recursos Externos Recomendados
-
-- [CryptoJS Docs](https://cryptojs.gitbook.io/docs/)
-- [jsPDF Documentation](https://artskydj.github.io/jsPDF/docs/)
-- [Chart.js Guide](https://www.chartjs.org/docs/latest/)
-
----
-
-### 🐙 6. Controle de Versão (GitHub)
-
-#### Fluxo de Trabalho Padrão
-
-Para enviar atualizações para o repositório remoto (GitHub), siga rigorosamente a ordem abaixo:
-
-1.  **Verificar Status**: Veja quais arquivos foram alterados.
-
-    ```powershell
-    git status
-    ```
-
-2.  **Adicionar Mudanças**: Prepare os arquivos para o commit.
-
-    ```powershell
-    git add .
-    ```
-
-3.  **Registrar Versão (Commit)**: Salve as mudanças com uma mensagem clara.
-
-    ```powershell
-    git commit -m "tipo(escopo): descrição breve da mudança"
-    ```
-
-    _Exemplos:_
-
-    - `feat(agenda): adicionado botão de novo agendamento`
-    - `fix(filtros): corrigido erro de renderizarLista`
-    - `docs(manual): atualizado guia de instalação`
-
-4.  **Enviar para GitHub (Push)**: Sincronize com a nuvem.
-    ```powershell
-    git push origin main
-    ```
-
----
-
-## 📝 PARTE 3: HISTÓRICO DE MUDANÇAS
-
-### Versão 2.2 (Atual - Janeiro 2026)
-
-**Principais Implementações:**
-
-- ✅ Navegação com 4 ícones (Início, Contatos, Agenda, Relatórios)
-- ✅ Separação de views: Início (gráficos) vs Contatos (lista)
-- ✅ Filtros reorganizados em 2 linhas
-- ✅ Filtros rápidos funcionais
-- ✅ Ficha unificada do cliente (2 tabs)
-- ✅ Agenda com drawer superior
-- ✅ Sistema de ordenação (Nome, Cidade, Bairro, M²)
-
-**Correções Críticas:**
-
-- 🐛 Corrigido erro de sintaxe JS que quebrava botões
-- 🐛 Adicionadas funções [filtroRapido()](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/CRM.html#3677-3701) e [limparFiltrosRapidos()](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/CRM/CRM.html#3730-3740)
-- 🐛 Corrigido sistema de navegação com estados ativos
-
----
-
-## 🎯 MANTRA DO PROJETO
-
-> **"Primeiro, não causar dano. Segundo, sempre perguntar. Terceiro, documentar tudo."**
-
----
-
-**Versão do Documento:** 2.0 (Consolidado)  
-**Data de Atualização:** 2026-01-15  
-**Status:** ATIVO E OBRIGATÓRIO
-
-**Este documento é a fonte única da verdade. Consulte SEMPRE antes de qualquer alteração.**
+**Próximo Update:** Após lançamento (22 Fevereiro 2026)
