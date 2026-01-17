@@ -565,6 +565,21 @@
         color: #f57c00;
       }
 
+      .agenda-drawer {
+        position: fixed;
+        top: 70px;
+        right: 0;
+        width: 450px;
+        height: calc(100vh - 70px);
+        background: white;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 2000;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        padding: 20px;
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -3951,29 +3966,19 @@
 
       function abrirAgendaDrawer(year, month, day) {
           const date = new Date(year, month, day);
-          const dateStr = date.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
+          const dateStr = date.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
           
-          document.querySelector('#sidebarTitle span').textContent = `📅 ${dateStr}`;
-          const content = document.getElementById('sidebarContent');
-          content.innerHTML = '';
+          // Update title
+          document.getElementById('agendaDrawerDate').textContent = `📅 ${dateStr}`;
           
-          const events = getEventsForDate(date);
+          // Populate form dropdowns and set default date
+          if (typeof popularFormularioAgenda === 'function') {
+              popularFormularioAgenda(year, month, day);
+          }
           
-          if(events.length === 0) {
-              content.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
-          } else {
-              events.forEach(ev => {
-                  content.innerHTML += `
-                      <div class="agenda-item-card" onclick="abrirModal('${ev.clienteId}')" style="background:#fff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.05); transition:transform 0.2s;">
-                          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                              <span class="agenda-time" style="font-weight:bold; color:#333;">⏰ ${ev.time}</span>
-                              <span style="font-size:12px; padding:2px 8px; border-radius:10px; background:#f1f5f9; color:#64748b;">${ev.item.status||'Pendente'}</span>
-                          </div>
-                          <span class="agenda-client" style="color:#667eea; font-weight:bold; text-decoration:underline;">${ev.clienteNome}</span>
-                          <span class="agenda-desc" style="display:block; font-size:13px; color:#666; margin-top:5px;">${ev.item.texto || ev.item.descricao || ''}</span>
-                      </div>
-                  `;
-              });
+          // Render appointments for this day
+          if (typeof renderizarAgendamentosDia === 'function') {
+              renderizarAgendamentosDia(year, month, day);
           }
           
           document.getElementById('agendaDrawer').classList.add('active');
@@ -4009,6 +4014,7 @@
           document.getElementById('unifiedStatus').value = clienteAtual.status || 'nao_acompanhando';
           
           renderizarTimelineUnificada();
+          popularAtendentes(); // Populate attendant dropdown
           
           document.getElementById('clientModal').style.display = 'block';
           mudarTab(0); // Default to Ficha
@@ -4051,6 +4057,8 @@
       function salvarNotaUnificada() {
           const txt = document.getElementById('unifiedNoteInput').value;
           const date = document.getElementById('unifiedScheduleDate').value;
+          const attendantSelect = document.getElementById('attendantSelect');
+          const atendente = attendantSelect ? attendantSelect.value : '';
           
           if(!txt && !date) return alert('Escreva uma nota ou selecione uma data.');
           
@@ -4059,27 +4067,44 @@
           }
           
           if(date) {
-              registrarHistorico(clienteAtual.id, 'agendamento', `Agendamento: ${txt || 'Retorno'}`);
-              // Update agendamento specific fields if needed
-              // For simplicity, using unified structure.
-              // Logic to update 'data_status' or create agenda item?
-              // The original 'adicionarAnotacao' pushed logic.
+              const usuario = sessionStorage.getItem('usuarioLogado') || 'Admin';
+              
+              // Salvar no histórico do cliente
               const item = {
-                  data: date, // Schedule uses 'data'
+                  data: date,
                   tipo: 'agendamento',
                   texto: txt || 'Retorno Agendado',
-                  status: 'pendente'
+                  status: 'pendente',
+                  atendente: atendente || usuario
               };
-               if(!clienteAtual.historico) clienteAtual.historico = [];
+              if(!clienteAtual.historico) clienteAtual.historico = [];
               clienteAtual.historico.push(item);
+              
+              // Salvar na agenda global (crmAgendamentos)
+              const agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
+              agendamentos.push({
+                  id: `agd_${Date.now()}`,
+                  tipo: 'visita',
+                  titulo: txt || 'Retorno Agendado',
+                  descricao: txt || '',
+                  clienteId: clienteAtual.id,
+                  clienteNome: clienteAtual.nome,
+                  responsavel: atendente || usuario,
+                  dataHora: date,
+                  criadoPor: usuario,
+                  criadoEm: new Date().toISOString(),
+                  status: 'pendente'
+              });
+              localStorage.setItem('crmAgendamentos', JSON.stringify(agendamentos));
           }
           
           salvarDados();
           renderizarTimelineUnificada();
           document.getElementById('unifiedNoteInput').value = '';
           document.getElementById('unifiedScheduleDate').value = '';
+          popularAtendentes(); // Reset dropdown
           // Refresh Calendar if open?
-          renderizarAgenda();
+          if(typeof renderizarAgenda === 'function') renderizarAgenda();
       }
       
       function registarHistorico(id, tipo, texto) {
@@ -4096,6 +4121,23 @@
       }
       // Fix Typo
       function registrarHistorico(id, tipo, texto) { registarHistorico(id, tipo, texto); }
+      
+      // Popular dropdown de atendentes
+      function popularAtendentes() {
+          const select = document.getElementById('attendantSelect');
+          if (!select) return;
+          
+          const usuarioLogado = sessionStorage.getItem('usuarioLogado') || 'Admin';
+          const vendedores = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
+          
+          select.innerHTML = '<option value="">Selecione o atendente...</option>';
+          
+          vendedores.forEach(v => {
+              const nome = v.user || v;
+              const selected = nome === usuarioLogado ? 'selected' : '';
+              select.innerHTML += `<option value="${nome}" ${selected}>${nome}</option>`;
+          });
+      }
       
       function setStatusRapido(status, label) {
            document.getElementById('unifiedStatus').value = status;
@@ -5001,6 +5043,168 @@
       
       // ========== WHATSAPP TEMPLATES (INTEGRADO COM SETTINGS) ==========
       
+      
+      // ========== FUNÇÕES DE AGENDAMENTO ==========
+      
+      function salvarAgendamento() {
+          const tipo = document.getElementById('agendaTipo').value;
+          const titulo = document.getElementById('agendaTitulo').value.trim();
+          const clienteId = document.getElementById('agendaCliente').value;
+          const responsavel = document.getElementById('agendaResponsavel').value;
+          const dataHora = document.getElementById('agendaDataHora').value;
+          const descricao = document.getElementById('agendaDescricao').value.trim();
+          
+          if (!titulo) { alert('Digite um título para o agendamento'); return; }
+          if (!responsavel) { alert('Selecione o responsável'); return; }
+          if (!dataHora) { alert('Selecione data e hora'); return; }
+          
+          const usuario = sessionStorage.getItem('usuarioLogado') || 'Admin';
+          const agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
+          
+          let clienteNome = '';
+          if (clienteId) {
+              const cliente = clientes.find(c => c.id === clienteId);
+              clienteNome = cliente ? cliente.nome : '';
+          }
+          
+          const novoAgendamento = {
+              id: `agd_${Date.now()}`,
+              tipo: tipo,
+              titulo: titulo,
+              descricao: descricao,
+              clienteId: clienteId || null,
+              clienteNome: clienteNome,
+              responsavel: responsavel,
+              dataHora: dataHora,
+              criadoPor: usuario,
+              criadoEm: new Date().toISOString(),
+              status: 'pendente'
+          };
+          
+          agendamentos.push(novoAgendamento);
+          localStorage.setItem('crmAgendamentos', JSON.stringify(agendamentos));
+          
+          if (clienteId) {
+              const cliente = clientes.find(c => c.id === clienteId);
+              if (cliente) {
+                  if (!cliente.historico) cliente.historico = [];
+                  cliente.historico.push({
+                      id: novoAgendamento.id,
+                      tipo: 'agendamento',
+                      data: dataHora,
+                      texto: titulo,
+                      descricao: descricao,
+                      autor: usuario,
+                      status: 'pendente',
+                      atendente: responsavel
+                  });
+                  salvarDados();
+              }
+          }
+          
+          alert('✅ Agendamento criado com sucesso!');
+          document.getElementById('agendaTitulo').value = '';
+          document.getElementById('agendaCliente').value = '';
+          document.getElementById('agendaDescricao').value = '';
+          
+          const dateObj = new Date(dataHora);
+          if(typeof renderizarAgenda === 'function') renderizarAgenda();
+          renderizarAgendamentosDia(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+          popularFormularioAgenda(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      }
+      
+      function renderizarAgendamentosDia(ano, mes, dia) {
+          const container = document.getElementById('listaAgendamentosDia');
+          if (!container) return;
+          
+          const agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
+          const agendamentosDoDia = agendamentos.filter(agd => {
+              const agdDate = new Date(agd.dataHora);
+              return agdDate.getFullYear() === ano && agdDate.getMonth() === mes && agdDate.getDate() === dia;
+          });
+          
+          if (agendamentosDoDia.length === 0) {
+              container.innerHTML = '<p style="color:#999; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
+              return;
+          }
+          
+          agendamentosDoDia.sort((a, b) => new Date(a.dataHora) - new Date(b.dataHora));
+          container.innerHTML = '<h4 style="margin:15px 0 10px 0; color:#334155;">📋 Agendamentos do Dia</h4>';
+          
+          agendamentosDoDia.forEach(agd => {
+              const hora = new Date(agd.dataHora).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+              const tipoIcon = {'reuniao': '📅', 'ligacao': '📞', 'visita': '🏠', 'outro': '📝'}[agd.tipo] || '📝';
+              const statusColor = agd.status === 'concluido' ? '#10b981' : '#f59e0b';
+              
+              const clienteInfo = agd.clienteNome ? `<div style="font-size:13px; color:#667eea; margin-bottom:5px;">👤 Cliente: ${agd.clienteNome}</div>` : '';
+              const descInfo = agd.descricao ? `<div style="font-size:13px; color:#475569;">${agd.descricao}</div>` : '';
+              
+              container.innerHTML += `
+                  <div style="background:white; border:1px solid #e2e8f0; padding:12px; border-radius:8px; margin-bottom:10px; border-left:4px solid ${statusColor};">
+                      <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
+                          <div>
+                              <div style="font-weight:600; color:#334155; margin-bottom:4px;">${tipoIcon} ${agd.titulo}</div>
+                              <div style="font-size:12px; color:#64748b;">⏰ ${hora} • 👤 ${agd.responsavel}</div>
+                          </div>
+                          <button onclick="excluirAgendamento('${agd.id}')" class="btn" style="background:#ef4444; color:white; padding:4px 8px; font-size:11px;">🗑️</button>
+                      </div>
+                      ${clienteInfo}
+                      ${descInfo}
+                  </div>
+              `;
+          });
+      }
+      
+      function excluirAgendamento(id) {
+          if (!confirm('Deseja excluir este agendamento?')) return;
+          
+          let agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
+          const agendamento = agendamentos.find(a => a.id === id);
+          
+          agendamentos = agendamentos.filter(a => a.id !== id);
+          localStorage.setItem('crmAgendamentos', JSON.stringify(agendamentos));
+          
+          if (agendamento && agendamento.clienteId) {
+              const cliente = clientes.find(c => c.id === agendamento.clienteId);
+              if (cliente && cliente.historico) {
+                  cliente.historico = cliente.historico.filter(h => h.id !== id);
+                  salvarDados();
+              }
+          }
+          
+          const agdDate = new Date(agendamento.dataHora);
+          if(typeof renderizarAgenda === 'function') renderizarAgenda();
+          renderizarAgendamentosDia(agdDate.getFullYear(), agdDate.getMonth(), agdDate.getDate());
+      }
+      
+      function popularFormularioAgenda(ano, mes, dia) {
+          const targetDate = new Date(ano, mes, dia, 9, 0);
+          const dateTimeString = targetDate.toISOString().slice(0, 16);
+          const dataInput = document.getElementById('agendaDataHora');
+          if(dataInput) dataInput.value = dateTimeString;
+          
+          const clienteSelect = document.getElementById('agendaCliente');
+          if (clienteSelect) {
+              clienteSelect.innerHTML = '<option value="">-- Sem vínculo --</option>';
+              clientes.forEach(c => {
+                  clienteSelect.innerHTML += `<option value="${c.id}">${c.nome}</option>`;
+              });
+          }
+          
+          const responsavelSelect = document.getElementById('agendaResponsavel');
+          if (responsavelSelect) {
+              const vendedores = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
+              const usuarioLogado = sessionStorage.getItem('usuarioLogado') || 'Admin';
+              
+              responsavelSelect.innerHTML = '<option value="">Selecione...</option>';
+              vendedores.forEach(v => {
+                  const nome = v.user || v;
+                  const selected = nome === usuarioLogado ? 'selected' : '';
+                  responsavelSelect.innerHTML += `<option value="${nome}" ${selected}>${nome}</option>`;
+              });
+          }
+      }
+      
       function renderizarTemplatesSettings() {
         const lista = document.getElementById('listaTemplatesSettings');
         if (!lista) return;
@@ -5041,11 +5245,49 @@
     <!-- AGENDA SIDEBAR (DRAWER) -->
     <div id="agendaBackdrop" class="overlay-backdrop" onclick="fecharAgendaDrawer()"></div>
     <div id="agendaDrawer" class="agenda-drawer">
-        <h3 id="sidebarTitle">
-            <span>📅 Detalhes</span> 
+        <h3 id="sidebarTitle" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <span id="agendaDrawerDate">📅 Detalhes</span> 
             <button onclick="fecharAgendaDrawer()" style="border:none;background:none;font-size:24px;cursor:pointer;color:#999;">&times;</button>
         </h3>
-        <div id="sidebarContent" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:15px;"></div>
+        
+        <!-- FORMULÁRIO DE NOVO AGENDAMENTO -->
+        <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:20px;">
+            <h4 style="margin:0 0 15px 0; color:#334155;">➕ Novo Agendamento</h4>
+            
+            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Tipo:</label>
+            <select id="agendaTipo" class="form-input" style="margin-bottom:12px;">
+                <option value="reuniao">📅 Reunião</option>
+                <option value="ligacao">📞 Ligação</option>
+                <option value="visita">🏠 Visita</option>
+                <option value="outro">📝 Outro</option>
+            </select>
+            
+            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Título: *</label>
+            <input type="text" id="agendaTitulo" class="form-input" placeholder="Ex: Reunião com cliente" style="margin-bottom:12px;">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Vincular a Cliente (opcional):</label>
+            <select id="agendaCliente" class="form-input" style="margin-bottom:12px;">
+                <option value="">-- Sem vínculo --</option>
+            </select>
+            
+            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">👤 Responsável: *</label>
+            <select id="agendaResponsavel" class="form-input" style="margin-bottom:12px;">
+                <option value="">Selecione...</option>
+            </select>
+            
+            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Data e Hora: *</label>
+            <input type="datetime-local" id="agendaDataHora" class="form-input" style="margin-bottom:12px;">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Descrição:</label>
+            <textarea id="agendaDescricao" class="form-textarea" rows="3" placeholder="Detalhes do agendamento..." style="margin-bottom:12px; resize:vertical;"></textarea>
+            
+            <button onclick="salvarAgendamento()" class="btn btn-primary" style="width:100%; padding:10px;">💾 Salvar Agendamento</button>
+        </div>
+        
+        <!-- LISTA DE AGENDAMENTOS DO DIA -->
+        <div id="listaAgendamentosDia">
+            <p style="color:#999; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>
+        </div>
     </div>
   </body>
 </html>
