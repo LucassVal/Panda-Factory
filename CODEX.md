@@ -354,6 +354,138 @@ User B vê mudança
 
 **Conflito:** Last-write-wins por timestamp
 
+### Watchdog (Monitoramento Sync)
+
+```javascript
+// Problema: Trigger pode parar silenciosamente (iFood, etc)
+// Solução: Frontend monitora última sincronização
+
+setInterval(() => {
+  const ultimaSync = localStorage.getItem("ultima_sync");
+  const agora = Date.now();
+
+  if (agora - ultimaSync > 15 * 60 * 1000) {
+    // 15 minutos
+    mostrarAlerta({
+      titulo: "⚠️ Sincronia Parada",
+      mensagem: "Sistema não sincroniza há 15 minutos",
+      acoes: [
+        { label: "Reiniciar Sync", acao: () => forcarSincronizacao() },
+        { label: "Verificar Apps Script", acao: () => abrirLogs() },
+      ],
+    });
+  }
+}, 60000); // Verifica a cada 1 minuto
+```
+
+### Keep-Alive (Evitar Cold Start)
+
+```javascript
+// Problema: Primeira requisição do dia leva 10s (Apps Script dormindo)
+// Solução: Ping a cada 2 minutos mantém script ativo
+
+setInterval(
+  async () => {
+    // Ping silencioso (não bloqueia UI)
+    await fetch(APPS_SCRIPT_URL + "?action=ping", {
+      method: "GET",
+      cache: "no-cache",
+    }).catch(() => {}); // Ignora erro (não crítico)
+  },
+  2 * 60 * 1000,
+); // A cada 2 minutos
+
+// Apps Script Handler
+function doGet(e) {
+  if (e.parameter.action === "ping") {
+    return ContentService.createTextOutput("pong");
+  }
+  // ... resto das ações
+}
+```
+
+### Soft Delete (Auditoria)
+
+```javascript
+// NUNCA deletar dados reais
+// Sempre marcar como inativo
+
+// ❌ ERRADO
+async function deletarCliente(id) {
+  await db.delete("clientes", id); // DADOS PERDIDOS!
+}
+
+// ✅ CORRETO
+async function deletarCliente(id) {
+  await db.update("clientes", id, {
+    _ativo: false,
+    _deletado_em: Date.now(),
+    _deletado_por: userId,
+  });
+
+  // Log auditoria
+  await db.insert("SYS_LOGS", {
+    acao: "SOFT_DELETE",
+    tabela: "clientes",
+    registro_id: id,
+    usuario: userId,
+    timestamp: Date.now(),
+  });
+}
+
+// Queries filtram automaticamente
+async function getClientes() {
+  return db.getAll("clientes").filter((c) => c._ativo !== false);
+}
+```
+
+### SYS_RULES (Regras Fiscais)
+
+```javascript
+// Guia oculta para regras de imposto por estado
+// Preparado para v2.5 (NFe)
+
+const SYS_RULES = {
+  schema: {
+    id: String,
+    estado: String, // 'SP', 'RJ', etc
+    tipo_regra: String, // 'ICMS', 'PIS', 'COFINS'
+    aliquota: Number,
+    vigencia_inicio: Date,
+    vigencia_fim: Date,
+    ativo: Boolean,
+  },
+
+  // Exemplo SP
+  dados_exemplo: [
+    {
+      id: "sp_icms_alimentos",
+      estado: "SP",
+      tipo_regra: "ICMS",
+      aliquota: 12,
+      vigencia_inicio: "2024-01-01",
+      vigencia_fim: null, // Vigente
+      ativo: true,
+    },
+  ],
+};
+
+// IA busca automaticamente ao processar NFe
+async function calcularImpostos(produto, clienteEstado) {
+  const regras = await db
+    .getAll("SYS_RULES")
+    .filter(
+      (r) =>
+        r.estado === clienteEstado &&
+        r.ativo === true &&
+        new Date() >= new Date(r.vigencia_inicio) &&
+        (!r.vigencia_fim || new Date() <= new Date(r.vigencia_fim)),
+    );
+
+  return calcularComRegras(produto, regras);
+}
+```
+
 ---
 
 # III. FUNCIONALIDADES
