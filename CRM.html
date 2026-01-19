@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CRM v2.2 - Sistema Completo de Gestão</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/core/Repository.js"></script>
+    <!-- CORE: Repository Pattern (IndexedDB) -->
+    <script src="js/core/Repository.js"></script>
     <style>
       * {
         margin: 0;
@@ -2530,11 +2533,10 @@
         });
       }
 
-      function salvarStatus() {
+      async function salvarStatus() {
         const statusSelecionado = document.querySelector(".status-option.selected");
         const motivo = document.getElementById("statusMotivo").value.trim();
         const valor = parseFloat(document.getElementById("statusValor").value) || 0;
-
         const alertDiv = document.getElementById("statusAlert");
 
         if (!statusSelecionado) {
@@ -2543,22 +2545,42 @@
         }
 
         if (!motivo && statusSelecionado.dataset.status !== "nao_acompanhando") {
-          alertDiv.innerHTML = '<div class="alert alert-warning">⚠️ O campo Motivo é obrigatório. Explique por que o cliente está neste status.</div>';
+          alertDiv.innerHTML = '<div class="alert alert-warning">⚠️ O campo Motivo é obrigatório para este status.</div>';
           return;
         }
 
+        // Atualizar Objeto Local
         clienteAtual.status = statusSelecionado.dataset.status;
         clienteAtual.motivo = motivo;
         clienteAtual.valor_estimado = valor;
         clienteAtual.data_status = new Date().toISOString();
+        
+        // Log Histórico Automático
+        clienteAtual.historico.push({
+            id: Date.now(),
+            tipo: "sistema",
+            data: new Date().toISOString(),
+            texto: `Status alterado para: ${statusSelecionado.innerText}`,
+            autor: "Sistema"
+        });
 
-        salvarDados();
-        alertDiv.innerHTML = '<div class="alert alert-success">✅ Status salvo com sucesso!</div>';
-
-        setTimeout(() => {
-          atualizarEstatisticas();
-          renderizarClientes();
-        }, 500);
+        // 💾 SALVAR NO REPOSITORY (IndexedDB)
+        try {
+            await window.Repo.save('clientes', clienteAtual);
+            
+            // UI Feedback
+            alertDiv.innerHTML = '<div class="alert alert-success">✅ Status atualizado com sucesso (IndexedDB)!</div>';
+            
+            setTimeout(() => {
+              atualizarEstatisticas();
+              renderizarClientes();
+              // Não fecha modal automaticamente para permitir mais edições, apenas atualiza visual
+            }, 500);
+            
+        } catch(e) {
+            console.error("Erro status update:", e);
+            alertDiv.innerHTML = '<div class="alert alert-error">❌ Erro ao salvar status. Tente novamente.</div>';
+        }
       }
 
       // ========== SISTEMA DE HISTÓRICO UNIFICADO (Anotações + Agenda) ==========
