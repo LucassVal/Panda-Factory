@@ -1,508 +1,358 @@
-# 🚀 TitanGestão PRO
+# 🚀 TitanGestão PRO - Sistema Completo de Gestão
 
-> **Sistema PWA de Gestão Empresarial Completo**  
-> CRM + PDV + Estoque + Financeiro | Offline + Online | Multi-Usuário Real
-
-**R$ 149,90 pagamento único** • Até 10 usuários incluídos • Sem mensalidade
+**Versão:** 3.0 Híbrida  
+**Status:** Documentação Consolidada + Nova Arquitetura em Análise  
+**Lançamento:** Faseado (v1.0 Março 2026, v2.0 Julho 2026)
 
 [![GitHub](https://img.shields.io/badge/GitHub-LucassVal%2FSAAS-blue)](https://github.com/LucassVal/SAAS)
-[![Lançamento](https://img.shields.io/badge/Lan%C3%A7amento-8%20Mar%C3%A7o%202026-green)]()
-[![Versão](https://img.shields.io/badge/Vers%C3%A3o-3.0%20PWA-orange)]()
+[![Versão](https://img.shields.io/badge/Vers%C3%A3o-3.0-orange)]()
 
 ---
 
-## 📖 Índice Rápido
+## 📑 ÍNDICE RÁPIDO
 
-- [O Que É](#-o-que-é)
-- [Diferenciais](#-diferenciais-competitivos)
-- [Funcionalidades](#-funcionalidades)
-- [Arquitetura](#️-arquitetura-técnica)
-- [Pricing](#-modelo-de-negócio)
-- [Roadmap](#-roadmap)
-- [Documentação Completa](#-documentação-completa)
+### Documentação Essencial
+
+- [Visão Geral](#-visão-geral) - O que é o produto
+- [Arquitetura](#-arquitetura) - Como funciona tecnicamente
+- [Modelo de Negócio](#-modelo-de-negócio) - Pricing e estratégia
+- [Roadmap](#-roadmap) - Plano de implementação
+- [Comparação Arquiteturas](#-comparação-arquiteturas-nova) - v1.0 vs v2.0
+- [Documentos Detalhados](#-documentação-completa) - Todos os arquivos
 
 ---
 
-## 🎯 O Que É
+## 🎯 VISÃO GERAL
 
-**TitanGestão PRO** é um sistema de gestão empresarial que revoluciona o mercado de PMEs ao combinar:
+### O Que É
 
-✅ **Pagamento único** (vs mensalidade eterna)  
-✅ **Funciona offline** (após primeiro login)  
-✅ **Dados na nuvem DO CLIENTE** (Google Drive dele, não nosso)  
-✅ **Multi-usuário real** (até 10 pessoas simultâneas)  
-✅ **Multi-dispositivo** (PC, tablet, mobile - sincroniza sozinho)
+**TitanGestão PRO:** Sistema PWA híbrido de gestão empresarial (CRM + PDV + Estoque + Financeiro) que funciona offline e online, com dados na nuvem do cliente.
+
+**Diferenciais:**
+
+- ✅ Funciona offline após primeiro login
+- ✅ Dados no Google Drive DO CLIENTE (privacidade total)
+- ✅ Pagamento único R$ 149,90 base
+- ✅ Multi-dispositivo sincronizado
+- ✅ PWA instalável como app
+- ✅ Até 10 usuários incluídos
 
 ### Para Quem Serve
 
-| Público                    | Uso Principal      | Benefício                         |
-| -------------------------- | ------------------ | --------------------------------- |
-| **Lojistas**               | PDV + Estoque      | Controle de vendas e produtos     |
-| **Prestadores de Serviço** | CRM + Agenda       | Gestão de clientes e agendamentos |
-| **Barbearias/Salões**      | CRM + Agenda + PDV | Tudo integrado                    |
-| **Consultores**            | CRM + Orçamentos   | Funil de vendas profissional      |
-| **Pequenas Empresas**      | CRM + Financeiro   | Organização completa              |
+| Público                 | Uso Principal         | Benefício                     |
+| ----------------------- | --------------------- | ----------------------------- |
+| **Lojistas**            | PDV + Estoque         | Controle vendas e produtos    |
+| **E-commerce/Delivery** | PDV + Etiquetas Envio | Gestão pedidos + rastreamento |
+| **Prestadores Serviço** | CRM + Agenda          | Gestão clientes/agendamentos  |
+| **Barbearias/Salões**   | CRM + Agenda + PDV    | Tudo integrado                |
+| **Consultores**         | CRM + Orçamentos      | Funil de vendas profissional  |
+| **Pequenas Empresas**   | CRM + Financeiro      | Organização completa          |
 
-**Mercado:** 9,3 milhões de PMEs no Brasil + 26M LATAM sem sistema adequado  
-**Preço concorrente:** R$ 720-1.800/ano (mensalidades)  
+> **E-commerce v1.0:** Geração manual de etiquetas (Correios, Jadlog, Loggi). Integrações API (Mercado Livre, Shopee) em v2.5+
+
+**Mercado:** 9,3M PMEs Brasil + 26M LATAM sem sistema adequado  
+**Preço concorrente:** R$ 720-1.800/ano  
 **TitanGestão:** R$ 149,90 para sempre
 
----
-
-## 💎 Diferenciais Competitivos
-
-### vs SaaS Tradicionais (RD Station, Pipedrive, Bling)
-
-| Característica        | Concorrentes     | TitanGestão PRO     |
-| --------------------- | ---------------- | ------------------- |
-| **Preço 3 anos**      | R$ 2.160 - 5.400 | **R$ 149,90**       |
-| **Funciona offline**  | ❌               | ✅ Sim (PWA)        |
-| **Dados**             | Servidor deles   | ✅ Google Drive seu |
-| **Multi-usuário**     | Extra $$$        | ✅ Até 10 incluídos |
-| **Multi-dispositivo** | ✅               | ✅                  |
-| **White label**       | ❌               | ✅ Logo e cores     |
-
-### vs Excel/Planilhas
-
-| Característica    | Excel        | TitanGestão PRO            |
-| ----------------- | ------------ | -------------------------- |
-| **Preço**         | Grátis       | R$ 149,90                  |
-| **Profissional**  | ❌ Bagunça   | ✅ Organizado              |
-| **Multi-usuário** | ❌ Conflitos | ✅ Merge automático        |
-| **Gráficos**      | ⚠️ Manual    | ✅ 12 gráficos automáticos |
-| **Mobile**        | ⚠️ Difícil   | ✅ PWA instalável          |
-
-**USP (Proposta Única):** "O único sistema profissional que funciona offline E online, com dados na SUA nuvem, sem mensalidade"
+📄 **Detalhes:** [GUIA_PROJETO.md](GUIA_PROJETO.md)
 
 ---
 
-## ⚙️ Funcionalidades
-
-### 1. CRM Completo
-
-- 📇 **Gestão de Clientes:** CRUD completo com histórico unificado
-- 🏷️ **Tags de Captação:** Rastreie de onde cada cliente veio (configurável)
-- 📊 **Funil Visual:** Kanban arraste-e-solte com 5 estágios
-- 📤 **Importação Excel:** Migre dados em massa (CSV/XLSX)
-- 📋 **Orçamentos PDF:** Gere PDFs profissionais com logo
-- 🔍 **Filtros Avançados:** Por status, cidade, bairro, m², fonte
-- 📱 **WhatsApp Manual:** Botão direto para cada cliente
-
-### 2. PDV (Ponto de Venda)
-
-- 🛒 **Vendas Rápidas:** Interface simples (canhoto ou digital WhatsApp)
-- 💰 **Formas Pagamento:** Dinheiro, PIX (chave manual cadastrada), Cartão (registro manual)
-- 🧾 **Recibos PDF:** Gerar e enviar por WhatsApp
-- 📦 **Baixa Estoque:** Integração automática
-- 💵 **Controle Caixa:** Abertura, fechamento, sangria
-- ⚠️ **Impressora Térmica:** Suporte em desenvolvimento (v1.1)
-
-> **Nota:** Gateways de pagamento (PagSeguro, Mercado Pago) requerem CNPJ e vêm em v2.5
-
-### 3. Estoque
-
-- 📦 **Cadastro de Produtos:** Código, descrição, preço, foto
-- ➕➖ **Movimentações:** Entrada, saída, transferência
-- ⚠️ **Alertas:** Notifica estoque mínimo
-- 📊 **Relatórios:** Curva ABC, giro, produtos parados
-
-> **⚠️ Multi-Local:** Suportado, mas aumenta complexidade (fonte captação por local, estoque separado, etc). Avaliar necessidade antes de ativar.
-
-### 4. Financeiro
-
-- 💳 **Contas a Pagar:** Fornecedores, vencimento, baixa
-- 💰 **Contas a Receber:** Clientes, parcelas, cobrança
-- 📈 **DRE Simplificado:** Receitas, despesas, lucro
-- 📅 **Fluxo de Caixa:** Projeção 30-60-90 dias
-- 🏦 **Conciliação:** Conferir caixa vs sistema
-
-### 5. Agenda + WhatsApp
-
-- 📅 **Calendário Mensal:** Visualização clara dos agendamentos
-- ⏰ **Tipos:** Reunião, ligação, visita, outros (personalizável)
-- 👤 **Vínculo Cliente:** Agenda ligada ao histórico do CRM
-- 📱 **WhatsApp Manual:** Botão abre WhatsApp Web (scripts opcionais pra automação)
-
-> **Nota:** Cliente pode configurar scripts próprios para automação. IA WhatsApp 24/7 vem em v2.0.
-
-### 6. Multi-Usuário + Permissões
-
-- 👥 **Até 10 Usuários:** Incluídos no plano base
-- 🔐 **Níveis Customizáveis:** Admin, Gerente, Vendedor, Financeiro, Estoquista (ou criar próprios)
-- 📋 **Permissões Granulares:** Controle quem vê/edita o quê
-- 🔄 **Sync Tempo Real:** Google Drive + Apps Script (merge a cada 3s)
-- 📝 **Auditoria:** Log completo de alterações
-
-### 7. Relatórios + Dashboard
-
-- 📊 **12 Gráficos Profissionais:** Chart.js responsivo
-- 🎯 **Filtros Dinâmicos:** Por período, vendedor, produto
-- 📈 **Métricas KPI:** Taxa conversão, ticket médio, NPS
-- 📥 **Exportação:** PDF, Excel, JSON
-- 🖨️ **Impressão:** Layouts otimizados
-
-### 8. White Label
-
-- 🎨 **Logo Customizável:** Upload imagem (Base64)
-- 🌈 **Cores Personalizadas:** Paleta completa (CSS Variables)
-- 🔤 **Fontes:** Google Fonts integradas
-- 📱 **PWA Branded:** Ícone e nome customizado
-- 🏷️ **Marca Própria:** Remova "TitanGestão" (opcional)
-
-**Detalhes:** [FEATURES.md](FEATURES.md) | [GUIA_PROJETO.md](GUIA_PROJETO.md)
-
----
-
-## 🏗️ Arquitetura Técnica
+## 🏗️ ARQUITETURA
 
 ### Stack Tecnológico
 
 ```
-Frontend (Cliente):
-├─ HTML5 + CSS3 + JavaScript (Vanilla ES6+)
-├─ PWA (Service Worker + Manifest.json)
-├─ IndexedDB (banco local offline)
-└─ Chart.js, CryptoJS (libs locais)
+Frontend:
+├─ HTML5 + CSS3 + JavaScript ES6+
+├─ PWA (Service Worker + Manifest)
+├─ IndexedDB (offline storage)
+└─ Chart.js (gráficos)
 
-Backend (tocadobarbaro.com):
-├─ Google Apps Script (merge agent)
-├─ Node.js + Express (API autenticação)
-├─ MongoDB Atlas (usuários + licenças)
-└─ Google Drive API (sync)
+Backend/Sync:
+├─ Google Apps Script (merge engine)
+├─ Node.js + Express (auth)
+├─ MongoDB Atlas (usuários/licenças)
+└─ Google Drive API
 
-Sincronização:
-└─ Google Drive do cliente (dados dele)
-    ↕️
-    Apps Script nosso (merge a cada 3s)
-    ↕️
-    IndexedDB local (cache offline)
+APIs:
+├─ Google Maps API (autocomplete endereço)
+├─ Google OAuth 2.0
+└─ Gemini API (IA v2.0)
 ```
 
-### Como Funciona (Fluxo Completo)
+### Como Funciona
 
-1. **Compra (Kiwify):**
-   - Cliente paga R$ 149,90
-   - Recebe código de ativação único
+**Fluxo Completo:**
 
-2. **Primeiro Acesso (Online):**
-   - Acessa tocadobarbaro.com
-   - Insere código de ativação
-   - Cria senha
-   - Conecta Google Drive (OAuth - 1 clique)
-   - PWA cacheia tudo localmente
+1. **Compra:** Kiwify/Hotmart → Recebe código ativação
+2. **Setup:** Ativa em tocadobarbaro.com + conecta Google Drive
+3. **Offline:** PWA cacheia tudo (IndexedDB + Service Worker)
+4. **Sync:** Mudanças locais → Drive → Apps Script merge → Multi-user
 
-3. **Uso Offline:**
-   - App funciona 100% sem internet
-   - Dados salvam em IndexedDB
-   - Interface completa disponível
+**Multi-Usuário:**
 
-4. **Sincronização (Quando Online):**
+- Apps Script processa `mudancas.json` a cada 3s
+- Merge inteligente campo por campo
+- Last-write-wins por timestamp
+- Suporta 10 usuários simultâneos
 
-   ```
-   João edita Cliente A (PC offline)
-       ↓
-   Salva localmente (IndexedDB)
-       ↓
-   Volta online → Mudanças vão pra fila (Drive)
-       ↓
-   Apps Script detecta mudanças
-       ↓
-   Merge com master.json
-       ↓
-   Maria vê atualização (3s delay)
-   ```
-
-5. **Multi-Dispositivo:**
-   - João abre no PC → Sincroniza
-   - João abre no tablet → Mesmos dados
-   - João abre no celular → Mesmos dados
-
-6. **Multi-Usuário:**
-   - João e Maria editam simultaneamente
-   - Apps Script faz merge inteligente (campo por campo)
-   - Conflitos raros (last-write-wins por timestamp)
-
-### Decisões Arquiteturais
-
-**Por quê PWA e não App Nativo?**
-
-- ✅ Funciona em qualquer plataforma (Windows, Mac, Linux, Android, iOS)
-- ✅ Zero instalação (só abrir o site)
-- ✅ Updates automáticos (sem App Store)
-- ✅ Mais barato desenvolver (1 código serve tudo)
-
-**Por quê Google Drive e não Database nosso?**
-
-- ✅ Privacidade (dados do cliente, não nossos)
-- ✅ Backup automático (Google cuida)
-- ✅ Zero custo storage (cliente que paga - grátis pra ele)
-- ✅ Compliance LGPD (somos fornecedor, não controlador)
-
-**Por quê Apps Script e não Node.js?**
-
-- ✅ Custo: R$ 1-10/mês (vs R$ 50-200/mês Node.js)
-- ✅ Escalável: Serve 10.000+ clientes
-- ✅ Confiável: Infraestrutura Google
-- ✅ Simples: Menos código pra manter
-
-**Detalhes:** [ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)
+📄 **Detalhes:** [ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)
 
 ---
 
-## 💰 Modelo de Negócio
+## 💰 MODELO DE NEGÓCIO
 
-### Pricing Híbrido (Único + MRR)
+### Pricing Híbrido
 
-```
-╔══════════════════════════════════════════╗
-║  BASE (Pagamento Único)                  ║
-║  R$ 149,90                               ║
-║  • CRM + PDV + Estoque + Financeiro     ║
-║  • Até 10 usuários INCLUÍDOS            ║
-║  • Google Drive sync                     ║
-║  • White label completo                  ║
-║  • Sem mensalidade                       ║
-╚══════════════════════════════════════════╝
+**Base (Pagamento Único):**
 
-┌──────────────────────────────────────────┐
-│  UPGRADES (Mensalidades Opcionais)       │
-├──────────────────────────────────────────┤
-│  11-20 usuários: +R$ 59,90/mês          │
-│  21-50 usuários: +R$ 99,90/mês          │
-│  51+ usuários: +R$ 149,90/mês           │
-│                                          │
-│  Agente IA WhatsApp: +R$ 47/mês (v2.0)  │
-│  Templates Premium: +R$ 27 (único)       │
-└──────────────────────────────────────────┘
-```
+- R$ 149,90 vitalício
+- CRM + PDV + Estoque + Financeiro + Agenda
+- Até 10 usuários incluídos
+- Google Maps autocomplete incluído
+- White label completo
+- PWA offline + multi-dispositivo
 
-### LTV (Lifetime Value) por Cliente
+**MRR Opcional:**
 
-**Cliente Pequeno (≤10 usuários):**
+- Usuários 11-20: +R$ 59,90/mês
+- Usuários 21-50: +R$ 99,90/mês
+- Usuários 51+: +R$ 149,90/mês
+- IA WhatsApp 24/7: +R$ 47/mês (v2.0)
 
-- LTV: R$ 149,90 (único)
+### Canais de Venda (Multi-Canal 12 meses)
 
-**Cliente Médio (15 usuários):**
+| Canal            | Comissão | Lucro/Venda | Meta Ano 1 | % Mix |
+| ---------------- | -------- | ----------- | ---------- | ----- |
+| **Kiwify**       | 65%      | R$ 52       | 600 vendas | 40%   |
+| **Hotmart**      | 70%      | R$ 45       | 450 vendas | 30%   |
+| **Site Próprio** | 50-55%   | R$ 75       | 450 vendas | 30%   |
 
-- Base: R$ 149,90
-- Mensalidade: R$ 59,90 × 12 meses = R$ 718,80
-- **LTV Ano 1: R$ 868,70**
+**Total Ano 1:** 1.500 vendas Brasil + 550 LATAM = **R$ 110.175 lucro**
 
-**Cliente Grande (30 usuários + IA):**
+### Expansão LATAM (v1.0)
 
-- Base: R$ 149,90
-- Usuários: R$ 99,90 × 12 = R$ 1.198,80
-- IA: R$ 47 × 12 = R$ 564
-- **LTV Ano 1: R$ 1.912,70**
+**Mercados:** México, Argentina, Colômbia, Chile  
+**Preço:** $39 USD (~R$ 195)  
+**Adaptações:** i18n (ES), moeda auto-detect, telefone internacional
 
-### Projeção Receita (Conservadora)
-
-**Ano 1:**
-
-- 1.800 vendas base × R$ 149,90 = R$ 269.820
-- Comissão afiliados (60%) = -R$ 161.892
-- MRR médio: R$ 3.588/mês × 12 = R$ 43.056
-- **Lucro: R$ 150.984**
-
-**Ano 2:**
-
-- 5.000 vendas base × R$ 149,90 = R$ 749.500
-- Comissão: -R$ 449.700
-- MRR: R$ 10.000/mês × 12 = R$ 120.000
-- **Lucro: R$ 419.800**
-
-### Canais de Venda
-
-| Canal             | Comissão        | Lucro/Venda | Volume Esperado  |
-| ----------------- | --------------- | ----------- | ---------------- |
-| Kiwify            | 60% + 5% = 65%  | R$ 52       | Alto (afiliados) |
-| Hotmart           | 60% + 10% = 70% | R$ 45       | Médio            |
-| tocadobarbaro.com | 0%              | R$ 149,90   | Baixo (SEO)      |
-
-**Detalhes:** [ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)
+📄 **Detalhes:** [ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)
 
 ---
 
-## 🗺️ Roadmap
+## 📋 FUNCIONALIDADES
 
-### Sprint 1-2: CRM Core (15-28 Jan 2026)
+### Módulos Core (v1.0)
 
-- Tags de captação configuráveis
+**1. CRM**
+
+- CRUD clientes + histórico unificado
+- Tags captação customizáveis
+- Telefone internacional (país + formato auto)
+- Google Maps autocomplete (endereço padronizado)
+- Campos customizáveis dinâmicos
+- Funil Kanban arrastar-soltar
 - Importação Excel (CSV/XLSX)
-- White label (logo, cores)
-- Orçamentos PDF
-- Multi-usuário + permissões
+- Orçamentos PDF com logo
+- Filtros avançados
+- WhatsApp manual (botão direto)
 
-### Sprint 3: PDV + Financeiro (29 Jan - 4 Fev)
+**2. PDV**
 
-- Vendas rápidas
-- Múltiplas formas pagamento
-- Recibos PDF
-- Controle caixa
+- Interface simples (canhoto/digital WhatsApp)
+- Formas: Dinheiro, PIX manual, Cartão registro
+- Recibos PDF (enviar WhatsApp)
+- Baixa estoque automática
+- Controle caixa (abertura, fechamento, sangria)
+- **Etiquetas Envio** (Correios, Jadlog, Loggi) ← **NOVO**
+
+**3. Estoque**
+
+- CRUD produtos (código, descrição, preço, foto)
+- Moviment
+
+ações (entrada, saída, transferência)
+
+- Alertas estoque mínimo
+- Relatórios (Curva ABC, giro, parados)
+- ⚠️ Multi-local: Aumenta complexidade, avaliar necessidade
+
+**4. Financeiro**
+
 - Contas a pagar/receber
+- Categorias despesas/receitas
+- DRE simplificado
+- Fluxo de caixa (30-60-90 dias)
+- Conciliação caixa
 
-### Sprint 4: Estoque (5-11 Fev)
+**5. Agenda + WhatsApp**
 
-- CRUD produtos
-- Movimentações
-- Alertas mínimo
-- Integração PDV
+- Calendário mensal visual
+- Tipos personalizáveis (reunião, ligação, visita)
+- Vínculo cliente (histórico CRM)
+- WhatsApp manual (scripts opcionais automação)
 
-### Sprint 5-6: PWA + Google Drive (12-25 Fev)
+**6. Multi-Usuário**
 
-- Service Worker (cache offline)
-- IndexedDB migration
+- Até 10 usuários base (11+ = MRR)
+- Níveis customizáveis (Admin, Gerente, Vendedor, etc)
+- Permissões granulares
+- Sync tempo real (Apps Script 3s)
+- Auditoria completa (log alterações)
+
+**7. White Label**
+
+- Upload logo (Base64)
+- Paleta cores (CSS Variables)
+- Google Fonts
+- Nome sistema customizado
+- Ícone PWA
+
+📄 **Detalhes:** [FEATURES.md](FEATURES.md) | [UI_MOCKUP_CADASTRO.md](UI_MOCKUP_CADASTRO.md)
+
+---
+
+## 🗺️ ROADMAP
+
+### Sprint 1: Infraestrutura (29 Jan - 4 Fev)
+
+- Google Cloud setup
+- Apps Script deploy
 - OAuth Google Drive
-- Apps Script merge agent
-- Sync automático
+- Backend Node.js (auth básico)
 
-### Sprint 7: Testes + Polish (26 Fev - 4 Mar)
+### Sprint 2: PWA Core (5-11 Fev)
 
-- Beta 5 usuários
-- Correção bugs
-- Performance
-- Documentação
+- Service Worker
+- IndexedDB
+- Sync queue
 
-### Sprint 8: Launch (5-8 Mar)
+### Sprint 3-4: CRM Features (12-25 Fev)
 
-- VSL gravação
-- Landing page
-- Kit afiliados
-- **LANÇAMENTO: 8 Março 2026** 🚀
+- Tags captação
+- Telefone internacional
+- Google Maps
+- Campos customizáveis
+- White label
+- Excel import
 
-**v2.0 (Junho 2026):**
+### Sprint 5: PDV + Estoque (26 Fev - 4 Mar)
 
-- Agente IA WhatsApp
-- Email marketing interno
-- Automações avançadas
+- PDV básico
+- Estoque movimentações
+- Etiquetas envio ← **NOVO**
 
-**Detalhes:** [ROADMAP.md](ROADMAP.md)
+### Sprint 6: Integração (5-7 Mar)
 
----
+- Dashboard unificado
+- Multi-usuário sync
+- Relatórios
 
-## 📊 Análise de Mercado
+### Sprint 7-8: Beta + Launch (8-15 Mar)
 
-### Tamanho do Mercado
+- Testes beta
+- Correções
+- VSL + Landing
+- **LANÇAMENTO: 15 Março 2026** 🚀
 
-**Brasil:**
+### v2.0 (Junho 2026)
 
-- 12 milhões de MEIs
-- 3 milhões de PMEs
-- **9,3 milhões sem sistema adequado**
+- IA WhatsApp 24/7
+- Email marketing
+- Workflows automação
 
-**Penetração Realista:**
-
-- Ano 1: 0,02% = 1.800 clientes
-- Ano 3: 0,1% = 9.000 clientes
-
-### Concorrência
-
-**SaaS Premium:** RD Station, Pipedrive, Bling
-
-- Preço: R$ 720-1.800/ano
-- Foco: Empresas médias-grandes
-- **Não competem conosco (preço 10x maior)**
-
-**Excel:** 60% do mercado
-
-- Preço: Grátis
-- Problema: Desorganizado, não profissional
-- **Esse é nosso concorrente real**
-
-**Infoprodutos:** Hotmart/Kiwify
-
-- "CRM": 47 resultados (cursos, não software)
-- "Sistema gestão": 12 resultados (planilhas)
-- **GAP: Zero software real offline+online**
-
-### Viabilidade
-
-**✅ É VIÁVEL** mas com ressalvas:
-
-- Mercado gigante (9,3M)
-- Zero concorrente direto
-- Preço disruptivo
-- Modelo escalável
-
-**⚠️ Cuidados:**
-
-- Reduzir projeções 35% (ser realista)
-- Dependência de afiliados
-- Tempo desenvolvimento (8 semanas)
-
-**Detalhes:** [ANALISE_MERCADO.md](ANALISE_MERCADO.md)
+📄 **Detalhes:** [ROADMAP.md](ROADMAP.md)
 
 ---
 
-## 📢 Estratégia de Aquisição
+## 🆚 COMPARAÇÃO ARQUITETURAS **[NOVA]**
 
-### Inbound (Orgânico)
+### Contexto
 
-- SEO + Blog (tocadobarbaro.com/blog)
-- YouTube (tutoriais, demos)
-- Lead Magnet (planilha grátis)
-- Comunidade Telegram
+Recebemos proposta de nova arquitetura **"Agente Foda"** com mudanças significativas:
 
-### Outbound (Proativo)
+| Aspecto             | TitanGestão v1.0 (Atual) | "Agente Foda" (Proposta)          |
+| ------------------- | ------------------------ | --------------------------------- |
+| **Apps Script**     | Centralizado (nosso)     | Distribuído (cada cliente)        |
+| **Dados**           | JSON (IndexedDB + Drive) | Google Sheets                     |
+| **Modularização**   | Monolito HTML            | Modular (CLASP + VS Code)         |
+| **IA**              | v2.0 opcional            | Core v1.0                         |
+| **Multi-Loja**      | Não                      | Sim (ID_LOJA obrigatório)         |
+| **Integrações**     | Básicas                  | iFood + WhatsApp + Hardware dia 1 |
+| **Desenvolvimento** | 8 semanas                | 20-24 semanas                     |
+| **Pricing**         | R$ 149,90 único          | R$ 97-197/mês SaaS                |
 
-- LinkedIn (B2B, consultores)
-- Email frio (contadores, agências)
-- WhatsApp Business (grupos)
-- Parcerias (CDL, Sebrae)
+### Decisões Pendentes
 
-### Meta 90 Dias
+Análise completa em: **[COMPARACAO_ARQUITETURAS.md](COMPARACAO_ARQUITETURAS.md)**
 
-- Mês 1: 30 vendas
-- Mês 2: 80 vendas
-- Mês 3: 120 vendas
+**Opções:**
 
-**Detalhes:** [ESTRATEGIA_AQUISICAO.md](ESTRATEGIA_AQUISICAO.md)
-
----
-
-## 📚 Documentação Completa
-
-### 📖 Documentos Principais (8 arquivos)
-
-| Documento                                              | Descrição                                       |
-| ------------------------------------------------------ | ----------------------------------------------- |
-| **[README.md](README.md)**                             | Visão geral e enciclopédia navegável            |
-| **[GUIA_PROJETO.md](GUIA_PROJETO.md)**                 | Guia completo: decisões, regras, features       |
-| **[ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)** | Arquitetura: Stack, Apps Script, PWA, setup dev |
-| **[ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)**     | Negócio: Pricing, mercado, marketing, LATAM     |
-| **[ROADMAP.md](ROADMAP.md)**                           | Implementação: 8 sprints detalhados             |
-| **[FEATURES.md](FEATURES.md)**                         | 89 funcionalidades por módulo                   |
-| **[FAQ.md](FAQ.md)**                                   | Perguntas frequentes                            |
-| **[FUTURO_IA.md](FUTURO_IA.md)**                       | Roadmap IA v2.0+                                |
-
-### 📦 Arquivos Arquivados
-
-Documentos antigos preservados em [`_archive/`](_archive/) (não deletados - backup seguro!)
+- **A)** Pivô total (adotar "Agente Foda", lançar Julho)
+- **B)** Faseamento (v1.0 simples Março, v2.0 completo Julho)
+- **C)** Manter atual (TitanGestão docs atuais)
 
 ---
 
-## 🚀 Quick Start (Desenvolvedores)
+## 📚 DOCUMENTAÇÃO COMPLETA
 
-**1. Clone o Repositório**
+### 📖 Documentos Principais (9 arquivos)
+
+| Documento                                                    | Descrição                                 |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| **[README.md](README.md)**                                   | 👈 Você está aqui - Índice completo       |
+| **[GUIA_PROJETO.md](GUIA_PROJETO.md)**                       | Decisões, regras ouro, features completas |
+| **[ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)**       | Stack, Apps Script, PWA, setup dev        |
+| **[ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)**           | Pricing, mercado, marketing, LATAM        |
+| **[ROADMAP.md](ROADMAP.md)**                                 | 8 sprints implementação                   |
+| **[FEATURES.md](FEATURES.md)**                               | 89 funcionalidades detalhadas             |
+| **[FAQ.md](FAQ.md)**                                         | Perguntas frequentes                      |
+| **[FUTURO_IA.md](FUTURO_IA.md)**                             | Roadmap IA v2.0+                          |
+| **[COMPARACAO_ARQUITETURAS.md](COMPARACAO_ARQUITETURAS.md)** | v1.0 vs "Agente Foda"                     |
+
+### 📦 Arquivos Especiais
+
+| Arquivo                                              | Descrição                          |
+| ---------------------------------------------------- | ---------------------------------- |
+| **[UI_MOCKUP_CADASTRO.md](UI_MOCKUP_CADASTRO.md)**   | Mockup completo interface cadastro |
+| **[BACKUP_CONSOLIDACAO.md](BACKUP_CONSOLIDACAO.md)** | Backup docs antiga consolidação    |
+| **[\_archive/](_archive/)**                          | Documentos antigos preservados     |
+
+---
+
+## 🔧 Quick Start Desenvolvedor
+
+### Setup Local
 
 ```bash
+# 1. Clone
 git clone https://github.com/LucassVal/SAAS.git
 cd SAAS
+
+# 2. Abrir CRM
+# Método 1: Duplo clique CRM.html
+# Método 2: Servidor local
+python -m http.server 8000
+# http://localhost:8000/CRM.html
 ```
 
-**2. Leia a Arquitetura**
+### Estrutura Projeto
 
-- [README_TECNICO.md](README_TECNICO.md)
-- [ARQUITETURA.md](ARQUITETURA.md)
+```
+SAAS/
+├── CRM.html                      # Sistema completo (218KB)
+├── README.md                     # 👈 Este arquivo
+├── ROADMAP.md                    # Plano implementação
+├── ARQUITETURA_COMPLETA.md       # Docs técnica
+├── FEATURES.md                   # Lista features
+├── FAQ.md                        # Perguntas
+├── _archive/                     # Docs antigas
+├── dados/                        # JSON local
+└── scripts/                      # Utilitários
+```
 
-**3. Siga o Roadmap**
-
-- [ROADMAP.md](ROADMAP.md)
-
-**4. Implemente**
-
-- Sprint atual: Tags de Captação
-- Arquivo: `CRM.html`
+📄 **Setup Completo:** Ver seção "Setup Desenvolvimento" em [ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)
 
 ---
 
@@ -525,6 +375,6 @@ cd SAAS
 
 ---
 
-**Última Atualização:** 17 Janeiro 2026  
-**Versão:** 3.0 PWA  
-**Status:** Em Desenvolvimento (Sprint 1)
+**Última Atualização:** 19 Janeiro 2026  
+**Versão Documentação:** 3.0  
+**Status:** Arquitetura em decisão (v1.0 vs v2.0)
