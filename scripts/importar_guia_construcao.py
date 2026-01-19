@@ -36,17 +36,14 @@ def processar_relatorio_html(caminho_html):
         # Extrair dados básicos
         codigo_match = re.search(r'(\d{6})</td>', tbody_content)
         
-        # Nome: procurar por strings que não sejam apenas números após uma imagem
-        # O regex original pegava qualquer coisa. Agora vamos iterar para achar um nome válido.
-        nome_matches = re.finditer(r'<img[^>]*>([^<]+)</td>', tbody_content)
-        nome_texto = "Sem Nome"
-        
-        for nm in nome_matches:
-            texto = nm.group(1).strip()
-            # Se não for só números e tiver pelo menos 3 letras, assumimos que é o nome
-            if not texto.isdigit() and len(re.findall(r'[a-zA-Z]', texto)) > 2:
-                nome_texto = texto
-                break
+        # Nome: Regex mais estrito
+        # Busca texto que não seja apenas números, dentro de um TD, possivelmente após IMG
+        nome_match = re.search(r'<td[^>]*>(?:<img[^>]*>\s*)?([A-Z\s\u00C0-\u00FF]{3,})</td>', tbody_content)
+        nome_texto = nome_match.group(1).strip() if nome_match else "Sem Nome"
+
+        # Proteção contra "Invenções": Se o nome for uma palavra comum de UI ou muito curto, ignora
+        if nome_texto in ["Sem Nome", "Detalhes", "Editar", "Excluir", "Menu"] or len(nome_texto) < 3:
+             continue
                 
         cidade_match = re.search(r'Cidade/UF:</td>\s*<td[^>]*>([^<]+)</td>', tbody_content)
         data_match = re.search(r'Data:</td>\s*<td[^>]*>([^<]+)</td>', tbody_content)

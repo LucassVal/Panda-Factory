@@ -418,6 +418,12 @@ def scraper_guia_construcao(headless=False, m2_inicial="150", m2_final="300"):
             print("📥 Extraindo HTML do Relatório...")
             html_content = relatorio_page.content()
             
+            # VALIDAÇÃO CRÍTICA: Verificar se é realmente um relatório
+            if "Metragem:" not in html_content or "Cidade/UF:" not in html_content:
+                print("❌ ERRO: O HTML baixado não parece ser um relatório válido (Campos não encontrados).")
+                print("   Possível causa: Pop-up bloqueado ou navegação falhou.")
+                raise Exception("HTML Inválido - Abortando salvamento")
+
             # Salvar
             dados_dir = os.path.join('..', 'dados') 
             os.makedirs(dados_dir, exist_ok=True)
@@ -443,8 +449,8 @@ def scraper_guia_construcao(headless=False, m2_inicial="150", m2_final="300"):
                 clientes = processar_relatorio_html(html_filename)
                 
                 # Salvar arquivos JSON
-                json_bkp = os.path.join(dados_dir, f"clientes_crm_v2_{timestamp}.json")
-                json_main = os.path.join(dados_dir, "clientes_crm_v2.json")
+                json_bkp = os.path.join(dados_dir, f"clientes_import_scraper_{timestamp}.json")
+                json_main = os.path.join(dados_dir, "clientes_import_scraper.json")
                 
                 with open(json_bkp, 'w', encoding='utf-8') as f:
                     json.dump(clientes, f, indent=4, ensure_ascii=False)

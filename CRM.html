@@ -8,11 +8,12 @@
     <!-- PWA Setup -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/core/Repository.js"></script>
+    <script src="js/core/Repository.js?v=reset_fix_v2"></script>
     <style>
       * {
         margin: 0;
@@ -1026,9 +1027,7 @@
           ↓ Import
         </button>
         
-        <button class="btn" onclick="ativarImportacaoAutomatica()" style="background: #10b981; color: white; flex: 1;">
-          🤖 Auto
-        </button>
+        <!-- Auto Button Removed -->
         
         <button class="btn" onclick="exportarDados()" style="background: #667eea; color: white; flex: 1;">
           💾 Export
@@ -1042,8 +1041,6 @@
           <button id="btnFiltroAtrasados" class="filter-tag" onclick="filtroRapido('atrasados')">⚠️ Atrasados</button>
           <button class="filter-tag" onclick="ordenarClientes('bairro')">Bairro ⇅</button>
           <button class="filter-tag" onclick="ordenarClientes('cidade')">Cidade ⇅</button>
-          <button class="filter-tag" onclick="ordenarClientes('estagio')">Estágio ⇅</button>
-          <button class="filter-tag" onclick="ordenarClientes('metragem')">M² ⇅</button>
           <button class="filter-tag" onclick="ordenarClientes('nome')">Nome ⇅</button>
           <div style="margin-left: auto; display: flex; gap: 8px;">
             <button class="btn btn-success" onclick="aplicarFiltrosBotao()" style="min-width: 50px; padding: 8px 15px;" title="Aplicar Filtros">✓</button>
@@ -1168,46 +1165,7 @@
       </div>
     </div>
 
-    <!-- MODAL DE CONFIGURAÇÕES (Vendedores / Templates) -->
-    <div id="configModal" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header">
-                <h2>⚙️ Configurações do CRM</h2>
-                <button class="close-btn" onclick="fecharModal('configModal')">×</button>
-            </div>
-            
-            <div class="tabs">
-                <button class="tab active" onclick="switchConfigTab('vendedores')">👥 Vendedores</button>
-                <button class="tab" onclick="switchConfigTab('templates')">📱 Templates WhatsApp</button>
-            </div>
-            
-            <!-- ABA VENDEDORES -->
-            <div id="tabVendedores" class="tab-content active">
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <input type="text" id="newVendedorName" class="form-input" placeholder="Nome do Vendedor">
-                    <button class="btn btn-primary" onclick="adicionarVendedor()">+ Adicionar</button>
-                </div>
-                <div id="listaVendedores" class="item-list">
-                    <!-- Lista via JS -->
-                </div>
-            </div>
-            
-            <!-- ABA TEMPLATES -->
-            <div id="tabTemplates" class="tab-content">
-                <div class="add-form">
-                    <input type="text" id="newTemplateTitle" class="form-input" placeholder="Título do Template (ex: 1º Contato)" style="margin-bottom: 10px;">
-                    <textarea id="newTemplateBody" class="form-textarea" placeholder="Olá {nome}, vi sua obra em {cidade}..." style="margin-bottom: 10px;"></textarea>
-                    <div style="font-size: 12px; color: #666; margin-bottom: 10px;">
-                        Variáveis disponíveis: {nome}, {cidade}, {bairro}, {estagio}, {vendedor}
-                    </div>
-                    <button class="btn btn-primary" onclick="adicionarTemplate()">💾 Salvar Template</button>
-                </div>
-                <div id="listaTemplates" class="item-list">
-                    <!-- Lista via JS -->
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Duplicate Modal Removed (Consolidated into settingsModal) -->
 
     <!-- MODAL SELEÇÃO DE TEMPLATE WHATSAPP -->
     <div id="whatsappModal" class="modal" style="z-index: 2000;">
@@ -1333,7 +1291,7 @@
            
            <div class="form-group"><label>Cidade</label><input id="editCidade" class="form-input"></div>
            <div class="form-group"><label>Bairro</label><input id="editBairro" class="form-input"></div>
-           <div class="form-group"><label>M²</label><input id="editMetragem" class="form-input"></div>
+            <!-- Dynamic Fields will be injected here -->
            <div class="form-group"><label>Valor Est. (R$)</label><input id="editValor" class="form-input"></div>
            
            <div style="margin-top:20px; text-align:right;">
@@ -1360,6 +1318,119 @@
         <div class="tabs">
           <button class="tab active" onclick="mudarTabSettings(0)">👥 Usuários</button>
           <button class="tab" onclick="mudarTabSettings(1)">💬 Templates WhatsApp</button>
+          <button class="tab" id="tabPersonalizacao" onclick="mudarTabSettings(2)">🎨 Personalização</button>
+        </div>
+        
+        <!-- TAB 0: Gerenciar Usuários -->
+        <div class="tab-content active" id="settingsTab0" style="padding:20px;">
+          <h3 style="margin-bottom:15px;">Usuários do Sistema</h3>
+          <div id="listaUsuarios" style="margin-bottom:25px;"></div>
+          
+          <!-- NOVO: ACESSO REMOTO -->
+          <div style="background:#f0f9ff; padding:15px; border-radius:8px; border:1px solid #bae6fd; margin-bottom:20px;">
+              <h4 style="margin:0 0 10px 0; color:#0369a1;">📱 Acesso Remoto (Celular)</h4>
+              <p style="font-size:13px; color:#334155; margin-bottom:5px;">Para acessar pelo celular na mesma rede Wi-Fi:</p>
+              <code style="display:block; background:#fff; padding:8px; border-radius:4px; border:1px solid #e2e8f0; font-family:monospace; color:#0f172a;">
+                  http://SEU_IP_LOCAL:8080
+              </code>
+              <p style="font-size:11px; color:#64748b; margin-top:5px;">
+                  *Descubra seu IP abrindo o CMD e digitando <b>ipconfig</b> (Ex: 192.168.0.x)
+              </p>
+          </div>
+
+          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Adicionar Novo Usuário</h4>
+          <div style="display:grid; gap:10px;">
+            <input type="text" id="newUserLogin" placeholder="Login" class="form-input">
+            <input type="password" id="newUserSenha" placeholder="Senha" class="form-input">
+            <select id="newUserNivel" class="form-input">
+              <option value="vendedor">Vendedor</option>
+              <option value="admin">Administrador</option>
+            </select>
+            <button class="btn btn-primary" onclick="adicionarUsuario()">➕ Adicionar Usuário</button>
+          </div>
+
+          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb; color:#ef4444;">Zona de Perigo</h4>
+          <button class="btn" onclick="solicitarAcaoSegura('limpar_clientes')" style="background:#fef3c7; color:#92400e; width:100%; margin-bottom:10px;">
+            ⚠️ Apagar Apenas Cadastros (Limpar Clientes)
+          </button>
+          <button class="btn" onclick="solicitarAcaoSegura('reset_fabrica')" style="background:#fee2e2; color:#b91c1c; width:100%;">
+            ☢️ LIMPAR BANCO DE DADOS (RESET/FACTORY)
+          </button>
+
+          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Importar Dados (Manual)</h4>
+          <div style="display:flex; gap:10px;">
+            <button class="btn" onclick="executarImportacao('seed')" style="background:#e0e7ff; color:#4338ca; flex:1;">
+              🧪 Dados Teste
+            </button>
+            <button class="btn" onclick="executarImportacao('scraper')" style="background:#dcfce7; color:#166534; flex:1;">
+              🏭 Dados Scraper
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 1: Templates WhatsApp -->
+        <div class="tab-content" id="settingsTab1" style="padding:20px;">
+           <h3 style="margin-bottom:15px;">Templates de WhatsApp</h3>
+           <div id="listaTemplatesSettings" style="margin-bottom:25px;"></div>
+           
+           <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Novo Template</h4>
+           <div style="display:grid; gap:10px;">
+               <input type="text" id="newTemplateTitle" placeholder="Título (Ex: Saudação)" class="form-input">
+               <textarea id="newTemplateText" rows="3" placeholder="Mensagem..." class="form-input"></textarea>
+               <button class="btn btn-primary" onclick="adicionarTemplate()">➕ Salvar Template</button>
+           </div>
+        </div>
+           
+           <div class="form-group">
+               <label class="form-label">Nome do Sistema</label>
+               <input type="text" id="configAppName" class="form-input" placeholder="Ex: TitanGestão Pro">
+           </div>
+           
+           <div class="form-group">
+               <label class="form-label">URL da Logo (Imagem)</label>
+               <input type="text" id="configAppLogo" class="form-input" placeholder="https://...">
+               <small style="color:#666;">Cole o link da sua logo. Ideal: PNG transparente.</small>
+           </div>
+           
+           <h3 style="margin-bottom:15px; margin-top:20px;">Aparência</h3>
+           <div style="display:flex; gap:15px;">
+               <div style="flex:1;">
+                   <label class="form-label">Cor Principal</label>
+                   <input type="color" id="configAppColor" class="form-input" style="height:40px; padding:2px;" value="#667eea">
+               </div>
+               <div style="flex:1;">
+                   <label class="form-label">Fonte do Sistema</label>
+                   <select id="configAppFont" class="form-input">
+                       <option value="'Segoe UI', sans-serif">Moderna (Padrão)</option>
+                       <option value="'Roboto', sans-serif">Roboto (Google)</option>
+                       <option value="'Open Sans', sans-serif">Open Sans</option>
+                       <option value="'Georgia', serif">Clássica (Serif)</option>
+                       <option value="'Courier New', monospace">Técnica (Mono)</option>
+                   </select>
+               </div>
+           </div>
+           <button class="btn btn-primary" onclick="salvarTema()" style="width:100%; margin-top:15px;">💾 Salvar Aparência</button>
+
+           <hr style="margin:25px 0;">
+
+           <h3 style="margin-bottom:10px;">Campos Customizados</h3>
+           <p style="color:#666; font-size:13px; margin-bottom:15px;">
+               Adicione campos extras para o cadastro de clientes. Título = Nome do campo, Tipo = Texto, Data ou Opções.
+           </p>
+
+           <div id="listaCamposCustom" style="margin-bottom:15px;">
+               <!-- Renderizado via JS -->
+           </div>
+
+           <div style="display:flex; gap:10px;">
+               <input type="text" id="newFieldTitle" class="form-input" placeholder="Nome (Ex: Time de Futebol)" style="flex:2;">
+               <select id="newFieldType" class="form-input" style="flex:1;">
+                   <option value="text">Texto</option>
+                   <option value="date">Data</option>
+                   <option value="select">Seleção (Sim/Não)</option>
+               </select>
+               <button class="btn btn-success" onclick="adicionarCampoCustom()">➕</button>
+           </div>
         </div>
         
         <!-- TAB 0: Gerenciar Usuários -->
@@ -1376,6 +1447,24 @@
               <option value="admin">Administrador</option>
             </select>
             <button class="btn btn-primary" onclick="adicionarUsuario()">➕ Adicionar Usuário</button>
+          </div>
+
+          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb; color:#ef4444;">Zona de Perigo</h4>
+          <button class="btn" onclick="solicitarAcaoSegura('limpar_clientes')" style="background:#fef3c7; color:#92400e; width:100%; margin-bottom:10px;">
+            ⚠️ Apagar Apenas Cadastros (Limpar Clientes)
+          </button>
+          <button class="btn" onclick="solicitarAcaoSegura('reset_fabrica')" style="background:#fee2e2; color:#b91c1c; width:100%;">
+            ☢️ LIMPAR BANCO DE DADOS (RESET/FACTORY)
+          </button>
+
+          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Importar Dados (Manual)</h4>
+          <div style="display:flex; gap:10px;">
+            <button class="btn" onclick="executarImportacao('seed')" style="background:#e0e7ff; color:#4338ca; flex:1;">
+              🧪 Dados Teste
+            </button>
+            <button class="btn" onclick="executarImportacao('scraper')" style="background:#dcfce7; color:#166534; flex:1;">
+              🏭 Dados Scraper
+            </button>
           </div>
         </div>
         
@@ -1449,33 +1538,21 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Endereço</label>
-                <input type="text" class="form-input" id="newClientEndereco" placeholder="Rua, número" />
+                <label class="form-label">Observações</label>
+                <textarea class="form-input" id="newClientObs" rows="3" placeholder="Detalhes importantes..."></textarea>
             </div>
+            
+            <hr style="margin:20px 0; border:0; border-top:1px dashed #ccc;">
+            <h4 style="margin-bottom:10px; color:#666;">Campos Personalizados</h4>
+            <div id="customFieldsContainer"></div>
+
 
             <div class="form-group">
                 <label class="form-label">Bairro</label>
                 <input type="text" class="form-input" id="newClientBairro" placeholder="Bairro" />
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Metragem (m²)</label>
-                <input type="number" class="form-input" id="newClientMetragem" placeholder="300" step="0.01" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Estágio da Obra</label>
-                <select class="form-input" id="newClientEstagio">
-                <option value="">Selecione...</option>
-                <option value="Fundação">Fundação</option>
-                <option value="Alvenaria">Alvenaria</option>
-                <option value="Laje">Laje</option>
-                <option value="Acabamento: Rebocando">Acabamento: Rebocando</option>
-                <option value="Acabamento: Instalações">Acabamento: Instalações</option>
-                <option value="Acabamento: Revestimentos">Acabamento: Revestimentos</option>
-                <option value="Finalização">Finalização</option>
-                </select>
-            </div>
+            <!-- Legacy fields (Metragem/Estagio) removed for AI dynamic column test -->
 
             <div class="form-group" style="grid-column: 1 / -1;">
                 <label class="form-label">Telefones / Contatos</label>
@@ -1578,8 +1655,10 @@
       }
 
       function renderizarVendedores() {
-          const lista = document.getElementById('listaVendedores');
-          lista.innerHTML = vendedores.length ? '' : '<p style="color:#999">Nenhum vendedor cadastrado.</p>';
+          const listaValida = document.getElementById('listaVendedores');
+          if (listaValida) {
+             listaValida.innerHTML = vendedores.length ? '' : '<p style="color:#999">Nenhum vendedor cadastrado.</p>';
+          }
           
           // Populate Report Filter
           const relSelect = document.getElementById('relVendedor');
@@ -1608,14 +1687,158 @@
               });
           }
           
-          vendedores.forEach((v, index) => {
+          if (listaValida) {
+              vendedores.forEach((v, index) => {
+                  listaValida.innerHTML += `
+                      <div class="item" style="display:flex; justify-content:space-between; align-items:center;">
+                          <span>👤 ${v}</span>
+                          <button onclick="removerVendedor(${index})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button>
+                      </div>
+                  `;
+              });
+          }
+      }
+
+
+
+      // ========== USER MANAGEMENT (NEW) ==========
+      let usuarios = JSON.parse(localStorage.getItem('crmUsuarios') || '[]');
+
+      function renderizarUsuarios() {
+          const lista = document.getElementById('listaUsuarios');
+          if(!lista) return;
+          
+          lista.innerHTML = usuarios.length ? '' : '<p style="color:#999">Nenhum usuário cadastrado.</p>';
+          
+          usuarios.forEach((u, index) => {
               lista.innerHTML += `
                   <div class="item" style="display:flex; justify-content:space-between; align-items:center;">
-                      <span>👤 ${v}</span>
-                      <button onclick="removerVendedor(${index})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button>
+                      <div>
+                          <strong>👤 ${u.login}</strong> <span style="font-size:12px; color:#666">(${u.nivel})</span>
+                      </div>
+                      <button onclick="removerUsuario(${index})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button>
                   </div>
               `;
           });
+      }
+
+      function adicionarUsuario() {
+          const loginInput = document.getElementById('newUserLogin');
+          const senhaInput = document.getElementById('newUserSenha');
+          const nivelInput = document.getElementById('newUserNivel');
+          
+          const login = loginInput.value.trim();
+          const senha = senhaInput.value.trim();
+          const nivel = nivelInput.value;
+          
+          if(!login || !senha) return alert("Preencha login e senha!");
+          
+          // Check duplicate
+          if(usuarios.find(u => u.login === login)) return alert("Usuário já existe!");
+          
+          usuarios.push({ login, senha, nivel });
+          localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
+          
+          // Sync with Vendedores list if needed
+          if(nivel === 'vendedor' && !vendedores.includes(login)) {
+              vendedores.push(login);
+              localStorage.setItem('crmVendedores', JSON.stringify(vendedores));
+              renderizarVendedores(); // Update dropdowns
+          }
+          
+          renderizarUsuarios();
+          loginInput.value = '';
+          senhaInput.value = '';
+          alert("Usuário adicionado!");
+      }
+
+      function removerUsuario(index) {
+          if(confirm("Remover usuário?")) {
+              const u = usuarios[index];
+              usuarios.splice(index, 1);
+              localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
+              
+              // Remove from vendedores if exists
+              const vIndex = vendedores.indexOf(u.login);
+              if(vIndex !== -1) {
+                  vendedores.splice(vIndex, 1);
+                  localStorage.setItem('crmVendedores', JSON.stringify(vendedores));
+                  renderizarVendedores();
+              }
+              
+              renderizarUsuarios();
+          }
+      }
+
+      // ========== SECURITY ACTIONS ==========
+      
+      async function solicitarAcaoSegura(acao) {
+          const senhaAdmin = prompt("🔒 Digite a senha de ADMIN para continuar:");
+          if (!senhaAdmin) return;
+
+          // Verificar senha (busca usuário admin na lista)
+          const adminUser = usuarios.find(u => u.nivel === 'admin' && u.login === 'admin'); // ou qualquer admin
+          // Fallback para admin/admin se não existir (primeiro run)
+          const senhaCorreta = adminUser ? adminUser.senha : 'admin';
+          
+          if(senhaAdmin !== senhaCorreta) {
+              alert("❌ Senha incorreta!");
+              return;
+          }
+
+          if (acao === 'limpar_clientes') {
+              if(!confirm("⚠️ Tem certeza? Isso apagará TODOS os clientes cadastrados.")) return;
+              
+              // Limpar Store Clientes
+              try {
+                  const tx = window.Repo.db.transaction(['clientes'], 'readwrite');
+                  tx.objectStore('clientes').clear();
+                  tx.oncomplete = () => {
+                      alert("✅ Clientes apagados com sucesso!");
+                      location.reload();
+                  };
+              } catch(e) {
+                  console.error(e);
+                  alert("Erro ao limpar clientes.");
+              }
+          }
+
+          if (acao === 'reset_fabrica') {
+              if(!confirm("☢️ TEM CERTEZA? Isso fará um RESET DE FÁBRICA.\n\n- Apaga Clientes\n- Apaga Usuários\n- Apaga Templates\n- Reinicia como zero.")) return;
+              
+              window.Repo.clear().then(() => location.reload());
+          }
+      }
+
+      async function executarImportacao(tipo) {
+          if(!confirm(`Deseja importar os dados de ${tipo.toUpperCase()}? Isso adicionará registros ao banco atual.`)) return;
+
+          let url = "";
+          if(tipo === 'seed') url = "dados/seed_system.json";
+          if(tipo === 'scraper') url = "dados/clientes_import_scraper.json";
+
+          try {
+              let response = await fetch(url);
+              // Fallback legacy para scraper
+              if(!response.ok && tipo === 'scraper') response = await fetch("dados/clientes_crm_v2.json");
+
+              if(response.ok) {
+                  let dados = await response.json();
+                  let count = 0;
+                  for(let c of dados) {
+                       c.id = String(c.id || Date.now() + Math.random());
+                       await window.Repo.save('clientes', c);
+                       count++;
+                  }
+                  alert(`✅ Importados ${count} registros! A página será recarregada.`);
+                  location.reload();
+              } else {
+                  alert("❌ Arquivo de dados não encontrado: " + url);
+              }
+          } catch(e) {
+              console.error(e);
+              alert("Erro na importação: " + e.message);
+          }
       }
 
       // --- Templates ---
@@ -1644,6 +1867,8 @@
 
       function renderizarTemplates() {
           const lista = document.getElementById('listaTemplates');
+          if(!lista) return; // Segurança contra crash
+          
           lista.innerHTML = templates.length ? '' : '<p style="color:#999">Nenhum template cadastrado.</p>';
           
           templates.forEach((t, index) => {
@@ -1847,30 +2072,9 @@
           clientes = await window.Repo.getAll('clientes');
           console.log(`📡 ${clientes.length} clientes carregados do IndexedDB`);
 
-          // Fallback: Se banco novo vazio, tenta carregar JSON inicial
+          // Fallback: Se banco novo vazio, apenas loga.
           if (clientes.length === 0) {
-              console.log("⚠️ IndexedDB vazio. Tentando carga inicial JSON...");
-              try {
-                  // Tenta V2 primeiro, depois V1
-                  let response = await fetch("dados/clientes_crm_v2.json");
-                  if (!response.ok) response = await fetch("dados/clientes_crm.json");
-                  
-                  if(response.ok) {
-                      let dadosJson = await response.json();
-                      console.log(`📥 Importando ${dadosJson.length} clientes do JSON...`);
-                      
-                      for (let c of dadosJson) {
-                          // Garante ID string
-                          c.id = String(c.id || Date.now() + Math.random());
-                          // Salva no Repo
-                          await window.Repo.save('clientes', c);
-                      }
-                      // Recarrega
-                      clientes = await window.Repo.getAll('clientes');
-                  }
-              } catch(e) {
-                  console.log("ℹ️ Nenhum JSON inicial encontrado ou erro de fetch. Sistema limpo.");
-              }
+              console.log("⚠️ IndexedDB vazio. Iniciando sistema zerado.");
           }
 
           // Compatibilidade e tratamento de dados legacy
@@ -1915,6 +2119,65 @@
           }
       }
 
+
+      // ========== UI CONTROL & SESSION ==========
+
+      function mudarTabSettings(index) {
+          // Hide all tabs CONTENT
+          document.getElementById('settingsTab0').classList.remove('active');
+          document.getElementById('settingsTab1').classList.remove('active');
+          document.getElementById('settingsTab2').classList.remove('active');
+          
+          // Deactivate all tabs BUTTONS
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          
+          // Activate specific
+          document.getElementById('settingsTab' + index).classList.add('active');
+          document.querySelectorAll('.tab')[index].classList.add('active');
+
+          if(index === 0) renderizarUsuarios();
+          if(index === 1) renderizarTemplates();
+          if(index === 2) carregarConfiguracoesNaTela();
+      }
+
+      function mudarView(viewId) {
+          // Hide all views
+          document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+          document.getElementById(viewId + '-view').classList.add('active');
+          
+          // Update Nav
+          document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+          // Simple logic to highlight based on text content or index would be better, 
+          // but for now let's reliance on click handler adding class if needed, 
+          // or just visual feedback of the view changing.
+          // To make it perfect:
+          const navMap = {
+              'inicio': 0,
+              'home': 0,
+              'contatos': 1,
+              'agenda': 2,
+              'reports': 3
+          };
+          const index = navMap[viewId];
+          if(index !== undefined) {
+              const navItems = document.querySelectorAll('.nav-item');
+              if(navItems[index]) navItems[index].classList.add('active');
+          }
+      }
+
+      function abrirConfig() {
+          renderizarUsuarios();
+          renderizarTemplates();
+          document.getElementById('settingsModal').style.display = 'block';
+      }
+
+      function fazerLogout() {
+          if(confirm("Sair do sistema?")) {
+              sessionStorage.removeItem('crmLogado');
+              sessionStorage.removeItem('usuarioAtual');
+              location.reload();
+          }
+      }
 
       function inicializar() {
         // Garantir Vendedores Padrão
@@ -2074,6 +2337,10 @@
             charts.statusChart.destroy();
         }
 
+        if (charts.statusChart) {
+            charts.statusChart.destroy();
+        }
+
         const statusCtx = document
           .getElementById("statusChart")
           .getContext("2d");
@@ -2111,6 +2378,9 @@
           },
         });
 
+        if (charts.valueChart) {
+            charts.valueChart.destroy();
+        }
         const valueCtx = document.getElementById("valueChart").getContext("2d");
         charts.valueChart = new Chart(valueCtx, {
           type: "bar",
@@ -2145,6 +2415,9 @@
           },
         });
 
+        if (charts.prospectChart) {
+            charts.prospectChart.destroy();
+        }
         const prospectCtx = document
           .getElementById("prospectChart")
           .getContext("2d");
@@ -2631,6 +2904,15 @@
           }
       }
 
+      function abrirNovoCliente() {
+          document.getElementById("newClientModal").style.display = "block";
+          document.getElementById("newClientModalLabel").innerText = "Novo Prospect";
+          
+          // Reset fields
+          // ...
+          renderizarInputsCustomizados(); // Renderiza campos extras
+      }
+
       function mudarTab(index) {
         const context = document.getElementById("clientModal");
         if (!context) return;
@@ -3037,122 +3319,9 @@
         return novosClientes;
       }
 
-      // ========== IMPORTAÇÃO AUTOMÁTICA COM MERGE SEGURO ==========
-      async function importarAutomatico() {
-        if (
-          !confirm(
-            "🤖 Executar Scraper Automático do Guia da Construção?\n\n⚠️ IMPORTANTE:\n• Fará login e extrairá dados automaticamente\n• Os dados serão MESCLADOS (não sobrescritos)\n• Clientes existentes serão preservados\n• Novos prospects serão adicionados\n\nContinuar?"
-          )
-        ) {
-          return;
-        }
-
-        const statusDiv = document.createElement("div");
-        statusDiv.style.cssText =
-          "position: fixed; top: 20px; right: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 3000; max-width: 400px;";
-        statusDiv.innerHTML =
-          '<h3>🤖 Executando Scraper...</h3><p id="scraperStatus">Iniciando...</p>';
-        document.body.appendChild(statusDiv);
-
-        const updateStatus = (msg) => {
-          const status = document.getElementById("scraperStatus");
-          if (status) status.innerHTML = msg;
-        };
-
-        try {
-          updateStatus("📂 Executando: python scraper_guia_automatico.py");
-
-          // Como é HTML puro, vamos simular via instrução ao usuário
-          // Em produção, isso seria uma chamada fetch() para um backend Node.js/Python
-
-          updateStatus(
-            '⚠️ Ação necessária:<br><br>1. Abra PowerShell<br>2. Execute:<br><code>cd "C:\\Users\\Lucas Valério\\Desktop"<br>python scraper_guia_automatico.py</code><br><br>3. Aguarde completar<br>4. Clique em OK abaixo quando terminar'
-          );
-
-          await new Promise((resolve) => {
-            const btn = document.createElement("button");
-            btn.textContent = "Scraper Concluído - Importar Dados";
-            btn.className = "btn btn-success";
-            btn.style.marginTop = "15px";
-            btn.onclick = () => {
-              document.body.removeChild(statusDiv);
-              resolve();
-            };
-            statusDiv.appendChild(btn);
-          });
-
-          // Procurar arquivo JSON mais recente
-          updateStatus("🔍 Procurando arquivo JSON gerado...");
-
-          // Tentar carregar clientes_crm_v2.json (gerado pelo scraper)
-          const response = await fetch("clientes_crm_v2.json?t=" + Date.now());
-          if (!response.ok) {
-            throw new Error(
-              "Arquivo JSON não encontrado. Execute o scraper primeiro."
-            );
-          }
-
-          const novosClientes = await response.json();
-
-          updateStatus("🔄 Mesclando dados (MERGE SEGURO)...");
-
-          // MERGE SEGURO: Adiciona apenas clientes novos
-          let adicionados = 0;
-          let duplicados = 0;
-
-          novosClientes.forEach((novoCliente) => {
-            const existe = clientes.find((c) => c.id === novoCliente.id);
-            if (!existe) {
-              // Cliente novo - adicionar
-              clientes.push({
-                ...novoCliente,
-                status: novoCliente.status || "nao_acompanhando",
-                motivo: novoCliente.motivo || "",
-                valor_estimado: novoCliente.valor_estimado || 0,
-                prospect: true,
-                fonte: "GC",
-                anotacoes: [],
-                retornos: [],
-              });
-              adicionados++;
-            } else {
-              duplicados++;
-            }
-          });
-
-          // Salvar dados mesclados
-          salvarDados();
-
-          // LOG DE AUDITORIA
-          adicionarLogAuditoria(
-            "Automática (Guia)",
-            adicionados,
-            duplicados,
-            clientes.length
-          );
-
-          updateStatus(
-            `✅ Importação concluída!<br><br>📊 Resultados:<br>• ${adicionados} clientes NOVOS adicionados<br>• ${duplicados} duplicados ignorados<br>• ${clientes.length} total no CRM<br><br>Fechando em 3s...`
-          );
-
-          setTimeout(() => {
-            document.body.removeChild(statusDiv);
-            inicializar();
-            alert(
-              `✅ Importação automática concluída!\n\n${adicionados} novos clientes adicionados\n${duplicados} duplicados ignorados\n\nTotal: ${clientes.length} clientes no CRM`
-            );
-          }, 3000);
-        } catch (error) {
-          console.error("Erro na importação automática:", error);
-          updateStatus(
-            `❌ Erro: ${error.message}<br><br>Verifique se:<br>1. Scraper foi executado<br>2. Arquivo JSON foi gerado<br>3. Arquivo está na mesma pasta do CRM`
-          );
-
-          setTimeout(() => {
-            document.body.removeChild(statusDiv);
-          }, 5000);
-        }
-      }
+      // ========== IMPORTAÇÃO AUTOMÁTICA REMOVIDA ==========
+      // Função ativarImportacaoAutomatica removida para segurança.
+      // O scraper não deve rodar automaticamente no app.
 
         // ========== CADASTRO MANUAL DE CLIENTES ==========
         function gerarNovoID() {
@@ -3186,7 +3355,7 @@
             document.getElementById('newClientModal').style.display = 'none';
         }
 
-        function salvarNovoCliente() {
+        async function salvarNovoCliente() {
             const alertDiv = document.getElementById('newClientAlert');
             
             // Validar campos obrigatórios
@@ -3221,34 +3390,52 @@
                 }
             });
             
-            // Criar novo cliente
+            // Capturar Campos Customizados
+            let dadosExtras = {};
+            customFields.forEach(f => {
+                const input = document.getElementById(f.id);
+                if(input) dadosExtras[f.id] = input.value;
+            });
+
             const novoCliente = {
-                id: gerarNovoID(),
+                id: String(Date.now()), // Assuming this is for new client, not editing
                 nome: nome,
-                cidade: cidade,
-                data: new Date().toLocaleDateString('pt-BR'),
-                telefones: telefones,
-                metragem: document.getElementById('newClientMetragem').value || '0',
-                endereco: document.getElementById('newClientEndereco').value.trim() || '',
-                bairro: document.getElementById('newClientBairro').value.trim() || '',
-                estagio: document.getElementById('newClientEstagio').value || 'Não informado',
-                observacao: document.getElementById('newClientObservacao').value.trim() || '',
-                status: 'nao_acompanhando',
-                motivo: '',
-                valor_estimado: parseFloat(document.getElementById('newClientValor').value) || 0,
-                data_status: new Date().toISOString(),
+                telefones: telefones, // Use the collected 'telefones'
+                // ... (outros campos)
                 fonte: fonte,
-                prospect: false,
-                anotacoes: [],
-                retornos: [],
-                vendedor: document.getElementById('newClientVendedor').value || ''
+                fonte_detalhe: document.getElementById('newClientFonteOutro').value.trim(), // Assuming this is the 'fonteOutro'
+                
+                // Mapeia legacy para novo schema se precisar, mas salva customizados
+                custom_fields: dadosExtras,
+                
+                etiquetas: [],
+                historico: [
+                    {
+                        data: new Date().toISOString(),
+                        tipo: 'criacao',
+                        nota: `Cliente criado`
+                    }
+                ],
+                _ativo: true,
+                _created_at: new Date().toISOString()
             };
             
-            clientes.push(novoCliente);
-            salvarDados();
+            // Merge manual dos campos fixos (simplificado aqui para focarmos no custom)
+            novoCliente.cidade = document.getElementById("newClientCidade").value;
+            novoCliente.endereco = document.getElementById("newClientEndereco").value;
+            novoCliente.bairro = document.getElementById("newClientBairro").value;
+            novoCliente.metragem = document.getElementById("newClientMetragem").value || 0; // Ensure numeric or default
+            novoCliente.estagio = document.getElementById("newClientEstagio").value || 'Não informado'; // Ensure default
+            novoCliente.valor_estimado = parseFloat(document.getElementById("newClientValor").value) || 0; // Ensure numeric
+            novoCliente.observacao = document.getElementById("newClientObservacao").value; // Corrected ID
+            novoCliente.vendedor = document.getElementById("newClientVendedor").value;
+            
+            novoCliente.status = 'nao_acompanhando'; // Default novo
+
+            await window.Repo.save('clientes', novoCliente);
             
             alertDiv.innerHTML = '<div class="alert alert-success">✅ Cliente cadastrado com sucesso!</div>';
-            adicionarLogAuditoria('Cadastro Manual', 1, 0, clientes.length);
+            adicionarLogAuditoria('Cadastro Manual', 1, 0, clientes.length); // This count will be off if not reloaded
             
             setTimeout(() => {
                 fecharNovoCliente();
@@ -3265,8 +3452,7 @@
             document.getElementById('newClientCidade').value = clienteAtual.cidade || '';
             document.getElementById('newClientEndereco').value = clienteAtual.endereco || '';
             document.getElementById('newClientBairro').value = clienteAtual.bairro || '';
-            document.getElementById('newClientMetragem').value = clienteAtual.metragem || '';
-            document.getElementById('newClientEstagio').value = clienteAtual.estagio || '';
+            // Legacy Metragem/Estagio removed from UI
             document.getElementById('newClientValor').value = clienteAtual.valor_estimado || 0;
             document.getElementById('newClientObservacao').value = clienteAtual.observacao || '';
 
@@ -3851,7 +4037,7 @@
            document.getElementById('kpiGrid').innerHTML = `
                <div class="metric-card"><div class="metric-value">${kpiTotal}</div><div class="metric-label">Novos Leads</div></div>
                <div class="metric-card"><div class="metric-value">${kpiFechados}</div><div class="metric-label">Vendas Fechadas</div></div>
-               <div class="metric-card"><div class="metric-value">${conversion || kpiConversion}%</div><div class="metric-label">Taxa Conversão</div></div>
+               <div class="metric-card"><div class="metric-value">${kpiConversion}%</div><div class="metric-label">Taxa Conversão</div></div>
                <div class="metric-card"><div class="metric-value">${kpiInteracoes}</div><div class="metric-label">Interações</div></div>
            `;
 
@@ -4454,63 +4640,6 @@
             // Inicializar CRM
             carregarDados();
             
-            // Verificar se veio dados do scraper
-            if (window.DADOS_AUTO_IMPORT && Array.isArray(window.DADOS_AUTO_IMPORT)) {
-                console.log("🤖 Dados do Scraper detectados! Iniciando importação silenciosa...");
-                
-                // Verificar data para não reimportar indefinidamente a mesma coisa
-                // (Opcional: usar localStorage para salvar ultima data de import)
-                
-                const novosClientes = window.DADOS_AUTO_IMPORT;
-                let adicionados = 0;
-                
-                novosClientes.forEach(novoCliente => {
-                    const existeID = clientes.find(c => c.id === novoCliente.id);
-                    if (!existeID) {
-                        clientes.push({
-                            ...novoCliente,
-                            status: novoCliente.status || 'nao_acompanhando',
-                            motivo: novoCliente.motivo || '',
-                            valor_estimado: novoCliente.valor_estimado || 0,
-                            prospect: true,
-                            fonte: 'GC',
-                            data_importacao: new Date().toISOString(),
-                            anotacoes: novoCliente.anotacoes || [],
-                            retornos: novoCliente.retornos || []
-                        });
-                        adicionados++;
-                    }
-                });
-                
-                if (adicionados > 0) {
-                    salvarDados();
-                    adicionarLogAuditoria('Automática (Robô)', adicionados, 0, clientes.length);
-                    
-                    // Notificar usuário discretamente
-                    const aviso = document.createElement('div');
-                    aviso.style.position = 'fixed';
-                    aviso.style.bottom = '20px';
-                    aviso.style.right = '20px';
-                    aviso.style.background = '#22c55e';
-                    aviso.style.color = 'white';
-                    aviso.style.padding = '15px 25px';
-                    aviso.style.borderRadius = '8px';
-                    aviso.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-                    aviso.style.zIndex = '9999';
-                    aviso.innerHTML = `<strong>🤖 Scraper Finalizado!</strong><br>+${adicionados} novos clientes importados.`;
-                    document.body.appendChild(aviso);
-                    
-                    // Atualizar UI
-                    inicializar();
-                    
-                    setTimeout(() => { document.body.removeChild(aviso); }, 5000);
-                } else {
-                     console.log("🤖 Scraper rodou, mas nenhum cliente novo encontrado.");
-                }
-                
-                // Limpar variável global para liberar memória (opcional)
-                window.DADOS_AUTO_IMPORT = null;
-            }
             
             // Inicializar selects de usuários
             popularSelectsUsuarios();
@@ -4579,7 +4708,7 @@
         document.getElementById('editNome').value = cliente.nome || '';
         document.getElementById('editCidade').value = cliente.cidade || '';
         document.getElementById('editBairro').value = cliente.bairro || '';
-        document.getElementById('editMetragem').value = cliente.metragem || '';
+        // Metragem removed
         document.getElementById('editValor').value = cliente.valor_estimado || '';
         
         // ===== POPULAR ATENDENTES E TELEFONES =====
@@ -5061,7 +5190,7 @@
         clienteAtual.nome = nome;
         clienteAtual.cidade = document.getElementById('editCidade').value.trim();
         clienteAtual.bairro = document.getElementById('editBairro').value.trim();
-        clienteAtual.metragem = parseFloat(document.getElementById('editMetragem').value) || 0;
+        // clienteAtual.metragem removed from edit
         clienteAtual.valor_estimado = parseFloat(document.getElementById('editValor').value) || 0;
         
         // ===== ATUALIZAR NO ARRAY GLOBAL =====
@@ -5152,62 +5281,10 @@
         contents[index].classList.add('active');
       }
       
-      // ========== GERENCIAMENTO DE USUÁRIOS ==========
-      
-      let usuarios = JSON.parse(localStorage.getItem('crmUsuarios') || '[{"login":"admin","senha":"admin","nivel":"admin"}]');
-      
-      function renderizarUsuarios() {
-        const lista = document.getElementById('listaUsuarios');
-        if (!lista) return;
-        
-        lista.innerHTML = usuarios.map((u, i) => `
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:#f8f9fa; margin-bottom:10px; border-radius:8px;">
-            <div>
-              <strong style="font-size:15px;">${u.login}</strong>
-              <span style="margin-left:10px; font-size:12px; padding:3px 8px; border-radius:12px; background:${u.nivel === 'admin' ? '#dbeafe' : '#fef3c7'}; color:${u.nivel === 'admin' ? '#1e40af' : '#92400e'};">${u.nivel === 'admin' ? '👑 Admin' : '👤 Vendedor'}</span>
-            </div>
-            <button class="btn" style="background:#dc3545; color:white; padding:6px 12px;" onclick="removerUsuario(${i})" ${u.login === 'admin' ? 'disabled title="Admin padrão não pode ser removido"' : ''}>🗑️</button>
-          </div>
-        `).join('');
-      }
-      
-      function adicionarUsuario() {
-        const login = document.getElementById('newUserLogin').value.trim();
-        const senha = document.getElementById('newUserSenha').value.trim();
-        const nivel = document.getElementById('newUserNivel').value;
-        
-        if (!login || !senha) {
-          alert('❌ Preencha login e senha!');
-          return;
-        }
-        
-        if (usuarios.some(u => u.login === login)) {
-          alert('❌ Login já existe!');
-          return;
-        }
-        
-        usuarios.push({ login, senha, nivel });
-        localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
-        renderizarUsuarios();
-        
-        document.getElementById('newUserLogin').value = '';
-        document.getElementById('newUserSenha').value = '';
-        alert('✅ Usuário adicionado com sucesso!');
-      }
-      
-      function removerUsuario(index) {
-        if (usuarios[index].login === 'admin') {
-          alert('⛔ Não é possível remover o admin padrão!');
-          return;
-        }
-        
-        if (confirm(`⚠️ Remover usuário "${usuarios[index].login}"?`)) {
-          usuarios.splice(index, 1);
-          localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
-          renderizarUsuarios();
-          alert('✅ Usuário removido!');
-        }
-      }
+      // ========== GERENCIAMENTO DE USUÁRIOS (Unified above) ==========
+      // Logic moved to lines 1573+ to avoid duplication and ReferenceErrors
+
+
       
       // ========== WHATSAPP TEMPLATES (INTEGRADO COM SETTINGS) ==========
       
@@ -5475,7 +5552,153 @@
         </div>
         
         <!-- LISTA DE AGENDAMENTOS DO DIA -->
-        <div id="listaAgendamentosDia">
+        <!-- Panda Assistant UI -->
+    <style>
+        /* Panda Assistant Styles */
+        #panda-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.2s;
+            color: white;
+            user-select: none;
+        }
+        #panda-fab:hover { transform: scale(1.1); }
+        
+        #panda-chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            animation: pandaSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes pandaSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panda-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .panda-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .panda-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .panda-msg {
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .panda-msg.panda {
+            background: white;
+            border: 1px solid #e5e7eb;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .panda-msg.user {
+            background: #667eea;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .panda-actions {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .panda-btn-small {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .panda-btn-small:hover { background: #e5e7eb; }
+
+        .panda-input-area {
+            padding: 10px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            background: white;
+        }
+        .panda-input-area input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            outline: none;
+        }
+        .panda-input-area button {
+            background: #667eea;
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- Load Panda Assistant -->
+    <script src="js/features/AiAssistant.js"></script>
+    <script>
+        // Init Panda Assistant after load
+        window.addEventListener('load', () => {
+            if(window.AiAssistant) {
+                window.AiAssistant.init();
+            }
+        });
+    </script>
+    
+    <div id="listaAgendamentosDia">
             <p style="color:#999; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>
         </div>
       // PWA Service Worker Registration

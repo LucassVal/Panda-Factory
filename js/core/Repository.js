@@ -283,6 +283,37 @@ class Repository {
     const transaction = this.db.transaction(["sys_logs"], "readwrite");
     transaction.objectStore("sys_logs").add(log);
   }
+  async clear() {
+    return new Promise((resolve, reject) => {
+      // 1. Fechar conexão atual
+      if (this.db) {
+        this.db.close();
+      }
+
+      // 2. Tentar deletar
+      const req = indexedDB.deleteDatabase(this.dbName);
+
+      req.onsuccess = () => {
+        console.log("✅ Banco de dados limpo com sucesso!");
+        localStorage.clear(); // Limpa também localStorage
+        resolve(true);
+      };
+
+      req.onerror = () => {
+        console.error("Erro ao limpar banco:", req.error);
+        reject(req.error);
+      };
+
+      req.onblocked = () => {
+        // Se ainda estiver bloqueado, forçar reload pode ajudar
+        console.warn("Limpeza bloqueada. Tentando forçar reload...");
+        alert(
+          "Reset bloqueado pelo navegador. Vamos recarregar a página para tentar novamente.",
+        );
+        location.reload();
+      };
+    });
+  }
 }
 
 // Singleton Global
