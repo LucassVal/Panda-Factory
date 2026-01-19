@@ -3,10 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRM v2.2 - Sistema Completo de Gestão</title>
+    <title>Panda CRM 🐼</title>
+    
+    <!-- PWA Setup -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/core/Repository.js"></script>
-    <!-- CORE: Repository Pattern (IndexedDB) -->
     <script src="js/core/Repository.js"></script>
     <style>
       * {
@@ -1709,6 +1714,116 @@
           }
       }
 
+      // --- LEAD MANAGEMENT (REPOSITORY PATTERN) ---
+      
+      async function salvarNovoCliente() {
+        const nome = document.getElementById("newClientName").value.trim();
+        const cidade = document.getElementById("newClientCidade").value;
+        const data = document.getElementById("newClientData").value;
+        const endereco = document.getElementById("newClientEndereco").value.trim();
+        const bairro = document.getElementById("newClientBairro").value.trim();
+        const estagio = document.getElementById("newClientEstagio").value;
+        const observacao = document.getElementById("newClientObs").value.trim();
+        const vendedor = document.getElementById("newClientVendedor")?.value || ""; 
+        
+        // Telefones dinâmicos
+        const telInputs = document.querySelectorAll('#phonesContainer .phone-row');
+        let telefones = [];
+        
+        // Adicionar telefone principal (se preenchido)
+        const telPrincipal = document.getElementById("newClientPhone").value.trim();
+        if(telPrincipal) {
+            telefones.push({ nome: 'Principal', numero: telPrincipal });
+        }
+        
+        telInputs.forEach(row => {
+           const nomeTel = row.querySelector('input[type="text"]').value.trim() || 'Outro';
+           const numTel = row.querySelector('input[type="tel"]').value.trim();
+           if(numTel) {
+               telefones.push({ nome: nomeTel, numero: numTel });
+           }
+        });
+
+        // Fonte
+        const fonteSelect = document.getElementById("newClientFonte");
+        let fonte = fonteSelect.value;
+        if(fonte === 'OUTROS') {
+             fonte = document.getElementById("newClientFonteOutro").value.trim() || 'Outros';
+        }
+
+        if (!nome || !data) {
+          document.getElementById("newClientAlert").innerHTML =
+            '<div class="error-alert">Preencha Nome e Data!</div>';
+          return;
+        }
+
+        const novoId = Date.now().toString();
+
+        const novoCliente = {
+          id: novoId,
+          nome,
+          cidade,
+          data,
+          telefones: telefones,
+          endereco,
+          bairro,
+          estagio,
+          observacao,
+          status: "nao_acompanhando",
+          motivo: "",
+          valor_estimado: parseFloat(document.getElementById("newClientValor").value) || 0,
+          fonte: fonte,
+          vendedor: vendedor,
+          prospect: true,
+          historico: [
+            {
+              id: Date.now() + Math.random(),
+              tipo: "sistema",
+              data: new Date().toISOString(),
+              texto: "Cliente cadastrado no sistema v2.2 (Repository)",
+              autor: "Sistema"
+            }
+          ],
+          
+          // GHOST COLUMNS
+          _id_loja: '1',
+          _metadata_fiscal: {}
+        };
+
+        try {
+            // SALVAR NO REPOSITORY (IndexedDB)
+            await window.Repo.save('clientes', novoCliente);
+            
+            // Atualizar memória e UI
+            clientes.push(novoCliente);
+            
+            document.getElementById("newClientAlert").innerHTML =
+              '<div class="success-alert">Cliente salvo com sucesso!</div>';
+            
+            // Limpar
+            document.getElementById("newClientName").value = "";
+            document.getElementById("newClientPhone").value = "";
+            document.getElementById("newClientEndereco").value = "";
+            document.getElementById("newClientBairro").value = "";
+            document.getElementById("newClientObs").value = "";
+            document.getElementById("newClientValor").value = "";
+            document.getElementById("phonesContainer").innerHTML = "";
+
+            renderizarClientes();
+            atualizarGraficos(); 
+            
+            setTimeout(() => {
+              fecharNovoCliente();
+              document.getElementById("newClientAlert").innerHTML = "";
+            }, 1000);
+            
+        } catch(e) {
+            console.error("Erro CRÍTICO ao salvar:", e);
+            document.getElementById("newClientAlert").innerHTML = 
+                '<div class="error-alert">Erro ao salvar no banco.</div>';
+        }
+      }
+
       function abrirWhatsappManual(telefone, nomeCliente) {
           if(!telefone) return alert('Telefone inválido');
           // Limpar caracteres não numéricos
@@ -1720,93 +1835,86 @@
 
       async function carregarDados() {
         try {
-          let response = await fetch("dados/clientes_crm_v2.json");
-          if (!response.ok) response = await fetch("dados/clientes_crm.json");
+          console.log("🚀 Iniciando sistema com Repository...");
           
-          let dadosJson = await response.json();
+          // 1. Inicializar Banco (IndexedDB) + Sync Loop
+          await window.Repo.init();
 
-          clientes = dadosJson.map((c) => {
-             // Compatibilidade Telefones
-             let tels = c.telefones || [];
-             if(tels.length > 0 && typeof tels[0] === 'string') {
-                 tels = tels.map(t => ({ nome: 'Principal', numero: t }));
-             }
+          // 2. Migração Silenciosa (LocalStorage -> IndexedDB)
+          await migrarDadosLegados();
 
-             // --- MIGRAÇÃO HISTÓRICO UNIFICADO ---
-             let historico = c.historico || [];
-             
-             // Migrar Anotações Antigas
-             if(c.anotacoes && Array.isArray(c.anotacoes)) {
-                 c.anotacoes.forEach(nota => {
-                     if(!historico.some(h => h.id === nota.id)) {
-                         historico.push({
-                             id: nota.id,
-                             tipo: 'nota',
-                             data: nota.data,
-                             texto: nota.texto,
-                             autor: nota.autor || ''
-                         });
-                     }
-                 });
-             }
-             
-             // Migrar Retornos Antigos
-             if(c.retornos && Array.isArray(c.retornos)) {
-                 c.retornos.forEach(ret => {
-                     if(!historico.some(h => h.id === ret.id)) {
-                         historico.push({
-                             id: ret.id,
-                             tipo: 'agendamento',
-                             data: ret.data, 
-                             texto: ret.descricao + (ret.proximaAcao ? `\n\nPróxima Ação: ${ret.proximaAcao}` : ''),
-                             autor: '',
-                             agendamento: {
-                                 data: ret.data,
-                                 status: ret.status
-                             }
-                         });
-                     }
-                 });
-             }
-             
-             // Ordenar histórico por data (descrescente)
-             historico.sort((a,b) => new Date(b.data) - new Date(a.data));
+          // 3. Carregar do Banco Novo
+          clientes = await window.Repo.getAll('clientes');
+          console.log(`📡 ${clientes.length} clientes carregados do IndexedDB`);
 
-             return {
-                ...c,
-                status: c.status || "nao_acompanhando",
-                motivo: c.motivo || "",
-                valor_estimado: c.valor_estimado || 0,
-                prospect: c.prospect !== undefined ? c.prospect : true,
-                fonte: c.fonte || "manual",
-                historico: historico,
-                telefones: tels,
-                anotacoes: [],
-                retornos: []
-             };
-          });
-
-          const dadosSalvos = localStorage.getItem("crmDados_v2");
-          if (dadosSalvos) {
-            const dadosLocal = JSON.parse(dadosSalvos);
-            clientes = clientes.map((cliente) => {
-              const clienteSalvo = dadosLocal.find((c) => c.id === cliente.id);
-              return clienteSalvo || cliente;
-            });
+          // Fallback: Se banco novo vazio, tenta carregar JSON inicial
+          if (clientes.length === 0) {
+              console.log("⚠️ IndexedDB vazio. Tentando carga inicial JSON...");
+              try {
+                  // Tenta V2 primeiro, depois V1
+                  let response = await fetch("dados/clientes_crm_v2.json");
+                  if (!response.ok) response = await fetch("dados/clientes_crm.json");
+                  
+                  if(response.ok) {
+                      let dadosJson = await response.json();
+                      console.log(`📥 Importando ${dadosJson.length} clientes do JSON...`);
+                      
+                      for (let c of dadosJson) {
+                          // Garante ID string
+                          c.id = String(c.id || Date.now() + Math.random());
+                          // Salva no Repo
+                          await window.Repo.save('clientes', c);
+                      }
+                      // Recarrega
+                      clientes = await window.Repo.getAll('clientes');
+                  }
+              } catch(e) {
+                  console.log("ℹ️ Nenhum JSON inicial encontrado ou erro de fetch. Sistema limpo.");
+              }
           }
 
+          // Compatibilidade e tratamento de dados legacy
+          clientes = clientes.map(c => {
+             // Tratamentos de historico/telefones legados podem ser feitos aqui se necessário
+             // Ex: Garantir array historico
+             c.historico = c.historico || [];
+             c.telefones = c.telefones || [];
+             return c;
+          });
+
           inicializar();
+          
         } catch (error) {
-           console.error("Erro ao carregar:", error);
-           const dadosSalvos = localStorage.getItem("crmDados_v2");
-           if(dadosSalvos) {
-               clientes = JSON.parse(dadosSalvos);
-               inicializar();
-           } else {
-               alert('Nenhum dado encontrado ou erro ao carregar.');
-           }
+           console.error("❌ Erro CRÍTICO ao carregar:", error);
+           alert("Erro ao inicializar banco de dados. Veja o console.");
         }
       }
+
+      // --- MIGRATION UTILS ---
+      async function migrarDadosLegados() {
+          const dadosSalvos = localStorage.getItem("crmDados_v2");
+          if (dadosSalvos) {
+              console.log("🔄 Detectado localStorage. Migrando para IndexedDB...");
+              try {
+                  const clientesAntigos = JSON.parse(dadosSalvos);
+                  if(Array.isArray(clientesAntigos) && clientesAntigos.length > 0) {
+                      let count = 0;
+                      for (const c of clientesAntigos) {
+                          const existe = await window.Repo.getById('clientes', c.id);
+                          if (!existe) {
+                              await window.Repo.save('clientes', c);
+                              count++;
+                          }
+                      }
+                      console.log(`✅ Migração concluída: ${count} registros movidos.`);
+                      // localStorage.removeItem("crmDados_v2"); // Descomentar futuramente
+                  }
+              } catch(e) {
+                  console.error("Erro na migração:", e);
+              }
+          }
+      }
+
 
       function inicializar() {
         // Garantir Vendedores Padrão
@@ -1961,6 +2069,11 @@
       }
 
       function criarGraficos() {
+        // Fix: Destruir gráfico anterior se existir
+        if (charts.statusChart) {
+            charts.statusChart.destroy();
+        }
+
         const statusCtx = document
           .getElementById("statusChart")
           .getContext("2d");
@@ -2645,7 +2758,44 @@
           });
       }
 
-      function salvarHistorico() {
+      async function excluirItemHistorico(index) {
+          if(confirm("Excluir este item do histórico?")) {
+              clienteAtual.historico.splice(index, 1);
+              try {
+                  await window.Repo.save('clientes', clienteAtual);
+                  renderizarHistorico();
+                  renderizarClientes(); // Atualizar tabela principal
+              } catch(e) {
+                  alert('Erro ao salvar exclusão.');
+                  console.error(e);
+              }
+          }
+      }
+
+      async function concluirAgendamento(index) {
+          if(clienteAtual.historico[index].agendamento) {
+              clienteAtual.historico[index].agendamento.status = 'Concluído';
+              // Adicionar log automático de conclusão
+              clienteAtual.historico.unshift({
+                  id: Date.now(),
+                  tipo: 'sistema',
+                  data: new Date().toISOString(),
+                  texto: `Agendamento concluído (Item original: ${clienteAtual.historico[index].texto})`,
+                  autor: 'Sistema'
+              });
+              
+              try {
+                  await window.Repo.save('clientes', clienteAtual);
+                  renderizarHistorico();
+                  renderizarClientes();
+              } catch(e) {
+                  alert('Erro ao concluir agendamento.');
+                  console.error(e);
+              }
+          }
+      }
+
+      async function salvarHistorico() {
           const texto = document.getElementById("histTexto").value.trim();
           const dataRetorno = document.getElementById("histDataRetorno").value;
           const vendedor = document.getElementById("histVendedor").value;
@@ -2674,12 +2824,18 @@
           if(!clienteAtual.historico) clienteAtual.historico = [];
           clienteAtual.historico.unshift(novoItem);
           
-          document.getElementById("histTexto").value = "";
-          document.getElementById("histDataRetorno").value = "";
-          
-          salvarDados();
-          renderizarHistorico();
-          renderizarClientes();
+          try {
+              await window.Repo.save('clientes', clienteAtual);
+              
+              document.getElementById("histTexto").value = "";
+              document.getElementById("histDataRetorno").value = "";
+              
+              renderizarHistorico();
+              renderizarClientes();
+          } catch(e) {
+              alert("Erro ao salvar histórico.");
+              console.error(e);
+          }
       }
 
       /**
@@ -2704,28 +2860,13 @@
       /**
        * Abre modal de importação manual de HTML
        */
+      /**
+       * Abre modal de Upload Manual
+       */
       function abrirImportacao() {
         document.getElementById('uploadArea').style.display = 'flex';
       }
-      
-      /**
-       * Ativa importação automática via scraper Python
-       */
-      function ativarImportacaoAutomatica() {
-        alert('🤖 Importação Automática\n\nPara usar:\n1. Execute "Importar_Clientes.bat"\n2. O scraper Python será executado\n3. Clientes importados automaticamente\n\nArquivo: scripts/scraper_guia_automatico.py');
-        
-        const confirmExec = confirm('Abrir pasta de scripts?');
-        if (confirmExec) {
-          window.open('file:///C:/Users/Lucas Valério/Desktop/CRM/scripts', '_blank');
-        }
-      }
-      
-      /**
-       * Mostra configurações do scraper
-       */
-      function mostrarConfigScraper() {
-        alert('⚙️ Configurações do Scraper\n\nArquivo: scripts/scraper_guia_automatico.py\n\nComo configurar:\n1. Abra o .py em editor\n2. Modifique variáveis:\n   - URL_BASE\n   - FILTROS_BUSCA\n   - TEMPO_ESPERA\n3. Salve e execute\n\nRequisitos:\n- Python 3.8+\n- Playwright\n\nVeja README.md para detalhes');
-      }
+
 
       async function excluirItemHistorico(index) {
           if(confirm("Excluir este item do histórico?")) {
@@ -2762,7 +2903,7 @@
         statusDiv.innerHTML = "<p>⏳ Processando arquivo...</p>";
 
         const reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = async function (e) {
           try {
             const html = e.target.result;
             const novosClientes = parsearHTMLRelatorio(html);
@@ -5337,6 +5478,17 @@
         <div id="listaAgendamentosDia">
             <p style="color:#999; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>
         </div>
+      // PWA Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('./sw.js')
+            .then(function(registration) {
+              console.log('🐼 Panda CRM: ServiceWorker registrado com sucesso: ', registration.scope);
+            }, function(err) {
+              console.log('❌ ServiceWorker falhou: ', err);
+            });
+        });
+      }
     </div>
   </body>
 </html>

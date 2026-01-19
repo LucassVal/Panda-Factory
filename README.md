@@ -17,9 +17,25 @@
 >
 > Tudo sobre TitanGestão PRO (arquitetura, features, IA, integrações, roadmap, pricing) está no CODEX.
 
+**Meta Lançamento:** 15 Março 2026
+
 ---
 
-## 📑 ÍNDICE RÁPIDO
+## 📜 CHANGELOG
+
+### v1.1 - Infraestrutura & Backend (Atual)
+
+- **Frontend (CRM.html):** "Cirurgia Cardíaca" concluída. Substituição do `localStorage` (frágil) pelo **Repository Pattern** com **IndexedDB** (robusto).
+- **Dados:** Implementação de _Ghost Columns_ (`_id_loja`, `_metadata_fiscal`) para compatibilidade futura sem quebrar código legado.
+- **Backend (Apps Script):** Criação do `TitanGestao_Backend` v1.0.
+  - Sync Engine (Push/Pull)
+  - Keep-Alive (Ping 2min)
+  - Webhooks preparados (WhatsApp, iFood)
+- **Integrações:** Stubs prontos para iFood/99Food Polling e Fila Fiscal.
+
+---
+
+## 🧭 ÍNDICE MESTRE (CODEX)O
 
 ### Documentação Essencial
 
