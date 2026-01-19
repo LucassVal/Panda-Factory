@@ -13,12 +13,60 @@
 
 ### Documentação Essencial
 
+- [Diagramas Visuais](#-diagramas-visuais) - Fluxograma e Mapa Mental
 - [Visão Geral](#-visão-geral) - O que é o produto
 - [Arquitetura](#-arquitetura) - Como funciona tecnicamente
 - [Modelo de Negócio](#-modelo-de-negócio) - Pricing e estratégia
 - [Roadmap](#-roadmap) - Plano de implementação
 - [Comparação Arquiteturas](#-comparação-arquiteturas-nova) - v1.0 vs v2.0
 - [Documentos Detalhados](#-documentação-completa) - Todos os arquivos
+
+---
+
+## 🎨 DIAGRAMAS VISUAIS
+
+### Fluxograma Completo do Sistema
+
+```mermaid
+flowchart TD
+    A[Compra R$ 149,90] --> B[Código Ativação]
+    B --> C[Setup Google Drive]
+    C --> D[PWA Instalado]
+    D --> E{Modo}
+    E -->|Offline| F[IndexedDB]
+    E -->|Online| G[Drive Sync]
+    F --> H[Dashboard]
+    G --> H
+    H --> I[CRM]
+    H --> J[PDV]
+    H --> K[Estoque]
+    H --> L[Financeiro]
+    H --> M[Agenda]
+```
+
+### Mapa Mental Arquitetura
+
+```mermaid
+mindmap
+  root((TitanGestão))
+    Frontend
+      PWA
+      IndexedDB
+      Charts
+    Módulos
+      CRM
+      PDV
+      Estoque
+      Financeiro
+    Backend
+      Apps Script
+      Node Auth
+      Google Drive
+    Negócio
+      R$ 149,90
+      MRR
+      LATAM
+```
 
 ---
 
