@@ -44,28 +44,40 @@ flowchart TD
     H --> M[Agenda]
 ```
 
-### Mapa Mental Arquitetura
+### Mapa Mental da Arquitetura
 
 ```mermaid
-mindmap
-  root((TitanGestão))
-    Frontend
-      PWA
-      IndexedDB
-      Charts
-    Módulos
-      CRM
-      PDV
-      Estoque
-      Financeiro
-    Backend
-      Apps Script
-      Node Auth
-      Google Drive
-    Negócio
-      R$ 149,90
-      MRR
-      LATAM
+graph LR
+    ROOT[TitanGestão PRO]
+
+    ROOT --> FRONT[Frontend PWA]
+    ROOT --> MOD[Módulos Core]
+    ROOT --> BACK[Backend Sync]
+    ROOT --> NEG[Negócio]
+
+    FRONT --> F1[Service Worker]
+    FRONT --> F2[IndexedDB]
+    FRONT --> F3[Chart.js]
+
+    MOD --> M1[CRM]
+    MOD --> M2[PDV]
+    MOD --> M3[Estoque]
+    MOD --> M4[Financeiro]
+    MOD --> M5[Agenda]
+
+    BACK --> B1[Apps Script]
+    BACK --> B2[Node Auth]
+    BACK --> B3[Google Drive]
+
+    NEG --> N1[R$ 149,90]
+    NEG --> N2[MRR Opcional]
+    NEG --> N3[LATAM]
+
+    style ROOT fill:#FFD700
+    style FRONT fill:#87CEEB
+    style MOD fill:#FF6B6B
+    style BACK fill:#9370DB
+    style NEG fill:#90EE90
 ```
 
 ---
