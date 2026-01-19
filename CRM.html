@@ -2727,18 +2727,20 @@
         alert('⚙️ Configurações do Scraper\n\nArquivo: scripts/scraper_guia_automatico.py\n\nComo configurar:\n1. Abra o .py em editor\n2. Modifique variáveis:\n   - URL_BASE\n   - FILTROS_BUSCA\n   - TEMPO_ESPERA\n3. Salve e execute\n\nRequisitos:\n- Python 3.8+\n- Playwright\n\nVeja README.md para detalhes');
       }
 
-      function excluirItemHistorico(index) {
+      async function excluirItemHistorico(index) {
           if(confirm("Excluir este item do histórico?")) {
               clienteAtual.historico.splice(index, 1);
-              salvarDados();
+              await window.Repo.save('clientes', clienteAtual); // Salva no banco
               renderizarHistorico();
           }
       }
       
-      function concluirAgendamento(index) {
+      async function concluirAgendamento(index) {
           if(clienteAtual.historico[index].agendamento) {
             clienteAtual.historico[index].agendamento.status = 'Concluído';
-            salvarDados();
+            clienteAtual.historico[index].texto += " ✅ (Concluído)"; 
+            
+            await window.Repo.save('clientes', clienteAtual); // Salva no banco
             renderizarHistorico();
           }
       }
@@ -2766,19 +2768,25 @@
             const novosClientes = parsearHTMLRelatorio(html);
 
             // Mesclar com clientes existentes
-            novosClientes.forEach((novoCliente) => {
+            for (const novoCliente of novosClientes) {
               const existe = clientes.find((c) => c.id === novoCliente.id);
               if (!existe) {
+                // Injeta schema novo
+                novoCliente._id_loja = '1';
+                novoCliente._metadata_fiscal = {};
+                
                 clientes.push(novoCliente);
+                await window.Repo.save('clientes', novoCliente); // Salva item a item
               }
-            });
+            }
 
-            salvarDados();
+            // Não chamamos mais salvarDados() global
             inicializar();
 
             statusDiv.innerHTML = `<div class="alert alert-success">✅ ${novosClientes.length} clientes importados com sucesso!</div>`;
 
             // Log Audit
+            // ... (logica de log mantida)
             adicionarLogAuditoria(
               "Upload Manual HTML",
               novosClientes.length,
