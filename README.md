@@ -1,11 +1,21 @@
 # 🚀 TitanGestão PRO - Sistema Completo de Gestão
 
-**Versão:** 3.0 Híbrida  
-**Status:** Documentação Consolidada + Nova Arquitetura em Análise  
+**Versão:** 4.0 Final  
+**Status:** Documentação Consolidada em CODEX Único  
 **Lançamento:** Faseado (v1.0 Março 2026, v2.0 Julho 2026)
 
 [![GitHub](https://img.shields.io/badge/GitHub-LucassVal%2FSAAS-blue)](https://github.com/LucassVal/SAAS)
-[![Versão](https://img.shields.io/badge/Vers%C3%A3o-3.0-orange)]()
+[![Versão](https://img.shields.io/badge/Vers%C3%A3o-4.0-orange)]()
+
+---
+
+## 📖 DOCUMENTO MESTRE
+
+> **IMPORTANTE:** Este README é um índice rápido. A documentação completa consolidada está em:
+>
+> ### 👉 **[CODEX.md](CODEX.md)** - O DOCUMENTO ÚNICO
+>
+> Tudo sobre TitanGestão PRO (arquitetura, features, IA, integrações, roadmap, pricing) está no CODEX.
 
 ---
 
@@ -357,27 +367,26 @@ Análise completa em: **[COMPARACAO_ARQUITETURAS.md](COMPARACAO_ARQUITETURAS.md)
 
 ## 📚 DOCUMENTAÇÃO COMPLETA
 
-### 📖 Documentos Principais (9 arquivos)
+### 📖 Documento Mestre (LEIA PRIMEIRO!)
 
-| Documento                                                    | Descrição                                 |
-| ------------------------------------------------------------ | ----------------------------------------- |
-| **[README.md](README.md)**                                   | 👈 Você está aqui - Índice completo       |
-| **[GUIA_PROJETO.md](GUIA_PROJETO.md)**                       | Decisões, regras ouro, features completas |
-| **[ARQUITETURA_COMPLETA.md](ARQUITETURA_COMPLETA.md)**       | Stack, Apps Script, PWA, setup dev        |
-| **[ESTRATEGIA_NEGOCIO.md](ESTRATEGIA_NEGOCIO.md)**           | Pricing, mercado, marketing, LATAM        |
-| **[ROADMAP.md](ROADMAP.md)**                                 | 8 sprints implementação                   |
-| **[FEATURES.md](FEATURES.md)**                               | 89 funcionalidades detalhadas             |
-| **[FAQ.md](FAQ.md)**                                         | Perguntas frequentes                      |
-| **[FUTURO_IA.md](FUTURO_IA.md)**                             | Roadmap IA v2.0+                          |
-| **[COMPARACAO_ARQUITETURAS.md](COMPARACAO_ARQUITETURAS.md)** | v1.0 vs "Agente Foda"                     |
+| Documento                                 | Descrição                                                                                           |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **[CODEX.md](CODEX.md)** 👈 **PRINCIPAL** | Documento único consolidado com TUDO: Arquitetura, Features, IA, Integrações, Roadmap, Pricing, FAQ |
 
-### 📦 Arquivos Especiais
+### 📄 Documentos Complementares
 
-| Arquivo                                              | Descrição                          |
-| ---------------------------------------------------- | ---------------------------------- |
-| **[UI_MOCKUP_CADASTRO.md](UI_MOCKUP_CADASTRO.md)**   | Mockup completo interface cadastro |
-| **[BACKUP_CONSOLIDACAO.md](BACKUP_CONSOLIDACAO.md)** | Backup docs antiga consolidação    |
-| **[\_archive/](_archive/)**                          | Documentos antigos preservados     |
+| Documento                                          | Descrição                                       |
+| -------------------------------------------------- | ----------------------------------------------- |
+| **[README.md](README.md)**                         | Esta página - Índice rápido + Diagramas visuais |
+| **[ROADMAP.md](ROADMAP.md)**                       | Sprints detalhados 1-8 (implementação)          |
+| **[FEATURES.md](FEATURES.md)**                     | Lista completa 89 funcionalidades               |
+| **[FAQ.md](FAQ.md)**                               | Perguntas e respostas                           |
+| **[UI_MOCKUP_CADASTRO.md](UI_MOCKUP_CADASTRO.md)** | Mockup interface cadastro clientes              |
+| **[MAPEAMENTO_CODEX.md](MAPEAMENTO_CODEX.md)**     | Mapa de onde cada conteúdo está no CODEX        |
+
+### 📦 Arquivos Arquivados
+
+Documentos consolidados em [`_archive/v3_consolidados/`](_archive/v3_consolidados/) (backup seguro!)
 
 ---
 
