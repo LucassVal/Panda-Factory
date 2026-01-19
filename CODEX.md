@@ -321,6 +321,76 @@ if (CONFIG.ENABLE_IFOOD) {
 
 ---
 
+## 5. Organização de Código (Modular)
+
+### Estrutura Atual vs Futuro
+
+**v1.0 (Março 2026):**
+
+```
+CRM.html (monolito 218KB)
+- Tudo inline (rápido desenvolver)
+- build.js concatena se necessário
+```
+
+**v1.5 (Maio 2026):**
+
+```
+/js
+  /modules
+    crm.js
+    pdv.js
+    estoque.js
+    financeiro.js
+  /core
+    repository.js
+    utils.js
+  main.js
+```
+
+**v2.0+ (CLASP - Se necessário):**
+
+```
+/src
+  /core                    ← O Coração
+    /database              (Repository pattern)
+    /auth                  (Gerenciamento ID_LOJA)
+    /utils                 (Logs, UUID, Formatação)
+
+  /lib_ia                  ← Cérebro Centralizado
+    /prompts               (Biblioteca prompts versionados)
+    /adapters              (Gemini/OpenAI adapters)
+
+  /modules                 ← Regras de Negócio
+    /vendas                (Checkout, descontos)
+    /estoque               (Baixa, ficha técnica)
+    /fiscal                (NCM, cálculo imposto)
+
+  /integrations            ← Conexões Externas
+    /whatsapp              (Webhook Evolution API)
+    /ifood                 (Polling passivo)
+    /bridge_local          (Impressão C#)
+
+  /frontend                ← Interface
+    /controllers           (Roteador Front → Back)
+```
+
+### Decisão Estratégica
+
+**Por quê não CLASP v1.0?**
+
+- ✅ Lançar rápido (Março 2026)
+- ✅ Monolito = debug simples
+- ✅ Adicionar complexidade gradual
+
+**Quando CLASP?**
+
+- v2.0+ se Apps Script distribuído
+- v3.0+ se multi-repositório
+- Só se NECESSÁRIO (não obrigatório)
+
+---
+
 ## 4. Segurança e Multi-User
 
 ### Race Condition (Estoque)
