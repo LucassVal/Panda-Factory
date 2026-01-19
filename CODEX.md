@@ -694,6 +694,36 @@ function gerarEtiqueta(pedido) {
 
 **Conceito:** IA não é chatbot - é AGENTE que executa tarefas como Antigravity
 
+### Prompt Registry (Governança Centralizada)
+
+**O que é:** Biblioteca central de prompts versionados que garante consistência
+
+```javascript
+// lib_ia/prompts/registry.js
+const PROMPT_REGISTRY = {
+  CADASTRAR_PRODUTO: {
+    versao: "1.2",
+    prompt: `Extraia produtos desta imagem:
+             Retorne JSON: [{nome, preco, categoria}]`,
+    validacao: (resultado) => Array.isArray(resultado),
+  },
+
+  BUSCAR_NCM: {
+    versao: "1.0",
+    prompt: `Produto: {produto}
+             Encontre NCM (8 dígitos) mais adequado`,
+    validacao: (ncm) => /^\d{8}$/.test(ncm),
+  },
+};
+
+// IA seleciona prompt ideal
+function gerarResposta(intencao, contexto) {
+  const prompt = PROMPT_REGISTRY[intencao];
+  const promptFinal = injetarContexto(prompt.prompt, contexto);
+  return geminiAPI.gerar(promptFinal);
+}
+```
+
 ### Capacidades
 
 | Entrada       | Processamento            | Saída                        |
@@ -900,6 +930,40 @@ Campanha reativação?
 - ✅ Multi-instância
 - ✅ Webhook automático
 - ✅ Self-hosted (R$ 0) ou VPS (R$ 30/mês)
+
+**Código Webhook Completo:**
+
+```javascript
+// integrations/whatsapp/Webhook.gs
+function doPost(e) {
+  const dados = JSON.parse(e.postData.contents);
+
+  // 1. Mapeia instância WhatsApp → storeId
+  const storeId = Core_Auth_getStoreByInstance(dados.instance);
+
+  // 2. Verifica se bot ativo
+  if (Store_Config_isBotActive(storeId)) {
+    // 3. IA processa mensagem
+    const resposta = LibIA_gerarResposta({
+      mensagem: dados.message.text,
+      contexto: { storeId: storeId },
+      cliente: dados.remoteJid,
+    });
+
+    // 4. Envia resposta
+    EvolutionAPI.sendText(dados.remoteJid, resposta);
+  }
+}
+
+// core/auth/StoreMapper.gs
+function Core_Auth_getStoreByInstance(instanceName) {
+  const mapeamento = PropertiesService.getScriptProperties();
+  const map = JSON.parse(mapeamento.getProperty("INSTANCE_MAP") || "{}");
+
+  // Exemplo: { 'loja_sp_01': '1', 'loja_rj_02': '2' }
+  return map[instanceName] || "1"; // Default primeira loja
+}
+```
 
 **Funcionalidades:**
 
