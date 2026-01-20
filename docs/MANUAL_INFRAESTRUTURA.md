@@ -17,6 +17,49 @@
 
 ---
 
+## 🦴 Espinha Dorsal: Arquitetura Hub
+
+### Modelo Centralizado + Descentralizado
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   PANDA FABRICS (HUB)                       │
+├─────────────────────────────────────────────────────────────┤
+│  CENTRALIZADO (Nosso)           DESCENTRALIZADO (Cliente)  │
+│  ┌─────────────────┐            ┌─────────────────┐        │
+│  │ HTML/EXE        │            │ GAS Backend     │        │
+│  │ (Atualizações)  │            │ (Quota cliente) │        │
+│  ├─────────────────┤            ├─────────────────┤        │
+│  │ Script Database │            │ Drive Storage   │        │
+│  │ (Seguro)        │            │ (Dados cliente) │        │
+│  ├─────────────────┤            ├─────────────────┤        │
+│  │ Panda Coins     │            │ Execução        │        │
+│  │ (Economia)      │            │ (Processamento) │        │
+│  └─────────────────┘            └─────────────────┘        │
+└─────────────────────────────────────────────────────────────┘
+                    ↕ Google Auth (OAuth) ↕
+```
+
+### Por Que Google Auth é Obrigatório
+
+| Componente   | Localização      | Motivo                     |
+| :----------- | :--------------- | :------------------------- |
+| **Frontend** | Nosso servidor   | Atualizações centralizadas |
+| **Scripts**  | Nosso DB         | Segurança + Versionamento  |
+| **Backend**  | GAS do cliente   | Zero custo para nós        |
+| **Dados**    | Drive do cliente | Privacidade total          |
+| **Economia** | Panda Coins      | Monetização                |
+
+### Fluxo de Atualização
+
+```
+1. Lançamos nova versão HTML/EXE
+2. Cliente baixa automaticamente
+3. Scripts atualizados do nosso DB
+4. Execução no GAS do cliente
+5. Cobrança em Panda Coins
+```
+
 ## 🚀 Desburocratização Cloud
 
 ### O Problema Tradicional
