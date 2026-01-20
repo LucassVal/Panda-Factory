@@ -133,12 +133,12 @@ O Panda Fabrics é o **Equalizador**. Ele dá o mesmo poder de fogo da Google pa
 
 ### 🛠️ Documentação Técnica (Manuals)
 
-| Área               | Arquivo                                                                                                                     | Conteúdo                                |
-| :----------------- | :-------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- |
-| **Integrations**   | [`GOOGLE_WORKSPACE_INTEGRATIONS.md`](docs/GOOGLE_WORKSPACE_INTEGRATIONS.md)                                                 | `Gmail` `Sheets` `Drive` `YouTube`      |
-| **SDKs & Plugins** | [`PLUGINS_SDKS.md`](docs/PLUGINS_SDKS.md)                                                                                   | `Webhooks` `PowerShell` `External APIs` |
-| **Store Protocol** | [`STORE_PROTOCOL.md`](docs/STORE_PROTOCOL.md)                                                                               | `Manifest` `Security` `JEA Sandbox`     |
-| **Compliance**     | [`AUDITORIA_PRE_LANCAMENTO.md`](.gemini/antigravity/brain/2b4f52fc-5f16-47c5-9a79-3e61a6d06f59/AUDITORIA_PRE_LANCAMENTO.md) | `Legal` `LGPD` `MEI` `Tax`              |
+| Área               | Arquivo                                                                     | Conteúdo                                       |
+| :----------------- | :-------------------------------------------------------------------------- | :--------------------------------------------- | ---------- |
+| **Integrations**   | [`GOOGLE_WORKSPACE_INTEGRATIONS.md`](docs/GOOGLE_WORKSPACE_INTEGRATIONS.md) | `Gmail` `Sheets` `Drive` `YouTube`             |
+| **SDKs & Plugins** | [`PLUGINS_SDKS.md`](docs/PLUGINS_SDKS.md)                                   | `Webhooks` `PowerShell` `External APIs`        |
+| **Store Protocol** | [`STORE_PROTOCOL.md`](docs/STORE_PROTOCOL.md)                               | `Manifest` `Security` `JEA Sandbox`            |
+| **Compliance**     | [`AUDITORIA_PRE_LANCAMENTO.md`](docs/AUDITORIA_PRE_LANCAMENTO.md)           | **Compliance.** Firewall Jurídico e Checklist. | ✅ Crítico |
 
 ### ⚡ Caching & Performance (Novo)
 
