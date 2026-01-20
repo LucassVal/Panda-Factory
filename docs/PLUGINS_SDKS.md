@@ -163,12 +163,44 @@ window.addEventListener("message", (e) => {
 
 ## 📦 Open Source Integrations
 
-| Projeto      | Uso                   |
-| :----------- | :-------------------- |
-| **n8n**      | Automação visual      |
-| **Flowise**  | IA drag-and-drop      |
-| **Supabase** | Auth + DB alternativo |
-| **Appsmith** | Low-code dashboards   |
+### 🎨 Design (Photoshop Alternatives)
+
+| Projeto      | Uso                  | Integração   |
+| :----------- | :------------------- | :----------- |
+| **GIMP**     | Edição de imagem     | CLI batch    |
+| **Photopea** | Editor web (PS-like) | iFrame       |
+| **Krita**    | Ilustração           | Export Drive |
+
+### 📐 CAD & Engenharia
+
+| Projeto      | Uso              |
+| :----------- | :--------------- |
+| **FreeCAD**  | 3D (Python API)  |
+| **OpenSCAD** | CAD programático |
+| **Blender**  | 3D render        |
+
+### 🤖 IA Open Source (CUDA)
+
+| Modelo               | Uso         |
+| :------------------- | :---------- |
+| **Llama 3**          | LLM local   |
+| **Stable Diffusion** | Imagens     |
+| **Whisper**          | Transcrição |
+
+### 🔌 Plugins/DLLs
+
+```python
+# Carregar modelo CUDA
+import torch
+model = torch.load("modelo.pt", map_location="cuda")
+```
+
+### Low-Code
+
+| Projeto     | Uso              |
+| :---------- | :--------------- |
+| **n8n**     | Automação visual |
+| **Flowise** | IA drag-and-drop |
 
 ---
 
