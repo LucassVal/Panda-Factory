@@ -115,102 +115,92 @@ O Dev vende seu produto em plataformas externas (Kiwify, Hotmart) e entrega Pand
 **Dispatcher:** Roteamento de IA (Gemini Flash Grátis vs Pro Pago).
 **Fila Justa:** Prioridade para pagantes, Free Tier em background.
 
-### 💰 Economia Panda Coin
+### 1.5 Pilar 3: Sistema Híbrido
 
-**Pricing:** Varejo 2.5x (Conveniência) vs Atacado 1.25x (Devs).
-**Inflação Dinâmica:** Valor ajustado por oferta/demanda.
-**Taxas:** 5% Marketplace (Revertido para Comunidade e Devs).
+- **PWA Offline-First:** Funciona sem internet (Read-only + Queue).
+- **Sync:** Quando online, faz Push/Pull das ações pendentes.
+- **Agente Local:** (Futuro v4.0) Desktop app em Rust para alta performance.
 
-### 🛠️ Engenharia Core
+### 1.6 Infraestrutura de Máquinas (Ghost Architecture)
 
-**1. Geo-Spatial:** Maps SDK, Otimização de Rotas.
-**2. Workflow Automation:** Conectores Gmail/Calendar/Drive.
-**3. Cognitive Core:** RAG (Lê PDFs/Docs), Multi-modal.
-**4. Data Warehouse:** Export para BigQuery.
+**Conceito "Ghost" (Golden Image):**
+Não usamos Docker para tudo. Para ambientes Windows/Linux completos, usamos a técnica de **Ghost Imaging**:
+
+1.  **Master Node:** Uma VM "Golden Image" com todos os softwares pré-instalados (VS Code, Python, Node, Drivers NVIDIA).
+2.  **Clonagem Instantânea:** Quando o usuário precisa, o sistema "hidrata" uma cópia dessa imagem em segundos.
+3.  **Hibernação:** A VM salva o estado (RAM+Disk) e dorme. Custo zero cobrado do usuário.
 
 ---
 
+# 2. 🛠️ Engenharia Core
+
+### 2.1 Geo-Spatial Engine
+
+Otimização de rotas e normalização de endereços para Logística (Last Mile). Integração nativa Maps SDK.
+
+### 2.2 Workflow Automation
+
+Conectores OAuth2 prontos para Gmail, Calendar e Drive. "If This Then That" nativo do ecossistema.
+
+### 2.3 Cognitive Core (IA Padrão: Gemini 3.0 Flash)
+
+**O Cérebro Gratuito:** Todo usuário tem acesso ao **Gemini 3.0 Flash** com janela de contexto massiva e **1 Milhão de Tokens/dia gratuitos**.
+
+- **Por que 3.0 Flash?** Baixa latência, raciocínio avançado e custo irrisório para nós.
+- **Model Garden:** Se precisar de mais poder, invoca-se o Gemini 1.5 Pro, GPT-4o ou Claude 3.5 (cobrado em PC).
+
+### 2.4 Data Warehouse
+
+Exportação de Sheets para **BigQuery** para lidar com milhões de linhas. Conector para Looker Studio/PowerBI.
+
+### 2.5 Omni-Bar
+
+Frontend unificado (`CRM.html`). Uma barra de comando (Ctrl+K) estilo Spotlight para invocar qualquer ferramenta ou IA do sistema.
+
+### 2.6 Web PowerShell Studio (VS Code-like)
+
+Uma IDE completa no navegador para Automação de Infraestrutura.
+
+- **Engine:** Baseado no Monaco Editor (mesmo do VS Code).
+- **Funcionalidade:** Escreva scripts PowerShell/Bash com IntelliSense e Syntax Highlighting.
+- **Execução:** O script é assinado na nuvem e enviado para o **Agente Local** executar na máquina do cliente (ou na VM Ghost).
+
 ---
 
-# 2. Protocolo da Store (Módulos)
+# 3. 💰 Economia & Pricing
 
-_(Fonte: `docs/STORE_PROTOCOL.md`)_
+### 3.1 Panda Coin ($PC)
 
-## 🛒 Panda Fabrics - Protocolo Agent Store
+A moeda de troca de energia.
 
-> **Padrão de Distribuição e Segurança de Módulos**
+- **Base:** 1 USD = ~1000 PC.
+- **Consumo:** Texto (~0.5 PC), Imagem (~40 PC), Vídeo (~500 PC).
 
-### 📦 Estrutura do Módulo (Package)
+### 3.2 Tabela de Preços
 
-### `manifest.json` (Exemplo)
+| Perfil      | Margem | Preço  | Objetivo                       |
+| :---------- | :----- | :----- | :----------------------------- |
+| **Varejo**  | 2.5x   | 250 PC | Cliente Final (Conveniência)   |
+| **Atacado** | 1.25x  | 125 PC | Desenvolvedor (Volume/Revenda) |
+
+> **Promoção B2B:** Devs compram "Pacotes Business" (100k PC) com **50% OFF** para revender embutido em cursos/softwares.
+
+---
+
+# 4. 📦 Store & Protocolo de Módulos
+
+### 4.1 Manifesto do Módulo
+
+Todo módulo deve ter um `manifest.json`.
 
 ```json
 {
-  "id": "com.developer.trader-bot",
-  "version": "1.0.0",
-  "name": "Trader Pro AI",
+  "id": "com.dev.trader",
   "permissions": ["DRIVE_READ", "EXTERNAL_API"],
-  "price": { "module": 0, "energy_fee": 1 },
-  "type": "EXTENSION"
+  "price": { "module": 0, "energy_fee": 1 }
 }
 ```
 
-### Tipos de Módulos
-
-1. **App (SaaS):** Aplicação completa com UI.
-2. **Library (Code):** Bibliotecas para outros devs.
-3. **Extension (AI Skill):** Ferramentas para a IA usar (Ex: "Spotify Control").
-
-### 🛡️ Modelo de Segurança
-
-- **Sandbox (JEA):** Módulo só acessa permissões declaradas.
-- **Assinatura Digital:** Verificação de hash na instalação.
-- **Segredos:** Chaves de API do Dev injetadas via PandaVault, nunca hardcoded.
-
-### 🔄 Fluxo de Instalação
-
-1. **Store:** One-Click Install.
-2. **URL (Sideload):** `panda install <git-url>`.
-3. **Federated Stores:** Lojas privadas para empresas (Registry customizado).
-
-### 💰 Monetização
-
-- **Smart Split:** Panda cobra infra, Dev cobra markup sobre energia.
-- **Bundled Launch:** Venda embutida com Panda Coins (B2B Webhooks).
-
----
-
----
-
-# 3. Plugins & SDKs
-
-_(Fonte: `docs/PLUGINS_SDKS.md`)_
-
-## 🔌 PANDA FABRICS - Ecossistema de Plugins & SDKs
-
-### 🎬 Plugins Nativos (Roadmap)
-
-- **YouTube API:** Search, Upload.
-- **Meta Apps:** Graph API (FB/IG) postagem e métricas.
-- **WhatsApp:** Integração Evolution API.
-
-### 🎨 SDKs de Terceiros
-
-- **Canva SDK:** Embed de editor de design.
-- **Stripe SDK:** Pagamentos globais.
-- **B2B Webhooks:** Kiwify, Hotmart, Eduzz.
-
-### 🖥️ VMs Hibernáveis (BYOL)
-
-Máquina liga, processa tarefa pesada (GPU), hiberna. Custo zero ocioso. Suporte a Colab Enterprise.
-
-### 🖼️ Multi-Window HUD
-
-Popups independentes (`window.open`) que se comunicam (`postMessage`).
-Ideal para setups multi-monitor:
-
-```
-[ Monitor 1: Gráfico ] <--> [ Monitor 2: Chat IA ]
 ```
 
 ### 💻 Web PowerShell Studio
@@ -341,3 +331,4 @@ _(Fonte: `docs/AUDITORIA_PRE_LANCAMENTO.md`)_
 ---
 
 > **Panda Fabrics Core** - _Building the Developer Soil._
+```
