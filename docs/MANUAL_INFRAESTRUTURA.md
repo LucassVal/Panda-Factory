@@ -269,6 +269,41 @@ Médio (1k-10k PC)  → 5% taxa
 Alto (> 10k PC)    → 10% taxa
 ```
 
+---
+
+## ⚡ Estratégia de Caching & Performance
+
+Para garantir velocidade de "aplicativo nativo" e aliviar o Drive (lento para leitura frequente), utilizamos uma arquitetura de 3 camadas.
+
+### 1. Hot Layer (Firebase Realtime DB)
+
+- **Uso:** Dados de sessão, fila de tarefas, notificações, estado do HUD.
+- **Vantagem:** Latência de milissegundos. Push em tempo real.
+- **Custo:** Nível gratuito generoso (Spark Plan).
+
+### 2. Warm Layer (Chrome Cache / Service Workers)
+
+- **Uso:** Recursos estáticos (HTML, CSS, JS), Módulos baixados, Cache de API offline.
+- **Vantagem:** O sistema roda mesmo sem internet (PWA Offline-First).
+- **Tecnologia:** `CacheStorage API` + `IndexedDB`.
+
+### 3. Cold Layer (Google Drive)
+
+- **Uso:** Persistência de longo prazo, Backups, Arquivos grandes (PDFs, Vídeos).
+- **Vantagem:** Armazenamento massivo gratuito (15GB+).
+
+### Fluxo de Dados
+
+```
+[Navegador]
+    ↔ (ms) [Service Worker] (Cache Local)
+    ↔ (ms) [Firebase] (Realtime Sync)
+            ↓ (async backup)
+          [Google Drive] (Cold Storage)
+```
+
+---
+
 ### Taxas de Saque
 
 | Tipo                      | Taxa           |
