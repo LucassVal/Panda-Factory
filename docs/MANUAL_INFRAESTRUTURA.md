@@ -182,6 +182,18 @@ Custo PC = (Custo API × Dólar × 1.20)
 
 > **Nota:** O tier gratuito (1 milhão de tokens/dia) é compartilhado globalmente. Para uso intensivo, recomendamos upgrade para Tier Pro.
 
+### 🚦 Fila Inteligente (Smart Queue)
+
+Para mitigar congestionamento, o Dispatcher prioriza requisições baseado no saldo de Energia ($PC) do usuário.
+
+| Prioridade     | Perfil      | Saldo Mínimo | Comportamento                                            |
+| :------------- | :---------- | :----------- | :------------------------------------------------------- |
+| **VIP (Fast)** | Power Users | > 10.000 PC  | **Execução Imediata.** Fura-fila.                        |
+| **Standard**   | Pagantes    | > 100 PC     | **FIFO.** Fila normal sequencial.                        |
+| **Economy**    | Free Tier   | < 100 PC     | **Background.** Só roda quando há "vácuo" de ociosidade. |
+
+> **Analogy:** "VIP viaja de jato. Standard vai de linha comercial. Free pega carona (espera vaga)."
+
 ### Vertex AI Model Garden (Catalogo Completo)
 
 Acesso a +130 modelos Foundation via Google Cloud:
