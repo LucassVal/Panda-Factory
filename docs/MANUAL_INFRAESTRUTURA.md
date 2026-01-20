@@ -302,7 +302,7 @@ Recompensamos comportamentos que geram valor para o ecossistema.
 | Badge              | Requisito              | Recompensa (Bonificação)                       |
 | :----------------- | :--------------------- | :--------------------------------------------- |
 | **Early Adopter**  | Cadastro no Beta       | 5% Lifetime Discount na Energia                |
-| **Code Ninja**     | Vender 10+ Módulos     | Acesso antecipado a GPUs (Beta)                |
+| **Code Ninja**     | Vender 10+ Módulos     | **1.000 XP** (Destaque Dev)                    |
 | **Bug Hunter**     | Reportar falha crítica | 5.000 PC (Bounty)                              |
 | **Top Seller**     | > 100k PC movimentados | Status **VIP** na Fila (mesmo com saldo baixo) |
 | **Community Hero** | Top helper no Reddit   | Taxa de Marketplace reduzida (2%)              |

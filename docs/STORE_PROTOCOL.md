@@ -77,6 +77,10 @@ Seguindo o padrão **Open VSX**, permitimos lojas alternativas e instalação di
 - **Direct URL:** Instalar via link (GitHub/Gist).
   - _Exemplo:_ `panda install https://github.com/user/plugin.zip`
 - **Federated Stores:** Empresas podem ter sua própria "loja interna" (Private Registry).
+  > **Conceito:** Uma empresa cria um `registry.json` próprio e aponta o Panda Core para ele.
+  >
+  > - _Caso de Uso:_ "AgroCorp Store" contendo apenas plugins aprovados para seus agrônomos, sem acesso à loja pública.
+  > - _Benefício:_ Controle total de compliance e segurança para B2B.
 
 ---
 
