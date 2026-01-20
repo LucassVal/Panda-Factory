@@ -69,16 +69,20 @@ Assim como você baixa softwares open-source, no Panda Fabrics você baixa **Mó
 
 ---
 
-## 🎯 Verticais Suportadas
+## ♾️ Verticais Ilimitadas
 
-| Vertical       | Funcionalidades            |
-| :------------- | :------------------------- |
-| 🎬 Influencer  | Multi-post, Auto-reply IA  |
-| 📰 Repórter    | Mind map, Multi-search     |
-| 📈 Trader      | cTrader, HUD, Bot IA       |
-| 🔬 Pesquisador | Server rental, Client-side |
-| 🍕 Pizzaria    | Pedidos, Agenda, Rotas     |
-| ⚖️ Jurídico    | Contratos, Prazos          |
+> **"Energia se converte em qualquer trabalho."**
+> Não há limite de nicho. Se precisa de processamento (Google/GPU), o Panda Fabrics suporta.
+
+| Vertical            | Aplicação da Energia ($PC)                           |
+| :------------------ | :--------------------------------------------------- |
+| 🎬 **Cinema & VFX** | Renderização de vídeo, Color grading IA, Upscaling   |
+| 🎵 **Música**       | Produção, Masterização IA, Separação de Stems        |
+| 👨‍💻 **Coding**       | Agentes de Refatoração, Testes Automatizados, DevOps |
+| 🤖 **Bot Farming**  | Automação de interações, Farm de jogos, Web Scraping |
+| 🌾 **Agro**         | Análise de solo via drone, Previsão climática IA     |
+
+**O limite é a imaginação do desenvolvedor.** Nós apenas fornecemos a tomada. 🔌
 
 ---
 
