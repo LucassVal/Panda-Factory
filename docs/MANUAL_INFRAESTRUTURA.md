@@ -194,6 +194,18 @@ Todos os clientes pagantes têm prioridade máxima. Não privilegiamos "baleias"
 > **Filosofia:** "O pequeno desenvolvedor (Varejo) traz liquidez e é tratado como VIP."
 > O usuário que tem 100k PC não fura a fila do usuário que acabou de comprar 250 PC.
 
+### 🖥️ Interface: A "Omni-Bar" (Acesso Universal)
+
+Uma barra suspensa (Spotlight-style) permite ao usuário chamar qualquer inteligência do Garden.
+
+**Comportamento:**
+
+1.  **Default (Always-On):** `Gemini Flash` (Grátis, Rápido, 1M tokens/dia).
+2.  **Top 5 Picks (Atalhos):** personalizáveis (ex: GPT-4o, Claude 3.5, Imagen 3).
+3.  **Search Garden:** Digite para buscar entre +130 modelos ("Llama...", "Mistral...").
+
+> **UX:** O usuário não perde tempo configurando. Ele abre e já está rodando no Free Tier. Se precisar de "força bruta", troca o modelo na barra com 1 clique.
+
 ### Vertex AI Model Garden (Catalogo Completo)
 
 Acesso a +130 modelos Foundation via Google Cloud:
