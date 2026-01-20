@@ -17,6 +17,29 @@
 
 ---
 
+## 🚀 Desburocratização Cloud
+
+### O Problema Tradicional
+
+```
+Dev → Criar Conta AWS → VPC → IP → VM → SSL → Billing → 😵
+```
+
+### A Solução Panda Fabrics
+
+```
+Dev → Compra $PC → Usa API → Pronto! 🐼
+```
+
+| Complexidade | Nossa Solução          |
+| :----------- | :--------------------- |
+| VM/VPS       | Serverless (GAS/Colab) |
+| IP Fixo      | URL Apps Script        |
+| SSL          | Google gerencia        |
+| Billing      | Panda Coin             |
+| Scaling      | Automático             |
+| Deploy       | `clasp push`           |
+
 ## 🛡️ Pilar 1: Segurança
 
 ### Google Cloud Armor
