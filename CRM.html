@@ -3753,6 +3753,104 @@
       // Initialize on load
       window.addEventListener('load', initEnergySystem);
 
+      // ========== PANDA CORE BRIDGE (FUSÃO TITAN + PANDA) ==========
+      const PANDA_CORE = {
+        endpoint: "https://script.google.com/macros/s/AKfycbxPx18ed1gP8cR08dRxEInmVheihSoSkqiucXp2icFmF5dZO_ccM6c3Q6LMvjeE2VcM/exec",
+        userId: null, // Será preenchido no login
+        balance: 1000, // Saldo inicial (PC)
+        maxBalance: 1000
+      };
+
+      /**
+       * Central de comunicação com o Panda Core Backend.
+       * @param {string} type - Tipo de serviço (TEXT_GEN, DRIVE_READ, TOOL_CALL, etc)
+       * @param {Object} payload - Dados do pedido
+       * @returns {Promise<Object>} Resposta do backend
+       */
+      async function callPandaBrain(type, payload, action = null) {
+        try {
+          const body = {
+            userId: PANDA_CORE.userId || localStorage.getItem('crmUsuarioLogado') || 'anonymous',
+            type: type,
+            payload: payload
+          };
+          
+          if (action) body.action = action;
+
+          const response = await fetch(PANDA_CORE.endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+          });
+
+          const result = await response.json();
+
+          // Atualiza a barra de energia se a transação foi bem-sucedida
+          if (result.meta?.new_balance !== undefined) {
+            PANDA_CORE.balance = result.meta.new_balance;
+            updateEnergyFromPanda(result.meta.new_balance);
+          }
+
+          // Verifica saldo insuficiente
+          if (result.status === "INSUFFICIENT_FUNDS") {
+            showRechargeModal(result.requiredPC, result.currentBalance);
+            return result;
+          }
+
+          return result;
+
+        } catch (error) {
+          console.error("❌ Erro Panda Core:", error);
+          return { status: "ERROR", message: error.toString() };
+        }
+      }
+
+      /**
+       * Atualiza a barra de energia visual com o saldo real do Panda Core.
+       */
+      function updateEnergyFromPanda(balance) {
+        PANDA_CORE.balance = balance;
+        const percent = Math.min(100, Math.max(0, (balance / PANDA_CORE.maxBalance) * 100));
+        
+        const fill = document.getElementById('aiEnergyFill');
+        const text = document.getElementById('aiEnergyText');
+        
+        if (fill) fill.style.width = `${percent}%`;
+        if (text) text.innerText = `${Math.round(balance)} PC`;
+        
+        // Visual warning
+        if (fill) {
+          if (percent < 20) fill.style.background = '#ef4444';
+          else if (percent < 50) fill.style.background = '#f59e0b';
+          else fill.style.background = 'linear-gradient(90deg, #10b981, #3b82f6)';
+        }
+      }
+
+      /**
+       * Busca o saldo atual do usuário no Panda Core.
+       */
+      async function fetchPandaBalance() {
+        const result = await callPandaBrain(null, null, "GET_BALANCE");
+        if (result.status === "SUCCESS") {
+          PANDA_CORE.balance = result.balance;
+          updateEnergyFromPanda(result.balance);
+        }
+      }
+
+      /**
+       * Mostra modal de recarga quando saldo é insuficiente.
+       */
+      function showRechargeModal(required, current) {
+        alert(`⚠️ Saldo Insuficiente!\n\nNecessário: ${required} PC\nAtual: ${current} PC\n\nRecarregue para continuar usando os serviços de IA.`);
+        // TODO: Implementar modal de pagamento
+      }
+
+      // Carrega saldo real ao iniciar (se online)
+      window.addEventListener('load', () => {
+        setTimeout(fetchPandaBalance, 2000); // Delay para não travar o carregamento
+      });
+
+
       // ========== GESTÃO DE USUÁRIOS ==========
         
       async function renderizarUsuarios() {
