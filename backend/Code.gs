@@ -79,12 +79,18 @@ function doPost(e) {
       return jsonResponse({ error: 'Servidor ocupado. Tente novamente.' }, 503);
     }
 
+    // === PROCESSO PAGSEGURO (WEBHOOK) ===
+    if (e.parameter && e.parameter.notificationCode) {
+      const result = processPaymentNotification(e.parameter.notificationCode);
+      return ContentService.createTextOutput(result);
+    }
+
     const payload = JSON.parse(e.postData.contents);
     const userId = payload.userId || Session.getEffectiveUser().getEmail();
     const action = payload.action;
     const type = payload.type;
 
-    // === AÇÕES ESPECIAIS (LEDGER) ===
+    // === AÇÕES ESPECIAIS (LEDGER & PAYMENT) ===
     if (action === 'GET_BALANCE') {
       return jsonResponse({
         status: 'SUCCESS',
@@ -94,7 +100,12 @@ function doPost(e) {
       });
     }
 
-    if (action === 'RECHARGE') {
+    if (action === 'CREATE_PAYMENT') {
+       const checkout = createCheckout(userId, payload.amountPC, payload.priceBRL);
+       return jsonResponse(checkout);
+    }
+
+    if (action === 'RECHARGE') { // MANTIDO PARA TESTES MANUAIS
       const newBalance = creditWallet(userId, payload.amount, 'RECARGA_MANUAL');
       return jsonResponse({
         status: 'SUCCESS',
