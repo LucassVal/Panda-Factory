@@ -96,6 +96,26 @@ function handleKiwifyWebhook(payload) {
 }
 ```
 
+### PagSeguro (Brasil)
+
+```javascript
+// Integração Nacional
+function criarCheckoutPagSeguro(item) {
+  const payload = {
+    currency: "BRL",
+    items: [
+      {
+        id: item.id,
+        description: `Panda Coins: ${item.quant}`,
+        amount: item.valor,
+        quantity: 1,
+      },
+    ],
+  };
+  return App.PagSeguro.createCheckout(payload);
+}
+```
+
 ---
 
 ## 🖥️ VMs Hibernáveis (BYOL)
