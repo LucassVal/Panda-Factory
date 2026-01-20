@@ -6526,5 +6526,79 @@
         });
       }
     </div>
+    <!-- OMNI-BAR LOGIC -->
+    <script>
+        const omniOverlay = document.getElementById('omni-overlay');
+        const omniInput = document.getElementById('omni-input');
+        const omniResults = document.getElementById('omni-results');
+        const modelBadge = document.getElementById('current-model-badge');
+        let isOmniOpen = false;
+
+        const MODELS = [
+            { id: 'gemini-1.5-flash', name: 'Gemini Flash', icon: 'fa-bolt', free: true },
+            { id: 'gemini-1.5-pro', name: 'Gemini Pro', icon: 'fa-brain', free: false },
+            { id: 'gpt-4o', name: 'GPT-4o', icon: 'fa-robot', free: false },
+            { id: 'claude-3.5-sonnet', name: 'Claude 3.5', icon: 'fa-feather', free: false },
+            { id: 'imagen-3', name: 'Imagen 3', icon: 'fa-image', free: false }
+        ];
+        let currentModelIndex = 0;
+
+        // Toggle Omni-Bar (Ctrl+K or Command+K)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleOmniBar();
+            }
+            if (e.key === 'Escape' && isOmniOpen) {
+                toggleOmniBar();
+            }
+        });
+
+        function toggleOmniBar() {
+            isOmniOpen = !isOmniOpen;
+            omniOverlay.style.display = isOmniOpen ? 'flex' : 'none';
+            if (isOmniOpen) {
+                omniInput.value = '';
+                omniInput.focus();
+                renderResults([]); // Show default or history
+            }
+        }
+
+        function cycleModel() {
+            currentModelIndex = (currentModelIndex + 1) % MODELS.length;
+            const model = MODELS[currentModelIndex];
+            modelBadge.innerHTML = `<i class="fas ${model.icon}"></i> ${model.name}`;
+            // TODO: Save preference to LocalStorage
+        }
+
+        // Search Mockup
+        omniInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if(!query) { omniResults.innerHTML = ''; return; }
+            
+            // Mock Results
+            const results = [
+                { title: 'Analisar Contrato', desc: 'Use Gemini para ler PDF', icon: 'fa-file-contract', type: 'AI' },
+                { title: 'Criar Imagem', desc: 'Gerar assets visuais', icon: 'fa-paint-brush', type: 'AI' },
+                { title: 'Financeiro', desc: 'Abrir Dashboard Financeiro', icon: 'fa-chart-line', type: 'Nav' },
+                { title: 'Novo Cliente', desc: 'Cadastrar lead', icon: 'fa-user-plus', type: 'Action' }
+            ].filter(r => r.title.toLowerCase().includes(query));
+
+            renderResults(results);
+        });
+
+        function renderResults(list) {
+            omniResults.innerHTML = list.map(item => `
+                <div class="omni-item">
+                    <div class="omni-item-icon"><i class="fas ${item.icon}"></i></div>
+                    <div class="omni-item-content">
+                        <div class="omni-item-title">${item.title}</div>
+                        <div class="omni-item-desc">${item.desc}</div>
+                    </div>
+                    <div class="omni-shortcut">↵</div>
+                </div>
+            `).join('');
+        }
+    </script>
   </body>
 </html>
