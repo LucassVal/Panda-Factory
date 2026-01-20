@@ -283,6 +283,40 @@ Alto (> 10k PC)    → 10% taxa
 
 ---
 
+## 🌍 Comunidade & Gamificação
+
+O Panda Fabrics não é apenas software, é uma **Sociedade Digital**.
+
+### 🆔 Identidade & Login
+
+Para fomentar a interação, suportamos logins de plataformas de dev e discussão.
+
+- **Google:** Login Core (Obrigatório para Drive/Apps Script).
+- **GitHub:** Para Devs exibirem seus portfólios e commits.
+- **Reddit:** Para discussões, suporte e threads na comunidade.
+
+### 🏆 Panda Badges (Gamificação)
+
+Recompensamos comportamentos que geram valor para o ecossistema.
+
+| Badge              | Requisito              | Recompensa (Bonificação)                       |
+| :----------------- | :--------------------- | :--------------------------------------------- |
+| **Early Adopter**  | Cadastro no Beta       | 5% Lifetime Discount na Energia                |
+| **Code Ninja**     | Vender 10+ Módulos     | Acesso antecipado a GPUs (Beta)                |
+| **Bug Hunter**     | Reportar falha crítica | 5.000 PC (Bounty)                              |
+| **Top Seller**     | > 100k PC movimentados | Status **VIP** na Fila (mesmo com saldo baixo) |
+| **Community Hero** | Top helper no Reddit   | Taxa de Marketplace reduzida (2%)              |
+
+### 🌐 Estratégia de Domínios
+
+O ecossistema será federado sob domínios premium para autoridade e segurança.
+
+- **Principal:** `pandafabrics.io` (Hub, Store, Dashboard)
+- **Devs:** `*.panda.dev` (Subdomínios para Apps dos usuários, ex: `trader.panda.dev`)
+- **API:** `api.pandafabrics.io` (Gateway central)
+
+---
+
 ## ⚡ Estratégia de Caching & Performance
 
 Para garantir velocidade de "aplicativo nativo" e aliviar o Drive (lento para leitura frequente), utilizamos uma arquitetura de 3 camadas.
