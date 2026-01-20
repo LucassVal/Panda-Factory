@@ -226,7 +226,53 @@ model = torch.load("modelo.pt", map_location="cuda")
 
 ---
 
-## 📋 Roadmap de Implementação
+## 💻 Web PowerShell Studio
+
+### Conceito
+
+IDE full-web para criação e execução de scripts PowerShell/Bash.
+Conecta o navegador ao **Agente Local** para execução segura.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 WEB POWERSHELL STUDIO                       │
+├─────────────────────────────────────────────────────────────┤
+│  [Monaco Editor]  ←───→  [Syntax Highlighting]              │
+│  (VS Code Web)           (PowerShell/Bash/Python)           │
+│         ↓                                                   │
+│  [Script Signing] ←───→  [Panda Cloud Certs]                │
+│         ↓                                                   │
+│  [Secure Tunnel]  ←───→  [Local Agent (Rust)]               │
+│         ↓                         ↓                         │
+│  [Navegador]      ←───→  [Hardware Cliente]                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Funcionalidades
+
+| Feature            | Descrição                              |
+| :----------------- | :------------------------------------- |
+| **IntelliSense**   | Autocomplete nativo para Cmdlets       |
+| **JEA (Security)** | _Just Enough Administration_ (Sandbox) |
+| **Cloud Store**    | Galeria de scripts comunitários        |
+| **Remote Run**     | Executar em frota de máquinas          |
+
+### Exemplo de Uso
+
+```powershell
+# Script no navegador
+$cpu = Get-CimInstance Win32_Processor
+Write-Host "CPU Temp: $($cpu.Temperature)"
+
+# Execução (via Agente Local)
+Invoke-PandaAgent -Script $script -Target "Localhost"
+```
+
+### Segurança
+
+1. **Assinatura Digital:** Scripts assinados pela Panda Cloud.
+2. **Sandbox:** Execução isolada via JEA.
+3. **Audit Log:** Tudo registrado no Ledger.
 
 | Fase     | Plugins           |
 | :------- | :---------------- |
