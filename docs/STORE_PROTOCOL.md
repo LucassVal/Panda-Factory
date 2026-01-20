@@ -93,10 +93,30 @@ Seguindo o padrão **Open VSX**, permitimos lojas alternativas e instalação di
 
 ---
 
-## 💰 Revenue Share (Energy)
+## 💰 Monetização & Revenue Share
 
-Se o Dev quiser monetizar:
+O modelo econômico do Panda Fabrics sustenta tanto a infraestrutura quanto os desenvolvedores.
 
-- Usuário paga pelos Tokens/Energia ($PC).
-- **Smart Split:** Do valor gasto, X% vai para o Panda (Infra) e Y% vai para o Dev (Criador do Módulo).
-- Tudo registrado no Ledger transparente.
+### 1. Smart Split (Energy Fee)
+
+Quando um usuário roda um módulo do Dev, o consumo de energia é dividido:
+
+- **Panda Take (Infra):** Cobra o custo computacional + margem base.
+- **Dev Take (Royalty):** O Dev define uma sobretaxa (Markup) sobre a energia.
+  - _Exemplo:_ Custo Real = 1 PC. Dev cobra 1.2 PC.
+  - _Resultado:_ Panda recebe 1, Dev recebe 0.2 de lucro passivo.
+
+### 2. Atacado (Dev Discounts)
+
+Desenvolvedores compram "Energia no Atacado" para revender ou embutir.
+
+- **Margem:** Dev paga **1.25x** (vs 2.5x do Varejo).
+- **Lucro:** Dev pode vender acesso ao seu app cobrando o preço de Varejo, lucrando a diferença (**50% de margem**).
+
+### 3. Bundled Launch CBO (Venda com Moeda Nativa)
+
+O Dev vende seu produto (ex: R$ 97,00) e entrega o software + um pacote de moedas.
+
+- **Fluxo:** User compra no Hotmart/Kiwify do Dev.
+- **Webhook:** O sistema do Dev avisa o Panda: "Credite 1.000 PC na conta X".
+- **Vantagem:** O Dev compra esses 1.000 PC no Atacado (barato) e vende no Varejo (valor agregado), criando **Caixa Rápido** para ele e **Liquidez** para nós.
