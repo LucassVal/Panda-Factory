@@ -123,12 +123,14 @@ O Dev vende seu produto em plataformas externas (Kiwify, Hotmart) e entrega Pand
 
 ### 1.6 Infraestrutura de Máquinas (Ghost Architecture)
 
-**Conceito "Ghost" (Golden Image):**
-Não usamos Docker para tudo. Para ambientes Windows/Linux completos, usamos a técnica de **Ghost Imaging**:
+**Conceito "Ghost" (Golden Image) + Spot VMs:**
+Não usamos Docker para tudo. Para ambientes Windows/Linux completos, usamos:
 
-1.  **Master Node:** Uma VM "Golden Image" com todos os softwares pré-instalados (VS Code, Python, Node, Drivers NVIDIA).
-2.  **Clonagem Instantânea:** Quando o usuário precisa, o sistema "hidrata" uma cópia dessa imagem em segundos.
-3.  **Hibernação:** A VM salva o estado (RAM+Disk) e dorme. Custo zero cobrado do usuário.
+1.  **Google Spot VMs (Preemptible):** Utilizamos a capacidade ociosa dos data centers do Google.
+    - _Custo:_ 60-91% mais barato que VMs normais.
+    - _Estratégia:_ Se o Google precisar da máquina de volta, nosso sistema automaticamente "hiberna" o estado e move para outra Spot VM em segundos.
+2.  **Master Node (Golden Image):** Uma VM com todos os softwares pré-instalados (VS Code, Python, Node, Drivers NVIDIA).
+3.  **Hibernação:** A VM salva o estado (RAM+Disk) e dorme quando não usada. Custo zero de computação.
 
 ---
 
