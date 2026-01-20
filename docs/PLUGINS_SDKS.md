@@ -340,4 +340,85 @@ const TAGS = {
 
 ---
 
+## 📈 Caso de Uso: Trader (cTrader/MetaEditor)
+
+### Conceito
+
+Multi-janelas de gráficos + Agente IA que assiste/automatiza.
+
+```
+┌────────────────────────────────────────────────────────┐
+│                TRADER WORKSTATION                      │
+├─────────────┬─────────────┬─────────────┬─────────────┤
+│  CHART 1    │  CHART 2    │  CHART 3    │  IA AGENT   │
+│  EUR/USD    │  BTC/USD    │  GOLD       │  ┌───────┐  │
+│  ┌───────┐  │  ┌───────┐  │  ┌───────┐  │  │Monitor│  │
+│  │ 📊    │  │  │ 📊    │  │  │ 📊    │  │  │ Bot   │  │
+│  └───────┘  │  └───────┘  │  └───────┘  │  └───────┘  │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+                    ↕ HUD Drawing + postMessage() ↕
+```
+
+### Modos
+
+| Modo       | Descrição           |
+| :--------- | :------------------ |
+| **Watch**  | IA observa e alerta |
+| **Assist** | IA sugere entradas  |
+| **Auto**   | IA executa ordens   |
+
+### HUD Drawing
+
+```javascript
+// Desenhar no gráfico via IA
+function desenharHUD(chart, dados) {
+  chart.drawLine(dados.entry, dados.tp, { color: "green" });
+  chart.drawLabel(`TP: ${dados.tp}`, { x: 100, y: 50 });
+}
+```
+
+---
+
+## 🔬 Caso de Uso: Pesquisador
+
+### Conceito
+
+Aluguel de servidores para pesquisas + Agente client-side.
+
+```
+┌─────────────────────────────────────────┐
+│         RESEARCHER WORKSTATION          │
+├─────────────────────────────────────────┤
+│  [Local Agent]  ←──→  [Drive Sync]     │
+│       ↓                    ↓            │
+│  [GPU Local]          [Colab GPU]      │
+│       ↓                    ↓            │
+│  [Cache IndexedDB]    [GCS Storage]    │
+└─────────────────────────────────────────┘
+```
+
+### Client-Side Agent
+
+```javascript
+// Agente roda local, sync com Drive
+const agent = {
+  mode: "hybrid", // local + cloud
+  storage: {
+    local: indexedDB,
+    cloud: "gs://bucket/research/",
+  },
+  gpu: navigator.gpu ? "webgpu" : "cpu",
+};
+```
+
+### Aluguel de Servidor
+
+| Recurso          | Custo     |
+| :--------------- | :-------- |
+| Colab GPU (hora) | 50 PC     |
+| Storage 10GB/mês | 10 PC     |
+| API calls        | 1 PC cada |
+
+---
+
 © 2026 Panda Fabrics - Ecossistema Aberto
