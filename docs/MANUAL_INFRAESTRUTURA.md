@@ -147,6 +147,53 @@ Drive + JSON = MongoDB-like sem custo.
 
 ---
 
+## 💰 Economia Panda Coin
+
+### Margem Base (1.2x)
+
+```
+Preço PC = (Custo API × Dólar) × 1.2
+```
+
+> O 1.2x é o **valor mínimo** da moeda. Inflaciona com disponibilidade.
+
+### Inflação Dinâmica
+
+```javascript
+// Valor do PC baseado em watts/token disponível
+const valorPC = Math.max(1.2, (demandaAtual / ofertaDisponivel) * baseRate);
+```
+
+### Taxa Marketplace Interno (5%)
+
+| Tipo                        | Taxa | Destino          |
+| :-------------------------- | :--- | :--------------- |
+| **C2C** (Cliente → Cliente) | 5%   | Fundo Comunidade |
+| **B2B** (Dev → Dev)         | 5%   | Inclusão Social  |
+
+### Uso das Taxas
+
+```
+5% Marketplace → Fundo Comunidade
+                      ↓
+        ┌─────────────┴─────────────┐
+        ↓                           ↓
+   [Inclusão]              [Apoio Devs]
+   Pequenos negócios       Projetos OSS
+```
+
+### Filosofia Econômica
+
+```
+"Cobrar mais do rico, incentivar a base"
+
+Base (< 1k PC)     → 0% taxa adicional
+Médio (1k-10k PC)  → 5% taxa
+Alto (> 10k PC)    → 10% taxa
+```
+
+---
+
 ## 🔄 Pilar 3: Sistema Híbrido (Online/Offline)
 
 ### PWA Offline-First
