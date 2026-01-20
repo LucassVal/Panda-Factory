@@ -143,19 +143,25 @@ Custo PC = (Custo API × Dólar × 1.20)
 
 > **Nota:** O tier gratuito (1 milhão de tokens/dia) é compartilhado globalmente. Para uso intensivo, recomendamos upgrade para Tier Pro.
 
-### Vertex AI Model Garden
+### Vertex AI Model Garden (Catalogo Completo)
 
-Acesso a modelos de terceiros hospedados no Google Cloud:
+Acesso a +130 modelos Foundation via Google Cloud:
 
-- **Zhipu AI:** GLM-4.7
-- **Meta:** Llama 3
-- **Mistral:** Large
+| Família       | Modelos Principais                     | Uso              |
+| :------------ | :------------------------------------- | :--------------- |
+| **Google**    | Gemini 1.5 Pro/Flash, PaLM 2, Imagen 3 | Geral / Visão    |
+| **Meta**      | Llama 3 (8B/70B), Code Llama           | Open Weights     |
+| **Mistral**   | Mistral Large, Mixtral 8x7B            | Alta performance |
+| **Anthropic** | Claude 3.5 Sonnet/Haiku                | Raciocínio       |
+| **Zhipu AI**  | GLM-4                                  | Multilíngue      |
 
 ```javascript
-// Exemplo chamada Model Garden
-const model = "publishers/zai-org/models/glm-4.7-maas";
-callVertexAI(model, prompt);
+// Exemplo chamada Universal (Model Garden)
+const modelId = "publishers/anthropic/models/claude-3-5-sonnet";
+const result = callVertexAI(modelId, prompt);
 ```
+
+🔗 [Catálogo Completo Vertex AI](https://console.cloud.google.com/vertex-ai/model-garden)
 
 ### NoSQL Grátis
 
