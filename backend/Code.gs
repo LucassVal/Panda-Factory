@@ -12,21 +12,22 @@
 // ============================================================================
 const CONFIG = {
   APP_NAME: 'Panda Fabrics Core',
-  VERSION: '2.0.0',
+  VERSION: '2.1.0', // Bump version
   
-  // ECONOMIA PANDA COIN
+  // ECONOMIA PANDA COIN (Referência: MANUAL_INFRAESTRUTURA.md)
   ECONOMY: {
-    MARGIN_PERCENT: 0.20,       // 20% margem sobre custo API
+    MARGIN_PERCENT: 0.30,       // 30% margem (Ajuste estratégico)
     CURRENCY_UNIT: "PC",        // Panda Coin
-    FIXED_USD_FALLBACK: 5.80,   // Cotação de segurança
-    INITIAL_BONUS: 100,         // Bônus inicial novos usuários
+    FIXED_USD_FALLBACK: 6.00,   // Cotação conservadora
+    INITIAL_BONUS: 250,         // Review: "250 PC" para novos usuários (teste grátis real)
   },
 
-  // CUSTOS POR SERVIÇO (em USD)
+  // CUSTOS POR SERVIÇO (em USD -> PC é calculado dinamicamente)
+  // 1 USD = ~1000 PC (Base de cálculo)
   SERVICE_COSTS: {
-    TEXT_GEN: 0.0005,
-    IMAGE_GEN: 0.04,
-    VIDEO_GEN: 0.50,
+    TEXT_GEN: 0.0005,   // ~0.5 PC
+    IMAGE_GEN: 0.04,    // ~40 PC
+    VIDEO_GEN: 0.50,    // ~500 PC
     DRIVE_READ: 0.001,
     SHEET_CREATE: 0.002,
   },
