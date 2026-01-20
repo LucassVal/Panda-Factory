@@ -3828,12 +3828,17 @@
 
       /**
        * Busca o saldo atual do usuário no Panda Core.
+       * Silencia erros quando offline para não poluir o console.
        */
       async function fetchPandaBalance() {
-        const result = await callPandaBrain(null, null, "GET_BALANCE");
-        if (result.status === "SUCCESS") {
-          PANDA_CORE.balance = result.balance;
-          updateEnergyFromPanda(result.balance);
+        try {
+          const result = await callPandaBrain(null, null, "GET_BALANCE");
+          if (result.status === "SUCCESS") {
+            PANDA_CORE.balance = result.balance;
+            updateEnergyFromPanda(result.balance);
+          }
+        } catch (e) {
+          console.log("🐼 Panda Core offline - usando saldo local");
         }
       }
 
@@ -3866,16 +3871,20 @@
           }
           
           users.forEach((u, index) => {
+              if(!u || !u.user) return; // Skip invalid entries
+              
               const div = document.createElement('div');
               div.style.cssText = 'background:#f8fafc; padding:10px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0;';
+              
+              const initial = u.user ? u.user.charAt(0).toUpperCase() : '?';
               
               div.innerHTML = `
                   <div style="display:flex; align-items:center; gap:10px;">
                       <div style="background:#e0e7ff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4338ca; font-weight:bold;">
-                          ${u.user.charAt(0).toUpperCase()}
+                          ${initial}
                       </div>
                       <div>
-                          <stromg>${u.user}</strong> <span style="font-size:11px; background:#f3f4f6; color:#666; padding:2px 6px; border-radius:10px;">${u.nivel || 'vendedor'}</span>
+                          <strong>${u.user || 'Sem nome'}</strong> <span style="font-size:11px; background:#f3f4f6; color:#666; padding:2px 6px; border-radius:10px;">${u.nivel || 'vendedor'}</span>
                       </div>
                   </div>
                   <button class="btn" style="background:#fee2e2; color:#ef4444; padding:5px 10px; font-size:16px; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center;" onclick="excluirUsuario(${index})">🗑️</button>
