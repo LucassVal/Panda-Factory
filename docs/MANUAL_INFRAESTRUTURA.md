@@ -269,6 +269,16 @@ window.addEventListener("online", syncPendingActions);
 - Usa CPU/GPU do cliente
 - Zero latência internet
 
+### Suporte GPU Local
+
+| Vendor     | Suporte   | Tecnologia |
+| :--------- | :-------- | :--------- |
+| **NVIDIA** | ✅ Nativo | CUDA       |
+| **AMD**    | ✅ v4.0   | ROCm       |
+| **Intel**  | ⏳ Futuro | oneAPI     |
+
+> "Quando o Agente Local chegar, AMD vai brilhar no hardware do cliente!" 🔴
+
 ---
 
 ## 🖥️ Pilar 4: Locação de Energia (não VM)
