@@ -3,17 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panda CRM 🐼</title>
-    
-    <!-- PWA Setup -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#667eea">
-    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-
-    <!-- Chart.js CDN -->
+    <title>CRM v2.2 - Sistema Completo de Gestão</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/core/Repository.js?v=reset_fix_v2"></script>
     <style>
       * {
         margin: 0;
@@ -49,7 +40,7 @@
 
       .version-badge {
         display: inline-block;
-        background: linear-gradient(135deg, var(--primary-color, #667eea), var(--primary-hover, #764ba2));
+        background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         padding: 5px 15px;
         border-radius: 20px;
@@ -66,7 +57,7 @@
       }
 
       .stat-card {
-        background: linear-gradient(135deg, var(--primary-color, #667eea), var(--primary-hover, #764ba2));
+        background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         padding: 20px;
         border-radius: 10px;
@@ -119,53 +110,6 @@
         margin-bottom: 30px;
       }
 
-      /* AI Energy Bar */
-      .energy-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(0,0,0,0.05);
-        padding: 5px 12px;
-        border-radius: 20px;
-        margin-right: 10px;
-        border: 1px solid rgba(0,0,0,0.1);
-      }
-      .energy-icon {
-        font-size: 14px;
-        color: #fbbf24; /* Amber */
-        animation: pulse 2s infinite;
-      }
-      .energy-bar {
-        width: 60px;
-        height: 8px;
-        background: #e2e8f0;
-        border-radius: 4px;
-        overflow: hidden;
-        position: relative;
-      }
-      .energy-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #10b981, #3b82f6);
-        border-radius: 4px;
-        transition: width 0.5s ease;
-      }
-      .energy-text {
-        font-size: 11px;
-        font-weight: bold;
-        color: #64748b;
-      }
-      @keyframes pulse {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.2); opacity: 0.8; }
-        100% { transform: scale(1); opacity: 1; }
-      }
-
-      /* TEMA ESCURO (Dark Mode override if needed) */
-      @media (prefers-color-scheme: dark) {
-        .energy-text { color: #cbd5e1; }
-        .energy-container { background: rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); }
-      }
-
       .search-box {
         position: relative;
       }
@@ -203,24 +147,13 @@
         font-weight: 600;
       }
 
-      /* Modal Header Theme */
-      .modal-header {
-        background: var(--primary-color, #667eea);
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px 10px 0 0;
-      }
-      .modal-header h2 { color: white; margin: 0; font-size: 20px; }
-      .close-btn { color: white; opacity: 0.8; font-size: 28px; }
-      .close-btn:hover { opacity: 1; color: white; }
-
       .btn-primary {
-        background: var(--primary-color, #667eea);
+        background: #667eea;
         color: white;
       }
 
       .btn-primary:hover {
-        background: var(--primary-hover, #5568d3);
+        background: #5568d3;
         transform: translateY(-2px);
       }
 
@@ -246,7 +179,7 @@
       .main-nav { display: flex; gap: 15px; margin-bottom: 20px; background: white; padding: 10px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
       .nav-item { padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; color: #666; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
       .nav-item:hover { background: #f0f0f0; color: #333; transform: translateY(-2px); }
-      .nav-item.active { background: linear-gradient(135deg, var(--primary-color, #667eea), var(--primary-hover, #764ba2)) !important; color: white !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important; }
+      .nav-item.active { background: linear-gradient(135deg, #667eea, #764ba2) !important; color: white !important; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5) !important; }
       
       
       .view-section { animation: fadeIn 0.3s ease; display: none; }
@@ -308,8 +241,17 @@
       }
       .overlay-backdrop.active { display: block; }
       
+      .overlay-backdrop.active { display: block; }
       
-
+      
+      .agenda-drawer {
+          position: absolute; top: 70px; left: 0; width: 100%; height: auto;
+          background: white; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+          transform: translateY(-150%); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+          max-height: 80vh; overflow-y: auto; padding: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;
+      }
+      .agenda-drawer.active { transform: translateY(0); }
+      .agenda-drawer h3 { border-bottom: 2px solid #f3f4f6; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; color:#333; }
 
       /* QUICK FILTERS */
       .filter-tag { background: white; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.2s; color: #475569; display:flex; align-items:center; gap:5px; }
@@ -622,27 +564,6 @@
         background: #fff3e0;
         color: #f57c00;
       }
-
-
-      .agenda-drawer {
-        position: fixed;
-        top: 70px;
-        right: 0;
-        width: 450px;
-        height: calc(100vh - 70px);
-        background: white;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-        z-index: 2000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        overflow-y: auto;
-        padding: 20px;
-      }
-      
-      .agenda-drawer.active {
-        transform: translateX(0);
-      }
-
 
       .modal {
         display: none;
@@ -974,44 +895,18 @@
   </head>
   <body>
     <div class="container">
-      <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
-        <!-- Esquerd: Título -->
-        <div>
-           <h1 style="margin:0; font-size:24px;">🐼 Panda Fábrica <span class="version-badge" style="font-size:10px; vertical-align:middle;">v2.2</span></h1>
-           <p style="color: #666; margin-top: 5px; font-size:12px;">
-             Sistema de Gestão Integrada
-           </p>
-        </div>
+      <div class="header">
+        <h1>🎯 CRM v2.2 <span class="version-badge">SISTEMA COMPLETO</span></h1>
+        <p style="color: #666; margin-top: 10px">
+          Importação Automática + Upload Manual + Cadastro Direto
+        </p>
 
-        <!-- Direita: Controles de Usuário -->
-        <div style="display:flex; align-items:center; gap:10px;">
-           <!-- AI ENERGY BAR -->
-           <div class="energy-container" title="Créditos de IA (Gemini 3.0 Ready)">
-               <div class="energy-icon">⚡</div>
-               <div class="energy-bar">
-                   <div class="energy-fill" id="aiEnergyFill" style="width: 100%;"></div>
-               </div>
-               <span class="energy-text" id="aiEnergyText">100%</span>
-           </div>
-
-           <span id="userLoginInfo" style="color:#94a3b8; font-size:12px; font-weight:500;">Sem usuário</span>
-           
-           <div class="nav-item" onclick="abrirConfiguracoes()" style="background:#f97316; color:white; cursor:pointer; padding: 8px 15px; border-radius: 6px; display:flex; align-items:center; gap:5px; font-size:13px;">
-               ⚙️ Config
-           </div>
-
-           <div class="nav-item" onclick="fazerLogout()" style="background:#fee2e2; color:#b91c1c; cursor:pointer; padding: 8px 15px; border-radius: 6px; display:flex; align-items:center; gap:5px; font-size:13px;">
-               🚪 Sair
-           </div>
-        </div>
-      </div>
-      
-      <!-- Navegação Principal Abaixo -->
-      <div class="main-nav" style="margin-top:0; border-top:1px solid #e2e8f0; padding-top:15px;">
+        <div class="main-nav">
         <div class="nav-item active" onclick="mudarView('home')">🏠 Início</div>
         <div class="nav-item" onclick="mudarView('contatos')">📋 Contatos</div>
         <div class="nav-item" onclick="mudarView('agenda')">📅 Agenda</div>
         <div class="nav-item" onclick="mudarView('reports')">📊 Relatórios</div>
+        <div class="nav-item" onclick="fazerLogout()" style="margin-left:auto; background:#fee2e2; color:#b91c1c;">🚪 Sair</div>
       </div>
 
       <!-- INÍCIO VIEW (Dashboard/Charts Only) -->
@@ -1069,10 +964,10 @@
         <!-- LINHA 1: FILTROS (Espaçamento Justificado) -->
         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
         <div class="search-box" style="flex: 1; max-width: 250px;">
-          <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, código ou cid..." oninput="filtrarClientes()" />
+          <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, código ou cid..." />
         </div>
         
-        <select class="filter-select" id="statusFilter">
+        <select class="filter-select" id="statusFilter" onchange="filtrarClientes()">
           <option value="">Status▼</option>
           <option value="nao_acompanhando">⚪ Não Acompanhando</option>
           <option value="em_acompanhamento">🟢 Em Acompanhamento</option>
@@ -1081,16 +976,16 @@
           <option value="finalizado">🔴 Finalizado</option>
         </select>
         
-        <select class="filter-select" id="cidadeFilter">
+        <select class="filter-select" id="cidadeFilter" onchange="filtrarClientes()">
           <option value="">Cidade▼</option>
         </select>
         
-        <select class="filter-select" id="bairroFilter">
+        <select class="filter-select" id="bairroFilter" onchange="filtrarClientes()">
           <option value="">Bairro▼</option>
         </select>
         
-        <input type="number" id="minArea" placeholder="Min" class="filter-select" style="width: 80px;">
-        <input type="number" id="maxArea" placeholder="Max" class="filter-select" style="width: 80px;">
+        <input type="number" id="minArea" placeholder="Min" class="filter-select" style="width: 80px;" onchange="filtrarClientes()">
+        <input type="number" id="maxArea" placeholder="Max" class="filter-select" style="width: 80px;" onchange="filtrarClientes()">
         </div>
         
         <!-- LINHA 2: AÇÕES (Espaçamento Justificado) -->
@@ -1107,10 +1002,16 @@
           ↓ Import
         </button>
         
-        <!-- Auto Button Removed -->
+        <button class="btn" onclick="ativarImportacaoAutomatica()" style="background: #10b981; color: white; flex: 1;">
+          🤖 Auto
+        </button>
         
         <button class="btn" onclick="exportarDados()" style="background: #667eea; color: white; flex: 1;">
           💾 Export
+        </button>
+        
+        <button class="btn" onclick="abrirConfig()" style="background: #f97316; color: white; min-width: 50px;" title="Configurações do Sistema">
+          ⚙️
         </button>
         </div>
         
@@ -1121,6 +1022,8 @@
           <button id="btnFiltroAtrasados" class="filter-tag" onclick="filtroRapido('atrasados')">⚠️ Atrasados</button>
           <button class="filter-tag" onclick="ordenarClientes('bairro')">Bairro ⇅</button>
           <button class="filter-tag" onclick="ordenarClientes('cidade')">Cidade ⇅</button>
+          <button class="filter-tag" onclick="ordenarClientes('estagio')">Estágio ⇅</button>
+          <button class="filter-tag" onclick="ordenarClientes('metragem')">M² ⇅</button>
           <button class="filter-tag" onclick="ordenarClientes('nome')">Nome ⇅</button>
           <div style="margin-left: auto; display: flex; gap: 8px;">
             <button class="btn btn-success" onclick="aplicarFiltrosBotao()" style="min-width: 50px; padding: 8px 15px;" title="Aplicar Filtros">✓</button>
@@ -1245,7 +1148,46 @@
       </div>
     </div>
 
-    <!-- Duplicate Modal Removed (Consolidated into settingsModal) -->
+    <!-- MODAL DE CONFIGURAÇÕES (Vendedores / Templates) -->
+    <div id="configModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>⚙️ Configurações do CRM</h2>
+                <button class="close-btn" onclick="fecharModal('configModal')">×</button>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchConfigTab('vendedores')">👥 Vendedores</button>
+                <button class="tab" onclick="switchConfigTab('templates')">📱 Templates WhatsApp</button>
+            </div>
+            
+            <!-- ABA VENDEDORES -->
+            <div id="tabVendedores" class="tab-content active">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="text" id="newVendedorName" class="form-input" placeholder="Nome do Vendedor">
+                    <button class="btn btn-primary" onclick="adicionarVendedor()">+ Adicionar</button>
+                </div>
+                <div id="listaVendedores" class="item-list">
+                    <!-- Lista via JS -->
+                </div>
+            </div>
+            
+            <!-- ABA TEMPLATES -->
+            <div id="tabTemplates" class="tab-content">
+                <div class="add-form">
+                    <input type="text" id="newTemplateTitle" class="form-input" placeholder="Título do Template (ex: 1º Contato)" style="margin-bottom: 10px;">
+                    <textarea id="newTemplateBody" class="form-textarea" placeholder="Olá {nome}, vi sua obra em {cidade}..." style="margin-bottom: 10px;"></textarea>
+                    <div style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                        Variáveis disponíveis: {nome}, {cidade}, {bairro}, {estagio}, {vendedor}
+                    </div>
+                    <button class="btn btn-primary" onclick="adicionarTemplate()">💾 Salvar Template</button>
+                </div>
+                <div id="listaTemplates" class="item-list">
+                    <!-- Lista via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL SELEÇÃO DE TEMPLATE WHATSAPP -->
     <div id="whatsappModal" class="modal" style="z-index: 2000;">
@@ -1332,21 +1274,10 @@
 
             <!-- INPUT AREA -->
             <div style="padding:15px; background:#f1f5f9; border-top:1px solid #cbd5e1;">
-                 <!-- ATENDENTE -->
-                 <div style="margin-bottom:10px; display:flex; gap:10px; align-items:center;">
-                     <label for="attendantSelect" style="min-width:100px; font-weight:600; color:#475569;">👤 Atendente:</label>
-                     <select id="attendantSelect" class="form-select" style="flex:1; padding:8px; border:2px solid #e2e8f0; border-radius:8px;">
-                         <option value="">Selecione o atendente...</option>
-                     </select>
-                 </div>
-                 
-                 <!-- NOTA -->
                  <div style="display:flex; gap:10px;">
                      <textarea id="unifiedNoteInput" class="form-textarea" placeholder="Digite uma nota ou resumo do atendimento..." style="height:50px; resize:none;"></textarea>
-                     <button class="btn btn-primary" onclick="salvarNotaUnificada()" style="height:50px; width:100px;">Enviar ➜</button>
+                     <button class="btn btn-primary" onclick="salvarNotaUnificada()" style="height:50px; width:100px;">Enviar ➤</button>
                  </div>
-                 
-                 <!-- AGENDAMENTO -->
                  <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
                      <small>Agendar:</small>
                      <input type="datetime-local" id="unifiedScheduleDate" class="form-input" style="width:auto; padding:5px;">
@@ -1359,43 +1290,9 @@
         <div class="tab-content" id="tab1" style="overflow-y:auto; padding:20px;">
            <div class="info-grid" id="modalInfo"></div>
            <div class="form-group"><label>Nome</label><input id="editNome" class="form-input"></div>
-
-           <!-- Maps Search -->
-           <div class="form-group" style="background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:15px;">
-               <label class="form-label" style="font-weight:bold;">📍 Atualizar Endereço</label>
-               <div id="edit-place-autocomplete-container"></div>
-           </div>
-
-           <!-- Fonte -->
-           <div class="form-group">
-               <label>Fonte de Captação</label>
-               <select id="editFonte" class="form-input"></select>
-           </div>
-           
-           <!-- TELEFONES -->
-           <div class="form-group">
-               <label>📞 Telefones</label>
-               <div id="editPhonesList" style="display:flex; flex-direction:column; gap:8px;">
-                   <!-- Populated via JS -->
-               </div>
-               <button type="button" class="btn" onclick="adicionarTelefoneEdit()" style="margin-top:8px; padding:6px 12px; font-size:13px; background:#10b981; color:white;">➕ Adicionar Telefone</button>
-           </div>
-           
-           <div style="display:grid; grid-template-columns: 1fr 100px; gap:10px; margin-bottom:10px;">
-               <div class="form-group"><label>Rua</label><input id="editClientRua" class="form-input" autocomplete="address-line1"></div>
-               <div class="form-group"><label>Número</label><input id="editClientNumero" class="form-input" autocomplete="address-line2"></div>
-           </div>
-           
-           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
-               <div class="form-group"><label>Bairro</label><input id="editBairro" class="form-input" autocomplete="address-level3"></div>
-               <div class="form-group"><label>CEP</label><input id="editClientCep" class="form-input" autocomplete="postal-code"></div>
-           </div>
-
-           <div style="display:grid; grid-template-columns: 1fr 80px; gap:10px;">
-               <div class="form-group"><label>Cidade</label><input id="editCidade" class="form-input" autocomplete="address-level2"></div>
-               <div class="form-group"><label>UF</label><input id="editClientEstado" class="form-input" autocomplete="address-level1"></div>
-           </div>
-            <!-- Dynamic Fields will be injected here -->
+           <div class="form-group"><label>Cidade</label><input id="editCidade" class="form-input"></div>
+           <div class="form-group"><label>Bairro</label><input id="editBairro" class="form-input"></div>
+           <div class="form-group"><label>M²</label><input id="editMetragem" class="form-input"></div>
            <div class="form-group"><label>Valor Est. (R$)</label><input id="editValor" class="form-input"></div>
            
            <div style="margin-top:20px; text-align:right;">
@@ -1411,98 +1308,6 @@
       </div>
     </div>
 
-    <!-- MODAL NOVO CLIENTE (Restored) -->
-    <div id="newClientModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 id="newClientModalLabel">Novo Cadastro</h2>
-          <button class="close-btn" onclick="fecharNovoCliente()">×</button>
-        </div>
-        <div id="newClientAlert"></div>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; padding:20px;">
-            <div class="form-group">
-                <label class="form-label required">Nome do Cliente</label>
-                <input type="text" class="form-input" id="newClientNome" placeholder="Nome completo / Empresa">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Fonte de Captação</label>
-               <select class="form-input" id="newClientFonte" onchange="verificarFonteOutros(this)">
-                 <!-- Populated by JS -->
-               </select>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label required">Vendedor Responsável</label>
-                <select class="form-input" id="newClientVendedor">
-                    <option value="">Selecione...</option>
-                    <!-- Populated by JS -->
-                </select>
-            </div>
-
-            <div class="form-group" style="grid-column: 1 / -1; background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #e2e8f0;">
-                <label class="form-label" style="color:#0f172a; font-weight:bold; display:flex; align-items:center; gap:5px;">
-                    📍 Endereço (Busca Automática)
-                </label>
-                <!-- Container for Google Maps Place Autocomplete Element -->
-                <div id="place-autocomplete-container" style="margin-bottom:10px;"></div>
-                
-                <div style="display:grid; grid-template-columns: 1fr 100px; gap:10px; margin-top:10px;">
-                    <div>
-                        <label class="form-label" for="newClientRua" style="font-size:11px;">Rua/Logradouro</label>
-                        <input type="text" class="form-input" id="newClientRua" autocomplete="address-line1">
-                    </div>
-                    <div>
-                        <label class="form-label" for="newClientNumero" style="font-size:11px;">Número</label>
-                        <input type="text" class="form-input" id="newClientNumero" autocomplete="address-line2">
-                    </div>
-                </div>
-
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-                    <div>
-                        <label class="form-label" for="newClientBairro" style="font-size:11px;">Bairro</label>
-                        <input type="text" class="form-input" id="newClientBairro" autocomplete="address-level3">
-                    </div>
-                    <div>
-                        <label class="form-label" for="newClientCep" style="font-size:11px;">CEP</label>
-                        <input type="text" class="form-input" id="newClientCep" autocomplete="postal-code">
-                    </div>
-                </div>
-
-                <div style="display:grid; grid-template-columns: 1fr 80px; gap:10px; margin-top:10px;">
-                    <div>
-                        <label class="form-label" for="newClientCidade" style="font-size:11px;">Cidade</label>
-                        <input type="text" class="form-input" id="newClientCidade" autocomplete="address-level2">
-                    </div>
-                    <div>
-                        <label class="form-label" for="newClientEstado" style="font-size:11px;">UF</label>
-                        <input type="text" class="form-input" id="newClientEstado" autocomplete="address-level1">
-                    </div>
-                </div>
-            </div>
-
-             <!-- Dynamic Fields -->
-            <div id="customFieldsContainer" style="grid-column: 1 / -1; display:grid; grid-template-columns: 1fr 1fr; gap:15px;"></div>
-
-            <div class="form-group" style="grid-column: 1 / -1;">
-                <label class="form-label">Telefones</label>
-                <div id="phonesContainer"></div>
-                <button class="config-btn" onclick="adicionarInputTelefone('Celular', '')" style="background:#10b981;">➕ Adicionar Telefone</button>
-            </div>
-            
-            <div class="form-group" style="grid-column: 1 / -1;">
-                 <label class="form-label">Valor Estimado (R$)</label>
-                 <input type="number" class="form-input" id="newClientValor">
-            </div>
-        </div>
-
-        <div style="padding:20px; text-align:right; border-top:1px solid #eee;">
-            <button class="btn btn-success" onclick="salvarNovoCliente()">💾 Salvar Cliente</button>
-        </div>
-      </div>
-    </div>
-
     <!-- MODAL DE CONFIGURAÇÕES -->
     <div id="settingsModal" class="modal">
       <div class="modal-content" style="max-width: 700px;">
@@ -1514,144 +1319,6 @@
         <div class="tabs">
           <button class="tab active" onclick="mudarTabSettings(0)">👥 Usuários</button>
           <button class="tab" onclick="mudarTabSettings(1)">💬 Templates WhatsApp</button>
-          <button class="tab" id="tabPersonalizacao" onclick="mudarTabSettings(2)">🎨 Personalização</button>
-        </div>
-        
-        <!-- TAB 0: Gerenciar Usuários -->
-        <div class="tab-content active" id="settingsTab0" style="padding:20px;">
-          <h3 style="margin-bottom:15px;">Usuários do Sistema</h3>
-          <div id="listaUsuarios" style="margin-bottom:25px;"></div>
-          
-          <!-- NOVO: ACESSO REMOTO -->
-          <div style="background:#f0f9ff; padding:15px; border-radius:8px; border:1px solid #bae6fd; margin-bottom:20px;">
-              <h4 style="margin:0 0 10px 0; color:#0369a1;">📱 Acesso Remoto (Celular)</h4>
-              <p style="font-size:13px; color:#334155; margin-bottom:5px;">Para acessar pelo celular na mesma rede Wi-Fi:</p>
-              <code style="display:block; background:#fff; padding:8px; border-radius:4px; border:1px solid #e2e8f0; font-family:monospace; color:#0f172a;">
-                  http://SEU_IP_LOCAL:8080
-              </code>
-              <p style="font-size:11px; color:#64748b; margin-top:5px;">
-                  *Descubra seu IP abrindo o CMD e digitando <b>ipconfig</b> (Ex: 192.168.0.x)
-              </p>
-          </div>
-
-          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Adicionar Novo Usuário</h4>
-          <div style="display:grid; gap:10px;">
-            <input type="text" id="newUserLogin" placeholder="Login" class="form-input">
-            <input type="password" id="newUserSenha" placeholder="Senha" class="form-input">
-            <select id="newUserNivel" class="form-input">
-              <option value="vendedor">Vendedor</option>
-              <option value="admin">Administrador</option>
-            </select>
-            <button class="btn btn-primary" onclick="adicionarUsuario()">➕ Adicionar Usuário</button>
-          </div>
-
-          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb; color:#ef4444;">Zona de Perigo</h4>
-          <button class="btn" onclick="solicitarAcaoSegura('limpar_clientes')" style="background:#fef3c7; color:#92400e; width:100%; margin-bottom:10px;">
-            ⚠️ Apagar Apenas Cadastros (Limpar Clientes)
-          </button>
-          <button class="btn" onclick="solicitarAcaoSegura('reset_fabrica')" style="background:#fee2e2; color:#b91c1c; width:100%;">
-            ☢️ LIMPAR BANCO DE DADOS (RESET/FACTORY)
-          </button>
-
-          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Importar Dados (Manual)</h4>
-          <div style="display:flex; gap:10px;">
-            <button class="btn" onclick="executarImportacao('seed')" style="background:#e0e7ff; color:#4338ca; flex:1;">
-              🧪 Dados Teste
-            </button>
-            <button class="btn" onclick="executarImportacao('scraper')" style="background:#dcfce7; color:#166534; flex:1;">
-              🏭 Dados Scraper
-            </button>
-            <button class="btn" onclick="mostrarUpload()" style="background:#3b82f6; color:white; flex:1;">
-              📂 Importar HTML
-            </button>
-          </div>
-        </div>
-
-        <!-- TAB 1: Templates WhatsApp -->
-        <div class="tab-content" id="settingsTab1" style="padding:20px;">
-           <h3 style="margin-bottom:15px;">Templates de WhatsApp</h3>
-           <div id="listaTemplatesSettings" style="margin-bottom:25px;"></div>
-           
-           <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Novo Template</h4>
-           <div style="display:grid; gap:10px;">
-               <input type="text" id="newTemplateTitle" placeholder="Título (Ex: Saudação)" class="form-input">
-               <textarea id="newTemplateText" rows="3" placeholder="Mensagem..." class="form-input"></textarea>
-               <button class="btn btn-primary" onclick="adicionarTemplate()">➕ Salvar Template</button>
-           </div>
-        </div>
-
-        <!-- TAB 2: PERSONALIZAÇÃO (WHITE LABEL) -->
-        <div class="tab-content" id="settingsTab2" style="padding:20px;">
-           <h3 style="margin-bottom:15px;">Identidade Visual</h3>
-           
-           <div class="form-group">
-               <label class="form-label">Nome do Sistema</label>
-               <input type="text" id="configAppName" class="form-input" placeholder="Ex: TitanGestão Pro">
-           </div>
-           
-           <div class="form-group">
-               <label class="form-label">URL da Logo (Imagem)</label>
-               <input type="text" id="configAppLogo" class="form-input" placeholder="https://...">
-               <small style="color:#666;">Cole o link da sua logo. Ideal: PNG transparente.</small>
-           </div>
-           
-           <h3 style="margin-bottom:15px; margin-top:20px;">Aparência</h3>
-           <div style="display:flex; gap:15px;">
-               <div style="flex:1;">
-                   <label class="form-label">Cor Principal</label>
-                   <input type="color" id="configAppColor" class="form-input" style="height:40px; padding:2px;" value="#667eea">
-               </div>
-               <div style="flex:1;">
-                   <label class="form-label">Fonte do Sistema</label>
-                   <select id="configAppFont" class="form-input">
-                       <option value="'Segoe UI', sans-serif">Moderna (Padrão)</option>
-                       <option value="'Roboto', sans-serif">Roboto (Google)</option>
-                       <option value="'Open Sans', sans-serif">Open Sans</option>
-                       <option value="'Georgia', serif">Clássica (Serif)</option>
-                       <option value="'Courier New', monospace">Técnica (Mono)</option>
-                   </select>
-               </div>
-           </div>
-           <button class="btn btn-primary" onclick="salvarTema()" style="width:100%; margin-top:15px;">💾 Salvar Aparência</button>
-
-           <hr style="margin:25px 0;">
-
-           <h3 style="margin-bottom:10px;">Campos Customizados</h3>
-           <p style="color:#666; font-size:13px; margin-bottom:15px;">
-               Adicione campos extras para o cadastro de clientes. Título = Nome do campo, Tipo = Texto, Data ou Opções.
-           </p>
-
-           <div id="listaCamposCustom" style="margin-bottom:15px;">
-               <!-- Renderizado via JS -->
-           </div>
-
-           <div style="display:flex; gap:10px;">
-               <input type="text" id="newFieldTitle" class="form-input" placeholder="Nome (Ex: Time de Futebol)" style="flex:2;">
-               <select id="newFieldType" class="form-input" style="flex:1;">
-                   <option value="text">Texto</option>
-                   <option value="date">Data</option>
-                   <option value="select">Seleção (Sim/Não)</option>
-               </select>
-               <button class="btn btn-success" onclick="adicionarCampoCustom()">➕</button>
-           </div>
-
-           <hr style="margin:25px 0;">
-
-           <h3 style="margin-bottom:10px;">Fontes de Captação</h3>
-           <p style="color:#666; font-size:13px; margin-bottom:15px;">
-               Defina as origens dos seus leads (Ex: Google, Facebook, Indicação).
-           </p>
-
-           <div id="listaFontesCustom" style="margin-bottom:15px; display:flex; flex-wrap:wrap; gap:8px;">
-               <!-- Renderizado via JS -->
-           </div>
-
-           <div style="display:flex; gap:10px;">
-               <input type="text" id="newFonteName" class="form-input" placeholder="Nova Fonte (Ex: LinkedIn)" style="flex:2;">
-               <button class="btn btn-success" onclick="adicionarFonteCustom()">➕ Adicionar</button>
-           </div>
-           
-           <!-- API Keys Removed for SaaS Mode -->
         </div>
         
         <!-- TAB 0: Gerenciar Usuários -->
@@ -1668,24 +1335,6 @@
               <option value="admin">Administrador</option>
             </select>
             <button class="btn btn-primary" onclick="adicionarUsuario()">➕ Adicionar Usuário</button>
-          </div>
-
-          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb; color:#ef4444;">Zona de Perigo</h4>
-          <button class="btn" onclick="solicitarAcaoSegura('limpar_clientes')" style="background:#fef3c7; color:#92400e; width:100%; margin-bottom:10px;">
-            ⚠️ Apagar Apenas Cadastros (Limpar Clientes)
-          </button>
-          <button class="btn" onclick="solicitarAcaoSegura('reset_fabrica')" style="background:#fee2e2; color:#b91c1c; width:100%;">
-            ☢️ LIMPAR BANCO DE DADOS (RESET/FACTORY)
-          </button>
-
-          <h4 style="margin-bottom:15px; padding-top:15px; border-top:1px solid #e5e7eb;">Importar Dados (Manual)</h4>
-          <div style="display:flex; gap:10px;">
-            <button class="btn" onclick="executarImportacao('seed')" style="background:#e0e7ff; color:#4338ca; flex:1;">
-              🧪 Dados Teste
-            </button>
-            <button class="btn" onclick="executarImportacao('scraper')" style="background:#dcfce7; color:#166534; flex:1;">
-              🏭 Dados Scraper
-            </button>
           </div>
         </div>
         
@@ -1737,8 +1386,9 @@
                 <option value="SIGNORE">SIGNORE - Showroom</option>
                 <option value="GOOGLE">GOOGLE - Ads</option>
                 <option value="META">FACE/INSTA - Meta Ads</option>
+                <option value="OUTROS">Outra (Especificar)</option>
               </select>
-              <!-- Outros Removed -->
+              <input type="text" id="newClientFonteOutro" class="form-input" style="display:none; margin-top:5px;" placeholder="Digite a fonte...">
             </div>
 
             <div class="form-group">
@@ -1749,55 +1399,50 @@
                 </select>
             </div>
 
-            <div class="form-group" style="grid-column: 1 / -1; background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #e2e8f0;">
-                <label class="form-label" style="color:#0f172a; font-weight:bold; display:flex; align-items:center; gap:5px;">
-                    📍 Endereço (Busca Automática)
-                </label>
-                <!-- Container for Google Maps Place Autocomplete Element -->
-                <div id="place-autocomplete-container" style="margin-bottom:10px;"></div>
-                
-                <div style="display:grid; grid-template-columns: 1fr 100px; gap:10px; margin-top:10px;">
-                    <div>
-                        <label class="form-label" for="newClientRua" style="font-size:11px;">Rua/Logradouro</label>
-                        <input type="text" class="form-input" id="newClientRua" autocomplete="address-line1">
-                    </div>
-                    <div>
-                        <label class="form-label" for="newClientNumero" style="font-size:11px;">Número</label>
-                        <input type="text" class="form-input" id="newClientNumero" autocomplete="address-line2">
-                    </div>
-                </div>
+            <!-- ... (Cidade, Endereço, Bairro, Metragem, Estágio mantidos igual) ... -->
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-                    <div>
-                        <label class="form-label" for="newClientBairro" style="font-size:11px;">Bairro</label>
-                        <input type="text" class="form-input" id="newClientBairro" autocomplete="address-level3">
-                    </div>
-                    <div>
-                        <label class="form-label" for="newClientCep" style="font-size:11px;">CEP</label>
-                        <input type="text" class="form-input" id="newClientCep" autocomplete="postal-code">
-                    </div>
-                </div>
-
-                <div style="display:grid; grid-template-columns: 2fr 80px; gap:10px; margin-top:10px;">
-                    <div>
-                        <label class="form-label" for="newClientCidade" style="font-size:11px;">Cidade</label>
-                        <input type="text" class="form-input" id="newClientCidade" autocomplete="address-level2">
-                    </div>
-                    <div>
-                        <label class="form-label" for="newClientEstado" style="font-size:11px;">UF</label>
-                        <input type="text" class="form-input" id="newClientEstado" autocomplete="address-level1">
-                    </div>
-                </div>
+            <!-- Campo Vendedor -->
+            <div class="form-group">
+                <label class="form-label required">Vendedor Responsável</label>
+                <select id="newClientVendedor" class="form-input">
+                    <option value="">Selecione...</option>
+                    <!-- Populado via JS -->
+                </select>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Observações</label>
-                <textarea class="form-input" id="newClientObs" rows="3" placeholder="Detalhes importantes..."></textarea>
+                <label class="form-label required">Cidade/UF</label>
+                <input type="text" class="form-input" id="newClientCidade" placeholder="Ex: Limeira/SP" />
             </div>
-            
-            <hr style="margin:20px 0; border:0; border-top:1px dashed #ccc;">
-            <h4 style="margin-bottom:10px; color:#666;">Campos Personalizados</h4>
-            <div id="customFieldsContainer"></div>
+
+            <div class="form-group">
+                <label class="form-label">Endereço</label>
+                <input type="text" class="form-input" id="newClientEndereco" placeholder="Rua, número" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Bairro</label>
+                <input type="text" class="form-input" id="newClientBairro" placeholder="Bairro" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Metragem (m²)</label>
+                <input type="number" class="form-input" id="newClientMetragem" placeholder="300" step="0.01" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Estágio da Obra</label>
+                <select class="form-input" id="newClientEstagio">
+                <option value="">Selecione...</option>
+                <option value="Fundação">Fundação</option>
+                <option value="Alvenaria">Alvenaria</option>
+                <option value="Laje">Laje</option>
+                <option value="Acabamento: Rebocando">Acabamento: Rebocando</option>
+                <option value="Acabamento: Instalações">Acabamento: Instalações</option>
+                <option value="Acabamento: Revestimentos">Acabamento: Revestimentos</option>
+                <option value="Finalização">Finalização</option>
+                </select>
+            </div>
 
             <div class="form-group" style="grid-column: 1 / -1;">
                 <label class="form-label">Telefones / Contatos</label>
@@ -1857,14 +1502,10 @@
       let templates = JSON.parse(localStorage.getItem('crmWhatsappTemplates') || '[]');
 
       // ========== CONFIGURAÇÕES (Vendedores e Templates) ==========
-      // ========== CONFIGURAÇÕES (Vendedores e Templates) ==========
       function abrirConfiguracoes() {
-          document.getElementById('settingsModal').style.display = 'block';
-          
-          // Load all configs
-          renderizarUsuarios();
+          document.getElementById('configModal').style.display = 'block';
+          renderizarVendedores();
           renderizarTemplates();
-          carregarConfiguracoesNaTela(); // White Label + Keys + Sources
       }
 
       function switchConfigTab(tabName) {
@@ -1881,287 +1522,6 @@
               document.querySelector('#configModal .tab:nth-child(2)').classList.add('active');
           }
       }
-
-      // ========== WHITE LABEL / TEMA ==========
-      let appConfig = JSON.parse(localStorage.getItem('crmConfig') || '{}');
-
-      function aplicarTema() {
-          if(appConfig.name) document.title = appConfig.name;
-          
-          if(appConfig.color) {
-              const root = document.documentElement;
-              root.style.setProperty('--primary-color', appConfig.color);
-              // Simple darken logic for hover
-              root.style.setProperty('--primary-hover', adjustColor(appConfig.color, -20));
-              
-              // FORCE BACKGROUND OVERRIDE
-              // The default is a linear-gradient purple. We replace it if color is set.
-              document.body.style.background = appConfig.color;
-              document.body.style.backgroundImage = 'none'; // Remove gradient
-          }
-          
-          if(appConfig.font) {
-              document.body.style.fontFamily = appConfig.font;
-          }
-      }
-
-      function salvarTema() {
-          const name = document.getElementById('configAppName').value;
-          const logo = document.getElementById('configAppLogo').value;
-          const color = document.getElementById('configAppColor').value;
-          const font = document.getElementById('configAppFont').value;
-
-          appConfig = { name, logo, color, font };
-          localStorage.setItem('crmConfig', JSON.stringify(appConfig));
-          aplicarTema();
-          alert('🎨 Tema salvo com sucesso!');
-      }
-
-      function adjustColor(color, amount) {
-          return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
-      }
-
-      // ========== CUSTOM SOURCES & KEYS ==========
-      let customSources = JSON.parse(localStorage.getItem('crmCustomSources') || '[]');
-      // SaaS MODE: Hardcoded Keys
-      const apiKeys = {
-          maps: 'AIzaSyAih-Jd1LzzUWKvK5dSW6oi0zixmqynil0', 
-          gemini: 'AIzaSyB7fd4wjaco1d8glU9UkWaCisC-mbU5EUw' 
-      };
-
-      // Integration functions removed for SaaS mode
-
-      function adicionarFonteCustom() {
-          const val = document.getElementById('newFonteName').value.trim().toUpperCase();
-          if(!val) return;
-          if(customSources.includes(val)) return alert('Fonte já existe!');
-          
-          customSources.push(val);
-          localStorage.setItem('crmCustomSources', JSON.stringify(customSources));
-          document.getElementById('newFonteName').value = '';
-          renderizarListaFontesSettings();
-      }
-
-      function removerFonteCustom(idx) {
-          if(confirm('Remover esta fonte?')) {
-              customSources.splice(idx, 1);
-              localStorage.setItem('crmCustomSources', JSON.stringify(customSources));
-              renderizarListaFontesSettings();
-          }
-      }
-
-      function renderizarListaFontesSettings() {
-          const div = document.getElementById('listaFontesCustom');
-          if(!div) return;
-          div.innerHTML = customSources.map((s, i) => `
-              <span class="status-badge" style="background:#e2e8f0; color:#475569; display:flex; align-items:center; gap:5px;">
-                  ${s} <span onclick="removerFonteCustom(${i})" style="cursor:pointer; color:#ef4444; font-weight:bold;">&times;</span>
-              </span>
-          `).join('');
-      }
-
-      function carregarConfiguracoesNaTela() {
-          // White Label
-          if(document.getElementById('configAppName')) {
-             document.getElementById('configAppName').value = appConfig.name;
-             document.getElementById('configAppLogo').value = appConfig.logo;
-             document.getElementById('configAppColor').value = appConfig.color;
-             document.getElementById('configAppFont').value = appConfig.font; 
-          }
-          // Sources
-          renderizarListaFontesSettings();
-      }
-
-      function renderizarOptionsFontes() {
-          const select = document.getElementById('newClientFonte');
-          if(!select) return;
-          
-          // Base Sources (Hardcoded as per user request)
-          select.innerHTML = '<option value="">Selecione...</option>' +
-                             '<option value="GC">GC - Guia da Construção</option>' +
-                             '<option value="APPARATO">APPARATO - Marcenaria</option>' +
-                             '<option value="APTTA">APTTA - Marcenaria</option>' +
-                             '<option value="SIGNORE">SIGNORE - Showroom</option>' +
-                             '<option value="GOOGLE">GOOGLE - Ads</option>' +
-                             '<option value="META">FACE/INSTA - Meta Ads</option>';
-          
-          // Custom Sources (from Settings) - Excluding duplicates if any
-          const baseKeys = ['GC', 'APPARATO', 'APTTA', 'SIGNORE', 'GOOGLE', 'META', 'OUTROS'];
-          
-          customSources.forEach(s => {
-              if(!baseKeys.includes(s.toUpperCase())) {
-                  select.innerHTML += `<option value="${s}">${s}</option>`;
-              }
-          });
-      }
-
-      // ========== MODAL CONTROL ==========
-
-      function abrirNovoCliente() {
-          document.getElementById('newClientModal').style.display = 'block';
-          document.getElementById('newClientModalLabel') && (document.getElementById('newClientModalLabel').innerText = "Novo Cadastro");
-          
-          // Reset fields
-          document.getElementById('newClientNome').value = '';
-          document.getElementById('newClientFonte').value = '';
-          document.getElementById('newClientCidade').value = '';
-          
-          renderizarInputsCustomizados(); 
-          renderizarOptionsFontes();
-          
-          // Tentar inicializar autocomplete se o script já carregou
-          if(window.google && window.google.maps && window.google.maps.places) {
-              initAutocomplete();
-          }
-      }
-
-      function fecharNovoCliente() {
-          document.getElementById('newClientModal').style.display = 'none';
-      }
-
-      // Load Maps dynamically (Modern Async Loader)
-      function loadGoogleMapsScript() {
-          if(!apiKeys.maps) return;
-          if(document.getElementById('gmaps-script')) return; 
-          
-          const script = document.createElement('script');
-          script.id = 'gmaps-script';
-          // Added loading=async per 2026 standards
-          script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKeys.maps}&loading=async&libraries=places&callback=initAutocomplete`;
-          script.async = true;
-          script.defer = true;
-          document.head.appendChild(script);
-      }
-      
-      window.initAutocomplete = async function() {
-          console.log("📍 Google Maps (PlaceAutocompleteElement) Iniciado");
-          
-          const container = document.getElementById('place-autocomplete-container');
-          if(!container) return;
-          
-          // Clear previous instances if any
-          container.innerHTML = '';
-
-          try {
-              const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
-              
-              // Create the web component
-              const autocomplete = new PlaceAutocompleteElement({
-                  componentRestrictions: { country: ['br'] }
-              });
-              
-              // Style styling (can be done via CSS class 'gmp-place-autocomplete-element')
-              autocomplete.classList.add('form-input'); // Try to inherit usage styles
-              autocomplete.style.width = '100%';
-              
-              container.appendChild(autocomplete);
-              
-              autocomplete.addEventListener('gmp-places-place-select', async ({ place }) => {
-                  if (!place) return;
-
-                  await place.fetchFields({
-                      fields: ['displayName', 'formattedAddress', 'addressComponents', 'location'],
-                  });
-                  
-                  // Reset fields
-                  document.getElementById('newClientRua').value = '';
-                  document.getElementById('newClientNumero').value = '';
-                  document.getElementById('newClientBairro').value = '';
-                  document.getElementById('newClientCidade').value = '';
-                  document.getElementById('newClientEstado').value = '';
-                  document.getElementById('newClientCep').value = '';
-
-                  let rua = '';
-                  let numero = '';
-
-                  for (const component of place.addressComponents) {
-                      const type = component.types[0];
-                      // console.log("Component:", type, component.shortText); // Debug critico
-
-                      if (type === 'route') {
-                          rua = component.shortText;
-                      } else if (type === 'street_number') {
-                          numero = component.shortText;
-                      } else if (component.types.includes('sublocality') || component.types.includes('sublocality_level_1') || component.types.includes('neighborhood')) {
-                          // Prioridade: Salvar qualquer indicio de bairro
-                          document.getElementById('newClientBairro').value = component.shortText;
-                      } else if (type === 'administrative_area_level_2') {
-                          document.getElementById('newClientCidade').value = component.shortText;
-                      } else if (type === 'administrative_area_level_1') {
-                          document.getElementById('newClientEstado').value = component.shortText;
-                      } else if (type === 'postal_code') {
-                          document.getElementById('newClientCep').value = component.shortText;
-                      }
-                  }
-                  
-                  document.getElementById('newClientRua').value = rua;
-                  document.getElementById('newClientNumero').value = numero;
-                  
-                  if(!numero) document.getElementById('newClientNumero').focus();
-              });
-
-          } catch (e) {
-              console.error("Falha ao inicializar Google Maps Novo:", e);
-              container.innerHTML = '<p style="color:red; font-size:12px;">Erro ao carregar mapa. Verifique API Key.</p>';
-          }
-      };
-
-      // Logic for Edit Modal Autocomplete
-      window.initEditAutocomplete = async function() {
-          const container = document.getElementById('edit-place-autocomplete-container');
-          if(!container) return;
-          
-          container.innerHTML = ''; // Clean
-
-          try {
-              const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
-              const autocomplete = new PlaceAutocompleteElement({
-                  componentRestrictions: { country: ['br'] }
-              });
-              
-              autocomplete.classList.add('form-input');
-              autocomplete.style.width = '100%';
-              container.appendChild(autocomplete);
-              
-              autocomplete.addEventListener('gmp-places-place-select', async ({ place }) => {
-                  if (!place) return;
-
-                  await place.fetchFields({
-                      fields: ['displayName', 'formattedAddress', 'addressComponents', 'location'],
-                  });
-                  
-                  // Fill existing edit fields
-                  let rua='', numero='', bairro='', cidade='', estado='', cep='';
-
-                  for (const component of place.addressComponents) {
-                      const type = component.types[0];
-                      
-                      if (type === 'route') rua = component.shortText;
-                      if (type === 'street_number') numero = component.shortText;
-                      if (type === 'administrative_area_level_2') cidade = component.shortText;
-                      if (type === 'administrative_area_level_1') estado = component.shortText;
-                      if (type === 'postal_code') cep = component.shortText;
-                      
-                      if (component.types.includes('sublocality') || component.types.includes('sublocality_level_1') || component.types.includes('neighborhood')) {
-                          bairro = component.shortText;
-                      }
-                  }
-                  
-                  // Update UI
-                  document.getElementById('editClientRua').value = rua;
-                  document.getElementById('editClientNumero').value = numero;
-                  document.getElementById('editBairro').value = bairro;
-                  document.getElementById('editClientCep').value = cep;
-                  
-                  // City Logic (Combined or Separate? Using combined for now to match render)
-                  // The UI has City and UF separate now in my new HTML.
-                  document.getElementById('editCidade').value = cidade;
-                  document.getElementById('editClientEstado').value = estado;
-                  
-                  if(!numero) document.getElementById('editClientNumero').focus();
-              });
-          } catch(e) { console.error(e); }
-      };
 
       // --- Vendedores ---
       function adicionarVendedor() {
@@ -2185,10 +1545,8 @@
       }
 
       function renderizarVendedores() {
-          const listaValida = document.getElementById('listaVendedores');
-          if (listaValida) {
-             listaValida.innerHTML = vendedores.length ? '' : '<p style="color:#999">Nenhum vendedor cadastrado.</p>';
-          }
+          const lista = document.getElementById('listaVendedores');
+          lista.innerHTML = vendedores.length ? '' : '<p style="color:#999">Nenhum vendedor cadastrado.</p>';
           
           // Populate Report Filter
           const relSelect = document.getElementById('relVendedor');
@@ -2217,158 +1575,14 @@
               });
           }
           
-          if (listaValida) {
-              vendedores.forEach((v, index) => {
-                  listaValida.innerHTML += `
-                      <div class="item" style="display:flex; justify-content:space-between; align-items:center;">
-                          <span>👤 ${v}</span>
-                          <button onclick="removerVendedor(${index})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button>
-                      </div>
-                  `;
-              });
-          }
-      }
-
-
-
-      // ========== USER MANAGEMENT (NEW) ==========
-      let usuarios = JSON.parse(localStorage.getItem('crmUsuarios') || '[]');
-
-      function renderizarUsuarios() {
-          const lista = document.getElementById('listaUsuarios');
-          if(!lista) return;
-          
-          lista.innerHTML = usuarios.length ? '' : '<p style="color:#999">Nenhum usuário cadastrado.</p>';
-          
-          usuarios.forEach((u, index) => {
+          vendedores.forEach((v, index) => {
               lista.innerHTML += `
                   <div class="item" style="display:flex; justify-content:space-between; align-items:center;">
-                      <div>
-                          <strong>👤 ${u.login}</strong> <span style="font-size:12px; color:#666">(${u.nivel})</span>
-                      </div>
-                      <button onclick="removerUsuario(${index})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button>
+                      <span>👤 ${v}</span>
+                      <button onclick="removerVendedor(${index})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button>
                   </div>
               `;
           });
-      }
-
-      function adicionarUsuario() {
-          const loginInput = document.getElementById('newUserLogin');
-          const senhaInput = document.getElementById('newUserSenha');
-          const nivelInput = document.getElementById('newUserNivel');
-          
-          const login = loginInput.value.trim();
-          const senha = senhaInput.value.trim();
-          const nivel = nivelInput.value;
-          
-          if(!login || !senha) return alert("Preencha login e senha!");
-          
-          // Check duplicate
-          if(usuarios.find(u => u.login === login)) return alert("Usuário já existe!");
-          
-          usuarios.push({ login, senha, nivel });
-          localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
-          
-          // Sync with Vendedores list if needed
-          if(nivel === 'vendedor' && !vendedores.includes(login)) {
-              vendedores.push(login);
-              localStorage.setItem('crmVendedores', JSON.stringify(vendedores));
-              renderizarVendedores(); // Update dropdowns
-          }
-          
-          renderizarUsuarios();
-          loginInput.value = '';
-          senhaInput.value = '';
-          alert("Usuário adicionado!");
-      }
-
-      function removerUsuario(index) {
-          if(confirm("Remover usuário?")) {
-              const u = usuarios[index];
-              usuarios.splice(index, 1);
-              localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
-              
-              // Remove from vendedores if exists
-              const vIndex = vendedores.indexOf(u.login);
-              if(vIndex !== -1) {
-                  vendedores.splice(vIndex, 1);
-                  localStorage.setItem('crmVendedores', JSON.stringify(vendedores));
-                  renderizarVendedores();
-              }
-              
-              renderizarUsuarios();
-          }
-      }
-
-      // ========== SECURITY ACTIONS ==========
-      
-      async function solicitarAcaoSegura(acao) {
-          const senhaAdmin = prompt("🔒 Digite a senha de ADMIN para continuar:");
-          if (!senhaAdmin) return;
-
-          // Verificar senha (busca usuário admin na lista)
-          const adminUser = usuarios.find(u => u.nivel === 'admin' && u.login === 'admin'); // ou qualquer admin
-          // Fallback para admin/admin se não existir (primeiro run)
-          const senhaCorreta = adminUser ? adminUser.senha : 'admin';
-          
-          if(senhaAdmin !== senhaCorreta) {
-              alert("❌ Senha incorreta!");
-              return;
-          }
-
-          if (acao === 'limpar_clientes') {
-              if(!confirm("⚠️ Tem certeza? Isso apagará TODOS os clientes cadastrados.")) return;
-              
-              // Limpar Store Clientes
-              try {
-                  const tx = window.Repo.db.transaction(['clientes'], 'readwrite');
-                  tx.objectStore('clientes').clear();
-                  tx.oncomplete = () => {
-                      alert("✅ Clientes apagados com sucesso!");
-                      location.reload();
-                  };
-              } catch(e) {
-                  console.error(e);
-                  alert("Erro ao limpar clientes.");
-              }
-          }
-
-          if (acao === 'reset_fabrica') {
-              if(!confirm("☢️ TEM CERTEZA? Isso fará um RESET DE FÁBRICA.\n\n- Apaga Clientes\n- Apaga Usuários\n- Apaga Templates\n- Reinicia como zero.")) return;
-              
-              window.Repo.clear().then(() => location.reload());
-          }
-      }
-
-      async function executarImportacao(tipo) {
-          if(!confirm(`Deseja importar os dados de ${tipo.toUpperCase()}? Isso adicionará registros ao banco atual.`)) return;
-
-          let url = "";
-          if(tipo === 'seed') url = "dados/seed_system.json";
-          if(tipo === 'scraper') url = "dados/clientes_import_scraper.json";
-
-          try {
-              let response = await fetch(url);
-              // Fallback legacy para scraper
-              if(!response.ok && tipo === 'scraper') response = await fetch("dados/clientes_crm_v2.json");
-
-              if(response.ok) {
-                  let dados = await response.json();
-                  let count = 0;
-                  for(let c of dados) {
-                       c.id = String(c.id || Date.now() + Math.random());
-                       await window.Repo.save('clientes', c);
-                       count++;
-                  }
-                  alert(`✅ Importados ${count} registros! A página será recarregada.`);
-                  location.reload();
-              } else {
-                  alert("❌ Arquivo de dados não encontrado: " + url);
-              }
-          } catch(e) {
-              console.error(e);
-              alert("Erro na importação: " + e.message);
-          }
       }
 
       // --- Templates ---
@@ -2397,8 +1611,6 @@
 
       function renderizarTemplates() {
           const lista = document.getElementById('listaTemplates');
-          if(!lista) return; // Segurança contra crash
-          
           lista.innerHTML = templates.length ? '' : '<p style="color:#999">Nenhum template cadastrado.</p>';
           
           templates.forEach((t, index) => {
@@ -2469,115 +1681,6 @@
           }
       }
 
-      // --- LEAD MANAGEMENT (REPOSITORY PATTERN) ---
-      
-      async function salvarNovoCliente() {
-        const nome = document.getElementById("newClientName").value.trim();
-        const cidade = document.getElementById("newClientCidade").value;
-        const data = document.getElementById("newClientData").value;
-        const endereco = document.getElementById("newClientEndereco").value.trim();
-        const bairro = document.getElementById("newClientBairro").value.trim();
-        const estagio = document.getElementById("newClientEstagio").value;
-        const observacao = document.getElementById("newClientObs").value.trim();
-        const vendedor = document.getElementById("newClientVendedor")?.value || ""; 
-        
-        // Telefones dinâmicos
-        const telInputs = document.querySelectorAll('#phonesContainer .phone-row');
-        let telefones = [];
-        
-        // Adicionar telefone principal (se preenchido)
-        const telPrincipal = document.getElementById("newClientPhone").value.trim();
-        if(telPrincipal) {
-            telefones.push({ nome: 'Principal', numero: telPrincipal });
-        }
-        
-        telInputs.forEach(row => {
-           const nomeTel = row.querySelector('input[type="text"]').value.trim() || 'Outro';
-           const numTel = row.querySelector('input[type="tel"]').value.trim();
-           if(numTel) {
-               telefones.push({ nome: nomeTel, numero: numTel });
-           }
-        });
-
-        // Fonte
-        const fonteSelect = document.getElementById("newClientFonte");
-        let fonte = fonteSelect.value;
-        // OUTROS removed
-
-
-        if (!nome || !data) {
-          document.getElementById("newClientAlert").innerHTML =
-            '<div class="error-alert">Preencha Nome e Data!</div>';
-          return;
-        }
-
-        const novoId = Date.now().toString();
-
-        const novoCliente = {
-          id: novoId,
-          nome,
-          cidade,
-          data,
-          telefones: telefones,
-          endereco,
-          bairro,
-          estagio,
-          observacao,
-          status: "nao_acompanhando",
-          motivo: "",
-          valor_estimado: parseFloat(document.getElementById("newClientValor").value) || 0,
-          fonte: fonte,
-          vendedor: vendedor,
-          prospect: true,
-          historico: [
-            {
-              id: Date.now() + Math.random(),
-              tipo: "sistema",
-              data: new Date().toISOString(),
-              texto: "Cliente cadastrado no sistema v2.2 (Repository)",
-              autor: "Sistema"
-            }
-          ],
-          
-          // GHOST COLUMNS
-          _id_loja: '1',
-          _metadata_fiscal: {}
-        };
-
-        try {
-            // SALVAR NO REPOSITORY (IndexedDB)
-            await window.Repo.save('clientes', novoCliente);
-            
-            // Atualizar memória e UI
-            clientes.push(novoCliente);
-            
-            document.getElementById("newClientAlert").innerHTML =
-              '<div class="success-alert">Cliente salvo com sucesso!</div>';
-            
-            // Limpar
-            document.getElementById("newClientName").value = "";
-            document.getElementById("newClientPhone").value = "";
-            document.getElementById("newClientEndereco").value = "";
-            document.getElementById("newClientBairro").value = "";
-            document.getElementById("newClientObs").value = "";
-            document.getElementById("newClientValor").value = "";
-            document.getElementById("phonesContainer").innerHTML = "";
-
-            renderizarClientes();
-            atualizarGraficos(); 
-            
-            setTimeout(() => {
-              fecharNovoCliente();
-              document.getElementById("newClientAlert").innerHTML = "";
-            }, 1000);
-            
-        } catch(e) {
-            console.error("Erro CRÍTICO ao salvar:", e);
-            document.getElementById("newClientAlert").innerHTML = 
-                '<div class="error-alert">Erro ao salvar no banco.</div>';
-        }
-      }
-
       function abrirWhatsappManual(telefone, nomeCliente) {
           if(!telefone) return alert('Telefone inválido');
           // Limpar caracteres não numéricos
@@ -2589,123 +1692,92 @@
 
       async function carregarDados() {
         try {
-          console.log("🚀 Iniciando sistema com Repository...");
+          let response = await fetch("dados/clientes_crm_v2.json");
+          if (!response.ok) response = await fetch("dados/clientes_crm.json");
           
-          // 1. Inicializar Banco (IndexedDB) + Sync Loop
-          await window.Repo.init();
+          let dadosJson = await response.json();
 
-          // 2. Migração Silenciosa (LocalStorage -> IndexedDB)
-          await migrarDadosLegados();
+          clientes = dadosJson.map((c) => {
+             // Compatibilidade Telefones
+             let tels = c.telefones || [];
+             if(tels.length > 0 && typeof tels[0] === 'string') {
+                 tels = tels.map(t => ({ nome: 'Principal', numero: t }));
+             }
 
-          // 3. Carregar do Banco Novo
-          clientes = await window.Repo.getAll('clientes');
-          console.log(`📡 ${clientes.length} clientes carregados do IndexedDB`);
+             // --- MIGRAÇÃO HISTÓRICO UNIFICADO ---
+             let historico = c.historico || [];
+             
+             // Migrar Anotações Antigas
+             if(c.anotacoes && Array.isArray(c.anotacoes)) {
+                 c.anotacoes.forEach(nota => {
+                     if(!historico.some(h => h.id === nota.id)) {
+                         historico.push({
+                             id: nota.id,
+                             tipo: 'nota',
+                             data: nota.data,
+                             texto: nota.texto,
+                             autor: nota.autor || ''
+                         });
+                     }
+                 });
+             }
+             
+             // Migrar Retornos Antigos
+             if(c.retornos && Array.isArray(c.retornos)) {
+                 c.retornos.forEach(ret => {
+                     if(!historico.some(h => h.id === ret.id)) {
+                         historico.push({
+                             id: ret.id,
+                             tipo: 'agendamento',
+                             data: ret.data, 
+                             texto: ret.descricao + (ret.proximaAcao ? `\n\nPróxima Ação: ${ret.proximaAcao}` : ''),
+                             autor: '',
+                             agendamento: {
+                                 data: ret.data,
+                                 status: ret.status
+                             }
+                         });
+                     }
+                 });
+             }
+             
+             // Ordenar histórico por data (descrescente)
+             historico.sort((a,b) => new Date(b.data) - new Date(a.data));
 
-          // Fallback: Se banco novo vazio, apenas loga.
-          if (clientes.length === 0) {
-              console.log("⚠️ IndexedDB vazio. Iniciando sistema zerado.");
-          }
-
-          // Compatibilidade e tratamento de dados legacy
-          clientes = clientes.map(c => {
-             // Tratamentos de historico/telefones legados podem ser feitos aqui se necessário
-             // Ex: Garantir array historico
-             c.historico = c.historico || [];
-             c.telefones = c.telefones || [];
-             return c;
+             return {
+                ...c,
+                status: c.status || "nao_acompanhando",
+                motivo: c.motivo || "",
+                valor_estimado: c.valor_estimado || 0,
+                prospect: c.prospect !== undefined ? c.prospect : true,
+                fonte: c.fonte || "manual",
+                historico: historico,
+                telefones: tels,
+                anotacoes: [],
+                retornos: []
+             };
           });
 
-          inicializar();
-          
-        } catch (error) {
-           console.error("❌ Erro CRÍTICO ao carregar:", error);
-           alert("Erro ao inicializar banco de dados. Veja o console.");
-        }
-      }
-
-      // --- MIGRATION UTILS ---
-      async function migrarDadosLegados() {
           const dadosSalvos = localStorage.getItem("crmDados_v2");
           if (dadosSalvos) {
-              console.log("🔄 Detectado localStorage. Migrando para IndexedDB...");
-              try {
-                  const clientesAntigos = JSON.parse(dadosSalvos);
-                  if(Array.isArray(clientesAntigos) && clientesAntigos.length > 0) {
-                      let count = 0;
-                      for (const c of clientesAntigos) {
-                          const existe = await window.Repo.getById('clientes', c.id);
-                          if (!existe) {
-                              await window.Repo.save('clientes', c);
-                              count++;
-                          }
-                      }
-                      console.log(`✅ Migração concluída: ${count} registros movidos.`);
-                      // localStorage.removeItem("crmDados_v2"); // Descomentar futuramente
-                  }
-              } catch(e) {
-                  console.error("Erro na migração:", e);
-              }
+            const dadosLocal = JSON.parse(dadosSalvos);
+            clientes = clientes.map((cliente) => {
+              const clienteSalvo = dadosLocal.find((c) => c.id === cliente.id);
+              return clienteSalvo || cliente;
+            });
           }
-      }
 
-
-      // ========== UI CONTROL & SESSION ==========
-
-      function mudarTabSettings(index) {
-          // Hide all tabs CONTENT
-          document.getElementById('settingsTab0').classList.remove('active');
-          document.getElementById('settingsTab1').classList.remove('active');
-          document.getElementById('settingsTab2').classList.remove('active');
-          
-          // Deactivate all tabs BUTTONS
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          
-          // Activate specific
-          document.getElementById('settingsTab' + index).classList.add('active');
-          document.querySelectorAll('.tab')[index].classList.add('active');
-
-          if(index === 0) renderizarUsuarios();
-          if(index === 1) renderizarTemplates();
-          if(index === 2) carregarConfiguracoesNaTela();
-      }
-
-      function mudarView(viewId) {
-          // Hide all views
-          document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-          document.getElementById(viewId + '-view').classList.add('active');
-          
-          // Update Nav
-          document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-          // Simple logic to highlight based on text content or index would be better, 
-          // but for now let's reliance on click handler adding class if needed, 
-          // or just visual feedback of the view changing.
-          // To make it perfect:
-          const navMap = {
-              'inicio': 0,
-              'home': 0,
-              'contatos': 1,
-              'agenda': 2,
-              'reports': 3
-          };
-          const index = navMap[viewId];
-          if(index !== undefined) {
-              const navItems = document.querySelectorAll('.nav-item');
-              if(navItems[index]) navItems[index].classList.add('active');
-          }
-      }
-
-      function abrirConfig() {
-          renderizarUsuarios();
-          renderizarTemplates();
-          document.getElementById('settingsModal').style.display = 'block';
-      }
-
-      function fazerLogout() {
-          if(confirm("Sair do sistema?")) {
-              sessionStorage.removeItem('crmLogado');
-              sessionStorage.removeItem('usuarioAtual');
-              location.reload();
-          }
+          inicializar();
+        } catch (error) {
+           console.error("Erro ao carregar:", error);
+           const dadosSalvos = localStorage.getItem("crmDados_v2");
+           if(dadosSalvos) {
+               clientes = JSON.parse(dadosSalvos);
+               inicializar();
+           } else {
+               alert('Nenhum dado encontrado ou erro ao carregar.');
+           }
+        }
       }
 
       function inicializar() {
@@ -2723,8 +1795,7 @@
         renderizarVendedores();
         renderizarTemplates();
         initReportGenerator(); // Iniciar UI Relatórios
-          aplicarTema(); // Aplica personalização salva
-          if(apiKeys?.maps) loadGoogleMapsScript(); // Load Maps if key exists em inputs estáticos
+        aplicarMascaras(); // Aplicar máscaras em inputs estáticos
 
         // Listeners
         document.getElementById("searchInput").addEventListener("input", filtrarClientes);
@@ -2862,15 +1933,6 @@
       }
 
       function criarGraficos() {
-        // Fix: Destruir gráfico anterior se existir
-        if (charts.statusChart) {
-            charts.statusChart.destroy();
-        }
-
-        if (charts.statusChart) {
-            charts.statusChart.destroy();
-        }
-
         const statusCtx = document
           .getElementById("statusChart")
           .getContext("2d");
@@ -2908,9 +1970,6 @@
           },
         });
 
-        if (charts.valueChart) {
-            charts.valueChart.destroy();
-        }
         const valueCtx = document.getElementById("valueChart").getContext("2d");
         charts.valueChart = new Chart(valueCtx, {
           type: "bar",
@@ -2945,9 +2004,6 @@
           },
         });
 
-        if (charts.prospectChart) {
-            charts.prospectChart.destroy();
-        }
         const prospectCtx = document
           .getElementById("prospectChart")
           .getContext("2d");
@@ -3067,13 +2123,8 @@
             finalizado: "Finalizado/Perdido",
           };
 
-          // Pegar telefone e formatar (compatível com string OU objeto)
-          const getTelefone = (tel) => {
-            if (!tel || !Array.isArray(tel) || tel.length === 0) return '';
-            const first = tel[0];
-            return typeof first === 'string' ? first : (first?.numero || '');
-          };
-          const telefoneRaw = cliente.telefone || getTelefone(cliente.telefones) || '';
+          // Pegar telefone e formatar
+          const telefoneRaw = cliente.telefone || cliente.telefones?.[0]?.numero || '';
           const telefoneFormatado = formatarTelefone(telefoneRaw);
 
           card.innerHTML = `
@@ -3434,15 +2485,6 @@
           }
       }
 
-      function abrirNovoCliente() {
-          document.getElementById("newClientModal").style.display = "block";
-          document.getElementById("newClientModalLabel").innerText = "Novo Prospect";
-          
-          // Reset fields
-          // ...
-          renderizarInputsCustomizados(); // Renderiza campos extras
-      }
-
       function mudarTab(index) {
         const context = document.getElementById("clientModal");
         if (!context) return;
@@ -3458,10 +2500,11 @@
         });
       }
 
-      async function salvarStatus() {
+      function salvarStatus() {
         const statusSelecionado = document.querySelector(".status-option.selected");
         const motivo = document.getElementById("statusMotivo").value.trim();
         const valor = parseFloat(document.getElementById("statusValor").value) || 0;
+
         const alertDiv = document.getElementById("statusAlert");
 
         if (!statusSelecionado) {
@@ -3470,42 +2513,22 @@
         }
 
         if (!motivo && statusSelecionado.dataset.status !== "nao_acompanhando") {
-          alertDiv.innerHTML = '<div class="alert alert-warning">⚠️ O campo Motivo é obrigatório para este status.</div>';
+          alertDiv.innerHTML = '<div class="alert alert-warning">⚠️ O campo Motivo é obrigatório. Explique por que o cliente está neste status.</div>';
           return;
         }
 
-        // Atualizar Objeto Local
         clienteAtual.status = statusSelecionado.dataset.status;
         clienteAtual.motivo = motivo;
         clienteAtual.valor_estimado = valor;
         clienteAtual.data_status = new Date().toISOString();
-        
-        // Log Histórico Automático
-        clienteAtual.historico.push({
-            id: Date.now(),
-            tipo: "sistema",
-            data: new Date().toISOString(),
-            texto: `Status alterado para: ${statusSelecionado.innerText}`,
-            autor: "Sistema"
-        });
 
-        // 💾 SALVAR NO REPOSITORY (IndexedDB)
-        try {
-            await window.Repo.save('clientes', clienteAtual);
-            
-            // UI Feedback
-            alertDiv.innerHTML = '<div class="alert alert-success">✅ Status atualizado com sucesso (IndexedDB)!</div>';
-            
-            setTimeout(() => {
-              atualizarEstatisticas();
-              renderizarClientes();
-              // Não fecha modal automaticamente para permitir mais edições, apenas atualiza visual
-            }, 500);
-            
-        } catch(e) {
-            console.error("Erro status update:", e);
-            alertDiv.innerHTML = '<div class="alert alert-error">❌ Erro ao salvar status. Tente novamente.</div>';
-        }
+        salvarDados();
+        alertDiv.innerHTML = '<div class="alert alert-success">✅ Status salvo com sucesso!</div>';
+
+        setTimeout(() => {
+          atualizarEstatisticas();
+          renderizarClientes();
+        }, 500);
       }
 
       // ========== SISTEMA DE HISTÓRICO UNIFICADO (Anotações + Agenda) ==========
@@ -3570,44 +2593,7 @@
           });
       }
 
-      async function excluirItemHistorico(index) {
-          if(confirm("Excluir este item do histórico?")) {
-              clienteAtual.historico.splice(index, 1);
-              try {
-                  await window.Repo.save('clientes', clienteAtual);
-                  renderizarHistorico();
-                  renderizarClientes(); // Atualizar tabela principal
-              } catch(e) {
-                  alert('Erro ao salvar exclusão.');
-                  console.error(e);
-              }
-          }
-      }
-
-      async function concluirAgendamento(index) {
-          if(clienteAtual.historico[index].agendamento) {
-              clienteAtual.historico[index].agendamento.status = 'Concluído';
-              // Adicionar log automático de conclusão
-              clienteAtual.historico.unshift({
-                  id: Date.now(),
-                  tipo: 'sistema',
-                  data: new Date().toISOString(),
-                  texto: `Agendamento concluído (Item original: ${clienteAtual.historico[index].texto})`,
-                  autor: 'Sistema'
-              });
-              
-              try {
-                  await window.Repo.save('clientes', clienteAtual);
-                  renderizarHistorico();
-                  renderizarClientes();
-              } catch(e) {
-                  alert('Erro ao concluir agendamento.');
-                  console.error(e);
-              }
-          }
-      }
-
-      async function salvarHistorico() {
+      function salvarHistorico() {
           const texto = document.getElementById("histTexto").value.trim();
           const dataRetorno = document.getElementById("histDataRetorno").value;
           const vendedor = document.getElementById("histVendedor").value;
@@ -3636,18 +2622,12 @@
           if(!clienteAtual.historico) clienteAtual.historico = [];
           clienteAtual.historico.unshift(novoItem);
           
-          try {
-              await window.Repo.save('clientes', clienteAtual);
-              
-              document.getElementById("histTexto").value = "";
-              document.getElementById("histDataRetorno").value = "";
-              
-              renderizarHistorico();
-              renderizarClientes();
-          } catch(e) {
-              alert("Erro ao salvar histórico.");
-              console.error(e);
-          }
+          document.getElementById("histTexto").value = "";
+          document.getElementById("histDataRetorno").value = "";
+          
+          salvarDados();
+          renderizarHistorico();
+          renderizarClientes();
       }
 
       /**
@@ -3672,155 +2652,42 @@
       /**
        * Abre modal de importação manual de HTML
        */
-      /**
-       * Abre modal de Upload Manual
-       */
       function abrirImportacao() {
         document.getElementById('uploadArea').style.display = 'flex';
       }
+      
+      /**
+       * Ativa importação automática via scraper Python
+       */
+      function ativarImportacaoAutomatica() {
+        alert('🤖 Importação Automática\n\nPara usar:\n1. Execute "Importar_Clientes.bat"\n2. O scraper Python será executado\n3. Clientes importados automaticamente\n\nArquivo: scripts/scraper_guia_automatico.py');
+        
+        const confirmExec = confirm('Abrir pasta de scripts?');
+        if (confirmExec) {
+          window.open('file:///C:/Users/Lucas Valério/Desktop/CRM/scripts', '_blank');
+        }
+      }
+      
+      /**
+       * Mostra configurações do scraper
+       */
+      function mostrarConfigScraper() {
+        alert('⚙️ Configurações do Scraper\n\nArquivo: scripts/scraper_guia_automatico.py\n\nComo configurar:\n1. Abra o .py em editor\n2. Modifique variáveis:\n   - URL_BASE\n   - FILTROS_BUSCA\n   - TEMPO_ESPERA\n3. Salve e execute\n\nRequisitos:\n- Python 3.8+\n- Playwright\n\nVeja README.md para detalhes');
+      }
 
-
-      async function excluirItemHistorico(index) {
+      function excluirItemHistorico(index) {
           if(confirm("Excluir este item do histórico?")) {
               clienteAtual.historico.splice(index, 1);
-              await window.Repo.save('clientes', clienteAtual); // Salva no banco
+              salvarDados();
               renderizarHistorico();
           }
       }
       
-      async function concluirAgendamento(index) {
+      function concluirAgendamento(index) {
           if(clienteAtual.historico[index].agendamento) {
             clienteAtual.historico[index].agendamento.status = 'Concluído';
-            clienteAtual.historico[index].texto += " ✅ (Concluído)"; 
-            
-            await window.Repo.save('clientes', clienteAtual); // Salva no banco
+            salvarDados();
             renderizarHistorico();
-          }
-      }
-
-
-      // ========== AI ENERGY SYSTEM (GEMINI 3.0 READY) ==========
-      const AI_CONFIG = {
-          maxCredits: 1000,
-          costPerAction: 10,
-          costPerAnalysis: 50,
-          refillRate: 5 // per hour (mock)
-      };
-
-      function initEnergySystem() {
-          let energy = parseInt(localStorage.getItem('aiCredits'));
-          if(isNaN(energy)) {
-              energy = AI_CONFIG.maxCredits;
-              localStorage.setItem('aiCredits', energy);
-          }
-          updateEnergyUI(energy);
-          
-          // Tooltip/Explanation on click
-          document.querySelector('.energy-container').onclick = () => {
-              alert(`🔋 Status da IA\n\nCréditos Disponíveis: ${energy}/${AI_CONFIG.maxCredits}\n\n- O Gemini usa Context Caching para economizar.\n- Cada análise consome ~${AI_CONFIG.costPerAnalysis} créditos.\n- Recarga automática mensal.`);
-          };
-      }
-
-      function updateEnergyUI(energy) {
-          const percent = Math.min(100, Math.max(0, (energy / AI_CONFIG.maxCredits) * 100));
-          const fill = document.getElementById('aiEnergyFill');
-          const text = document.getElementById('aiEnergyText');
-          
-          if(fill) fill.style.width = `${percent}%`;
-          if(text) text.innerText = `${percent.toFixed(0)}%`;
-          
-          // Visual warning
-          if(fill) {
-            if(percent < 20) fill.style.background = '#ef4444'; // Red
-            else if(percent < 50) fill.style.background = '#f59e0b'; // Orange
-            else fill.style.background = 'linear-gradient(90deg, #10b981, #3b82f6)'; // Green/Blue
-          }
-      }
-
-      function consumeEnergy(amount) {
-          let energy = parseInt(localStorage.getItem('aiCredits')) || 0;
-          if (energy >= amount) {
-              energy -= amount;
-              localStorage.setItem('aiCredits', energy);
-              updateEnergyUI(energy);
-              return true;
-          } else {
-              alert("⚠️ Energia da IA Esgotada! Aguarde recarga ou contate o suporte.");
-              return false;
-          }
-      }
-
-      // Initialize on load
-      window.addEventListener('load', initEnergySystem);
-
-      // ========== GESTÃO DE USUÁRIOS ==========
-        
-      async function renderizarUsuarios() {
-          const lista = document.getElementById('listaUsuarios');
-          if(!lista) return;
-          
-          lista.innerHTML = '';
-          const users = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
-          
-          if(users.length === 0) {
-              lista.innerHTML = '<p style="color:#666;">Nenhum usuário cadastrado.</p>';
-              return;
-          }
-          
-          users.forEach((u, index) => {
-              const div = document.createElement('div');
-              div.style.cssText = 'background:#f8fafc; padding:10px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0;';
-              
-              div.innerHTML = `
-                  <div style="display:flex; align-items:center; gap:10px;">
-                      <div style="background:#e0e7ff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4338ca; font-weight:bold;">
-                          ${u.user.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                          <stromg>${u.user}</strong> <span style="font-size:11px; background:#f3f4f6; color:#666; padding:2px 6px; border-radius:10px;">${u.nivel || 'vendedor'}</span>
-                      </div>
-                  </div>
-                  <button class="btn" style="background:#fee2e2; color:#ef4444; padding:5px 10px; font-size:16px; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center;" onclick="excluirUsuario(${index})">🗑️</button>
-              `;
-              lista.appendChild(div);
-          });
-      }
-      
-      // Alias for legacy support
-      // Alias removed
-
-      
-      async function adicionarUsuario() {
-          const login = document.getElementById('newUserLogin').value.trim();
-          const pass = document.getElementById('newUserSenha').value.trim();
-          const nivel = document.getElementById('newUserNivel').value;
-          
-          if(!login || !pass) {
-              alert('Preencha Login e Senha!');
-              return;
-          }
-          
-          const users = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
-          if(users.find(u => u.user === login)) {
-              alert('Usuário já existe!');
-              return;
-          }
-          
-          users.push({ user: login, pass: pass, nivel: nivel });
-          localStorage.setItem('crmVendedores', JSON.stringify(users));
-          
-          document.getElementById('newUserLogin').value = '';
-          document.getElementById('newUserSenha').value = '';
-          
-          renderizarUsuarios();
-      }
-      
-      async function excluirUsuario(index) {
-          if(confirm('Remover este usuário?')) {
-              const users = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
-              users.splice(index, 1);
-              localStorage.setItem('crmVendedores', JSON.stringify(users));
-              renderizarUsuarios();
           }
       }
 
@@ -3841,31 +2708,25 @@
         statusDiv.innerHTML = "<p>⏳ Processando arquivo...</p>";
 
         const reader = new FileReader();
-        reader.onload = async function (e) {
+        reader.onload = function (e) {
           try {
             const html = e.target.result;
             const novosClientes = parsearHTMLRelatorio(html);
 
             // Mesclar com clientes existentes
-            for (const novoCliente of novosClientes) {
+            novosClientes.forEach((novoCliente) => {
               const existe = clientes.find((c) => c.id === novoCliente.id);
               if (!existe) {
-                // Injeta schema novo
-                novoCliente._id_loja = '1';
-                novoCliente._metadata_fiscal = {};
-                
                 clientes.push(novoCliente);
-                await window.Repo.save('clientes', novoCliente); // Salva item a item
               }
-            }
+            });
 
-            // Não chamamos mais salvarDados() global
+            salvarDados();
             inicializar();
 
             statusDiv.innerHTML = `<div class="alert alert-success">✅ ${novosClientes.length} clientes importados com sucesso!</div>`;
 
             // Log Audit
-            // ... (logica de log mantida)
             adicionarLogAuditoria(
               "Upload Manual HTML",
               novosClientes.length,
@@ -3975,14 +2836,155 @@
         return novosClientes;
       }
 
-      // ========== IMPORTAÇÃO AUTOMÁTICA REMOVIDA ==========
-      // Função ativarImportacaoAutomatica removida para segurança.
-      // O scraper não deve rodar automaticamente no app.
+      // ========== IMPORTAÇÃO AUTOMÁTICA COM MERGE SEGURO ==========
+      async function importarAutomatico() {
+        if (
+          !confirm(
+            "🤖 Executar Scraper Automático do Guia da Construção?\n\n⚠️ IMPORTANTE:\n• Fará login e extrairá dados automaticamente\n• Os dados serão MESCLADOS (não sobrescritos)\n• Clientes existentes serão preservados\n• Novos prospects serão adicionados\n\nContinuar?"
+          )
+        ) {
+          return;
+        }
 
-        // Legacy abrirNovoCliente removed to fix conflict
+        const statusDiv = document.createElement("div");
+        statusDiv.style.cssText =
+          "position: fixed; top: 20px; right: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 3000; max-width: 400px;";
+        statusDiv.innerHTML =
+          '<h3>🤖 Executando Scraper...</h3><p id="scraperStatus">Iniciando...</p>';
+        document.body.appendChild(statusDiv);
 
+        const updateStatus = (msg) => {
+          const status = document.getElementById("scraperStatus");
+          if (status) status.innerHTML = msg;
+        };
 
-        async function salvarNovoCliente() {
+        try {
+          updateStatus("📂 Executando: python scraper_guia_automatico.py");
+
+          // Como é HTML puro, vamos simular via instrução ao usuário
+          // Em produção, isso seria uma chamada fetch() para um backend Node.js/Python
+
+          updateStatus(
+            '⚠️ Ação necessária:<br><br>1. Abra PowerShell<br>2. Execute:<br><code>cd "C:\\Users\\Lucas Valério\\Desktop"<br>python scraper_guia_automatico.py</code><br><br>3. Aguarde completar<br>4. Clique em OK abaixo quando terminar'
+          );
+
+          await new Promise((resolve) => {
+            const btn = document.createElement("button");
+            btn.textContent = "Scraper Concluído - Importar Dados";
+            btn.className = "btn btn-success";
+            btn.style.marginTop = "15px";
+            btn.onclick = () => {
+              document.body.removeChild(statusDiv);
+              resolve();
+            };
+            statusDiv.appendChild(btn);
+          });
+
+          // Procurar arquivo JSON mais recente
+          updateStatus("🔍 Procurando arquivo JSON gerado...");
+
+          // Tentar carregar clientes_crm_v2.json (gerado pelo scraper)
+          const response = await fetch("clientes_crm_v2.json?t=" + Date.now());
+          if (!response.ok) {
+            throw new Error(
+              "Arquivo JSON não encontrado. Execute o scraper primeiro."
+            );
+          }
+
+          const novosClientes = await response.json();
+
+          updateStatus("🔄 Mesclando dados (MERGE SEGURO)...");
+
+          // MERGE SEGURO: Adiciona apenas clientes novos
+          let adicionados = 0;
+          let duplicados = 0;
+
+          novosClientes.forEach((novoCliente) => {
+            const existe = clientes.find((c) => c.id === novoCliente.id);
+            if (!existe) {
+              // Cliente novo - adicionar
+              clientes.push({
+                ...novoCliente,
+                status: novoCliente.status || "nao_acompanhando",
+                motivo: novoCliente.motivo || "",
+                valor_estimado: novoCliente.valor_estimado || 0,
+                prospect: true,
+                fonte: "GC",
+                anotacoes: [],
+                retornos: [],
+              });
+              adicionados++;
+            } else {
+              duplicados++;
+            }
+          });
+
+          // Salvar dados mesclados
+          salvarDados();
+
+          // LOG DE AUDITORIA
+          adicionarLogAuditoria(
+            "Automática (Guia)",
+            adicionados,
+            duplicados,
+            clientes.length
+          );
+
+          updateStatus(
+            `✅ Importação concluída!<br><br>📊 Resultados:<br>• ${adicionados} clientes NOVOS adicionados<br>• ${duplicados} duplicados ignorados<br>• ${clientes.length} total no CRM<br><br>Fechando em 3s...`
+          );
+
+          setTimeout(() => {
+            document.body.removeChild(statusDiv);
+            inicializar();
+            alert(
+              `✅ Importação automática concluída!\n\n${adicionados} novos clientes adicionados\n${duplicados} duplicados ignorados\n\nTotal: ${clientes.length} clientes no CRM`
+            );
+          }, 3000);
+        } catch (error) {
+          console.error("Erro na importação automática:", error);
+          updateStatus(
+            `❌ Erro: ${error.message}<br><br>Verifique se:<br>1. Scraper foi executado<br>2. Arquivo JSON foi gerado<br>3. Arquivo está na mesma pasta do CRM`
+          );
+
+          setTimeout(() => {
+            document.body.removeChild(statusDiv);
+          }, 5000);
+        }
+      }
+
+        // ========== CADASTRO MANUAL DE CLIENTES ==========
+        function gerarNovoID() {
+            return `MAN-${Date.now()}`;
+        }
+
+        function abrirNovoCliente() {
+            // Limpar formulário
+            document.querySelectorAll('#newClientModal input, #newClientModal textarea, #newClientModal select').forEach(el => el.value = '');
+            document.getElementById('newClientAlert').innerHTML = '';
+            
+            // Telefones reset
+            document.getElementById('phonesContainer').innerHTML = '';
+            adicionarInputTelefone('Principal', ''); 
+            
+            // Fonte reset
+            document.getElementById('newClientFonteOutro').style.display = 'none';
+
+            // Popular Vendedores (Global Var)
+            const selectVend = document.getElementById('newClientVendedor');
+            selectVend.innerHTML = '<option value="">Selecione...</option>';
+            vendedores.forEach(v => {
+                selectVend.innerHTML += `<option value="${v}">${v}</option>`;
+            });
+            
+            document.getElementById('newClientModal').style.display = 'block';
+        }
+
+        function fecharNovoCliente() {
+            document.getElementById('newClientModal').style.display = 'none';
+        }
+
+        function salvarNovoCliente() {
             const alertDiv = document.getElementById('newClientAlert');
             
             // Validar campos obrigatórios
@@ -4017,52 +3019,34 @@
                 }
             });
             
-            // Capturar Campos Customizados
-            let dadosExtras = {};
-            customFields.forEach(f => {
-                const input = document.getElementById(f.id);
-                if(input) dadosExtras[f.id] = input.value;
-            });
-
+            // Criar novo cliente
             const novoCliente = {
-                id: String(Date.now()), // Assuming this is for new client, not editing
+                id: gerarNovoID(),
                 nome: nome,
-                telefones: telefones, // Use the collected 'telefones'
-                // ... (outros campos)
+                cidade: cidade,
+                data: new Date().toLocaleDateString('pt-BR'),
+                telefones: telefones,
+                metragem: document.getElementById('newClientMetragem').value || '0',
+                endereco: document.getElementById('newClientEndereco').value.trim() || '',
+                bairro: document.getElementById('newClientBairro').value.trim() || '',
+                estagio: document.getElementById('newClientEstagio').value || 'Não informado',
+                observacao: document.getElementById('newClientObservacao').value.trim() || '',
+                status: 'nao_acompanhando',
+                motivo: '',
+                valor_estimado: parseFloat(document.getElementById('newClientValor').value) || 0,
+                data_status: new Date().toISOString(),
                 fonte: fonte,
-                fonte_detalhe: document.getElementById('newClientFonteOutro').value.trim(), // Assuming this is the 'fonteOutro'
-                
-                // Mapeia legacy para novo schema se precisar, mas salva customizados
-                custom_fields: dadosExtras,
-                
-                etiquetas: [],
-                historico: [
-                    {
-                        data: new Date().toISOString(),
-                        tipo: 'criacao',
-                        nota: `Cliente criado`
-                    }
-                ],
-                _ativo: true,
-                _created_at: new Date().toISOString()
+                prospect: false,
+                anotacoes: [],
+                retornos: [],
+                vendedor: document.getElementById('newClientVendedor').value || ''
             };
             
-            // Merge manual dos campos fixos (simplificado aqui para focarmos no custom)
-            novoCliente.cidade = document.getElementById("newClientCidade").value;
-            novoCliente.endereco = document.getElementById("newClientEndereco").value;
-            novoCliente.bairro = document.getElementById("newClientBairro").value;
-            novoCliente.metragem = document.getElementById("newClientMetragem").value || 0; // Ensure numeric or default
-            novoCliente.estagio = document.getElementById("newClientEstagio").value || 'Não informado'; // Ensure default
-            novoCliente.valor_estimado = parseFloat(document.getElementById("newClientValor").value) || 0; // Ensure numeric
-            novoCliente.observacao = document.getElementById("newClientObservacao").value; // Corrected ID
-            novoCliente.vendedor = document.getElementById("newClientVendedor").value;
-            
-            novoCliente.status = 'nao_acompanhando'; // Default novo
-
-            await window.Repo.save('clientes', novoCliente);
+            clientes.push(novoCliente);
+            salvarDados();
             
             alertDiv.innerHTML = '<div class="alert alert-success">✅ Cliente cadastrado com sucesso!</div>';
-            adicionarLogAuditoria('Cadastro Manual', 1, 0, clientes.length); // This count will be off if not reloaded
+            adicionarLogAuditoria('Cadastro Manual', 1, 0, clientes.length);
             
             setTimeout(() => {
                 fecharNovoCliente();
@@ -4079,7 +3063,8 @@
             document.getElementById('newClientCidade').value = clienteAtual.cidade || '';
             document.getElementById('newClientEndereco').value = clienteAtual.endereco || '';
             document.getElementById('newClientBairro').value = clienteAtual.bairro || '';
-            // Legacy Metragem/Estagio removed from UI
+            document.getElementById('newClientMetragem').value = clienteAtual.metragem || '';
+            document.getElementById('newClientEstagio').value = clienteAtual.estagio || '';
             document.getElementById('newClientValor').value = clienteAtual.valor_estimado || 0;
             document.getElementById('newClientObservacao').value = clienteAtual.observacao || '';
 
@@ -4133,10 +3118,13 @@
             const nome = document.getElementById('newClientNome').value.trim();
             const cidade = document.getElementById('newClientCidade').value.trim();
             let fonte = document.getElementById('newClientFonte').value;
-            // Fonte Custom removed
+             // Fonte Custom
+            if(fonte === 'OUTROS') {
+                const fonteOutro = document.getElementById('newClientFonteOutro').value.trim();
+                fonte = fonteOutro || 'Outros';
+            }
             
             if (!nome || !fonte || !cidade) {
-
                 alertDiv.innerHTML = '<div class="alert alert-warning">⚠️ Preencha os campos obrigatórios.</div>';
                 return;
             }
@@ -4661,7 +3649,7 @@
            document.getElementById('kpiGrid').innerHTML = `
                <div class="metric-card"><div class="metric-value">${kpiTotal}</div><div class="metric-label">Novos Leads</div></div>
                <div class="metric-card"><div class="metric-value">${kpiFechados}</div><div class="metric-label">Vendas Fechadas</div></div>
-               <div class="metric-card"><div class="metric-value">${kpiConversion}%</div><div class="metric-label">Taxa Conversão</div></div>
+               <div class="metric-card"><div class="metric-value">${conversion || kpiConversion}%</div><div class="metric-label">Taxa Conversão</div></div>
                <div class="metric-card"><div class="metric-value">${kpiInteracoes}</div><div class="metric-label">Interações</div></div>
            `;
 
@@ -4911,8 +3899,8 @@
          clientesFiltrados.sort((a, b) => new Date(b.data) - new Date(a.data));
       }
 
-      renderizarClientes(clientesFiltrados);
-      // atualizarContadores(clientesFiltrados.length); // Função não existe, removida
+      renderizarLista(clientesFiltrados);
+      atualizarContadores(clientesFiltrados.length);
       }
 
       function ordenarClientes(field) {
@@ -4944,19 +3932,29 @@
 
       function abrirAgendaDrawer(year, month, day) {
           const date = new Date(year, month, day);
-          const dateStr = date.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+          const dateStr = date.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
           
-          // Update title
-          document.getElementById('agendaDrawerDate').textContent = `📅 ${dateStr}`;
+          document.querySelector('#sidebarTitle span').textContent = `📅 ${dateStr}`;
+          const content = document.getElementById('sidebarContent');
+          content.innerHTML = '';
           
-          // Populate form dropdowns and set default date
-          if (typeof popularFormularioAgenda === 'function') {
-              popularFormularioAgenda(year, month, day);
-          }
+          const events = getEventsForDate(date);
           
-          // Render appointments for this day
-          if (typeof renderizarAgendamentosDia === 'function') {
-              renderizarAgendamentosDia(year, month, day);
+          if(events.length === 0) {
+              content.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
+          } else {
+              events.forEach(ev => {
+                  content.innerHTML += `
+                      <div class="agenda-item-card" onclick="abrirModal('${ev.clienteId}')" style="background:#fff; border:1px solid #e2e8f0; padding:10px; border-radius:8px; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.05); transition:transform 0.2s;">
+                          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                              <span class="agenda-time" style="font-weight:bold; color:#333;">⏰ ${ev.time}</span>
+                              <span style="font-size:12px; padding:2px 8px; border-radius:10px; background:#f1f5f9; color:#64748b;">${ev.item.status||'Pendente'}</span>
+                          </div>
+                          <span class="agenda-client" style="color:#667eea; font-weight:bold; text-decoration:underline;">${ev.clienteNome}</span>
+                          <span class="agenda-desc" style="display:block; font-size:13px; color:#666; margin-top:5px;">${ev.item.texto || ev.item.descricao || ''}</span>
+                      </div>
+                  `;
+              });
           }
           
           document.getElementById('agendaDrawer').classList.add('active');
@@ -4987,29 +3985,11 @@
           document.getElementById('editBairro').value = clienteAtual.bairro || '';
           document.getElementById('editMetragem').value = clienteAtual.metragem || '';
           document.getElementById('editValor').value = clienteAtual.valor_estimado || '';
-
-          // Populate Fonte
-          const editFonte = document.getElementById('editFonte');
-          if(editFonte) {
-              // Re-render options to ensure latest custom sources
-              editFonte.innerHTML = '<option value="">Selecione...</option>';
-              (customSources || []).forEach(s => {
-                  editFonte.innerHTML += `<option value="${s}">${s}</option>`;
-              });
-              editFonte.value = clienteAtual.origem_contato || '';
-          }
-          
-          // Trigger Maps Init for Edit
-          if(window.initEditAutocomplete && apiKeys && apiKeys.maps) {
-             // Small delay to ensure container is visible
-             setTimeout(() => window.initEditAutocomplete(), 200);
-          }
           
           // Populate Unified Status (Tab 0)
           document.getElementById('unifiedStatus').value = clienteAtual.status || 'nao_acompanhando';
           
           renderizarTimelineUnificada();
-          popularAtendentes(); // Populate attendant dropdown
           
           document.getElementById('clientModal').style.display = 'block';
           mudarTab(0); // Default to Ficha
@@ -5052,8 +4032,6 @@
       function salvarNotaUnificada() {
           const txt = document.getElementById('unifiedNoteInput').value;
           const date = document.getElementById('unifiedScheduleDate').value;
-          const attendantSelect = document.getElementById('attendantSelect');
-          const atendente = attendantSelect ? attendantSelect.value : '';
           
           if(!txt && !date) return alert('Escreva uma nota ou selecione uma data.');
           
@@ -5062,44 +4040,27 @@
           }
           
           if(date) {
-              const usuario = sessionStorage.getItem('usuarioLogado') || 'Admin';
-              
-              // Salvar no histórico do cliente
+              registrarHistorico(clienteAtual.id, 'agendamento', `Agendamento: ${txt || 'Retorno'}`);
+              // Update agendamento specific fields if needed
+              // For simplicity, using unified structure.
+              // Logic to update 'data_status' or create agenda item?
+              // The original 'adicionarAnotacao' pushed logic.
               const item = {
-                  data: date,
+                  data: date, // Schedule uses 'data'
                   tipo: 'agendamento',
                   texto: txt || 'Retorno Agendado',
-                  status: 'pendente',
-                  atendente: atendente || usuario
-              };
-              if(!clienteAtual.historico) clienteAtual.historico = [];
-              clienteAtual.historico.push(item);
-              
-              // Salvar na agenda global (crmAgendamentos)
-              const agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
-              agendamentos.push({
-                  id: `agd_${Date.now()}`,
-                  tipo: 'visita',
-                  titulo: txt || 'Retorno Agendado',
-                  descricao: txt || '',
-                  clienteId: clienteAtual.id,
-                  clienteNome: clienteAtual.nome,
-                  responsavel: atendente || usuario,
-                  dataHora: date,
-                  criadoPor: usuario,
-                  criadoEm: new Date().toISOString(),
                   status: 'pendente'
-              });
-              localStorage.setItem('crmAgendamentos', JSON.stringify(agendamentos));
+              };
+               if(!clienteAtual.historico) clienteAtual.historico = [];
+              clienteAtual.historico.push(item);
           }
           
           salvarDados();
           renderizarTimelineUnificada();
           document.getElementById('unifiedNoteInput').value = '';
           document.getElementById('unifiedScheduleDate').value = '';
-          popularAtendentes(); // Reset dropdown
           // Refresh Calendar if open?
-          if(typeof renderizarAgenda === 'function') renderizarAgenda();
+          renderizarAgenda();
       }
       
       function registarHistorico(id, tipo, texto) {
@@ -5116,23 +4077,6 @@
       }
       // Fix Typo
       function registrarHistorico(id, tipo, texto) { registarHistorico(id, tipo, texto); }
-      
-      // Popular dropdown de atendentes
-      function popularAtendentes() {
-          const select = document.getElementById('attendantSelect');
-          if (!select) return;
-          
-          const usuarioLogado = sessionStorage.getItem('usuarioLogado') || 'Admin';
-          const vendedores = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
-          
-          select.innerHTML = '<option value="">Selecione o atendente...</option>';
-          
-          vendedores.forEach(v => {
-              const nome = v.user || v;
-              const selected = nome === usuarioLogado ? 'selected' : '';
-              select.innerHTML += `<option value="${nome}" ${selected}>${nome}</option>`;
-          });
-      }
       
       function setStatusRapido(status, label) {
            document.getElementById('unifiedStatus').value = status;
@@ -5164,105 +4108,26 @@
           
           salvarDados();
           alert('Dados atualizados!');
-          renderizarClientes(clientes); // Refresh bg
+          renderizarLista(clientes); // Refresh bg
       }
 
       // ========== LOGIN SYSTEM ==========
       function fazerLogin() {
           const u = document.getElementById('loginUser').value;
           const p = document.getElementById('loginPass').value;
-          
           const users = JSON.parse(localStorage.getItem('crmUsuarios') || '[{"user":"admin","pass":"admin","nome":"Administrador"}]');
           
-          const valid = users.find(user =>
+          const valid = users.find(user => 
             ((user.user || user.login) === u) && ((user.pass || user.senha) === p)
           );
           if(valid) {
-              // Salvar usuário e horário de login
-              const loginTimestamp = new Date().toISOString();
               sessionStorage.setItem('usuarioAtual', JSON.stringify(valid));
-              sessionStorage.setItem('loginTimestamp', loginTimestamp);
-              
               document.getElementById('loginOverlay').style.display = 'none';
               iniciarSistema();
-              atualizarInfoLogin(); // Atualizar navbar
           } else {
               alert('Dados incorretos!');
           }
       }
-      
-      /**
-       * Atualizar informações de login na navbar
-       */
-      function atualizarInfoLogin() {
-        const userInfoDiv = document.getElementById('userLoginInfo');
-        if (!userInfoDiv) return;
-        
-        const usuarioAtual = JSON.parse(sessionStorage.getItem('usuarioAtual') || '{}');
-        const loginTimestamp = sessionStorage.getItem('loginTimestamp');
-        
-        // Verificar se temos dados de usuário
-        const nomeUsuario = usuarioAtual.nome || usuarioAtual.user || null;
-        
-        if (nomeUsuario && loginTimestamp) {
-          const loginDate = new Date(loginTimestamp);
-          const hora = loginDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          
-          userInfoDiv.innerHTML = `
-            <div style="display:flex; flex-direction:column; line-height:1.3;">
-              <span style="font-weight:600; color:#1e293b;">👤 ${nomeUsuario}</span>
-              <span style="font-size:10px; color:#94a3b8;">Login: ${hora}</span>
-            </div>
-          `;
-        } else {
-          // Se não tiver dados, exibir placeholder
-          userInfoDiv.innerHTML = `<span style="color:#94a3b8; font-size:12px;">Sem usuário</span>`;
-        }
-      }
-      
-      /**
-       * Obter lista de usuários ativos do sistema
-       * Retorna array de nomes para popular selects
-       */
-      function obterUsuariosAtivos() {
-        const usuarios = JSON.parse(localStorage.getItem('crmUsuarios') || '[]');
-        return usuarios.map(u => u.nome || u.user || 'Sem nome').filter(Boolean);
-      }
-      
-      /**
-       * Popular todos os selects de vendedor/atendente com usuários reais
-       */
-      function popularSelectsUsuarios() {
-        const usuarios = obterUsuariosAtivos();
-        
-        // 1. Select de novo cliente (modal)
-        const newClientSelect = document.getElementById('newClientVendedor');
-        if (newClientSelect) {
-          newClientSelect.innerHTML = '<option value="">Selecione...</option>';
-          usuarios.forEach(nome => {
-            newClientSelect.innerHTML += `<option value="${nome}">${nome}</option>`;
-          });
-        }
-        
-        // 2. Select de edição de cliente (se existir)
-        const editClientSelect = document.getElementById('modalClientVendedor');
-        if (editClientSelect) {
-          editClientSelect.innerHTML = '<option value="">Selecione...</option>';
-          usuarios.forEach(nome => {
-            editClientSelect.innerHTML += `<option value="${nome}">${nome}</option>`;
-          });
-        }
-        
-        // 3. Select de relatórios (se existir)
-        const relSelect = document.getElementById('filterVendedor');
-        if (relSelect) {
-          relSelect.innerHTML = '<option value="">Todos</option>';
-          usuarios.forEach(nome => {
-            relSelect.innerHTML += `<option value="${nome}">${nome}</option>`;
-          });
-        }
-      }
-      
 
       function fazerLogout() {
           sessionStorage.removeItem('usuarioAtual');
@@ -5281,12 +4146,63 @@
             // Inicializar CRM
             carregarDados();
             
-            
-            // Inicializar selects de usuários
-            popularSelectsUsuarios();
-            
-            // Atualizar info de login na navbar
-            atualizarInfoLogin();
+            // Verificar se veio dados do scraper
+            if (window.DADOS_AUTO_IMPORT && Array.isArray(window.DADOS_AUTO_IMPORT)) {
+                console.log("🤖 Dados do Scraper detectados! Iniciando importação silenciosa...");
+                
+                // Verificar data para não reimportar indefinidamente a mesma coisa
+                // (Opcional: usar localStorage para salvar ultima data de import)
+                
+                const novosClientes = window.DADOS_AUTO_IMPORT;
+                let adicionados = 0;
+                
+                novosClientes.forEach(novoCliente => {
+                    const existeID = clientes.find(c => c.id === novoCliente.id);
+                    if (!existeID) {
+                        clientes.push({
+                            ...novoCliente,
+                            status: novoCliente.status || 'nao_acompanhando',
+                            motivo: novoCliente.motivo || '',
+                            valor_estimado: novoCliente.valor_estimado || 0,
+                            prospect: true,
+                            fonte: 'GC',
+                            data_importacao: new Date().toISOString(),
+                            anotacoes: novoCliente.anotacoes || [],
+                            retornos: novoCliente.retornos || []
+                        });
+                        adicionados++;
+                    }
+                });
+                
+                if (adicionados > 0) {
+                    salvarDados();
+                    adicionarLogAuditoria('Automática (Robô)', adicionados, 0, clientes.length);
+                    
+                    // Notificar usuário discretamente
+                    const aviso = document.createElement('div');
+                    aviso.style.position = 'fixed';
+                    aviso.style.bottom = '20px';
+                    aviso.style.right = '20px';
+                    aviso.style.background = '#22c55e';
+                    aviso.style.color = 'white';
+                    aviso.style.padding = '15px 25px';
+                    aviso.style.borderRadius = '8px';
+                    aviso.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+                    aviso.style.zIndex = '9999';
+                    aviso.innerHTML = `<strong>🤖 Scraper Finalizado!</strong><br>+${adicionados} novos clientes importados.`;
+                    document.body.appendChild(aviso);
+                    
+                    // Atualizar UI
+                    inicializar();
+                    
+                    setTimeout(() => { document.body.removeChild(aviso); }, 5000);
+                } else {
+                     console.log("🤖 Scraper rodou, mas nenhum cliente novo encontrado.");
+                }
+                
+                // Limpar variável global para liberar memória (opcional)
+                window.DADOS_AUTO_IMPORT = null;
+            }
         };
 
       window.onclick = function (event) {
@@ -5327,13 +4243,7 @@
         // ===== POPULAR HEADER =====
         document.getElementById('modalClientName').textContent = cliente.nome || 'Sem nome';
         document.getElementById('modalClientId').textContent = `ID: ${cliente.id}`;
-        // Helper para extrair telefone (string OU objeto)
-        const getTelefone = (tel) => {
-          if (!tel || !Array.isArray(tel) || tel.length === 0) return null;
-          const first = tel[0];
-          return typeof first === 'string' ? first : (first?.numero || null);
-        };
-        document.getElementById('modalClientPhone').textContent = `📞 ${cliente.telefone || getTelefone(cliente.telefones) || 'Não informado'}`;
+        document.getElementById('modalClientPhone').textContent = `📞 ${cliente.telefone || cliente.telefones?.[0]?.numero || 'Não informado'}`;
         document.getElementById('modalClientCity').textContent = `📍 ${cliente.cidade || 'Não informado'}`;
         
         // ===== POPULAR STATUS (TAB 0) =====
@@ -5349,21 +4259,8 @@
         document.getElementById('editNome').value = cliente.nome || '';
         document.getElementById('editCidade').value = cliente.cidade || '';
         document.getElementById('editBairro').value = cliente.bairro || '';
-        // Metragem removed
+        document.getElementById('editMetragem').value = cliente.metragem || '';
         document.getElementById('editValor').value = cliente.valor_estimado || '';
-        
-        function carregarConfiguracoesNaTela() {
-          document.getElementById('configAppName').value = appConfig.name || '';
-          document.getElementById('configAppLogo').value = appConfig.logo || '';
-          document.getElementById('configAppColor').value = appConfig.color || '#667eea';
-          if(appConfig.font) document.getElementById('configAppFont').value = appConfig.font;
-          
-          renderizarListaCampos();
-          renderizarListaFontesSettings();
-          carregarIntegracoes();
-      }  // ===== POPULAR ATENDENTES E TELEFONES =====
-        popularAtendentes();
-        renderizarTelefonesEdit();
         
         // ===== RESETAR PARA TAB 0 =====
         mudarTab(0);
@@ -5530,7 +4427,6 @@
               <div style="color:#334155; line-height:1.5;">
                 ${ev.texto}
               </div>
-              ${ev.atendente ? `<div style="font-size:11px; color:#10b981; margin-top:5px;"><strong>👤 Atendente:</strong> ${ev.atendente}</div>` : ''}
               ${ev.status === 'atrasado' ? '<span style="color:#ef4444; font-size:11px; font-weight:bold;">⚠️ ATRASADO</span>' : ''}
             </div>
           `;
@@ -5545,19 +4441,12 @@
         
         const noteInput = document.getElementById('unifiedNoteInput');
         const scheduleInput = document.getElementById('unifiedScheduleDate');
-        const attendantSelect = document.getElementById('attendantSelect');
         
         const textoNota = noteInput.value.trim();
         const dataAgendamento = scheduleInput.value;
-        const atendente = attendantSelect ? attendantSelect.value : '';
         
         if (!textoNota) {
           alert('Digite uma nota primeiro!');
-          return;
-        }
-        
-        if (!atendente) {
-          alert('Selecione o atendente responsável!');
           return;
         }
         
@@ -5573,8 +4462,7 @@
           tipo: 'nota',
           data: timestamp,
           texto: textoNota,
-          autor: usuario,
-          atendente: atendente  // NOVO: Salvar atendente
+          autor: usuario
         });
         
         // ===== SE TEM AGENDAMENTO, SALVAR TAMBÉM =====
@@ -5604,7 +4492,6 @@
         // ===== LIMPAR INPUTS =====
         noteInput.value = '';
         scheduleInput.value = '';
-        popularAtendentes(); // Re-seleciona usuário atual
         
         // ===== RE-RENDERIZAR TIMELINE =====
         renderizarTimelineUnificada();
@@ -5615,107 +4502,6 @@
           noteInput.placeholder = 'Digite uma nota ou resumo do atendimento...';
         }, 2000);
       }
-      
-      /**
-       * Popular dropdown de atendentes com usuários cadastrados
-       */
-      function popularAtendentes() {
-        const select = document.getElementById('attendantSelect');
-        if (!select) return;
-        
-        const usuarios = obterUsuariosAtivos(); // Usar função centralizada
-        const usuarioAtual = JSON.parse(sessionStorage.getItem('usuarioAtual') || '{}');
-        
-        // Limpar e adicionar placeholder
-        select.innerHTML = '<option value="">Selecione o atendente...</option>';
-        
-        // Adicionar cada usuário
-        usuarios.forEach(nome => {
-          const option = document.createElement('option');
-          option.value = nome;
-          option.textContent = nome;
-          
-          // Pre-selecionar usuário logado
-          if (nome === usuarioAtual.nome) {
-            option.selected = true;
-          }
-          
-          select.appendChild(option);
-        });
-      }
-      
-      /**
-       * Renderizar lista de telefones editáveis na Tab 1
-       */
-      function renderizarTelefonesEdit() {
-        const container = document.getElementById('editPhonesList');
-        if (!container || !clienteAtual) return;
-        
-        container.innerHTML = '';
-        
-        // Pegar telefones (array de strings ou objetos)
-        const telefones = clienteAtual.telefones || [];
-        
-        if (telefones.length === 0) {
-          container.innerHTML = '<small style="color:#94a3b8;">Nenhum telefone cadastrado</small>';
-          return;
-        }
-        
-        telefones.forEach((tel, index) => {
-          const numero = typeof tel === 'string' ? tel : (tel.numero || '');
-          
-          const div = document.createElement('div');
-          div.style.cssText = 'display:flex; gap:8px; align-items:center;';
-          div.innerHTML = `
-            <input type="tel" value="${numero}" 
-                   onchange="atualizarTelefone(${index}, this.value)"
-                   class="form-input" style="flex:1;" 
-                   placeholder="(00) 00000-0000">
-            <button type="button" onclick="removerTelefone(${index})" 
-                    class="btn" style="padding:6px 12px; background:#ef4444; color:white;">
-              🗑️
-            </button>
-          `;
-          
-          container.appendChild(div);
-        });
-      }
-      
-      /**
-       * Adicionar novo campo de telefone vazio
-       */
-      function adicionarTelefoneEdit() {
-        if (!clienteAtual) return;
-        
-        if (!clienteAtual.telefones) clienteAtual.telefones = [];
-        clienteAtual.telefones.push('');
-        
-        renderizarTelefonesEdit();
-      }
-      
-      /**
-       * Atualizar telefone específico
-       */
-      function atualizarTelefone(index, novoValor) {
-        if (!clienteAtual || !clienteAtual.telefones) return;
-        
-        clienteAtual.telefones[index] = novoValor.trim();
-        salvarDados();
-      }
-      
-      /**
-       * Remover telefone
-       */
-      function removerTelefone(index) {
-        if (!clienteAtual || !clienteAtual.telefones) return;
-        
-        if (confirm('Remover este telefone?')) {
-          clienteAtual.telefones.splice(index, 1);
-          salvarDados();
-          renderizarTelefonesEdit();
-        }
-      }
-      
       
       /**
        * Atualiza o status do cliente via dropdown
@@ -5840,7 +4626,7 @@
         clienteAtual.nome = nome;
         clienteAtual.cidade = document.getElementById('editCidade').value.trim();
         clienteAtual.bairro = document.getElementById('editBairro').value.trim();
-        // clienteAtual.metragem removed from edit
+        clienteAtual.metragem = parseFloat(document.getElementById('editMetragem').value) || 0;
         clienteAtual.valor_estimado = parseFloat(document.getElementById('editValor').value) || 0;
         
         // ===== ATUALIZAR NO ARRAY GLOBAL =====
@@ -5931,194 +4717,64 @@
         contents[index].classList.add('active');
       }
       
-      // ========== GERENCIAMENTO DE USUÁRIOS (Unified above) ==========
-      // Logic moved to lines 1573+ to avoid duplication and ReferenceErrors
-
-
+      // ========== GERENCIAMENTO DE USUÁRIOS ==========
+      
+      let usuarios = JSON.parse(localStorage.getItem('crmUsuarios') || '[{"login":"admin","senha":"admin","nivel":"admin"}]');
+      
+      function renderizarUsuarios() {
+        const lista = document.getElementById('listaUsuarios');
+        if (!lista) return;
+        
+        lista.innerHTML = usuarios.map((u, i) => `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:#f8f9fa; margin-bottom:10px; border-radius:8px;">
+            <div>
+              <strong style="font-size:15px;">${u.login}</strong>
+              <span style="margin-left:10px; font-size:12px; padding:3px 8px; border-radius:12px; background:${u.nivel === 'admin' ? '#dbeafe' : '#fef3c7'}; color:${u.nivel === 'admin' ? '#1e40af' : '#92400e'};">${u.nivel === 'admin' ? '👑 Admin' : '👤 Vendedor'}</span>
+            </div>
+            <button class="btn" style="background:#dc3545; color:white; padding:6px 12px;" onclick="removerUsuario(${i})" ${u.login === 'admin' ? 'disabled title="Admin padrão não pode ser removido"' : ''}>🗑️</button>
+          </div>
+        `).join('');
+      }
+      
+      function adicionarUsuario() {
+        const login = document.getElementById('newUserLogin').value.trim();
+        const senha = document.getElementById('newUserSenha').value.trim();
+        const nivel = document.getElementById('newUserNivel').value;
+        
+        if (!login || !senha) {
+          alert('❌ Preencha login e senha!');
+          return;
+        }
+        
+        if (usuarios.some(u => u.login === login)) {
+          alert('❌ Login já existe!');
+          return;
+        }
+        
+        usuarios.push({ login, senha, nivel });
+        localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
+        renderizarUsuarios();
+        
+        document.getElementById('newUserLogin').value = '';
+        document.getElementById('newUserSenha').value = '';
+        alert('✅ Usuário adicionado com sucesso!');
+      }
+      
+      function removerUsuario(index) {
+        if (usuarios[index].login === 'admin') {
+          alert('⛔ Não é possível remover o admin padrão!');
+          return;
+        }
+        
+        if (confirm(`⚠️ Remover usuário "${usuarios[index].login}"?`)) {
+          usuarios.splice(index, 1);
+          localStorage.setItem('crmUsuarios', JSON.stringify(usuarios));
+          renderizarUsuarios();
+          alert('✅ Usuário removido!');
+        }
+      }
       
       // ========== WHATSAPP TEMPLATES (INTEGRADO COM SETTINGS) ==========
-      
-      
-      // ========== FUNÇÕES DE AGENDAMENTO ==========
-      
-      function salvarAgendamento() {
-          const tipo = document.getElementById('agendaTipo').value;
-          const titulo = document.getElementById('agendaTitulo').value.trim();
-          const clienteId = document.getElementById('agendaCliente').value;
-          const responsavel = document.getElementById('agendaResponsavel').value;
-          const dataHora = document.getElementById('agendaDataHora').value;
-          const descricao = document.getElementById('agendaDescricao').value.trim();
-          
-          if (!titulo) { alert('Digite um título para o agendamento'); return; }
-          if (!responsavel) { alert('Selecione o responsável'); return; }
-          if (!dataHora) { alert('Selecione data e hora'); return; }
-          
-          const usuario = sessionStorage.getItem('usuarioLogado') || 'Admin';
-          const agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
-          
-          let clienteNome = '';
-          if (clienteId) {
-              const cliente = clientes.find(c => c.id === clienteId);
-              clienteNome = cliente ? cliente.nome : '';
-          }
-          
-          const novoAgendamento = {
-              id: `agd_${Date.now()}`,
-              tipo: tipo,
-              titulo: titulo,
-              descricao: descricao,
-              clienteId: clienteId || null,
-              clienteNome: clienteNome,
-              responsavel: responsavel,
-              dataHora: dataHora,
-              criadoPor: usuario,
-              criadoEm: new Date().toISOString(),
-              status: 'pendente'
-          };
-          
-          agendamentos.push(novoAgendamento);
-          localStorage.setItem('crmAgendamentos', JSON.stringify(agendamentos));
-          
-          if (clienteId) {
-              const cliente = clientes.find(c => c.id === clienteId);
-              if (cliente) {
-                  if (!cliente.historico) cliente.historico = [];
-                  cliente.historico.push({
-                      id: novoAgendamento.id,
-                      tipo: 'agendamento',
-                      data: dataHora,
-                      texto: titulo,
-                      descricao: descricao,
-                      autor: usuario,
-                      status: 'pendente',
-                      atendente: responsavel
-                  });
-                  salvarDados();
-              }
-          }
-          
-          alert('✅ Agendamento criado com sucesso!');
-          document.getElementById('agendaTitulo').value = '';
-          document.getElementById('agendaCliente').value = '';
-          document.getElementById('agendaDescricao').value = '';
-          
-          const dateObj = new Date(dataHora);
-          if(typeof renderizarAgenda === 'function') renderizarAgenda();
-          renderizarAgendamentosDia(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
-          popularFormularioAgenda(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
-      }
-      
-      function renderizarAgendamentosDia(ano, mes, dia) {
-          const container = document.getElementById('listaAgendamentosDia');
-          if (!container) return;
-          
-          const agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
-          const agendamentosDoDia = agendamentos.filter(agd => {
-              const agdDate = new Date(agd.dataHora);
-              return agdDate.getFullYear() === ano && agdDate.getMonth() === mes && agdDate.getDate() === dia;
-          });
-          
-          if (agendamentosDoDia.length === 0) {
-              container.innerHTML = '<p style="color:#999; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>';
-              return;
-          }
-          
-          agendamentosDoDia.sort((a, b) => new Date(a.dataHora) - new Date(b.dataHora));
-          container.innerHTML = '<h4 style="margin:15px 0 10px 0; color:#334155;">📋 Agendamentos do Dia</h4>';
-          
-          agendamentosDoDia.forEach(agd => {
-              const hora = new Date(agd.dataHora).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-              const tipoIcon = {'reuniao': '📅', 'ligacao': '📞', 'visita': '🏠', 'outro': '📝'}[agd.tipo] || '📝';
-              const statusColor = agd.status === 'concluido' ? '#10b981' : '#f59e0b';
-              
-              const clienteInfo = agd.clienteNome ? `<div style="font-size:13px; color:#667eea; margin-bottom:5px;">👤 Cliente: ${agd.clienteNome}</div>` : '';
-              const descInfo = agd.descricao ? `<div style="font-size:13px; color:#475569;">${agd.descricao}</div>` : '';
-              
-              container.innerHTML += `
-                  <div style="background:white; border:1px solid #e2e8f0; padding:12px; border-radius:8px; margin-bottom:10px; border-left:4px solid ${statusColor};">
-                      <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
-                          <div>
-                              <div style="font-weight:600; color:#334155; margin-bottom:4px;">${tipoIcon} ${agd.titulo}</div>
-                              <div style="font-size:12px; color:#64748b;">⏰ ${hora} • 👤 ${agd.responsavel}</div>
-                          </div>
-                          <button onclick="excluirAgendamento('${agd.id}')" class="btn" style="background:#ef4444; color:white; padding:4px 8px; font-size:11px;">🗑️</button>
-                      </div>
-                      ${clienteInfo}
-                      ${descInfo}
-                  </div>
-              `;
-          });
-      }
-      
-      function excluirAgendamento(id) {
-          if (!confirm('Deseja excluir este agendamento?')) return;
-          
-          let agendamentos = JSON.parse(localStorage.getItem('crmAgendamentos') || '[]');
-          const agendamento = agendamentos.find(a => a.id === id);
-          
-          agendamentos = agendamentos.filter(a => a.id !== id);
-          localStorage.setItem('crmAgendamentos', JSON.stringify(agendamentos));
-          
-          if (agendamento && agendamento.clienteId) {
-              const cliente = clientes.find(c => c.id === agendamento.clienteId);
-              if (cliente && cliente.historico) {
-                  cliente.historico = cliente.historico.filter(h => h.id !== id);
-                  salvarDados();
-              }
-          }
-          
-          const agdDate = new Date(agendamento.dataHora);
-          if(typeof renderizarAgenda === 'function') renderizarAgenda();
-          renderizarAgendamentosDia(agdDate.getFullYear(), agdDate.getMonth(), agdDate.getDate());
-      }
-      
-      function popularFormularioAgenda(ano, mes, dia) {
-          const targetDate = new Date(ano, mes, dia, 9, 0);
-          const dateTimeString = targetDate.toISOString().slice(0, 16);
-          const dataInput = document.getElementById('agendaDataHora');
-          if(dataInput) dataInput.value = dateTimeString;
-          
-          // Popular datalist de clientes
-          const clienteDatalist = document.getElementById('clientesList');
-          const clienteInput = document.getElementById('agendaClienteInput');
-          const clienteHidden = document.getElementById('agendaCliente');
-          
-          if (clienteDatalist) {
-              clienteDatalist.innerHTML = '';
-              clientes.forEach(c => {
-                  const option = document.createElement('option');
-                  option.value = `${c.id} - ${c.nome}`;
-                  option.setAttribute('data-id', c.id);
-                  clienteDatalist.appendChild(option);
-              });
-              
-              // Listener para capturar seleção
-              if (clienteInput) {
-                  clienteInput.addEventListener('input', function() {
-                      const val = this.value;
-                      const cliente = clientes.find(c => val.includes(c.id) || val === c.nome);
-                      if (cliente) {
-                          clienteHidden.value = cliente.id;
-                      } else {
-                          clienteHidden.value = '';
-                      }
-                  });
-              }
-          }
-          
-          const responsavelSelect = document.getElementById('agendaResponsavel');
-          if (responsavelSelect) {
-              const vendedores = JSON.parse(localStorage.getItem('crmVendedores') || '[]');
-              const usuarioLogado = sessionStorage.getItem('usuarioLogado') || 'Admin';
-              
-              responsavelSelect.innerHTML = '<option value="">Selecione...</option>';
-              vendedores.forEach(v => {
-                  const nome = v.user || v;
-                  const selected = nome === usuarioLogado ? 'selected' : '';
-                  responsavelSelect.innerHTML += `<option value="${nome}" ${selected}>${nome}</option>`;
-              });
-          }
-      }
       
       function renderizarTemplatesSettings() {
         const lista = document.getElementById('listaTemplatesSettings');
@@ -6160,208 +4816,11 @@
     <!-- AGENDA SIDEBAR (DRAWER) -->
     <div id="agendaBackdrop" class="overlay-backdrop" onclick="fecharAgendaDrawer()"></div>
     <div id="agendaDrawer" class="agenda-drawer">
-        <h3 id="sidebarTitle" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <span id="agendaDrawerDate">📅 Detalhes</span> 
+        <h3 id="sidebarTitle">
+            <span>📅 Detalhes</span> 
             <button onclick="fecharAgendaDrawer()" style="border:none;background:none;font-size:24px;cursor:pointer;color:#999;">&times;</button>
         </h3>
-        
-        <!-- FORMULÁRIO DE NOVO AGENDAMENTO -->
-        <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:20px;">
-            <h4 style="margin:0 0 15px 0; color:#334155;">➕ Novo Agendamento</h4>
-            
-            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Tipo:</label>
-            <select id="agendaTipo" class="form-input" style="margin-bottom:12px;">
-                <option value="reuniao">📅 Reunião</option>
-                <option value="ligacao">📞 Ligação</option>
-                <option value="visita">🏠 Visita</option>
-                <option value="outro">📝 Outro</option>
-            </select>
-            
-            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Título: *</label>
-            <input type="text" id="agendaTitulo" class="form-input" placeholder="Ex: Reunião com cliente" style="margin-bottom:12px;">
-            
-            
-            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Vincular a Cliente (opcional):</label>
-            <input type="text" id="agendaClienteInput" list="clientesList" class="form-input" placeholder="Digite o nome ou ID do cliente..." style="margin-bottom:12px;">
-            <datalist id="clientesList">
-            </datalist>
-            <input type="hidden" id="agendaCliente">
-            
-            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">👤 Responsável: *</label>
-            <select id="agendaResponsavel" class="form-input" style="margin-bottom:12px;">
-                <option value="">Selecione...</option>
-            </select>
-            
-            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Data e Hora: *</label>
-            <input type="datetime-local" id="agendaDataHora" class="form-input" style="margin-bottom:12px;">
-            
-            <label style="display:block; margin-bottom:5px; font-weight:600; color:#475569; font-size:13px;">Descrição:</label>
-            <textarea id="agendaDescricao" class="form-textarea" rows="3" placeholder="Detalhes do agendamento..." style="margin-bottom:12px; resize:vertical;"></textarea>
-            
-            <button onclick="salvarAgendamento()" class="btn btn-primary" style="width:100%; padding:10px;">💾 Salvar Agendamento</button>
-        </div>
-        
-        <!-- LISTA DE AGENDAMENTOS DO DIA -->
-        <!-- Panda Assistant UI -->
-    <style>
-        /* Panda Assistant Styles */
-        #panda-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transition: transform 0.2s;
-            color: white;
-            user-select: none;
-        }
-        #panda-fab:hover { transform: scale(1.1); }
-        
-        #panda-chat-window {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-            display: none; /* Hidden by default */
-            flex-direction: column;
-            z-index: 1000;
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
-            animation: pandaSlideIn 0.3s ease-out;
-        }
-        
-        @keyframes pandaSlideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .panda-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px;
-            color: white;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .panda-header button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .panda-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background: #f9fafb;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .panda-msg {
-            max-width: 85%;
-            padding: 10px 15px;
-            border-radius: 15px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        .panda-msg.panda {
-            background: white;
-            border: 1px solid #e5e7eb;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
-        .panda-msg.user {
-            background: #667eea;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-        
-        .panda-actions {
-            margin-top: 8px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-        .panda-btn-small {
-            background: #f3f4f6;
-            border: 1px solid #d1d5db;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .panda-btn-small:hover { background: #e5e7eb; }
-
-        .panda-input-area {
-            padding: 10px;
-            border-top: 1px solid #e5e7eb;
-            display: flex;
-            gap: 10px;
-            background: white;
-        }
-        .panda-input-area input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            outline: none;
-        }
-        .panda-input-area button {
-            background: #667eea;
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-    </style>
-
-    <!-- Load Panda Assistant -->
-    <script src="js/features/AiAssistant.js"></script>
-    <script>
-        // Init Panda Assistant after load
-        window.addEventListener('load', () => {
-            if(window.AiAssistant) {
-                window.AiAssistant.init();
-            }
-        });
-    </script>
-    
-    <div id="listaAgendamentosDia">
-            <p style="color:#999; text-align:center; padding:20px;">Nenhum agendamento para este dia.</p>
-        </div>
-      // PWA Service Worker Registration
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('./sw.js')
-            .then(function(registration) {
-              console.log('🐼 Panda CRM: ServiceWorker registrado com sucesso: ', registration.scope);
-            }, function(err) {
-              console.log('❌ ServiceWorker falhou: ', err);
-            });
-        });
-      }
+        <div id="sidebarContent" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:15px;"></div>
     </div>
   </body>
 </html>

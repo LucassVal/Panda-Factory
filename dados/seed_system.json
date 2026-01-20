@@ -1,0 +1,13 @@
+[
+  {
+    "id": "SEED_001",
+    "nome": "Cliente Exemplo Sistema",
+    "endereco": "Rua Teste, 123",
+    "bairro": "Centro",
+    "cidade": "Limeira/SP",
+    "telefones": ["(19) 99999-9999"],
+    "status": "em_acompanhamento",
+    "origem": "Sistema",
+    "etiquetas": ["TESTE"]
+  }
+]

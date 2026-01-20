@@ -1,19 +1,27 @@
-# Arquivos de debug e temporários
-debug_log.txt
+# Dependências e Logs
+node_modules/
 *.log
+test_data/
 
-# Dados do scraper (grandes e dinâmicos)
-dados/
-!dados/.gitkeep
+# Google & CLASP (CRÍTICO)
+.clasp.json        
+.clasprc.json      # TOKEN DE ACESSO (PERIGO MÁXIMO SE VAZAR)
+appsscript.json    
 
-# Screenshots de debug
-scripts/debug_*.png
-scripts/erro_*.png
+# Segredos
+.env
+secrets.js
+credentials.json
+key.json
 
-# Backups automáticos
-exports/CRM_BACKUP_*.html
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
 
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/

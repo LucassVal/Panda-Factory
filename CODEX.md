@@ -118,32 +118,28 @@
 
 ```
 ╔══════════════════════════════════════╗
-║  BASE: R$ 149,90 (Pagamento Único)  ║
+║  SaaS: R$ 29,90/mês (Básico)         ║
 ╠══════════════════════════════════════╣
 ║  ✅ CRM + PDV + Estoque + Financeiro ║
-║  ✅ Até 10 usuários                  ║
-║  ✅ PWA offline                      ║
-║  ✅ Google Drive sync                ║
-║  ✅ White label                      ║
-╚══════════════════════════════════════╝
-
-         ↓ (Opcional MRR)
-
-╔══════════════════════════════════════╗
-║  USUÁRIOS EXTRAS                     ║
-╠══════════════════════════════════════╣
-║  11-20 users: +R$ 59,90/mês          ║
-║  21-50 users: +R$ 99,90/mês          ║
-║  51+ users: +R$ 149,90/mês           ║
+║  ✅ Chat IA (Consulta de Dados)      ║
+║  ✅ Google Maps Autocomplete         ║
+║  ✅ PWA Offline/Online Sync          ║
 ╚══════════════════════════════════════╝
 
 ╔══════════════════════════════════════╗
-║  IA ASSISTENTE (Trial 90 dias)       ║
+║  SaaS: R$ 79,90 - 99,90/mês (Pro)    ║
 ╠══════════════════════════════════════╣
-║  +R$ 47/mês após trial               ║
-║  - Bot WhatsApp 24/7                 ║
-║  - Ingestão documentos (PDF/XML)     ║
-║  - Insights diários                  ║
+║  ✅ Tudo do Básico                   ║
+║  ✅ Agente Ativo (Tool Calling)      ║
+║  ✅ Code Execution (Python/Sheets)   ║
+║  ✅ Ingestão de Documentos (XML/PDF) ║
+║  ✅ Auditoria & Conciliação Aut.     ║
+╚══════════════════════════════════════╝
+
+╔══════════════════════════════════════╗
+║  COMPRA AVULSA (Vitalício Básico)    ║
+╠══════════════════════════════════════╣
+║  R$ 149,90 único (Sem IA Ativa)      ║
 ╚══════════════════════════════════════╝
 
 ╔══════════════════════════════════════╗
@@ -692,7 +688,18 @@ function gerarEtiqueta(pedido) {
 
 ## 1. IA Agente Agentic
 
-**Conceito:** IA não é chatbot - é AGENTE que executa tarefas como Antigravity
+**Conceito:** IA não é chatbot - é AGENTE que executa tarefas como Antigravity.
+
+### ⚡ Action-Oriented AI (O Agente que Exagera no Valor)
+
+Diferente de IAs puramente conversacionais, o TitanGestão PRO utiliza **Tool Calling** para transformar intenção em ação no ecossistema Google Workspace.
+
+| Recurso            | Descrição Técnica               | Impacto no Usuário                        |
+| :----------------- | :------------------------------ | :---------------------------------------- |
+| **Drive Operator** | `listaArquivos`, `lerConteudo`  | Arruma a bagunça do Drive sozinho.        |
+| **Logic Parser**   | `executarComandoScript`         | Cria planilhas e fórmulas (VLOOKUP, etc). |
+| **Graph Genius**   | `gerarGraficoSheets`            | Transforma tabelas em insights visuais.   |
+| **Audit Bot**      | `compararDados(extrato, fluxo)` | Encontra erros em documentos fiscais.     |
 
 ### Prompt Registry (Governança Centralizada)
 

@@ -28,14 +28,58 @@
 - **Frontend (CRM.html):** "Cirurgia Cardíaca" concluída. Substituição do `localStorage` (frágil) pelo **Repository Pattern** com **IndexedDB** (robusto).
 - **Dados:** Implementação de _Ghost Columns_ (`_id_loja`, `_metadata_fiscal`) para compatibilidade futura sem quebrar código legado.
 - **Backend (Apps Script):** Criação do `TitanGestao_Backend` v1.0.
-  - Sync Engine (Push/Pull)
-  - Keep-Alive (Ping 2min)
-  - Webhooks preparados (WhatsApp, iFood)
-- **Integrações:** Stubs prontos para iFood/99Food Polling e Fila Fiscal.
+- **White Label (Personalização):** Módulo completo implementado.
+  - Identidade Visual (Nome, Logo, Cor, Fonte).
+  - Campos Customizados (Texto, Data, Select).
+  - Fontes de Captação Personalizáveis.
+- **Higiene de Dados:** Script de Scraper corrigido e lógica de Merge definida.
+- **Higiene de Dados:** Script de Scraper corrigido e lógica de Merge definida.
+
+### v1.2 - UX Experience & SaaS Mode (Atual)
+
+- **SaaS Mode (Plug & Play):** Chaves de API (Google Maps e Gemini) agora são gerenciadas internamente pelo sistema ("Hardcoded" seguro), eliminando a necessidade de configuração complexa pelo usuário.
+- **Google Maps Intelligente:** Nova integração via `PlaceAutocompleteElement` (Web Component 2026).
+  - Preenchimento granular automático: Rua, Número, Bairro, CEP, Cidade, UF.
+  - Disponível tanto no Cadastro (Novo) quanto na Edição de Clientes.
+- **Interface Otimizada:**
+  - Padronização de IDs para evitar conflitos de autofill.
+  - Melhoria na acessibilidade (Labels e atributos `for`).
+  - Layout de grade para campos de endereço.
+- **Correções Críticas:** Resolução de bugs de duplicidade de formulários e estilização da Modal de Edição.
 
 ---
 
-## 🧭 ÍNDICE MESTRE (CODEX)O
+## 🧭 ÍNDICE MESTRE (CODEX)
+
+### 🤖 Estratégia de IA (Gemini 3.0 Ready)
+
+O sistema foi projetado para escala SaaS, focando em margem e eficiência:
+
+1. **A. Context Caching (O Pulo do Gato):**
+   - O assistente utiliza cache de contexto para o "manual de instruções" pesado.
+   - Reduz custos de tokens em até 80%, vital para manter a viabilidade econômica do sistema.
+2. **B. Limites de Segurança (Quotas):**
+   - Implementada a **Barra de Energia** no Header.
+   - Educa o usuário sobre o valor da IA e evita abusos de _heavy users_.
+3. **C. Verificação Humana como Filtro:**
+   - A interface de aprovação humana atua como filtro de custo, evitando re-gerações desnecessárias da IA.
+4. **D. Action-Oriented AI (Product-Market Fit):**
+   - O agente não apenas conversa, ele **executa** (Tool Calling) no Google Workspace (Drive, Planilhas, Docs).
+
+---
+
+### 💎 Diferenciação de Planos (Roadmap)
+
+| Recurso             | Plano Básico (R$ 29,90)  | Plano Pro (R$ 79,90+)                 |
+| :------------------ | :----------------------- | :------------------------------------ |
+| **IA**              | Gemini 3.0 Flash         | Gemini 3.0 Flash + **Code Execution** |
+| **Capacidade**      | Agendamentos e Consultas | **Agente Ativo (Files + Code)**       |
+| **Estudante**       | Resumos de Texto         | Cronogramas + Simulados (Drive)       |
+| **Pequeno Negócio** | Chat Financeiro          | Fluxo de Caixa + Gráficos (Sheets)    |
+| **Contador**        | Consulta Simples         | Auditoria XML/PDF + Conciliação       |
+| **Energia**         | 100% (Mensal)            | 500% + Recarga Prioritária            |
+
+---
 
 ### Documentação Essencial
 
