@@ -331,39 +331,37 @@ O ecossistema será federado sob domínios premium para autoridade e segurança.
 
 ---
 
-## 🛠️ Panda Arsenal (Google Power-Ups)
+## 🛠️ Engineering Core (O "Solo" Fértil)
 
-Expandimos o escopo para cobrir todo o ecossistema Alphabet. Transformamos APIs complexas em módulos "Plug & Play".
+Preparamos a infraestrutura para suportar qualquer inovação. O "Developer Soil" está pronto.
 
-### 1. Panda Logistics (Maps Platform) 🚚
+### 1. Geo-Spatial Engine (Maps Core) 🚚
 
-> "Otimização de rotas e frota com IA."
+> _Capability:_ Roteamento e Inteligência Geográfica.
 
-- **Route Optimization API:** Cálculo de rotas multi-paradas (Traveling Salesman Problem).
-- **Address Validation:** Higienização de endereços de entrega.
-- **Weather API:** Previsão climática para logística agronegócio/eventos.
+- **Maps SDK Ready:** Bibliotecas de otimização de rotas (Traveling Salesman) pré-integradas.
+- **Geocoding Layer:** Normalização de endereços em escala para logística.
 
-### 2. Panda Office (Workspace Automation) 🏢
+### 2. Workflow Automation Layer 🏢
 
-> "Seu escritório, no piloto automático."
+> _Capability:_ Orquestração de Processos.
 
-- **AppSheet Integration:** Criar Apps Mobile sem código a partir de planilhas.
-- **Gmail/Calendar Agents:** Agendamento inteligente e triagem de emails.
-- **Meet & Chat:** Bots para atas de reunião e notificações de equipe.
+- **Workspace Bridge:** Conexão nativa (OAuth2) com Gmail, Calendar e Drive sem configuração extra.
+- **AppSheet Tunnel:** Pipelines prontos para transformar planilhas em Apps Mobile.
 
-### 3. Panda Sales (Vertex AI Agents) 💰
+### 3. Cognitive Core (RAG & Vector) 🧠
 
-> "Atendimento e Vendas 24/7."
+> _Capability:_ Memória e Aprendizado.
 
-- **Customer Agents:** Chatbots treinados com os PDFs da empresa (RAG).
-- **Forms Automation:** Qualificação de leads automática via Google Forms.
+- **Vector Store Connector:** Infraestrutura para "Embeddings" (IA que lê PDFs/Docs).
+- **Multi-Modal Pipeline:** Suporte nativo para entrada de Áudio, Vídeo e Imagem na mesma chamada.
 
-### 4. Panda Data (BigQuery & Looker) 📊
+### 4. Data Warehouse Link (BigQuery) 📊
 
-> "Business Intelligence de gente grande."
+> _Capability:_ Processamento Massivo.
 
-- **BigQuery Connection:** Armazenamento massivo de dados (Data Warehouse) via Sheets.
-- **Looker Studio:** Dashboards profissionais embutidos no CRM.
+- **Streaming Export:** Canal direto do Sheets para o BigQuery para lidar com milhões de linhas.
+- **BI Ready:** Estrutura de dados normalizada para plugar Looker/PowerBI.
 
 ---
 
