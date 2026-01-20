@@ -82,11 +82,34 @@ Assim como você baixa softwares open-source, no Panda Fabrics você baixa **Mó
 
 ---
 
-## 📚 Documentação
+## 📚 CODEX PANDA (Map of Knowledge)
 
-- [Manual de Infraestrutura](docs/MANUAL_INFRAESTRUTURA.md)
-- [Google Workspace Integrations](docs/GOOGLE_WORKSPACE_INTEGRATIONS.md)
-- [Plugins & SDKs](docs/PLUGINS_SDKS.md)
+> **Central de Inteligência:** Siga este índice para navegar no ecossistema.
+
+### 🏛️ Core & Infraestrutura
+
+| Documento                                                                                                                   | Descrição                                                      | Status        |
+| :-------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------- | :------------ |
+| [`MANUAL_INFRAESTRUTURA.md`](docs/MANUAL_INFRAESTRUTURA.md)                                                                 | **A Bíblia do Sistema.** 4 Pilares, IA Dispatcher, GPU Rental. | ✅ Atualizado |
+| [`GOOGLE_WORKSPACE_INTEGRATIONS.md`](docs/GOOGLE_WORKSPACE_INTEGRATIONS.md)                                                 | **Native Apps.** Como integrar Gmail, Sheets, Drive, YouTube.  | ✅ Atualizado |
+| [`AUDITORIA_PRE_LANCAMENTO.md`](.gemini/antigravity/brain/2b4f52fc-5f16-47c5-9a79-3e61a6d06f59/AUDITORIA_PRE_LANCAMENTO.md) | **Compliance.** Checklist Legal, Contábil e TI.                | ✅ Crítico    |
+
+### 🛠️ Developer Ecosystem
+
+| Documento                                                                                                         | Descrição                                                  | Status        |
+| :---------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------- | :------------ |
+| [`PLUGINS_SDKS.md`](docs/PLUGINS_SDKS.md)                                                                         | **PowerShell Studio**, SDKs Externos, Webhooks.            | ✅ Atualizado |
+| [`STORE_PROTOCOL.md`](docs/STORE_PROTOCOL.md)                                                                     | **Agent Store.** Manifesto, Segurança (JEA), Distribuição. | ✅ Novo       |
+| [`implementation_plan.md`](.gemini/antigravity/brain/2b4f52fc-5f16-47c5-9a79-3e61a6d06f59/implementation_plan.md) | **Roadmap Técnico.** O que está sendo construído agora.    | 🔄 Vivo       |
+
+### 🎓 Casos de Uso (Verticais)
+
+Encontre exemplos práticos de implementação:
+
+- **Influencer Agent:** [`PLUGINS_SDKS.md#caso-de-uso-agente-influencer-ia-autônoma`](docs/PLUGINS_SDKS.md)
+- **Reporter Workstation:** [`PLUGINS_SDKS.md#caso-de-uso-repórter--jornalista`](docs/PLUGINS_SDKS.md)
+- **Trader Bot:** [`PLUGINS_SDKS.md#caso-de-uso-trader-ctradermetaeditor`](docs/PLUGINS_SDKS.md)
+- **Researcher:** [`PLUGINS_SDKS.md#caso-de-uso-pesquisador`](docs/PLUGINS_SDKS.md)
 
 ---
 
