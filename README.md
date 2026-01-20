@@ -96,6 +96,18 @@ Nossa arquitetura `Low-Code` + `Serverless` remove a barreira de entrada da GCP,
 
 ---
 
+## 👥 Quem é o Panda Maker?
+
+O Panda Fabrics é o **Equalizador**. Ele dá o mesmo poder de fogo da Google para:
+
+1. **O Jovem Nerd Visionário:** Tem a ideia do "Uber de Passeador de Cães" mas trava na AWS. Aqui ele foca no código.
+2. **A "Dona de Casa" Empreendedora:** Tem um método incrível de organização. Transforma isso num **App** (SaaS) ao invés de vender PDF/Ebook.
+3. **O Empresário "Hard":** Quer inteligência competitiva e dados brutos, sem montar um departamento de TI.
+4. **O Dev "Anti-Burocracia":** Cobra caro pela solução, não pela configuração de servidor. Quer deploy em 1 segundo.
+5. **O Ex-Infoprodutor:** O mercado de cursos saturou. A nova onda é vender **Ferramentas (Micro-SaaS)**. O Panda é a fábrica dessas ferramentas.
+
+---
+
 ## 📚 CODEX PANDA (Map of Knowledge)
 
 > **Central de Inteligência:** Siga este índice para navegar no ecossistema.
