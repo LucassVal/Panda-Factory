@@ -86,6 +86,20 @@ function doPost(e) {
     }
 
     const payload = JSON.parse(e.postData.contents);
+    
+    // === PROCESSO B2B (KIWIFY/HOTMART) ===
+    // Detecta assinatura do webhook (Kiwify costuma mandar header ou payload específico)
+    // Se for Kiwify (exemplo simples de detecção):
+    if (payload.order_id && payload.Customer) {
+      const result = processB2BWebhook(payload, 'KIWIFY');
+      return jsonResponse(result);
+    }
+    // Hotmart
+    if (payload.event && payload.data && payload.data.buyer) {
+      const result = processB2BWebhook(payload, 'HOTMART');
+      return jsonResponse(result);
+    }
+
     const userId = payload.userId || Session.getEffectiveUser().getEmail();
     const action = payload.action;
     const type = payload.type;
