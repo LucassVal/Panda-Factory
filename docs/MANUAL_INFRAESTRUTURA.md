@@ -134,12 +134,28 @@ Custo PC = (Custo API × Dólar × 1.20)
 
 ### Dispatcher Multimodal
 
-| Tipo   | Destino         |
-| :----- | :-------------- |
-| Texto  | Gemini Flash    |
-| Imagem | DALL-E / Imagen |
-| Dados  | Drive / Sheets  |
-| Pesado | Colab GPU       |
+| Tipo                | Modelo            | Custo                    |
+| :------------------ | :---------------- | :----------------------- |
+| **Standard (Free)** | Gemini Flash 2.5  | 0 PC (até 1M tokens/dia) |
+| **Model Garden**    | GLM-4 / Llama 3   | Sob demanda (Vertex AI)  |
+| **Imagem**          | Imagen 3 / DALL-E | Por imagem               |
+| **Pesado**          | Colab GPU         | Por minuto               |
+
+> **Nota:** O tier gratuito (1 milhão de tokens/dia) é compartilhado globalmente. Para uso intensivo, recomendamos upgrade para Tier Pro.
+
+### Vertex AI Model Garden
+
+Acesso a modelos de terceiros hospedados no Google Cloud:
+
+- **Zhipu AI:** GLM-4.7
+- **Meta:** Llama 3
+- **Mistral:** Large
+
+```javascript
+// Exemplo chamada Model Garden
+const model = "publishers/zai-org/models/glm-4.7-maas";
+callVertexAI(model, prompt);
+```
 
 ### NoSQL Grátis
 
