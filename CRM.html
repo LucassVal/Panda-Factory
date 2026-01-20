@@ -1070,52 +1070,39 @@
         <div class="nav-item" onclick="mudarView('reports')">📊 Relatórios</div>
       </div>
 
-      <!-- INÍCIO VIEW (Dashboard/Charts Only) -->
-      <div id="inicio-view" class="view-section active">
-      <div class="stats" id="stats">
-          <div class="stat-card">
-            <div class="stat-number" id="totalProspects">0</div>
-            <div class="stat-label">Total Prospects</div>
+      <!-- INÍCIO VIEW (Search First) -->
+      <div id="inicio-view" class="view-section active" style="text-align: center; padding-top: 80px;">
+          <h1 style="font-size: 48px; color: #333; margin-bottom: 20px;">🐼</h1>
+          <h2 style="font-size: 24px; color: #475569; margin-bottom: 40px; font-weight: 300;">Como posso ajudar você hoje?</h2>
+          
+          <div onclick="toggleOmniBar()" style="
+              max-width: 600px; 
+              margin: 0 auto; 
+              padding: 20px 30px; 
+              background: white; 
+              border-radius: 50px; 
+              box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+              display: flex; 
+              align-items: center; 
+              cursor: pointer; 
+              transition: all 0.2s;
+              border: 1px solid #e2e8f0;
+          " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+              <i class="fas fa-search" style="color: #667eea; font-size: 22px; margin-right: 15px;"></i>
+              <span style="color: #94a3b8; font-size: 18px;">Pesquisar clientes, ferramentas ou perguntar à IA...</span>
+              <span style="margin-left: auto; color: #cbd5e1; font-size: 12px; background: #f8fafc; padding: 5px 10px; border-radius: 20px; border:1px solid #f1f5f9;">Ctrl + K</span>
           </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalAcompanhamento">0</div>
-            <div class="stat-label">Em Acompanhamento</div>
+      
+          <div style="margin-top: 60px; display: flex; gap: 30px; justify-content: center;">
+              <div class="stat-mini" style="background: white; padding: 20px 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border:1px solid #f1f5f9; min-width: 150px;">
+                  <div style="font-size: 32px; font-weight: bold; color: #667eea; line-height:1;" id="totalProspects">...</div>
+                  <div style="font-size: 13px; color: #94a3b8; font-weight:500; margin-top:5px;">PROSPECTS</div>
+              </div>
+              <div class="stat-mini" style="background: white; padding: 20px 30px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border:1px solid #f1f5f9; min-width: 150px;">
+                  <div style="font-size: 32px; font-weight: bold; color: #10b981; line-height:1;" id="totalFechados">...</div>
+                  <div style="font-size: 13px; color: #94a3b8; font-weight:500; margin-top:5px;">VENDAS</div>
+              </div>
           </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalOrcamento">0</div>
-            <div class="stat-label">Com Orçamento</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalFechados">0</div>
-            <div class="stat-label">Fechados</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalPerdidos">0</div>
-            <div class="stat-label">Perdidos/Finalizados</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="charts-section">
-        <div class="chart-card">
-          <div class="chart-title">📊 Status dos Clientes</div>
-          <div class="chart-container">
-            <canvas id="statusChart"></canvas>
-          </div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">💰 Valor por Status</div>
-          <div class="chart-container">
-            <canvas id="valueChart"></canvas>
-          </div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">🎯 Prospects vs Acompanhamento</div>
-          <div class="chart-container">
-            <canvas id="prospectChart"></canvas>
-          </div>
-        </div>
-      </div>
       </div>
       <!-- End inicio-view -->
 
