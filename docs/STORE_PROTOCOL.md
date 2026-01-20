@@ -70,15 +70,22 @@ Cada módulo é um pacote `.zip` ou repositório contendo um manifesto obrigató
 
 ---
 
-## 🔄 Fluxo de Instalação (One-Click)
+### 4. Open Registry (Descentralizado)
 
-1.  **Discovery:** Usuário navega na Web Store (Front Panda).
-2.  **Purchase/Get:** Clica em "Instalar".
-3.  **Injection:**
-    - O Backend Panda conecta ao GAS do usuário.
-    - Injeta o código do módulo em uma `Library` ou arquivo isolado.
-    - Registra as permissões no `Config.js` do usuário.
-4.  **Activation:** Módulo aparece no Menu do PWA.
+Seguindo o padrão **Open VSX**, permitimos lojas alternativas e instalação direta.
+
+- **Direct URL:** Instalar via link (GitHub/Gist).
+  - _Exemplo:_ `panda install https://github.com/user/plugin.zip`
+- **Federated Stores:** Empresas podem ter sua própria "loja interna" (Private Registry).
+
+---
+
+## 🔄 Fluxo de Instalação (One-Click & URL)
+
+1.  **Store:** Clique em "Instalar" na loja oficial.
+2.  **URL (Sideload):** Cole o link do manifesto `.json` ou repositório.
+3.  **Injection:** Core baixa, verifica assinatura (se houver) e injeta.
+4.  **Activation:** Módulo ativo no menu.
 
 ---
 
