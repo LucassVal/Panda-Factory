@@ -182,17 +182,17 @@ Custo PC = (Custo API × Dólar × 1.20)
 
 > **Nota:** O tier gratuito (1 milhão de tokens/dia) é compartilhado globalmente. Para uso intensivo, recomendamos upgrade para Tier Pro.
 
-### 🚦 Fila Inteligente (Smart Queue)
+### 🚦 Fila Inteligente (Fair Queue)
 
-Para mitigar congestionamento, o Dispatcher prioriza requisições baseado no saldo de Energia ($PC) do usuário.
+Todos os clientes pagantes têm prioridade máxima. Não privilegiamos "baleias" em detrimento do pequeno dev que gera caixa rápido.
 
-| Prioridade     | Perfil      | Saldo Mínimo | Comportamento                                            |
-| :------------- | :---------- | :----------- | :------------------------------------------------------- |
-| **VIP (Fast)** | Power Users | > 10.000 PC  | **Execução Imediata.** Fura-fila.                        |
-| **Standard**   | Pagantes    | > 100 PC     | **FIFO.** Fila normal sequencial.                        |
-| **Economy**    | Free Tier   | < 100 PC     | **Background.** Só roda quando há "vácuo" de ociosidade. |
+| Prioridade   | Perfil                 | Saldo   | Comportamento                                 |
+| :----------- | :--------------------- | :------ | :-------------------------------------------- |
+| **Priority** | **Pagante (Qualquer)** | > 10 PC | **Fast Lane.** Execução imediata (FIFO).      |
+| **Economy**  | Free Tier              | < 10 PC | **Background.** Só roda quando há ociosidade. |
 
-> **Analogy:** "VIP viaja de jato. Standard vai de linha comercial. Free pega carona (espera vaga)."
+> **Filosofia:** "O pequeno desenvolvedor (Varejo) traz liquidez e é tratado como VIP."
+> O usuário que tem 100k PC não fura a fila do usuário que acabou de comprar 250 PC.
 
 ### Vertex AI Model Garden (Catalogo Completo)
 
