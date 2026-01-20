@@ -1,18 +1,30 @@
 # 🐼 PANDA FABRICS
 
-> **Plataforma Canvas para Desenvolvedores**  
-> Democratizando infraestrutura Google com custo quase zero
+> **Agentic OS: O Sistema Operacional para Agentes IA**  
+> "Baixe o Cérebro. Pague apenas pela Energia."
 
 ---
 
-## 🎯 O Que É
+## 🎯 A Visão "Antigravity-like"
 
-Sistema PWA híbrido que permite desenvolvedores criarem seus próprios SaaS usando:
+Assim como você baixa softwares open-source, no Panda Fabrics você baixa **Módulos de Inteligência**.
 
-- **Google Apps Script** (backend serverless)
-- **Google Drive** (storage do cliente)
-- **Gemini API** (IA integrada)
-- **Panda Coin** (economia interna)
+- **O Software (Corpo):** É seu. Baixe, modifique, use. (Grátis)
+- **A Inteligência (Alma):** Rodar a IA consome **Panda Coins** (Energia).
+
+**Exemplo:**
+
+1. Você baixa o módulo "Repórter Investigativo" (Grátis).
+2. Ele organiza seus arquivos e cria UI (Grátis).
+3. Quando você pede "Analise esses 50 PDFs", ele consome **Energia** ($PC).
+
+---
+
+## 🏗️ Arquitetura Open Hub
+
+1. **Developer:** Cria o módulo (ex: "Trader Bot").
+2. **User:** Baixa o módulo para seu ambiente.
+3. **Panda Fabrics:** Fornece a Energia (LLMs/GPUs) e infraestrutura.
 
 ---
 
