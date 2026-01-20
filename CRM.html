@@ -971,6 +971,62 @@
         }
       }
     </style>
+      <!-- OMNI-BAR (SPOTLIGHT) -->
+    <style>
+        #omni-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999;
+            align-items: flex-start; justify-content: center; padding-top: 15vh;
+        }
+        #omni-bar {
+            width: 600px; max-width: 90%; background: var(--surface); 
+            border: 1px solid var(--border); border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden;
+            animation: slideDown 0.2s ease-out;
+        }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .omni-input-wrapper { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); }
+        .omni-icon { font-size: 20px; color: var(--text-secondary); margin-right: 12px; }
+        #omni-input {
+            flex: 1; background: transparent; border: none; font-size: 18px; color: var(--text-primary); outline: none;
+        }
+        .omni-model-badge {
+            font-size: 12px; background: rgba(var(--primary-rgb), 0.1); color: var(--primary);
+            padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(var(--primary-rgb), 0.2);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .omni-model-badge:hover { background: rgba(var(--primary-rgb), 0.2); }
+
+        #omni-results { max-height: 400px; overflow-y: auto; }
+        .omni-item {
+            padding: 12px 16px; display: flex; align-items: center; cursor: pointer;
+            border-left: 2px solid transparent; color: var(--text-secondary);
+        }
+        .omni-item:hover, .omni-item.active {
+            background: rgba(255,255,255,0.05); color: var(--text-primary); border-left-color: var(--primary);
+        }
+        .omni-item-icon { width: 24px; text-align: center; margin-right: 12px; font-size: 16px; }
+        .omni-item-content { flex: 1; }
+        .omni-item-title { font-weight: 500; }
+        .omni-item-desc { font-size: 12px; opacity: 0.7; }
+        .omni-shortcut { font-size: 11px; background: #333; padding: 2px 6px; border-radius: 4px; color: #aaa; }
+    </style>
+
+    <div id="omni-overlay" onclick="if(event.target===this) toggleOmniBar()">
+        <div id="omni-bar">
+            <div class="omni-input-wrapper">
+                <i class="fas fa-search omni-icon"></i>
+                <input type="text" id="omni-input" placeholder="Pergunte ao Panda ou busque ferramentas..." autocomplete="off">
+                <div class="omni-model-badge" onclick="cycleModel()" id="current-model-badge">
+                    <i class="fas fa-bolt"></i> Gemini Flash
+                </div>
+            </div>
+            <div id="omni-results">
+                <!-- Result Items Injected Here -->
+            </div>
+        </div>
+    </div>
   </head>
   <body>
     <div class="container">
