@@ -1,13 +1,28 @@
-# 🐼 PANDA FABRICS - Manual de Infraestrutura Google
+# 🐼 PANDA FABRICS - Plataforma Canvas para Desenvolvedores
 
 **Versão:** 1.0  
-**Objetivo:** Documentar todos os recursos Google Cloud para desenvolvedores
+**Missão:** Democratizar o acesso à infraestrutura Google para pequenos desenvolvedores
 
 ---
 
-## 📌 Visão Geral
+## 📌 Visão: O Canvas Aberto
 
-Este manual documenta a infraestrutura Google que usamos para dar vida aos projetos. O Panda Fabrics utiliza o ecossistema Google para criar soluções serverless, escaláveis e com processamento acelerado por GPU.
+O Panda Fabrics é uma **plataforma aberta** que permite desenvolvedores criarem seus próprios SaaS usando a infraestrutura Google com **custo quase zero**.
+
+### Filosofia
+
+```
+"Ganhamos na quantidade. Ajudamos os pequenos a crescerem."
+```
+
+### Modelo
+
+| Pilar           | Descrição                                       |
+| :-------------- | :---------------------------------------------- |
+| **Baixo Custo** | Infraestrutura Google = quase zero de servidor  |
+| **Volume**      | Ganhamos centavos de milhares de devs           |
+| **Crescimento** | Pequenos devs viram grandes com nossa base      |
+| **Autonomia**   | Cada dev tem sua loja, sua marca, seus clientes |
 
 ---
 
