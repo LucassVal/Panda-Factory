@@ -29,10 +29,25 @@ Cada módulo é um pacote `.zip` ou repositório contendo um manifesto obrigató
     "module": 0, // Grátis para baixar
     "energy_fee": 1 // +1 PC/min taxa para o Dev (Revenue Share)
   },
+  "type": "EXTENSION", // APP, EXTENSION, LIBRARY
+  "ai_capabilities": {
+    // Se for extensão para IA
+    "functions": ["search_db", "analyze_chart"],
+    "description": "Permite que a IA leia gráficos de velas (Candles)."
+  },
   "entrypoint": "main.gs",
   "frontend": "index.html"
 }
 ```
+
+### Tipos de Módulos
+
+1. **App (SaaS):** Aplicação completa com UI para o usuário final (ex: CRM, Trader Dashboard).
+2. **Library (Code):** Bibliotecas para outros devs usarem (ex: MathUtils, PDFParser).
+3. **Extension (AI Skill):** **Ferramentas para a IA usar.**
+   - _Exemplo:_ Usuário baixa a extensão "Spotify Control".
+   - _Efeito:_ Agora a IA do usuário sabe pausar música ou criar playlists.
+   - _Antigravity-like:_ A IA ganha "superpoderes" baixando extensões.
 
 ---
 
