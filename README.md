@@ -1,180 +1,262 @@
-# 🐼 PANDA FABRICS
+# 🐼 Panda Fabrics Core - Master Documentation
 
-> **Agentic OS: O Sistema Operacional para Agentes IA**  
-> "Baixe o Cérebro. Pague apenas pela Energia."
+> **Single Source of Truth** | Versão 2.2 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
 
----
-
-## 🎯 A Visão "Antigravity-like"
-
-Assim como você baixa softwares open-source, no Panda Fabrics você baixa **Módulos de Inteligência**.
-
-- **O Software (Corpo):** É seu. Baixe, modifique, use. (Grátis)
-- **A Inteligência (Alma):** Rodar a IA consome **Panda Coins** (Energia).
-
-**Exemplo:**
-
-1. Você baixa o módulo "Repórter Investigativo" (Grátis).
-2. Ele organiza seus arquivos e cria UI (Grátis).
-3. Quando você pede "Analise esses 50 PDFs", ele consome **Energia** ($PC).
+Bem-vindo ao **Cérebro do Ecossistema**. Este arquivo consolida toda a inteligência, regras e protocolos do Panda Fabrics.
 
 ---
 
-## 🌟 North Star: Alphabet Ecosystem
+## 📑 Índice Mestre (Cache & Navegação)
 
-> **Objetivo:** Tornar-se um **Google Partner** estratégico.
-> **Como:** Democratizando o poder da Cloud Google para milhões de desenvolvedores pequenos com o menor custo possível.
+Use este índice para navegar rapidamente.
 
-**Filosofia:** "Ganhamos na escala, não no preço."
-Nossa arquitetura `Low-Code` + `Serverless` remove a barreira de entrada da GCP, criando uma legião de novos usuários para o ecossistema Alphabet.
+### 1. 🏗️ Arquitetura & Visão
+
+- [Missão & Estratégia](#11-missão--estratégia)
+- [Arquitetura Hub (Central + Descentralizado)](#12-arquitetura-hub)
+- [Pilar 1: Segurança (Armor/Shield)](#13-pilar-1-segurança)
+- [Pilar 2: GAS Serverless](#14-pilar-2-gas-serverless)
+- [Pilar 3: Sistema Híbrido (Offline-First)](#15-pilar-3-sistema-híbrido)
+
+### 2. 🛠️ Engenharia Core
+
+- [Geo-Spatial Engine](#21-geo-spatial-engine)
+- [Workflow Automation](#22-workflow-automation)
+- [Cognitive Core (RAG/AI)](#23-cognitive-core)
+- [Data Warehouse (BigQuery)](#24-data-warehouse)
+- [Omni-Bar (Frontend)](#25-omni-bar)
+
+### 3. 💰 Economia & Pricing
+
+- [Panda Coin ($PC)](#31-panda-coin-pc)
+- [Tabela de Preços (Varejo vs Atacado)](#32-tabela-de-preços)
+- [Gateways (PagSeguro, Stripe, Crypto)](#33-gateways-de-pagamento)
+- [Revenue Share (Devs)](#34-revenue-share)
+
+### 4. 📦 Store & Protocolo de Módulos
+
+- [Manifesto `manifest.json`](#41-manifesto-do-módulo)
+- [Tipos de Módulos (App, Ext, Lib)](#42-tipos-de-módulos)
+- [Segurança (Sandbox/JEA)](#43-segurança-da-store)
+- [Instalação (One-Click)](#44-fluxo-de-instalação)
+
+### 5. 🔌 Plugins & SDKs
+
+- [Plugins Nativos (YouTube, Meta, WhatsApp)](#51-plugins-nativos)
+- [SDKs de Terceiros (Canva, Stripe)](#52-sdks-de-terceiros)
+- [Multi-Window HUD](#53-multi-window-hud)
+- [Web PowerShell Studio](#54-web-powershell-studio)
+
+### 6. 🏆 Gamificação (Badges)
+
+- [Comunidade & XP](#61-comunidade--xp)
+- [Marketplace (Seller/Buyer)](#62-marketplace-badges)
+- [Developer Achievements](#63-developer-badges)
+- [Uso & Energia](#64-uso--energia)
+
+### 7. 📋 Auditoria & Compliance
+
+- [Legal & Contábil](#71-legal--contábil)
+- [Checklist de Risco](#72-checklist-de-risco)
 
 ---
 
-## 🏗️ Arquitetura Open Hub
+# 1. 🏗️ Arquitetura & Visão
 
-1. **Developer:** Cria o módulo (ex: "Trader Bot").
-2. **User:** Baixa o módulo para seu ambiente.
-3. **Panda Fabrics:** Fornece a Energia (LLMs/GPUs) e infraestrutura.
+### 1.1 Missão & Estratégia
+
+**"Democratizar a infraestrutura Google para desenvolvedores."**
+Transformamos a complexidade de Cloud (AWS/GCP) em uma moeda simples: **Panda Coin (PC)**. O Dev não configura servidor, ele apenas "abastece" e usa.
+
+### 1.2 Arquitetura Hub
+
+Modelo **Híbrido Centralizado/Descentralizado**:
+
+- **Hub Central:** Gerencia contas, Panda Coins, Segurança e Atualizações de Frontend.
+- **Cliente (Descentralizado):** O código roda no Google Apps Script (GAS) do cliente e os dados ficam no Google Drive do cliente.
+- **Vantagem:** Custo de infraestrutura próximo a ZERO para nós (Serverless).
+
+### 1.3 Pilar 1: Segurança
+
+- **Cloud Armor:** Proteção nativa Google contra DDoS.
+- **Headless:** O cliente nunca vê o código-fonte sensível (bots), apenas o resultado via API.
+- **DevSecOps:** Segredos gerenciados via `PropertiesService`, nunca hardcoded.
+
+### 1.4 Pilar 2: GAS Serverless
+
+- **API Gateway:** `doPost(e)` centraliza todas as chamadas.
+- **Ledger:** Cada milissegundo de execução debita $PC da carteira.
+- **Dispatcher:** Roteia para Gemini Flash (Free), Pro ou GPT-4o conforme saldo.
+
+### 1.5 Pilar 3: Sistema Híbrido
+
+- **PWA Offline-First:** Funciona sem internet (Read-only + Queue).
+- **Sync:** Quando online, faz Push/Pull das ações pendentes.
+- **Agente Local:** (Futuro v4.0) Desktop app em Rust para alta performance.
 
 ---
 
-## 💡 Modelo de Negócio
+# 2. 🛠️ Engenharia Core
 
+### 2.1 Geo-Spatial Engine
+
+Otimização de rotas e normalização de endereços para Logística (Last Mile). Integração nativa Maps SDK.
+
+### 2.2 Workflow Automation
+
+Conectores OAuth2 prontos para Gmail, Calendar e Drive. "If This Then That" nativo do ecossistema.
+
+### 2.3 Cognitive Core
+
+**RAG (Retrieval Augmented Generation):** O sistema lê PDFs e planilhas do usuário no Drive para dar contexto à IA.
+**Modelos:** Suporte a Gemini 1.5/3.0, GPT-4o, Claude 3.5.
+
+### 2.4 Data Warehouse
+
+Exportação de Sheets para **BigQuery** para lidar com milhões de linhas. Conector para Looker Studio/PowerBI.
+
+### 2.5 Omni-Bar
+
+Frontend unificado (`CRM.html`). Uma barra de comando (Ctrl+K) estilo Spotlight para invocar qualquer ferramenta ou IA do sistema.
+
+---
+
+# 3. 💰 Economia & Pricing
+
+### 3.1 Panda Coin ($PC)
+
+A moeda de troca de energia.
+
+- **Base:** 1 USD = ~1000 PC.
+- **Consumo:** Texto (~0.5 PC), Imagem (~40 PC), Vídeo (~500 PC).
+
+### 3.2 Tabela de Preços
+
+| Perfil      | Margem | Preço  | Objetivo                       |
+| :---------- | :----- | :----- | :----------------------------- |
+| **Varejo**  | 2.5x   | 250 PC | Cliente Final (Conveniência)   |
+| **Atacado** | 1.25x  | 125 PC | Desenvolvedor (Volume/Revenda) |
+
+> **Promoção B2B:** Devs compram "Pacotes Business" (100k PC) com **50% OFF** para revender embutido em cursos/softwares.
+
+### 3.3 Gateways de Pagamento
+
+- **PagSeguro:** Brasil (PIX/Cartão). Checkout transparente.
+- **Stripe:** Global (USD). Cartões internacionais.
+- **Crypto:** Solana/USDC (Chain Blocks). Pagamentos via Blockchain.
+- **B2B Webhooks:** Integração com Kiwify/Hotmart para venda de Bundles (Curso + Moedas).
+
+### 3.4 Revenue Share
+
+Se um Dev cria um módulo e outro usuário usa:
+
+- **Panda:** Cobra custo infra + base.
+- **Dev:** Define markup (lucro) em cima da energia. Ganha passivamente sempre que o módulo roda.
+
+---
+
+# 4. 📦 Store & Protocolo de Módulos
+
+### 4.1 Manifesto do Módulo
+
+Todo módulo deve ter um `manifest.json`.
+
+```json
+{
+  "id": "com.dev.trader",
+  "permissions": ["DRIVE_READ", "EXTERNAL_API"],
+  "price": { "module": 0, "energy_fee": 1 }
+}
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                   PANDA FABRICS (HUB)                       │
-├─────────────────────────────────────────────────────────────┤
-│  CENTRALIZADO (Nosso)           DESCENTRALIZADO (Cliente)  │
-│  ┌─────────────────┐            ┌─────────────────┐        │
-│  │ HTML/EXE        │            │ GAS Backend     │        │
-│  │ Script Database │            │ Drive Storage   │        │
-│  │ Panda Coins     │            │ Execução        │        │
-│  └─────────────────┘            └─────────────────┘        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+### 4.2 Tipos de Módulos
+
+1. **App:** Aplicação completa com UI.
+2. **Library:** Bibliotecas de código (ex: MathUtils).
+3. **Extension:** Habilidades para a IA (ex: "Saber ler gráficos").
+
+### 4.3 Segurança da Store
+
+- **Assinatura Digital:** Hash verificado na instalação.
+- **Sandbox:** O módulo só acessa o que pediu no manifesto.
+- **Audit:** Code review automatizado para detectar malwares.
+
+### 4.4 Fluxo de Instalação
+
+One-Click Install via Loja Oficial ou `panda install <url>` para repositórios privados (GitHub/Gist).
 
 ---
 
-## 💰 Economia Panda Coin
+# 5. 🔌 Plugins & SDKs
 
-| Item                 | Valor         |
-| :------------------- | :------------ |
-| **Margem Base**      | 1.2x (mínimo) |
-| **Taxa Marketplace** | 5% (C2C/B2B)  |
-| **Saque FIAT**       | +2% adicional |
+### 5.1 Plugins Nativos
 
----
+Bibliotecas pré-instaladas para acelerar o desenvolvimento:
 
-## 🗺️ Roadmap
+- **YouTube:** Search, Upload, Analytics.
+- **Meta (FB/IG):** Graph API para posts e métricas.
+- **WhatsApp:** Integração via Evolution API.
 
-| Versão   | Features                       | Status     |
-| :------- | :----------------------------- | :--------- |
-| **v2.0** | Backend unificado, Panda Coins | ✅ Done    |
-| **v2.1** | WhatsApp, Kiwify webhooks      | 🔄 Next    |
-| **v2.2** | YouTube, Meta APIs             | 📋 Planned |
-| **v2.3** | TikTok, Canva SDK              | 📋 Planned |
-| **v3.0** | GPU Acceleration (cuDF)        | 📋 Planned |
-| **v3.5** | Crypto Migration (Solana)      | 📋 Planned |
-| **v4.0** | Desktop Agent (Tauri/Rust)     | 📋 Planned |
+### 5.2 SDKs de Terceiros
 
----
+- **Canva:** Embed do editor de design.
+- **Stripe:** Checkout elements.
 
-## ♾️ Verticais Ilimitadas
+### 5.3 Multi-Window HUD
 
-> **"Energia se converte em qualquer trabalho."**
-> Não há limite de nicho. Se precisa de processamento (Google/GPU), o Panda Fabrics suporta.
+Sistema de janelas flutuantes (`window.open`) que se comunicam via `postMessage`. Permite setups multi-monitor (Ex: Gráfico na tela 1, Chat na tela 2).
 
-| Vertical            | Aplicação da Energia ($PC)                           |
-| :------------------ | :--------------------------------------------------- |
-| 🎬 **Cinema & VFX** | Renderização de vídeo, Color grading IA, Upscaling   |
-| 🎵 **Música**       | Produção, Masterização IA, Separação de Stems        |
-| 👨‍💻 **Coding**       | Agentes de Refatoração, Testes Automatizados, DevOps |
-| 🤖 **Bot Farming**  | Automação de interações, Farm de jogos, Web Scraping |
-| 🌾 **Agro**         | Análise de solo via drone, Previsão climática IA     |
+### 5.4 Web PowerShell Studio
 
-**O limite é a imaginação do desenvolvedor.** Nós apenas fornecemos a tomada. 🔌
+IDE Web para criar e assinar scripts de automação que rodam no Agente Local.
 
 ---
 
-## 👥 Quem é o Panda Maker?
+# 6. 🏆 Gamificação (Badges)
 
-O Panda Fabrics é o **Equalizador**. Ele dá o mesmo poder de fogo da Google para:
+Recompensas para engajar a comunidade.
 
-1. **O Jovem Nerd Visionário:** Tem a ideia do "Uber de Passeador de Cães" mas trava na AWS. Aqui ele foca no código.
-2. **A "Dona de Casa" Empreendedora:** Tem um método incrível de organização. Transforma isso num **App** (SaaS) ao invés de vender PDF/Ebook.
-3. **O Empresário "Hard":** Quer inteligência competitiva e dados brutos, sem montar um departamento de TI.
-4. **O Dev "Anti-Burocracia":** Cobra caro pela solução, não pela configuração de servidor. Quer deploy em 1 segundo.
-5. **O Ex-Infoprodutor:** O mercado de cursos saturou. A nova onda é vender **Ferramentas (Micro-SaaS)**. O Panda é a fábrica dessas ferramentas.
+### 6.1 Comunidade & XP
 
----
+- **Hello World:** Primeiro Post.
+- **Guru:** 100 Respostas Úteis.
+- **Bug Hunter:** Reportar falhas (Vale PC!).
 
-## 📚 CODEX PANDA (Map of Knowledge)
+### 6.2 Marketplace Badges
 
-> **Central de Inteligência:** Siga este índice para navegar no ecossistema.
+- **Merchant:** 10 Vendas.
+- **Tycoon:** 100 Vendas (Taxa Reduzida 4%).
+- **Unicorn:** 10k Vendas (Taxa Reduzida 2%).
 
-### 🏛️ Core & Infraestrutura
+### 6.3 Developer Badges
 
-| Documento                                                   | Descrição                                                      | Status        |
-| :---------------------------------------------------------- | :------------------------------------------------------------- | :------------ |
-| [`MANUAL_INFRAESTRUTURA.md`](docs/MANUAL_INFRAESTRUTURA.md) | **A Bíblia do Sistema.** 4 Pilares, IA Dispatcher, GPU Rental. | ✅ Atualizado |
+- **Scripter:** 10 Deploys.
+- **Full Stack:** Usar GAS + HTML.
+- **Open Sourcer:** Publicar código aberto (Taxa Zero).
 
-## 📚 CODEX PANDA (AI & Human Index)
+### 6.4 Uso & Energia
 
-> **Instructions for AI Agents:** This is the master index. Follow the paths to context.
-> **Instruções para Humanos:** Use como mapa de navegação.
-
-### 🧠 Enciclopédia (Conceitos)
-
-| Contexto        | Arquivo                                                                                               | Tags                                      |
-| :-------------- | :---------------------------------------------------------------------------------------------------- | :---------------------------------------- |
-| **Arquitetura** | [`MANUAL_INFRAESTRUTURA.md`](docs/MANUAL_INFRAESTRUTURA.md)                                           | `4 Pilares` `Serverless` `GPU Rental`     |
-| **Economia**    | [`MANUAL_INFRAESTRUTURA.md#💰-economia-panda-coin-modelo-sustentável`](docs/MANUAL_INFRAESTRUTURA.md) | `Tokenomics` `Panda Coin` `Pricing`       |
-| **Visão**       | [`README.md`](README.md)                                                                              | `Agentic OS` `Free Modules` `Paid Energy` |
-
-### 🛠️ Documentação Técnica (Manuals)
-
-| Área               | Arquivo                                                                     | Conteúdo                                       |
-| :----------------- | :-------------------------------------------------------------------------- | :--------------------------------------------- | ---------- |
-| **Integrations**   | [`GOOGLE_WORKSPACE_INTEGRATIONS.md`](docs/GOOGLE_WORKSPACE_INTEGRATIONS.md) | `Gmail` `Sheets` `Drive` `YouTube`             |
-| **SDKs & Plugins** | [`PLUGINS_SDKS.md`](docs/PLUGINS_SDKS.md)                                   | `Webhooks` `PowerShell` `External APIs`        |
-| **Store Protocol** | [`STORE_PROTOCOL.md`](docs/STORE_PROTOCOL.md)                               | `Manifest` `Security` `JEA Sandbox`            |
-| **Compliance**     | [`AUDITORIA_PRE_LANCAMENTO.md`](docs/AUDITORIA_PRE_LANCAMENTO.md)           | **Compliance.** Firewall Jurídico e Checklist. | ✅ Crítico |
-
-### ⚡ Caching & Performance (Novo)
-
-| Camada        | Tecnologia            | Local               |
-| :------------ | :-------------------- | :------------------ |
-| **Hot Data**  | Firebase Realtime DB  | Cloud (Fast Access) |
-| **App Cache** | Chrome Service Worker | Local (Offline)     |
-| **Cold Data** | Google Drive (JSON)   | Cloud (Storage)     |
-
-### 📜 Change Logs
-
-- [`CHANGELOG.md`](docs/CHANGELOG.md) - Histórico de versões
-- [`ROADMAP.md`](docs/ROADMAP.md) - Futuro do projeto
+- **Spark:** Queimar 100 PC.
+- **Sun:** Queimar 1M PC (VIP).
+- **Green Energy:** Usar na madrugada (Desconto).
 
 ---
 
-## 🚀 Quick Start
+# 7. 📋 Auditoria & Compliance
 
-```bash
-# Clone
-git clone https://github.com/LucassVal/SAAS.git
+### 7.1 Legal & Contábil
 
-# Servidor local
-python -m http.server 8080
+- **Modelo:** Service Provider (Infraestrutura).
+- **Responsabilidade:** O usuário é responsável pelo conteúdo/uso das APIs (Termos de Uso).
+- **Tributação:** Venda de licença de uso/crédito (SaaS).
 
-# Deploy backend
-cd backend && clasp push && clasp deploy
-```
+### 7.2 Checklist de Risco
 
----
-
-## 📞 Contato
-
-**Dev:** Lucas Valério  
-**GitHub:** [@LucassVal](https://github.com/LucassVal)
+- [x] Termos de Uso (Neutralidade).
+- [x] Segredos em Vault (PropertiesService).
+- [x] HTTPS Only.
+- [x] Backup em Cold Storage (Drive).
 
 ---
 
-© 2026 Panda Fabrics - Canvas Aberto para Desenvolvedores
+> **Panda Fabrics Core** - _Building the Developer Soil._
