@@ -19,6 +19,45 @@
 
 ## 🦴 Espinha Dorsal: Arquitetura Hub
 
+#### Estratégia Comercial para Devs (B2B)
+
+> **"Compre no Atacado, Venda no Varejo (ou Embutido)"**
+
+#### 1. Desconto de Atacado (Dev Packs)
+
+O desenvolvedor precisa de "combustível" barato para testar e para criar ofertas imbatíveis.
+| Pacote | Volume | Desconto | Preço Unitário |
+|:---|:---|:---|:---|
+| **Starter** | 1.000 PC | 0% | 1.2x |
+| **Pro** | 10.000 PC | 20% | 0.96x |
+| **Business** | 100.000 PC | **50%** | **0.60x** |
+
+> _Dev compra 100k PC com 50% OFF e usa para revender embutido em seus produtos._
+
+#### 2. Venda Embutida (Bundled Launch)
+
+O Dev vende seu produto em plataformas externas (Kiwify, Hotmart) e entrega Panda Coins como bônus.
+
+**Cenário:**
+
+- Dev lança "Curso de Python para Traders" por R$ 297.
+- **Oferta:** "Ganhe 5.000 Panda Coins para rodar seus primeiros bots".
+- **Bastidores:**
+  1. Cliente compra na Kiwify.
+  2. Webhook avisa o Panda Fabrics.
+  3. Sistema debita 5k PC da carteira do Dev (que ele pagou barato no atacado).
+  4. Sistema credita 5k PC na carteira do Aluno.
+
+#### 3. Split em Módulos Gratuitos
+
+Mesmo se o módulo for grátis na Store, o Dev ganha no consumo de energia.
+
+- Usuário baixa módulo Grátis.
+- Usuário gasta 100 PC de energia.
+- **Split:** 70% Panda (Infra) / 30% Dev (Comissão).
+
+---
+
 ### Modelo Centralizado + Descentralizado
 
 ```
