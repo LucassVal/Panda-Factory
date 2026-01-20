@@ -237,13 +237,75 @@ Custo PC = (Custo USD × Cotação BRL) × 1.20 (margem)
 
 ---
 
+## 🏪 Marketplace de Desenvolvedores
+
+### Modelo B2B2C
+
+O Panda Fabrics permite que **desenvolvedores criem suas próprias lojas** usando nossa infraestrutura.
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  PANDA FABRICS  │────▶│   DESENVOLVEDOR │────▶│  CLIENTE FINAL  │
+│  (Atacado $PC)  │     │  (Loja própria) │     │  (Usa o SaaS)   │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+### Fluxo de Revenda
+
+1. **Dev compra $PC em atacado** (ex: 10.000 PC por R$ 200)
+2. **Dev integra via webhook** com Kiwify/Hotmart
+3. **Cliente compra na loja do dev** (ex: 500 PC por R$ 29,90)
+4. **Webhook credita automaticamente** a carteira do cliente
+5. **Dev lucra a diferença**
+
+### Webhooks de Pagamento
+
+```javascript
+// Exemplo: Kiwify Webhook
+function handleKiwifyWebhook(payload) {
+  if (payload.status === "paid") {
+    const userId = payload.customer.email;
+    const amount = payload.product.metadata.panda_coins; // Ex: 500
+    creditWallet(userId, amount, "COMPRA_KIWIFY");
+  }
+}
+
+// Exemplo: Hotmart Webhook
+function handleHotmartWebhook(payload) {
+  if (payload.event === "PURCHASE_COMPLETE") {
+    const userId = payload.buyer.email;
+    const amount = payload.product.extras.panda_coins;
+    creditWallet(userId, amount, "COMPRA_HOTMART");
+  }
+}
+```
+
+### Pricing Atacado (para Devs)
+
+| Pacote     | Quantidade | Preço  | Desconto |
+| :--------- | :--------- | :----- | :------- |
+| Starter    | 1.000 PC   | R$ 30  | 10%      |
+| Growth     | 5.000 PC   | R$ 120 | 20%      |
+| Scale      | 10.000 PC  | R$ 200 | 33%      |
+| Enterprise | 50.000 PC  | R$ 800 | 47%      |
+
+### Margem do Desenvolvedor
+
+| PC Comprado | Custo | Venda Sugerida | Margem |
+| :---------- | :---- | :------------- | :----- |
+| 500 PC      | R$ 15 | R$ 29,90       | 99%    |
+| 1.000 PC    | R$ 30 | R$ 49,90       | 66%    |
+| 2.000 PC    | R$ 48 | R$ 99,90       | 108%   |
+
+---
+
 ## 📚 Links Úteis
 
 - [Google Apps Script](https://script.google.com)
 - [Gemini API](https://ai.google.dev)
 - [cuDF Docs](https://docs.rapids.ai/api/cudf/stable/)
-- [Colab Enterprise](https://cloud.google.com/colab)
-- [WebGPU Spec](https://www.w3.org/TR/webgpu/)
+- [Kiwify Webhooks](https://kiwify.com.br/docs/webhooks)
+- [Hotmart Webhooks](https://developers.hotmart.com/docs/webhooks)
 
 ---
 
