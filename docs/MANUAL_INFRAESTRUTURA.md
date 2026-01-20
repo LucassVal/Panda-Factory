@@ -185,6 +185,55 @@ const valorPC = Math.max(1.2, (demandaAtual / ofertaDisponivel) * baseRate);
 ### Filosofia Econômica
 
 ```
+
+### Taxas de Saque
+| Tipo | Taxa |
+|:---|:---|
+| **Interno (PC → PC)** | 5% marketplace |
+| **FIAT (PC → R$)** | +2% adicional |
+| **Crypto (PC → SOL/ETH)** | +1% bridge |
+
+---
+
+## 🖥️ NVIDIA Online (GPU Rental)
+
+### Conceito
+Locação de GPUs via Colab/Cloud para processamento pesado.
+
+```
+
+┌─────────────────────────────────────────┐
+│ NVIDIA GPU RENTAL │
+├─────────────────────────────────────────┤
+│ [Cliente WebGPU] │
+│ ↓ (task pesada) │
+│ [Panda Core detecta] │
+│ ↓ │
+│ [Roteia para Colab GPU] │
+│ ↓ │
+│ [cuDF/CUDA processa] │
+│ ↓ │
+│ [Resultado volta] │
+│ ↓ │
+│ [Cobra em Panda Coins] │
+└─────────────────────────────────────────┘
+
+```
+
+### Pricing GPU
+| GPU | PC/hora |
+|:---|:---|
+| T4 (entry) | 30 PC |
+| A100 (pro) | 100 PC |
+| TPU (ML) | 150 PC |
+
+### Economia de Tokens (WebGPU Local)
+```
+
+Cliente tem GPU → Processa local → 0 tokens
+Cliente sem GPU → Aluga nossa → Paga PC
+
+```
 "Cobrar mais do rico, incentivar a base"
 
 Base (< 1k PC)     → 0% taxa adicional
