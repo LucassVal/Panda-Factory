@@ -208,21 +208,37 @@ Drive + JSON = MongoDB-like sem custo.
 
 ---
 
-## 💰 Economia Panda Coin
+## 💰 Economia Panda Coin (Modelo Sustentável)
 
-### Margem Base (1.2x)
+### Pricing Tier (Margem vs Volume)
 
-```
-Preço PC = (Custo API × Dólar) × 1.2
-```
+Para sustentar descontos de 50%, precisamos subir a régua do varejo.
 
-> O 1.2x é o **valor mínimo** da moeda. Inflaciona com disponibilidade.
+> **Lógica:** Usuário comum paga pela conveniência (2.5x). Dev paga pelo volume (1.2x).
+
+| Perfil                | Margem    | Preço  | Custo p/ Nós | Lucro   |
+| :-------------------- | :-------- | :----- | :----------- | :------ |
+| **Varejo (Standard)** | **2.5x**  | 250 PC | 100 PC       | ✅ 150% |
+| **Atacado (Devs)**    | **1.25x** | 125 PC | 100 PC       | ✅ 25%  |
+
+### Desconto de Atacado (Dev Packs)
+
+| Pacote       | Volume     | Desconto    | Preço Final |
+| :----------- | :--------- | :---------- | :---------- |
+| **Starter**  | 1.000 PC   | 0% (Varejo) | 2.5x        |
+| **Pro**      | 10.000 PC  | 30% OFF     | 1.75x       |
+| **Business** | 100.000 PC | **50% OFF** | **1.25x**   |
+
+> **Segurança:** Mesmo com 50% de desconto, **nunca** vendemos abaixo do custo + 25%.
 
 ### Inflação Dinâmica
 
 ```javascript
 // Valor do PC baseado em watts/token disponível
-const valorPC = Math.max(1.2, (demandaAtual / ofertaDisponivel) * baseRate);
+const valorPC = Math.max(
+  1.25, // Floor seguro subiu para 1.25x
+  (demandaAtual / ofertaDisponivel) * baseRate,
+);
 ```
 
 ### Taxa Marketplace Interno (5%)
@@ -246,19 +262,27 @@ const valorPC = Math.max(1.2, (demandaAtual / ofertaDisponivel) * baseRate);
 ### Filosofia Econômica
 
 ```
+"Cobrar mais do rico, incentivar a base"
+
+Base (< 1k PC)     → 0% taxa adicional
+Médio (1k-10k PC)  → 5% taxa
+Alto (> 10k PC)    → 10% taxa
+```
 
 ### Taxas de Saque
-| Tipo | Taxa |
-|:---|:---|
-| **Interno (PC → PC)** | 5% marketplace |
-| **FIAT (PC → R$)** | +2% adicional |
-| **Crypto (PC → SOL/ETH)** | +1% bridge |
+
+| Tipo                      | Taxa           |
+| :------------------------ | :------------- |
+| **Interno (PC → PC)**     | 5% marketplace |
+| **FIAT (PC → R$)**        | +2% adicional  |
+| **Crypto (PC → SOL/ETH)** | +1% bridge     |
 
 ---
 
 ## 🖥️ NVIDIA Online (GPU Rental)
 
 ### Conceito
+
 Locação de GPUs via Colab/Cloud para processamento pesado.
 
 ```
@@ -282,25 +306,29 @@ Locação de GPUs via Colab/Cloud para processamento pesado.
 ```
 
 ### Pricing GPU
-| GPU | PC/hora |
-|:---|:---|
-| T4 (entry) | 30 PC |
-| A100 (pro) | 100 PC |
-| TPU (ML) | 150 PC |
+
+| GPU        | PC/hora |
+| :--------- | :------ |
+| T4 (entry) | 30 PC   |
+| A100 (pro) | 100 PC  |
+| TPU (ML)   | 150 PC  |
 
 ### Economia de Tokens (WebGPU Local)
+
 ```
 
 Cliente tem GPU → Processa local → 0 tokens
 Cliente sem GPU → Aluga nossa → Paga PC
 
 ```
+
 "Cobrar mais do rico, incentivar a base"
 
-Base (< 1k PC)     → 0% taxa adicional
-Médio (1k-10k PC)  → 5% taxa
-Alto (> 10k PC)    → 10% taxa
-```
+Base (< 1k PC) → 0% taxa adicional
+Médio (1k-10k PC) → 5% taxa
+Alto (> 10k PC) → 10% taxa
+
+````
 
 ---
 
@@ -314,7 +342,7 @@ localStorage.setItem("pendingActions", JSON.stringify(queue));
 
 // Sync quando volta online
 window.addEventListener("online", syncPendingActions);
-```
+````
 
 ### Sync Logic
 
