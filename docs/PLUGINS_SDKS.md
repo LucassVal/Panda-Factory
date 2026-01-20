@@ -217,4 +217,72 @@ model = torch.load("modelo.pt", map_location="cuda")
 
 ---
 
+## 🎬 Caso de Uso: Agente Influencer (IA Autônoma)
+
+### Conceito
+
+IA que gerencia **múltiplas plataformas** simultaneamente e roda sozinha.
+
+```
+┌─────────────────────────────────────────────────┐
+│            AGENTE INFLUENCER (IA)               │
+├─────────────────────────────────────────────────┤
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐        │
+│  │ YouTube │  │  Meta   │  │ TikTok  │        │
+│  │  API    │  │ Graph   │  │   API   │        │
+│  └────┬────┘  └────┬────┘  └────┬────┘        │
+│       └────────────┼────────────┘              │
+│                    ▼                            │
+│            ┌─────────────┐                     │
+│            │  Gemini IA  │                     │
+│            │  (Decisor)  │                     │
+│            └─────────────┘                     │
+│                    │                            │
+│    ┌───────────────┼───────────────┐           │
+│    ▼               ▼               ▼            │
+│ [Agendar]    [Responder]     [Analisar]        │
+│  Posts       Comentários      Métricas         │
+└─────────────────────────────────────────────────┘
+```
+
+### Funcionalidades
+
+| Função         | Descrição                         |
+| :------------- | :-------------------------------- |
+| **Multi-Post** | Posta YT + IG + TikTok simultâneo |
+| **Auto-Reply** | Responde comentários com IA       |
+| **Analytics**  | Consolida métricas de todas redes |
+| **Scheduling** | Agenda conteúdo autônomo          |
+
+### Código Base
+
+```javascript
+async function agenteInfluencer() {
+  // 1. Gerar conteúdo
+  const post = await callPandaBrain("TEXT_GEN", {
+    prompt: "Crie um post viral sobre...",
+  });
+
+  // 2. Postar em múltiplas redes
+  await Promise.all([
+    postarYouTube(post),
+    postarMeta(post),
+    postarTikTok(post),
+  ]);
+
+  // 3. Monitorar e responder
+  setInterval(async () => {
+    const comments = await buscarComentarios();
+    for (const c of comments) {
+      const reply = await callPandaBrain("TEXT_GEN", {
+        prompt: `Responda: ${c.text}`,
+      });
+      await responderComentario(c.id, reply);
+    }
+  }, 60000); // A cada minuto
+}
+```
+
+---
+
 © 2026 Panda Fabrics - Ecossistema Aberto
