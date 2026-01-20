@@ -163,6 +163,8 @@ window.addEventListener("message", (e) => {
 
 ## 📦 Open Source Integrations
 
+> **Filosofia:** Não hospedamos IAs. Oferecemos suporte para rodar no ecossistema.
+
 ### 🎨 Design (Photoshop Alternatives)
 
 | Projeto      | Uso                  | Integração   |
