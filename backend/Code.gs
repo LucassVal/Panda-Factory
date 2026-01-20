@@ -79,22 +79,26 @@ function doPost(e) {
       return jsonResponse({ error: 'Servidor ocupado. Tente novamente.' }, 503);
     }
 
-    // === PROCESSO PAGSEGURO (WEBHOOK) ===
-    if (e.parameter && e.parameter.notificationCode) {
-      const result = processPaymentNotification(e.parameter.notificationCode);
-      return ContentService.createTextOutput(result);
+    // === PROCESSO B2B (KIWIFY/HOTMART) ===
+    if (e.parameter && e.parameter.notificationCode) { // PagSeguro (Legado/Form)
+       const result = processPaymentNotification(e.parameter.notificationCode);
+       return ContentService.createTextOutput(result);
     }
 
+    // JSON Payload
     const payload = JSON.parse(e.postData.contents);
     
-    // === PROCESSO B2B (KIWIFY/HOTMART) ===
-    // Detecta assinatura do webhook (Kiwify costuma mandar header ou payload específico)
-    // Se for Kiwify (exemplo simples de detecção):
+    // Stripe Webhook (Eventos)
+    if (payload.type && payload.type.startsWith('checkout.')) {
+      const result = handleStripeWebhook(e); // Passar 'e' completo ou payload
+      return jsonResponse({ received: true });
+    }
+
+    // B2B Webhooks (Kiwify/Hotmart)
     if (payload.order_id && payload.Customer) {
       const result = processB2BWebhook(payload, 'KIWIFY');
       return jsonResponse(result);
     }
-    // Hotmart
     if (payload.event && payload.data && payload.data.buyer) {
       const result = processB2BWebhook(payload, 'HOTMART');
       return jsonResponse(result);
@@ -102,9 +106,19 @@ function doPost(e) {
 
     const userId = payload.userId || Session.getEffectiveUser().getEmail();
     const action = payload.action;
-    const type = payload.type;
 
-    // === AÇÕES ESPECIAIS (LEDGER & PAYMENT) ===
+    // === CHECKOUT ACTIONS ===
+    if (action === 'CREATE_PAYMENT_STRIPE') {
+       const checkout = createStripeCheckout(userId, payload.amountPC, payload.priceUSD);
+       return jsonResponse(checkout);
+    }
+
+    if (action === 'CREATE_PAYMENT_CRYPTO') {
+       const intent = createCryptoPaymentIntent(userId, payload.amountPC, payload.priceUSDC);
+       return jsonResponse(intent);
+    }
+
+    // === EXISTING ACTIONS ===
     if (action === 'GET_BALANCE') {
       return jsonResponse({
         status: 'SUCCESS',
@@ -114,7 +128,7 @@ function doPost(e) {
       });
     }
 
-    if (action === 'CREATE_PAYMENT') {
+    if (action === 'CREATE_PAYMENT') { // PagSeguro Default
        const checkout = createCheckout(userId, payload.amountPC, payload.priceBRL);
        return jsonResponse(checkout);
     }
