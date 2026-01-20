@@ -1,128 +1,103 @@
-# 🐼 PANDA FABRICS CORE - Sistema de Gestão Inteligente
+# 🐼 PANDA FABRICS
 
-**Versão:** 2.0 (Fusão Panda Core + TitanGestão)  
-**Status:** Produção  
-**Repositório:** [github.com/LucassVal/SAAS](https://github.com/LucassVal/SAAS)
-
----
-
-## 📌 O Que É
-
-Sistema PWA híbrido de gestão empresarial (CRM + PDV + Estoque + Financeiro) com **Agente de IA integrado** e **economia própria (Panda Coin)**.
-
-### 🎯 Diferenciais
-
-- ✅ Funciona **offline** após primeiro login (PWA + IndexedDB)
-- ✅ Dados no **Google Drive do cliente** (privacidade total)
-- ✅ IA com **cobrança por uso** ($PC - Panda Coin)
-- ✅ Backend **serverless** (Google Apps Script)
-- ✅ Multi-dispositivo sincronizado
+> **Plataforma Canvas para Desenvolvedores**  
+> Democratizando infraestrutura Google com custo quase zero
 
 ---
 
-## 💰 Modelo Econômico (Panda Coin)
+## 🎯 O Que É
 
-| Item                 | Valor               |
-| :------------------- | :------------------ |
-| **Lifetime (Motor)** | R$ 149,90 único     |
-| **Bônus Inicial**    | 100 PC incluídos    |
-| **Recarga**          | Conforme uso        |
-| **Margem**           | 20% sobre custo API |
+Sistema PWA híbrido que permite desenvolvedores criarem seus próprios SaaS usando:
 
-### Custos de Serviço
-
-| Serviço         | Custo USD | ~Custo PC |
-| :-------------- | :-------- | :-------- |
-| Texto (Gemini)  | $0.0005   | ~0.003 PC |
-| Imagem (DALL-E) | $0.04     | ~0.28 PC  |
-| Vídeo (Runway)  | $0.50     | ~3.5 PC   |
-| Leitura Drive   | $0.001    | ~0.007 PC |
+- **Google Apps Script** (backend serverless)
+- **Google Drive** (storage do cliente)
+- **Gemini API** (IA integrada)
+- **Panda Coin** (economia interna)
 
 ---
 
-## 🏗️ Arquitetura
+## 💡 Modelo de Negócio
 
 ```
-Frontend (PWA)              Backend (GAS)
-┌──────────────┐            ┌──────────────┐
-│   CRM.html   │───HTTP────▶│   Code.gs    │
-│   (6400+ L)  │◀───JSON────│   (Unified)  │
-└──────────────┘            └──────────────┘
-       │                           │
-       ▼                           ▼
-┌──────────────┐            ┌──────────────┐
-│  IndexedDB   │            │ Google Drive │
-│  (Offline)   │            │ (Cloud Sync) │
-└──────────────┘            └──────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                   PANDA FABRICS (HUB)                       │
+├─────────────────────────────────────────────────────────────┤
+│  CENTRALIZADO (Nosso)           DESCENTRALIZADO (Cliente)  │
+│  ┌─────────────────┐            ┌─────────────────┐        │
+│  │ HTML/EXE        │            │ GAS Backend     │        │
+│  │ Script Database │            │ Drive Storage   │        │
+│  │ Panda Coins     │            │ Execução        │        │
+│  └─────────────────┘            └─────────────────┘        │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### Estrutura de Arquivos
+---
 
-```
-CRM/
-├── CRM.html              # Frontend PWA completo
-├── backend/
-│   └── Code.gs           # Backend unificado (v2.0)
-├── js/core/
-│   └── Repository.js     # Abstração IndexedDB
-├── secrets.js            # Credenciais (gitignored)
-├── .gitignore            # Proteção de segredos
-└── README.md             # Este arquivo
-```
+## 💰 Economia Panda Coin
+
+| Item                 | Valor         |
+| :------------------- | :------------ |
+| **Margem Base**      | 1.2x (mínimo) |
+| **Taxa Marketplace** | 5% (C2C/B2B)  |
+| **Saque FIAT**       | +2% adicional |
+
+---
+
+## 🗺️ Roadmap
+
+| Versão   | Features                       | Status     |
+| :------- | :----------------------------- | :--------- |
+| **v2.0** | Backend unificado, Panda Coins | ✅ Done    |
+| **v2.1** | WhatsApp, Kiwify webhooks      | 🔄 Next    |
+| **v2.2** | YouTube, Meta APIs             | 📋 Planned |
+| **v2.3** | TikTok, Canva SDK              | 📋 Planned |
+| **v3.0** | GPU Acceleration (cuDF)        | 📋 Planned |
+| **v3.5** | Crypto Migration (Solana)      | 📋 Planned |
+| **v4.0** | Desktop Agent (Tauri/Rust)     | 📋 Planned |
+
+---
+
+## 🎯 Verticais Suportadas
+
+| Vertical       | Funcionalidades            |
+| :------------- | :------------------------- |
+| 🎬 Influencer  | Multi-post, Auto-reply IA  |
+| 📰 Repórter    | Mind map, Multi-search     |
+| 📈 Trader      | cTrader, HUD, Bot IA       |
+| 🔬 Pesquisador | Server rental, Client-side |
+| 🍕 Pizzaria    | Pedidos, Agenda, Rotas     |
+| ⚖️ Jurídico    | Contratos, Prazos          |
+
+---
+
+## 📚 Documentação
+
+- [Manual de Infraestrutura](docs/MANUAL_INFRAESTRUTURA.md)
+- [Google Workspace Integrations](docs/GOOGLE_WORKSPACE_INTEGRATIONS.md)
+- [Plugins & SDKs](docs/PLUGINS_SDKS.md)
 
 ---
 
 ## 🚀 Quick Start
 
 ```bash
-# 1. Clone
+# Clone
 git clone https://github.com/LucassVal/SAAS.git
-cd SAAS
 
-# 2. Servidor local
+# Servidor local
 python -m http.server 8080
-# Abra: http://localhost:8080/CRM.html
 
-# 3. Deploy Backend (GAS)
-cd backend
-clasp push
-clasp deploy --description "v2.0 Panda Core"
+# Deploy backend
+cd backend && clasp push && clasp deploy
 ```
-
----
-
-## 📡 API Endpoints
-
-**Base URL:** `https://script.google.com/macros/s/{DEPLOYMENT_ID}/exec`
-
-| Método | Action/Type           | Descrição                |
-| :----- | :-------------------- | :----------------------- |
-| GET    | `?action=status`      | Verifica status da API   |
-| GET    | `?action=setup`       | Configura pasta no Drive |
-| POST   | `action: GET_BALANCE` | Retorna saldo em PC      |
-| POST   | `action: RECHARGE`    | Adiciona créditos        |
-| POST   | `type: TEXT_GEN`      | Gera texto (Gemini)      |
-| POST   | `type: DRIVE_READ`    | Lê arquivo do Drive      |
-| POST   | `type: SHEET_CREATE`  | Cria planilha            |
-
----
-
-## 🔒 Segurança
-
-Arquivos protegidos pelo `.gitignore`:
-
-- `secrets.js` - Chaves de API
-- `.clasp.json` - Configuração CLASP
-- `.clasprc.json` - Token de acesso (PERIGO!)
-- `credentials.json` - Credenciais Google
 
 ---
 
 ## 📞 Contato
 
-**Desenvolvedor:** Lucas Valério  
+**Dev:** Lucas Valério  
 **GitHub:** [@LucassVal](https://github.com/LucassVal)
 
 ---
 
-© 2026 Panda Fabrics Core - Todos os direitos reservados
+© 2026 Panda Fabrics - Canvas Aberto para Desenvolvedores
