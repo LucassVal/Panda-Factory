@@ -12,14 +12,14 @@
 // ============================================================================
 const CONFIG = {
   APP_NAME: 'Panda Fabrics Core',
-  VERSION: '2.1.0', // Bump version
+  VERSION: '2.2.0', // Bump version for Pricing Fix
   
   // ECONOMIA PANDA COIN (Referência: MANUAL_INFRAESTRUTURA.md)
   ECONOMY: {
-    MARGIN_PERCENT: 0.30,       // 30% margem (Ajuste estratégico)
+    MARGIN_PERCENT: 1.50,       // 2.5x Multiplier (1.0 Custo + 1.5 Margem) para permitir 50% OFF no Atacado.
     CURRENCY_UNIT: "PC",        // Panda Coin
     FIXED_USD_FALLBACK: 6.00,   // Cotação conservadora
-    INITIAL_BONUS: 250,         // Review: "250 PC" para novos usuários (teste grátis real)
+    INITIAL_BONUS: 250,         // Review: "250 PC" para novos usuários
   },
 
   // CUSTOS POR SERVIÇO (em USD -> PC é calculado dinamicamente)
@@ -39,8 +39,8 @@ const CONFIG = {
     LOGS_FOLDER: 'System_Logs',
   },
 
-  // GEMINI
-  GEMINI_MODEL: 'gemini-1.5-flash',
+  // GEMINI (User Requested 3.0 Flash)
+  GEMINI_MODEL: 'gemini-3.0-flash',
   
   LOCK_TIMEOUT: 10000,
 };
