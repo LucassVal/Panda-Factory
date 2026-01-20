@@ -285,4 +285,59 @@ async function agenteInfluencer() {
 
 ---
 
+## 📰 Caso de Uso: Repórter / Jornalista
+
+### Conceito
+
+Workstation multi-janela para investigação e produção de conteúdo.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 REPORTER WORKSTATION                        │
+├──────────────┬──────────────┬──────────────┬───────────────┤
+│   WINDOW 1   │   WINDOW 2   │   WINDOW 3   │   WINDOW 4   │
+│  ┌────────┐  │  ┌────────┐  │  ┌────────┐  │  ┌────────┐  │
+│  │ Mind   │  │  │ Brain  │  │  │ Search │  │  │  Tags  │  │
+│  │  Map   │  │  │ Storm  │  │  │  PDFs  │  │  │ System │  │
+│  └────────┘  │  └────────┘  │  └────────┘  │  └────────┘  │
+└──────────────┴──────────────┴──────────────┴───────────────┘
+                        ↕ postMessage() ↕
+```
+
+### Funcionalidades
+
+| Módulo           | Descrição                    |
+| :--------------- | :--------------------------- |
+| **Mind Map**     | Mapa mental visual conexões  |
+| **Brainstorm**   | Geração de ideias com IA     |
+| **Tags/Labels**  | Sistema de etiquetas         |
+| **Multi-Search** | Busca em PDFs, áudios, fotos |
+
+### Multi-Search (IA + RAG)
+
+```javascript
+async function multiSearch(query) {
+  const results = await Promise.all([
+    searchPDFs(query), // OCR + Embedding
+    searchAudios(query), // Whisper transcription
+    searchPhotos(query), // CLIP image search
+    searchNotes(query), // Vector DB
+  ]);
+  return consolidarResultados(results);
+}
+```
+
+### Tags System
+
+```javascript
+const TAGS = {
+  urgente: { color: "red", icon: "🔴" },
+  fonte: { color: "blue", icon: "📌" },
+  verificado: { color: "green", icon: "✅" },
+  pendente: { color: "yellow", icon: "⏳" },
+};
+```
+
+---
+
 © 2026 Panda Fabrics - Ecossistema Aberto
