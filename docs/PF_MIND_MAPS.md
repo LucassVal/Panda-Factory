@@ -8,267 +8,238 @@
 
 O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em operações complexas para cada backend.
 
-```mermaid
-mindmap
-  root(("🐼 PANDA SDK"))
-    ("Dev chama")
-      "Panda.Data.save"
-      "Panda.Brain.chat"
-      "Panda.Bridge.execute"
-      "Panda.GPU.process"
-    ("SDK traduz para")
-      "GAS / Sheets"
-        "Google Apps Script"
-        "SpreadsheetApp"
-        "DriveApp"
-      "Firebase"
-        "Realtime DB"
-        "Auth"
-        "Signaling"
-      "Rust Agent"
-        "GPU Local"
-        "DLLs"
-        "Files"
-        "MCP Tools"
-      "APIs Externas"
-        "Gemini"
-        "Claude"
-        "Stripe"
+## 1. 🎯 Visão Geral - SDK como Hub Central
+
+O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em operações complexas para cada backend.
+
+```text
+🐼 PANDA SDK
+├── (Dev chama)
+│   ├── Panda.Data.save
+│   ├── Panda.Brain.chat
+│   ├── Panda.Bridge.execute
+│   └── Panda.GPU.process
+└── (SDK traduz para)
+    ├── GAS / Sheets
+    │   ├── Google Apps Script
+    │   ├── SpreadsheetApp
+    │   └── DriveApp
+    ├── Firebase
+    │   ├── Realtime DB
+    │   ├── Auth
+    │   └── Signaling
+    ├── Rust Agent
+    │   ├── GPU Local
+    │   ├── DLLs
+    │   ├── Files
+    │   └── MCP Tools
+    └── APIs Externas
+        ├── Gemini
+        ├── Claude
+        └── Stripe
 ```
 
 ---
 
 ## 2. 🦀 Mapa Mental: Rust Agent
 
-```mermaid
-mindmap
-  root(("🦀 RUST AGENT"))
-    ("Papel")
-      "Cache Manager"
-      "Package Manager"
-      "MCP Server"
-      "Hardware Bridge"
-    ("Capacidades")
-      "GPU"
-        "CUDA NVIDIA"
-        "ROCm AMD"
-        "Metal Apple"
-        "WebGPU"
-      "Files"
-        "Read / Write"
-        "Watch Folder"
-        "Compress"
-      "DLLs"
-        "MetaTrader"
-        "ProfitChart"
-        "Drivers"
-      "Automation"
-        "Mouse / Keyboard"
-        "OCR"
-        "Overlay HUD"
-      "Network"
-        "Proxy Pool"
-        "VPN"
-        "IP Rotation"
-    ("Comunicação")
-      "Firebase Signaling"
-        "command_queue"
-        "response_stream"
-        "heartbeat"
-    ("Updates")
-      "Self-Update"
-      "Module Cache"
-      "Extension Install"
-    ("Segurança")
-      "Assinatura Digital"
-      "Permissions"
-      "Kill Switch"
+```text
+🦀 RUST AGENT
+├── (Papel)
+│   ├── Cache Manager
+│   ├── Package Manager
+│   ├── MCP Server
+│   └── Hardware Bridge
+├── (Capacidades)
+│   ├── GPU
+│   │   ├── CUDA NVIDIA
+│   │   ├── ROCm AMD
+│   │   ├── Metal Apple
+│   │   └── WebGPU
+│   ├── Files
+│   │   ├── Read / Write
+│   │   ├── Watch Folder
+│   │   └── Compress
+│   ├── DLLs
+│   │   ├── MetaTrader
+│   │   ├── ProfitChart
+│   │   └── Drivers
+│   ├── Automation
+│   │   ├── Mouse / Keyboard
+│   │   ├── OCR
+│   │   └── Overlay HUD
+│   └── Network
+│       ├── Proxy Pool
+│       ├── VPN
+│       └── IP Rotation
+├── (Comunicação)
+│   └── Firebase Signaling
+│       ├── command_queue
+│       ├── response_stream
+│       └── heartbeat
+├── (Updates)
+│   ├── Self-Update
+│   ├── Module Cache
+│   └── Extension Install
+└── (Segurança)
+    ├── Assinatura Digital
+    ├── Permissions
+    └── Kill Switch
 ```
 
 ---
 
 ## 3. 📜 Mapa Mental: GAS Backend
 
-```mermaid
-mindmap
-  root(("📜 GAS BACKEND"))
-    ("Core Services")
-      "Authentication"
-        "OAuth Google"
-        "Token Validation"
-        "Multi-tenant"
-      "Data Storage"
-        "Spreadsheet API"
-        "CRUD Operations"
-        "Ghost Cells"
-      "Webhooks"
-        "Kiwify"
-        "Hotmart"
-        "Stripe"
-    ("Chapéus e Domains")
-      "FINANCE"
-        "Wallet - Voltímetro"
-        "Fiat - Gateways"
-        "Crypto - Blockchain"
-      "STORE"
-        "Registry - Catálogo"
-        "Sales - Comissão"
-      "AUTOMATION"
-        "Bots - Farms"
-    ("Dispatcher Core")
-      "Entry Point Unico"
-      "Roteamento Seguro"
-      "Config Global"
-    ("Integrações Nativas")
-      "Gmail"
-      "Calendar"
-      "Drive"
-      "Maps"
-      "YouTube"
-    ("Quotas")
-      "6 min por execução"
-      "90 min por dia free"
-      "Trigger automático"
+```text
+📜 GAS BACKEND
+├── (Core Services)
+│   ├── Authentication
+│   │   ├── OAuth Google
+│   │   ├── Token Validation
+│   │   └── Multi-tenant
+│   ├── Data Storage
+│   │   ├── Spreadsheet API
+│   │   ├── CRUD Operations
+│   │   └── Ghost Cells
+│   └── Webhooks
+│       ├── Kiwify
+│       ├── Hotmart
+│       └── Stripe
+├── (Chapéus e Domains)
+│   ├── FINANCE
+│   │   ├── Wallet - Voltímetro
+│   │   ├── Fiat - Gateways
+│   │   └── Crypto - Blockchain
+│   ├── STORE
+│   │   ├── Registry - Catálogo
+│   │   └── Sales - Comissão
+│   └── AUTOMATION
+│       └── Bots - Farms
+├── (Dispatcher Core)
+│   ├── Entry Point Unico
+│   ├── Roteamento Seguro
+│   └── Config Global
+├── (Integrações Nativas)
+│   ├── Gmail
+│   ├── Calendar
+│   ├── Drive
+│   ├── Maps
+│   └── YouTube
+└── (Quotas)
+    ├── 6 min por execução
+    ├── 90 min por dia free
+    └── Trigger automático
 ```
 
 ---
 
 ## 4. 🔥 Mapa Mental: Firebase Colmeia
 
-```mermaid
-mindmap
-  root(("🔥 FIREBASE"))
-    ("Core Zone")
-      "version"
-      "status"
-      "announcements"
-    ("Células")
-      "Developer Cell"
-        "profile"
-        "sandbox"
-        "modules_in_dev"
-        "published_modules"
-        "quotas"
-      "Client Cell"
-        "profile"
-        "sandbox"
-        "installed_modules"
-        "data PRIVADO"
-        "quotas"
-    ("Signaling")
-      "command_queue"
-      "response_stream"
-      "agent_status"
-    ("Security")
-      "Cell Isolation"
-      "Auth Rules"
-      "Rate Limiting"
-      "Schema Validation"
-    ("Multi-Project")
-      "Core Project"
-      "Dev Sandbox"
-      "Telemetry"
+```text
+🔥 FIREBASE
+├── (Core Zone)
+│   ├── version
+│   ├── status
+│   └── announcements
+├── (Células)
+│   ├── Developer Cell
+│   │   ├── profile
+│   │   ├── sandbox
+│   │   ├── modules_in_dev
+│   │   ├── published_modules
+│   │   └── quotas
+│   └── Client Cell
+│       ├── profile
+│       ├── sandbox
+│       ├── installed_modules
+│       ├── data PRIVADO
+│       └── quotas
+├── (Signaling)
+│   ├── command_queue
+│   ├── response_stream
+│   └── agent_status
+├── (Security)
+│   ├── Cell Isolation
+│   ├── Auth Rules
+│   ├── Rate Limiting
+│   └── Schema Validation
+└── (Multi-Project)
+    ├── Core Project
+    ├── Dev Sandbox
+    └── Telemetry
 ```
 
 ---
 
 ## 5. 🔌 Mapa Mental: SDK Modular (Slots)
 
-```mermaid
-mindmap
-  root(("🔌 SDK SLOTS"))
-    ("Core Protegido")
-      "Panda.use"
-      "Panda.on/emit"
-      "Panda.version"
-      "Sandbox"
-      "Validation"
-    ("Slot Data")
-      "Default: Sheets"
-      "Adapters"
-        "MongoDB"
-        "PostgreSQL"
-        "Supabase"
-        "IndexedDB"
-    ("Slot Brain")
-      "Default: Gemini"
-      "Adapters"
-        "Claude"
-        "GPT-4"
-        "Local Llama"
-        "DeepSeek"
-    ("Slot GPU")
-      "Default: Cloud"
-      "Adapters"
-        "CUDA Direct"
-        "ROCm"
-        "WebGPU"
-    ("Slot Render")
-      "Default: Nenhum"
-      "Adapters"
-        "Three.js"
-        "Babylon"
-        "PixiJS"
-    ("Slot Network")
-      "Default: Fetch"
-      "Adapters"
-        "ProxyPool"
-        "VPN Client"
-    ("Slot Audio")
-      "Default: Nenhum"
-      "Adapters"
-        "Howler.js"
-        "ElevenLabs"
+```text
+🔌 SDK SLOTS
+├── (Core Protegido)
+│   ├── Panda.use
+│   ├── Panda.on/emit
+│   ├── Panda.version
+│   ├── Sandbox
+│   └── Validation
+├── (Slot Data)
+│   ├── Default: Sheets
+│   └── Adapters
+│       ├── MongoDB
+│       ├── PostgreSQL
+│       ├── Supabase
+│       └── IndexedDB
+├── (Slot Brain)
+│   ├── Default: Gemini
+│   └── Adapters
+│       ├── Claude
+│       ├── GPT-4
+│       ├── Local Llama
+│       └── DeepSeek
+├── (Slot GPU)
+│   ├── Default: Cloud
+│   └── Adapters
+│       ├── CUDA Direct
+│       ├── ROCm
+│       └── WebGPU
+├── (Slot Render)
+│   ├── Default: Nenhum
+│   └── Adapters
+│       ├── Three.js
+│       ├── Babylon
+│       └── PixiJS
+├── (Slot Network)
+│   ├── Default: Fetch
+│   └── Adapters
+│       ├── ProxyPool
+│       └── VPN Client
+└── (Slot Audio)
+    ├── Default: Nenhum
+    └── Adapters
+        ├── Howler.js
+        └── ElevenLabs
 ```
 
 ---
 
 ## 6. 🔄 Fluxo de Dados Completo
 
-```mermaid
-flowchart TB
-    subgraph DEV["👨‍💻 Desenvolvedor"]
-        CODE[Código do Dev]
-        CODE --> CALL["Panda.Data.save()"]
-    end
-
-    subgraph SDK["🎯 PANDA SDK (Tradutor)"]
-        CALL --> ROUTER{Router}
-        ROUTER -->|"Online + Rust"| RUST_PATH
-        ROUTER -->|"Online, no Rust"| GAS_PATH
-        ROUTER -->|"Offline"| CACHE_PATH
-    end
-
-    subgraph RUST_PATH["🦀 Via Rust"]
-        RUST[Rust Agent]
-        RUST --> LOCAL_DB[(Cache Local)]
-        RUST --> GPU[GPU Process]
-        RUST --> DLL[DLLs]
-        RUST -->|Sync| FIREBASE
-    end
-
-    subgraph GAS_PATH["📜 Via GAS (DDD)"]
-        DISPATCHER[Dispatcher Core]
-        DOMAINS{"Chapéus / Domains"}
-        SHEETS[(Google Sheets)]
-
-        DISPATCHER -->|Roteia| DOMAINS
-        DOMAINS -->|Finance/Store| SHEETS
-    end
-
-    subgraph CACHE_PATH["💾 Offline"]
-        IDB[(IndexedDB)]
-        IDB -->|Quando online| SYNC[Sync Queue]
-    end
-
-    subgraph FIREBASE["🔥 Firebase"]
-        FB_CELL[Célula do User]
-        FB_SIGNAL[Signaling]
-    end
-
-    RUST_PATH --> FIREBASE
-    GAS_PATH --> FIREBASE
-    CACHE_PATH --> SYNC --> GAS_PATH
+```text
+👨‍💻 DEV (Code) --> 🎯 SDK (Router)
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+      🦀 RUST        📜 GAS      💾 CACHE
+      (Local)       (Cloud)     (Offline)
+         │             │           │
+         ▼             ▼           ▼
+    ⚡ Hardware    ☁️ Sheets    🔄 Sync Queue
+    (GPU/DLLs)    (Drive)
+         │             │           │
+         └─────────────┼───────────┘
+                       ▼
+                  🔥 FIREBASE
+                  (Signaling + Células)
 ```
 
 ---
