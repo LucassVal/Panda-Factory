@@ -59,7 +59,102 @@
 
 ---
 
+### 1.1. Detalhe do Hub Central (SDK)
+
+```text
+🐼 PANDA SDK
+├── (Dev chama)
+│   ├── Panda.Data.save
+│   ├── Panda.Brain.chat
+│   ├── Panda.Bridge.execute
+│   └── Panda.GPU.process
+└── (SDK traduz para)
+    ├── GAS / Sheets
+    │   ├── Google Apps Script
+    │   ├── SpreadsheetApp
+    │   └── DriveApp
+    ├── Firebase
+    │   ├── Realtime DB
+    │   ├── Auth
+    │   └── Signaling
+    ├── Rust Agent
+    │   ├── GPU Local
+    │   ├── DLLs
+    │   ├── Files
+    │   └── MCP Tools
+    └── APIs Externas
+        ├── Gemini
+        ├── Claude
+        └── Stripe
+```
+
+### 1.2. Fluxo de Dados Completo
+
+```text
+👨‍💻 DEV (Code) --> 🎯 SDK (Router)
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+      🦀 RUST        📜 GAS      💾 CACHE
+      (Local)       (Cloud)     (Offline)
+         │             │           │
+         ▼             ▼           ▼
+    ⚡ Hardware    ☁️ Sheets    🔄 Sync Queue
+    (GPU/DLLs)    (Drive)
+         │             │           │
+         └─────────────┼───────────┘
+                       ▼
+                  🔥 FIREBASE
+                  (Signaling + Células)
+```
+
+---
+
 ## 2. Rust Agent (Obrigatório)
+
+```text
+🦀 RUST AGENT
+├── (Papel)
+│   ├── Cache Manager
+│   ├── Package Manager
+│   ├── MCP Server
+│   └── Hardware Bridge
+├── (Capacidades)
+│   ├── GPU
+│   │   ├── CUDA NVIDIA
+│   │   ├── ROCm AMD
+│   │   ├── Metal Apple
+│   │   └── WebGPU
+│   ├── Files
+│   │   ├── Read / Write
+│   │   ├── Watch Folder
+│   │   └── Compress
+│   ├── DLLs
+│   │   ├── MetaTrader
+│   │   ├── ProfitChart
+│   │   └── Drivers
+│   ├── Automation
+│   │   ├── Mouse / Keyboard
+│   │   ├── OCR
+│   │   └── Overlay HUD
+│   └── Network
+│       ├── Proxy Pool
+│       ├── VPN
+│       └── IP Rotation
+├── (Comunicação)
+│   └── Firebase Signaling
+│       ├── command_queue
+│       ├── response_stream
+│       └── heartbeat
+├── (Updates)
+│   ├── Self-Update
+│   ├── Module Cache
+│   └── Extension Install
+└── (Segurança)
+    ├── Assinatura Digital
+    ├── Permissions
+    └── Kill Switch
+```
 
 ### Por que Rust é Obrigatório?
 
@@ -414,6 +509,52 @@ O SDK funciona como um **processador com slots de expansão**. O Core é rígido
 #### Arquitetura de Slots
 
 ```text
+🔌 SDK SLOTS
+├── (Core Protegido)
+│   ├── Panda.use
+│   ├── Panda.on/emit
+│   ├── Panda.version
+│   ├── Sandbox
+│   └── Validation
+├── (Slot Data)
+│   ├── Default: Sheets
+│   └── Adapters
+│       ├── MongoDB
+│       ├── PostgreSQL
+│       ├── Supabase
+│       └── IndexedDB
+├── (Slot Brain)
+│   ├── Default: Gemini
+│   └── Adapters
+│       ├── Claude
+│       ├── GPT-4
+│       ├── Local Llama
+│       └── DeepSeek
+├── (Slot GPU)
+│   ├── Default: Cloud
+│   └── Adapters
+│       ├── CUDA Direct
+│       ├── ROCm
+│       └── WebGPU
+├── (Slot Render)
+│   ├── Default: Nenhum
+│   └── Adapters
+│       ├── Three.js
+│       ├── Babylon
+│       └── PixiJS
+├── (Slot Network)
+│   ├── Default: Fetch
+│   └── Adapters
+│       ├── ProxyPool
+│       └── VPN Client
+├── (Slot Audio)
+│   ├── Default: Nenhum
+│   └── Adapters
+│       ├── Howler.js
+│       └── ElevenLabs
+```
+
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    PANDA SDK (Core Protegido)               │
 │                    "A Motherboard Blindada"                 │
@@ -603,6 +744,47 @@ Panda.Render.animate(() => scene.render());
 
 ## 4. GAS Backend (Google Apps Script)
 
+```text
+📜 GAS BACKEND
+├── (Core Services)
+│   ├── Authentication
+│   │   ├── OAuth Google
+│   │   ├── Token Validation
+│   │   └── Multi-tenant
+│   ├── Data Storage
+│   │   ├── Spreadsheet API
+│   │   ├── CRUD Operations
+│   │   └── Ghost Cells
+│   └── Webhooks
+│       ├── Kiwify
+│       ├── Hotmart
+│       └── Stripe
+├── (Chapéus e Domains)
+│   ├── FINANCE
+│   │   ├── Wallet - Voltímetro
+│   │   ├── Fiat - Gateways
+│   │   └── Crypto - Blockchain
+│   ├── STORE
+│   │   ├── Registry - Catálogo
+│   │   ├── Sales - Comissão
+│   └── AUTOMATION
+│       └── Bots - Farms
+├── (Dispatcher Core)
+│   ├── Entry Point Unico
+│   ├── Roteamento Seguro
+│   └── Config Global
+├── (Integrações Nativas)
+│   ├── Gmail
+│   ├── Calendar
+│   ├── Drive
+│   ├── Maps
+│   └── YouTube
+└── (Quotas)
+    ├── 6 min por execução
+    ├── 90 min por dia free
+    └── Trigger automático
+```
+
 ### Papel do GAS
 
 O GAS é o **"Cérebro na Nuvem"** para operações que precisam de:
@@ -703,6 +885,40 @@ Instaláveis via Store para quem precisa:
 O Firebase é estruturado como uma **colmeia** onde cada dev/tenant tem sua célula isolada. Isso protege contra ataques e permite que devs testem e publiquem seus módulos.
 
 #### Estrutura Colmeia
+
+```text
+🔥 FIREBASE
+├── (Core Zone)
+│   ├── version
+│   ├── status
+│   └── announcements
+├── (Células)
+│   ├── Developer Cell
+│   │   ├── profile
+│   │   ├── sandbox
+│   │   ├── modules_in_dev
+│   │   ├── published_modules
+│   │   └── quotas
+│   └── Client Cell
+│       ├── profile
+│       ├── sandbox
+│       ├── installed_modules
+│       ├── data PRIVADO
+│       └── quotas
+├── (Signaling)
+│   ├── command_queue
+│   ├── response_stream
+│   └── agent_status
+├── (Security)
+│   ├── Cell Isolation
+│   ├── Auth Rules
+│   ├── Rate Limiting
+│   └── Schema Validation
+└── (Multi-Project)
+    ├── Core Project
+    ├── Dev Sandbox
+    └── Telemetry
+```
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -1328,6 +1544,47 @@ panda-registry/
 
 ---
 
+### 8.1. Camadas de Segurança (Overview)
+
+```text
+LAYER 1: FRONTEND
+├── SDK Proxy (Isolamento)
+└── Input Validation
+
+      │
+      ▼
+
+LAYER 2: TRANSPORTE
+├── HTTPS Only
+└── Firebase Auth (Token)
+
+      │
+      ▼
+
+LAYER 3: BACKEND
+├── Cell Isolation (Multi-tenant)
+├── Rate Limiting
+└── Schema Validation
+
+      │
+      ▼
+
+LAYER 4: RUST AGENT (HARDWARE)
+├── Assinatura Digital (Check)
+├── Adapter Sandbox
+└── Permissions Pop-up (User Allow)
+
+      │
+      ▼
+
+LAYER 5: ADMIN
+├── Audit Logging
+├── Kill Switch Remoto
+└── Revogação Instantânea
+```
+
+---
+
 ## 9. Fluxo de Onboarding
 
 ```text
@@ -1431,6 +1688,35 @@ A Store é o **coração econômico** do ecossistema Panda. Ela permite que dese
 2. **Monetizem** através de vendas diretas ou `energy_fee`
 3. **Integrem** com Kiwify/Hotmart para vender bundles
 4. **Ganhem** como afiliados indicando outros devs
+
+### 11.1. Fluxo: Dev → Store → Cliente
+
+```text
+[👨‍💻 DEV]
+   │
+   ├── (1) Desenvolve
+   │
+   ▼
+[📦 CÉLULA DEV]
+   │
+   ├── (2) Testa Módulo
+   │
+   ▼
+[🏪 STORE]
+   │
+   ├── (3) Review Automático
+   ├── (4) Assinatura Digital
+   │
+   ▼
+[👤 CLIENTE]
+   │
+   ├── (5) Compra (Panda Coins) --> [💰 RECEITA 70% Dev / 30% Panda]
+   ├── (6) Cache Local (Rust)
+   │
+   ▼
+[🐼 PANDA FACTORY]
+   └── Roda Módulo Assinado
+```
 
 ### Arquitetura da Store (Já Implementada)
 
@@ -1593,7 +1879,7 @@ Quando um módulo precisa de capacidades locais (GPU, DLL, arquivos):
 
 ### Estrutura Proposta para Wiki
 
-```text
+````text
 📁 docs/
 ├── getting-started.md       # Quick Start
 ├── sdk/
@@ -1601,18 +1887,43 @@ Quando um módulo precisa de capacidades locais (GPU, DLL, arquivos):
 │   ├── data.md             # Panda.Data
 │   ├── bridge.md           # Panda.Bridge (Rust)
 │   └── brain.md            # Panda.Brain (IA)
+
+---
+
+## 13. 📊 Resumo Visual Completo
+
+```text
+    [🖥️ FRONTEND]              [☁️ BACKEND]              [🌐 EXTERNOS]
+
+    Panda UI ─────────────────► GAS (DDD) ───────────► Gemini API
+       │                           │                   GitHub Store
+       ▼                           ▼                   Webhooks
+    SDK JS ══════════════════► Firebase
+       │                           ▲
+       │ (WebSocket/Http)          │ (Sync)
+       ▼                           │
+    [🖥️ LOCAL PC]                  │
+                                   │
+    🦀 RUST AGENT ═════════════════╝
+       │
+       ├── GPU Process (CUDA/Metal)
+       ├── Cache Local (Files)
+       └── DLLs (Drivers)
+````
+
 ├── store/
-│   ├── publishing.md       # Como publicar módulo
-│   ├── monetization.md     # Modelos de ganho
-│   └── webhooks.md         # Kiwify/Hotmart
+│ ├── publishing.md # Como publicar módulo
+│ ├── monetization.md # Modelos de ganho
+│ └── webhooks.md # Kiwify/Hotmart
 ├── rust-agent/
-│   ├── installation.md     # Setup
-│   ├── mcp.md              # Model Context Protocol
-│   └── extensions.md       # Criar extensões Rust
+│ ├── installation.md # Setup
+│ ├── mcp.md # Model Context Protocol
+│ └── extensions.md # Criar extensões Rust
 └── templates/
-    ├── hello-world.zip     # Módulo de exemplo
-    └── rust-extension.zip  # Extensão Rust de exemplo
-```
+├── hello-world.zip # Módulo de exemplo
+└── rust-extension.zip # Extensão Rust de exemplo
+
+````
 
 ---
 
@@ -1678,7 +1989,7 @@ Quando um módulo precisa de capacidades locais (GPU, DLL, arquivos):
 │
 ├── PandaFactory.html              # Entry point
 └── appsscript.json
-```
+````
 
 ### Estrutura GitHub (Repositórios)
 
