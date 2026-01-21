@@ -5,7 +5,7 @@
 **Sistema operacional modular para desenvolvedores.** Infraestrutura Google simplificada, IA integrada, marketplace de módulos.
 
 > [!TIP]
-> **v4.0.0:** Arquitetura PF completa, Rust Agent MCP+RIG, Multi-User, Token Billing. [Ver Changelog](#changelog)
+> **v4.0.0:** Arquitetura PF completa, Rust Agent MCP+RIG, Multi-User, Token Billing. [Ver Changelog](#-changelog)
 
 ---
 
@@ -17,26 +17,18 @@
 | ------------------------- | --------------------------------- | ----------------------------------------------------------- |
 | **📖 Arquitetura Mestre** | Documento completo (~2300 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
 
-### Navegação Rápida
+### Navegação Rápida (Hierarquia Visual)
 
-| Seção               | Conteúdo                         | Ir para                                   |
-| ------------------- | -------------------------------- | ----------------------------------------- |
-| 🎯 **Visão Geral**  | O que é o Panda Factory          | [#visão-geral](#-visão-geral)             |
-| 🏗️ **Arquitetura**  | Hub + Descentralizado            | [#arquitetura](#️-arquitetura)             |
-| 🦀 **Rust Agent**   | MCP, RIG, GPU, Multi-User        | [#rust-agent](#-rust-agent)               |
-| 📜 **Panda SDK**    | Slots, Adapters, Core Protection | [#panda-sdk](#-panda-sdk)                 |
-| 📜 **GAS Backend**  | Serverless, Multi-tenant         | [#gas-backend](#-gas-backend)             |
-| 🔥 **Firebase**     | Colmeia, Cells, Signaling        | [#firebase](#-firebase)                   |
-| 🏪 **Store**        | Módulos, Dev Split, Pricing      | [#store](#-store)                         |
-| 💰 **Economia**     | Tokens, Planos, Billing          | [#economia](#-economia)                   |
-| 🏷️ **Convenção PF** | Prefixos, Nomes, Estrutura       | [#convenção-pf](#️-convenção-pf)           |
-| 🚀 **Roadmap**      | 12 semanas de implementação      | [#roadmap](#-roadmap)                     |
-| 🔒 **Segurança**    | Zero-Knowledge, Proteções        | [#segurança](#-segurança--zero-knowledge) |
-| 🚀 **Onboarding**   | The Gate, Trial Mode             | [#onboarding](#-onboarding-the-gate)      |
-| 🤖 **Automação**    | Bots, IP Rotation, HUD           | [#automação](#-automação--bot-services)   |
-| 🤝 **Afiliados**    | Revenue Share Perpétuo           | [#afiliados](#-programa-de-afiliados)     |
-| 🔐 **Open Core**    | GitHub, Fork Protection          | [#open-core](#-open-core-github)          |
-| 📋 **Changelog**    | Histórico de versões             | [#changelog](#-changelog)                 |
+| Camada              | Conteúdo                    | Ir para                                         |
+| ------------------- | --------------------------- | ----------------------------------------------- |
+| 🎯 **Visão Geral**  | O que é o Panda Factory     | [#visão-geral](#-visão-geral)                   |
+| 🎨 **Frontend**     | UI, Docks e Layout          | [#frontend](#-camada-frontend)                  |
+| 📜 **SDK**          | Abstração e Slots           | [#panda-sdk](#-camada-sdk-panda-sdk)            |
+| 🦀 **Backend Rust** | Agent, MCP, GPU, Onboarding | [#rust-agent](#-backend-pilar-1-rust-agent)     |
+| 🔥 **Backend Fire** | Colmeia, Signaling          | [#firebase](#-backend-pilar-2-firebase-colmeia) |
+| 📜 **Backend GAS**  | Serverless, DDD             | [#gas-backend](#-backend-pilar-3-gas-backend)   |
+| 🌍 **Ecossistema**  | Store, Coin, Afiliados      | [#ecossistema](#-ecossistema-de-negócio)        |
+| 🚀 **Roadmap**      | Cronograma de 12 semanas    | [#roadmap](#-roadmap)                           |
 
 ---
 
@@ -78,13 +70,15 @@
 ⭐ Rust é INFRAESTRUTURA (Cache, GPU, MCP) + CÉREBRO (RIG Multi-Provider)
 ```
 
-📖 **Detalhes:** [Seção 1 - Arquitetura](docs/PF_MASTER_ARCHITECTURE.md#1-visão-geral-da-arquitetura)
+📖 **Detalhes:** [Seção 1 - Arquitetura](docs/PF_MASTER_ARCHITECTURE.md#1-visão-geral)
 
 ---
 
-## 🏗️ Arquitetura
+## 🎨 Camada Frontend
 
-### Hub Central + Descentralizado
+A interface do usuário do Panda OS, focada em "Docks" e modularidade.
+
+### 🏗️ Arquitetura Web
 
 | Centralizado (Panda) | Descentralizado (Cliente) |
 | -------------------- | ------------------------- |
@@ -92,20 +86,7 @@
 | Panda Coins (Ledger) | Drive Storage             |
 | Store/Registry       | Processamento             |
 
-### Componentes Principais
-
-| Componente      | Função                      | Tecnologia         |
-| --------------- | --------------------------- | ------------------ |
-| **Rust Agent**  | Cache, GPU, MCP, Multi-User | Rust + Tauri       |
-| **Panda SDK**   | Tradutor universal          | JavaScript         |
-| **GAS Backend** | Serverless                  | Google Apps Script |
-| **Firebase**    | Signaling, Cells            | Realtime DB        |
-
-📖 **Detalhes:** [Seções 1-4](docs/PF_MASTER_ARCHITECTURE.md#1-visão-geral-da-arquitetura)
-
-### 📁 Estrutura de Pastas (Web/Client + Backend DDD)
-
-> **Nota:** Organização client-side e backend (GAS) unificada.
+### 📁 Estrutura de Pastas Client
 
 ```text
 📁 PandaFactory/
@@ -113,75 +94,14 @@
 ├── 📁 js/
 │   ├── 📁 kernel/                # Event Bus & Loader
 │   └── 📁 ui/                    # Controllers de Interface
-├── 📁 backend/                   # Google Apps Script (DDD)
-│   ├── 📁 core/                  # Dispatcher & Config
-│   └── 📁 domains/               # "Chapéus" de Negócio
-│       ├── 📁 finance/           # Wallet, Fiat, Crypto
-│       ├── 📁 store/             # Registry, Sales
-│       └── 📁 automation/        # Bots, Farms
-└── README.md
+└── PandaFactory.html             # Entry Point
 ```
 
 ---
 
-## 🦀 Rust Agent
+## 📜 Camada SDK (Panda SDK)
 
-O motor local que roda no PC do cliente.
-
-### Funcionalidades
-
-| Feature           | Descrição                                        |
-| ----------------- | ------------------------------------------------ |
-| **MCP Tools**     | fs_read, fs_write, gpu_check, notify, automation |
-| **RIG Framework** | Multi-provider (Gemini, Claude, OpenAI)          |
-| **Token Meter**   | Contagem e billing por provider                  |
-| **Multi-User**    | Sessões isoladas por usuário                     |
-| **Self-Update**   | Atualização automática                           |
-| **GPU Detection** | NVIDIA CUDA, AMD ROCm, Intel, Apple Metal        |
-
-### 17.6 GPU Detection Flow & Economy
-
-```mermaid
-graph TD
-    A[Site carrega] -->|Conecta ws://localhost:9999| B{Agent conectado?}
-    B -->|SIM| C[Panda.Agent.execute 'check_gpu']
-    C -->|GPU detectada| D[LOCAL MODE 0 PC]
-    D --> E[NVIDIA/AMD/Apple Metal]
-    C -->|Sem GPU| F[CLOUD MODE 30 PC/h]
-
-    B -->|NÃO| G[Fallback Cloud 30 PC/h]
-```
-
-### Modal de Economia
-
-```text
-┌─────────────────────────────────────────┐
-│ 🖥️ GPU Detectada: NVIDIA RTX 3080      │
-│ ⚡ Modo: LOCAL (0 tokens/hora)          │
-│ 💰 Economia estimada: 720 PC/dia       │
-└─────────────────────────────────────────┘
-```
-
-### MCP Tools Disponíveis
-
-```rust
-enum McpTool {
-    FsRead, FsWrite, FsList,      // Filesystem
-    GpuCheck, GpuProcess,          // GPU
-    Notify, Clipboard,             // System
-    MouseMove, KeyboardType,       // Automation
-    ScreenCapture, OcrRegion,      // Vision
-    OverlayShow, OverlayHide,      // HUD
-}
-```
-
-📖 **Detalhes:** [Seção 17 - Rust Deep Dive](docs/PF_MASTER_ARCHITECTURE.md#17--rust-agent-deep-dive---mcp--rig--multi-user)
-
----
-
-## 📜 Panda SDK
-
-O "colchão" que abstrai toda a complexidade.
+O "colchão" que abstrai toda a complexidade e conecta o Frontend aos Backends (Rust, GAS, APIs).
 
 ### Slots Modulares
 
@@ -193,7 +113,7 @@ O "colchão" que abstrai toda a complexidade.
 | **Render**  | -             | Three.js, Babylon, PixiJS     |
 | **Network** | Fetch         | Proxy Pool, VPN               |
 
-### Uso
+### Exemplo de Uso
 
 ```javascript
 // Simples assim:
@@ -202,56 +122,59 @@ Panda.Brain.chat('Analise isso');
 Panda.Bridge.execute('gpu_process', {...});
 ```
 
-📖 **Detalhes:** [Seção 3 - SDK](docs/PF_MASTER_ARCHITECTURE.md#3-camada-2-panda-sdk-abstração)
+📖 **Detalhes:** [Seção 3 - SDK](docs/PF_MASTER_ARCHITECTURE.md#3-camada-de-abstração-panda-sdk)
 
 ---
 
-## 📜 GAS Backend
+## 🦀 Backend Pilar 1: Rust Agent
 
-Backend serverless usando Google Apps Script.
+O motor local que roda no PC do cliente. Obrigatório para Privacy-First.
 
-### Services
+### Funcionalidades Core
 
-| Service              | Função               |
-| -------------------- | -------------------- |
-| **PF_Core_Auth**     | Login, OAuth, Tokens |
-| **PF_Core_Database** | CRUD Sheets/Drive    |
-| **PF_Core_Wallet**   | Panda Coins (Ledger) |
-| **PF_Core_Billing**  | Quotas, Cobrança     |
-| **PF_Core_Monitor**  | Tracking de uso      |
+| Feature           | Descrição                                        |
+| ----------------- | ------------------------------------------------ |
+| **MCP Tools**     | fs_read, fs_write, gpu_check, notify, automation |
+| **RIG Framework** | Multi-provider (Gemini, Claude, OpenAI)          |
+| **Token Meter**   | Contagem e billing por provider                  |
+| **Multi-User**    | Sessões isoladas por usuário                     |
+| **Self-Update**   | Atualização automática                           |
+| **GPU Detection** | NVIDIA CUDA, AMD ROCm, Intel, Apple Metal        |
 
-### Multi-Tenant
-
-> **Definição Ghost Cells:** Planilhas onde o cliente vê apenas seus dados, mas o sistema vê todos.
+### 🚀 Onboarding (The Gate)
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                    ESTRUTURA MULTI-TENANT                       │
-├─────────────────────────────────────────────────────────────────┤
-│  TENANT (Loja/Empresa)                                          │
-│  ├── config.json          → Configurações específicas           │
-│  ├── users/               → Multi-usuário por tenant            │
-│  │   ├── user_001.json                                          │
-│  │   └── user_002.json                                          │
-│  ├── modules/             → Módulos ativados                    │
-│  │   ├── fiscal/          → NFe, NFCe, SPED                     │
-│  │   ├── crm/             → Clientes, Leads                     │
-│  │   └── store/           → Produtos, Estoque                   │
-│  └── data/                → Planilhas com Ghost Cells           │
-│      ├── clientes.sheet   → [ID, Nome, ..., __ghost__]          │
-│      └── vendas.sheet     → [ID, Data, ..., __ghost__]          │
-└─────────────────────────────────────────────────────────────────┘
+1. Cadastro Web → 2. The Gate → 3. Download → 4. Desbloqueio
 ```
 
-Cada cliente tem dados isolados em sua própria planilha.
+> **Sem trial.** O Agent é o coração do sistema (Open Source e Auditável).
 
-📖 **Detalhes:** [Seção 4 - GAS](docs/PF_MASTER_ARCHITECTURE.md#4-camada-3-gas-backend-serverless)
+### 🤖 Automação & Bot Services
+
+100% **client-side** - Panda não vê o que você faz.
+
+| Capability         | Uso                                  |
+| ------------------ | ------------------------------------ |
+| **IP Rotation**    | Proxy Pool, WireGuard VPN (Anti-ban) |
+| **Fingerprinting** | Multi-account isolado                |
+| **Overlay HUD**    | Dashboard transparente sobre games   |
+| **Automation**     | Mouse, Keyboard, OCR                 |
+
+### 🔐 Open Core (GitHub Strategy)
+
+| Aspecto          | Detalhe                              |
+| ---------------- | ------------------------------------ |
+| **Repo Público** | `panda-core` - Código auditável      |
+| **Repo Privado** | `panda-proprietary` - Lógica secreta |
+| **Fork**         | Build não-oficial = Não inicia       |
+
+📖 **Detalhes:** [Seção 4 - Rust Agent](docs/PF_MASTER_ARCHITECTURE.md#4-backend-pilar-1-rust-agent-hardware)
 
 ---
 
-## 🔥 Firebase
+## 🔥 Backend Pilar 2: Firebase Colmeia
 
-Arquitetura "Colmeia" com células isoladas.
+Arquitetura "Colmeia" com células isoladas. Usado apenas para **Signaling** (Sinalização em Tempo Real).
 
 ### Estrutura
 
@@ -265,63 +188,79 @@ Arquitetura "Colmeia" com células isoladas.
 }
 ```
 
-### Uso
-
-| Função        | Path                         |
-| ------------- | ---------------------------- |
-| **Signaling** | `/cells/{uid}/command_queue` |
-| **Status**    | `/cells/{uid}/agent_status`  |
-| **Usage**     | `/cells/{uid}/usage/{date}`  |
-
-📖 **Detalhes:** [Seção 4.2 - Firebase Colmeia](docs/PF_MASTER_ARCHITECTURE.md#42-firebase-colmeia)
+📖 **Detalhes:** [Seção 5 - Firebase](docs/PF_MASTER_ARCHITECTURE.md#5-backend-pilar-2-firebase-colmeia-signaling)
 
 ---
 
-## 🏪 Store
+## 📜 Backend Pilar 3: GAS Backend
 
-Marketplace de módulos para desenvolvedores.
+Backend serverless usando Google Apps Script. Cérebro Lógico e Persistência.
 
-### Modelos de Monetização
+### Estrutura de Pastas DDD
 
-| Modelo              | Split                | Descrição                 |
-| ------------------- | -------------------- | ------------------------- |
-| **Grátis + Energy** | 70% Dev / 30% Panda  | Dev ganha % sobre consumo |
-| **Venda Direta**    | Dev define preço     | Compra com Panda Coins    |
-| **Bundle Externo**  | 50% desconto atacado | Via Hotmart/Kiwify        |
-
-### Fluxo Dev → Store → Cliente
-
-```
-Dev → Desenvolve → Submete → Review → Publica
-Cliente → Navega → Compra (PC) → Instala → Usa
+```text
+📁 backend/                   # Google Apps Script (DDD)
+├── 📁 core/                  # Dispatcher & Config
+└── 📁 domains/               # "Chapéus" de Negócio
+    ├── 📁 finance/           # Wallet, Fiat, Crypto
+    ├── 📁 store/             # Registry, Sales
+    └── 📁 automation/        # Bots, Farms
 ```
 
-📖 **Detalhes:** [Seção 7 - Comunidade](docs/PF_MASTER_ARCHITECTURE.md#7-comunidade-github--registry)
+### Multi-Tenant (Ghost Cells)
+
+> **Definição:** Planilhas onde o cliente vê apenas seus dados, mas o sistema vê todos (Ghost Cells).
+
+📖 **Detalhes:** [Seção 6 - GAS](docs/PF_MASTER_ARCHITECTURE.md#6-backend-pilar-3-gas-backend-serverless)
 
 ---
 
-## 💰 Economia
+## 🌍 Ecossistema de Negócio
 
-### Planos
+### 🏪 Store & Módulos
 
-| Plano        | Preço          | Tokens/mês | GPU Cloud  |
-| ------------ | -------------- | ---------- | ---------- |
-| **Free**     | R$ 0           | 100K       | ❌         |
-| **Starter**  | R$ 9,90/mês    | 500K       | 10 min     |
-| **Pro**      | R$ 29,90/mês   | 2M         | 60 min     |
-| **Business** | R$ 99,90/mês   | 10M        | 300 min    |
-| **Lifetime** | R$ 150 (único) | 500K/mês   | 10 min/mês |
+Marketplace onde devs publicam módulos.
 
-### Custo por Modelo
+- **Venda Direta:** Preço fixo (Panda Coins).
+- **Energy Fee:** Dev ganha % sobre consumo de API (Renda Passiva).
+- **Bundle Externo:** Integração Hotmart/Kiwify.
 
-| Modelo       | PC/1K input | PC/1K output |
-| ------------ | ----------- | ------------ |
-| Gemini Flash | 0.03        | 0.10         |
-| Claude Haiku | 0.06        | 0.30         |
-| GPT-4o-mini  | 0.04        | 0.15         |
-| Llama Local  | 0.00        | 0.00         |
+### 💰 Economia & Pricing
 
-📖 **Detalhes:** [Seção 16 - Economia](docs/PF_MASTER_ARCHITECTURE.md#16--economia--pricing)
+| Plano        | Preço          | Tokens/mês |
+| ------------ | -------------- | ---------- |
+| **Free**     | R$ 0           | 100K       |
+| **Starter**  | R$ 9,90/mês    | 500K       |
+| **Pro**      | R$ 29,90/mês   | 2M         |
+| **Lifetime** | R$ 150 (único) | 500K/mês   |
+
+### 🤝 Programa de Afiliados
+
+- **Indicação direta:** 5% sobre vendas do indicado.
+- **Perpétuo:** Ganha em TODAS as vendas futuras.
+
+📖 **Detalhes:** [Seção 8 - Ecossistema](docs/PF_MASTER_ARCHITECTURE.md#8-ecossistema-store-monetização--comunidade)
+
+---
+
+## 🚀 Roadmap
+
+### 12 Semanas para v1.0
+
+```text
+Semana:  1  2  3  4  5  6  7  8  9  10 11 12
+RUST  ═══█══█══█══┐
+SDK              └══█══█══█══┐
+FACTORY                      └══█══█══█══┐
+STORE                                    └══█══█══█
+```
+
+1. **Rust Agent** (Infra base)
+2. **PF-SDK** (Abstração)
+3. **PF-Factory** (UI/Modules)
+4. **PF-Store** (Vendas)
+
+📖 **Detalhes:** [Seção 9 - Roadmap](docs/PF_MASTER_ARCHITECTURE.md#9-roadmap-de-implementação)
 
 ---
 
@@ -336,198 +275,6 @@ Prefixos padronizados em todo o ecossistema.
 | Arquivos GAS  | `PF_`    | `PF_Core_Auth.gs`    |
 | CSS Variables | `--pf-`  | `--pf-primary`       |
 | API Pública   | `Panda.` | `Panda.Data`         |
-| Internals     | `PF.`    | `PF._cache`          |
-
-📖 **Detalhes:** [Seção 13 - Convenção](docs/PF_MASTER_ARCHITECTURE.md#13-%EF%B8%8F-convenção-de-nomes-pf-panda-fabrics)
-
----
-
-## 🚀 Roadmap
-
-### 12 Semanas para v1.0
-
-| Fase           | Semanas | Entrega                       |
-| -------------- | ------- | ----------------------------- |
-| **Rust Agent** | 1-3     | Firebase, Cache, GPU, MCP     |
-| **PF-SDK**     | 4-6     | Slots, Adapters, Offline      |
-| **PF-Factory** | 7-9     | UI Components, Modules        |
-| **PF-Store**   | 10-12   | Registry, Payments, Dashboard |
-
-```text
-Semana:  1  2  3  4  5  6  7  8  9  10 11 12
-RUST  ═══█══█══█══┐
-SDK              └══█══█══█══┐
-FACTORY                      └══█══█══█══┐
-STORE                                    └══█══█══█
-```
-
-📖 **Detalhes:** [Seção 15 - Roadmap](docs/PF_MASTER_ARCHITECTURE.md#15--roadmap-de-implementação)
-
----
-
-## 🔒 Segurança & Zero-Knowledge
-
-### Princípio Fundamental
-
-> **"A Panda Fabrics não recebe dados. Recebe apenas telemetria de consumo."**
-
-### O que o Rust ENVIA
-
-| Dado            | Permitido |
-| --------------- | --------- |
-| uptime_seconds  | ✅        |
-| energy_consumed | ✅        |
-| status          | ✅        |
-
-### O que NUNCA sai do PC
-
-| Dado                 | Bloqueado |
-| -------------------- | --------- |
-| Conteúdo de arquivos | ❌        |
-| Dados de clientes    | ❌        |
-| Screenshots          | ❌        |
-| API keys             | ❌        |
-
-### Proteções
-
-| Ataque           | Proteção                     |
-| ---------------- | ---------------------------- |
-| DDoS             | Rate limiting (1000 req/dia) |
-| Data Leakage     | Células isoladas             |
-| Malicious Module | Assinatura digital           |
-| Abuse            | Revogação instantânea        |
-
-> Agent é **Open Source** - audite em github.com/pandafabrics/panda-agent
-
-📖 **Detalhes:** [Seção 8 - Zero-Knowledge](docs/PF_MASTER_ARCHITECTURE.md#8-zero-knowledge-cloud)
-
----
-
-## 🚀 Onboarding (The Gate)
-
-### Fluxo de Cadastro
-
-```text
-1. Cadastro Web → 2. The Gate → 3. Download → 4. Desbloqueio
-```
-
-| Passo | Descrição                           |
-| ----- | ----------------------------------- |
-| **1** | Email + Senha                       |
-| **2** | Aceita termos (processamento local) |
-| **3** | Baixa Panda Agent                   |
-| **4** | Agent conecta → UI desbloqueia      |
-
-### Rust é Obrigatório
-
-> **Sem trial.** O Agent é o coração do sistema.
-
-| Aspecto              | Detalhe                       |
-| -------------------- | ----------------------------- |
-| **Open Source**      | Código auditável no GitHub    |
-| **Binário assinado** | Builds oficiais verificáveis  |
-| **Compilável**       | Dev pode buildar do source    |
-| **Código autoral**   | Proprietário mas transparente |
-
-📖 **Detalhes:** [Seção 9 - Onboarding](docs/PF_MASTER_ARCHITECTURE.md#9-fluxo-de-onboarding)
-
----
-
-## 🤖 Automação & Bot Services
-
-100% **client-side** - Panda não vê o que você faz.
-
-### Capacidades
-
-| Feature            | Descrição                          |
-| ------------------ | ---------------------------------- |
-| **IP Rotation**    | Proxy Pool, WireGuard VPN          |
-| **Fingerprinting** | Multi-account isolado              |
-| **Overlay HUD**    | Dashboard transparente sobre games |
-| **Automation**     | Mouse, Keyboard, OCR               |
-
-### MCP Tools
-
-| Tool           | Uso             |
-| -------------- | --------------- |
-| `rotate_ip`    | Anti-ban        |
-| `mouse_move`   | Bot de jogo     |
-| `ocr_region`   | Leitura de tela |
-| `overlay_show` | Dashboard HUD   |
-
-📖 **Detalhes:** [Seção 5.1 - Bot Services](docs/PF_MASTER_ARCHITECTURE.md#51-serviços-para-bots-farms--automação)
-
----
-
-## 🤝 Programa de Afiliados
-
-### Modelo
-
-| Tipo                 | Ganho                            |
-| -------------------- | -------------------------------- |
-| **Indicação direta** | 5% sobre vendas do indicado      |
-| **Perpétuo**         | Ganha em TODAS as vendas futuras |
-
-### Exemplo
-
-```text
-Dev A indica Dev B
-Dev B vende 100 PC → Dev A ganha 5 PC
-Dev B vende 1000 PC → Dev A ganha 50 PC
-(para sempre!)
-```
-
-📖 **Detalhes:** [Seção 11 - Afiliados](docs/PF_MASTER_ARCHITECTURE.md#11--store-dos-devs--monetização)
-
----
-
-## 🔐 Open Core (GitHub)
-
-### Fluxo de Proteção e Build
-
-```mermaid
-graph TD
-    A[Public Repo panda-core] -->|Pull Code| C{GitHub Actions Builder}
-    B[Private Repo panda-proprietary] -->|Inject Secrets| C
-    C -->|Build --features official| D[Official Binary panda-agent.exe]
-    D -->|Release| E[GitHub Releases]
-
-    F[Fork do Público] -->|Build sem Secrets| G[Agent Incompleto Não Inicia]
-
-    style A fill:#a9f,stroke:#333
-    style B fill:#f96,stroke:#333
-    style D fill:#9f9,stroke:#333
-    style G fill:#f99,stroke:#333
-```
-
-### Estratégia de Proteção
-
-| Aspecto          | Detalhe                                |
-| ---------------- | -------------------------------------- |
-| **Repo Público** | `panda-core` - Código auditável        |
-| **Repo Privado** | `panda-proprietary` - Lógica secreta   |
-| **Fork**         | Build não-oficial = Não inicia         |
-| **Oficial**      | GitHub Actions funde público + privado |
-
-### Compilação Condicional
-
-```rust
-#[cfg(feature = "official_build")]
-fn init_core() { panda_proprietary::start(); }
-
-#[cfg(not(feature = "official_build"))]
-fn init_core() { eprintln!("⚠️ Baixe oficial em panda.dev"); }
-```
-
-### Resultado
-
-| Cenário       | Resultado           |
-| ------------- | ------------------- |
-| Baixa oficial | ✅ Funciona, grátis |
-| Audita código | ✅ Transparente     |
-| Faz fork      | ❌ Não inicia       |
-
-📖 **Detalhes:** [Seção 18 - Open Core](docs/PF_MASTER_ARCHITECTURE.md#18--open-core-strategy-github)
 
 ---
 
@@ -575,8 +322,6 @@ fn init_core() { eprintln!("⚠️ Baixe oficial em panda.dev"); }
 - Premium Header (Glassmorphism)
 - Omni Search Bar integrada
 - Gradient Background Radial
-
----
 
 ---
 
