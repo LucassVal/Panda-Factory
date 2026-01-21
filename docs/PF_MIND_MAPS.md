@@ -10,30 +10,30 @@ O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em op
 
 ```mermaid
 mindmap
-  root((🐼 PANDA SDK))
-    (Dev chama)
-      Panda.Data.save
-      Panda.Brain.chat
-      Panda.Bridge.execute
-      Panda.GPU.process
-    (SDK traduz para)
+  root(("🐼 PANDA SDK"))
+    ("Dev chama")
+      "Panda.Data.save"
+      "Panda.Brain.chat"
+      "Panda.Bridge.execute"
+      "Panda.GPU.process"
+    ("SDK traduz para")
       "GAS / Sheets"
-        Google Apps Script
-        SpreadsheetApp
-        DriveApp
-      Firebase
-        Realtime DB
-        Auth
-        Signaling
-      Rust Agent
-        GPU Local
-        DLLs
-        Files
-        MCP Tools
-      APIs Externas
-        Gemini
-        Claude
-        Stripe
+        "Google Apps Script"
+        "SpreadsheetApp"
+        "DriveApp"
+      "Firebase"
+        "Realtime DB"
+        "Auth"
+        "Signaling"
+      "Rust Agent"
+        "GPU Local"
+        "DLLs"
+        "Files"
+        "MCP Tools"
+      "APIs Externas"
+        "Gemini"
+        "Claude"
+        "Stripe"
 ```
 
 ---
@@ -42,47 +42,47 @@ mindmap
 
 ```mermaid
 mindmap
-  root((🦀 RUST AGENT))
-    (Papel)
-      Cache Manager
-      Package Manager
-      MCP Server
-      Hardware Bridge
-    (Capacidades)
-      GPU
-        CUDA NVIDIA
-        ROCm AMD
-        Metal Apple
-        WebGPU
-      Files
-        Read/Write
-        Watch Folder
-        Compress
-      DLLs
-        MetaTrader
-        ProfitChart
-        Drivers
-      Automation
-        Mouse/Keyboard
-        OCR
-        Overlay HUD
-      Network
-        Proxy Pool
-        VPN
-        IP Rotation
-    (Comunicação)
-      Firebase Signaling
-        command_queue
-        response_stream
-        heartbeat
-    (Updates)
-      Self-Update
-      Module Cache
-      Extension Install
-    (Segurança)
-      Assinatura Digital
-      Permissions
-      Kill Switch
+  root(("🦀 RUST AGENT"))
+    ("Papel")
+      "Cache Manager"
+      "Package Manager"
+      "MCP Server"
+      "Hardware Bridge"
+    ("Capacidades")
+      "GPU"
+        "CUDA NVIDIA"
+        "ROCm AMD"
+        "Metal Apple"
+        "WebGPU"
+      "Files"
+        "Read / Write"
+        "Watch Folder"
+        "Compress"
+      "DLLs"
+        "MetaTrader"
+        "ProfitChart"
+        "Drivers"
+      "Automation"
+        "Mouse / Keyboard"
+        "OCR"
+        "Overlay HUD"
+      "Network"
+        "Proxy Pool"
+        "VPN"
+        "IP Rotation"
+    ("Comunicação")
+      "Firebase Signaling"
+        "command_queue"
+        "response_stream"
+        "heartbeat"
+    ("Updates")
+      "Self-Update"
+      "Module Cache"
+      "Extension Install"
+    ("Segurança")
+      "Assinatura Digital"
+      "Permissions"
+      "Kill Switch"
 ```
 
 ---
@@ -91,44 +91,44 @@ mindmap
 
 ```mermaid
 mindmap
-  root((📜 GAS BACKEND))
-    (Core Services)
-      Authentication
-        OAuth Google
-        Token Validation
-        Multi-tenant
-      Data Storage
-        Spreadsheet API
-        CRUD Operations
-        Ghost Cells
-      Webhooks
-        Kiwify
-        Hotmart
-        Stripe
-    (Chapéus e Domains)
-      FINANCE
-        Wallet - Voltímetro
-        Fiat - Gateways
-        Crypto - Blockchain
-      STORE
-        Registry - Catálogo
-        Sales - Comissão
-      AUTOMATION
-        Bots - Farms
-    (Dispatcher Core)
-      Entry Point Unico
-      Roteamento Seguro
-      Config Global
-    (Integrações Nativas)
-      Gmail
-      Calendar
-      Drive
-      Maps
-      YouTube
-    (Quotas)
-      6 min por execução
-      90 min por dia free
-      Trigger automático
+  root(("📜 GAS BACKEND"))
+    ("Core Services")
+      "Authentication"
+        "OAuth Google"
+        "Token Validation"
+        "Multi-tenant"
+      "Data Storage"
+        "Spreadsheet API"
+        "CRUD Operations"
+        "Ghost Cells"
+      "Webhooks"
+        "Kiwify"
+        "Hotmart"
+        "Stripe"
+    ("Chapéus e Domains")
+      "FINANCE"
+        "Wallet - Voltímetro"
+        "Fiat - Gateways"
+        "Crypto - Blockchain"
+      "STORE"
+        "Registry - Catálogo"
+        "Sales - Comissão"
+      "AUTOMATION"
+        "Bots - Farms"
+    ("Dispatcher Core")
+      "Entry Point Unico"
+      "Roteamento Seguro"
+      "Config Global"
+    ("Integrações Nativas")
+      "Gmail"
+      "Calendar"
+      "Drive"
+      "Maps"
+      "YouTube"
+    ("Quotas")
+      "6 min por execução"
+      "90 min por dia free"
+      "Trigger automático"
 ```
 
 ---
@@ -137,37 +137,37 @@ mindmap
 
 ```mermaid
 mindmap
-  root((🔥 FIREBASE))
-    (Core Zone)
-      version
-      status
-      announcements
-    (Células)
-      Developer Cell
-        profile
-        sandbox
-        modules_in_dev
-        published_modules
-        quotas
-      Client Cell
-        profile
-        sandbox
-        installed_modules
-        data PRIVADO
-        quotas
-    (Signaling)
-      command_queue
-      response_stream
-      agent_status
-    (Security)
-      Cell Isolation
-      Auth Rules
-      Rate Limiting
-      Schema Validation
-    (Multi-Project)
-      Core Project
-      Dev Sandbox
-      Telemetry
+  root(("🔥 FIREBASE"))
+    ("Core Zone")
+      "version"
+      "status"
+      "announcements"
+    ("Células")
+      "Developer Cell"
+        "profile"
+        "sandbox"
+        "modules_in_dev"
+        "published_modules"
+        "quotas"
+      "Client Cell"
+        "profile"
+        "sandbox"
+        "installed_modules"
+        "data PRIVADO"
+        "quotas"
+    ("Signaling")
+      "command_queue"
+      "response_stream"
+      "agent_status"
+    ("Security")
+      "Cell Isolation"
+      "Auth Rules"
+      "Rate Limiting"
+      "Schema Validation"
+    ("Multi-Project")
+      "Core Project"
+      "Dev Sandbox"
+      "Telemetry"
 ```
 
 ---
@@ -176,49 +176,49 @@ mindmap
 
 ```mermaid
 mindmap
-  root((🔌 SDK SLOTS))
-    (Core Protegido)
-      Panda.use
-      Panda.on/emit
-      Panda.version
-      Sandbox
-      Validation
-    (Slot Data)
-      Default: Sheets
-      Adapters
-        MongoDB
-        PostgreSQL
-        Supabase
-        IndexedDB
-    (Slot Brain)
-      Default: Gemini
-      Adapters
-        Claude
-        GPT-4
-        Local Llama
-        DeepSeek
-    (Slot GPU)
-      Default: Cloud
-      Adapters
-        CUDA Direct
-        ROCm
-        WebGPU
-    (Slot Render)
-      Default: Nenhum
-      Adapters
-        Three.js
-        Babylon
-        PixiJS
-    (Slot Network)
-      Default: Fetch
-      Adapters
-        ProxyPool
-        VPN Client
-    (Slot Audio)
-      Default: Nenhum
-      Adapters
-        Howler.js
-        ElevenLabs
+  root(("🔌 SDK SLOTS"))
+    ("Core Protegido")
+      "Panda.use"
+      "Panda.on/emit"
+      "Panda.version"
+      "Sandbox"
+      "Validation"
+    ("Slot Data")
+      "Default: Sheets"
+      "Adapters"
+        "MongoDB"
+        "PostgreSQL"
+        "Supabase"
+        "IndexedDB"
+    ("Slot Brain")
+      "Default: Gemini"
+      "Adapters"
+        "Claude"
+        "GPT-4"
+        "Local Llama"
+        "DeepSeek"
+    ("Slot GPU")
+      "Default: Cloud"
+      "Adapters"
+        "CUDA Direct"
+        "ROCm"
+        "WebGPU"
+    ("Slot Render")
+      "Default: Nenhum"
+      "Adapters"
+        "Three.js"
+        "Babylon"
+        "PixiJS"
+    ("Slot Network")
+      "Default: Fetch"
+      "Adapters"
+        "ProxyPool"
+        "VPN Client"
+    ("Slot Audio")
+      "Default: Nenhum"
+      "Adapters"
+        "Howler.js"
+        "ElevenLabs"
 ```
 
 ---
