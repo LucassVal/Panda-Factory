@@ -1,0 +1,205 @@
+<!-- ============================================= -->
+<!-- SETTINGS MODAL COMPONENT (Fixed/Core) -->
+<!-- ============================================= -->
+<div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this) fecharConfiguracoes()">
+  <div class="settings-modal">
+    <!-- Sidebar -->
+    <div class="settings-sidebar">
+      <div class="settings-nav-item active" data-section="profile" onclick="mudarSecaoSettings('profile')">
+        <span>👤</span> Profile
+      </div>
+      <div class="settings-nav-item" data-section="appearance" onclick="mudarSecaoSettings('appearance')">
+        <span>🎨</span> Appearance
+      </div>
+      <div class="settings-nav-item" data-section="wallet" onclick="mudarSecaoSettings('wallet')">
+        <span>🐼</span> Wallet
+      </div>
+      <div class="settings-nav-item" data-section="gpu" onclick="mudarSecaoSettings('gpu')">
+        <span>🖥️</span> GPU Settings
+      </div>
+      <div class="settings-nav-item" data-section="store" onclick="mudarSecaoSettings('store')">
+        <span>🛒</span> Store
+      </div>
+      <div class="settings-nav-item" data-section="about" onclick="mudarSecaoSettings('about')">
+        <span>ℹ️</span> About
+      </div>
+    </div>
+    
+    <!-- Content -->
+    <div class="settings-content">
+      <!-- Profile Section -->
+      <div class="settings-section" id="settings-profile">
+        <h2 class="settings-section-title">Profile</h2>
+        <p class="settings-section-desc">Gerencie suas informações pessoais</p>
+        
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Nome de usuário</div>
+              <div class="settings-sublabel" id="settings-username">admin</div>
+            </div>
+            <button onclick="editarNomeUsuario()" style="background:#222; border:1px solid #333; color:#fff; padding:8px 16px; border-radius:6px; cursor:pointer;">Editar</button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Tenant ID</div>
+              <div class="settings-sublabel" id="settings-tenant">tenant_001</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Appearance Section -->
+      <div class="settings-section" id="settings-appearance" style="display:none;">
+        <h2 class="settings-section-title">Appearance</h2>
+        <p class="settings-section-desc">Personalize a aparência do sistema</p>
+        
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Tema Escuro</div>
+              <div class="settings-sublabel">Ative o modo dark para melhor visualização</div>
+            </div>
+            <div class="toggle-switch active" id="darkModeToggle" onclick="toggleDarkMode()"></div>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Idioma</div>
+              <div class="settings-sublabel">Português (Brasil)</div>
+            </div>
+            <select style="background:#222; border:1px solid #333; color:#fff; padding:8px 12px; border-radius:6px;">
+              <option>Português</option>
+              <option>English</option>
+              <option>Español</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Wallet Section -->
+      <div class="settings-section" id="settings-wallet" style="display:none;">
+        <h2 class="settings-section-title">Wallet (Panda Coins)</h2>
+        <p class="settings-section-desc">Gerencie seus créditos de IA</p>
+        
+        <div class="settings-card" style="text-align:center; padding:30px;">
+          <div style="font-size:48px;">🐼</div>
+          <div style="font-size:36px; font-weight:bold; color:#10b981; margin:16px 0;" id="walletBalance">1,000 PC</div>
+          <div style="color:#666; margin-bottom:20px;">Saldo disponível</div>
+          <button style="background:#10b981; color:#fff; border:none; padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer;">
+            + Recarregar
+          </button>
+        </div>
+        
+        <div class="settings-card">
+          <div class="settings-row">
+            <div class="settings-label">Gastos Hoje</div>
+            <div style="color:#f59e0b;">30 PC</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">Economia Local (GPU)</div>
+            <div style="color:#10b981;">720 PC salvos</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- GPU Settings Section -->
+      <div class="settings-section" id="settings-gpu" style="display:none;">
+        <h2 class="settings-section-title">GPU & Agent Bridge</h2>
+        <p class="settings-section-desc">Conecte o Agente Local via Firebase</p>
+        
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Modo Agente Local (Rust)</div>
+              <div class="settings-sublabel">Processamento no seu hardware (0 tokens)</div>
+            </div>
+            <div class="toggle-switch" id="gpuToggle" onclick="toggleGPU()"></div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-row" style="display:block;">
+                <div class="settings-label" style="margin-bottom:8px;">Firebase Channel UID</div>
+                <input type="text" id="firebaseUidInput" placeholder="ex: user_123_abc" 
+                       style="width:100%; background:#111; border:1px solid #333; color:#ccc; padding:10px; border-radius:6px; font-family:monospace;">
+                <div class="settings-sublabel" style="margin-top:6px;">Este ID conecta seu navegador ao Agente Rust.</div>
+            </div>
+            <div class="settings-row">
+                <button onclick="window.PandaBridge.connect(document.getElementById('firebaseUidInput').value)" 
+                        style="width:100%; padding:10px; background:var(--accent-primary); border:none; color:white; border-radius:6px; cursor:pointer; font-weight:bold;">
+                    💾 Salvar & Conectar
+                </button>
+            </div>
+        </div>
+        
+        <div class="settings-card">
+          <div class="settings-row">
+            <div class="settings-label">Status Panda Agent</div>
+            <div class="gpu-badge offline" id="agentBadge">
+              <span>🔴</span> Desconectado
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:20px;">
+          <a href="#" style="color:#10b981; text-decoration:none;">📥 Baixar Panda Agent Installer (v2.0)</a>
+        </div>
+      </div>
+
+      <!-- Store Section -->
+      <div class="settings-section" id="settings-store" style="display:none;">
+        <h2 class="settings-section-title">Store</h2>
+        <p class="settings-section-desc">Instale módulos para expandir funcionalidades</p>
+        
+        <div class="store-grid">
+          <div class="store-card">
+            <div class="store-card-icon">📊</div>
+            <div class="store-card-title">Módulo Fiscal</div>
+            <div class="store-card-desc">NFe, NFCe, SPED</div>
+          </div>
+          <div class="store-card">
+            <div class="store-card-icon">📈</div>
+            <div class="store-card-title">Bot de Trade</div>
+            <div class="store-card-desc">Binance, MetaTrader</div>
+          </div>
+          <div class="store-card">
+            <div class="store-card-icon">💬</div>
+            <div class="store-card-title">WhatsApp Auto</div>
+            <div class="store-card-desc">Disparos em massa</div>
+          </div>
+          <div class="store-card">
+            <div class="store-card-icon">🏪</div>
+            <div class="store-card-title">Multi-Lojas</div>
+            <div class="store-card-desc">Gestão multi-tenant</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- About Section -->
+      <div class="settings-section" id="settings-about" style="display:none;">
+        <h2 class="settings-section-title">About</h2>
+        <p class="settings-section-desc">Informações do sistema</p>
+        
+        <div class="settings-card">
+          <div class="settings-row">
+            <div class="settings-label">Versão</div>
+            <div>v2.3.0</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">SDK</div>
+            <div>Panda SDK v1.0.0</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">Design System</div>
+            <div>Vercel/Geist</div>
+          </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:20px; color:#666;">
+          <p>© 2026 Panda Fabrics</p>
+          <p>Building the Developer Soil 🐼</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

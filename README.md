@@ -1,256 +1,160 @@
-# 🐼 Panda Factory - Modular Operating System
+# 🐼 Panda Factory (PF) - Modular Operating System
 
-> **Single Source of Truth** | Versão 3.0.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
+> **Single Source of Truth** | Versão 4.0.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
 
-**Nota:** Este documento consolida **todo** o conhecimento do ecossistema Panda Factory (formerly Panda Fabrics): Estratégia, Código, Infraestrutura e Regras.
+**Sistema operacional modular para desenvolvedores.** Infraestrutura Google simplificada, IA integrada, marketplace de módulos.
 
 > [!TIP]
-> **v3.0.0:** Refatoração Modular OS, Kernel isolado (`panda.core.js`), módulos dinâmicos, Store integrada. [Ver Changelog](#10--changelog)
+> **v4.0.0:** Arquitetura PF completa, Rust Agent MCP+RIG, Multi-User, Token Billing. [Ver Changelog](#changelog)
 
 ---
 
-## 💻 Estrutura da Interface (UI/UX)
+## 📚 Enciclopédia - Índice Mestre
 
-A interface foi redesenhada para oferecer uma experiência "Clean Canvas" focada na produtividade.
+### Documentação Técnica
 
-### 1. Home View "Clean Canvas" (`#inicio-view`)
+| Doc                       | Descrição                         | Link                                                        |
+| ------------------------- | --------------------------------- | ----------------------------------------------------------- |
+| **📖 Arquitetura Mestre** | Documento completo (~2300 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
 
-- **Loading Screen (`#panda-loading`):** Animação inicial suave do Panda.
-- **Omni Search Bar (`#omni-trigger`):** Barra flutuante centralizada e arrastável.
+### Navegação Rápida
 
-### 2. Official App Dock (`#appDock`)
-
-Dock flutuante (estilo macOS) na parte inferior:
-
-- **Drag Handle:** Área para arrastar.
-- **Nav Items:** Home, Contatos, Agenda, Relatórios.
-- **Ações:** Configurações (⚙️) e Logout (🚪).
-
-```html
-<!-- Exemplo Dock -->
-<div class="app-dock" id="appDock">
-  <div class="dock-handle">...</div>
-  <div class="nav-item">🏠</div>
-  ...
-</div>
-```
-
----
-
-## 📑 Índice Mestre
-
-1.  [Infraestrutura & Estratégia](#1-manual-de-infraestrutura--estratégia)
-2.  [Engenharia Core & Performance](#2-%EF%B8%8F-engenharia-core--performance)
-3.  [Protocolo da Store (Módulos)](#3--protocolo-da-store--segurança)
-4.  [Economia & Monetização](#4--economia--pricing)
-5.  [Gamificação & Badges (Catálogo Completo)](#5-gamificação--badges-catálogo-completo)
-6.  [Referência Técnica: Plugins & SDKs](#6-referência-técnica-plugins--sdks)
-7.  [Referência Técnica: Google Workspace](#7-referência-técnica-google-workspace)
-8.  [Casos de Uso (Arquiteturas)](#8-casos-de-uso-arquiteturas)
-9.  [Auditoria & Compliance](#9-auditoria--compliance)
+| Seção               | Conteúdo                         | Ir para                                   |
+| ------------------- | -------------------------------- | ----------------------------------------- |
+| 🎯 **Visão Geral**  | O que é o Panda Factory          | [#visão-geral](#-visão-geral)             |
+| 🏗️ **Arquitetura**  | Hub + Descentralizado            | [#arquitetura](#️-arquitetura)             |
+| 🦀 **Rust Agent**   | MCP, RIG, GPU, Multi-User        | [#rust-agent](#-rust-agent)               |
+| 📜 **Panda SDK**    | Slots, Adapters, Core Protection | [#panda-sdk](#-panda-sdk)                 |
+| 📜 **GAS Backend**  | Serverless, Multi-tenant         | [#gas-backend](#-gas-backend)             |
+| 🔥 **Firebase**     | Colmeia, Cells, Signaling        | [#firebase](#-firebase)                   |
+| 🏪 **Store**        | Módulos, Dev Split, Pricing      | [#store](#-store)                         |
+| 💰 **Economia**     | Tokens, Planos, Billing          | [#economia](#-economia)                   |
+| 🏷️ **Convenção PF** | Prefixos, Nomes, Estrutura       | [#convenção-pf](#️-convenção-pf)           |
+| 🚀 **Roadmap**      | 12 semanas de implementação      | [#roadmap](#-roadmap)                     |
+| 🔒 **Segurança**    | Zero-Knowledge, Proteções        | [#segurança](#-segurança--zero-knowledge) |
+| 🚀 **Onboarding**   | The Gate, Trial Mode             | [#onboarding](#-onboarding-the-gate)      |
+| 🤖 **Automação**    | Bots, IP Rotation, HUD           | [#automação](#-automação--bot-services)   |
+| 🤝 **Afiliados**    | Revenue Share Perpétuo           | [#afiliados](#-programa-de-afiliados)     |
+| 🔐 **Open Core**    | GitHub, Fork Protection          | [#open-core](#-open-core-github)          |
+| 📋 **Changelog**    | Histórico de versões             | [#changelog](#-changelog)                 |
 
 ---
 
----
-
-# 1. Manual de Infraestrutura & Estratégia
-
-_(Fonte: `MANUAL_INFRAESTRUTURA.md`)_
-
-## 🐼 Visão: O Canvas Aberto
+## 🎯 Visão Geral
 
 **Missão:** Democratizar infraestrutura Google para desenvolvedores.
 
 > "Ganhamos na quantidade. Ajudamos os pequenos a crescerem."
 
-## 🚀 Desburocratização Cloud
+**Proposta de valor:** GAS e Firebase são gratuitos/baratos. Repassamos a economia e cobramos pela **inteligência e conveniência** (SDK + Agent).
 
-Resolvemos a dor de cabeça de configurar servidores:
-
-| Complexidade | Nossa Solução          |
-| :----------- | :--------------------- |
-| **VM/VPS**   | Serverless (GAS/Colab) |
-| **IP Fixo**  | URL Apps Script        |
-| **SSL**      | Google gerencia        |
-| **Billing**  | Panda Coin (Pré-pago)  |
-| **Scaling**  | Automático             |
-| **Deploy**   | `clasp push`           |
-
-## 🦴 Arquitetura Hub Central + Descentralizado
-
-O modelo híbrido garante privacidade e escala infinita.
-
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│                   PANDA FABRICS (HUB)                       │
+│                    PANDA FACTORY                            │
 ├─────────────────────────────────────────────────────────────┤
-│  CENTRALIZADO (Nosso)           DESCENTRALIZADO (Cliente)  │
-│  ┌─────────────────┐            ┌─────────────────┐        │
-│  │ HTML/EXE        │            │ GAS Backend     │        │
-│  │ (Atualizações)  │            │ (Quota cliente) │        │
-│  ├─────────────────┤            ├─────────────────┤        │
-│  │ Script Database │            │ Drive Storage   │        │
-│  │ (Seguros/Vault) │            │ (Dados Pessoais)│        │
-│  ├─────────────────┤            ├─────────────────┤        │
-│  │ Panda Coins     │            │ Execução        │        │
-│  │ (Ledger)        │            │ (Processamento) │        │
-│  └─────────────────┘            └─────────────────┘        │
+│                                                             │
+│  🖥️ BROWSER                  🦀 RUST AGENT                  │
+│  ├── Panda UI                ├── 🧠 RIG (Cérebro IA)        │
+│  ├── Módulos                 ├── Cache Manager              │
+│  └── SDK JavaScript          ├── MCP Server                 │
+│           │                  ├── GPU Detection              │
+│           │                  └── Multi-User                 │
+│           │                         │                       │
+│           └────────┬────────────────┘                       │
+│                    │                                        │
+│           ┌────────▼────────┐                               │
+│           │   PANDA SDK     │  ← Tradutor Universal         │
+│           └────────┬────────┘                               │
+│                    │                                        │
+│      ┌─────────────┼─────────────┐                          │
+│      ▼             ▼             ▼                          │
+│  ┌───────┐    ┌───────┐    ┌───────┐                       │
+│  │ GAS   │    │Firebase│    │ APIs  │                       │
+│  │Backend│    │Signaling│   │Externas│                      │
+│  └───────┘    └───────┘    └───────┘                       │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
-                    ↕ Google Auth (OAuth) ↕
+
+⭐ Rust é INFRAESTRUTURA (Cache, GPU, MCP) + CÉREBRO (RIG Multi-Provider)
 ```
 
-### 🔒 Protocolo de Segurança (Data Shield V2)
-
-Para garantir integridade e LGPD no modelo híbrido (Firebase + Drive):
-
-1.  **Hot Layer (Firebase):** Usado apenas como **Barramento de Mensagem (Signaling)**. Dados são efêmeros (TTL curto) e criptografados (E2E).
-2.  **Cold Layer (Drive):** O banco de dados real (persistência) reside no Google Drive do Cliente. A Panda Fabrics **não tem acesso**.
-3.  **Client-Side Encryption:** Dados sensíveis são cifrados no navegador antes de tocar nossa infra.
-4.  **Isenção:** A Panda fornece a "Estrada" (Software via GAS), o cliente dirige o "Carro" (Dados).
-
-### Por Que Google Auth é Obrigatório?
-
-1.  **Frontend:** Hospedado por nós para updates globais.
-2.  **Scripts:** Lidos do nosso DB autenticado (evita pirataria).
-3.  **Backend:** Executado no Google do cliente (Custo zero para nós).
-4.  **Dados:** Salvos no Drive do cliente (Privacidade/LGPD).
+📖 **Detalhes:** [Seção 1 - Arquitetura](docs/PF_MASTER_ARCHITECTURE.md#1-visão-geral-da-arquitetura)
 
 ---
 
-# 2. 🛠️ Engenharia Core & Performance
+## 🏗️ Arquitetura
 
-## ⚡ Estratégia de Caching (Offline-First)
+### Hub Central + Descentralizado
 
-Para garantir velocidade de "App Nativo" e suportar funcionamento offline:
+| Centralizado (Panda) | Descentralizado (Cliente) |
+| -------------------- | ------------------------- |
+| HTML/Updates         | GAS Backend               |
+| Panda Coins (Ledger) | Drive Storage             |
+| Store/Registry       | Processamento             |
 
-| Camada            | Tecnologia               | Uso                                          |
-| :---------------- | :----------------------- | :------------------------------------------- |
-| **1. Hot Layer**  | Firebase Realtime        | Sessão, Estado do HUD, Notificações (ms).    |
-| **2. Warm Layer** | CacheStorage / IndexedDB | Web App, Assets, Módulos (Funciona Offline). |
-| **3. Cold Layer** | Google Drive             | Backup, Arquivos Grandes (PDFs, Vídeos).     |
+### Componentes Principais
 
-### Fluxo de Dados Híbrido
+| Componente      | Função                      | Tecnologia         |
+| --------------- | --------------------------- | ------------------ |
+| **Rust Agent**  | Cache, GPU, MCP, Multi-User | Rust + Tauri       |
+| **Panda SDK**   | Tradutor universal          | JavaScript         |
+| **GAS Backend** | Serverless                  | Google Apps Script |
+| **Firebase**    | Signaling, Cells            | Realtime DB        |
 
+📖 **Detalhes:** [Seções 1-4](docs/PF_MASTER_ARCHITECTURE.md#1-visão-geral-da-arquitetura)
+
+### 📁 Estrutura de Pastas (Web/Client + Backend DDD)
+
+> **Nota:** Organização client-side e backend (GAS) unificada.
+
+```text
+📁 PandaFactory/
+├── 📁 components/ui/             # Componentes Web Globais
+├── 📁 js/
+│   ├── 📁 kernel/                # Event Bus & Loader
+│   └── 📁 ui/                    # Controllers de Interface
+├── 📁 backend/                   # Google Apps Script (DDD)
+│   ├── 📁 core/                  # Dispatcher & Config
+│   └── 📁 domains/               # "Chapéus" de Negócio
+│       ├── 📁 finance/           # Wallet, Fiat, Crypto
+│       ├── 📁 store/             # Registry, Sales
+│       └── 📁 automation/        # Bots, Farms
+└── README.md
 ```
-[Navegador] ↔ (ms) Service Worker (Cache) ↔ (ms) Firebase ↔ (async) Google Drive
-```
-
-## 🖥️ Arquitetura de Processamento (Híbrida)
-
-O Panda Fabrics permite escolher onde o código roda: na Nuvem (Alugada) ou na Máquina do Cliente (Grátis).
-
-### 1. NVIDIA Online (GPU Rental) ☁️
-
-Locação de GPUs sob demanda para quem **não tem** hardware.
-
-| GPU      | Custo    | Uso Recomendado                        |
-| :------- | :------- | :------------------------------------- |
-| **T4**   | 30 PC/h  | Inferência Leve, Fine-tuning simples.  |
-| **A100** | 100 PC/h | Treinamento LLM, Render 3D pesado.     |
-| **TPU**  | 150 PC/h | Machine Learning Massivo (TensorFlow). |
-
-### 2. NVIDIA Local (Native CUDA) 🏠
-
-O Agente Local (Rust/Tauri) acessa o hardware do usuário. **CUSTO ZERO** de energia.
-
-> **Economia de Tokens:**
->
-> - Cliente tem GPU? → Processa local → **0 Tokens gastos.**
-> - Cliente sem GPU? → Aluga a nossa → **Paga PC.**
-
-#### Tabela de Suporte Local
-
-| Vendor     | Suporte       | Tecnologia       | Status  |
-| :--------- | :------------ | :--------------- | :------ |
-| **NVIDIA** | ✅ **Nativo** | CUDA / TensorRT  | Stable  |
-| **AMD**    | ✅ **v4.0**   | ROCm             | Beta    |
-| **Intel**  | ⏳ Futuro     | oneAPI           | Roadmap |
-| **Apple**  | ✅ **Nativo** | Metal (M1/M2/M3) | Stable  |
-
-**Conceito "Ghost" (Golden Image):**
-Para tarefas na nuvem, usamos Spot VMs que ligam, processam e hibernam.
-
-### 3. 🐼 Panda Agent (Firebase Signaling)
-
-Evolução da arquitetura para v2.0. Em vez de WebSockets locais (frágeis), usamos o Firebase como **Signaling Server** (Barramento de Mensagens).
-
-```
-┌─────────────┐       HTTPS (SSE)       ┌─────────────────────┐
-│   CHROME    │ ◄─────────────────────► │  PANDA AGENT (Rust) │
-│  (Panda UI) │      via Firebase       │  (Daemon Local)     │
-└─────────────┘                         └─────────────────────┘
-       │                                           │
-       ▼                                           ▼
-┌─────────────┐                         ┌─────────────────────┐
-│  FIREBASE   │                         │  MetaTrader DLL     │
-│ Realtime DB │                         │  Binance SDK        │
-│ (Hot Layer) │                         │  NVIDIA CUDA        │
-└─────────────┘                         └─────────────────────┘
-```
-
-**Benefícios da Nova Arquitetura:**
-
-- ✅ **Sem Problemas de Porta/Firewall:** Usa HTTPS padrão (443).
-- ✅ **Persistência de Comandos:** Se o agente cair, o comando fica na fila.
-- ✅ **Estado Global:** O status do agente é visível para qualquer aba aberta.
-
-#### 🛠️ Capacidades Expandidas (Local OS Bridge)
-
-O Rust não serve apenas para GPU. Ele atua como as "Mãos" do sistema:
-
-1.  **Financeiro:** Ponte DLL para MetaTrader, ProfitChart e Terminais Bancários.
-2.  **RPA (Ghost User):** Controle de Mouse/Teclado para operar ERPs legados.
-3.  **Hardware/IoT:** Acesso nativo a Impressoras Térmicas, Balanças e Sensores USB.
-4.  **Local AI:** Rodar Llama 3 offline para privacidade absoluta.
-
-#### 🛡️ Protocolo de Segurança (CYA)
-
-- **Permissão Explícita:** Pop-ups estilo Android para cada novo acesso ("Permitir leitura de C:\?").
-- **Assinatura Digital:** Bloqueio de plugins não assinados pela Panda.
-- **Kill Switch:** Desativação remota global em caso de emergência.
-
-📄 Detalhes técnicos completos: [`ARCHITECTURE_FIREBASE_RUST.md`](./ARCHITECTURE_FIREBASE_RUST.md)
 
 ---
 
-## 🛠️ SDK Roadmap (Developer Experience)
+## 🦀 Rust Agent
 
-### Fase 1: CLI Mode (Hardcore Devs)
+O motor local que roda no PC do cliente.
 
-- Dev coda no VS Code
-- Usa SDK básico (`panda-sdk.js`)
-- Deploy via `clasp push`
-- **Meta:** Validar infraestrutura
+### Funcionalidades
 
-### Fase 2: Template Mode (Devs Intermediários)
+| Feature           | Descrição                                        |
+| ----------------- | ------------------------------------------------ |
+| **MCP Tools**     | fs_read, fs_write, gpu_check, notify, automation |
+| **RIG Framework** | Multi-provider (Gemini, Claude, OpenAI)          |
+| **Token Meter**   | Contagem e billing por provider                  |
+| **Multi-User**    | Sessões isoladas por usuário                     |
+| **Self-Update**   | Atualização automática                           |
+| **GPU Detection** | NVIDIA CUDA, AMD ROCm, Intel, Apple Metal        |
 
-- 5 modelos prontos (CRM, Bot Trade, WhatsApp, etc)
-- Dev clona e modifica lógica
-- **Meta:** Reduzir tempo de onboarding
+### 17.6 GPU Detection Flow & Economy
 
-### Fase 3: Low Code Visual (Futuro)
+```mermaid
+graph TD
+    A[Site carrega] -->|Conecta ws://localhost:9999| B{Agent conectado?}
+    B -->|SIM| C[Panda.Agent.execute 'check_gpu']
+    C -->|GPU detectada| D[LOCAL MODE 0 PC]
+    D --> E[NVIDIA/AMD/Apple Metal]
+    C -->|Sem GPU| F[CLOUD MODE 30 PC/h]
 
-- IA gera código via texto
-- Manifesto JSON → UI automática
-- **Meta:** Usuário não-técnico cria apps
-
----
-
-## 🎮 GPU Detection Flow
-
+    B -->|NÃO| G[Fallback Cloud 30 PC/h]
 ```
-Site carrega → Conecta ws://localhost:9999
-       │
-       ├── Agent conectado?
-       │   ├── SIM → Panda.Agent.execute('check_gpu')
-       │   │        ├── GPU detectada → LOCAL MODE (0 PC)
-       │   │        │   └── NVIDIA/AMD/Apple Metal
-       │   │        └── Sem GPU → CLOUD MODE (30 PC/h)
-       │   │
-       │   └── NÃO → Mostra: "Instalar Panda Agent"
-       │           → Fallback para Cloud (30 PC/h)
-       │
-Modal de Economia:
+
+### Modal de Economia
+
+```text
 ┌─────────────────────────────────────────┐
 │ 🖥️ GPU Detectada: NVIDIA RTX 3080      │
 │ ⚡ Modo: LOCAL (0 tokens/hora)          │
@@ -258,13 +162,69 @@ Modal de Economia:
 └─────────────────────────────────────────┘
 ```
 
+### MCP Tools Disponíveis
+
+```rust
+enum McpTool {
+    FsRead, FsWrite, FsList,      // Filesystem
+    GpuCheck, GpuProcess,          // GPU
+    Notify, Clipboard,             // System
+    MouseMove, KeyboardType,       // Automation
+    ScreenCapture, OcrRegion,      // Vision
+    OverlayShow, OverlayHide,      // HUD
+}
+```
+
+📖 **Detalhes:** [Seção 17 - Rust Deep Dive](docs/PF_MASTER_ARCHITECTURE.md#17--rust-agent-deep-dive---mcp--rig--multi-user)
+
 ---
 
-## 🗄️ Arquitetura de Banco de Dados (Multi-Tenant)
+## 📜 Panda SDK
 
-### Modelo: Ghost Cells + Planilhas Modulares
+O "colchão" que abstrai toda a complexidade.
 
+### Slots Modulares
+
+| Slot        | Default       | Adapters Premium              |
+| ----------- | ------------- | ----------------------------- |
+| **Data**    | Google Sheets | MongoDB, PostgreSQL, Supabase |
+| **Brain**   | Gemini Flash  | Claude, GPT-4, Llama Local    |
+| **GPU**     | Cloud         | CUDA, ROCm, WebGPU            |
+| **Render**  | -             | Three.js, Babylon, PixiJS     |
+| **Network** | Fetch         | Proxy Pool, VPN               |
+
+### Uso
+
+```javascript
+// Simples assim:
+Panda.Data.save('clients', data);
+Panda.Brain.chat('Analise isso');
+Panda.Bridge.execute('gpu_process', {...});
 ```
+
+📖 **Detalhes:** [Seção 3 - SDK](docs/PF_MASTER_ARCHITECTURE.md#3-camada-2-panda-sdk-abstração)
+
+---
+
+## 📜 GAS Backend
+
+Backend serverless usando Google Apps Script.
+
+### Services
+
+| Service              | Função               |
+| -------------------- | -------------------- |
+| **PF_Core_Auth**     | Login, OAuth, Tokens |
+| **PF_Core_Database** | CRUD Sheets/Drive    |
+| **PF_Core_Wallet**   | Panda Coins (Ledger) |
+| **PF_Core_Billing**  | Quotas, Cobrança     |
+| **PF_Core_Monitor**  | Tracking de uso      |
+
+### Multi-Tenant
+
+> **Definição Ghost Cells:** Planilhas onde o cliente vê apenas seus dados, mas o sistema vê todos.
+
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    ESTRUTURA MULTI-TENANT                       │
 ├─────────────────────────────────────────────────────────────────┤
@@ -283,435 +243,350 @@ Modal de Economia:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### Ghost Cells (Schema Extensível)
+Cada cliente tem dados isolados em sua própria planilha.
 
-Cada planilha tem colunas reservadas para extensão futura:
-
-| Coluna          | Tipo   | Descrição                      |
-| --------------- | ------ | ------------------------------ |
-| `__ghost_1__`   | ANY    | Campo customizável pelo módulo |
-| `__ghost_2__`   | ANY    | Campo customizável pelo módulo |
-| `__meta__`      | JSON   | Metadados extensíveis          |
-| `__tenant_id__` | STRING | Isolamento multi-loja          |
-
-### Recomendações de Banco de Dados
-
-| Cenário               | Tecnologia                | Vantagem                  |
-| --------------------- | ------------------------- | ------------------------- |
-| **Offline-First**     | IndexedDB + Dexie.js      | Funciona sem internet     |
-| **Multi-User Sync**   | Google Sheets API         | Colaboração em tempo real |
-| **High Performance**  | Firebase Realtime         | <100ms latency            |
-| **Enterprise**        | PostgreSQL + Supabase     | ACID, Row-Level Security  |
-| **Fiscal/Compliance** | Google Sheets + Backup S3 | Auditoria + Criptografia  |
-
-### Segurança (Blindagem)
-
-```javascript
-// Exemplo: Row-Level Security no Supabase
-create policy "tenant_isolation" on clientes
-  using (tenant_id = current_tenant());
-
-// Criptografia de campos sensíveis
-const encrypted = Panda.Crypto.encrypt(cpf, TENANT_KEY);
-```
-
-**Camadas de Proteção:**
-
-1. **Tenant Isolation** - Cada loja só vê seus dados
-2. **Field Encryption** - CPF, cartões criptografados
-3. **Audit Log** - Toda alteração é registrada
-4. **Backup Automático** - Google Drive + versionamento
-
-## 🚦 Fila Inteligente (Fair Queue)
-
-Prioridade para pagantes e oportunidade para gratuitos.
-
-| Prioridade   | Perfil        | Comportamento                       |
-| :----------- | :------------ | :---------------------------------- |
-| **Priority** | Saldo > 10 PC | **Fast Lane.** Execução imediata.   |
-| **Economy**  | Free Tier     | **Background.** Roda na ociosidade. |
-
-> **Filosofia:** "O pequeno desenvolvedor (Varejo) traz liquidez e é tratado como VIP."
+📖 **Detalhes:** [Seção 4 - GAS](docs/PF_MASTER_ARCHITECTURE.md#4-camada-3-gas-backend-serverless)
 
 ---
 
-# 3. 📦 Protocolo da Store & Segurança
+## 🔥 Firebase
 
-_(Fonte: `STORE_PROTOCOL.md`)_
+Arquitetura "Colmeia" com células isoladas.
 
-## Manifesto do Módulo (`manifest.json`)
-
-Especificação completa exigida para qualquer plugin.
+### Estrutura
 
 ```json
 {
-  "id": "com.developer.trader-bot",
-  "version": "1.0.0",
-  "type": "EXTENSION", // APP, EXTENSION, LIBRARY
-  "permissions": [
-    "DRIVE_READ", // Ler arquivos
-    "EXTERNAL_API: https://api.binance.com", // Whitelist URL
-    "GPU_ACCESS" // Requerer processamento pesado
-  ],
-  "price": {
-    "module": 0, // Preço de Venda (Grátis)
-    "energy_fee": 1.2 // Multiplicador de Custo (Revenue Share)
-  },
-  "ai_capabilities": {
-    "functions": ["analyze_chart"],
-    "description": "Permite que a IA leia gráficos de velas."
-  },
-  "entrypoint": "main.gs",
-  "frontend": "index.html"
-}
-```
-
-## 🛡️ Modelo de Segurança (Sandbox)
-
-1.  **JEA (Just Enough Administration):** O script roda em um container isolado.
-2.  **Assinatura Digital:** Se o código for alterado localmente sem a assinatura da Panda Cloud, ele não roda.
-3.  **Panda Vault:** Segredos (API Keys) nunca ficam no código. Usam `Vault.get('KEY')` injetado em tempo de execução.
-
-## Open Registry (Descentralizado)
-
-- **Direct URL:** Instale via GitHub (`panda install https://github.com/user/repo.zip`).
-- **Federated Stores:** Empresas podem ter lojas privadas (`registry.json` próprio) para compliance.
-
----
-
-# 4. 💰 Economia & Pricing
-
-## Tabela de Preços
-
-| Perfil      | Margem | Preço Unitário |
-| :---------- | :----- | :------------- |
-| **Varejo**  | 2.50x  | 250 PC         |
-| **Pro**     | 1.75x  | -              |
-| **Atacado** | 1.25x  | 125 PC         |
-
-> **Promoção B2B:** Devs compram "Pacotes Business" (100k PC) com **50% OFF** (1.25x) para revender.
-
-## Estratégias de Monetização para Devs
-
-1.  **Smart Split (Energy Fee):** Mesmo em módulos grátis, o Dev ganha um markup sobre o consumo de energia (ex: Cliente gasta 100 PC, Dev ganha 20 PC).
-2.  **Bundled Launch (Venda Embutida):**
-    - Dev vende curso/ebook na Hotmart/Kiwify.
-    - Via Webhook, entrega 5.000 PC de bônus ao aluno.
-    - O Dev pagou "preço de atacado" nessas moedas e agregou valor de "varejo" ao curso.
-
----
-
-# 5. Gamificação & Badges (Catálogo Completo)
-
-_(Fonte: `GAMIFICATION_BADGES.md`)_
-
-### 🌍 Comunidade & Suporte
-
-| ID  | Badge            | Requisito                | XP/Bônus     |
-| :-- | :--------------- | :----------------------- | :----------- |
-| 001 | **Newcomer**     | Entrar no Discord/Reddit | 10 XP        |
-| 003 | **Helper**       | 5 respostas úteis        | 100 XP       |
-| 005 | **Guru**         | 100 respostas úteis      | 2.000 XP     |
-| 009 | **Exterminador** | Reportar bug crítico     | **5.000 PC** |
-| 013 | **Translator**   | Traduzir módulo          | 200 XP       |
-| 019 | **Influencer**   | Vídeo +1k views          | 5.000 PC     |
-
-### 🛍️ Marketplace (Vendedor)
-
-| ID  | Badge            | Requisito            | Bônus       |
-| :-- | :--------------- | :------------------- | :---------- |
-| 021 | **Open Shop**    | 1º Módulo Publicado  | 50 XP       |
-| 023 | **Merchant**     | 10 Vendas            | 500 XP      |
-| 025 | **Tycoon**       | 100 Vendas           | **Taxa 4%** |
-| 027 | **Unicorn**      | 10.000 Vendas        | **Taxa 2%** |
-| 037 | **Featured Dev** | Escolha da Curadoria | Banner Home |
-
-### 👨‍💻 Developer & Coding
-
-| ID  | Badge            | Requisito                  | XP/Bônus      |
-| :-- | :--------------- | :------------------------- | :------------ |
-| 051 | **Hello GAS**    | 1º Deploy                  | 50 XP         |
-| 055 | **AI Master**    | Usar `callPandaBrain` 100x | 500 XP        |
-| 056 | **GPU User**     | 1º Job no Colab            | 100 XP        |
-| 059 | **Open Sourcer** | Código Aberto              | **Taxa Zero** |
-| 064 | **Clean Code**   | Score A em Qualidade       | Destaque      |
-
-### ⚡ Uso & Energia
-
-| ID  | Badge             | Requisito       | Bônus             |
-| :-- | :---------------- | :-------------- | :---------------- |
-| 081 | **Spark**         | Queimar 100 PC  | 5 XP              |
-| 084 | **Inferno**       | Queimar 100k PC | 2.000 XP          |
-| 085 | **Sun**           | Queimar 1M PC   | Créditos          |
-| 086 | **Green Energy**  | Uso Madrugada   | **10% OFF**       |
-| 091 | **Yearly Active** | 365 dias        | **Anuidade Free** |
-
----
-
-# 6. Referência Técnica: Plugins & SDKs
-
-_(Fonte: `PLUGINS_SDKS.md`)_
-
-## 📹 YouTube API
-
-```javascript
-// Upload de Vídeo
-YouTube.Videos.insert(
-  {
-    snippet: { title: "Demo", description: "Teste" },
-    status: { privacyStatus: "private" },
-  },
-  "snippet,status",
-  mediaBlob,
-);
-```
-
-## 📱 Meta (Facebook/Instagram)
-
-```javascript
-// Postar no Feed
-UrlFetchApp.fetch("https://graph.facebook.com/page/feed", {
-  method: "POST",
-  payload: { message: "Hello World", access_token: TOKEN },
-});
-```
-
-## 💬 WhatsApp (Evolution API)
-
-```javascript
-UrlFetchApp.fetch("https://api.gateway.com/sendText", {
-  method: "POST",
-  payload: JSON.stringify({ number: "551199999999", text: "Olá!" }),
-});
-```
-
-## 💳 Stripe (Pagamentos) webhook
-
-```javascript
-function doPost(e) {
-  const event = JSON.parse(e.postData.contents);
-  if (event.type === "payment_intent.succeeded") {
-    creditWallet(event.data.object.customer_email, event.data.object.amount);
+  "pf_core": { "version": "1.0.0", "status": "ONLINE" },
+  "pf_cells": {
+    "user_001": { "profile": {}, "usage": {}, "data": {} },
+    "user_002": { "profile": {}, "usage": {}, "data": {} }
   }
 }
 ```
 
-## 🎓 Kiwify/Hotmart Webhook
+### Uso
 
-```javascript
-function handleKiwify(payload) {
-  if (payload.status === "paid") {
-    // Entrega automática de Panda Coins
-    creditWallet(payload.email, payload.product.panda_coins_bundle);
-  }
-}
-```
+| Função        | Path                         |
+| ------------- | ---------------------------- |
+| **Signaling** | `/cells/{uid}/command_queue` |
+| **Status**    | `/cells/{uid}/agent_status`  |
+| **Usage**     | `/cells/{uid}/usage/{date}`  |
 
----
-
-# 7. Referência Técnica: Google Workspace
-
-_(Fonte: `GOOGLE_WORKSPACE_INTEGRATIONS.md`)_
-
-## 📧 Gmail
-
-```javascript
-GmailApp.sendEmail("user@email.com", "Subject", "Body");
-const threads = GmailApp.getInboxThreads(0, 10); // Ler Inbox
-```
-
-## 📅 Calendar
-
-```javascript
-CalendarApp.createEvent("Reunião", new Date(), new Date(), {
-  guests: "cliente@comp.com",
-  sendInvites: true,
-});
-```
-
-## 📁 Drive & Files
-
-```javascript
-// Upload
-DriveApp.getFolderById("FOLDER_ID").createFile(blob);
-// Listar
-const files = DriveApp.getFolderById("ID").getFiles();
-```
-
-## 📊 Sheets
-
-```javascript
-SpreadsheetApp.openById("ID")
-  .getSheetByName("Dados")
-  .getRange("A1:B10")
-  .getValues();
-```
-
-## 🗺️ Maps
-
-```javascript
-const loc = Maps.newGeocoder().geocode("Av Paulista 1000");
-const dist = Maps.newDirectionFinder()
-  .setOrigin("A")
-  .setDestination("B")
-  .getDirections();
-```
-
-## ⏰ Triggers (Automação)
-
-```javascript
-// Executar a cada 5 min
-ScriptApp.newTrigger("syncFunction").timeBased().everyMinutes(5).create();
-```
+📖 **Detalhes:** [Seção 4.2 - Firebase Colmeia](docs/PF_MASTER_ARCHITECTURE.md#42-firebase-colmeia)
 
 ---
 
-# 8. Casos de Uso (Arquiteturas)
+## 🏪 Store
 
-## 🎬 Agente Influencer (Autônomo)
+Marketplace de módulos para desenvolvedores.
 
-Gerencia múltiplas redes sociais sozinho.
+### Modelos de Monetização
+
+| Modelo              | Split                | Descrição                 |
+| ------------------- | -------------------- | ------------------------- |
+| **Grátis + Energy** | 70% Dev / 30% Panda  | Dev ganha % sobre consumo |
+| **Venda Direta**    | Dev define preço     | Compra com Panda Coins    |
+| **Bundle Externo**  | 50% desconto atacado | Via Hotmart/Kiwify        |
+
+### Fluxo Dev → Store → Cliente
 
 ```
-[YouTube API] + [Meta Graph] + [TikTok API]
-        ⬇           ⬇            ⬇
-      [Gemini IA (Cérebro Decisor)]
-        ⬇           ⬇            ⬇
-   [Agendar]    [Responder]   [Analytics]
+Dev → Desenvolve → Submete → Review → Publica
+Cliente → Navega → Compra (PC) → Instala → Usa
 ```
 
-## 📰 Repórter Workstation (HUD)
-
-Múltiplas janelas conectadas via `postMessage`.
-
-- **Window 1:** Mind Map (Visual)
-- **Window 2:** Brainstorm (IA)
-- **Window 3:** Busca em PDFs (Vector Search)
-
-## 🔬 Pesquisador (Híbrido)
-
-- **Local Agent:** Roda Python/Pandas na máquina do cientista (Grátis).
-- **Cloud Burst:** Se faltar RAM, transborda para Colab GPU (Pago em PC).
+📖 **Detalhes:** [Seção 7 - Comunidade](docs/PF_MASTER_ARCHITECTURE.md#7-comunidade-github--registry)
 
 ---
 
-# 9. Auditoria & Compliance
+## 💰 Economia
 
-_(Fonte: `AUDITORIA_PRE_LANCAMENTO.md`)_
+### Planos
 
-## 🛡️ O Muro de Compliance (Firewall Jurídico)
+| Plano        | Preço          | Tokens/mês | GPU Cloud  |
+| ------------ | -------------- | ---------- | ---------- |
+| **Free**     | R$ 0           | 100K       | ❌         |
+| **Starter**  | R$ 9,90/mês    | 500K       | 10 min     |
+| **Pro**      | R$ 29,90/mês   | 2M         | 60 min     |
+| **Business** | R$ 99,90/mês   | 10M        | 300 min    |
+| **Lifetime** | R$ 150 (único) | 500K/mês   | 10 min/mês |
 
-1.  **Segregação:** Dados no Drive do cliente.
-2.  **Responsabilidade:** Termos de Uso (ToS) claros.
-3.  **Parceria:** Geramos receita legítima para Google Cloud.
+### Custo por Modelo
 
-## 🚨 Checklist Pré-Lançamento
+| Modelo       | PC/1K input | PC/1K output |
+| ------------ | ----------- | ------------ |
+| Gemini Flash | 0.03        | 0.10         |
+| Claude Haiku | 0.06        | 0.30         |
+| GPT-4o-mini  | 0.04        | 0.15         |
+| Llama Local  | 0.00        | 0.00         |
 
-- [x] **Contábil:** MEI (CNAE 8599-6/03) + PagSeguro.
-- [x] **Legal:** Termos de Uso ("Neutralidade de Rede").
-- [ ] **Segurança:** Segredos em `PropertiesService`.
-- [ ] **Tecnologia:** HTTPS Obrigatório.
-
----
-
-# 10. 📋 Changelog
-
-## [2.4.0] - 2026-01-20 (Premium Styling & Omni-Bar)
-
-### 🎨 Adicionado
-
-- **Premium Header**: Design estilo "Ilha Flutuante" (Floating Island) com contam de vidro (Glassmorphism), bordas arredondadas (24px) e sombra suave.
-- **Omni Search Bar Integrada**: Substituição da janela flutuante (`overlay`) por uma barra integrada na raiz (`root level`), com posição fixa e digitação direta. Zero layout jumps.
-- **Estética Visual**:
-  - Gradient Background Radial (Suave e Profundo) para Light/Dark mode via CSS Variables.
-  - Isolamento de Gradiente no Logo (Emoji 🐼 preservado vs Texto com gradiente).
-  - Dock de Apps com delineação refinada e opacidade adaptativa.
-- **Header Refinement**: Reforço da borda e remoção de estilos inline opacos para suporte real a termas translúcidos.
-
-### 🔧 Corrigido
-
-- **Omni-Bar Jumps**: Corrigido comportamento onde clicar no gatilho saltava o layout da página.
-- **CSS Encapsulation**: Corrigido bloco CSS exposto (texto cru) no Header.
-- **Window Constraints**: Liberada janela de busca (`#omni-trigger`) da restrição do container pai (`#inicio-view`), permitindo flutuação livre.
-
-## [3.0.0] - 2026-01-20
-
-### 🚀 Novo
-
-- **Panda Factory**: Rename de "CRM" para "Panda Factory" - sistema operacional modular
-- **Kernel Isolado**: Todo código JS movido para `js/panda.core.js` (~185KB)
-- **Module Loader**: Sistema dinâmico de carregamento de módulos (`js/ModuleLoader.js`)
-- **Store Module**: Marketplace de apps integrado ao Dock (🏪)
-- **Developer Lock**: Módulos podem ser travados (`locked: true`) para impedir fechamento
-- **Dock Closeables**: Badge "X" para fechar apps não-locked
-
-### 🎨 Alterado
-
-- **Arquivo Principal**: `CRM.html` → `PandaFactory.html`
-- **Módulos Isolados**: CRM, Agenda, Reports movidos para `modules/*/index.html`
-- **Logout no Header**: Botão de sair agora fica no header (vermelho degradê)
-- **Store no Dock**: Loja substituiu botão de logout no dock
-
-### 🔧 Corrigido (CRM Module)
-
-- **Field ID Mismatch**: `newClientNome` → `newClientName` (alinhado com core)
-- **Campos Faltantes**: Adicionados `newClientData` (date) e `newClientPhone` (tel)
-- **Duplicate Field**: Removido campo duplicado "Observações"
-- **DOM Structure**: Removida `</div>` extra que quebrava hierarquia
-
-## [2.4.1] - 2026-01-20
-
-### 🔧 Corrigido
-
-- **Bug Crítico**: Tag `<script>` não fechada causava CSS renderizado como texto
-- **Duplicações Header**: Removidos botões Config/Sair duplicados
-
-### 🎨 Alterado
-
-- **Paleta de Cores**: Atualizada para padrão Vercel dark mode
-- **Design Tokens**: Novos tokens `--ds-*` para themes
+📖 **Detalhes:** [Seção 16 - Economia](docs/PF_MASTER_ARCHITECTURE.md#16--economia--pricing)
 
 ---
 
-## [2.2.0] - 2026-01-15
+## 🏷️ Convenção PF
 
-- Panda AI Assistant (Omni-Bar com Ctrl+K)
-- Sistema de energia IA (Panda Coins)
-- Integração Google Maps Autocomplete
+Prefixos padronizados em todo o ecossistema.
 
-## [2.1.0] - 2026-01-10
+| Contexto      | Prefixo  | Exemplo              |
+| ------------- | -------- | -------------------- |
+| Repos GitHub  | `pf-`    | `pf-sdk`, `pf-agent` |
+| Arquivos JS   | `pf.`    | `pf.core.js`         |
+| Arquivos GAS  | `PF_`    | `PF_Core_Auth.gs`    |
+| CSS Variables | `--pf-`  | `--pf-primary`       |
+| API Pública   | `Panda.` | `Panda.Data`         |
+| Internals     | `PF.`    | `PF._cache`          |
 
-- Interface dark mode
-- Kanban view
-- Upload de relatórios HTML
+📖 **Detalhes:** [Seção 13 - Convenção](docs/PF_MASTER_ARCHITECTURE.md#13-%EF%B8%8F-convenção-de-nomes-pf-panda-fabrics)
 
 ---
 
-© 2026 Panda Fabrics Core - **Building the Developer Soil.**
+## 🚀 Roadmap
 
----
+### 12 Semanas para v1.0
 
-# 11. 🏗️ Arquitetura de Componentes vs Módulos
-
-A estrutura do projeto foi dividida para separar o **Core do Sistema** (imutável/fixo) dos **Módulos Dinâmicos** (extensíveis/loja).
+| Fase           | Semanas | Entrega                       |
+| -------------- | ------- | ----------------------------- |
+| **Rust Agent** | 1-3     | Firebase, Cache, GPU, MCP     |
+| **PF-SDK**     | 4-6     | Slots, Adapters, Offline      |
+| **PF-Factory** | 7-9     | UI Components, Modules        |
+| **PF-Store**   | 10-12   | Registry, Payments, Dashboard |
 
 ```text
-📁 components/          ← COMPONENTES FIXOS (Core do Sistema)
-│   ├── header-status.html      ✅ Status do Sistema, User, Configs
-│   ├── app-dock.html           ⚠️ [Em Breve] Barra de Apps (Esquerda)
-│   ├── devtools-dock.html      ⚠️ [Em Breve] Ferramentas Dev (Direita)
-│   ├── settings-modal.html     ⚙️ Modal de Configurações
-│   └── sidebar.html            Navigation (se aplicável)
-│
-📁 modules/             ← MÓDULOS DINÂMICOS (Loja de Apps)
-    ├── crm/            👥 CRM Avançado (Instalável)
-    ├── analytics/      📈 Dashboards (Instalável)
-    └── finance/        💰 Gestão Financeira (Instalável)
+Semana:  1  2  3  4  5  6  7  8  9  10 11 12
+RUST  ═══█══█══█══┐
+SDK              └══█══█══█══┐
+FACTORY                      └══█══█══█══┐
+STORE                                    └══█══█══█
 ```
 
-### Diferenciação
+📖 **Detalhes:** [Seção 15 - Roadmap](docs/PF_MASTER_ARCHITECTURE.md#15--roadmap-de-implementação)
 
-| Tipo                  | Diretório     | Descrição                                            | Carregamento                    |
-| :-------------------- | :------------ | :--------------------------------------------------- | :------------------------------ |
-| **Componentes Fixos** | `components/` | Parte vital do OS (Header, Docks). Sempre presentes. | Boot Inicial (Estático/Include) |
-| **Módulos Dinâmicos** | `modules/`    | Apps opcionais criados por terceiros ou pela Panda.  | On-Demand (ModuleLoader)        |
+---
+
+## 🔒 Segurança & Zero-Knowledge
+
+### Princípio Fundamental
+
+> **"A Panda Fabrics não recebe dados. Recebe apenas telemetria de consumo."**
+
+### O que o Rust ENVIA
+
+| Dado            | Permitido |
+| --------------- | --------- |
+| uptime_seconds  | ✅        |
+| energy_consumed | ✅        |
+| status          | ✅        |
+
+### O que NUNCA sai do PC
+
+| Dado                 | Bloqueado |
+| -------------------- | --------- |
+| Conteúdo de arquivos | ❌        |
+| Dados de clientes    | ❌        |
+| Screenshots          | ❌        |
+| API keys             | ❌        |
+
+### Proteções
+
+| Ataque           | Proteção                     |
+| ---------------- | ---------------------------- |
+| DDoS             | Rate limiting (1000 req/dia) |
+| Data Leakage     | Células isoladas             |
+| Malicious Module | Assinatura digital           |
+| Abuse            | Revogação instantânea        |
+
+> Agent é **Open Source** - audite em github.com/pandafabrics/panda-agent
+
+📖 **Detalhes:** [Seção 8 - Zero-Knowledge](docs/PF_MASTER_ARCHITECTURE.md#8-zero-knowledge-cloud)
+
+---
+
+## 🚀 Onboarding (The Gate)
+
+### Fluxo de Cadastro
+
+```text
+1. Cadastro Web → 2. The Gate → 3. Download → 4. Desbloqueio
+```
+
+| Passo | Descrição                           |
+| ----- | ----------------------------------- |
+| **1** | Email + Senha                       |
+| **2** | Aceita termos (processamento local) |
+| **3** | Baixa Panda Agent                   |
+| **4** | Agent conecta → UI desbloqueia      |
+
+### Rust é Obrigatório
+
+> **Sem trial.** O Agent é o coração do sistema.
+
+| Aspecto              | Detalhe                       |
+| -------------------- | ----------------------------- |
+| **Open Source**      | Código auditável no GitHub    |
+| **Binário assinado** | Builds oficiais verificáveis  |
+| **Compilável**       | Dev pode buildar do source    |
+| **Código autoral**   | Proprietário mas transparente |
+
+📖 **Detalhes:** [Seção 9 - Onboarding](docs/PF_MASTER_ARCHITECTURE.md#9-fluxo-de-onboarding)
+
+---
+
+## 🤖 Automação & Bot Services
+
+100% **client-side** - Panda não vê o que você faz.
+
+### Capacidades
+
+| Feature            | Descrição                          |
+| ------------------ | ---------------------------------- |
+| **IP Rotation**    | Proxy Pool, WireGuard VPN          |
+| **Fingerprinting** | Multi-account isolado              |
+| **Overlay HUD**    | Dashboard transparente sobre games |
+| **Automation**     | Mouse, Keyboard, OCR               |
+
+### MCP Tools
+
+| Tool           | Uso             |
+| -------------- | --------------- |
+| `rotate_ip`    | Anti-ban        |
+| `mouse_move`   | Bot de jogo     |
+| `ocr_region`   | Leitura de tela |
+| `overlay_show` | Dashboard HUD   |
+
+📖 **Detalhes:** [Seção 5.1 - Bot Services](docs/PF_MASTER_ARCHITECTURE.md#51-serviços-para-bots-farms--automação)
+
+---
+
+## 🤝 Programa de Afiliados
+
+### Modelo
+
+| Tipo                 | Ganho                            |
+| -------------------- | -------------------------------- |
+| **Indicação direta** | 5% sobre vendas do indicado      |
+| **Perpétuo**         | Ganha em TODAS as vendas futuras |
+
+### Exemplo
+
+```text
+Dev A indica Dev B
+Dev B vende 100 PC → Dev A ganha 5 PC
+Dev B vende 1000 PC → Dev A ganha 50 PC
+(para sempre!)
+```
+
+📖 **Detalhes:** [Seção 11 - Afiliados](docs/PF_MASTER_ARCHITECTURE.md#11--store-dos-devs--monetização)
+
+---
+
+## 🔐 Open Core (GitHub)
+
+### Fluxo de Proteção e Build
+
+```mermaid
+graph TD
+    A[Public Repo panda-core] -->|Pull Code| C{GitHub Actions Builder}
+    B[Private Repo panda-proprietary] -->|Inject Secrets| C
+    C -->|Build --features official| D[Official Binary panda-agent.exe]
+    D -->|Release| E[GitHub Releases]
+
+    F[Fork do Público] -->|Build sem Secrets| G[Agent Incompleto Não Inicia]
+
+    style A fill:#a9f,stroke:#333
+    style B fill:#f96,stroke:#333
+    style D fill:#9f9,stroke:#333
+    style G fill:#f99,stroke:#333
+```
+
+### Estratégia de Proteção
+
+| Aspecto          | Detalhe                                |
+| ---------------- | -------------------------------------- |
+| **Repo Público** | `panda-core` - Código auditável        |
+| **Repo Privado** | `panda-proprietary` - Lógica secreta   |
+| **Fork**         | Build não-oficial = Não inicia         |
+| **Oficial**      | GitHub Actions funde público + privado |
+
+### Compilação Condicional
+
+```rust
+#[cfg(feature = "official_build")]
+fn init_core() { panda_proprietary::start(); }
+
+#[cfg(not(feature = "official_build"))]
+fn init_core() { eprintln!("⚠️ Baixe oficial em panda.dev"); }
+```
+
+### Resultado
+
+| Cenário       | Resultado           |
+| ------------- | ------------------- |
+| Baixa oficial | ✅ Funciona, grátis |
+| Audita código | ✅ Transparente     |
+| Faz fork      | ❌ Não inicia       |
+
+📖 **Detalhes:** [Seção 18 - Open Core](docs/PF_MASTER_ARCHITECTURE.md#18--open-core-strategy-github)
+
+---
+
+## 📋 Changelog
+
+### [4.0.0] - 2026-01-21
+
+#### 🚀 Arquitetura Completa
+
+- **PF_MASTER_ARCHITECTURE.md**: Documento unificado (~2300 linhas)
+- **Rust Agent Deep Dive**: MCP + RIG + Multi-User + Token Meter
+- **Firebase Colmeia**: Arquitetura de células isoladas
+- **SDK Modular**: Sistema de slots e adapters
+- **Economia Completa**: Planos, tokens, billing
+
+#### 🏷️ Convenção PF
+
+- Prefixos padronizados (`pf-`, `PF_`, `--pf-`, `Panda.`)
+- Estrutura de pastas documentada
+- Naming conventions para código
+
+#### 📊 Pricing
+
+- Modelo híbrido: 100K grátis + planos
+- Lifetime R$ 150
+- Dev Split 70/30
+
+---
+
+### [3.0.0] - 2026-01-20
+
+#### 🚀 Novo
+
+- **Panda Factory**: Rename de "CRM" para sistema modular
+- **Kernel Isolado**: `js/panda.core.js`
+- **Module Loader**: Sistema dinâmico
+- **Store Module**: Marketplace integrado
+
+---
+
+### [2.4.0] - 2026-01-20
+
+#### 🎨 Adicionado
+
+- Premium Header (Glassmorphism)
+- Omni Search Bar integrada
+- Gradient Background Radial
+
+---
+
+---
+
+## 🔗 Links Úteis
+
+| Recurso                  | Link                                                             |
+| ------------------------ | ---------------------------------------------------------------- |
+| **Arquitetura Completa** | [docs/PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
+| **Repositório GitHub**   | [github.com/LucassVal/SAAS](https://github.com/LucassVal/SAAS)   |
+
+---
+
+© 2026 Panda Fabrics (PF) - **Building the Developer Soil.**
