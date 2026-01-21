@@ -17,7 +17,7 @@ mindmap
       Panda.Bridge.execute
       Panda.GPU.process
     (SDK traduz para)
-      GAS/Sheets
+      "GAS / Sheets"
         Google Apps Script
         SpreadsheetApp
         DriveApp
@@ -249,7 +249,7 @@ flowchart TB
 
     subgraph GAS_PATH["📜 Via GAS (DDD)"]
         DISPATCHER[Dispatcher Core]
-        DOMAINS{Chapéus / Domains}
+        DOMAINS{"Chapéus / Domains"}
         SHEETS[(Google Sheets)]
 
         DISPATCHER -->|Roteia| DOMAINS
