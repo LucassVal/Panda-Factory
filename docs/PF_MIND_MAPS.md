@@ -105,19 +105,19 @@ mindmap
         Kiwify
         Hotmart
         Stripe
-    (Chapéus/Domains)
+    (Chapéus e Domains)
       FINANCE
-        Wallet (Voltímetro)
-        Fiat (Gateways)
-        Crypto (Blockchain)
+        Wallet - Voltímetro
+        Fiat - Gateways
+        Crypto - Blockchain
       STORE
-        Registry (Catálogo)
-        Sales (Comissão)
+        Registry - Catálogo
+        Sales - Comissão
       AUTOMATION
-        Bots (Farms)
-    (Core Services)
-      Dispatcher (Porteiro)
-      Authentication
+        Bots - Farms
+    (Dispatcher Core)
+      Entry Point Unico
+      Roteamento Seguro
       Config Global
     (Integrações Nativas)
       Gmail
@@ -126,8 +126,8 @@ mindmap
       Maps
       YouTube
     (Quotas)
-      6 min/execução
-      90 min/dia free
+      6 min por execução
+      90 min por dia free
       Trigger automático
 ```
 
