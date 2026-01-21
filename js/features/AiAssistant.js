@@ -103,11 +103,23 @@ window.AiAssistant = {
   // --- RENDERERS ---
 
   renderButton: function () {
-    const btn = document.createElement("div");
-    btn.id = "panda-fab";
-    btn.innerHTML = "🐼";
-    btn.onclick = () => this.toggle();
-    document.body.appendChild(btn);
+    // Tenta encontrar botão existente primeiro para evitar duplicação e conflito de estilos
+    let btn = document.getElementById("panda-fab");
+
+    if (!btn) {
+      btn = document.createElement("div");
+      btn.id = "panda-fab";
+      btn.innerHTML = "🐼";
+      // Só adiciona evento se criou o botão. Se já existe, assume que o HTML controla (OmniBar) ou adicionaremos listener extra.
+      btn.onclick = () => this.toggle();
+      document.body.appendChild(btn);
+    } else {
+      // Opcional: Se quiser que o botão TAMBÉM abra o chat (com Double Click ou algo assim), adicione aqui.
+      // Por enquanto, respeitamos o onclick="toggleOmniBar()" do HTML para não quebrar a OmniBar.
+      console.log(
+        "🐼 Panda Assistant: Botão FAB existente encontrado. Usando-o.",
+      );
+    }
   },
 
   renderChatWindow: function () {

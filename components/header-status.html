@@ -1,0 +1,120 @@
+<!-- ============================================= -->
+<!-- HEADER - STATUS COMPONENT -->
+<!-- Isolated/Extracted Component -->
+<!-- ============================================= -->
+
+<div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; width: 100%; box-sizing: border-box;">
+  
+  <!-- ===== LEFT: Brand ===== -->
+  <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
+    <h1 style="margin:0; font-size:24px; display:flex; align-items:center; gap:8px; color: var(--ds-gray-1000);">
+      <span>🐼</span> 
+      <span style="font-weight:700; letter-spacing:-0.5px;">Panda Fabrics</span>
+    </h1>
+    <span class="version-badge">v2.2</span>
+  </div>
+
+  <!-- ===== CENTER: System Status Monitor ===== -->
+  <div class="status-monitor-bar" style="display:flex; gap:12px; flex: 1; justify-content: center; align-items:center; min-width: 0;">
+    
+    <div class="status-pill" title="Firebase Realtime (Heartbeat)">
+      <span class="status-label">FB</span>
+      <div class="status-dot online"></div>
+    </div>
+    
+    <div class="status-pill" title="Google App Script (Serverless)">
+      <span class="status-label">GA</span>
+      <div class="status-dot warning"></div>
+    </div>
+    
+    <div class="status-pill" title="Rust Agent (Local Bridge)">
+      <span class="status-label">RU</span>
+      <div class="status-dot online"></div>
+    </div>
+    
+    <div class="status-pill" title="Database (Persistência)">
+      <span class="status-label">DB</span>
+      <div class="status-dot online"></div>
+    </div>
+    
+    <div class="status-pill" title="Gemini AI (Intelligence)">
+      <span class="status-label">AI</span>
+      <div class="status-dot online"></div>
+    </div>
+    
+    <div class="status-pill" title="Local GPU (Hardware)">
+      <span class="status-label">GP</span>
+      <div class="status-dot offline"></div>
+    </div>
+    
+  </div>
+
+  <!-- ===== RIGHT: Controls ===== -->
+  <div class="header-controls" style="display:flex; align-items:center; gap:15px; flex-shrink: 0;">
+    
+    <!-- Energy Bar (Row Layout) -->
+    <div class="energy-wrapper" title="Créditos de IA">
+      <span class="energy-icon">⚡</span>
+      <div class="energy-bar-container">
+        <div class="energy-fill" id="aiEnergyFill" style="width: 100%;"></div>
+      </div>
+      <span class="energy-text" id="aiEnergyText">100%</span>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle-btn" onclick="toggleDarkMode()" title="Alternar Tema Escuro/Claro">
+      <span id="themeIcon">🌙</span>
+    </button>
+
+    <!-- Language Switcher -->
+    <div class="lang-switcher-wrapper" style="position: relative;">
+      <button class="theme-toggle-btn" onclick="toggleLangMenu()" title="Alterar Idioma / Change Language" id="langBtn">
+        <span style="font-size: 16px;">🇧🇷</span>
+      </button>
+      
+      <!-- Dropdown Menu -->
+      <div id="langDropdown" class="lang-dropdown">
+        <div class="lang-option" onclick="changeLanguage('pt')">
+          <span>🇧🇷</span> Português
+        </div>
+        <div class="lang-option" onclick="changeLanguage('en')">
+          <span>🇺🇸</span> English
+        </div>
+        <div class="lang-option" onclick="changeLanguage('es')">
+          <span>🇪🇸</span> Español
+        </div>
+      </div>
+    </div>
+
+    <!-- User Info & Logout -->
+    <div style="display:flex; align-items:center; gap:12px; border-left: 1px solid var(--ds-gray-alpha-400); padding-left: 15px;">
+      <div id="userLoginInfo" style="text-align:right;">
+        <div style="display:flex; flex-direction:column; line-height:1.3;">
+          <span style="font-weight:600; color:#1e293b;">👤 Administrador</span>
+          <span style="font-size:10px; color:#94a3b8;">Login: 22:15</span>
+        </div>
+      </div>
+      
+      <button onclick="fazerLogout()" 
+              title="Sair do Sistema" 
+              style="background: linear-gradient(135deg, #ef4444, #dc2626); 
+                     color: white; 
+                     border: none; 
+                     border-radius: 8px; 
+                     padding: 8px 14px; 
+                     cursor: pointer; 
+                     display: flex; 
+                     align-items: center; 
+                     gap: 6px; 
+                     font-size: 13px; 
+                     font-weight: 600; 
+                     transition: all 0.2s; 
+                     box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);" 
+              onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(239, 68, 68, 0.3)'" 
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(239, 68, 68, 0.2)'">
+        🚪 Sair
+      </button>
+    </div>
+    
+  </div>
+</div>

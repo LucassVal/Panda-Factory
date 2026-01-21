@@ -1,11 +1,39 @@
-# 🐼 Panda Fabrics Core - Master Documentation
+# 🐼 Panda Factory - Modular Operating System
 
-> **Single Source of Truth** | Versão 2.3.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
+> **Single Source of Truth** | Versão 3.0.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
 
-**Nota:** Este documento consolida **todo** o conhecimento do ecossistema Panda Fabrics: Estratégia, Código, Infraestrutura e Regras.
+**Nota:** Este documento consolida **todo** o conhecimento do ecossistema Panda Factory (formerly Panda Fabrics): Estratégia, Código, Infraestrutura e Regras.
 
 > [!TIP]
-> **v2.3.0:** Redesign Vercel/Geist, Panda SDK v1.0.0, dock arrastável. [Ver Changelog](#10--changelog)
+> **v3.0.0:** Refatoração Modular OS, Kernel isolado (`panda.core.js`), módulos dinâmicos, Store integrada. [Ver Changelog](#10--changelog)
+
+---
+
+## 💻 Estrutura da Interface (UI/UX)
+
+A interface foi redesenhada para oferecer uma experiência "Clean Canvas" focada na produtividade.
+
+### 1. Home View "Clean Canvas" (`#inicio-view`)
+
+- **Loading Screen (`#panda-loading`):** Animação inicial suave do Panda.
+- **Omni Search Bar (`#omni-trigger`):** Barra flutuante centralizada e arrastável.
+
+### 2. Official App Dock (`#appDock`)
+
+Dock flutuante (estilo macOS) na parte inferior:
+
+- **Drag Handle:** Área para arrastar.
+- **Nav Items:** Home, Contatos, Agenda, Relatórios.
+- **Ações:** Configurações (⚙️) e Logout (🚪).
+
+```html
+<!-- Exemplo Dock -->
+<div class="app-dock" id="appDock">
+  <div class="dock-handle">...</div>
+  <div class="nav-item">🏠</div>
+  ...
+</div>
+```
 
 ---
 
@@ -71,6 +99,15 @@ O modelo híbrido garante privacidade e escala infinita.
                     ↕ Google Auth (OAuth) ↕
 ```
 
+### 🔒 Protocolo de Segurança (Data Shield V2)
+
+Para garantir integridade e LGPD no modelo híbrido (Firebase + Drive):
+
+1.  **Hot Layer (Firebase):** Usado apenas como **Barramento de Mensagem (Signaling)**. Dados são efêmeros (TTL curto) e criptografados (E2E).
+2.  **Cold Layer (Drive):** O banco de dados real (persistência) reside no Google Drive do Cliente. A Panda Fabrics **não tem acesso**.
+3.  **Client-Side Encryption:** Dados sensíveis são cifrados no navegador antes de tocar nossa infra.
+4.  **Isenção:** A Panda fornece a "Estrada" (Software via GAS), o cliente dirige o "Carro" (Dados).
+
 ### Por Que Google Auth é Obrigatório?
 
 1.  **Frontend:** Hospedado por nós para updates globais.
@@ -133,36 +170,46 @@ O Agente Local (Rust/Tauri) acessa o hardware do usuário. **CUSTO ZERO** de ene
 **Conceito "Ghost" (Golden Image):**
 Para tarefas na nuvem, usamos Spot VMs que ligam, processam e hibernam.
 
-### 3. 🐼 Panda Agent (WebSocket Bridge)
+### 3. 🐼 Panda Agent (Firebase Signaling)
 
-O Agente Local permite que o site execute DLLs e binários nativos no PC do usuário.
+Evolução da arquitetura para v2.0. Em vez de WebSockets locais (frágeis), usamos o Firebase como **Signaling Server** (Barramento de Mensagens).
 
 ```
-┌─────────────┐      WebSocket       ┌─────────────────────┐
-│   CHROME    │ ◄──────────────────► │  PANDA AGENT (exe)  │
-│  (Panda UI) │    localhost:9999    │  Carrega DLLs       │
-└─────────────┘                      └─────────────────────┘
-                                              │
-                                              ▼
-                                     ┌─────────────────────┐
-                                     │  MetaTrader DLL     │
-                                     │  Binance SDK        │
-                                     │  GPU Processing     │
-                                     └─────────────────────┘
+┌─────────────┐       HTTPS (SSE)       ┌─────────────────────┐
+│   CHROME    │ ◄─────────────────────► │  PANDA AGENT (Rust) │
+│  (Panda UI) │      via Firebase       │  (Daemon Local)     │
+└─────────────┘                         └─────────────────────┘
+       │                                           │
+       ▼                                           ▼
+┌─────────────┐                         ┌─────────────────────┐
+│  FIREBASE   │                         │  MetaTrader DLL     │
+│ Realtime DB │                         │  Binance SDK        │
+│ (Hot Layer) │                         │  NVIDIA CUDA        │
+└─────────────┘                         └─────────────────────┘
 ```
 
-**Exemplo de Uso (JavaScript no site):**
+**Benefícios da Nova Arquitetura:**
 
-```javascript
-const PandaAgent = new WebSocket("ws://localhost:9999");
-PandaAgent.send(JSON.stringify({ action: "trade", symbol: "BTCUSD" }));
-```
+- ✅ **Sem Problemas de Porta/Firewall:** Usa HTTPS padrão (443).
+- ✅ **Persistência de Comandos:** Se o agente cair, o comando fica na fila.
+- ✅ **Estado Global:** O status do agente é visível para qualquer aba aberta.
 
-**Vantagens:**
+#### 🛠️ Capacidades Expandidas (Local OS Bridge)
 
-- ✅ **LGPD Compliant** - Dados não saem do PC do usuário
-- ✅ **Custo Zero** - Processamento na máquina do cliente
-- ✅ **Acesso a DLLs** - MetaTrader, Binance, CUDA
+O Rust não serve apenas para GPU. Ele atua como as "Mãos" do sistema:
+
+1.  **Financeiro:** Ponte DLL para MetaTrader, ProfitChart e Terminais Bancários.
+2.  **RPA (Ghost User):** Controle de Mouse/Teclado para operar ERPs legados.
+3.  **Hardware/IoT:** Acesso nativo a Impressoras Térmicas, Balanças e Sensores USB.
+4.  **Local AI:** Rodar Llama 3 offline para privacidade absoluta.
+
+#### 🛡️ Protocolo de Segurança (CYA)
+
+- **Permissão Explícita:** Pop-ups estilo Android para cada novo acesso ("Permitir leitura de C:\?").
+- **Assinatura Digital:** Bloqueio de plugins não assinados pela Panda.
+- **Kill Switch:** Desativação remota global em caso de emergência.
+
+📄 Detalhes técnicos completos: [`ARCHITECTURE_FIREBASE_RUST.md`](./ARCHITECTURE_FIREBASE_RUST.md)
 
 ---
 
@@ -186,6 +233,94 @@ PandaAgent.send(JSON.stringify({ action: "trade", symbol: "BTCUSD" }));
 - IA gera código via texto
 - Manifesto JSON → UI automática
 - **Meta:** Usuário não-técnico cria apps
+
+---
+
+## 🎮 GPU Detection Flow
+
+```
+Site carrega → Conecta ws://localhost:9999
+       │
+       ├── Agent conectado?
+       │   ├── SIM → Panda.Agent.execute('check_gpu')
+       │   │        ├── GPU detectada → LOCAL MODE (0 PC)
+       │   │        │   └── NVIDIA/AMD/Apple Metal
+       │   │        └── Sem GPU → CLOUD MODE (30 PC/h)
+       │   │
+       │   └── NÃO → Mostra: "Instalar Panda Agent"
+       │           → Fallback para Cloud (30 PC/h)
+       │
+Modal de Economia:
+┌─────────────────────────────────────────┐
+│ 🖥️ GPU Detectada: NVIDIA RTX 3080      │
+│ ⚡ Modo: LOCAL (0 tokens/hora)          │
+│ 💰 Economia estimada: 720 PC/dia       │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 🗄️ Arquitetura de Banco de Dados (Multi-Tenant)
+
+### Modelo: Ghost Cells + Planilhas Modulares
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    ESTRUTURA MULTI-TENANT                       │
+├─────────────────────────────────────────────────────────────────┤
+│  TENANT (Loja/Empresa)                                          │
+│  ├── config.json          → Configurações específicas           │
+│  ├── users/               → Multi-usuário por tenant            │
+│  │   ├── user_001.json                                          │
+│  │   └── user_002.json                                          │
+│  ├── modules/             → Módulos ativados                    │
+│  │   ├── fiscal/          → NFe, NFCe, SPED                     │
+│  │   ├── crm/             → Clientes, Leads                     │
+│  │   └── store/           → Produtos, Estoque                   │
+│  └── data/                → Planilhas com Ghost Cells           │
+│      ├── clientes.sheet   → [ID, Nome, ..., __ghost__]          │
+│      └── vendas.sheet     → [ID, Data, ..., __ghost__]          │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Ghost Cells (Schema Extensível)
+
+Cada planilha tem colunas reservadas para extensão futura:
+
+| Coluna          | Tipo   | Descrição                      |
+| --------------- | ------ | ------------------------------ |
+| `__ghost_1__`   | ANY    | Campo customizável pelo módulo |
+| `__ghost_2__`   | ANY    | Campo customizável pelo módulo |
+| `__meta__`      | JSON   | Metadados extensíveis          |
+| `__tenant_id__` | STRING | Isolamento multi-loja          |
+
+### Recomendações de Banco de Dados
+
+| Cenário               | Tecnologia                | Vantagem                  |
+| --------------------- | ------------------------- | ------------------------- |
+| **Offline-First**     | IndexedDB + Dexie.js      | Funciona sem internet     |
+| **Multi-User Sync**   | Google Sheets API         | Colaboração em tempo real |
+| **High Performance**  | Firebase Realtime         | <100ms latency            |
+| **Enterprise**        | PostgreSQL + Supabase     | ACID, Row-Level Security  |
+| **Fiscal/Compliance** | Google Sheets + Backup S3 | Auditoria + Criptografia  |
+
+### Segurança (Blindagem)
+
+```javascript
+// Exemplo: Row-Level Security no Supabase
+create policy "tenant_isolation" on clientes
+  using (tenant_id = current_tenant());
+
+// Criptografia de campos sensíveis
+const encrypted = Panda.Crypto.encrypt(cpf, TENANT_KEY);
+```
+
+**Camadas de Proteção:**
+
+1. **Tenant Isolation** - Cada loja só vê seus dados
+2. **Field Encryption** - CPF, cartões criptografados
+3. **Audit Log** - Toda alteração é registrada
+4. **Backup Automático** - Google Drive + versionamento
 
 ## 🚦 Fila Inteligente (Fair Queue)
 
@@ -481,15 +616,50 @@ _(Fonte: `AUDITORIA_PRE_LANCAMENTO.md`)_
 
 # 10. 📋 Changelog
 
-## [2.3.0] - 2026-01-20
+## [2.4.0] - 2026-01-20 (Premium Styling & Omni-Bar)
 
 ### 🎨 Adicionado
 
-- **Design System Vercel/Geist**: Tokens CSS completos extraídos de vercel.com
-- **Dock Arrastável**: Barra de navegação pode ser movida para qualquer posição
-- **Panda SDK v1.0.0**: Kit de desenvolvimento com 6 módulos (Database, AI, Wallet, UI, Agent, Utils)
-- **Panda Agent Docs**: Documentação do WebSocket Bridge
-- **SDK Roadmap**: Fases 1-3 documentadas (CLI → Templates → Low Code)
+- **Premium Header**: Design estilo "Ilha Flutuante" (Floating Island) com contam de vidro (Glassmorphism), bordas arredondadas (24px) e sombra suave.
+- **Omni Search Bar Integrada**: Substituição da janela flutuante (`overlay`) por uma barra integrada na raiz (`root level`), com posição fixa e digitação direta. Zero layout jumps.
+- **Estética Visual**:
+  - Gradient Background Radial (Suave e Profundo) para Light/Dark mode via CSS Variables.
+  - Isolamento de Gradiente no Logo (Emoji 🐼 preservado vs Texto com gradiente).
+  - Dock de Apps com delineação refinada e opacidade adaptativa.
+- **Header Refinement**: Reforço da borda e remoção de estilos inline opacos para suporte real a termas translúcidos.
+
+### 🔧 Corrigido
+
+- **Omni-Bar Jumps**: Corrigido comportamento onde clicar no gatilho saltava o layout da página.
+- **CSS Encapsulation**: Corrigido bloco CSS exposto (texto cru) no Header.
+- **Window Constraints**: Liberada janela de busca (`#omni-trigger`) da restrição do container pai (`#inicio-view`), permitindo flutuação livre.
+
+## [3.0.0] - 2026-01-20
+
+### 🚀 Novo
+
+- **Panda Factory**: Rename de "CRM" para "Panda Factory" - sistema operacional modular
+- **Kernel Isolado**: Todo código JS movido para `js/panda.core.js` (~185KB)
+- **Module Loader**: Sistema dinâmico de carregamento de módulos (`js/ModuleLoader.js`)
+- **Store Module**: Marketplace de apps integrado ao Dock (🏪)
+- **Developer Lock**: Módulos podem ser travados (`locked: true`) para impedir fechamento
+- **Dock Closeables**: Badge "X" para fechar apps não-locked
+
+### 🎨 Alterado
+
+- **Arquivo Principal**: `CRM.html` → `PandaFactory.html`
+- **Módulos Isolados**: CRM, Agenda, Reports movidos para `modules/*/index.html`
+- **Logout no Header**: Botão de sair agora fica no header (vermelho degradê)
+- **Store no Dock**: Loja substituiu botão de logout no dock
+
+### 🔧 Corrigido (CRM Module)
+
+- **Field ID Mismatch**: `newClientNome` → `newClientName` (alinhado com core)
+- **Campos Faltantes**: Adicionados `newClientData` (date) e `newClientPhone` (tel)
+- **Duplicate Field**: Removido campo duplicado "Observações"
+- **DOM Structure**: Removida `</div>` extra que quebrava hierarquia
+
+## [2.4.1] - 2026-01-20
 
 ### 🔧 Corrigido
 
@@ -518,3 +688,30 @@ _(Fonte: `AUDITORIA_PRE_LANCAMENTO.md`)_
 ---
 
 © 2026 Panda Fabrics Core - **Building the Developer Soil.**
+
+---
+
+# 11. 🏗️ Arquitetura de Componentes vs Módulos
+
+A estrutura do projeto foi dividida para separar o **Core do Sistema** (imutável/fixo) dos **Módulos Dinâmicos** (extensíveis/loja).
+
+```text
+📁 components/          ← COMPONENTES FIXOS (Core do Sistema)
+│   ├── header-status.html      ✅ Status do Sistema, User, Configs
+│   ├── app-dock.html           ⚠️ [Em Breve] Barra de Apps (Esquerda)
+│   ├── devtools-dock.html      ⚠️ [Em Breve] Ferramentas Dev (Direita)
+│   ├── settings-modal.html     ⚙️ Modal de Configurações
+│   └── sidebar.html            Navigation (se aplicável)
+│
+📁 modules/             ← MÓDULOS DINÂMICOS (Loja de Apps)
+    ├── crm/            👥 CRM Avançado (Instalável)
+    ├── analytics/      📈 Dashboards (Instalável)
+    └── finance/        💰 Gestão Financeira (Instalável)
+```
+
+### Diferenciação
+
+| Tipo                  | Diretório     | Descrição                                            | Carregamento                    |
+| :-------------------- | :------------ | :--------------------------------------------------- | :------------------------------ |
+| **Componentes Fixos** | `components/` | Parte vital do OS (Header, Docks). Sempre presentes. | Boot Inicial (Estático/Include) |
+| **Módulos Dinâmicos** | `modules/`    | Apps opcionais criados por terceiros ou pela Panda.  | On-Demand (ModuleLoader)        |

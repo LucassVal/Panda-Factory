@@ -1,0 +1,42 @@
+<div id="reports-view" class="view-section">
+           <div class="dashboard-controls" style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center; background:white; padding:15px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+               <h2 style="margin:0; font-size:20px;">📊 Dashboard</h2>
+               <div style="display:flex; gap:10px; align-items:center;">
+                   <label style="font-weight:600; color:#666;">Período:</label>
+                   <select id="dashPeriodo" class="filter-select" onchange="renderizarDashboard()">
+                       <option value="all">Todo o Histórico</option>
+                       <option value="today">Hoje</option>
+                       <option value="last_7">Últimos 7 dias</option>
+                       <option value="this_month" selected>Este Mês</option>
+                       <option value="last_month">Mês Passado</option>
+                       <option value="this_year">Este Ano</option>
+                   </select>
+               </div>
+           </div>
+
+           <div class="metrics-grid" id="kpiGrid">
+               <!-- KPIs Injected here -->
+           </div>
+           
+           <div class="chart-card" style="margin-bottom:30px;">
+               <div class="chart-title">🏆 Performance por Vendedor</div>
+               <div style="overflow-x:auto;">
+                   <table class="performance-table">
+                       <thead>
+                           <tr>
+                               <th>Vendedor</th>
+                               <th>Em Acompanhamento</th>
+                               <th>Com Orçamento</th>
+                               <th>Fechado</th>
+                               <th>Valor Total (Fechado)</th>
+                               <th>Conversão</th>
+                           </tr>
+                       </thead>
+                       <tbody id="performanceTableBody"></tbody>
+                   </table>
+               </div>
+           </div>
+      </div>
+    </div>
+
+    
