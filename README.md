@@ -1,6 +1,6 @@
 # 🐼 Panda Factory (PF) - Modular Operating System
 
-> **Single Source of Truth** | Versão 4.0.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
+> **Single Source of Truth** | Versão 4.1.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
 
 **Sistema operacional modular para desenvolvedores.** Infraestrutura Google simplificada, IA integrada, marketplace de módulos.
 
@@ -22,6 +22,7 @@
 | Camada              | Conteúdo                    | Ir para                                         |
 | ------------------- | --------------------------- | ----------------------------------------------- |
 | 🎯 **Visão Geral**  | O que é o Panda Factory     | [#visão-geral](#-visão-geral)                   |
+| 🚀 **Quick Start**  | Instalação e Setup          | [#quick-start](#-quick-start)                   |
 | 🎨 **Frontend**     | UI, Docks e Layout          | [#frontend](#-camada-frontend)                  |
 | 📜 **SDK**          | Abstração e Slots           | [#panda-sdk](#-camada-sdk-panda-sdk)            |
 | 🦀 **Backend Rust** | Agent, MCP, GPU, Onboarding | [#rust-agent](#-backend-pilar-1-rust-agent)     |
@@ -29,6 +30,7 @@
 | 📜 **Backend GAS**  | Serverless, DDD             | [#gas-backend](#-backend-pilar-3-gas-backend)   |
 | 🌍 **Ecossistema**  | Tokenomics, Hosting, Store  | [#ecossistema](#-ecossistema-de-negócio)        |
 | 🚀 **Roadmap**      | Cronograma de 12 semanas    | [#roadmap](#-roadmap)                           |
+| 📋 **Changelog**    | Histórico de Versões        | [#changelog](#-changelog)                       |
 
 ---
 
@@ -61,6 +63,32 @@
 ```
 
 📖 **Detalhes:** [Seção 1 - Arquitetura](docs/PF_MASTER_ARCHITECTURE.md#1-visão-geral)
+
+---
+
+## 🚀 Quick Start
+
+### 1. Instalação do Agente (Local)
+
+O Panda Agent é necessário para funcionalidades de GPU e Filesystem.
+
+```bash
+# Baixar binário oficial
+curl -sL https://panda.dev/install | bash
+
+# Verificar conexão
+panda doctor
+```
+
+### 2. Project Setup (Dev)
+
+```bash
+# Clonar Template
+git clone https://github.com/pandafabrics/pf-base-template my-app
+cd my-app
+npm install
+npm run dev
+```
 
 ---
 
@@ -208,6 +236,41 @@ SDK              └══█══█══█══┐
 FACTORY                      └══█══█══█══┐
 STORE                                    └══█══█══█
 ```
+
+---
+
+## 📋 Changelog
+
+### [4.1.0] - 2026-01-21 (Tokenomics Update)
+
+- **Novo:** Tokenomics 2.0 (Piso 2.5x, Inflação Simulada).
+- **Novo:** Infraestrutura Híbrida (BYOD Hosting + Google Spot VMs).
+- **Refactor:** Diagramas convertidos para ASCII Art.
+
+### [4.0.0] - 2026-01-21
+
+- **Arquitetura:** Documento unificado (~2300 linhas).
+- **Rust:** MCP + RIG + Multi-User + Token Meter.
+- **Ecossistema:** Store, Planos Híbridos, Split 70/30.
+
+### [3.0.0] - 2026-01-20
+
+- **System:** Rename para Panda Factory.
+- **Kernel:** Module Loader Isolado.
+- **Store:** Integração Marketplace.
+
+### [2.4.0] - 2026-01-20
+
+- **UI:** Premium Header (Glassmorphism), Omni Search.
+
+---
+
+## 🔗 Links Úteis
+
+| Recurso                | Link                                                             |
+| ---------------------- | ---------------------------------------------------------------- |
+| **Arquitetura Mestre** | [docs/PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
+| **Repositório GitHub** | [github.com/LucassVal/SAAS](https://github.com/LucassVal/SAAS)   |
 
 ---
 
