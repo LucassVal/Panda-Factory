@@ -8,10 +8,6 @@
 
 O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em operações complexas para cada backend.
 
-## 1. 🎯 Visão Geral - SDK como Hub Central
-
-O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em operações complexas para cada backend.
-
 ```text
 🐼 PANDA SDK
 ├── (Dev chama)
@@ -113,7 +109,7 @@ O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em op
 │   │   └── Crypto - Blockchain
 │   ├── STORE
 │   │   ├── Registry - Catálogo
-│   │   └── Sales - Comissão
+│   │   ├── Sales - Comissão
 │   └── AUTOMATION
 │       └── Bots - Farms
 ├── (Dispatcher Core)
@@ -213,11 +209,11 @@ O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em op
 │   └── Adapters
 │       ├── ProxyPool
 │       └── VPN Client
-└── (Slot Audio)
-    ├── Default: Nenhum
-    └── Adapters
-        ├── Howler.js
-        └── ElevenLabs
+├── (Slot Audio)
+│   ├── Default: Nenhum
+│   └── Adapters
+│       ├── Howler.js
+│       └── ElevenLabs
 ```
 
 ---
@@ -246,122 +242,95 @@ O SDK é o **"Tradutor Universal"** - ele converte chamadas simples do dev em op
 
 ## 7. 🏪 Fluxo: Store (Dev → Cliente)
 
-```mermaid
-flowchart LR
-    subgraph DEV["👨‍💻 Dev"]
-        D1[Desenvolve] --> D2[Testa na Célula]
-        D2 --> D3[Submete pra Store]
-    end
-
-    subgraph STORE["🏪 Store"]
-        S1[Review Automático]
-        S2[Assinatura Digital]
-        S3[Publica]
-        D3 --> S1 --> S2 --> S3
-    end
-
-    subgraph CLIENT["👤 Cliente"]
-        C1[Navega Store]
-        C2[Compra com PC]
-        C3[Rust cacheia]
-        C4[Roda no Panda]
-        S3 --> C1 --> C2 --> C3 --> C4
-    end
-
-    subgraph REVENUE["💰 Receita"]
-        C2 -->|30%| PANDA[Panda Fabrics]
-        C2 -->|70%| DEVREV[Dev]
-        C4 -->|Energy Fee| DEVREV
-    end
+```text
+[👨‍💻 DEV]
+   │
+   ├── (1) Desenvolve
+   │
+   ▼
+[📦 CÉLULA DEV]
+   │
+   ├── (2) Testa Módulo
+   │
+   ▼
+[🏪 STORE]
+   │
+   ├── (3) Review Automático
+   ├── (4) Assinatura Digital
+   │
+   ▼
+[👤 CLIENTE]
+   │
+   ├── (5) Compra (Panda Coins) --> [💰 RECEITA 70% Dev / 30% Panda]
+   ├── (6) Cache Local (Rust)
+   │
+   ▼
+[🐼 PANDA FACTORY]
+   └── Roda Módulo Assinado
 ```
 
 ---
 
 ## 8. 🛡️ Camadas de Segurança
 
-```mermaid
-flowchart TB
-    subgraph L1["Camada 1: Frontend"]
-        SDK_PROXY[SDK Proxy]
-        VALIDATION[Input Validation]
-    end
+```text
+LAYER 1: FRONTEND
+├── SDK Proxy (Isolamento)
+└── Input Validation
 
-    subgraph L2["Camada 2: Transporte"]
-        HTTPS[HTTPS Only]
-        FIREBASE_AUTH[Firebase Auth]
-    end
+      │
+      ▼
 
-    subgraph L3["Camada 3: Backend"]
-        CELL_ISOLATION[Cell Isolation]
-        RATE_LIMIT[Rate Limiting]
-        SCHEMA[Schema Validation]
-    end
+LAYER 2: TRANSPORTE
+├── HTTPS Only
+└── Firebase Auth (Token)
 
-    subgraph L4["Camada 4: Rust"]
-        SIGNATURE[Assinatura Digital]
-        SANDBOX[Adapter Sandbox]
-        PERMISSIONS[Permissions Pop-up]
-    end
+      │
+      ▼
 
-    subgraph L5["Camada 5: Admin"]
-        KILL_SWITCH[Kill Switch]
-        AUDIT_LOG[Audit Logging]
-        REVOKE[Revogação Instantânea]
-    end
+LAYER 3: BACKEND
+├── Cell Isolation (Multi-tenant)
+├── Rate Limiting
+└── Schema Validation
 
-    L1 --> L2 --> L3 --> L4 --> L5
+      │
+      ▼
+
+LAYER 4: RUST AGENT (HARDWARE)
+├── Assinatura Digital (Check)
+├── Adapter Sandbox
+└── Permissions Pop-up (User Allow)
+
+      │
+      ▼
+
+LAYER 5: ADMIN
+├── Audit Logging
+├── Kill Switch Remoto
+└── Revogação Instantânea
 ```
 
 ---
 
 ## 9. 📊 Resumo Visual Completo
 
-```mermaid
-graph TB
-    subgraph FRONTEND["🖥️ Frontend (Browser)"]
-        UI[Panda UI]
-        MODULES[Módulos]
-        SDK[SDK JavaScript]
-    end
+```text
+    [🖥️ FRONTEND]              [☁️ BACKEND]              [🌐 EXTERNOS]
 
-    subgraph BACKEND["☁️ Backend"]
-        GAS[GAS]
-        SHEETS[(Sheets)]
-        FIREBASE[(Firebase)]
-    end
-
-    subgraph LOCAL["🖥️ Local (PC)"]
-        RUST[Rust Agent]
-        CACHE[(Cache)]
-        GPU[GPU]
-        DLL[DLLs]
-    end
-
-    subgraph EXTERNAL["🌐 Externos"]
-        GEMINI[Gemini API]
-        GITHUB[GitHub Registry]
-        WEBHOOKS[Kiwify/Hotmart]
-    end
-
-    UI --> SDK
-    MODULES --> SDK
-    SDK <-->|Traduz| GAS
-    SDK <-->|Signaling| FIREBASE
-    SDK <-->|Comandos| RUST
-
-    GAS --> SHEETS
-    GAS --> FIREBASE
-
-    RUST --> CACHE
-    RUST --> GPU
-    RUST --> DLL
-    RUST <-->|Sync| FIREBASE
-
-    GAS --> GEMINI
-    GAS --> GITHUB
-    GAS --> WEBHOOKS
-
-    style SDK fill:#f9f,stroke:#333,stroke-width:4px
+    Panda UI ─────────────────► GAS (DDD) ───────────► Gemini API
+       │                           │                   GitHub Store
+       ▼                           ▼                   Webhooks
+    SDK JS ══════════════════► Firebase
+       │                           ▲
+       │ (WebSocket/Http)          │ (Sync)
+       ▼                           │
+    [🖥️ LOCAL PC]                  │
+                                   │
+    🦀 RUST AGENT ═════════════════╝
+       │
+       ├── GPU Process (CUDA/Metal)
+       ├── Cache Local (Files)
+       └── DLLs (Drivers)
 ```
 
 ---
