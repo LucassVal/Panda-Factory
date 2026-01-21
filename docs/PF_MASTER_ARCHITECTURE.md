@@ -14,10 +14,11 @@
 4. [Backend Pilar 1: Rust Agent (Hardware)](#4-pilar-rust)
 5. [Backend Pilar 2: Firebase Colmeia (Signaling)](#5-pilar-firebase)
 6. [Backend Pilar 3: GAS Backend (Serverless)](#6-pilar-gas)
-7. [Segurança & Zero-Knowledge](#7-segurança)
-8. [Ecossistema: Store, Monetização & Comunidade](#8-ecossistema)
-9. [Roadmap de Implementação](#9-roadmap)
-10. [Referências & Convenções](#10-referencias)
+7. [Infraestrutura Híbrida: VMs & BYOD](#7-infraestrutura-hibrida)
+8. [Segurança & Zero-Knowledge](#8-segurança)
+9. [Ecossistema: Tokenomics & Monetização](#9-ecossistema)
+10. [Roadmap de Implementação](#10-roadmap)
+11. [Referências & Convenções](#11-referencias)
 
 ---
 
@@ -326,13 +327,27 @@ pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response>
 
 ### 4.6. GPU Detection Flow & Economy
 
-```mermaid
-graph TD
-    A[Start] --> B{Agent Online?}
-    B -->|Yes| C[Check GPU]
-    C -->|NVIDIA/AMD| D[LOCAL MODE (0 PC/h)]
-    C -->|None| E[CLOUD MODE (30 PC/h)]
-    B -->|No| E
+```text
+[SITE PANDA]
+      │
+      ▼
+ ┌───────────────┐
+ │ AGENT ONLINE? │
+ └──────┬────────┘
+        │ Não ───────────────┐
+        │                    │
+        │ Sim                ▼
+        ▼              [CLOUD MODE]
+ ┌───────────────┐     (30 PC/h)
+ │ DETECTAR GPU  │
+ └──────┬────────┘           ▲
+        │                    │
+        ├──── Nenhuma ───────┘
+        │
+        │ Sim (NVIDIA/AMD)
+        ▼
+  [LOCAL MODE]
+  (0 PC/h - GRÁTIS)
 ```
 
 ---
@@ -449,13 +464,41 @@ function saveData(collection, data) {
 
 ---
 
-## 7. Segurança & Zero-Knowledge
+## 7. Infraestrutura Híbrida: VMs & BYOD
 
-### 7.1. Princípio Fundamental
+Estratégia agressiva para redução de custos e escalabilidade infinita.
+
+### 7.1. Panda Cloud VM (Google Idle Compute)
+
+Utilizamos **Spot Instances (Preemptible)** do Google Cloud e AWS para hospedar serviços críticos a 10-20% do custo.
+
+- **Auto-Switching:** Se a máquina Spot cai, o Rust Agent local assume ou outra Spot sobe.
+- **Ghost Machines:** O usuário não sabe onde roda, apenas que roda.
+
+### 7.2. BYOD: Bring Your Own Device (Swarm)
+
+Devs e Power Users podem alugar seus PCs ociosos (`Rust Agent Server Mode`).
+
+1.  **Mining de Compute:** Deixe seu PC ligado e ganhe Panda Coins processando filas de terceiros.
+2.  **Edge Hosting:** Hospede APIs (Whatsapp, Scrapers) na ponta, sem pagar VPS.
+
+### 7.3. BYOL: Bring Your Own License
+
+Para softwares proprietários (ex: MetaTrader, Photoshop, SAP):
+
+- O Panda fornece a "casca" (VM/Container).
+- O Cliente injeta a licença na execução.
+- Nenhuma licença pirata é hospedada no ecossistema.
+
+---
+
+## 8. Segurança & Zero-Knowledge
+
+### 8.1. Princípio Fundamental
 
 > **"A Panda Fabrics não vê seus dados. O processamento é Local ou na Nuvem privada do Tenant."**
 
-### 7.2. Camadas de Segurança (Layers)
+### 8.2. Camadas de Segurança (Layers)
 
 ```text
 LAYER 1: FRONTEND (Input Validation)
@@ -469,22 +512,44 @@ LAYER 4: RUST AGENT (Assinatura Digital + Sandbox)
 LAYER 5: ADMIN (Audit + Kill Switch)
 ```
 
-### 7.3. Estratégia Open Core (Anti-Fork)
+### 8.3. Estratégia Open Core (Anti-Fork)
 
 O `pf-agent` é Open Source, mas a compilação oficial (`official_build`) inclui chaves proprietárias para acessar a Store e a Nuvem Panda. Forks não conseguem se conectar ao ecossistema oficial.
 
 ---
 
-## 8. Ecossistema: Store, Monetização & Comunidade
+## 9. Ecossistema: Tokenomics & Monetização
 
-### 8.1. Visão Geral da Store
+### 9.1. Tokenomics 2.0: Dinâmica Econômica
 
-Marketplace onde devs publicam módulos.
+O Panda Coin (PC) não é fixo. Ele flutua com base na oferta de hardware.
 
-- **Fontes:** GitHub (tag `panda-sdk`).
-- **Review:** Automático (Lint/Security).
+#### A. O Piso Inviolável (2.5x)
 
-### 8.2. Fluxo: Dev → Store → Cliente
+Para garantir sustentabilidade, definimos um markup mínimo sobre o custo de energia.
+`Valor Token` >= `Custo Cloud` x 2.5
+
+- Isso protege a Panda Fabrics de operar no prejuízo.
+- Garante margem para o Dev (70%) e Plataforma (30%).
+
+#### B. Inflação Simulada (Compute Supply)
+
+Algoritmo de Escassez:
+
+- **Alta Oferta de PCs (BYOD):** Preço do PC cai → Poder de compra do Token sobe (Deflação).
+- **Baixa Oferta de PCs:** Preço sobe para incentivar novos hosts (Inflação Controlada).
+- **Equilíbrio:** O sistema busca estabilidade onde 1000 Tokens ≈ $0.25 (Varejo).
+
+### 9.2. Crypto Future (Roadmap)
+
+Atualmente operamos em `Ledger Centralizado` (Off-chain).
+Quando volume > $1M/mês:
+
+1.  Migração para **Solana/Polygon (Layer 2)**.
+2.  Conversão de PCs para Cripto Real.
+3.  Governança DAO para updates do Protocolo.
+
+### 9.3. Fluxo: Dev → Store → Cliente
 
 ```text
 [👨‍💻 DEV] --> (Desenvolve/Testa) --> [📦 CÉLULA DEV]
@@ -497,24 +562,16 @@ Marketplace onde devs publicam módulos.
 [👤 CLIENTE] --> (Compra/Instala) --> [Cache Local Rust]
 ```
 
-### 8.3. Modelos de Monetização
+### 9.4. Modelos de Monetização
 
 1.  **Venda Direta:** Preço fixo (ex: 500 PC).
 2.  **Energy Fee:** Markup sobre consumo de API (ex: User gasta 100 PC, paga 120 PC. Dev ganha 20).
 3.  **B2B Bundle:** Venda externa (Kiwify) com Webhook creditando PCs.
 4.  **Afiliados:** % perpétua sobre indicados.
 
-### 8.4. Tabela de Custos (Exemplo)
-
-| Modelo          | Custo Base/1k Tokens | Preço Varejo (x2.5) |
-| :-------------- | :------------------- | :------------------ |
-| Gemini Flash    | 0.03 PC              | 0.07 PC             |
-| GPT-4o          | 0.60 PC              | 1.50 PC             |
-| **Local Llama** | **0.00 PC**          | **0.00 PC**         |
-
 ---
 
-## 9. Roadmap de Implementação
+## 10. Roadmap de Implementação
 
 ### Cronograma Visual (12 Semanas)
 
@@ -534,9 +591,9 @@ PF-STORE                                                    └═══█═�
 
 ---
 
-## 10. Referências & Convenções
+## 11. Referências & Convenções
 
-### 10.1. Convenção de Nomes (PF)
+### 11.1. Convenção de Nomes (PF)
 
 - **GitHub Repos:** `pf-sdk`, `pf-agent`, `pf-registry`
 - **GAS Scripts:** `PF_Dispatcher`, `PF_Wallet`
@@ -545,33 +602,10 @@ PF-STORE                                                    └═══█═�
 - **Eventos:** `pf:ready`
 - **CSS Vars:** `--pf-primary`
 
-### 10.2. Mapa da Documentação
+### 11.2. Mapa da Documentação
 
 - `PF_MASTER_ARCHITECTURE.md`: Este arquivo (A Bíblia).
 - `ARCHITECTURE_FIREBASE_RUST.md`: Spec técnica profunda do Rust.
 - `README.md`: Entry point para devs novatos.
 
----
-
-## 11. Resumo Visual Final
-
-```text
-    [🖥️ FRONTEND]              [☁️ BACKEND]              [🌐 EXTERNOS]
-
-    Panda UI ─────────────────► GAS (DDD) ───────────► Gemini API
-       │                           │                   GitHub Store
-       ▼                           ▼                   Webhooks
-    SDK JS ══════════════════► Firebase
-       │                           ▲
-       │ (WebSocket/Http)          │ (Sync)
-       ▼                           │
-    [🖥️ LOCAL PC]                  │
-                                   │
-    🦀 RUST AGENT ═════════════════╝
-       │
-       ├── GPU Process (CUDA/Metal)
-       ├── Cache Local (Files)
-       └── DLLs (Drivers)
-```
-
-> _Panda Fabrics - Arquitetura Refatorada 2026_
+> _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_
