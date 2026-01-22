@@ -84,8 +84,15 @@
 
   // ==========================================
   // 🔐 AUTH (Identidade & Sessão)
+  // Persistência via LocalStorage para conveniência no dev
   // ==========================================
-  let _currentUser = null;
+  const STORAGE_KEY = "panda_mock_user";
+  let _currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+
+  // Emite estado inicial se já logado (para listeners registrados depois)
+  if (_currentUser) {
+    setTimeout(() => Events.emit("auth:change", _currentUser), 100);
+  }
 
   const Auth = {
     /**
@@ -112,6 +119,9 @@
         quota: { tokens: 100000, used: 15000 },
       };
 
+      // Persiste no LocalStorage para sobreviver ao F5
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(_currentUser));
+
       Events.emit("auth:change", _currentUser);
       log("AUTH", `Login successful`, _currentUser);
       return _currentUser;
@@ -121,6 +131,7 @@
       log("AUTH", "Logging out...");
       await fakeDelay(500);
       _currentUser = null;
+      localStorage.removeItem(STORAGE_KEY); // Limpa persistência
       Events.emit("auth:change", null);
       return true;
     },
@@ -394,7 +405,19 @@
     },
 
     /**
-     * Exibe um Modal.
+     * Exibe um Modal e aguarda resposta do usuário.
+     *
+     * ⚠️ CONTRATO IMPORTANTE:
+     * A UI que renderizar o modal DEVE chamar:
+     *   Panda.emit('ui:modal:response', { confirmed: true/false, data: ... })
+     * Caso contrário, a Promise nunca resolve (memory leak).
+     *
+     * @param {object} options - { title, message, type, buttons }
+     * @returns {Promise<object>} Resultado do modal
+     *
+     * @example
+     * const result = await Panda.UI.modal({ title: 'Confirmar', message: 'Deletar?' });
+     * if (result.confirmed) { ... }
      */
     modal: (options) => {
       log("UI", "Opening modal", options);
@@ -407,6 +430,12 @@
           resolve(result);
         };
         Events.on("ui:modal:response", handler);
+
+        // Timeout de segurança (30s) para evitar Promise pendente eterna
+        setTimeout(() => {
+          Events.off("ui:modal:response", handler);
+          resolve({ confirmed: false, timeout: true });
+        }, 30000);
       });
     },
 
