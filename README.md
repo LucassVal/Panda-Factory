@@ -16,6 +16,7 @@
 | Doc                       | Descrição                         | Link                                                        |
 | ------------------------- | --------------------------------- | ----------------------------------------------------------- |
 | **📖 Arquitetura Mestre** | Documento completo (~2300 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
+| **📦 SDK Reference**      | API da biblioteca Panda SDK       | [SDK_REFERENCE.md](docs/SDK_REFERENCE.md)                   |
 
 ### Navegação Rápida (Hierarquia Visual)
 
