@@ -209,6 +209,13 @@ Backend serverless usando Google Apps Script.
 | **Founder**         | 5%  | Royalty eterno       |
 | **Gateway**         | 3%  | Stripe/Blockchain    |
 
+### 🏛️ Governança em 4 Camadas
+
+1. **Hardcode:** Regras imutáveis (Piso 2.5x, Founder 5%).
+2. **DAO:** Política flutuante (Splits, Parcerias).
+3. **Panda AI (PAT):** Banco Central (Inflação 0-3%).
+4. **Mercado Único:** Descontos progressivos (0-50%).
+
 > 💡 **Pisos Dinâmicos:** Split ajusta por tier (Bootstrap → Growth → Mature)
 
 ### 📦 Planos
