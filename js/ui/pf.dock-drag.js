@@ -19,7 +19,7 @@
   // ==========================================
   function initDraggableDocks() {
     const docks = document.querySelectorAll(
-      ".modular-dock, .app-dock, #appDock, #devDock",
+      ".modular-dock, .app-dock, #appDock, #devDock, .header",
     );
 
     docks.forEach((dock) => {
@@ -43,7 +43,7 @@
     document.addEventListener("mousemove", onDrag);
     document.addEventListener("mouseup", endDrag);
 
-    console.log("🎯 DockDrag: Initialized", docks.length, "docks");
+    console.log("🎯 DockDrag: Initialized", docks.length, "docks +  header");
   }
 
   // ==========================================
@@ -67,6 +67,12 @@
     dock.style.cursor = "grabbing";
     dock.classList.add("dragging");
     dock.style.transition = "none";
+
+    // Special handling for header (convert sticky to fixed)
+    if (dock.classList.contains("header")) {
+      dock.style.position = "fixed";
+      dock.style.width = "100%";
+    }
 
     // Remove transform center alignment if present
     dock.style.transform = "none";
@@ -128,7 +134,7 @@
 
   function restoreDockPositions() {
     const docks = document.querySelectorAll(
-      ".modular-dock, .app-dock, #appDock, #devDock",
+      ".modular-dock, .app-dock, #appDock, #devDock, .header",
     );
 
     docks.forEach((dock) => {
@@ -143,6 +149,11 @@
           dock.style.right = "auto";
           dock.style.bottom = "auto";
           dock.style.transform = "none";
+          // For header, ensure it stays fixed after restoration
+          if (dock.classList.contains("header")) {
+            dock.style.position = "fixed";
+            dock.style.width = "100%";
+          }
         } catch (e) {
           console.warn("Failed to restore dock position:", id);
         }
@@ -155,7 +166,7 @@
   // ==========================================
   function resetDockPositions() {
     const docks = document.querySelectorAll(
-      ".modular-dock, .app-dock, #appDock, #devDock",
+      ".modular-dock, .app-dock, #appDock, #devDock, .header",
     );
 
     docks.forEach((dock) => {
@@ -168,9 +179,14 @@
       dock.style.right = "";
       dock.style.bottom = "";
       dock.style.transform = "";
+      // Restore header to sticky
+      if (dock.classList.contains("header")) {
+        dock.style.position = "sticky";
+        dock.style.width = "";
+      }
     });
 
-    console.log("🔄 Dock positions reset");
+    console.log("🔄 Dock positions reset (including header)");
   }
 
   // ==========================================

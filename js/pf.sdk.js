@@ -18,7 +18,7 @@
   // ==========================================
   const Config = {
     mode: "CLOUD", // 'LOCAL' (Rust) ou 'CLOUD' (GAS)
-    version: "0.6.0",
+    version: "0.7.0",
     debug: true,
     agentConnected: false, // Simula se Rust Agent está online
     mockDelay: { min: 300, max: 1200 },
@@ -141,6 +141,112 @@
     isAdmin: () => _currentUser?.role === "ADMIN",
 
     isLoggedIn: () => _currentUser !== null,
+
+    /**
+     * 🔐 Ed25519 Founder Authentication (PRONTO - NÃO ATIVO)
+     * Assina um comando com a chave privada do Founder via Rust Agent.
+     * @param {object} payload - O comando a ser assinado
+     * @returns {Promise<{payload, signature, timestamp, signer}>}
+     */
+    signCommand: async (payload) => {
+      log("AUTH", `[CRYPTO] Signing command...`, payload);
+
+      // Verifica se Agent está conectado
+      if (!Config.agentConnected) {
+        console.warn(
+          "⚠️ signCommand requer Rust Agent conectado. Retornando mock.",
+        );
+        await fakeDelay(200);
+        return {
+          payload,
+          signature: "MOCK_SIGNATURE_" + Date.now().toString(16),
+          timestamp: Date.now(),
+          signer: "MOCK_FOUNDER",
+          _mockWarning: "Agent offline - signature is not real",
+        };
+      }
+
+      // Em produção: Delega ao Rust Agent para assinar com chave do OS Keychain
+      await fakeDelay(500);
+      return {
+        payload,
+        signature: "ed25519_" + Date.now().toString(16) + "_signed",
+        timestamp: Date.now(),
+        signer: "FOUNDER",
+      };
+    },
+
+    /**
+     * Verifica se o usuário atual é o Founder (requer signCommand).
+     * @returns {boolean}
+     */
+    isFounder: () => _currentUser?.role === "FOUNDER",
+  };
+
+  // ==========================================
+  // 🔐 CRYPTO (Ed25519 - PRONTO, NÃO ATIVO)
+  // Prepared for Ed25519 signature verification
+  // ==========================================
+  const Crypto = {
+    /**
+     * Chave pública do Founder (PLACEHOLDER)
+     * Em produção: Substituir pelo hex real da public key.
+     */
+    FOUNDER_PUBLIC_KEY: "PLACEHOLDER_ED25519_PUBLIC_KEY_HEX_64_CHARS",
+
+    /**
+     * Verifica assinatura Ed25519 (MOCK).
+     * Em produção: Usa TweetNaCl.js para verificação real.
+     * @param {string} message - Mensagem original
+     * @param {string} signature - Assinatura em hex
+     * @returns {boolean}
+     */
+    verify: async (message, signature) => {
+      log("CRYPTO", `[MOCK] Verifying signature...`);
+      await fakeDelay(100);
+
+      // Mock: Aceita qualquer assinatura que comece com "ed25519_"
+      if (signature.startsWith("ed25519_") || signature.startsWith("MOCK_")) {
+        log("CRYPTO", "✅ Signature VALID (mock mode)");
+        return true;
+      }
+
+      log("CRYPTO", "❌ Signature INVALID");
+      return false;
+    },
+
+    /**
+     * Gera hash SHA-256 de um payload (para integridade).
+     * @param {object} payload
+     * @returns {string} Hash em hex
+     */
+    hash: async (payload) => {
+      log("CRYPTO", "Hashing payload...");
+      const message = JSON.stringify(payload);
+
+      // Usa Web Crypto API se disponível
+      if (window.crypto?.subtle) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(message);
+        const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      // Fallback: Simple hash mock
+      return "mock_hash_" + message.length.toString(16);
+    },
+
+    /**
+     * Status do módulo crypto.
+     */
+    status: () => ({
+      enabled: false, // NÃO ATIVO em produção
+      version: "0.1.0",
+      algorithm: "Ed25519",
+      library: "TweetNaCl (pending)",
+      founderKeySet: false,
+    }),
   };
 
   // ==========================================
@@ -733,6 +839,9 @@
     Governance,
     PAT,
 
+    // Criptografia (Ed25519 - PRONTO, NÃO ATIVO)
+    Crypto,
+
     // Event Bus (Atalhos)
     on: Events.on,
     off: Events.off,
@@ -760,6 +869,7 @@
   Object.freeze(Panda.UI);
   Object.freeze(Panda.Governance);
   Object.freeze(Panda.PAT);
+  Object.freeze(Panda.Crypto);
 
   // Exporta para o window
   window.Panda = Panda;

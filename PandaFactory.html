@@ -926,16 +926,31 @@
         50% { transform: translateY(-10px); }
       }
 
-      .view-section { animation: fadeIn 0.3s ease; display: none; }
-      .view-section.active { display: block; }
+      /* View Sections - Fullscreen with proper centering */
+      .view-section { 
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        animation: fadeIn 0.3s ease;
+        z-index: 1; /* Below header (z-index: 100) */
+        background: var(--bg-app); /* Solid background to cover the body */
+      }
+      .view-section.active { 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
       /* Agenda and Reports as overlays - appear above other content */
       #agenda-view, #reports-view { 
         position: relative;
         z-index: 10;
         margin-bottom: 30px;
       }
-      /* Inicio and Contatos are mutually exclusive */
-      #inicio-view, #contatos-view { position: relative; }
       @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
       /* Agenda Styles */
@@ -2450,12 +2465,11 @@ body.dark-mode .dev-tools-dock {
 
       <!-- INÍCIO VIEW (Clean Canvas) -->
       <div id="inicio-view" class="view-section active clean-canvas">
+          <!-- Centered Panda Content -->
+          <h1>🐼</h1>
+          <p>Canvas Limpo</p>
           
-          <!-- BARRA FLUTUANTE UNIFICADA (Arrastável) -->
-
-    <!-- OMNI-BAR (Unified & Integrated) -->
-
-          
+          <!-- OMNI-BAR placeholder -->
       </div>
 
       <!-- Script: Loading & Draggable Logic -->

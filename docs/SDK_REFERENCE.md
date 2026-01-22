@@ -1,6 +1,6 @@
 # 🐼 Panda SDK - Referência da Biblioteca
 
-> **Versão:** 0.6.0 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
+> **Versão:** 0.7.0 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
 
 ---
 
@@ -34,13 +34,15 @@
 
 Gerenciamento de identidade e sessão.
 
-| Método                   | Retorno            | Descrição                                                   |
-| ------------------------ | ------------------ | ----------------------------------------------------------- |
-| `login(email, password)` | `Promise<User>`    | Autentica usuário. Use `password='erro'` para testar falha. |
-| `logout()`               | `Promise<boolean>` | Encerra sessão                                              |
-| `getUser()`              | `User \| null`     | Retorna usuário atual (síncrono)                            |
-| `isAdmin()`              | `boolean`          | Verifica se é admin                                         |
-| `isLoggedIn()`           | `boolean`          | Verifica se está logado                                     |
+| Método                   | Retorno                                            | Descrição                                                   |
+| ------------------------ | -------------------------------------------------- | ----------------------------------------------------------- |
+| `login(email, password)` | `Promise<User>`                                    | Autentica usuário. Use `password='erro'` para testar falha. |
+| `logout()`               | `Promise<boolean>`                                 | Encerra sessão                                              |
+| `getUser()`              | `User \| null`                                     | Retorna usuário atual (síncrono)                            |
+| `isAdmin()`              | `boolean`                                          | Verifica se é admin                                         |
+| `isLoggedIn()`           | `boolean`                                          | Verifica se está logado                                     |
+| `signCommand(payload)`   | `Promise<{payload, signature, timestamp, signer}>` | 🔐 Assina comando com Ed25519 (Founder only)                |
+| `isFounder()`            | `boolean`                                          | Verifica se é o Founder                                     |
 
 ```javascript
 // Exemplo
@@ -286,6 +288,16 @@ Panda.on("wallet:change", ({ balance }) => {
 - **Feature:** Método `Governance.validate(action)` para validar ações
 - **Feature:** Tools PAT: `reinvest`, `accelerate`, `vesting`, `burn`
 - **Docs:** Atualização SDK_REFERENCE.md
+
+### [0.7.0] - 2026-01-22 (Ed25519 Security Layer)
+
+- **Feature:** Módulo `Crypto` - Ed25519 (PRONTO, NÃO ATIVO)
+- **Feature:** `Auth.signCommand(payload)` - Assinatura criptográfica Founder
+- **Feature:** `Auth.isFounder()` - Verifica se é Founder
+- **Feature:** `Crypto.verify(message, signature)` - Verifica assinatura
+- **Feature:** `Crypto.hash(payload)` - SHA-256 hashing
+- **Feature:** `Crypto.FOUNDER_PUBLIC_KEY` - Chave pública placeholder
+- **Docs:** Seção 8.8 em PF_MASTER_ARCHITECTURE.md
 
 ### [0.5.0] - 2026-01-22
 

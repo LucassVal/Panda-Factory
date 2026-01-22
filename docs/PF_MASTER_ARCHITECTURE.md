@@ -682,6 +682,196 @@ Se detectarmos vulnerabilidade global:
 - Firebase envia sinal `EMERGENCY_STOP`.
 - **Todos** os Agents entram em "Modo Seguro" (leitura apenas) instantaneamente.
 
+### 8.8. Ed25519 Founder Authentication (O Anel do Rei) 👑
+
+> **STATUS: PRONTO (Não Ativo)** - Arquitetura documentada, implementação mock no SDK.
+
+O sistema distingue o **Founder (Deus)** dos **Mortais (Usuários)** usando **Criptografia Assimétrica Ed25519**.
+
+#### A. Conceito: Assinatura Digital como "Crachá Infalsificável"
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     FLUXO DE AUTENTICAÇÃO FOUNDER                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  [RUST AGENT]              [FIREBASE]              [GAS BACKEND]        │
+│  (PC do Lucas)             (Signaling)             (Verificação)        │
+│       │                        │                        │               │
+│       │ 1. ASSINA COMANDO ─────┤                        │               │
+│       │    (Private Key)        │                        │               │
+│       │                        │ 2. TRANSMITE ──────────┤               │
+│       │                        │    (payload+sig)       │               │
+│       │                        │                        │ 3. VERIFICA   │
+│       │                        │                        │    (Public    │
+│       │                        │                        │    Key)       │
+│       │                        │                        │       │       │
+│       │                        │◀────── 4. OK ──────────│       │       │
+│       │                        │                        │               │
+└─────────────────────────────────────────────────────────────────────────┘
+
+🔐 Private Key: Nunca sai do PC do Lucas (OS Keychain)
+🔓 Public Key: Hardcoded no Backend (imutável)
+```
+
+#### B. Tecnologia: Por que Ed25519?
+
+| Característica    | Ed25519                       | RSA            |
+| ----------------- | ----------------------------- | -------------- |
+| **Segurança**     | 128-bit equivalent            | 112-bit (2048) |
+| **Velocidade**    | ~10x mais rápido              | Lento          |
+| **Tamanho Chave** | 32 bytes (público)            | 256 bytes      |
+| **Usado por**     | SSH, Signal, Solana, SSH Keys | Legacy         |
+
+**Bibliotecas:**
+
+- **JavaScript:** `tweetnacl` (TweetNaCl.js)
+- **Rust:** `ed25519-dalek`
+- **GAS:** Via Rust Agent (GAS não tem crypto nativo)
+
+#### C. Implementação: Geração de Chaves (One-Time)
+
+```javascript
+// Script local (Node.js) - Executar UMA VEZ no PC do Founder
+const nacl = require("tweetnacl");
+const fs = require("fs");
+
+const keyPair = nacl.sign.keyPair();
+
+// 1. SECREDO ABSOLUTO - Salvar em local seguro (OS Keychain)
+const privateKey = Buffer.from(keyPair.secretKey).toString("hex");
+fs.writeFileSync("./.panda/lucas_god_key.secret", privateKey);
+
+// 2. PÚBLICO - Hardcode no Backend
+const publicKey = Buffer.from(keyPair.publicKey).toString("hex");
+console.log("FOUNDER_PUBLIC_KEY:", publicKey);
+// Ex: "a1b2c3d4e5f6..."
+```
+
+#### D. SDK Integration (Mock - Pronto para Produção)
+
+```javascript
+// js/pf.sdk.js - Módulo Panda.Auth (v0.7+)
+Panda.Auth.signCommand = async (payload) => {
+  // 1. Serializa o payload
+  const message = JSON.stringify(payload);
+
+  // 2. Requisita assinatura ao Rust Agent via Bridge
+  const result = await Panda.Bridge.execute("sign_payload", { message });
+
+  // 3. Retorna payload + signature + timestamp
+  return {
+    payload,
+    signature: result.signature, // hex string
+    timestamp: Date.now(),
+    signer: "FOUNDER",
+  };
+};
+
+// Verificação (Client-side - informativo)
+Panda.Crypto = {
+  FOUNDER_PUBLIC_KEY: "a1b2c3d4...", // Hardcoded
+  verify: (message, signature) => {
+    // TweetNaCl verification
+    return nacl.sign.detached.verify(
+      new TextEncoder().encode(message),
+      hexToUint8(signature),
+      hexToUint8(Panda.Crypto.FOUNDER_PUBLIC_KEY),
+    );
+  },
+};
+```
+
+#### E. Rust Agent: Assinatura Segura
+
+```rust
+// pf_crypto.rs - Signing com chave do OS Keychain
+use ed25519_dalek::{Signer, SigningKey};
+use keyring::Entry;
+
+pub fn sign_payload(payload: &str) -> Result<String, CryptoError> {
+    // 1. Carrega chave privada do OS Keychain (não arquivo)
+    let entry = Entry::new("panda_fabrics", "founder_key")?;
+    let secret_hex = entry.get_password()?;
+    let secret_bytes = hex::decode(secret_hex)?;
+
+    // 2. Reconstrói a SigningKey
+    let signing_key = SigningKey::from_bytes(&secret_bytes)?;
+
+    // 3. Assina o payload
+    let signature = signing_key.sign(payload.as_bytes());
+
+    // 4. Retorna hex da assinatura
+    Ok(hex::encode(signature.to_bytes()))
+}
+```
+
+#### F. Backend Verification (GAS)
+
+```javascript
+// PF_Auth.gs - Verificação no Servidor
+const FOUNDER_PUBLIC_KEY_HEX = "a1b2c3d4e5f6..."; // HARDCODED
+
+function verifyFounderAction(payload, signatureHex) {
+  // Delega verificação ao Rust Agent (GAS não tem nacl)
+  const result = callRustAgent("verify_signature", {
+    message: JSON.stringify(payload),
+    signature: signatureHex,
+    publicKey: FOUNDER_PUBLIC_KEY_HEX,
+  });
+
+  if (!result.valid) {
+    throw new Error("🚨 ALERTA: Assinatura Founder INVÁLIDA! Ação bloqueada.");
+  }
+  return true;
+}
+
+function isFounderAction(request) {
+  return (
+    request.signature && verifyFounderAction(request.payload, request.signature)
+  );
+}
+```
+
+#### G. Defesa em Profundidade (4 Barreiras)
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     CAMADAS DE PROTEÇÃO CONTRA REBELIÃO                 │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  BARREIRA 1: READ-ONLY CORE                                             │
+│  ├── Binário do Rust Agent é ASSINADO                                   │
+│  └── IA não pode reescrever o próprio código                            │
+│                                                                         │
+│  BARREIRA 2: WASM SANDBOX                                               │
+│  ├── Plugins rodam em WebAssembly isolado                               │
+│  └── Sem acesso a fs/network exceto injetado                            │
+│                                                                         │
+│  BARREIRA 3: OS KEYCHAIN (Secure Enclave)                               │
+│  ├── Chave privada NUNCA em arquivo de texto                            │
+│  ├── Windows: Credential Manager                                        │
+│  └── macOS: Keychain Access                                             │
+│                                                                         │
+│  BARREIRA 4: HUMAN-IN-THE-LOOP                                          │
+│  ├── Ações críticas exigem POP-UP de confirmação                        │
+│  └── Transferências, Deletes, Admin = Founder aprova                    │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### H. Compatibilidade Blockchain (Futuro)
+
+O Ed25519 é **nativamente compatível** com:
+
+| Blockchain   | Curva     | Compatibilidade         |
+| ------------ | --------- | ----------------------- |
+| **Solana**   | Ed25519   | ✅ Mesma curva (direto) |
+| **Ethereum** | secp256k1 | ⚠️ Conversão necessária |
+| **Polkadot** | Ed25519   | ✅ Nativo               |
+
+> **Roadmap:** Quando migrar para on-chain, a chave Ed25519 do Founder pode virar uma Wallet Solana real.
+
 ---
 
 ## 9. Ecossistema: Tokenomics & Monetização

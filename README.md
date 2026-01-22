@@ -1,11 +1,11 @@
 # 🐼 Panda Factory (PF) - Modular Operating System
 
-> **Single Source of Truth** | Versão 4.1.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
+> **Single Source of Truth** | Versão 4.2.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
 
-**Sistema operacional modular para desenvolvedores.** Infraestrutura Google simplificada, IA integrada, marketplace de módulos.
+**Sistema operacional modular para desenvolvedores.** Infraestrutura Google AI Ultra, IA integrada, marketplace de módulos.
 
 > [!TIP]
-> **v4.1.0:** Tokenomics Dinâmico (2.5x), Hosting Distribuído (BYOD) e suporte a VMs Spot.
+> **v4.2.0:** Upgrade para **Google AI Ultra** (Gemini 3 Pro, Veo 3), Ed25519 Security Layer, Antigravity Platform.
 
 ---
 
@@ -101,26 +101,39 @@ A interface do usuário do Panda OS, focada em "Docks" e modularidade.
 
 ```text
 📁 PandaFactory/
-├── 📁 _system/                  # Panda Core Kernel
-│   ├── 📁 core/                 # kernel.js, loader.js
-│   └── 📁 sdk/                  # repository.js, api.js
-├── 📁 components/               # HTML Components
-│   ├── 📁 ui/                   # Comp_LoginOverlay, Comp_AgendaDrawer
-│   ├── Comp_HeaderStatus.html
-│   ├── Comp_AppDock.html
-│   └── Comp_SettingsModal.html
-├── 📁 css/                      # Stylesheets
-│   └── pf.theme.css             # 🎨 Unified Design Tokens
-├── 📁 js/                       # JavaScript Modules
-│   ├── 📁 core/                 # pf.firebase-bridge.js
-│   ├── 📁 ui/                   # pf.omnibar.js, pf.settings.js, pf.modal-pin.js
-│   ├── 📁 kernel/               # pf.loader.js
-│   ├── pf.sdk.js                # 🐼 SDK Mock (Governance, PAT)
-│   └── dock-utils.js
-├── 📁 backend/                  # GAS Backend (DDD)
-│   ├── 📁 core/                 # PF_Dispatcher.gs, PF_Config.gs
-│   └── 📁 domains/              # finance/, store/, automation/
-└── PandaFactory.html            # Entry Point
+├── PandaFactory.html               # 🚀 Entry Point
+├── 📁 css/
+│   └── pf.theme.css                # 🎨 Unified Design Tokens (1500+ lines)
+├── 📁 js/
+│   ├── pf.sdk.js                   # 🐼 SDK Mock v0.7.0 (Panda.*)
+│   ├── 📁 core/
+│   │   ├── pf.ai-core.js           # PAT (Panda AI Treasury)
+│   │   └── pf.firebase-bridge.js   # Firebase Signaling
+│   ├── 📁 ui/
+│   │   ├── pf.omnibar.js           # Search, Chat, Commands
+│   │   ├── pf.settings.js          # Modal configurações
+│   │   ├── pf.dock-drag.js         # Drag & Drop + Persist
+│   │   ├── pf.modal-pin.js         # Pin/Pop-out modais
+│   │   └── pf.devtools.js          # DevTools dock
+│   ├── 📁 kernel/
+│   │   ├── pf.loader.js            # ModuleLoader class
+│   │   └── pf.components.js        # Component fetcher
+│   └── 📁 features/
+│       └── AiAssistant.js          # Chat flutuante legado
+├── 📁 components/
+│   ├── Comp_HeaderStatus.html      # Header com status
+│   ├── Comp_AppDock.html           # Dock principal
+│   ├── Comp_DevToolsDock.html      # Dock desenvolvedor
+│   ├── Comp_SettingsModal.html     # Modal config
+│   └── 📁 ui/                      # Subcomponentes
+├── 📁 backend/                     # GAS Backend (DDD)
+│   ├── 📁 core/                    # PF_Dispatcher.gs, PF_Config.gs
+│   └── 📁 domains/                 # finance/, store/, automation/
+├── 📁 docs/
+│   ├── PF_MASTER_ARCHITECTURE.md   # Arquitetura (1100+ lines)
+│   └── SDK_REFERENCE.md            # Referência SDK
+└── 📁 .agent/
+    └── PANDA.md                    # 📖 CODEX CENTRAL (AI Context)
 ```
 
 ---
@@ -131,11 +144,12 @@ O "colchão" que abstrai toda a complexidade.
 
 ### Slots Modulares
 
-| Slot      | Default       | Adapters Premium              |
-| --------- | ------------- | ----------------------------- |
-| **Data**  | Google Sheets | MongoDB, PostgreSQL, Supabase |
-| **Brain** | Gemini Flash  | Claude, GPT-4, Llama Local    |
-| **GPU**   | Cloud         | CUDA, ROCm, WebGPU            |
+| Slot      | Default          | Adapters Premium                |
+| --------- | ---------------- | ------------------------------- |
+| **Data**  | Google Sheets    | MongoDB, PostgreSQL, Supabase   |
+| **Brain** | Gemini 3 Pro     | Claude 4.5, GPT-4o, Llama Local |
+| **GPU**   | Cloud            | CUDA, ROCm, WebGPU              |
+| **Video** | Veo 3 (AI Ultra) | Flow, Whisk Animate             |
 
 ### Exemplo de Uso
 
@@ -143,7 +157,38 @@ O "colchão" que abstrai toda a complexidade.
 Panda.Data.save('clients', data);
 Panda.Brain.chat('Analise isso');
 Panda.Bridge.execute('gpu_process', {...});
+Panda.Auth.signCommand(payload); // Ed25519 Signature (Founder Only)
 ```
+
+---
+
+## 🤖 Google AI Ultra Infrastructure
+
+> **Plano Ativo:** Google AI Ultra - Limites máximos e acesso prioritário.
+
+### Ferramentas Disponíveis
+
+| Tool              | Descrição                                     | Status   |
+| ----------------- | --------------------------------------------- | -------- |
+| **Antigravity**   | Plataforma de agentes com Gemini 3 Pro        | ✅ Ativo |
+| **Jules**         | Agente de código com Gemini 2.5 Pro + GitHub  | ✅ Ativo |
+| **Gemini CLI**    | Agente terminal para qualquer workflow        | ✅ Ativo |
+| **Code Assist**   | IA no VS Code/JetBrains                       | ✅ Ativo |
+| **Deep Research** | Pesquisa aprofundada com relatórios completos | ✅ Ativo |
+| **Deep Search**   | Pesquisa web com Gemini 3 Pro (Modo IA)       | ✅ Ativo |
+| **Flow**          | Produção de vídeo com Veo 3, Imagen, Gemini   | ✅ Ativo |
+| **Whisk**         | Ideação visual + Whisk Animate (Veo 3)        | ✅ Ativo |
+| **NotebookLM**    | Assistente de pesquisa (600 fontes, Audio)    | ✅ Ativo |
+
+### Modelos Disponíveis (Model Garden)
+
+| Modelo                | Provider  | Limites AI Ultra   |
+| --------------------- | --------- | ------------------ |
+| **Gemini 3 Pro**      | Google    | Máximo (reset 5h)  |
+| **Gemini 2.5 Pro**    | Google    | Máximo             |
+| **Claude 4.5 Sonnet** | Anthropic | Via Vertex AI      |
+| **gpt-oss-120b**      | OpenAI    | Via Vertex AI      |
+| **Veo 3**             | DeepMind  | Flow/Whisk (1080p) |
 
 ---
 
@@ -272,6 +317,15 @@ Store                          └══█══█══█
 ---
 
 ## 📋 Changelog
+
+### [7.0.0] - 2026-01-22 (Google AI Ultra + Ed25519 Security)
+
+- **Infraestrutura:** Upgrade para **Google AI Ultra** (Gemini 3 Pro, Veo 3)
+- **Ferramentas:** Integração com Antigravity, Jules, Gemini CLI, Flow, Whisk, NotebookLM
+- **Segurança:** Ed25519 Digital Signature Layer (Founder Authentication)
+- **SDK:** `Panda.Auth.signCommand()` - Assinatura criptográfica de comandos
+- **SDK:** `Panda.Crypto` module (TweetNaCl.js integration) - PRONTO (não ativo)
+- **Docs:** Arquitetura de segurança documentada em PF_MASTER_ARCHITECTURE.md
 
 ### [6.0.0] - 2026-01-22 (Governance Kernel + Constituição)
 
