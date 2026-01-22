@@ -734,16 +734,16 @@ CAMADA 4: MERCADO ÚNICO (O Varejo)
 
 _Imutáveis. Smart Contract Nível Supremo._
 
-| Artigo                  | Regra                           | Por quê?                                     |
-| ----------------------- | ------------------------------- | -------------------------------------------- |
-| **1. Lastro Solvência** | `Supply ≤ Budget Nuvem + Local` | Só emite token se tiver $ pra pagar o Google |
-| **2. Teto Inflação**    | `Max 5% ao ano`                 | Trava rígida contra desvalorização           |
-| **3. Robin Hood**       | `Desconto Rico = Crédito Pobre` | Subsídio Cruzado (Reforma Agrária)           |
-| **4. Reserva Vault**    | `20% Excedente` → Google KMS    | Hot Wallet proprietária blindada (HSM)       |
-| **5. Piso Preço**       | `2.5x Custo` Energia            | Sustentabilidade operacional                 |
-| **6. Founder Fee**      | `5%` Bruto Eterno               | Direito do Criador ("Satoshi Fee")           |
+| Artigo               | Regra                           | Por quê?                                    |
+| -------------------- | ------------------------------- | ------------------------------------------- |
+| **1. Teto Inflação** | `Max 5% ao ano`                 | Trava rígida contra desvalorização          |
+| **2. Panda Labs**    | `25% do Fundo → Educação`       | Verba garantida para University/Inovação    |
+| **3. Reserva Ops**   | `20% Líquido Ops → Caixa`       | Segurança operacional (Fundo de Emergência) |
+| **4. Robin Hood**    | `Desconto Rico = Crédito Pobre` | Subsídio Cruzado (Reforma Agrária)          |
+| **5. Piso Preço**    | `2.5x Custo` Energia            | Solvência operacional                       |
+| **6. Founder Fee**   | `5%` Bruto Eterno               | Direito do Criador ("Satoshi Fee")          |
 
-> **Nota:** A Reserva é gerida via **Google Cloud KMS (Key Management Service)**, garantindo segurança bancária (HSM) para os ativos do fundo, sem depender de cold wallets físicas externas.
+> **Nota:** O Artigo 2 garante que 25% de todo o incentivo arrecadado vá para "Panda Labs" (Educação, Parcerias Universitárias e P&D da Comunidade), transformando o ecossistema em um ambiente de aprendizado contínuo, não apenas financeiro.
 
 #### B. Camada 2: Governança Progressiva
 

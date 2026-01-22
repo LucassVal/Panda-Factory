@@ -211,7 +211,7 @@ Backend serverless usando Google Apps Script.
 
 ### 🏛️ Governança em 4 Camadas
 
-1. **Hardcode:** Lastro Solvência, Teto Inflação 5%, Google KMS Vault.
+1. **Hardcode:** Teto Inflação 5%, Panda Labs (25% Fundo), Reserva Ops (20%).
 2. **DAO:** Política flutuante (Splits, Parcerias).
 3. **Panda AI (PAT):** Banco Central (Ajustes finos).
 4. **Mercado Único:** Descontos progressivos (0-50%).
