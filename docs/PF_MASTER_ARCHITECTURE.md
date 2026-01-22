@@ -350,30 +350,120 @@ pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response>
   (0 PC/h - GRÁTIS)
 ```
 
+### 4.7. Módulos Avançados do Rust Agent
+
+O Rust não é apenas GPU. É a **ponte** para o mundo real do Sistema Operacional:
+
+#### A. Módulo Financeiro & Trade (DLL Bridge)
+
+Plataformas de mercado financeiro (MetaTrader 4/5, Profitchart) só aceitam integração via **DLL Windows**.
+
+- O Rust carrega `mt5.dll` e expõe funções como `OrderSend()` via Firebase.
+- O SaaS Web envia ordens para terminais Desktop legados.
+
+#### B. Módulo RPA / Ghost User
+
+Para sistemas sem API nem DLL (ERPs antigos):
+
+- O Rust controla **Mouse e Teclado** (`enigo`, `winapi`).
+- O SaaS diz "Cadastrar Cliente X". O Rust abre janela, digita e salva.
+
+#### C. Módulo IoT & Hardware
+
+Acesso total a periféricos que o navegador não consegue:
+
+- Impressoras Térmicas (ESC-POS)
+- Balanças de precisão (Porta COM)
+- Leitores Biométricos
+
+#### D. Local AI Intelligence (Offline Brain) 🧠
+
+Para privacidade absoluta:
+
+- O Rust roda **Llama 3 / Mistral** quantizado localmente.
+- PDFs sigilosos são processados no PC. Apenas o resumo vai para a nuvem.
+
+#### E. Filesystem Watcher (Modo Dropbox) 📂
+
+O navegador não monitora pastas. O Rust pode:
+
+- Detecta arquivo novo em `C:\Downloads\Notas`.
+- Faz parse automático e envia para o SaaS: _"Nova NF detectada!"_.
+
+#### F. OS HUD / Overlay (DirectX Hook) 🕹️
+
+Para Traders e Gamers:
+
+- O Rust desenha **Overlay Transparente** sobre outros apps.
+- Mostra "Vendas Hoje: R$ 5.000" sem alt-tab.
+
 ---
 
 ## 5. Backend Pilar 2: Firebase Colmeia (Signaling)
 
 O Firebase atua APENAS como canal de sinalização e sincronia em tempo real. Não armazena dados persistentes de negócio.
 
-### 5.1. Estrutura Colmeia (Cells)
+### 5.1. Arquitetura de Dados (Schema)
 
-```text
-🔥 FIREBASE
-├── (Core Zone)
-│   └── Version/Status
-├── (Células Isoladas)
-│   ├── Developer Cell (Sandbox)
-│   └── Client Cell (Dados Privados + Quotas)
-└── (Signaling)
-    ├── command_queue (Browser -> Rust)
-    ├── response_stream (Rust -> Browser)
-    └── agent_status
+A árvore de dados é efêmera e segregada por `user_uid`:
+
+```json
+{
+  "pf_cells": {
+    "user_uuid_123": {
+      "command_queue": {
+        "cmd_id_x": {
+          "action": "EXECUTE_DLL",
+          "payload": { "symbol": "BTCUSD", "volume": 1.0 },
+          "timestamp": 1700000000
+        }
+      },
+      "response_stream": {
+        "cmd_id_x": {
+          "status": "SUCCESS",
+          "data": { "ticket": 998877 },
+          "completed_at": 1700000005
+        }
+      },
+      "agent_status": {
+        "online": true,
+        "last_ping": 1700000010,
+        "gpu_model": "RTX 4090",
+        "version": "2.0.0"
+      }
+    }
+  }
+}
 ```
 
-### 5.2. Segurança da Colmeia
+### 5.2. Regras de Segurança (Firestore Rules)
 
-Rules garantem que `auth.uid === cell_id`. Um cliente nunca acessa a célula de outro.
+Garante que usuários não leiam dados uns dos outros:
+
+```javascript
+{
+  "rules": {
+    "pf_cells": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    }
+  }
+}
+```
+
+### 5.3. Fluxo de Execução (Browser ↔ Rust)
+
+```text
+[🖥️ BROWSER]                [🔥 FIREBASE]              [🦀 RUST AGENT]
+      │                           │                           │
+      │ 1. PUSH COMANDO ──────────▶│                           │
+      │                           │ 2. SSE EVENT ─────────────▶│
+      │                           │                           │ 3. EXECUTA LOCAL
+      │                           │◀───────── 4. ESCREVE ──────│
+      │◀────── 5. ATUALIZA ───────│                           │
+```
 
 ---
 
@@ -516,6 +606,33 @@ LAYER 5: ADMIN (Audit + Kill Switch)
 
 O `pf-agent` é Open Source, mas a compilação oficial (`official_build`) inclui chaves proprietárias para acessar a Store e a Nuvem Panda. Forks não conseguem se conectar ao ecossistema oficial.
 
+### 8.4. Modelo de Permissões "Android-Style" 🛡️
+
+O Rust **NUNCA** executa ações perigosas silenciosamente:
+
+- **Request:** O site pede: "Ler pasta C:\Notas".
+- **Pop-up Desktop:** "O App Panda CRM deseja ler sua pasta de Notas. [Permitir] [Bloquear]".
+- **Persistência:** O usuário aceita explicitamente. Isso isenta a Panda de responsabilidade.
+
+### 8.5. Assinatura Digital de Plugins (Code Signing) ✍️
+
+Para evitar uso malicioso:
+
+- O Rust só carrega DLLs/Plugins com **Assinatura Criptográfica da Panda Fabrics**.
+- Drivers não assinados são bloqueados: _"Assinatura Inválida"_.
+- **Review:** Equipe audita código antes de assinar e publicar na Store.
+
+### 8.6. Termos de Uso (Isenção)
+
+> "O Panda Agent é uma ferramenta de automação passiva. A Panda Fabrics **não se responsabiliza** por perda de dados, ordens financeiras erradas ou mau uso. O usuário detém controle total e responsabilidade final sobre as permissões concedidas."
+
+### 8.7. Botão de Pânico (Kill Switch) 🚨
+
+Se detectarmos vulnerabilidade global:
+
+- Firebase envia sinal `EMERGENCY_STOP`.
+- **Todos** os Agents entram em "Modo Seguro" (leitura apenas) instantaneamente.
+
 ---
 
 ## 9. Ecossistema: Tokenomics & Monetização
@@ -604,8 +721,8 @@ PF-STORE                                                    └═══█═�
 
 ### 11.2. Mapa da Documentação
 
-- `PF_MASTER_ARCHITECTURE.md`: Este arquivo (A Bíblia).
-- `ARCHITECTURE_FIREBASE_RUST.md`: Spec técnica profunda do Rust.
+- `PF_MASTER_ARCHITECTURE.md`: Este arquivo (A Bíblia completa).
+- `SDK_REFERENCE.md`: API Reference da biblioteca Panda SDK.
 - `README.md`: Entry point para devs novatos.
 
 > _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_
