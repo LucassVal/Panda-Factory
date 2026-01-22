@@ -199,31 +199,26 @@ Backend serverless usando Google Apps Script.
 
 ## 🌍 Ecossistema de Negócio
 
-### 🏪 Store & Módulos
+### 💰 Tokenomics & Split
 
-- **Venda Direta:** Preço fixo.
-- **Energy Fee:** Dev ganha % sobre consumo.
-- **Hosting Fee:** 🆕 Dev ganha hospedando software em seu Rust Agent.
+| Destino             | %   | Descrição            |
+| ------------------- | --- | -------------------- |
+| **Dev/Host**        | 55% | Quem cria valor      |
+| **Fundo Incentivo** | 22% | Subsídios, Bootcamps |
+| **Panda Ops**       | 15% | Mantém plataforma    |
+| **Founder**         | 5%  | Royalty eterno       |
+| **Gateway**         | 3%  | Stripe/Blockchain    |
 
-### 💰 Tokenomics 2.0 & Pricing
+> 💡 **Pisos Dinâmicos:** Split ajusta por tier (Bootstrap → Growth → Mature)
 
-O Panda Coin (PC) flutua com base na oferta de hardware, mas nunca cai abaixo do custo.
+### 📦 Planos
 
-1.  **Piso Inviolável (2.5x):** Valor mínimo = Custo Energia x 2.5
-2.  **Inflação Simulada:** Se faltar GPU, preço sobe. Se sobrar (BYOD), preço cai.
-3.  **Crypto Future:** Migração para Solana/Polygon (Roadmap L2).
-
-| Plano        | Preço          | Tokens/mês |
-| ------------ | -------------- | ---------- |
-| **Free**     | R$ 0           | 100K       |
-| **Starter**  | R$ 9,90/mês    | 500K       |
-| **Pro**      | R$ 29,90/mês   | 2M         |
-| **Lifetime** | R$ 150 (único) | 500K/mês   |
-
-### 🤝 Programa de Afiliados
-
-- **Indicação direta:** 5% sobre vendas do indicado.
-- **Perpétuo:** Ganha em TODAS as vendas futuras.
+| Plano        | Preço    | Tokens/mês |
+| ------------ | -------- | ---------- |
+| **Free**     | R$ 0     | 100K       |
+| **Starter**  | R$ 9,90  | 500K       |
+| **Pro**      | R$ 29,90 | 2M         |
+| **Lifetime** | R$ 150   | 500K/mês   |
 
 📖 **Detalhes:** [Seção 9 - Ecossistema](docs/PF_MASTER_ARCHITECTURE.md#9-ecossistema-tokenomics--monetização)
 
@@ -233,27 +228,34 @@ O Panda Coin (PC) flutua com base na oferta de hardware, mas nunca cai abaixo do
 
 ```text
 Semana:  1  2  3  4  5  6  7  8  9  10 11 12
-RUST  ═══█══█══█══┐
-SDK              └══█══█══█══┐
-FACTORY                      └══█══█══█══┐
-STORE                                    └══█══█══█
+SDK Mock ════✅ (DONE)
+UI/UX       └══█══█══┐ (IN PROGRESS)
+Backend            └══█══█══█══┐
+Store                          └══█══█══█
 ```
+
+| Fase     | Status         | Milestone          |
+| -------- | -------------- | ------------------ |
+| SDK Mock | ✅ Done        | `pf.sdk.js` + docs |
+| UI/UX    | 🚧 In Progress | 10 alpha testers   |
+| Backend  | ⏳ Planned     | 50 closed beta     |
+| Store    | ⏳ Planned     | 100 paying users   |
 
 ---
 
 ## 📋 Changelog
 
-### [4.1.0] - 2026-01-21 (Tokenomics Update)
+### [5.0.0] - 2026-01-22 (Tokenomics Redesign)
 
-- **Novo:** Tokenomics 2.0 (Piso 2.5x, Inflação Simulada).
-- **Novo:** Infraestrutura Híbrida (BYOD Hosting + Google Spot VMs).
-- **Refactor:** Diagramas convertidos para ASCII Art.
+- **Novo:** Split 55/22/15/5/3 (Dev/Fundo/Ops/Founder/Gateway)
+- **Novo:** Sistema de Redistribuição Dinâmica (Pisos por Tier)
+- **Novo:** Panda AI Treasury (PAT) - IA gestora de incentivos
+- **Novo:** Modelo Satoshi de Governança (Founder 5% eterno)
+- **Roadmap:** SDK Mock ✅ concluído
 
-### [4.0.0] - 2026-01-21
+### [4.1.0] - 2026-01-21
 
-- **Arquitetura:** Documento unificado (~2300 linhas).
-- **Rust:** MCP + RIG + Multi-User + Token Meter.
-- **Ecossistema:** Store, Planos Híbridos, Split 70/30.
+- **Novo:** Tokenomics 2.0, Infraestrutura Híbrida (Swarm + Spot VMs)
 
 ### [3.0.0] - 2026-01-20
 

@@ -686,74 +686,130 @@ Se detectarmos vulnerabilidade global:
 
 ## 9. Ecossistema: Tokenomics & Monetização
 
-### 9.1. Tokenomics 2.0: Dinâmica Econômica
+> **Filosofia:** "O Token é Energia. Quem produz, ganha. Quem consome, paga. O Fundador recebe eternamente."
 
-O Panda Coin (PC) não é fixo. Ele flutua com base na oferta de hardware.
+### 9.1. Estrutura de Valor do Panda Coin (PC)
 
-#### A. O Piso Inviolável (2.5x)
+O PC é **Energy Credit** lastrado em custo computacional real, não especulativo.
 
-Para garantir sustentabilidade, definimos um markup mínimo sobre o custo de energia.
-`Valor Token` >= `Custo Cloud` x 2.5
+#### A. Fórmula Base (Piso Inviolável)
 
-- Isso protege a Panda Fabrics de operar no prejuízo.
-- Garante margem para o Dev (70%) e Plataforma (30%).
-
-#### B. Inflação Simulada (Compute Supply)
-
-Algoritmo de Escassez:
-
-- **Alta Oferta de PCs (BYOD):** Preço do PC cai → Poder de compra do Token sobe (Deflação).
-- **Baixa Oferta de PCs:** Preço sobe para incentivar novos hosts (Inflação Controlada).
-- **Equilíbrio:** O sistema busca estabilidade onde 1000 Tokens ≈ $0.25 (Varejo).
-
-### 9.2. Crypto Future (Roadmap)
-
-Atualmente operamos em `Ledger Centralizado` (Off-chain).
-Quando volume > $1M/mês:
-
-1.  Migração para **Solana/Polygon (Layer 2)**.
-2.  Conversão de PCs para Cripto Real.
-3.  Governança DAO para updates do Protocolo.
-
-### 9.3. Fluxo: Dev → Store → Cliente
-
-```text
-[👨‍💻 DEV] --> (Desenvolve/Testa) --> [📦 CÉLULA DEV]
-    │
-    ▼
-[🏪 STORE] <-- (Busca GitHub)
-    │
-    ├── (Venda: 70% Dev / 30% Panda)
-    ▼
-[👤 CLIENTE] --> (Compra/Instala) --> [Cache Local Rust]
+```
+Preço_Base = Custo_Cloud_Médio × 2.5
+Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 ```
 
-### 9.4. Modelos de Monetização
+#### B. Split de Receita (Transações)
 
-1.  **Venda Direta:** Preço fixo (ex: 500 PC).
-2.  **Energy Fee:** Markup sobre consumo de API (ex: User gasta 100 PC, paga 120 PC. Dev ganha 20).
-3.  **B2B Bundle:** Venda externa (Kiwify) com Webhook creditando PCs.
-4.  **Afiliados:** % perpétua sobre indicados.
+| Destino               | Store/Compute | P2P Crypto |
+| --------------------- | ------------- | ---------- |
+| **Dev/Host**          | 55%           | 95%        |
+| **Fundo Incentivo**   | 22%           | 1%         |
+| **Panda Operacional** | 15%           | 1%         |
+| **Founder (Lucas)**   | 5%            | 0%         |
+| **Gateway/GAS**       | 3%            | 3%         |
+
+### 9.2. Sistema de Redistribuição Dinâmica (Pisos)
+
+O split ajusta conforme a empresa cresce, priorizando comunidade quando há folga:
+
+| Tier          | Users    | Fundo % | Ops % | Founder % |
+| ------------- | -------- | ------- | ----- | --------- |
+| **Bootstrap** | < 10K    | 18%     | 18%   | 4%        |
+| **Growth**    | 10K-50K  | 22%     | 15%   | 5%        |
+| **Scale**     | 50K-100K | 25%     | 12%   | 5%        |
+| **Mature**    | > 100K   | 28%     | 10%   | 4%        |
+
+> **Dev/Host sempre = 55%** (fixo, protege quem cria valor)
+
+### 9.3. Planos & Pricing
+
+| Plano        | Preço          | Tokens/mês | Perfil           |
+| ------------ | -------------- | ---------- | ---------------- |
+| **Free**     | R$ 0           | 100K       | Teste, Estudante |
+| **Starter**  | R$ 9,90        | 500K       | Dev Solo         |
+| **Pro**      | R$ 29,90       | 2M         | Equipe, Produção |
+| **Lifetime** | R$ 150 (único) | 500K/mês   | Early Adopter    |
+
+### 9.4. Panda AI Treasury (PAT) 🤖
+
+A IA gestora do Fundo de Incentivo. Decide automaticamente:
+
+| Programa             | Gatilho               | Budget    |
+| -------------------- | --------------------- | --------- |
+| **Dev Grants**       | Devs < 5% users       | 10% Fundo |
+| **Student Boost**    | Churn > 5%            | Tokens 2x |
+| **Host Recruitment** | Demanda > Oferta 1.2x | 5% Fundo  |
+| **Bootcamp Season**  | A cada 3 meses        | 15% Fundo |
+
+### 9.5. Programa de Subsídios
+
+| Categoria           | Tokens/mês | Requisito         |
+| ------------------- | ---------- | ----------------- |
+| **Universitário**   | 500K       | Email .edu        |
+| **Open Source Dev** | 1M         | 100+ GitHub stars |
+| **Jovem < 25**      | 250K       | Verificação idade |
+
+### 9.6. Governança Progressiva (Modelo Satoshi)
+
+| Fase          | Users     | Quem manda              | Papel Fundador    |
+| ------------- | --------- | ----------------------- | ----------------- |
+| **Bootstrap** | 0-100K    | Fundador 100%           | CEO/CTO           |
+| **Growth**    | 100K-500K | Fundador 51% + Conselho | Presidente        |
+| **Mature**    | 500K+     | DAO                     | Advisor + Royalty |
+
+#### Direitos Eternos do Fundador
+
+| Direito              | Proteção                |
+| -------------------- | ----------------------- |
+| **5% Royalty**       | Smart Contract imutável |
+| **Marca Registrada** | INPI + WIPO             |
+| **Veto em Missão**   | Qualquer mudança core   |
 
 ---
 
 ## 10. Roadmap de Implementação
 
-### Cronograma Visual (12 Semanas)
+### 10.1. Cronograma Visual
 
 ```text
-        Semana  1   2   3   4   5   6   7   8   9  10  11  12
-                │   │   │   │   │   │   │   │   │   │   │   │
-RUST AGENT  ════█═══█═══█═══┐
-PF-SDK                      └═══█═══█═══█═══┐
-PF-FACTORY                                  └═══█═══█═══█═══┐
-PF-STORE                                                    └═══█═══█═══█
+Semana:  1  2  3  4  5  6  7  8  9  10 11 12
+SDK Mock ════✅ (DONE)
+UI/UX       └══█══█══┐ (IN PROGRESS)
+Backend            └══█══█══█══┐
+Store                          └══█══█══█
 ```
 
-- **Fase 1 (Rust):** Conexão Firebase, GPU Detect, MCP Básico.
-- **Fase 2 (SDK):** Slots, Adapters, Offline Sync.
-- **Fase 3 (Factory):** UI Components, Docks, Module Loader.
-- **Fase 4 (Store):** GitHub Registry, Pagamentos, Webhooks.
+### 10.2. Fases & Milestones
+
+#### Fase 1: SDK Mock ✅ CONCLUÍDO
+
+- [x] `js/pf.sdk.js` - Enterprise Ready
+- [x] Módulos: Auth, Data, Storage, Wallet, Brain, GPU, Bridge, UI
+- [x] `docs/SDK_REFERENCE.md`
+
+#### Fase 2: UI/UX Integration 🚧 EM PROGRESSO
+
+- [ ] Settings Modal conectado ao SDK
+- [ ] Login Screen + Dashboard
+- **Milestone:** 10 alpha testers
+
+#### Fase 3: Backend Real
+
+- [ ] `PF_Dispatcher.gs` + Firebase real
+- [ ] Rust Agent MVP
+- **Milestone:** 50 closed beta
+
+#### Fase 4: Store & Marketplace
+
+- [ ] Payment gateway (Stripe/Pix)
+- [ ] 5 módulos publicados
+- **Milestone:** 100 paying users
+
+#### Fase 5: Crypto Layer (Após R$ 100K GMV)
+
+- [ ] Solana/Polygon integration
+- **Milestone:** 1000 active wallets
 
 ---
 
