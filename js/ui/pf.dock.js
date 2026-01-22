@@ -22,7 +22,7 @@ export class DockController {
       console: () => console.log("💻 Developer Console opened"),
       api: () => alert("🔌 API Tester - Coming soon!"),
       database: () => alert("🗄️ Database Explorer - Coming soon!"),
-      ai: () => alert("🤖 AI Assistant Panel - Coming soon!"),
+      ai: () => alert("🐼 AI Assistant Panel - Coming soon!"),
     };
   }
 

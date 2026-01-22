@@ -89,5 +89,5 @@ function openCodeEditor() {
 }
 
 function openAIAssistant() {
-  alert("🤖 AI Assistant Panel - Coming soon!");
+  alert("🐼 AI Assistant Panel - Coming soon!");
 }

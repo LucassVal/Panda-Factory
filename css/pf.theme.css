@@ -1040,3 +1040,151 @@ h6 {
   font-size: 15px;
   color: var(--text-primary);
 }
+
+/* ================================================
+   13. MODULAR DOCKS (Glassmorphism)
+   ================================================ */
+.modular-dock {
+  position: fixed;
+  z-index: 9998;
+  
+  /* Glassmorphism Effect */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 10px;
+  
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  
+  user-select: none;
+  cursor: grab;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+body.dark-mode .modular-dock {
+  background: rgba(20, 20, 20, 0.6);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.modular-dock:hover {
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.modular-dock.dragging {
+  cursor: grabbing;
+  transform: scale(1.02);
+  box-shadow: 
+    0 16px 64px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+/* Left Dock (App Dock) - Vertical */
+.left-dock {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Right Dock (DevTools) - Vertical */
+.right-dock {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Dock Items Container */
+.dock-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Individual Dock Item */
+.dock-item {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+body.dark-mode .dock-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dock-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .dock-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dock-item:active {
+  transform: scale(0.95);
+}
+
+/* Dock Separator */
+.dock-separator {
+  width: 32px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1px;
+  margin: 4px auto;
+}
+
+body.dark-mode .dock-separator {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Dock Tooltips */
+.dock-item[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  background: var(--accent-primary);
+  color: var(--text-inverted);
+  
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: tooltipFadeIn 0.15s ease-out;
+}
+
+.right-dock .dock-item[title]:hover::after {
+  left: auto;
+  right: 60px;
+}
+
