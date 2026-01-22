@@ -229,6 +229,12 @@ Backend serverless usando Google Apps Script.
 
 📖 **Detalhes:** [Seção 9 - Ecossistema](docs/PF_MASTER_ARCHITECTURE.md#9-ecossistema-tokenomics--monetização)
 
+### 💳 Integrações de Pagamento
+
+- **Fiduciário:** Stripe, PagSeguro e Pix Nativo.
+- **Webhooks:** Conexão nativa com Kiwify e Hotmart para entrega automática (Infoprodutos).
+- **Afiliados:** Tracking `?ref=` nativo para distribuição com comissão automática.
+
 ---
 
 ## 🚀 Roadmap

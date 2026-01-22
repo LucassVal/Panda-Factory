@@ -821,7 +821,33 @@ Store                          └══█══█══█
 
 ---
 
-## 11. Referências & Convenções
+## 11. Integrações Monetárias & Gateways (Input Layer)
+
+O sistema aceita entradas de capital via canais tradicionais e webhooks de infoprodutos.
+
+### 11.1. Gateways de Pagamento (Fiat)
+
+- **Stripe:** Processamento internacional (Cartão/ACH). Taxa padrão ~3%.
+- **PagSeguro:** Processamento nacional (Pix/Boleto/Cartão). Taxa padrão ~3-4%.
+- **Pix Nativo:** Integração direta (Open Finance) futura para zerar taxas.
+
+### 11.2. Integração Infoprodutos (Webhooks)
+
+Para produtores que vendem cursos/acessos externos:
+
+- **Kiwify / Hotmart:** O sistema escuta Webhooks de "Compra Aprovada".
+- **Ação:** Cria conta Panda Pro automaticamente para o aluno.
+- **Modelo:** Venda B2B (Produtor compra lote de acessos com desconto).
+
+### 11.3. Sistema de Afiliados
+
+- **Nativo:** O Panda possui sistema próprio de tracking `?ref=aff_id`.
+- **Comissão:** Definida pelo DAO (Ex: 30% da venda).
+- **Origem:** O valor da comissão é descontado da margem de Marketing (Ops) ou do Split Dev, dependendo da regra do produto.
+
+---
+
+## 12. Referências & Convenções
 
 ### 11.1. Convenção de Nomes (PF)
 
