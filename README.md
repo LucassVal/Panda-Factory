@@ -211,9 +211,9 @@ Backend serverless usando Google Apps Script.
 
 ### 🏛️ Governança em 4 Camadas
 
-1. **Hardcode:** Lastro Híbrido, Taxa Circular, Reserva Auto.
+1. **Hardcode:** Lastro Solvência, Teto Inflação 5%, Google KMS Vault.
 2. **DAO:** Política flutuante (Splits, Parcerias).
-3. **Panda AI (PAT):** Banco Central (Inflação 0-3%).
+3. **Panda AI (PAT):** Banco Central (Ajustes finos).
 4. **Mercado Único:** Descontos progressivos (0-50%).
 
 > 💡 **Pisos Dinâmicos:** Split ajusta por tier (Bootstrap → Growth → Mature)

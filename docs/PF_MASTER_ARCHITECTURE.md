@@ -734,16 +734,16 @@ CAMADA 4: MERCADO ÚNICO (O Varejo)
 
 _Imutáveis. Smart Contract Nível Supremo._
 
-| Artigo                | Regra                              | Por quê?                                |
-| --------------------- | ---------------------------------- | --------------------------------------- |
-| **1. Lastro Híbrido** | `Supply ≤ (Local + Cloud Credits)` | Garante solvência (pagar o Google)      |
-| **2. Robin Hood**     | `Desconto Rico = Crédito Pobre`    | Subsídio Cruzado (Reforma Agrária)      |
-| **3. Taxa Circular**  | `1% Tax` → Reinveste no Fundo      | Não queima dinheiro, aumenta incentivos |
-| **4. Reserva Auto**   | `20% Excedente` → Stablecoin       | Script diário para fundo de emergência  |
-| **5. Piso Preço**     | `2.5x Custo` Energia               | Sustentabilidade operacional            |
-| **6. Founder Fee**    | `5%` Bruto Eterno                  | Direito do Criador ("Satoshi Fee")      |
+| Artigo                  | Regra                           | Por quê?                                     |
+| ----------------------- | ------------------------------- | -------------------------------------------- |
+| **1. Lastro Solvência** | `Supply ≤ Budget Nuvem + Local` | Só emite token se tiver $ pra pagar o Google |
+| **2. Teto Inflação**    | `Max 5% ao ano`                 | Trava rígida contra desvalorização           |
+| **3. Robin Hood**       | `Desconto Rico = Crédito Pobre` | Subsídio Cruzado (Reforma Agrária)           |
+| **4. Reserva Vault**    | `20% Excedente` → Google KMS    | Hot Wallet proprietária blindada (HSM)       |
+| **5. Piso Preço**       | `2.5x Custo` Energia            | Sustentabilidade operacional                 |
+| **6. Founder Fee**      | `5%` Bruto Eterno               | Direito do Criador ("Satoshi Fee")           |
 
-> **Nota:** A "Taxa Circular" substitui a queima de tokens. Todo valor arrecadado volta para o ecossistema na forma de bolsas e grants, mantendo a economia aquecida sem destruir capital.
+> **Nota:** A Reserva é gerida via **Google Cloud KMS (Key Management Service)**, garantindo segurança bancária (HSM) para os ativos do fundo, sem depender de cold wallets físicas externas.
 
 #### B. Camada 2: Governança Progressiva
 
