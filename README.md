@@ -138,13 +138,13 @@ O motor local que roda no PC do cliente. Obrigatório para Privacy-First.
 
 ### Funcionalidades Core & Hosting
 
-| Feature              | Descrição                                        |
-| -------------------- | ------------------------------------------------ |
-| **MCP Tools**        | fs_read, fs_write, gpu_check, notify, automation |
-| **RIG Framework**    | Multi-provider (Gemini, Claude, OpenAI)          |
-| **Panda Swarm**      | 🆕 Alugue sua CPU/GPU e ganhe Tokens (DePIN)     |
-| **Ghost Fleet**      | 🆕 Google Spot VMs com failover automático       |
-| **IPs Residenciais** | 🆕 Tráfego via nós Edge (anti-ban)               |
+| Feature           | Descrição                                        |
+| ----------------- | ------------------------------------------------ |
+| **MCP Tools**     | fs_read, fs_write, gpu_check, notify, automation |
+| **RIG Framework** | Multi-provider (Gemini, Claude, OpenAI)          |
+| **Panda Swarm**   | 🆕 Google-Managed Edge (Data → BigQuery)         |
+| **Ghost Fleet**   | 🆕 Spot VMs + Safety Net Protocol                |
+| **Edge IPs**      | 🆕 Residencial Mesh (anti-ban, upsell to Cloud)  |
 
 ### 🤖 Automação & Bot Services
 

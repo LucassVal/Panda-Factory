@@ -573,32 +573,26 @@ Utilizamos arbitragem de preços de computação para criar máquinas virtuais e
       - O estado é transferido instantaneamente para outra Spot ou para o **PC Local** do usuário.
       - O processamento continua sem perda de dados (Zero-Downtime aparente).
 
-### 7.2. BYOD: Panda Swarm (A Extensão de Borda)
+### 7.2. BYOD: Panda Swarm (Google-Managed Edge)
 
-Transformamos a base de usuários em um **Supercomputador Descentralizado**. Aqui, o Panda Agent opera em modo `Server`, complementando a nuvem centralizada.
+Estendemos o alcance da nuvem Google para a borda. O Panda Factory atua como o **Control Plane** (hospedado no GCP) que orquestra recursos descentralizados para cargas de trabalho específicas que não exigem SLA de Data Center.
 
-#### A. Economia de "Compute Mining" (Útil)
+#### A. Edge Computing Complementar
 
-Diferente de minerar criptomoedas (que desperdiça energia), o "minerador" Panda realiza **Proof of Useful Work**:
+Capturamos cargas de trabalho que tradicionalmente não iriam para a nuvem (devido a custo ou latência) e as integramos ao ecossistema.
 
-- **Renderização Distribuída:** Processamento de vídeo/3D fracionado.
-- **Backtesting Financeiro:** Simulação de cenários históricos em paralelo.
-- **IA Inference na Borda:** Execução de LLMs locais para reduzir latência e custo de API.
+- **Data Gravity:** Embora o processamento ocorra na borda, os dados gerados (logs, resultados, datasets) são sincronizados de volta para o **Google Cloud Storage** e **BigQuery**, gerando valor de dados para o cliente.
 
-#### B. O Trunfo: Edge Hosting & IPs Residenciais
+#### B. Casos de Uso Específicos (Non-Cloud Native)
 
-Esta é a **Killer Feature** para automação, bots e coleta de dados, onde a Nuvem tradicional falha.
+Focamos a Swarm em tarefas onde a nuvem pública não é a melhor ferramenta:
 
-- **O Problema:** IPs de Data Center (AWS/Google) são frequentemente bloqueados ou sofrem _throttling_ por serviços externos.
-- **A Solução Swarm:** O tráfego é roteado através de nós residenciais legítimos (Fibra/5G doméstico) da Swarm.
-- **Valor de Mercado:** IPs residenciais premium custam até 10x mais que IPs de nuvem. O Panda Swarm democratiza esse acesso.
+- **Residencial IP Mesh:** Para coleta de dados pública onde IPs de Data Center são bloqueados.
+- **Hyper-Local Latency:** Processamento em tempo real próximo ao usuário final.
 
-#### C. Sandbox de Segurança (Iron-Clad Isolation)
+#### C. Caminho para a Nuvem (Upsell Nativo)
 
-Para garantir conformidade e segurança mútua:
-
-- **Isolamento:** Tarefas rodam em contêineres efêmeros (WASM/Docker leve).
-- **Blindagem:** Criptografia ponta-a-ponta (E2EE). O Host provê "força bruta", mas nunca acessa os dados decriptografados do Cliente.
+A Swarm serve como ambiente de desenvolvimento e teste de baixo custo. Quando a aplicação exige escala e confiabilidade, o Panda Factory oferece **migração "One-Click" para Google Cloud Spot (Tier 3)**, atuando como um funil de aquisição de novos workloads para o GCP.
 
 ### 7.3. BYOL: Bring Your Own License (O Escudo Jurídico)
 
@@ -616,25 +610,24 @@ Resolvemos o complexo problema de licenciamento de software proprietário em nuv
 ### 7.4. Resumo Visual da Orquestração
 
 ```text
-       [USUÁRIO FINAL]
-             │
-    ┌────────▼────────┐
-    │ ORQUESTRADOR PF │  (Decide: Custo vs. Latência vs. IP)
-    └────────┬────────┘
-             │
-   ┌─────────┼──────────────────────────────┐
-   ▼         ▼                              ▼
-[TIER 1]  [TIER 2]                       [TIER 3]
- LOCAL     SWARM (BYOD)                   CLOUD (SPOT)
- (Grátis)  (Pago em Coins)                (Pago em Fiat/Coins)
-   │         │                              │
-   │         ├── IP Residencial (Valioso)   ├── Alta Disponibilidade (Google)
-   │         ├── Custo Médio                ├── IP Datacenter
-   │         └── Escala Infinita            └── Custo Baixo (Spot Strategy)
-   │
-   └── Hardware Próprio
-       Latência Zero
+       [ GOOGLE CLOUD PLATFORM (Control Plane) ]
+       (Orquestrador + Auth + Database + AI)
+                      │
+           ┌──────────┴──────────┐
+           ▼                     ▼
+    [ TIER 2: EDGE ]      [ TIER 3: CORE ]
+      Panda Swarm           Google Spot VM
+    (Custo & Alcance)      (SLA & Potência)
+           │                     │
+           └──────────┬──────────┘
+                      ▼
+             [ DATA INGESTION ]
+          (BigQuery / Cloud Storage)
 ```
+
+> **Tier 1 (Local):** Hardware do usuário, latência zero, grátis.
+> **Tier 2 (Edge):** Swarm residencial, IPs valiosos, pago em Coins.
+> **Tier 3 (Core):** Google Spot VMs, SLA enterprise, pago em Fiat/Coins.
 
 ---
 
