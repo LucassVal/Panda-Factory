@@ -101,11 +101,26 @@ A interface do usuário do Panda OS, focada em "Docks" e modularidade.
 
 ```text
 📁 PandaFactory/
-├── 📁 components/ui/             # Componentes Web Globais
-├── 📁 js/
-│   ├── 📁 kernel/                # Event Bus & Loader
-│   └── 📁 ui/                    # Controllers de Interface
-└── PandaFactory.html             # Entry Point
+├── 📁 _system/                  # Panda Core Kernel
+│   ├── 📁 core/                 # kernel.js, loader.js
+│   └── 📁 sdk/                  # repository.js, api.js
+├── 📁 components/               # HTML Components
+│   ├── 📁 ui/                   # Comp_LoginOverlay, Comp_AgendaDrawer
+│   ├── Comp_HeaderStatus.html
+│   ├── Comp_AppDock.html
+│   └── Comp_SettingsModal.html
+├── 📁 css/                      # Stylesheets
+│   └── pf.theme.css             # 🎨 Unified Design Tokens
+├── 📁 js/                       # JavaScript Modules
+│   ├── 📁 core/                 # pf.firebase-bridge.js
+│   ├── 📁 ui/                   # pf.omnibar.js, pf.settings.js, pf.modal-pin.js
+│   ├── 📁 kernel/               # pf.loader.js
+│   ├── pf.sdk.js                # 🐼 SDK Mock (Governance, PAT)
+│   └── dock-utils.js
+├── 📁 backend/                  # GAS Backend (DDD)
+│   ├── 📁 core/                 # PF_Dispatcher.gs, PF_Config.gs
+│   └── 📁 domains/              # finance/, store/, automation/
+└── PandaFactory.html            # Entry Point
 ```
 
 ---
