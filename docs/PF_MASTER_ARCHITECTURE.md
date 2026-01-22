@@ -709,62 +709,70 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 | **Founder (Lucas)**   | 5%            | 0%         |
 | **Gateway/GAS**       | 3%            | 3%         |
 
-### 9.2. Sistema de Redistribuição Dinâmica (Pisos)
+### 9.3. Hierarquia de Governança (4 Camadas)
 
-O split ajusta conforme a empresa cresce, priorizando comunidade quando há folga:
+A economia é gerida por um sistema de pesos e contrapesos para garantir longevidade.
 
-| Tier          | Users    | Fundo % | Ops % | Founder % |
-| ------------- | -------- | ------- | ----- | --------- |
-| **Bootstrap** | < 10K    | 18%     | 18%   | 4%        |
-| **Growth**    | 10K-50K  | 22%     | 15%   | 5%        |
-| **Scale**     | 50K-100K | 25%     | 12%   | 5%        |
-| **Mature**    | > 100K   | 28%     | 10%   | 4%        |
+```text
+CAMADA 1: HARDCODE (A Constituição Imutável)
+[Piso 2.5x] [Founder 5%] [Min Fundo 15%]
+      │
+      ▼
+CAMADA 2: DAO (O Congresso Político)
+[Define Splits flutuantes] [Aprova Parcerias]
+      │
+      ▼
+CAMADA 3: BANCO CENTRAL IA (O Executivo - PAT)
+[Controla Inflação] [Gere Fundo] [Executa Queimas]
+      │
+      ▼
+CAMADA 4: MERCADO ÚNICO (O Varejo)
+[Vende Tokens] [Aplica Descontos] [Coleta Taxas]
+```
 
-> **Dev/Host sempre = 55%** (fixo, protege quem cria valor)
+#### A. Camada 1: Constituição Federal (Hardcoded)
 
-### 9.3. Planos & Pricing
+_Imutáveis. Smart Contract Nível Supremo._
 
-| Plano        | Preço          | Tokens/mês | Perfil           |
-| ------------ | -------------- | ---------- | ---------------- |
-| **Free**     | R$ 0           | 100K       | Teste, Estudante |
-| **Starter**  | R$ 9,90        | 500K       | Dev Solo         |
-| **Pro**      | R$ 29,90       | 2M         | Equipe, Produção |
-| **Lifetime** | R$ 150 (único) | 500K/mês   | Early Adopter    |
+| Artigo                | Regra                              | Por quê?                                |
+| --------------------- | ---------------------------------- | --------------------------------------- |
+| **1. Lastro Híbrido** | `Supply ≤ (Local + Cloud Credits)` | Garante solvência (pagar o Google)      |
+| **2. Robin Hood**     | `Desconto Rico = Crédito Pobre`    | Subsídio Cruzado (Reforma Agrária)      |
+| **3. Taxa Circular**  | `1% Tax` → Reinveste no Fundo      | Não queima dinheiro, aumenta incentivos |
+| **4. Reserva Auto**   | `20% Excedente` → Stablecoin       | Script diário para fundo de emergência  |
+| **5. Piso Preço**     | `2.5x Custo` Energia               | Sustentabilidade operacional            |
+| **6. Founder Fee**    | `5%` Bruto Eterno                  | Direito do Criador ("Satoshi Fee")      |
 
-### 9.4. Panda AI Treasury (PAT) 🤖
+> **Nota:** A "Taxa Circular" substitui a queima de tokens. Todo valor arrecadado volta para o ecossistema na forma de bolsas e grants, mantendo a economia aquecida sem destruir capital.
 
-A IA gestora do Fundo de Incentivo. Decide automaticamente:
+#### B. Camada 2: Governança Progressiva
 
-| Programa             | Gatilho               | Budget    |
-| -------------------- | --------------------- | --------- |
-| **Dev Grants**       | Devs < 5% users       | 10% Fundo |
-| **Student Boost**    | Churn > 5%            | Tokens 2x |
-| **Host Recruitment** | Demanda > Oferta 1.2x | 5% Fundo  |
-| **Bootcamp Season**  | A cada 3 meses        | 15% Fundo |
+| Fase          | Users    | Quem Manda?                                       |
+| ------------- | -------- | ------------------------------------------------- |
+| **Bootstrap** | < 100K   | **Fundador (100%)** - Ditadura Benevolente        |
+| **Growth**    | 100-500K | **Conselho (51% Você)** - Decisões compartilhadas |
+| **Mature**    | > 500K   | **DAO (Voto Ponderado)** - Democracia líquida     |
 
-### 9.5. Programa de Subsídios
+#### C. Camada 3: Panda AI Treasury (PAT)
 
-| Categoria           | Tokens/mês | Requisito         |
-| ------------------- | ---------- | ----------------- |
-| **Universitário**   | 500K       | Email .edu        |
-| **Open Source Dev** | 1M         | 100+ GitHub stars |
-| **Jovem < 25**      | 250K       | Verificação idade |
+A IA atua como **Banco Central**, executando a política monetária para manter inflação em **0-3% a.a.**.
 
-### 9.6. Governança Progressiva (Modelo Satoshi)
+| Ferramenta   | Gatilho         | Ação                                  |
+| ------------ | --------------- | ------------------------------------- |
+| **Burn**     | Inflação > 3%   | Queima tokens do Fundo                |
+| **Subsídio** | Deflação        | Aumenta bolsas/grants                 |
+| **Vesting**  | Compra > 5M     | Trava tokens (30% à vista, 70% prazo) |
+| **Reserva**  | Demanda Explode | Vende reserva para segurar preço      |
 
-| Fase          | Users     | Quem manda              | Papel Fundador    |
-| ------------- | --------- | ----------------------- | ----------------- |
-| **Bootstrap** | 0-100K    | Fundador 100%           | CEO/CTO           |
-| **Growth**    | 100K-500K | Fundador 51% + Conselho | Presidente        |
-| **Mature**    | 500K+     | DAO                     | Advisor + Royalty |
+#### D. Camada 4: Mercado Único (Panda Energy)
 
-#### Direitos Eternos do Fundador
+Um único mercado para todos, com descontos automáticos por volume histórico.
 
-| Direito              | Proteção                |
-| -------------------- | ----------------------- |
-| **5% Royalty**       | Smart Contract imutável |
-| **Marca Registrada** | INPI + WIPO             |
-| **Veto em Missão**   | Qualquer mudança core   |
+| Volume         | Desconto | Fonte dos Tokens                          |
+| -------------- | -------- | ----------------------------------------- | ---------- |
+| **Iniciante**  | 0%       | Mercado Aberto (Sobe preço)               |
+| **Dev Ativo**  | 5-20%    | Mercado Aberto (Sobe preço)               |
+| **Enterprise** | 30-50%   | **Reserva de Liquidez** (Não afeta preço) | Inviolável |
 
 ---
 
