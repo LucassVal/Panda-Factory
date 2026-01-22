@@ -554,31 +554,87 @@ function saveData(collection, data) {
 
 ---
 
-## 7. Infraestrutura Híbrida: VMs & BYOD
+## 7. Infraestrutura Híbrida: O Tecido (The Fabric)
 
-Estratégia agressiva para redução de custos e escalabilidade infinita.
+> **Filosofia:** "Hardware é commodity. A inteligência está na Orquestração."
 
-### 7.1. Panda Cloud VM (Google Idle Compute)
+A Panda Fabrics opera uma arquitetura **DePIN (Decentralized Physical Infrastructure Network)** que estende a robustez da Google Cloud até a borda (Edge). Essa abordagem híbrida nos posiciona estrategicamente como parceiros de eficiência, oferecendo **SLA Enterprise com Custo de Hobby**.
 
-Utilizamos **Spot Instances (Preemptible)** do Google Cloud e AWS para hospedar serviços críticos a 10-20% do custo.
+### 7.1. Panda Cloud VM: A "Frota Fantasma" (Ghost Fleet)
 
-- **Auto-Switching:** Se a máquina Spot cai, o Rust Agent local assume ou outra Spot sobe.
-- **Ghost Machines:** O usuário não sabe onde roda, apenas que roda.
+Utilizamos arbitragem de preços de computação para criar máquinas virtuais efêmeras, resilientes e alinhadas ao ecossistema Google.
 
-### 7.2. BYOD: Bring Your Own Device (Swarm)
+- **Google Cloud Spot Instances:** Consumimos capacidade ociosa de Data Centers do Google com 70-90% de desconto. Isso gera volume de uso para nossa parceria (Google Partner) enquanto reduz o TCO para o cliente.
+- **The Safety Net Protocol (Resiliência):**
+  1.  O **Panda Orchestrator** sobe uma instância Spot barata (ex: Google e2-standard-4).
+  2.  O **Rust Agent** roda nela e inicia o processamento.
+  3.  Se o Google envia o sinal de desligamento (SIGTERM - 30s de aviso):
+      - O Agente "congela" o estado da memória (Snapshot em tempo real).
+      - O estado é transferido instantaneamente para outra Spot ou para o **PC Local** do usuário.
+      - O processamento continua sem perda de dados (Zero-Downtime aparente).
 
-Devs e Power Users podem alugar seus PCs ociosos (`Rust Agent Server Mode`).
+### 7.2. BYOD: Panda Swarm (A Extensão de Borda)
 
-1.  **Mining de Compute:** Deixe seu PC ligado e ganhe Panda Coins processando filas de terceiros.
-2.  **Edge Hosting:** Hospede APIs (Whatsapp, Scrapers) na ponta, sem pagar VPS.
+Transformamos a base de usuários em um **Supercomputador Descentralizado**. Aqui, o Panda Agent opera em modo `Server`, complementando a nuvem centralizada.
 
-### 7.3. BYOL: Bring Your Own License
+#### A. Economia de "Compute Mining" (Útil)
 
-Para softwares proprietários (ex: MetaTrader, Photoshop, SAP):
+Diferente de minerar criptomoedas (que desperdiça energia), o "minerador" Panda realiza **Proof of Useful Work**:
 
-- O Panda fornece a "casca" (VM/Container).
-- O Cliente injeta a licença na execução.
-- Nenhuma licença pirata é hospedada no ecossistema.
+- **Renderização Distribuída:** Processamento de vídeo/3D fracionado.
+- **Backtesting Financeiro:** Simulação de cenários históricos em paralelo.
+- **IA Inference na Borda:** Execução de LLMs locais para reduzir latência e custo de API.
+
+#### B. O Trunfo: Edge Hosting & IPs Residenciais
+
+Esta é a **Killer Feature** para automação, bots e coleta de dados, onde a Nuvem tradicional falha.
+
+- **O Problema:** IPs de Data Center (AWS/Google) são frequentemente bloqueados ou sofrem _throttling_ por serviços externos.
+- **A Solução Swarm:** O tráfego é roteado através de nós residenciais legítimos (Fibra/5G doméstico) da Swarm.
+- **Valor de Mercado:** IPs residenciais premium custam até 10x mais que IPs de nuvem. O Panda Swarm democratiza esse acesso.
+
+#### C. Sandbox de Segurança (Iron-Clad Isolation)
+
+Para garantir conformidade e segurança mútua:
+
+- **Isolamento:** Tarefas rodam em contêineres efêmeros (WASM/Docker leve).
+- **Blindagem:** Criptografia ponta-a-ponta (E2EE). O Host provê "força bruta", mas nunca acessa os dados decriptografados do Cliente.
+
+### 7.3. BYOL: Bring Your Own License (O Escudo Jurídico)
+
+Resolvemos o complexo problema de licenciamento de software proprietário em nuvem através da técnica de **Injeção em Tempo de Execução**.
+
+- **Arquitetura "Hollow Shell" (Casca Oca):**
+  - A Panda fornece apenas a infraestrutura (CPU, RAM, OS Base, Drivers).
+  - A Panda **NÃO** hospeda, vende ou distribui binários de terceiros (ex: MetaTrader, Photoshop).
+- **Processo de Injeção:**
+  1.  O usuário conecta seu cofre pessoal (Storage Privado).
+  2.  No boot da VM (Cloud ou Local), o script do Panda injeta o executável e a licença do usuário na memória volátil.
+  3.  O software roda legitimamente sob a licença do usuário final.
+- **Compliance:** Atuamos estritamente como provedor de "Metal", isentando a plataforma de passivos de propriedade intelectual.
+
+### 7.4. Resumo Visual da Orquestração
+
+```text
+       [USUÁRIO FINAL]
+             │
+    ┌────────▼────────┐
+    │ ORQUESTRADOR PF │  (Decide: Custo vs. Latência vs. IP)
+    └────────┬────────┘
+             │
+   ┌─────────┼──────────────────────────────┐
+   ▼         ▼                              ▼
+[TIER 1]  [TIER 2]                       [TIER 3]
+ LOCAL     SWARM (BYOD)                   CLOUD (SPOT)
+ (Grátis)  (Pago em Coins)                (Pago em Fiat/Coins)
+   │         │                              │
+   │         ├── IP Residencial (Valioso)   ├── Alta Disponibilidade (Google)
+   │         ├── Custo Médio                ├── IP Datacenter
+   │         └── Escala Infinita            └── Custo Baixo (Spot Strategy)
+   │
+   └── Hardware Próprio
+       Latência Zero
+```
 
 ---
 
