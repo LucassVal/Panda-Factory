@@ -228,21 +228,24 @@
 
   // ==========================================
   // 💰 WALLET (Economia/Tokens)
+  // ⚠️ SEGURANÇA: charge/credit são INTERNOS, não expostos publicamente
   // ==========================================
   let _walletBalance = 1000;
+  let _walletHistory = [];
 
-  const Wallet = {
-    getBalance: async () => {
-      log("WALLET", "Fetching balance...");
-      await fakeDelay(500);
-      return { coins: _walletBalance, currency: "PC" };
-    },
-
+  // 🔒 MÉTODOS INTERNOS (usados pelo SDK, não pelo dev)
+  const _WalletInternal = {
     charge: async (amount, reason) => {
-      log("WALLET", `Charging ${amount} PC for: ${reason}`);
-      await fakeDelay();
+      log("WALLET", `[INTERNAL] Charging ${amount} PC for: ${reason}`);
+      await fakeDelay(200);
       if (_walletBalance < amount) throw new Error("Saldo insuficiente");
       _walletBalance -= amount;
+      _walletHistory.push({
+        type: "DEBIT",
+        amount,
+        reason,
+        timestamp: Date.now(),
+      });
       Events.emit("wallet:change", {
         balance: _walletBalance,
         charged: amount,
@@ -251,14 +254,52 @@
     },
 
     credit: async (amount, reason) => {
-      log("WALLET", `Crediting ${amount} PC for: ${reason}`);
-      await fakeDelay();
+      log("WALLET", `[INTERNAL] Crediting ${amount} PC for: ${reason}`);
+      await fakeDelay(200);
       _walletBalance += amount;
+      _walletHistory.push({
+        type: "CREDIT",
+        amount,
+        reason,
+        timestamp: Date.now(),
+      });
       Events.emit("wallet:change", {
         balance: _walletBalance,
         credited: amount,
       });
       return { success: true, newBalance: _walletBalance };
+    },
+  };
+
+  // ✅ MÉTODOS PÚBLICOS (read-only para a UI)
+  const Wallet = {
+    /**
+     * Retorna o saldo atual do usuário.
+     */
+    getBalance: async () => {
+      log("WALLET", "Fetching balance...");
+      await fakeDelay(500);
+      return { coins: _walletBalance, currency: "PC" };
+    },
+
+    /**
+     * Retorna histórico de transações (últimas 50).
+     */
+    getHistory: async () => {
+      log("WALLET", "Fetching history...");
+      await fakeDelay(300);
+      return _walletHistory.slice(-50);
+    },
+
+    /**
+     * @deprecated Use Panda.Brain.chat() ou Panda.GPU.process() que cobram automaticamente.
+     * Método exposto APENAS para debug no Mock. Em produção, não existe.
+     */
+    _mockCharge: async (amount, reason) => {
+      console.warn(
+        "⚠️ Wallet._mockCharge é apenas para DEBUG. Não use em produção!",
+      );
+      return _WalletInternal.charge(amount, reason);
     },
   };
 
