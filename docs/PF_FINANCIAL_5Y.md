@@ -1,97 +1,128 @@
-# 📊 Panda Fabrics: A Grande Simulação (5 Anos) - Master Consolidation
+# 📊 Panda Fabrics: A Grande Simulação (5 Anos) - Master Detail v2
 
-> **Objetivo:** Demonstrar matematicamente a sustentabilidade do modelo (Unit Economics) e a eficácia da Constituição Econômica (Governança).
-> **Ajuste:** Inclusão explícita de P2P Fees (Secundário) e Founder Fee Global.
-
----
-
-## 🏛️ 1. Premissas Constitucionais & Unit Economics
-
-### A. Mercado Primário (Venda Direta)
-
-1.  **Assinaturas (Recorrente):** Ticket Médio R$ 20,00.
-2.  **Pré-pago (Whales):** Ticket Médio R$ 50,00/pack.
-
-### B. Mercado Secundário (P2P - Circulação)
-
-1.  **Volume P2P:** Estimado em 10% do Primário (Ano 1) crescendo para 50% (Ano 5).
-2.  **Taxa de Protocolo (Fees):** 5% Total.
-    - **4% Panda Ops:** Infraestrutura de troca.
-    - **1% Fundo:** Incentivo de liquidez.
-
-### C. Founder 5% (O Direito Criador)
-
-- **Regra:** 5% de **TODA** a Receita Bruta Primária (Não diluível).
-
-### D. Custos & Governança
-
-- **Custo Cloud (Pagante):** R$ 5,00/mês.
-- **Custo Local (Free):** R$ 0,20/mês.
-- **Burn Trigger (Art 1):** Queima sobras acima de 6 meses de custo.
-- **Panda Labs (Art 2):** 25% do Fundo para Educação.
+> **Correção Final:** Inclusão de Planos Kiwify/Hotmart (Webhooks), Sistema de Afiliados e Granularidade Máxima.
 
 ---
 
-## 🔴 CENÁRIO 1: BOOTSTRAP (Sobrevivência)
+## 🏛️ 1. Hierarquia & Base Legal
 
-### Tabela 1.1: Fluxo Operacional
+### 1.1 Hierarquia (4 Camadas) - _Intocada_
 
-| Ano   | Receita Primária | **Founder (5%)** | Rec. P2P (Fees 5%)   | Total Ops (15% Prim + 4% P2P) | Custo Cloud/Local | **Lucro Bruto Ops** |
-| :---- | :--------------- | :--------------- | :------------------- | :---------------------------- | :---------------- | :------------------ |
-| **1** | R$ 120k          | **R$ 6.000**     | R$ 600 (Vol R$ 12k)  | R$ 18k + R$ 480 = R$ 18.5k    | -R$ 25k           | -R$ 6.5k (Aperto)   |
-| **2** | R$ 380k          | **R$ 19.000**    | R$ 3.8k (Vol R$ 76k) | R$ 57k + R$ 3k = R$ 60k       | -R$ 65k           | -R$ 5k (Equilíbrio) |
-| **3** | R$ 800k          | **R$ 40.000**    | R$ 12k (Vol R$ 240k) | R$ 120k + R$ 9.6k = R$ 129k   | -R$ 130k          | ~Zero               |
-| **4** | R$ 1.5M          | **R$ 75.000**    | R$ 30k (Vol R$ 600k) | R$ 225k + R$ 24k = R$ 249k    | -R$ 210k          | +R$ 39k             |
-| **5** | R$ 2.5M          | **R$ 125.000**   | R$ 62k (Vol R$ 1.2M) | R$ 375k + R$ 50k = R$ 425k    | -R$ 340k          | +R$ 85k             |
+(Constituição > DAO > PAT > Mercado)
 
-> **Founder:** Acumula R$ 265k em 5 anos.
-> **Ops:** Sobrevive pagando custos.
+### 1.2 Split de Receita (Quem ganha o quê)
 
----
-
-## 🟡 CENÁRIO 2: SCALE (Crescimento)
-
-### Tabela 2.1: Fluxo Operacional
-
-| Ano   | Receita Primária | **Founder (5%)** | Rec. P2P (Fees 5%) | Total Ops (15% Prim + 4% P2P) | Custo Energia | **Lucro Bruto Ops** |
-| :---- | :--------------- | :--------------- | :----------------- | :---------------------------- | :------------ | :------------------ |
-| **1** | R$ 500k          | **R$ 25k**       | R$ 2.5k            | R$ 75k + R$ 2k = R$ 77k       | -R$ 80k       | -R$ 3k              |
-| **2** | R$ 3.0M          | **R$ 150k**      | R$ 30k             | R$ 450k + R$ 24k = R$ 474k    | -R$ 400k      | +R$ 74k             |
-| **3** | R$ 10.0M         | **R$ 500k**      | R$ 150k            | R$ 1.5M + R$ 120k = R$ 1.62M  | -R$ 1.2M      | +R$ 420k            |
-| **4** | R$ 22.0M         | **R$ 1.1M**      | R$ 440k            | R$ 3.3M + R$ 350k = R$ 3.65M  | -R$ 2.4M      | +R$ 1.25M           |
-| **5** | R$ 40.0M         | **R$ 2.0M**      | R$ 1.0M            | R$ 6.0M + R$ 800k = R$ 6.8M   | -R$ 4.0M      | **+R$ 2.8M**        |
-
-> **Founder:** Acumula R$ 3.7 Milhões em 5 anos.
-> **P2P Fees:** Geram R$ 800k/ano extras para Ops no ano 5.
+| Destino                   | Store/Compute (Primário) | P2P Crypto (Secundário) |
+| ------------------------- | ------------------------ | ----------------------- |
+| **Dev/Host (O Vendedor)** | **55%**                  | **95%**                 |
+| **Fundo Incentivo**       | **22%**                  | **1%**                  |
+| **Panda Operacional**     | **15%**                  | **1%**                  |
+| **Founder (Lucas)**       | **5%** (Royalty Base)    | **0%**                  |
+| **Gateway/GAS/Afiliados** | **3%**                   | **3%**                  |
 
 ---
 
-## 🟢 CENÁRIO 3: UNICORN (Dominação)
+## 💰 2. Fontes de Receita & Integrações (Premissas)
 
-### Tabela 3.1: Fluxo Operacional (Primário + Secundário)
+### A. Assinaturas & Webhooks (Legacy + New)
 
-| Ano   | Receita Primária | **Founder (5%)** | Vol. P2P (Estimado) | Rec. P2P (Fees 5%) | Total Ops (15% + 4%) | Custo Energia | **Lucro Bruto Ops** |
-| :---- | :--------------- | :--------------- | :------------------ | :----------------- | :------------------- | :------------ | :------------------ |
-| **1** | R$ 10M           | **R$ 500k**      | R$ 1M (10%)         | R$ 50k (40k Ops)   | R$ 1.54M             | -R$ 800k      | +R$ 740k            |
-| **2** | R$ 60M           | **R$ 3.0M**      | R$ 12M (20%)        | R$ 600k (480k Ops) | R$ 9.48M             | -R$ 4M        | +R$ 5.48M           |
-| **3** | R$ 350M          | **R$ 17.5M**     | R$ 105M (30%)       | R$ 5.2M (4.1M Ops) | R$ 56.6M             | -R$ 20M       | +R$ 36.6M           |
-| **4** | R$ 1.5 Bi        | **R$ 75.0M**     | R$ 600M (40%)       | R$ 30M (24M Ops)   | R$ 249M              | -R$ 80M       | +R$ 169M            |
-| **5** | R$ 4.0 Bi        | **R$ 200.0M**    | R$ 2.0 Bi (50%)     | R$ 100M (80M Ops)  | R$ 680M              | -R$ 200M      | **+R$ 480M**        |
+1.  **Planos Diretos (Panda):** Starter (R$ 9,90), Pro (R$ 29,90).
+2.  **Integração Webhooks:** Venda externa via **Kiwify/Hotmart**.
+    - O aluno compra curso "Mestre dos Dados" no Kiwify -> Ganha acesso Panda Pro via Webhook.
+    - **Receita:** O produtor paga Panda por volume de alunos (Atacado).
+    - **Afiliados:** O sistema de afiliados da Hotmart já desconta lá na ponta.
 
-### Tabela 3.2: Destinação, Labs & Deflação
+### B. Sistema de Afiliados Panda (Nativo)
 
-| Ano   | Fundo Prim (22%) | + Fundo P2P (1%) | **Fundo TOTAL** | -> Labs (25%) | -> Subsídio Free | -> Grants | **SOBRA (Burn)**   |
-| :---- | :--------------- | :--------------- | :-------------- | :------------ | :--------------- | :-------- | :----------------- |
-| **1** | R$ 2.2M          | R$ 10k           | **R$ 2.21M**    | R$ 552k       | -R$ 200k         | -R$ 200k  | R$ 1.2M            |
-| **2** | R$ 13.2M         | R$ 120k          | **R$ 13.3M**    | R$ 3.3M       | -R$ 1M           | -R$ 1M    | **Queima R$ 8M**   |
-| **3** | R$ 77M           | R$ 1.05M         | **R$ 78.0M**    | R$ 19.5M      | -R$ 5M           | -R$ 5M    | **Queima R$ 48M**  |
-| **4** | R$ 330M          | R$ 6.0M          | **R$ 336M**     | R$ 84M        | -R$ 20M          | -R$ 15M   | **Queima R$ 217M** |
-| **5** | R$ 880M          | R$ 20.0M         | **R$ 900M**     | **R$ 225M**   | -R$ 50M          | -R$ 20M   | **Queima R$ 605M** |
+- **Regra:** Se a venda vier por Link de Afiliado Nativo, a comissão (ex: 30%) sai da fatia de Marketing do Ops ou é dividida no Split Dev.
+- **Simulação:** Assumindo Custo de Afiliado dentro do CAC (Ops).
 
-### 🌪️ Conclusão Constitucional (P2P + Founder)
+---
 
-1.  **Founder Fee:** No ano 5, o Founder retira **R$ 200 Milhões/ano**. (Sua garantia "Satoshi Fee").
-2.  **P2P Fees:** O mercado secundário gera **R$ 20 Milhões/ano EXTRAS** só para o Fundo (no 1%), pagando praticamente todos os Grants sozinhos.
-3.  **Burn Massivo:** A combinação de Receita Primária + Taxas P2P gera uma sobra de **R$ 605 Milhões** para queima anual.
+## 🔴 CENÁRIO 1: BOOTSTRAP (Foco: Infoprodutores & Webhooks)
 
-O sistema é uma máquina de deflação e geração de riqueza para o Founder e o Ecossistema.
+_Estratégia: Vender para alunos de cursos via Kiwify/Hotmart._
+
+### Tabela 1.1: Fluxo de Receita (Primário)
+
+| Ano   | Alunos (Via Webhook) | Assinantes Diretos | **Receita BRUTA** | Founder (5%) | Ops (15%)  | Fundo (22%) |
+| :---- | :------------------- | :----------------- | :---------------- | :----------- | :--------- | :---------- |
+| **1** | 1.000 (R$ 10k)       | 500 (R$ 10k)       | **R$ 20.000**     | R$ 1.000     | R$ 3.000   | R$ 4.400    |
+| **2** | 5.000 (R$ 50k)       | 2.000 (R$ 60k)     | **R$ 110.000**    | R$ 5.500     | R$ 16.500  | R$ 24.200   |
+| **3** | 20.000 (R$ 200k)     | 10.000 (R$ 300k)   | **R$ 500.000**    | R$ 25.000    | R$ 75.000  | R$ 110.000  |
+| **4** | 50.000 (R$ 500k)     | 50.000 (R$ 1.5M)   | **R$ 2.0M**       | R$ 100.000   | R$ 300.000 | R$ 440.000  |
+| **5** | 100.000 (R$ 1M)      | 100.000 (R$ 3M)    | **R$ 4.0M**       | R$ 200.000   | R$ 600.000 | R$ 880.000  |
+
+### Tabela 1.2: Custos & Afiliados
+
+| Ano   | Comissões (Kiwify/Hotmart) | Custo Cloud/Local | **Saldo Ops** | Reserva Ops (20%) |
+| :---- | :------------------------- | :---------------- | :------------ | :---------------- |
+| **1** | -R$ 2.000 (Pago na Origem) | -R$ 2.000         | +R$ 1.000     | R$ 200            |
+| **2** | -R$ 11.000                 | -R$ 10.000        | +R$ 5.500     | R$ 1.100          |
+| **3** | -R$ 50.000                 | -R$ 40.000        | +R$ 35.000    | R$ 7.000          |
+| **4** | -R$ 200.000                | -R$ 100.000       | +R$ 200.000   | R$ 40.000         |
+| **5** | -R$ 400.000                | -R$ 200.000       | +R$ 400.000   | R$ 80.000         |
+
+> **Análise:** Webhooks garantem a base inicial. Ops paga a conta, mas o volume trazido por parceiros compensa.
+
+---
+
+## 🟡 CENÁRIO 2: SCALE (Híbrido + P2P Start)
+
+### Tabela 2.1: Fluxo Completo (Webhook + Direto + P2P)
+
+| Ano   | Rec. Webhook | Rec. Direta | Rec. P2P Fees (1%) | **Receita Total Ops** | Founder (5% Prim) |
+| :---- | :----------- | :---------- | :----------------- | :-------------------- | :---------------- |
+| **1** | R$ 50k       | R$ 450k     | R$ 500             | **R$ 75.5k**          | R$ 25k            |
+| **2** | R$ 200k      | R$ 2.8M     | R$ 5k              | **R$ 455k**           | R$ 150k           |
+| **3** | R$ 1M        | R$ 9M       | R$ 30k             | **R$ 1.53M**          | R$ 500k           |
+| **4** | R$ 3M        | R$ 19M      | R$ 100k            | **R$ 3.4M**           | R$ 1.1M           |
+| **5** | R$ 5M        | R$ 35M      | R$ 300k            | **R$ 6.3M**           | R$ 2.0M           |
+
+---
+
+## 🟢 CENÁRIO 3: UNICORN (Cloud Exponential & Descentralização)
+
+### Tabela 3.1: O Custo Exponencial da IA (Cloud vs Local)
+
+| Ano   | Base | Custo Cloud/User | **Custo Cloud TOTAL** | Quem paga?  |
+| :---- | :--- | :--------------- | :-------------------- | :---------- |
+| **1** | 20k  | R$ 5             | **-R$ 1.2M**          | Ops         |
+| **2** | 100k | R$ 8 (IA Leve)   | **-R$ 9.6M**          | Ops         |
+| **3** | 500k | R$ 12 (IA RAG)   | **-R$ 72.0M**         | Ops + Hosts |
+| **4** | 2M   | R$ 18 (Agents)   | **-R$ 432.0M**        | Ops + Hosts |
+| **5** | 5M   | R$ 25 (AGI)      | **-R$ 1.5 Bilhões**   | Ops + Hosts |
+
+### Tabela 3.2: Fluxo de Caixa Ops (Solução P2P 95%)
+
+_Ops (15%) não paga a conta Cloud sozinho. Hosts P2P assumem._
+
+| Ano   | Rec. Primária | Vol. P2P  | Ops (Prim) | Ops (P2P 1%) | **Total Ops** | **Founder (5%)** |
+| :---- | :------------ | :-------- | :--------- | :----------- | :------------ | :--------------- |
+| **1** | R$ 10M        | R$ 1M     | R$ 1.5M    | R$ 10k       | **R$ 1.51M**  | **R$ 500k**      |
+| **2** | R$ 60M        | R$ 20M    | R$ 9.0M    | R$ 200k      | **R$ 9.2M**   | **R$ 3.0M**      |
+| **3** | R$ 350M       | R$ 300M   | R$ 52.5M   | R$ 3.0M      | **R$ 55.5M**  | **R$ 17.5M**     |
+| **4** | R$ 1.5 Bi     | R$ 1.2 Bi | R$ 225M    | R$ 12M       | **R$ 237M**   | **R$ 75.0M**     |
+| **5** | R$ 4.0 Bi     | R$ 3.2 Bi | R$ 600M    | R$ 32M       | **R$ 632M**   | **R$ 200.0M**    |
+
+### Tabela 3.3: Tesouro, Labs & Burn (Deflação)
+
+_O Fundo ganha 22% Primário + 1% P2P._
+
+| Ano   | Fundo Prim | Fundo P2P | **TOTAL FUNDO** | -> Labs (25%) | 🔥 BURN TRIGGER |
+| :---- | :--------- | :-------- | :-------------- | :------------ | :-------------- |
+| **1** | R$ 2.2M    | R$ 10k    | **R$ 2.21M**    | R$ 550k       | R$ 1.0M         |
+| **2** | R$ 13.2M   | R$ 200k   | **R$ 13.4M**    | R$ 3.3M       | R$ 8.0M         |
+| **3** | R$ 77M     | R$ 3.0M   | **R$ 80.0M**    | R$ 20.0M      | **R$ 48.0M 🔥** |
+| **4** | R$ 330M    | R$ 12M    | **R$ 342M**     | R$ 85.0M      | **R$ 217M 🔥**  |
+| **5** | R$ 880M    | R$ 32M    | **R$ 912M**     | **R$ 228M**   | **R$ 600M 🔥**  |
+
+---
+
+## 🏛️ Conclusão Final
+
+1.  **Integração Kiwify/Hotmart (Webhook):** Garante receita inicial no Bootstrap (Tabela 1.1).
+2.  **Afiliados:** O sistema suporta comissões nativas (já descontadas na base).
+3.  **Founder Fee (5%):** R$ 200 Milhões/ano garantidos no Unicorn.
+4.  **Custo Cloud:** A descentralização Host P2P (95%) absorve o custo exponencial da IA.
+5.  **Deflação:** R$ 600 Milhões/ano queimados.
