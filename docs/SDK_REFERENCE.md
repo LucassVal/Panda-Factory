@@ -1,6 +1,6 @@
 # 🐼 Panda SDK - Referência da Biblioteca
 
-> **Versão:** 0.5.1 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
+> **Versão:** 0.6.0 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
 
 ---
 
@@ -179,6 +179,46 @@ if (result.confirmed) {
 
 ---
 
+### 🏛️ Panda.Governance
+
+**Constituição Hardcoded do Ecossistema (12 Artigos).** Read-only.
+
+| Método                     | Retorno                                | Descrição                         |
+| -------------------------- | -------------------------------------- | --------------------------------- |
+| `getConstitution()`        | `{articles[], splits, fundAllocation}` | Retorna toda a Constituição       |
+| `getArticle(id)`           | `{id, name, rule}`                     | Retorna artigo específico         |
+| `getSplits()`              | `{primary, p2pPreChain, p2pOnChain}`   | Retorna splits de receita         |
+| `validate(action, params)` | `Promise<{allowed, reason, article?}>` | Valida ação contra a Constituição |
+
+```javascript
+// Exemplo: Tentar banir usuário
+const result = await Panda.Governance.validate("expel_user");
+console.log(result); // { allowed: false, reason: "Viola Art 9.2: Non-Expulsion..." }
+```
+
+---
+
+### 💎 Panda.PAT
+
+**Panda AI Treasury (Banco Central).** Política monetária gerida pela IA.
+
+| Método                      | Retorno                                    | Descrição                          |
+| --------------------------- | ------------------------------------------ | ---------------------------------- |
+| `getStatus()`               | `Promise<{inflation, reserve, deflation}>` | Status econômico atual             |
+| `execute(tool, params?)`    | `Promise<{success, action, amount?}>`      | Executa ferramenta monetária       |
+| `_mockSetState(key, value)` | `void`                                     | _[Mock]_ Altera estado para testes |
+
+**Tools disponíveis:** `reinvest`, `accelerate`, `vesting`, `burn`
+
+```javascript
+// Exemplo: Forçar reinvestimento de excedente
+await Panda.PAT._mockSetState("reserve", 15); // Simula 15% (acima do teto 10%)
+const result = await Panda.PAT.execute("reinvest");
+console.log(result); // { success: true, action: "Reinvestido", amount: 5000 }
+```
+
+---
+
 ## Event Bus
 
 Sistema de eventos para comunicação reativa.
@@ -203,6 +243,7 @@ Sistema de eventos para comunicação reativa.
 | `ui:toast`         | `{message, type}`             | UI.toast         |
 | `ui:modal`         | `{title, message}`            | UI.modal         |
 | `ui:loading`       | `{show, message}`             | UI.loading       |
+| `pat:change`       | `{inflation, reserve, ...}`   | PAT state change |
 
 ```javascript
 // Exemplo: Atualizar UI quando wallet mudar
@@ -237,6 +278,14 @@ Panda.on("wallet:change", ({ balance }) => {
 - **Feature:** `Wallet.getHistory()` adicionado
 - **Fix:** Modal timeout de 30s para evitar Promise eterna
 - **Fix:** LocalStorage persistence para Auth
+
+### [0.6.0] - 2026-01-22 (Governance Kernel)
+
+- **Feature:** Módulo `Governance` - Constituição Hardcoded (12 Artigos)
+- **Feature:** Módulo `PAT` - Panda AI Treasury (Banco Central)
+- **Feature:** Método `Governance.validate(action)` para validar ações
+- **Feature:** Tools PAT: `reinvest`, `accelerate`, `vesting`, `burn`
+- **Docs:** Atualização SDK_REFERENCE.md
 
 ### [0.5.0] - 2026-01-22
 

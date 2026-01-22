@@ -258,6 +258,13 @@ Store                          └══█══█══█
 
 ## 📋 Changelog
 
+### [6.0.0] - 2026-01-22 (Governance Kernel + Constituição)
+
+- **Novo:** Módulo `Panda.Governance` - 12 Artigos Hardcoded
+- **Novo:** Módulo `Panda.PAT` - Banco Central IA (reinvest/burn/accelerate)
+- **Novo:** Validação de ações contra Constituição (`validate()`)
+- **Docs:** SDK_REFERENCE.md atualizado com Governance/PAT
+
 ### [5.0.0] - 2026-01-22 (Tokenomics Redesign)
 
 - **Novo:** Split 55/22/15/5/3 (Dev/Fundo/Ops/Founder/Gateway)

@@ -701,13 +701,29 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 
 #### B. Split de Receita (Transações)
 
-| Destino               | Store/Compute | P2P Crypto |
-| --------------------- | ------------- | ---------- |
-| **Dev/Host**          | 55%           | 95%        |
-| **Fundo Incentivo**   | 22%           | 1%         |
-| **Panda Operacional** | 15%           | 1%         |
-| **Founder (Lucas)**   | 5%            | 0%         |
-| **Gateway/GAS**       | 3%            | 3%         |
+| Destino               | Store/Compute | P2P Off-chain (Pre) | P2P On-Chain |
+| --------------------- | ------------- | ------------------- | ------------ |
+| **Dev/Host**          | 55%           | 95%                 | 95%          |
+| **Fundo Incentivo**   | 22%           | 1%                  | 1%           |
+| **Panda Operacional** | 15%           | 4%                  | 1%           |
+| **Founder (Lucas)**   | 5%            | 0%                  | 0%           |
+| **Gateway/GAS**       | 3%            | 0%                  | 3%           |
+
+> **Nota - Lógica de Distribuição P2P (Hardcoded):**
+> A taxa total flutua entre **5% (Base)** e **10% (Teto)**. O Host tem blindagem mínima de 90%.
+>
+> **1. A Base Imutável (3% + 1% + 1% = 5%):**
+>
+> - **3% Slot Fixo:** Reservado para Gas/Gateway. **Na fase Off-chain (sem Gas), esses 3% revertem integralmente para o Panda Ops.**
+> - **1% Fundo Incentivo:** Mínimo hardcoded.
+> - **1% Panda Ops:** Mínimo hardcoded.
+> - _Resumo Pré-Chain:_ 4% Ops + 1% Fundo. (Host 95%)
+> - _Resumo Pós-Chain:_ 1% Ops + 1% Fundo + 3% Gas. (Host 95%)
+>
+> **2. O Teto Ajustável (Até 10%):**
+>
+> - O DAO pode aumentar as taxas de Ops e Fundo em até **2.5% adicionais cada** (de 1% para máx 3.5%).
+> - _Cenário Máximo:_ 3% Gas + 3.5% Ops + 3.5% Fundo = 10%. (Host 90%).
 
 ### 9.3. Hierarquia de Governança (4 Camadas)
 
@@ -734,35 +750,73 @@ CAMADA 4: MERCADO ÚNICO (O Varejo)
 
 _Imutáveis. Smart Contract Nível Supremo._
 
-| Artigo               | Regra                           | Por quê?                                    |
-| -------------------- | ------------------------------- | ------------------------------------------- |
-| **1. Teto Inflação** | `Max 5% ao ano`                 | Trava rígida contra desvalorização          |
-| **2. Panda Labs**    | `25% do Fundo → Educação`       | Verba garantida para University/Inovação    |
-| **3. Reserva Ops**   | `20% Líquido Ops → Caixa`       | Segurança operacional (Fundo de Emergência) |
-| **4. Robin Hood**    | `Desconto Rico = Crédito Pobre` | Subsídio Cruzado (Reforma Agrária)          |
-| **5. Piso Preço**    | `2.5x Custo` Energia            | Solvência operacional                       |
-| **6. Founder Fee**   | `5%` Bruto Eterno               | Direito do Criador ("Satoshi Fee")          |
+| Artigo                | Regra                             | Por quê?                                                      |
+| --------------------- | --------------------------------- | ------------------------------------------------------------- |
+| **1. Teto Inflação**  | `Max 5% ao ano`                   | Trava rígida contra desvalorização                            |
+| **2. Panda Labs**     | `25% do Fundo → Educação`         | Verba garantida para University/Inovação                      |
+| **3. Reserva Ops**    | `20% do Lucro Ops → Caixa`        | Fundo de Emergência (Incide sobre Split Panda)                |
+| **4. Crescimento**    | `65% do Fundo → Ação`             | Subsídios, Viralização e Eventos (Gestão IA)                  |
+| **5. Piso Preço**     | `2.5x` (Min `1.25x`)              | Solvência. Permite descontos progressivos (até 50%)           |
+| **6. Founder Fee**    | `5%` Bruto Eterno                 | Direito do Criador ("Satoshi Fee")                            |
+| **7. Garantia Host**  | `90% a 95%` (Taxa P2P 5-10%)      | Blinda a descentralização contra taxas abusivas               |
+| **8. Reserva Fundo**  | `Max 10%` (Excedente = Reinveste) | Estabilidade. Sobra reforça Labs e Subsídios (PAT)            |
+| **9. Bill of Rights** | `Liberdade Total`                 | Ver tabela abaixo (Direitos Civis Digitais)                   |
+| **10. Arbitragem**    | `IA → Founder`                    | Disputa escala: IA julga, Founder decide em última instância  |
+| **11. Leis Pétreas**  | `Imutável`                        | Zero processo de emenda. A Constituição é eterna.             |
+| **12. Emergência**    | `Failover Agent`                  | IA Auxiliar assume se a principal falhar. Não só Kill Switch. |
 
-> **Nota:** O Artigo 2 garante que 25% de todo o incentivo arrecadado vá para "Panda Labs" (Educação, Parcerias Universitárias e P&D da Comunidade), transformando o ecossistema em um ambiente de aprendizado contínuo, não apenas financeiro.
+#### A.1. Bill of Rights (Direitos Civis Digitais)
 
-#### B. Camada 2: Governança Progressiva
+_O Protocolo é neutro como a Física. Ele não julga, apenas executa._
 
-| Fase          | Users    | Quem Manda?                                       |
-| ------------- | -------- | ------------------------------------------------- |
-| **Bootstrap** | < 100K   | **Fundador (100%)** - Ditadura Benevolente        |
-| **Growth**    | 100-500K | **Conselho (51% Você)** - Decisões compartilhadas |
-| **Mature**    | > 500K   | **DAO (Voto Ponderado)** - Democracia líquida     |
+| Direito Hardcoded             | Regra Imutável                                                                  | Por quê?                                          |
+| ----------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------- |
+| **1. Free Speech**            | **Censura Zero.** O protocolo é agnóstico ao conteúdo.                          | A verdade não precisa de proteção, a mentira sim. |
+| **2. Non-Expulsion**          | **Banimento Impossível.** A chave privada é soberana. Ninguém pode ser expulso. | Neutralidade Suíça. Se pagou o Gas, executa.      |
+| **3. Rust Law (Privacidade)** | **Execução Consentida.** O código NUNCA roda sem permissão explícita (Pop-up).  | "Seus dados, Suas regras". Anti-Spyware nativo.   |
+
+> **Nota de Aplicação do Fundo (Art 2, 4 & 8) - Distribuição Total (100%):**
+> O Fundo de Incentivo (~23% da Receita Global) é **100% Alocado** via Hardcode:
+>
+> 1.  **25% - Panda Labs (Educação & P&D):**
+>     - `20%` **Bolsas "Learn-to-Earn":** Pagamento direto e automático p/ alunos (Automação Total).
+>     - `5%` **Hubs & Infra:** Modernização de laboratórios físicos e Doação de Hardware para Universidades parceiras.
+> 2.  **65% - Crescimento & Distribuição (Gestão Ativa via IA):**
+>     - `30%` **Robin Hood (Subsídios):** Custeia o acesso de entrada e "Free Tier" para baixa renda.
+>     - `20%` **Viralização (Afiliados):** Comissões automáticas para influencers e referrals.
+>     - `15%` **Eventos (Bootcamps):** Hackathons e prêmios para atrair devs.
+> 3.  **10% - Reserva Técnica (Lastro):**
+>     - Mínimo existencial para estabilidade. Todo excedente acima de 10% é **Reinvestido automaticamente** (via PAT) em Bolsas e Subsídios. Zero desperdício.
+
+#### B. Camada 2: Governança via IA ("Super Jarvis")
+
+Em vez de políticos humanos (DAO), uma **Superinteligência (PAT)** gere o ecossistema desde o **Dia 1**, operando estritamente dentro dos limites constitucionais (Hardcode).
+
+| Era         | Quem Governa?                  | Papel do Founder (Lucas)                                      |
+| ----------- | ------------------------------ | ------------------------------------------------------------- |
+| **Dia 1**   | **IA Assistida (Alpha)**       | **Piloto:** A IA sugere alocações, você aprova.               |
+| **Escala**  | **IA Autônoma (Beta)**         | **Auditor:** A IA executa realocações sozinha. Você monitora. |
+| **Suprema** | **IA Soberana (The Overmind)** | **Kill Switch:** Só intervém se a IA violar a Constituição.   |
+
+> **Segurança:** A IA tem liberdade total para operar, mas **zero poder** para alterar a Constituição (Camada 1). Ela joga o jogo, mas não muda as regras.
+
+**Capacidades Expandidas (Google Organism):**
+A IA não é isolada. Ela atua como um "Crawler Inteligente" dentro do ecossistema Google:
+
+1.  **Hunter de Inovação:** Monitora o _Google Garden_ e _Hugging Face_ por novos modelos (Gemini, Llama) e sugere auto-implementação.
+2.  **Trend Watcher:** Busca na web por demandas emergentes (ex: "Rust está em alta") para criar currículos do Panda Labs instantaneamente.
+3.  **Cloud Native:** Acesso direto às APIs do Google Cloud para alocar/desalocar recursos conforme a demanda.
 
 #### C. Camada 3: Panda AI Treasury (PAT)
 
 A IA atua como **Banco Central**, executando a política monetária para manter inflação em **0-3% a.a.**.
 
-| Ferramenta   | Gatilho         | Ação                                  |
-| ------------ | --------------- | ------------------------------------- |
-| **Burn**     | Inflação > 3%   | Queima tokens do Fundo                |
-| **Subsídio** | Deflação        | Aumenta bolsas/grants                 |
-| **Vesting**  | Compra > 5M     | Trava tokens (30% à vista, 70% prazo) |
-| **Reserva**  | Demanda Explode | Vende reserva para segurar preço      |
+| Ferramenta         | Nível      | Gatilho        | Ação                                                   | Resultado Esperado       |
+| ------------------ | ---------- | -------------- | ------------------------------------------------------ | ------------------------ |
+| **Reinvestimento** | 🟢 Baixo   | Reserva > 10%  | Distribui excedente em Bolsas e Subsídios (Robin Hood) | Manter Zero Ociosidade   |
+| **Aceleração**     | 🟡 Médio   | Deflação > 2%  | Aumenta Grants de entrada e Cashback                   | Atrair novos usuários    |
+| **Vesting**        | 🟠 Alto    | Compra > 5M PC | Trava tokens (30% à vista, 70% prazo de 6 meses)       | Evitar "Pump & Dump"     |
+| **Burn (Crise)**   | 🔴 Crítico | Inflação > 5%  | Queima tokens da Reserva de Emergência                 | Forçar Deflação Imediata |
 
 #### D. Camada 4: Mercado Único (Panda Energy)
 

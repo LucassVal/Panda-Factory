@@ -12,13 +12,13 @@
 
 ### 1.2 Split de Receita (Quem ganha o quê)
 
-| Destino                   | Store/Compute (Primário) | P2P Crypto (Secundário) |
-| ------------------------- | ------------------------ | ----------------------- |
-| **Dev/Host (O Vendedor)** | **55%**                  | **95%**                 |
-| **Fundo Incentivo**       | **22%**                  | **1%**                  |
-| **Panda Operacional**     | **15%**                  | **1%**                  |
-| **Founder (Lucas)**       | **5%** (Royalty Base)    | **0%**                  |
-| **Gateway/GAS/Afiliados** | **3%**                   | **3%**                  |
+| Destino                   | Store/Compute (Primário) | P2P Off-Chain (Pre) | P2P On-Chain |
+| ------------------------- | ------------------------ | ------------------- | ------------ |
+| **Dev/Host (O Vendedor)** | **55%**                  | **95%**             | **95%**      |
+| **Fundo Incentivo**       | **22%**                  | **1%**              | **1%**       |
+| **Panda Operacional**     | **15%**                  | **4%**              | **1%**       |
+| **Founder (Lucas)**       | **5%** (Royalty Base)    | **0%**              | **0%**       |
+| **Gateway/GAS**           | **3%**                   | --                  | **3%**       |
 
 ---
 
@@ -105,17 +105,19 @@ _Ops (15%) não paga a conta Cloud sozinho. Hosts P2P assumem._
 | **4** | R$ 1.5 Bi     | R$ 1.2 Bi | R$ 225M    | R$ 12M       | **R$ 237M**   | **R$ 75.0M**     |
 | **5** | R$ 4.0 Bi     | R$ 3.2 Bi | R$ 600M    | R$ 32M       | **R$ 632M**   | **R$ 200.0M**    |
 
-### Tabela 3.3: Tesouro, Labs & Burn (Deflação)
+### Tabela 3.3: Aplicação do Fundo (Impacto do Art 4 - Growth 65%)
 
-_O Fundo ganha 22% Primário + 1% P2P._
+_O Fundo não queima, ele reinveste em gente._
 
-| Ano   | Fundo Prim | Fundo P2P | **TOTAL FUNDO** | -> Labs (25%) | 🔥 BURN TRIGGER |
-| :---- | :--------- | :-------- | :-------------- | :------------ | :-------------- |
-| **1** | R$ 2.2M    | R$ 10k    | **R$ 2.21M**    | R$ 550k       | R$ 1.0M         |
-| **2** | R$ 13.2M   | R$ 200k   | **R$ 13.4M**    | R$ 3.3M       | R$ 8.0M         |
-| **3** | R$ 77M     | R$ 3.0M   | **R$ 80.0M**    | R$ 20.0M      | **R$ 48.0M 🔥** |
-| **4** | R$ 330M    | R$ 12M    | **R$ 342M**     | R$ 85.0M      | **R$ 217M 🔥**  |
-| **5** | R$ 880M    | R$ 32M    | **R$ 912M**     | **R$ 228M**   | **R$ 600M 🔥**  |
+| Ano   | Total Fundo  | Labs (25%)  | Growth (65%)\* | Reserva (10%) | Status            |
+| :---- | :----------- | :---------- | :------------- | :------------ | :---------------- |
+| **1** | **R$ 2.21M** | R$ 550k     | **R$ 1.44M**   | R$ 221k       | ✅ Sobrevivência  |
+| **2** | **R$ 13.4M** | R$ 3.35M    | **R$ 8.7M**    | R$ 1.34M      | 🚀 Aceleração     |
+| **3** | **R$ 80.0M** | R$ 20.0M    | **R$ 52.0M**   | R$ 8.0M       | 🦄 Escala Massiva |
+| **4** | **R$ 342M**  | R$ 85.5M    | **R$ 222M**    | R$ 34.2M      | 🌐 Dominação      |
+| **5** | **R$ 912M**  | **R$ 228M** | **R$ 592M**    | **R$ 91.2M**  | 🏛️ Nação Digital  |
+
+> **(\*) Growth 65%:** Dinheiro injetado em Subsídios (Robin Hood), Bootcamps e Comissões de Viralização. Isso garante a entrada de milhões de usuários.
 
 ---
 

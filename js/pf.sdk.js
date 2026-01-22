@@ -18,7 +18,7 @@
   // ==========================================
   const Config = {
     mode: "CLOUD", // 'LOCAL' (Rust) ou 'CLOUD' (GAS)
-    version: "0.5.0",
+    version: "0.6.0",
     debug: true,
     agentConnected: false, // Simula se Rust Agent está online
     mockDelay: { min: 300, max: 1200 },
@@ -426,6 +426,232 @@
   };
 
   // ==========================================
+  // 🏛️ GOVERNANCE (Constituição & Regras Hardcoded)
+  // A Camada 1 - Imutável. Validação de ações.
+  // ==========================================
+  const _CONSTITUTION = {
+    articles: [
+      { id: 1, name: "Teto Inflação", rule: "Max 5% ao ano" },
+      { id: 2, name: "Panda Labs", rule: "25% do Fundo → Educação" },
+      { id: 3, name: "Reserva Ops", rule: "20% do Lucro Ops → Caixa" },
+      { id: 4, name: "Crescimento", rule: "65% do Fundo → Ação" },
+      { id: 5, name: "Piso Preço", rule: "2.5x (Min 1.25x)" },
+      { id: 6, name: "Founder Fee", rule: "5% Bruto Eterno" },
+      { id: 7, name: "Garantia Host", rule: "90% a 95% (Taxa P2P 5-10%)" },
+      { id: 8, name: "Reserva Fundo", rule: "Max 10% (Excedente = Reinveste)" },
+      {
+        id: 9,
+        name: "Bill of Rights",
+        rule: "Free Speech, Non-Expulsion, Rust Law",
+      },
+      { id: 10, name: "Arbitragem", rule: "IA → Founder" },
+      { id: 11, name: "Leis Pétreas", rule: "Imutável" },
+      { id: 12, name: "Emergência", rule: "Failover Agent" },
+    ],
+    splits: {
+      primary: { devHost: 55, fund: 22, ops: 15, founder: 5, gateway: 3 },
+      p2pPreChain: { host: 95, fund: 1, ops: 4, founder: 0, gateway: 0 },
+      p2pOnChain: { host: 95, fund: 1, ops: 1, founder: 0, gas: 3 },
+    },
+    fundAllocation: { labs: 25, growth: 65, reserve: 10 },
+  };
+
+  const Governance = {
+    /**
+     * Retorna a Constituição completa (12 Artigos).
+     */
+    getConstitution: () => {
+      log("GOVERNANCE", "Fetching Constitution...");
+      return { ..._CONSTITUTION };
+    },
+
+    /**
+     * Retorna um Artigo específico.
+     */
+    getArticle: (id) => {
+      log("GOVERNANCE", `Fetching Article ${id}...`);
+      return _CONSTITUTION.articles.find((a) => a.id === id) || null;
+    },
+
+    /**
+     * Retorna os Splits de Receita configurados.
+     */
+    getSplits: () => {
+      log("GOVERNANCE", "Fetching Splits...");
+      return { ..._CONSTITUTION.splits };
+    },
+
+    /**
+     * Valida se uma ação é permitida pela Constituição.
+     * @param {string} action - Tipo de ação (ex: 'set_inflation', 'expel_user')
+     * @param {object} params - Parâmetros da ação
+     * @returns {{ allowed: boolean, reason: string, article?: number }}
+     */
+    validate: async (action, params = {}) => {
+      log("GOVERNANCE", `Validating action: ${action}`, params);
+      await fakeDelay(200);
+
+      // Regras de Validação Hardcoded (Mock)
+      const rules = {
+        set_inflation: (p) => {
+          if (p.rate > 5)
+            return {
+              allowed: false,
+              reason: "Viola Art 1: Teto 5%",
+              article: 1,
+            };
+          return { allowed: true, reason: "Dentro do limite." };
+        },
+        expel_user: () => ({
+          allowed: false,
+          reason: "Viola Art 9.2: Non-Expulsion. Banimento impossível.",
+          article: 9,
+        }),
+        change_founder_fee: () => ({
+          allowed: false,
+          reason: "Viola Art 11: Leis Pétreas. Constituição imutável.",
+          article: 11,
+        }),
+        set_host_fee: (p) => {
+          if (p.fee > 10)
+            return {
+              allowed: false,
+              reason: "Viola Art 7: Taxa P2P máx 10%",
+              article: 7,
+            };
+          if (p.fee < 5)
+            return {
+              allowed: false,
+              reason: "Viola Art 7: Taxa P2P mín 5%",
+              article: 7,
+            };
+          return { allowed: true, reason: "Taxa dentro do range 5-10%." };
+        },
+        allocate_fund: (p) => {
+          const total = (p.labs || 0) + (p.growth || 0) + (p.reserve || 0);
+          if (total !== 100)
+            return {
+              allowed: false,
+              reason: "Alocação deve somar 100%.",
+              article: 2,
+            };
+          if ((p.labs || 0) < 25)
+            return {
+              allowed: false,
+              reason: "Viola Art 2: Labs mín 25%",
+              article: 2,
+            };
+          if ((p.growth || 0) < 65)
+            return {
+              allowed: false,
+              reason: "Viola Art 4: Growth mín 65%",
+              article: 4,
+            };
+          return { allowed: true, reason: "Alocação válida." };
+        },
+      };
+
+      if (rules[action]) {
+        return rules[action](params);
+      }
+
+      // Default: Permitido se não há regra específica
+      return { allowed: true, reason: "Ação não restrita pela Constituição." };
+    },
+  };
+
+  // ==========================================
+  // 💎 PAT (Panda AI Treasury - Banco Central)
+  // Camada 3 - Política Monetária gerida pela IA
+  // ==========================================
+  const _treasuryState = {
+    inflation: 1.5, // % a.a. atual
+    reserve: 12, // % do Fundo em Reserva (acima de 10% = reinveste)
+    deflation: 0.0, // % deflação (se > 2% = acelerar)
+    totalBurned: 0, // Total de tokens queimados (PC)
+    totalReinvested: 0, // Total reinvestido (PC)
+  };
+
+  const PAT = {
+    /**
+     * Retorna o status atual da economia.
+     */
+    getStatus: async () => {
+      log("PAT", "Fetching Treasury Status...");
+      await fakeDelay(300);
+      return { ..._treasuryState };
+    },
+
+    /**
+     * Simula execução de uma ferramenta do PAT.
+     * @param {'reinvest' | 'accelerate' | 'vesting' | 'burn'} tool
+     */
+    execute: async (tool, params = {}) => {
+      log("PAT", `Executing tool: ${tool}`, params);
+      await fakeDelay(500);
+
+      const actions = {
+        reinvest: () => {
+          if (_treasuryState.reserve > 10) {
+            const excess = _treasuryState.reserve - 10;
+            _treasuryState.reserve = 10;
+            _treasuryState.totalReinvested += excess * 1000; // Mock: 1% = 1000 PC
+            return {
+              success: true,
+              action: "Reinvestido",
+              amount: excess * 1000,
+            };
+          }
+          return { success: false, reason: "Reserva não excede 10%." };
+        },
+        accelerate: () => {
+          if (_treasuryState.deflation > 2) {
+            _treasuryState.deflation -= 1;
+            return {
+              success: true,
+              action: "Grants aumentados",
+              newDeflation: _treasuryState.deflation,
+            };
+          }
+          return { success: false, reason: "Deflação não crítica." };
+        },
+        burn: () => {
+          if (_treasuryState.inflation > 5) {
+            const burned = (_treasuryState.inflation - 5) * 10000;
+            _treasuryState.inflation = 4.5;
+            _treasuryState.totalBurned += burned;
+            return {
+              success: true,
+              action: "Tokens queimados",
+              amount: burned,
+            };
+          }
+          return { success: false, reason: "Inflação dentro do teto." };
+        },
+        vesting: () => {
+          return { success: true, action: "Vesting aplicado", params };
+        },
+      };
+
+      if (actions[tool]) {
+        return actions[tool]();
+      }
+      return { success: false, reason: `Tool "${tool}" desconhecida.` };
+    },
+
+    /**
+     * Simula alteração de estado para testes.
+     */
+    _mockSetState: (key, value) => {
+      if (_treasuryState.hasOwnProperty(key)) {
+        _treasuryState[key] = value;
+        log("PAT", `[MOCK] ${key} set to ${value}`);
+        Events.emit("pat:change", { ..._treasuryState });
+      }
+    },
+  };
+
+  // ==========================================
   // 🎨 UI (Helpers de Interface)
   // ==========================================
   const UI = {
@@ -503,6 +729,10 @@
     Bridge,
     UI,
 
+    // Módulos de Governança (Constituição)
+    Governance,
+    PAT,
+
     // Event Bus (Atalhos)
     on: Events.on,
     off: Events.off,
@@ -528,6 +758,8 @@
   Object.freeze(Panda.GPU);
   Object.freeze(Panda.Bridge);
   Object.freeze(Panda.UI);
+  Object.freeze(Panda.Governance);
+  Object.freeze(Panda.PAT);
 
   // Exporta para o window
   window.Panda = Panda;
