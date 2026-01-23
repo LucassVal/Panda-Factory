@@ -175,6 +175,10 @@
 </style>
 
 <script>
+  /**
+   * Panda AI Sidebar v1.1 - SDK Integrated
+   */
+
   // Sidebar Interactivity
   function toggleSidebar() {
     const sidebar = document.getElementById("omni-channel-sidebar");
@@ -186,50 +190,99 @@
     document.getElementById("chat-input").focus();
   }
 
-  function sendMessage() {
+  async function sendMessage() {
     const input = document.getElementById("chat-input");
     const text = input.value.trim();
     if (!text) return;
 
-    // Demo implementation
     const history = document.getElementById("chat-history");
 
     // User Message
     const userDiv = document.createElement("div");
-    userDiv.style.alignSelf = "flex-end";
-    userDiv.style.background = "var(--accent-primary)";
-    userDiv.style.color = "var(--text-inverted)";
-    userDiv.style.padding = "8px 12px";
-    userDiv.style.borderRadius = "12px 12px 0 12px";
-    userDiv.style.maxWidth = "80%";
-    userDiv.style.fontSize = "13px";
+    userDiv.className = "chat-bubble user";
+    userDiv.style.cssText =
+      "align-self:flex-end;background:var(--accent-primary);color:var(--text-inverted);padding:8px 12px;border-radius:12px 12px 0 12px;max-width:80%;font-size:13px;";
     userDiv.textContent = text;
     history.appendChild(userDiv);
-
-    // Clear input
     input.value = "";
-
-    // Scroll
     history.scrollTop = history.scrollHeight;
 
-    // Simulate Response
-    setTimeout(() => {
-      const botDiv = document.createElement("div");
-      botDiv.style.alignSelf = "flex-start";
-      botDiv.style.background = "var(--bg-card)";
-      botDiv.style.border = "1px solid var(--border-subtle)";
-      botDiv.style.color = "var(--text-primary)";
-      botDiv.style.padding = "8px 12px";
-      botDiv.style.borderRadius = "12px 12px 12px 0";
-      botDiv.style.maxWidth = "80%";
-      botDiv.style.fontSize = "13px";
-      botDiv.innerHTML = "Estou processando sua solicitação... (Demo)";
-      history.appendChild(botDiv);
-      history.scrollTop = history.scrollHeight;
-    }, 1000);
+    // Typing indicator
+    const typingDiv = document.createElement("div");
+    typingDiv.id = "typing-indicator";
+    typingDiv.style.cssText =
+      "align-self:flex-start;color:var(--text-secondary);font-size:12px;padding:8px;";
+    typingDiv.innerHTML = "🐼 Pensando...";
+    history.appendChild(typingDiv);
+    history.scrollTop = history.scrollHeight;
+
+    // Get response from SDK or mock
+    let response;
+    try {
+      if (typeof Panda !== "undefined" && Panda.Brain) {
+        response = await Panda.Brain.ask(text);
+
+        // Auto-translate if enabled
+        const settings = localStorage.getItem("pf_translation_settings");
+        if (settings) {
+          const prefs = JSON.parse(settings);
+          if (prefs.enabled && prefs.scope !== "manual") {
+            const detected = await Panda.Polyglot.detectLanguage(
+              response.answer,
+            );
+            if (detected.code !== prefs.preferredLang) {
+              const translated = await Panda.Polyglot.translate(
+                response.answer,
+                detected.code,
+                prefs.preferredLang,
+              );
+              response.answer = translated;
+            }
+          }
+        }
+      } else {
+        // Demo fallback
+        response = {
+          answer: getMockResponse(text),
+          confidence: 0.85,
+        };
+      }
+    } catch (e) {
+      response = { answer: "Erro ao processar: " + e.message, confidence: 0 };
+    }
+
+    // Remove typing indicator
+    const indicator = document.getElementById("typing-indicator");
+    if (indicator) indicator.remove();
+
+    // Bot Response
+    const botDiv = document.createElement("div");
+    botDiv.className = "chat-bubble bot";
+    botDiv.style.cssText =
+      "align-self:flex-start;background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-primary);padding:8px 12px;border-radius:12px 12px 12px 0;max-width:80%;font-size:13px;";
+    botDiv.innerHTML = response.answer;
+    history.appendChild(botDiv);
+    history.scrollTop = history.scrollHeight;
+
+    console.log("🐼 AI Response:", response);
+  }
+
+  function getMockResponse(input) {
+    const lower = input.toLowerCase();
+    if (lower.includes("cliente")) {
+      return "Para criar um novo cliente, acesse <b>CRM > Novo Cliente</b> e preencha os campos obrigatórios.";
+    } else if (lower.includes("financeiro") || lower.includes("resumo")) {
+      return "📊 Resumo do mês: <b>R$ 45.200</b> em vendas, <b>23 novos leads</b>.";
+    } else if (lower.includes("servidor") || lower.includes("status")) {
+      return "✅ Todos os serviços operacionais. Rust Agent: <b>Conectado</b>.";
+    } else {
+      return "Entendi! Posso ajudar com CRM, análises ou configurações. (Demo)";
+    }
   }
 
   document.getElementById("chat-input").addEventListener("keypress", (e) => {
     if (e.key === "Enter") sendMessage();
   });
+
+  console.log("🐼 Panda AI Sidebar v1.1 loaded (SDK integrated)");
 </script>
