@@ -1,5 +1,7 @@
 # 🐼 PANDA FACTORY - CODEX CENTRAL v5.0
 
+![Panda Logo](../assets/panda_logo_original.jpg)
+
 > **LEIA ANTES DE QUALQUER TAREFA**
 > Use: `@.agent/PANDA.md [sua tarefa]`
 

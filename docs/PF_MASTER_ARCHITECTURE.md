@@ -1,5 +1,7 @@
 # 🐼 Panda OS - Arquitetura Completa
 
+![Panda Logo](../assets/panda_logo_original.jpg)
+
 > **Documento Mestre de Arquitetura**
 > Consolidação unificada seguindo o Mapa Visual do Projeto.
 > Frontend → SDK → Backend Distribuído (3 Pilares).

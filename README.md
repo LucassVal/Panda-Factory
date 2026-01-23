@@ -1,5 +1,7 @@
 # 🐼 PANDA FABRICS - Private Dev Repository
 
+![Panda Logo](assets/panda_logo_original.jpg)
+
 > **⚠️ DEV ONLY** | Versão 5.0.0 | Repositório Privado de Desenvolvimento
 
 **Repositório interno de desenvolvimento do Panda Factory.** Infraestrutura Google AI Ultra, IA integrada, marketplace de módulos.
