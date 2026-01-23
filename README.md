@@ -7,7 +7,15 @@
 **Repositório interno de desenvolvimento do Panda Factory.** Infraestrutura Google AI Ultra, IA integrada, marketplace de módulos.
 
 > [!TIP]
-> **v4.2.0:** Upgrade para **Google AI Ultra** (Gemini 3 Pro, Veo 3), Ed25519 Security Layer, Antigravity Platform.
+> **v5.0.0:** Docs reorganizados (PF\_ prefix), AI Cores (PAT + Brain), Dev Mode, Deployment Tiers.
+
+### 🐙 Repositórios GitHub
+
+| Repositório             | Tipo       | URL                                                                      |
+| ----------------------- | ---------- | ------------------------------------------------------------------------ |
+| **Este repo**           | 🔒 Privado | [SAAS](https://github.com/LucassVal/SAAS)                                |
+| **panda-sdk**           | 🌐 Público | [Codespace Ready](https://github.com/LucassVal/panda-sdk)                |
+| **panda-sdk-community** | 🌐 Público | [Extensions & Modules](https://github.com/LucassVal/panda-sdk-community) |
 
 ---
 

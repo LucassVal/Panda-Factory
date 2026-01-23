@@ -35,6 +35,14 @@
 > 3. Ao editar CSS/Design, atualize também o `PF_CSS_REFERENCE.md`
 > 4. **Ao criar NOVO arquivo PF\_\*, adicione-o nesta tabela de cross-reference**
 
+### 🐙 Repositórios GitHub
+
+| Repositório             | Tipo       | URL                                                                                          |
+| ----------------------- | ---------- | -------------------------------------------------------------------------------------------- |
+| **panda-fabrics**       | 🔒 Privado | [github.com/LucassVal/SAAS](https://github.com/LucassVal/SAAS)                               |
+| **panda-sdk**           | 🌐 Público | [github.com/LucassVal/panda-sdk](https://github.com/LucassVal/panda-sdk)                     |
+| **panda-sdk-community** | 🌐 Público | [github.com/LucassVal/panda-sdk-community](https://github.com/LucassVal/panda-sdk-community) |
+
 ---
 
 ## ⚠️ WORKFLOW OBRIGATÓRIO

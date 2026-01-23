@@ -61,10 +61,10 @@ npm run dev
 
 ### For Contributors
 
-1. **Follow the Panda Constitution** - All code must respect the 12 Articles
-2. **Use PF\_ naming convention** - Files should use `PF_` prefix
-3. **Document your code** - README required for each contribution
-4. **Test before PR** - Ensure compatibility with latest SDK
+1. **Use PF\_ naming convention** - Files should use `PF_` prefix
+2. **Document your code** - README required for each contribution
+3. **Test before PR** - Ensure compatibility with latest SDK
+4. **Keep it modular** - Extensions should be self-contained
 
 ### For Users
 
