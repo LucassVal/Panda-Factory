@@ -127,40 +127,130 @@ As 3 Abas do Desenvolvedor:
 └─────────────────────────────────────────────┘
 ```
 
-### 2.2. Janelas Pop-out (Multi-Monitor)
+### 2.2. Multi-Window Support
 
-O sistema suporta destacar docks para janelas separadas:
+> **📌 Nota:** A implementação completa de janelas pop-out usando a **Document Picture-in-Picture API** está documentada na seção [2.3.C - Arquitetura Multi-Window](#c-arquitetura-multi-window-document-pip).
+
+### 2.3. Dev Mode (Modo Desenvolvedor) 🛠️
+
+O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores, inspirado no Google Antigravity.
+
+#### A. Ativação
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         DEV MODE TOGGLE                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  [AppDock]                                                              │
+│  ├── 🏠 Home                                                            │
+│  ├── 📊 CRM                                                             │
+│  ├── ⚙️ Settings                                                        │
+│  ├── ────────────                                                       │
+│  └── 🛠️ Dev Mode ← CLIQUE ATIVA/DESATIVA                               │
+│         │                                                               │
+│         ├── OFF: DevToolsDock oculto                                    │
+│         ├── ON:  DevToolsDock visível + ícone muda para 🔧              │
+│         └── Persistência: localStorage.panda_dev_mode                   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Componente:** `components/Comp_AppDock.html`
+**Lógica:** `js/ui/pf.devtools.js` → `toggleDevMode()`
+
+#### B. DevTools v2.0 - Ferramentas Disponíveis
+
+| Tool                         | Ícone | Modal | Pop-out | Descrição                          |
+| ---------------------------- | ----- | ----- | ------- | ---------------------------------- |
+| **Console**                  | 💻    | ✅    | ✅      | Execução JavaScript em sandbox     |
+| **MCP Browser**              | 🧰    | ✅    | ✅      | Lista de MCP Tools do Rust Agent   |
+| **API Tester**               | 🔌    | ✅    | ✅      | Testar endpoints GAS               |
+| **PAT Treasury**             | 🏦    | ✅    | ✅      | Controles do Banco Central IA      |
+| **Constitution Validator**   | ⚖️    | ✅    | ✅      | Validar ações contra os 12 Artigos |
+| **RIG Config** _(futuro)_    | 🦀    | ✅    | ✅      | Configurar providers IA            |
+| **DB Explorer** _(futuro)_   | 🗄️    | ✅    | ✅      | Explorar Sheets/Firebase           |
+| **Monaco Editor** _(futuro)_ | 📝    | ✅    | ✅      | Editor de código integrado         |
+
+#### C. Arquitetura Multi-Window (Document PiP)
+
+O sistema suporta destacar ferramentas para janelas separadas usando a **Document Picture-in-Picture API**:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           JANELA PRINCIPAL                              │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │                    Panda Factory (PandaFactory.html)            │   │
+│  │  ┌─────────┐  ┌─────────────────────┐  ┌─────────┐              │   │
+│  │  │ AppDock │  │     Canvas          │  │ DevDock │              │   │
+│  │  └─────────┘  └─────────────────────┘  └─────────┘              │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────┘
+                    │ POP-OUT (Document PiP) │
+         ┌──────────┴──────────┬─────────────┴────────────┐
+         ▼                     ▼                          ▼
+┌─────────────────┐  ┌─────────────────┐       ┌─────────────────┐
+│  💻 Console     │  │  🧰 MCP Browser │  ...  │  🏦 PAT Treasury│
+│   (Monitor 2)   │  │   (Monitor 3)   │       │   (Monitor N)   │
+└─────────────────┘  └─────────────────┘       └─────────────────┘
+```
+
+**API SDK:** `Panda.UI.popout(toolId, options?)`
 
 ```javascript
-// Core_Dock.js
-const PandaDock = {
-  popups: { console: null, brain: null, extensions: null },
+// Abrir ferramenta em janela separada
+const pipWindow = await Panda.UI.popout("console", {
+  width: 800,
+  height: 600,
+});
 
-  popout: function (type) {
-    if (this.popups[type] && !this.popups[type].closed) {
-      return this.popups[type].focus();
-    }
+// Listar pop-outs ativos
+const active = Panda.UI.getPopouts(); // Map<toolId, Window>
 
-    const win = window.open("", `Panda_${type}`, "width=500,height=700");
+// Fechar pop-out
+Panda.UI.closePopout("console");
+```
 
-    // Injeta o conteúdo e mantém conexão com a janela pai
-    win.document.write(`
-            <html>
-            <head><link rel="stylesheet" href="_system/styles.css"></head>
-            <body>
-                <div id="popout-root"></div>
-                <script>
-                    const Panda = window.opener.Panda;
-                    // Agora o popup tem acesso total ao SDK!
-                </script>
-            </body>
-            </html>
-        `);
+**Compatibilidade:**
 
-    this.popups[type] = win;
+- ✅ Chrome 116+ / Edge 116+: Document Picture-in-Picture nativo
+- ⚠️ Firefox/Safari: Fallback para `window.open()`
+
+#### D. Implementação Técnica (pf.devtools.js)
+
+```javascript
+// Objeto PandaDevTools - Singleton Global
+window.PandaDevTools = {
+  // Registry de ferramentas
+  tools: {
+    console:       { icon: '💻', title: 'Console', ... },
+    mcp_browser:   { icon: '🧰', title: 'MCP Browser', ... },
+    api_tester:    { icon: '🔌', title: 'API Tester', ... },
+    pat_treasury:  { icon: '🏦', title: 'PAT Treasury', ... },
+    constitution:  { icon: '⚖️', title: 'Constitution Validator', ... }
   },
+
+  // Estado
+  isDevMode: false,
+  activePopouts: new Map(),
+
+  // Métodos principais
+  toggleDevMode(),      // Liga/desliga modo dev
+  openDevTool(toolId),  // Abre em modal
+  openPopout(toolId),   // Abre em janela PiP
+  closePopout(toolId)   // Fecha janela PiP
 };
 ```
+
+#### E. Referência de Arquivos
+
+| Arquivo                             | Responsabilidade                    |
+| ----------------------------------- | ----------------------------------- |
+| `components/Comp_AppDock.html`      | Botão Dev Mode Toggle               |
+| `components/Comp_DevToolsDock.html` | Dock lateral com ícones             |
+| `js/ui/pf.devtools.js`              | Lógica DevTools v2.0                |
+| `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout` |
+| `css/pf.theme.css`                  | Estilos modal/popout                |
 
 ---
 
@@ -629,6 +719,228 @@ Resolvemos o complexo problema de licenciamento de software proprietário em nuv
 > **Tier 2 (Edge):** Swarm residencial, IPs valiosos, pago em Coins.
 > **Tier 3 (Core):** Google Spot VMs, SLA enterprise, pago em Fiat/Coins.
 
+### 7.5. Deployment Tiers para Desenvolvedores (Modularidade)
+
+O Panda Factory é **100% modular**. Desenvolvedores podem escolher o nível de integração que melhor se adapta ao seu produto, desde apps simples até sistemas completos com automação local.
+
+#### A. Visão Geral dos Tiers
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    TIERS DE DEPLOYMENT PANDA                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  TIER SHELL (GAS + Chrome Only)                                        │
+│  ├── ✅ Panda SDK (Data, Wallet, Brain Cloud, UI)                      │
+│  ├── ✅ Backend GAS (Sheets, Drive, Gmail)                             │
+│  ├── ✅ Componentes UI (Docks, Modais, Tema)                           │
+│  ├── ❌ GPU Local (só Cloud - 30 PC/hora)                              │
+│  ├── ❌ MCP Tools (sem automação local)                                │
+│  ├── ❌ File System / DLLs / Local AI                                  │
+│  └── 🎨 Dev pode esconder Panda Store do usuário                       │
+│                                                                         │
+│  TIER HYBRID (GAS + Chrome + Rust Lite)                                │
+│  ├── ✅ Tudo do Tier Shell                                             │
+│  ├── ✅ GPU Detection (auto-switch Cloud/Local)                        │
+│  ├── ✅ MCP Tools Básicos (Read-only)                                  │
+│  ├── ✅ File Watcher (monitorar pastas)                                │
+│  ├── ❌ Automação Desktop (RPA, Mouse/Keyboard)                        │
+│  ├── ❌ DLL Bridge (MetaTrader, ERPs)                                  │
+│  └── 🏪 Panda Store visível (módulos pagos)                            │
+│                                                                         │
+│  TIER FULL (Tudo Habilitado)                                           │
+│  ├── ✅ Tudo do Tier Hybrid                                            │
+│  ├── ✅ GPU Local Completa (CUDA/ROCm)                                 │
+│  ├── ✅ MCP Tools Completos (Read/Write)                               │
+│  ├── ✅ Automação Desktop (RPA, OCR)                                   │
+│  ├── ✅ DLL Bridge (Trade, IoT, Drivers)                               │
+│  ├── ✅ Local AI (Llama 3, Whisper, Stable Diffusion)                  │
+│  └── 🏪 Panda Store + MCP Store + Extensions                           │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### B. Tabela de Capabilities por Tier
+
+| Capability                      | Shell  |  Hybrid  | Full |
+| ------------------------------- | :----: | :------: | :--: |
+| **SDK Core** (Data, Wallet, UI) |   ✅   |    ✅    |  ✅  |
+| **Brain Cloud** (Gemini, GPT)   |   ✅   |    ✅    |  ✅  |
+| **Backend GAS** (Sheets, Drive) |   ✅   |    ✅    |  ✅  |
+| **Firebase Signaling**          |   ✅   |    ✅    |  ✅  |
+| **Componentes UI**              |   ✅   |    ✅    |  ✅  |
+| **Dark Mode / Temas**           |   ✅   |    ✅    |  ✅  |
+| **GPU Detection**               |   ❌   |    ✅    |  ✅  |
+| **GPU Local** (CUDA/ROCm)       |   ❌   | ⚡ Lite  |  ✅  |
+| **MCP Tools Read**              |   ❌   |    ✅    |  ✅  |
+| **MCP Tools Write**             |   ❌   |    ❌    |  ✅  |
+| **File System Access**          |   ❌   | 📂 Watch |  ✅  |
+| **Local AI** (Llama, Whisper)   |   ❌   |    ❌    |  ✅  |
+| **Automação Desktop** (RPA)     |   ❌   |    ❌    |  ✅  |
+| **DLL Bridge** (MetaTrader)     |   ❌   |    ❌    |  ✅  |
+| **Overlay HUD**                 |   ❌   |    ❌    |  ✅  |
+| **Panda Store**                 | 🎨 Opt |    ✅    |  ✅  |
+| **MCP Store**                   |   ❌   |    ❌    |  ✅  |
+| **White Label**                 |   ✅   |    ✅    |  ✅  |
+
+> **Legenda:** ✅ Disponível | ❌ Indisponível | ⚡ Parcial | 📂 Limitado | 🎨 Configurável
+
+#### C. Casos de Uso por Tier
+
+| Tier       | Usuário Típico   | Exemplos de Aplicação                                    |
+| ---------- | ---------------- | -------------------------------------------------------- |
+| **Shell**  | Dev SaaS simples | CRM Web, Dashboard Analytics, Landing Pages, Portfólios  |
+| **Hybrid** | Dev com IA Cloud | Chatbots, Geradores de Conteúdo, Análise de Documentos   |
+| **Full**   | Power User       | Trading Bots, Automação ERP, Farm de Contas, IoT Control |
+
+#### D. Configuração do Desenvolvedor (panda.config.js)
+
+```javascript
+// panda.config.js - Raiz do projeto do desenvolvedor
+export default {
+  // === DEPLOYMENT ===
+  deployment: {
+    tier: "shell", // 'shell' | 'hybrid' | 'full'
+    rustRequired: false, // Força download do Rust Agent?
+    rustDownloadUrl: null, // URL customizada (ou null = oficial)
+  },
+
+  // === BRANDING (White Label) ===
+  branding: {
+    showPandaStore: false, // Esconde a loja do usuário final
+    showPandaBranding: true, // "Powered by Panda" (OBRIGATÓRIO)
+    customLogo: null, // URL do logo do dev (header)
+    customColors: null, // Override de CSS vars
+  },
+
+  // === FEATURES ===
+  features: {
+    brain: "cloud", // 'cloud' | 'local' | 'hybrid'
+    gpu: "cloud", // 'cloud' | 'local' | 'auto'
+    storage: "sheets", // 'sheets' | 'firebase' | 'custom'
+    devMode: false, // Expõe DevTools para o usuário?
+  },
+
+  // === ECONOMIA ===
+  economy: {
+    enableWallet: true, // Mostra Panda Coins?
+    enableStore: false, // Permite compras in-app?
+    devSplit: 55, // % do dev nas vendas (padrão: 55)
+  },
+};
+```
+
+#### E. Limitações Documentadas (Shell Mode)
+
+> **⚠️ IMPORTANTE PARA DEVS SHELL:**
+
+| Limitação           | Motivo               | Alternativa                       |
+| ------------------- | -------------------- | --------------------------------- |
+| **Sem GPU Local**   | Requer Rust Agent    | Use `brain: 'cloud'` (30 PC/hora) |
+| **Sem File System** | Browser sandbox      | Use Google Drive API via SDK      |
+| **Sem Local AI**    | Requer GPU + modelos | Use Gemini/GPT via `Panda.Brain`  |
+| **Sem Automação**   | Requer OS hooks      | Exponha webhooks para n8n/Zapier  |
+| **Sem DLLs**        | Sem acesso nativo    | Use APIs REST dos sistemas        |
+
+#### F. Fluxo de Decisão para Devs
+
+```text
+                    ┌─────────────────────┐
+                    │ PRECISA DE ACESSO   │
+                    │ AO PC DO USUÁRIO?   │
+                    └──────────┬──────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              │ NÃO            │                │ SIM
+              ▼                │                ▼
+       ┌────────────┐          │         ┌────────────┐
+       │   SHELL    │          │         │ USA GPU    │
+       │  (GAS+Web) │          │         │  LOCAL?    │
+       └────────────┘          │         └─────┬──────┘
+                               │               │
+                               │    ┌──────────┴──────────┐
+                               │    │ NÃO                 │ SIM
+                               │    ▼                     ▼
+                               │ ┌────────────┐    ┌────────────┐
+                               │ │   HYBRID   │    │    FULL    │
+                               │ │ (Rust Lite)│    │  (Tudo)    │
+                               │ └────────────┘    └────────────┘
+```
+
+#### G. Regras de Branding (Todos os Tiers)
+
+Independente do tier, o branding "Powered by Panda" é **OBRIGATÓRIO**:
+
+| Elemento           | Requirement                     | Tier          |
+| ------------------ | ------------------------------- | ------------- |
+| **Loading Screen** | Logo Panda + "Powered by Panda" | Todos         |
+| **Footer/Corner**  | Ícone 🐼 clicável               | Todos         |
+| **About Modal**    | Versão SDK + link panda.dev     | Todos         |
+| **Custom Logo**    | Permitido no Header             | Todos         |
+| **Hide Store**     | Permitido para Shell/Hybrid     | Shell, Hybrid |
+
+#### H. Panda Meter (Obrigatório em Todos os Tiers)
+
+O **Panda Meter** (Gasômetro/Pandômetro) é **SEMPRE OBRIGATÓRIO** em todos os tiers. Ele monitora o consumo de recursos e aplica a cobrança apropriada.
+
+##### Custo por Tier
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    PANDA METER - CUSTO POR TIER                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  TIER SHELL (GAS + Chrome)                                             │
+│  └── 💚 CUSTO ZERO (ou quase zero)                                     │
+│      ├── Backend GAS é GRATUITO (Google Apps Script)                   │
+│      ├── Storage Drive é GRATUITO (limite quota)                       │
+│      └── Client-side processing (GPU do usuário)                       │
+│                                                                         │
+│  TIER HYBRID (GAS + Rust Lite)                                         │
+│  └── 💛 CUSTO BAIXO (pay-as-you-go)                                    │
+│      ├── GAS ainda gratuito                                            │
+│      ├── Brain Cloud (Gemini/GPT) = Panda Coins                        │
+│      └── GPU Detection = grátis, GPU Cloud = Panda Coins               │
+│                                                                         │
+│  TIER FULL (Tudo)                                                      │
+│  └── 🧡 CUSTO VARIÁVEL                                                 │
+│      ├── Local AI = 0 PC (grátis, GPU do usuário)                      │
+│      ├── Cloud AI = 30 PC/hora (Gemini Pro)                            │
+│      ├── Cloud VM = 50 PC/hora (processamento pesado)                  │
+│      └── Automação = logs apenas (sem custo adicional)                 │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+##### Modelo de Negócio do Desenvolvedor
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    FLUXO: DEV → USUÁRIO FINAL                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. DEV COMPRA TOKENS (Wholesale) → com desconto de volume             │
+│  2. DEV OFERECE BÔNUS DE BOAS-VINDAS → X moedas grátis p/ novos users  │
+│  3. USUÁRIO ENTRA EM MODO SPLIT → paga por uso após bônus              │
+│  4. CICLO VIRTUOSO → Dev ganha % → reinveste → mais usuários           │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+> **📌 Para detalhes completos sobre preços, splits e descontos, veja [§9 - Tokenomics & Monetização](#9-ecossistema-tokenomics--monetização).**
+
+##### Configuração do Dev (panda.config.js)
+
+```javascript
+economy: {
+  enableWallet: true,       // Mostra saldo de PC ao usuário
+  enableStore: false,       // Permite compra direta na Panda Store?
+  welcomeBonus: 1000,       // PC grátis para novos usuários (custo do Dev)
+  devSplit: 55,             // % do dev nas vendas (padrão: 55)
+  hideTokenPrice: true,     // Esconde preço em $ (só mostra PC)
+}
+```
+
 ---
 
 ## 8. Segurança & Zero-Knowledge
@@ -884,7 +1196,7 @@ O PC é **Energy Credit** lastrado em custo computacional real, não especulativ
 
 #### A. Fórmula Base (Piso Inviolável)
 
-```
+```text
 Preço_Base = Custo_Cloud_Médio × 2.5
 Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 ```

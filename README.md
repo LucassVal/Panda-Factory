@@ -1,8 +1,8 @@
-# 🐼 Panda Factory (PF) - Modular Operating System
+# 🐼 PANDA FABRICS - Private Dev Repository
 
-> **Single Source of Truth** | Versão 4.2.0 | [Repositório Oficial](https://github.com/LucassVal/SAAS)
+> **⚠️ DEV ONLY** | Versão 5.0.0 | Repositório Privado de Desenvolvimento
 
-**Sistema operacional modular para desenvolvedores.** Infraestrutura Google AI Ultra, IA integrada, marketplace de módulos.
+**Repositório interno de desenvolvimento do Panda Factory.** Infraestrutura Google AI Ultra, IA integrada, marketplace de módulos.
 
 > [!TIP]
 > **v4.2.0:** Upgrade para **Google AI Ultra** (Gemini 3 Pro, Veo 3), Ed25519 Security Layer, Antigravity Platform.
@@ -15,8 +15,10 @@
 
 | Doc                       | Descrição                         | Link                                                        |
 | ------------------------- | --------------------------------- | ----------------------------------------------------------- |
-| **📖 Arquitetura Mestre** | Documento completo (~2300 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
-| **📦 SDK Reference**      | API da biblioteca Panda SDK       | [SDK_REFERENCE.md](docs/SDK_REFERENCE.md)                   |
+| **📖 Arquitetura Mestre** | Documento completo (~1400 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
+| **📦 SDK Reference**      | API da biblioteca Panda SDK       | [PF_SDK_REFERENCE.md](docs/PF_SDK_REFERENCE.md)             |
+| **🎨 CSS Reference**      | Design System                     | [PF_CSS_REFERENCE.md](docs/PF_CSS_REFERENCE.md)             |
+| **🐼 PANDA.md**           | Codex Central (AI Agent)          | [.agent/PANDA.md](.agent/PANDA.md)                          |
 
 ### Navegação Rápida (Hierarquia Visual)
 

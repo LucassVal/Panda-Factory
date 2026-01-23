@@ -308,6 +308,14 @@ Panda.on("wallet:change", ({ balance }) => {
 - **Feature:** Tools PAT: `reinvest`, `accelerate`, `vesting`, `burn`
 - **Docs:** Atualização SDK_REFERENCE.md
 
+### [0.7.1] - 2026-01-23 (Multi-Window & Docs Update)
+
+- **Feature:** `UI.popout(toolId)` - Janelas pop-out via Document PiP
+- **Feature:** `UI.getPopouts()` - Lista pop-outs ativos
+- **Feature:** `UI.closePopout(toolId)` - Fecha pop-out específico
+- **Docs:** Arquivo renomeado para `PF_SDK_REFERENCE.md`
+- **Docs:** CSS renomeado para `PF_CSS_REFERENCE.md`
+
 ### [0.7.0] - 2026-01-22 (Ed25519 Security Layer)
 
 - **Feature:** Módulo `Crypto` - Ed25519 (PRONTO, NÃO ATIVO)

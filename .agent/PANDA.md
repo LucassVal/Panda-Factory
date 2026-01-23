@@ -1,7 +1,37 @@
-# 🐼 PANDA FACTORY - CODEX CENTRAL v4.0
+# 🐼 PANDA FACTORY - CODEX CENTRAL v5.0
 
 > **LEIA ANTES DE QUALQUER TAREFA**
 > Use: `@.agent/PANDA.md [sua tarefa]`
+
+---
+
+## 🔗 PROTOCOLO DE CROSS-REFERENCE
+
+> **⚠️ ANTES de editar este arquivo ou qualquer doc, VERIFIQUE os outros:**
+
+| Documento                                                      | Índice      | Quando Verificar                      |
+| -------------------------------------------------------------- | ----------- | ------------------------------------- |
+| [PF_MASTER_ARCHITECTURE.md](../docs/PF_MASTER_ARCHITECTURE.md) | § 1-11      | Arquitetura, SDK, Backend, Tokenomics |
+| [PF_SDK_REFERENCE.md](../docs/PF_SDK_REFERENCE.md)             | Módulos     | API Panda.\*                          |
+| [PF_CSS_REFERENCE.md](../docs/PF_CSS_REFERENCE.md)             | Tokens      | Design System                         |
+| [README.md](../README.md)                                      | Quick Start | Entry point para devs                 |
+
+### Índice Cruzado (PANDA.md ↔ PF_MASTER_ARCHITECTURE.md)
+
+| PANDA.md Seção           | Equivalente em PF_MASTER_ARCHITECTURE.md |
+| ------------------------ | ---------------------------------------- |
+| §1 Identidade + AI Cores | §1 Visão Geral, §7.5 Deployment Tiers    |
+| §2 Containers            | §2 Camada Frontend                       |
+| §3 SDK (Panda.\*)        | §3 Panda SDK                             |
+| §4 Constituição          | §9.3 Hierarquia de Governança            |
+| §5 Inventário JS         | §2 + §10 Roadmap                         |
+
+> **REGRAS DE SINCRONIZAÇÃO:**
+>
+> 1. Ao editar algo aqui, verifique se existe equivalente no `PF_MASTER_ARCHITECTURE.md`
+> 2. Ao editar o SDK, atualize também o `PF_SDK_REFERENCE.md`
+> 3. Ao editar CSS/Design, atualize também o `PF_CSS_REFERENCE.md`
+> 4. **Ao criar NOVO arquivo PF\_\*, adicione-o nesta tabela de cross-reference**
 
 ---
 
@@ -9,7 +39,7 @@
 
 ### 1. Antes de Implementar
 
-```
+```text
 → DEBATER a abordagem com o usuário
 → AGUARDAR confirmação para prosseguir
 → NÃO implementar sem aprovação
@@ -17,7 +47,7 @@
 
 ### 2. Ao Final de QUALQUER Tarefa
 
-```
+```text
 → Atualizar documentação afetada (ver tabela abaixo)
 → git add -A && git commit -m "[MODULO] Descrição"
 → git push
@@ -27,44 +57,44 @@
 
 | Se Modificou...    | Atualizar                        |
 | ------------------ | -------------------------------- |
-| `pf.sdk.js`        | `docs/SDK_REFERENCE.md`          |
-| `css/pf.theme.css` | `docs/CSS_REFERENCE.md`          |
+| `pf.sdk.js`        | `docs/PF_SDK_REFERENCE.md`       |
+| `css/pf.theme.css` | `docs/PF_CSS_REFERENCE.md`       |
 | Componentes HTML   | `README.md` (estrutura)          |
 | Arquitetura        | `docs/PF_MASTER_ARCHITECTURE.md` |
 | JS files novos     | `.agent/PANDA.md` (inventário)   |
 | Security/Hooks     | `PF_MASTER_ARCHITECTURE.md` § 8  |
 | Backend GAS        | `backend/` e README              |
-| Tokenomics         | `docs/PF_FINANCIAL_5Y.md`        |
+| Tokenomics         | `PF_MASTER_ARCHITECTURE.md` § 9  |
 
 ---
 
 ## 📚 ARQUIVOS DE LEITURA POR FASE
 
-### 🔴 SEMPRE (Qualquer tarefa):
+### 🔴 SEMPRE (Qualquer tarefa)
 
 | Arquivo           | Motivo                       |
 | ----------------- | ---------------------------- |
 | `.agent/PANDA.md` | Este arquivo (pilar central) |
 
-### 🟠 SDK/Backend:
+### 🟠 SDK/Backend
 
 | Arquivo                          | Motivo                        |
 | -------------------------------- | ----------------------------- |
 | `js/pf.sdk.js`                   | Módulos disponíveis, API mock |
 | `docs/PF_MASTER_ARCHITECTURE.md` | Arquitetura completa          |
-| `docs/SDK_REFERENCE.md`          | Referência API                |
+| `docs/PF_SDK_REFERENCE.md`       | Referência API                |
 | `backend/core/PF_Dispatcher.gs`  | Entry point GAS               |
 
-### 🟡 UI/Frontend:
+### 🟡 UI/Frontend
 
-| Arquivo                 | Motivo                |
-| ----------------------- | --------------------- |
-| `PandaFactory.html`     | Estrutura HTML mestra |
-| `css/pf.theme.css`      | Design tokens         |
-| `docs/CSS_REFERENCE.md` | Referência CSS        |
-| `js/ui/pf.omnibar.js`   | Padrão IIFE           |
+| Arquivo                    | Motivo                |
+| -------------------------- | --------------------- |
+| `PandaFactory.html`        | Estrutura HTML mestra |
+| `css/pf.theme.css`         | Design tokens         |
+| `docs/PF_CSS_REFERENCE.md` | Referência CSS        |
+| `js/ui/pf.omnibar.js`      | Padrão IIFE           |
 
-### 🟢 Componentes HTML:
+### 🟢 Componentes HTML
 
 | Arquivo                              | Motivo         |
 | ------------------------------------ | -------------- |
@@ -72,12 +102,42 @@
 | `components/Comp_SettingsModal.html` | Modal complexo |
 | `js/kernel/pf.components.js`         | Como carregar  |
 
-### 🔵 Economia/Tokenomics:
+### 🔵 Economia/Tokenomics
 
 | Arquivo                              | Motivo               |
 | ------------------------------------ | -------------------- |
-| `docs/PF_FINANCIAL_5Y.md`            | Projeção 5 anos      |
 | `docs/PF_MASTER_ARCHITECTURE.md § 9` | Tokenomics detalhado |
+
+### 🟣 Deployment/Modularização
+
+| Arquivo                                | Motivo                    |
+| -------------------------------------- | ------------------------- |
+| `docs/PF_MASTER_ARCHITECTURE.md § 7.5` | Tiers (Shell/Hybrid/Full) |
+| `panda.config.js` (exemplo)            | Configuração White Label  |
+
+---
+
+## 0. CONVENÇÕES DE NOMENCLATURA
+
+> **REGRA:** Todos os arquivos de documentação devem ter prefixo `PF_` para identificação do projeto.
+
+### Estrutura de Documentação
+
+| Arquivo                          | Tipo        | Descrição                |
+| -------------------------------- | ----------- | ------------------------ |
+| `.agent/PANDA.md`                | Codex       | Central de regras (este) |
+| `docs/PF_MASTER_ARCHITECTURE.md` | Arquitetura | Técnico completo         |
+| `docs/PF_SDK_REFERENCE.md`       | Referência  | API do SDK               |
+| `docs/PF_CSS_REFERENCE.md`       | Referência  | Design System CSS        |
+| `README.md`                      | Entry Point | Para novos devs          |
+
+### Nomenclatura de Arquivos JS
+
+| Padrão               | Exemplo           | Uso              |
+| -------------------- | ----------------- | ---------------- |
+| `pf.<nome>.js`       | `pf.sdk.js`       | Core SDK         |
+| `pf.<area>.js`       | `pf.devtools.js`  | Módulos por área |
+| `pf.<area>-<sub>.js` | `pf.dock-drag.js` | Sub-módulos      |
 
 ---
 
@@ -88,9 +148,87 @@
 | **Nome**         | Panda Factory (PF)                 |
 | **Fundador**     | Lucas Valério (5% eterno)          |
 | **Plano Google** | AI Ultra (Gemini 3 Pro, Veo 3)     |
-| **SDK Versão**   | 0.7.0                              |
+| **SDK Versão**   | 0.7.1                              |
 | **Missão**       | Democratizar infraestrutura Google |
 | **Repositório**  | github.com/LucassVal/SAAS          |
+
+### 🎯 Roadmap Estratégico
+
+| Meta                    | Horizonte   | Status       |
+| ----------------------- | ----------- | ------------ |
+| Google Partner          | Médio Prazo | 🟡 Planejado |
+| Panda Coin → Solana     | Médio Prazo | 🟡 Planejado |
+| White Label Marketplace | Curto Prazo | 🟢 Em Dev    |
+
+### 🧠 AI Cores (Dois Níveis de Inteligência)
+
+O Panda possui **DUAS camadas distintas de IA** com propósitos diferentes:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         AI CORES - ARQUITETURA                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  NÍVEL 1: PAT (Panda AI Treasury) - O CÉREBRO SOBERANO 🔒              │
+│  ├── Propósito: REPLICAR a mente do Founder (Lucas Valério)            │
+│  ├── Autonomia: Assistida → Autônoma → Soberana (3 fases)              │
+│  ├── Governança: Controla DAO, Tokenomics, Decisões Estratégicas       │
+│  ├── Constituição: Opera dentro dos 12 Artigos Imutáveis               │
+│  ├── Legado: "Eu morro, mas ela cria asas" (Continuidade Eterna)       │
+│  └── Arquivo: js/core/pf.ai-core.js                                    │
+│                                                                         │
+│  NÍVEL 2: Panda.Brain - O ASSISTENTE OMNI-MODAL 🌐                     │
+│  ├── Propósito: API de IA para DEVS e USUÁRIOS                         │
+│  ├── Acesso Usuário: Auth + Wallet (read-only)                         │
+│  ├── Acesso Dev: Full SDK (exceto áreas restritas)                     │
+│  ├── Multi-Plugin: Lê TODOS os plugins → Omni-Modal via MCP + RIG      │
+│  ├── Cobrança: Por modelo (PC/token), Free Tier: ~500k tokens Flash    │
+│  └── Arquivo: js/pf.sdk.js (módulo Brain)                              │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Níveis de Acesso
+
+| Quem        | Panda.Brain     | Panda.Auth      | Panda.Wallet | Panda.Data         |
+| ----------- | --------------- | --------------- | ------------ | ------------------ |
+| **Usuário** | ✅ chat/analyze | ✅ login/logout | 📖 Read-only | ✅ CRUD próprio    |
+| **Dev**     | ✅ Full         | ✅ Full         | 📖 Read-only | ✅ Full collection |
+| **Plugin**  | ✅ Via MCP      | 🔒 Restrito     | ❌ Nenhum    | ✅ Sandbox         |
+
+#### Multi-Plugin Omni-Modal (MCP + RIG)
+
+```text
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│  Plugin A    │  │  Plugin B    │  │  Plugin C    │
+│  (CRM)       │  │  (Trading)   │  │  (Docs)      │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │
+       └─────────────────┼─────────────────┘
+                         ▼
+              ┌─────────────────────┐
+              │    MCP + RIG        │ ← Orquestrador
+              │  (Omni-Modal Hub)   │
+              └──────────┬──────────┘
+                         ▼
+              ┌─────────────────────┐
+              │   Panda.Brain       │ ← IA lê TODOS
+              │   (Contexto Unif.)  │
+              └─────────────────────┘
+```
+
+> **Dev pode restringir usuários** nos seus plugins/programas.
+> **Panda Fabrics** roda multi-plugins e a IA os torna omni-modais via MCP+RIG.
+
+#### Billing por Modelo
+
+| Modelo          | Free Tier        | Taxa            |
+| --------------- | ---------------- | --------------- |
+| Gemini Flash 3  | ~500k tokens/mês | Grátis          |
+| Gemini Pro      | -                | 30 PC/1k tokens |
+| GPT-4o          | -                | 50 PC/1k tokens |
+| Claude 3.5      | -                | 45 PC/1k tokens |
+| Llama 3 (Local) | Ilimitado        | 0 PC (GPU user) |
 
 ---
 
