@@ -245,7 +245,10 @@ window.Panda = {
   UI: {
     toast(msg, type?, duration?), // void
     modal(options),               // Promise<{confirmed}>
-    loading(show, msg?)           // void
+    loading(show, msg?),          // void
+    popout(toolId, options?),     // 🪟 Promise<Window> (multi-window)
+    getPopouts(),                 // Map<string, Window>
+    closePopout(toolId)           // void
   },
 
   // ==========================================
@@ -492,7 +495,74 @@ PandaSettings.open(); // Abrir settings
 
 ---
 
-## 11. PROIBIÇÕES
+## 12. FEATURES IMPORTANTES
+
+### 🛠️ Dev Mode
+
+| Aspecto          | Descrição                     |
+| ---------------- | ----------------------------- |
+| **Ativação**     | Botão 🛠️ no AppDock           |
+| **Persistência** | `localStorage.panda_dev_mode` |
+| **Efeito**       | Mostra DevToolsDock (direita) |
+| **Ícone ativo**  | 🔧 (muda quando ativo)        |
+
+```javascript
+toggleDevMode(); // Toggle
+PandaDevTools.isEnabled(); // boolean
+PandaDevTools.open("console"); // Abrir tool
+```
+
+### 🪟 Multi-Window (Pop-out)
+
+| Aspecto        | Descrição                       |
+| -------------- | ------------------------------- |
+| **API**        | `Panda.UI.popout(toolId)`       |
+| **Tecnologia** | Document Picture-in-Picture API |
+| **Browsers**   | Chrome/Edge 116+                |
+| **Fallback**   | `window.open()`                 |
+| **Uso**        | Múltiplos monitores             |
+
+```javascript
+const win = await Panda.UI.popout("console");
+Panda.UI.getPopouts(); // Map de janelas
+Panda.UI.closePopout("console");
+```
+
+### 🧰 DevTools v2.0
+
+| Tool         | Ícone | Status | Descrição               |
+| ------------ | ----- | ------ | ----------------------- |
+| Console      | 💻    | ✅     | Execute JavaScript      |
+| MCP Browser  | 🧰    | ✅     | Lista tools MCP         |
+| API Tester   | 🔌    | ✅     | Testa endpoints GAS     |
+| PAT Treasury | 🏦    | ✅     | Controles reinvest/burn |
+| Constitution | ⚖️    | ✅     | Validar vs 12 Artigos   |
+| Extensions   | 🧩    | 🟡     | Em desenvolvimento      |
+| Code Editor  | 📝    | 🟡     | Monaco (futuro)         |
+| RIG Config   | 🦀    | 🟡     | Providers IA            |
+
+### 🏷️ White Label (Futuro)
+
+| Aspecto                  | Descrição                       |
+| ------------------------ | ------------------------------- |
+| **O que é**              | Dev "veste" Panda com sua marca |
+| **Infra usada**          | GPU Cloud + GPU P2P + GAS       |
+| **Pagamento**            | Split automático                |
+| **Branding obrigatório** | 🐼 no loading + canto inferior  |
+
+### 🐙 GitHub Community
+
+| Categoria        | URL                                                     |
+| ---------------- | ------------------------------------------------------- |
+| **Extensions**   | `github.com/LucassVal/panda-sdk-community/extensions`   |
+| **Modules**      | `github.com/LucassVal/panda-sdk-community/modules`      |
+| **Integrations** | `github.com/LucassVal/panda-sdk-community/integrations` |
+| **MCP Servers**  | `github.com/LucassVal/panda-sdk-community/mcp-servers`  |
+| **Themes**       | `github.com/LucassVal/panda-sdk-community/themes`       |
+
+---
+
+## 13. PROIBIÇÕES
 
 ❌ Implementar sem debater primeiro  
 ❌ CSS inline em componentes  
@@ -506,7 +576,7 @@ PandaSettings.open(); // Abrir settings
 
 ---
 
-## 12. GOOGLE AI ULTRA TOOLS
+## 14. GOOGLE AI ULTRA TOOLS
 
 | Tool              | Uso                  |
 | ----------------- | -------------------- |
@@ -520,4 +590,4 @@ PandaSettings.open(); // Abrir settings
 
 ---
 
-**Versão:** 4.0.0 | **SDK:** 0.7.0 | **Atualizado:** 2026-01-22
+**Versão:** 5.0.0 | **SDK:** 0.7.0 | **Atualizado:** 2026-01-22
