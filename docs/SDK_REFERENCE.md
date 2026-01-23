@@ -157,17 +157,24 @@ const result = await Panda.Bridge.execute("gpu_check");
 
 Helpers de interface padronizados.
 
-| Método                         | Retorno                | Descrição         |
-| ------------------------------ | ---------------------- | ----------------- |
-| `toast(msg, type?, duration?)` | `void`                 | Exibe notificação |
-| `modal(options)`               | `Promise<{confirmed}>` | Modal com Promise |
-| `loading(show, msg?)`          | `void`                 | Indicador global  |
+| Método                         | Retorno                | Descrição                |
+| ------------------------------ | ---------------------- | ------------------------ |
+| `toast(msg, type?, duration?)` | `void`                 | Exibe notificação        |
+| `modal(options)`               | `Promise<{confirmed}>` | Modal com Promise        |
+| `loading(show, msg?)`          | `void`                 | Indicador global         |
+| `popout(toolId, options?)`     | `Promise<Window>`      | 🪟 Abre janela pop-out   |
+| `getPopouts()`                 | `Map<string, Window>`  | Lista pop-outs ativos    |
+| `closePopout(toolId)`          | `void`                 | Fecha pop-out específico |
 
 **Tipos de toast:** `'info'`, `'success'`, `'error'`, `'warning'`
 
+**Tools para popout:** `'console'`, `'mcp'`, `'api'`, `'extensions'`, `'ai'`, `'pat'`, `'constitution'`, `'editor'`, `'database'`, `'rig'`
+
 ```javascript
+// Toast
 Panda.UI.toast("Salvo com sucesso!", "success");
 
+// Modal
 const result = await Panda.UI.modal({
   title: "Confirmar",
   message: "Deletar item?",
@@ -175,9 +182,21 @@ const result = await Panda.UI.modal({
 if (result.confirmed) {
   /* ... */
 }
+
+// Pop-out (multi-window)
+const win = await Panda.UI.popout("console", { width: 600, height: 400 });
+
+// Listar popouts ativos
+const popouts = Panda.UI.getPopouts();
+console.log([...popouts.keys()]); // ['console', 'mcp']
+
+// Fechar popout
+Panda.UI.closePopout("console");
 ```
 
 > ⚠️ **Contrato Modal:** A UI deve emitir `Panda.emit('ui:modal:response', { confirmed: true/false })` ao fechar o modal.
+
+> 🪟 **Pop-out:** Requer navegador com suporte a Document Picture-in-Picture API (Chrome/Edge 116+). Fallback para `window.open()`.
 
 ---
 

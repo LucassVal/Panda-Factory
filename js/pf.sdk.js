@@ -819,6 +819,74 @@
       log("UI", `Loading ${show ? "ON" : "OFF"}: ${message}`);
       Events.emit("ui:loading", { show, message });
     },
+
+    /**
+     * 🪟 Pop-out: Abre um elemento ou tool em janela separada (Picture-in-Picture)
+     * Suporta múltiplos monitores.
+     *
+     * @param {string} toolId - ID da ferramenta (console, mcp, api, etc)
+     * @param {object} options - { width, height, title }
+     * @returns {Promise<Window>} - Referência à janela PiP
+     *
+     * @example
+     * const win = await Panda.UI.popout('console', { width: 600, height: 400 });
+     */
+    popout: async (toolId, options = {}) => {
+      log("UI", `Popout: ${toolId}`, options);
+
+      // Delegate to PandaDevTools if available
+      if (window.PandaDevTools?.popout) {
+        return window.PandaDevTools.popout(toolId);
+      }
+
+      // Fallback: basic window.open
+      const width = options.width || 600;
+      const height = options.height || 500;
+      const title = options.title || `🐼 ${toolId}`;
+
+      const win = window.open(
+        "",
+        `panda_popout_${toolId}`,
+        `width=${width},height=${height},menubar=no,toolbar=no`,
+      );
+
+      if (win) {
+        win.document.title = title;
+        win.document.body.innerHTML = `
+          <div style="padding:20px; font-family: sans-serif;">
+            <h2>${title}</h2>
+            <p>Tool: ${toolId}</p>
+            <p style="opacity:0.5">PandaDevTools não carregado. Carregue pf.devtools.js para funcionalidade completa.</p>
+          </div>
+        `;
+      }
+
+      Events.emit("ui:popout", { toolId, window: win });
+      return win;
+    },
+
+    /**
+     * 🪟 Retorna Map de janelas pop-out ativas
+     * @returns {Map<string, Window>}
+     */
+    getPopouts: () => {
+      if (window.PandaDevTools?.getActiveWindows) {
+        return window.PandaDevTools.getActiveWindows();
+      }
+      return new Map();
+    },
+
+    /**
+     * 🪟 Fecha uma janela pop-out
+     * @param {string} toolId
+     */
+    closePopout: (toolId) => {
+      log("UI", `Close popout: ${toolId}`);
+      const popouts = window.PandaDevTools?.getActiveWindows?.();
+      if (popouts?.has(toolId)) {
+        popouts.get(toolId).close();
+      }
+    },
   };
 
   // ==========================================

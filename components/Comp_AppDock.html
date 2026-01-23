@@ -1,16 +1,41 @@
 <!-- ============================================= -->
 <!-- APP DOCK COMPONENT (Fixed/Core) -->
 <!-- Left Side, Vertical, Centered -->
+<!-- v2.0 - Added Dev Mode Toggle -->
 <!-- ============================================= -->
 <div id="appDock" class="modular-dock left-dock">
   <div class="dock-items">
-    <div class="dock-item" onclick="openModule('dashboard')" title="Dashboard">📊</div>
+    <div class="dock-item" onclick="openModule('dashboard')" title="Dashboard">
+      📊
+    </div>
     <div class="dock-item" onclick="openModule('crm')" title="CRM">👥</div>
-    <div class="dock-item" onclick="openModule('analytics')" title="Analytics">📈</div>
-    
+    <div class="dock-item" onclick="openModule('analytics')" title="Analytics">
+      📈
+    </div>
+
     <div class="dock-separator"></div>
-    
-    <div class="dock-item" onclick="abrirConfiguracoes()" title="Configurações">⚙️</div>
-    <div class="dock-item" onclick="window.PandaLoader.loadModule('store')" title="Loja de Apps">🏪</div>
+
+    <div class="dock-item" onclick="abrirConfiguracoes()" title="Configurações">
+      ⚙️
+    </div>
+    <div
+      class="dock-item"
+      onclick="window.PandaLoader?.loadModule('store')"
+      title="Loja de Apps"
+    >
+      🏪
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <!-- DEV MODE TOGGLE -->
+    <div
+      class="dock-item dev-mode-toggle"
+      id="devModeToggle"
+      onclick="toggleDevMode()"
+      title="Modo Desenvolvedor (Beta)"
+    >
+      🛠️
+    </div>
   </div>
 </div>
