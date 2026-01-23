@@ -18,7 +18,7 @@
   // ==========================================
   const Config = {
     mode: "CLOUD", // 'LOCAL' (Rust) ou 'CLOUD' (GAS)
-    version: "0.7.0",
+    version: "0.8.0",
     debug: true,
     agentConnected: false, // Simula se Rust Agent está online
     mockDelay: { min: 300, max: 1200 },
@@ -890,6 +890,176 @@
   };
 
   // ==========================================
+  // 🌍 POLYGLOT (Tradução Global - NLLB-200)
+  // 200 idiomas via Rust Agent (offline)
+  // ==========================================
+  const _polyglotSettings = {
+    enabled: false,
+    preferredLang: "pt",
+    scope: "all", // all | messages | ai | manual
+  };
+
+  const SUPPORTED_LANGUAGES = [
+    "pt",
+    "en",
+    "es",
+    "fr",
+    "de",
+    "it",
+    "ja",
+    "ko",
+    "zh",
+    "ar",
+    "ru",
+    "hi",
+    "nl",
+    "pl",
+    "tr",
+    "vi",
+    "th",
+    "id",
+    "ms",
+    "tl",
+    "uk",
+    "cs",
+    "el",
+    "he",
+    "hu",
+    "ro",
+    "sv",
+    "da",
+    "no",
+    "fi",
+  ];
+
+  const Polyglot = {
+    /**
+     * Traduz texto entre idiomas.
+     * @param {string} text - Texto a traduzir
+     * @param {string} from - Código do idioma origem (ex: 'en')
+     * @param {string} to - Código do idioma destino (ex: 'pt')
+     * @returns {Promise<string>}
+     */
+    translate: async (text, from, to) => {
+      log(
+        "POLYGLOT",
+        `Translating: "${text.substring(0, 30)}..." (${from} → ${to})`,
+      );
+
+      if (!Config.agentConnected) {
+        // Mock: retorna texto com prefixo do idioma
+        await fakeDelay(500);
+        return `[${to.toUpperCase()}] ${text}`;
+      }
+
+      // Em produção: chama Rust Agent com NLLB-200
+      await fakeDelay(1000);
+      return `[${to.toUpperCase()}] ${text} (translated via NLLB-200)`;
+    },
+
+    /**
+     * Tradução em streaming (tempo real).
+     * @param {AsyncIterable<string>} stream - Stream de texto
+     * @param {string} to - Idioma destino
+     * @returns {AsyncIterable<string>}
+     */
+    translateStream: async function* (stream, to) {
+      log("POLYGLOT", `Stream translation to ${to}...`);
+      for await (const chunk of stream) {
+        await fakeDelay(100);
+        yield `[${to.toUpperCase()}] ${chunk}`;
+      }
+    },
+
+    /**
+     * Detecta o idioma de um texto.
+     * @param {string} text
+     * @returns {Promise<{lang: string, confidence: number}>}
+     */
+    detectLanguage: async (text) => {
+      log("POLYGLOT", `Detecting language: "${text.substring(0, 30)}..."`);
+      await fakeDelay(300);
+
+      // Mock: detecta baseado em caracteres comuns
+      if (/[ãõçé]/.test(text)) return { lang: "pt", confidence: 0.95 };
+      if (/[ñ¿¡]/.test(text)) return { lang: "es", confidence: 0.92 };
+      if (/[àâêî]/.test(text)) return { lang: "fr", confidence: 0.88 };
+      if (/[äöüß]/.test(text)) return { lang: "de", confidence: 0.9 };
+      return { lang: "en", confidence: 0.85 };
+    },
+
+    /**
+     * Retorna lista de idiomas suportados.
+     * @returns {string[]}
+     */
+    getSupportedLanguages: () => {
+      return [...SUPPORTED_LANGUAGES];
+    },
+
+    /**
+     * Aplica tradução na UI (integra com pf.i18n.js).
+     * @param {string} langCode
+     */
+    localizeUI: (langCode) => {
+      log("POLYGLOT", `Localizing UI to: ${langCode}`);
+      _polyglotSettings.preferredLang = langCode;
+      localStorage.setItem("pandaTranslationLang", langCode);
+
+      // Delega para i18n se disponível
+      if (window.PandaI18n?.setLanguage) {
+        window.PandaI18n.setLanguage(langCode);
+      }
+
+      Events.emit("polyglot:locale", { lang: langCode });
+    },
+
+    /**
+     * 🎤 Transcreve áudio para texto (Whisper).
+     * @param {Blob|File} audioBlob
+     * @returns {Promise<string>}
+     */
+    transcribe: async (audioBlob) => {
+      log("POLYGLOT", `Transcribing audio (${audioBlob.size} bytes)...`);
+
+      if (!Config.agentConnected) {
+        await fakeDelay(1500);
+        return "[Mock transcription] Audio content would be transcribed here via Whisper.";
+      }
+
+      await fakeDelay(2000);
+      return "[Whisper] Transcribed audio content from Rust Agent.";
+    },
+
+    /**
+     * Obtém configurações atuais.
+     */
+    getSettings: () => ({ ..._polyglotSettings }),
+
+    /**
+     * Atualiza configurações.
+     * @param {object} settings
+     */
+    setSettings: (settings) => {
+      Object.assign(_polyglotSettings, settings);
+      log("POLYGLOT", "Settings updated", _polyglotSettings);
+    },
+
+    /**
+     * Status do módulo.
+     */
+    status: () => ({
+      enabled: _polyglotSettings.enabled,
+      model: "NLLB-200",
+      modelSize: "600MB",
+      whisper: "Whisper Base",
+      whisperSize: "140MB",
+      agentRequired: true,
+      agentConnected: Config.agentConnected,
+      languages: SUPPORTED_LANGUAGES.length,
+    }),
+  };
+
+  // ==========================================
   // 🐼 OBJETO PÚBLICO PANDA
   // ==========================================
   const Panda = {
@@ -909,6 +1079,9 @@
 
     // Criptografia (Ed25519 - PRONTO, NÃO ATIVO)
     Crypto,
+
+    // Tradução Global (NLLB-200 via Rust)
+    Polyglot,
 
     // Event Bus (Atalhos)
     on: Events.on,
@@ -938,6 +1111,7 @@
   Object.freeze(Panda.Governance);
   Object.freeze(Panda.PAT);
   Object.freeze(Panda.Crypto);
+  Object.freeze(Panda.Polyglot);
 
   // Exporta para o window
   window.Panda = Panda;
