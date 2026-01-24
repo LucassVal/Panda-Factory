@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🐼 cTrader API Test</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+      }
+      .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ff4444;
+      }
+      .status-dot.connected {
+        background: #44ff44;
+      }
+      button {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+      }
+      button:hover {
+        opacity: 0.9;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      #log {
+        background: #0a0a0a;
+        border-radius: 8px;
+        padding: 15px;
+        height: 400px;
+        overflow-y: auto;
+        font-family: "Consolas", monospace;
+        font-size: 13px;
+      }
+      .log-entry {
+        margin-bottom: 5px;
+      }
+      .log-info {
+        color: #60a5fa;
+      }
+      .log-success {
+        color: #34d399;
+      }
+      .log-error {
+        color: #f87171;
+      }
+      .log-data {
+        color: #fbbf24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🐼 cTrader API Test - Antigravity</h1>
+
+      <div class="card">
+        <div class="status">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">Desconectado</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <button onclick="connect()" id="btnConnect">🔌 Conectar (Demo)</button>
+        <button onclick="disconnect()" id="btnDisconnect" disabled>
+          ❌ Desconectar
+        </button>
+        <button onclick="getAccounts()" id="btnAccounts" disabled>
+          📋 Listar Contas
+        </button>
+        <button onclick="clearLog()">🗑️ Limpar Log</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 10px">📜 Log</h3>
+        <div id="log"></div>
+      </div>
+    </div>
+
+    <script>
+      // ============================================================================
+      // CONFIGURAÇÃO (do .env)
+      // ============================================================================
+      const CONFIG = {
+        WS_DEMO: "wss://demo.ctraderapi.com:5036", // 5036 = JSON, 5035 = Protobuf
+        WS_LIVE: "wss://live.ctraderapi.com:5036",
+        CLIENT_ID: "19151_S6shjal0uQqcSA9jXpwiRO3FUIETLXFbX1fwQm2zicBQg0dIJG",
+        CLIENT_SECRET: "yzRZewNibbm8Bzu9FO7W21lINTqWxkzKCGi5QepMT1mVvyoAR7",
+        ACCESS_TOKEN: "atzigzOhhVbb8lp4_LE5nvuoOH5_q8rpVoAPaLod0k4",
+      };
+
+      let ws = null;
+      let requestId = 1;
+      let pendingRequests = new Map();
+
+      // ============================================================================
+      // LOGGING
+      // ============================================================================
+      function log(message, type = "info") {
+        const logEl = document.getElementById("log");
+        const time = new Date().toLocaleTimeString();
+        const entry = document.createElement("div");
+        entry.className = `log-entry log-${type}`;
+        entry.textContent = `[${time}] ${message}`;
+        logEl.appendChild(entry);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      function clearLog() {
+        document.getElementById("log").innerHTML = "";
+      }
+
+      function updateStatus(connected) {
+        const dot = document.getElementById("statusDot");
+        const text = document.getElementById("statusText");
+        dot.className = "status-dot" + (connected ? " connected" : "");
+        text.textContent = connected ? "🟢 Conectado" : "🔴 Desconectado";
+
+        document.getElementById("btnConnect").disabled = connected;
+        document.getElementById("btnDisconnect").disabled = !connected;
+        document.getElementById("btnAccounts").disabled = !connected;
+      }
+
+      // ============================================================================
+      // WEBSOCKET
+      // ============================================================================
+      async function connect() {
+        log("🔌 Conectando ao cTrader Demo...", "info");
+
+        try {
+          ws = new WebSocket(CONFIG.WS_DEMO);
+
+          ws.onopen = async () => {
+            log("✅ WebSocket conectado!", "success");
+
+            // Autenticar aplicação
+            await authenticateApp();
+          };
+
+          ws.onmessage = (event) => {
+            handleMessage(event.data);
+          };
+
+          ws.onerror = (error) => {
+            log("❌ Erro WebSocket: " + error.message, "error");
+          };
+
+          ws.onclose = () => {
+            log("🔌 Conexão fechada", "info");
+            updateStatus(false);
+          };
+        } catch (e) {
+          log("❌ Erro: " + e.message, "error");
+        }
+      }
+
+      function disconnect() {
+        if (ws) {
+          ws.close();
+          ws = null;
+        }
+      }
+
+      async function authenticateApp() {
+        log("🔐 Autenticando aplicação...", "info");
+
+        // ProtoOAApplicationAuthReq (payloadType 2100)
+        // JSON format: { clientMsgId, payloadType, payload: { ... } }
+        const response = await send({
+          payloadType: 2100,
+          payload: {
+            clientId: CONFIG.CLIENT_ID,
+            clientSecret: CONFIG.CLIENT_SECRET,
+          },
+        });
+
+        if (response.payloadType === 2101) {
+          log("✅ Aplicação autenticada!", "success");
+
+          // Primeiro listar contas para obter ctidTraderAccountId
+          await getAccounts();
+        } else {
+          log(
+            "❌ Falha na autenticação da aplicação: " +
+              JSON.stringify(response),
+            "error",
+          );
+        }
+      }
+
+      async function authenticateAccount(ctidTraderAccountId) {
+        log("🔐 Autenticando conta " + ctidTraderAccountId + "...", "info");
+
+        // ProtoOAAccountAuthReq (payloadType 2102)
+        const response = await send({
+          payloadType: 2102,
+          payload: {
+            accessToken: CONFIG.ACCESS_TOKEN,
+            ctidTraderAccountId: ctidTraderAccountId,
+          },
+        });
+
+        if (response.payloadType === 2103) {
+          log("✅ Conta autenticada!", "success");
+          updateStatus(true);
+        } else {
+          log(
+            "❌ Falha na autenticação da conta: " + JSON.stringify(response),
+            "error",
+          );
+        }
+      }
+
+      async function getAccounts() {
+        log("📋 Listando contas...", "info");
+
+        // ProtoOAGetAccountListByAccessTokenReq (payloadType 2149)
+        const response = await send({
+          payloadType: 2149,
+          payload: {
+            accessToken: CONFIG.ACCESS_TOKEN,
+          },
+        });
+
+        if (response.payload && response.payload.ctidTraderAccount) {
+          const accounts = response.payload.ctidTraderAccount;
+          log("✅ Contas encontradas: " + accounts.length, "success");
+
+          accounts.forEach((acc) => {
+            log(
+              `  📊 ID: ${acc.ctidTraderAccountId} | Broker: ${acc.brokerName || "N/A"} | Live: ${acc.isLive}`,
+              "data",
+            );
+          });
+
+          // Auto-autenticar a primeira conta
+          if (accounts.length > 0) {
+            await authenticateAccount(accounts[0].ctidTraderAccountId);
+          }
+        } else if (response.ctidTraderAccount) {
+          // Fallback para formato antigo
+          const accounts = response.ctidTraderAccount;
+          log("✅ Contas encontradas: " + accounts.length, "success");
+
+          accounts.forEach((acc) => {
+            log(
+              `  📊 ID: ${acc.ctidTraderAccountId} | Broker: ${acc.brokerName || "N/A"} | Live: ${acc.isLive}`,
+              "data",
+            );
+          });
+
+          if (accounts.length > 0) {
+            await authenticateAccount(accounts[0].ctidTraderAccountId);
+          }
+        } else {
+          log("⚠️ Resposta: " + JSON.stringify(response), "data");
+        }
+      }
+
+      // ============================================================================
+      // SEND/RECEIVE
+      // ============================================================================
+      function send(payload) {
+        return new Promise((resolve, reject) => {
+          const clientMsgId = `${Date.now()}_${requestId++}`;
+
+          const timeout = setTimeout(() => {
+            pendingRequests.delete(clientMsgId);
+            reject(new Error("Timeout"));
+          }, 30000);
+
+          pendingRequests.set(clientMsgId, { resolve, reject, timeout });
+
+          const message = JSON.stringify({
+            ...payload,
+            clientMsgId,
+          });
+
+          log("📤 Enviando: payloadType=" + payload.payloadType, "info");
+          ws.send(message);
+        });
+      }
+
+      function handleMessage(data) {
+        try {
+          const parsed = JSON.parse(data);
+          log("📥 Recebido: payloadType=" + parsed.payloadType, "data");
+
+          const clientMsgId = parsed.clientMsgId;
+
+          if (clientMsgId && pendingRequests.has(clientMsgId)) {
+            const { resolve, timeout } = pendingRequests.get(clientMsgId);
+            clearTimeout(timeout);
+            pendingRequests.delete(clientMsgId);
+            resolve(parsed);
+          }
+        } catch (e) {
+          log("❌ Erro ao parsear: " + e.message, "error");
+        }
+      }
+    </script>
+  </body>
+</html>

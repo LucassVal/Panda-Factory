@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🐼 Panda Trading Hub</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg-primary: #0f0f1a;
+        --bg-secondary: #1a1a2e;
+        --bg-card: rgba(255, 255, 255, 0.05);
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0b0;
+        --accent: #8b5cf6;
+        --green: #10b981;
+        --red: #ef4444;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+      }
+
+      /* Layout */
+      .trading-container {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        grid-template-rows: 60px 1fr 200px;
+        height: 100vh;
+        gap: 1px;
+        background: var(--border);
+      }
+
+      /* Header */
+      .header {
+        grid-column: 1 / -1;
+        background: var(--bg-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+      }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .symbol-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .symbol-btn {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .symbol-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .account-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .account-badge {
+        background: var(--green);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+      }
+      .balance {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      /* Chart Area */
+      .chart-area {
+        background: var(--bg-secondary);
+        display: flex;
+        flex-direction: column;
+      }
+      .chart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 15px;
+        border-bottom: 1px solid var(--border);
+      }
+      .timeframe-selector {
+        display: flex;
+        gap: 5px;
+      }
+      .tf-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .tf-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+      }
+      .chart-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+      }
+      #tradingview-chart {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Order Panel */
+      .order-panel {
+        background: var(--bg-secondary);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .panel-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .order-type-tabs {
+        display: flex;
+        gap: 5px;
+      }
+      .order-tab {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .order-tab.buy {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--green);
+      }
+      .order-tab.buy.active {
+        background: var(--green);
+        color: white;
+      }
+      .order-tab.sell {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--red);
+      }
+      .order-tab.sell.active {
+        background: var(--red);
+        color: white;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .form-group label {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+      .form-group input {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        color: white;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .order-btn {
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      .order-btn:hover {
+        opacity: 0.9;
+      }
+      .order-btn.buy {
+        background: var(--green);
+        color: white;
+      }
+      .order-btn.sell {
+        background: var(--red);
+        color: white;
+      }
+
+      /* AI Assistant */
+      .ai-assistant {
+        background: var(--bg-card);
+        border-radius: 8px;
+        padding: 12px;
+        margin-top: auto;
+      }
+      .ai-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .ai-suggestion {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      /* Positions Panel */
+      .positions-panel {
+        grid-column: 1 / -1;
+        background: var(--bg-secondary);
+        display: flex;
+        flex-direction: column;
+      }
+      .positions-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 10px 15px;
+        border-bottom: 1px solid var(--border);
+      }
+      .positions-tab {
+        padding: 8px 16px;
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .positions-tab.active {
+        color: white;
+        border-bottom: 2px solid var(--accent);
+      }
+      .positions-table {
+        flex: 1;
+        overflow: auto;
+        padding: 10px 15px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 15px;
+      }
+      th {
+        color: var(--text-secondary);
+        font-weight: normal;
+        border-bottom: 1px solid var(--border);
+      }
+      .profit {
+        color: var(--green);
+      }
+      .loss {
+        color: var(--red);
+      }
+
+      /* Status Bar */
+      .status-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        gap: 20px;
+      }
+      .status-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="trading-container">
+      <!-- Header -->
+      <div class="header">
+        <div class="header-left">
+          <div class="logo">🐼 Panda Trading</div>
+          <div class="symbol-selector">
+            <button class="symbol-btn active" data-symbol="EURUSD">
+              EUR/USD
+            </button>
+            <button class="symbol-btn" data-symbol="GBPUSD">GBP/USD</button>
+            <button class="symbol-btn" data-symbol="XAUUSD">XAU/USD</button>
+            <button class="symbol-btn" data-symbol="BTCUSD">BTC/USD</button>
+          </div>
+        </div>
+        <div class="account-info">
+          <span class="account-badge" id="accountBadge">Demo</span>
+          <span>ID: <span id="accountId">45208457</span></span>
+          <span class="balance">$<span id="balance">10,000.00</span></span>
+        </div>
+      </div>
+
+      <!-- Chart Area -->
+      <div class="chart-area">
+        <div class="chart-header">
+          <div class="symbol-info">
+            <span style="font-size: 18px; font-weight: bold">EUR/USD</span>
+            <span style="color: var(--green); margin-left: 10px">1.0876</span>
+            <span style="color: var(--green); font-size: 12px">+0.15%</span>
+          </div>
+          <div class="timeframe-selector">
+            <button class="tf-btn">M1</button>
+            <button class="tf-btn">M5</button>
+            <button class="tf-btn">M15</button>
+            <button class="tf-btn active">H1</button>
+            <button class="tf-btn">H4</button>
+            <button class="tf-btn">D1</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div id="tradingview-chart">
+            <!-- TradingView widget will go here -->
+            📊 Chart Area (TradingView integration pending)
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Panel -->
+      <div class="order-panel">
+        <div class="panel-title">Nova Ordem</div>
+
+        <div class="order-type-tabs">
+          <button class="order-tab buy active" onclick="setOrderSide('buy')">
+            COMPRAR
+          </button>
+          <button class="order-tab sell" onclick="setOrderSide('sell')">
+            VENDER
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label>Volume (Lotes)</label>
+          <input
+            type="number"
+            id="volume"
+            value="0.01"
+            step="0.01"
+            min="0.01"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Stop Loss</label>
+          <input
+            type="number"
+            id="stopLoss"
+            placeholder="Opcional"
+            step="0.0001"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Take Profit</label>
+          <input
+            type="number"
+            id="takeProfit"
+            placeholder="Opcional"
+            step="0.0001"
+          />
+        </div>
+
+        <button class="order-btn buy" id="orderBtn" onclick="placeOrder()">
+          COMPRAR EUR/USD
+        </button>
+
+        <!-- AI Assistant -->
+        <div class="ai-assistant">
+          <div class="ai-header">
+            <span>🧠</span>
+            <span style="font-weight: 600">Panda AI</span>
+          </div>
+          <div class="ai-suggestion" id="aiSuggestion">
+            EUR/USD em tendência de alta. Suporte em 1.0850. Considere entrada
+            longa com SL em 1.0830.
+          </div>
+          <button
+            style="
+              background: var(--accent);
+              border: none;
+              color: white;
+              padding: 8px 12px;
+              border-radius: 6px;
+              margin-top: 10px;
+              cursor: pointer;
+              font-size: 12px;
+            "
+            onclick="getAiAnalysis()"
+          >
+            🔍 Analisar Mercado (20 PC)
+          </button>
+        </div>
+      </div>
+
+      <!-- Positions Panel -->
+      <div class="positions-panel">
+        <div class="positions-header">
+          <button class="positions-tab active">Posições (1)</button>
+          <button class="positions-tab">Ordens (0)</button>
+          <button class="positions-tab">Histórico</button>
+        </div>
+        <div class="positions-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Símbolo</th>
+                <th>Tipo</th>
+                <th>Volume</th>
+                <th>Abertura</th>
+                <th>Atual</th>
+                <th>SL</th>
+                <th>TP</th>
+                <th>P/L</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="positionsBody">
+              <tr>
+                <td>EUR/USD</td>
+                <td style="color: var(--green)">BUY</td>
+                <td>0.10</td>
+                <td>1.0865</td>
+                <td>1.0876</td>
+                <td>1.0830</td>
+                <td>1.0920</td>
+                <td class="profit">+$11.00</td>
+                <td>
+                  <button
+                    style="
+                      background: var(--red);
+                      border: none;
+                      color: white;
+                      padding: 5px 10px;
+                      border-radius: 4px;
+                      cursor: pointer;
+                    "
+                  >
+                    Fechar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-item">
+        <div class="status-dot"></div>
+        <span>cTrader Conectado</span>
+      </div>
+      <div class="status-item">
+        <span>Ping: 45ms</span>
+      </div>
+      <div class="status-item">
+        <span>Spread: 0.8 pips</span>
+      </div>
+    </div>
+
+    <script>
+      // State
+      let orderSide = "buy";
+      let currentSymbol = "EURUSD";
+
+      function setOrderSide(side) {
+        orderSide = side;
+        document
+          .querySelectorAll(".order-tab")
+          .forEach((btn) => btn.classList.remove("active"));
+        document.querySelector(`.order-tab.${side}`).classList.add("active");
+
+        const orderBtn = document.getElementById("orderBtn");
+        orderBtn.className = `order-btn ${side}`;
+        orderBtn.textContent = `${side === "buy" ? "COMPRAR" : "VENDER"} EUR/USD`;
+      }
+
+      function placeOrder() {
+        const volume = document.getElementById("volume").value;
+        const sl = document.getElementById("stopLoss").value;
+        const tp = document.getElementById("takeProfit").value;
+
+        alert(
+          `Ordem ${orderSide.toUpperCase()} enviada!\n\nVolume: ${volume}\nSL: ${sl || "Nenhum"}\nTP: ${tp || "Nenhum"}`,
+        );
+
+        // TODO: Integrar com pf.ctrader-api.js
+      }
+
+      async function getAiAnalysis() {
+        document.getElementById("aiSuggestion").textContent =
+          "🔄 Analisando...";
+
+        // Simular análise
+        setTimeout(() => {
+          document.getElementById("aiSuggestion").textContent =
+            "📈 Tendência de alta confirmada. RSI em 58. Entrada ideal: 1.0870. TP1: 1.0900, TP2: 1.0920. SL: 1.0840.";
+        }, 1500);
+      }
+
+      // Symbol selector
+      document.querySelectorAll(".symbol-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".symbol-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentSymbol = btn.dataset.symbol;
+        });
+      });
+    </script>
+  </body>
+</html>
