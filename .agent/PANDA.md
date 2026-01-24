@@ -15,6 +15,7 @@
 | -------------------------------------------------------------------------------- | ----------- | ------------------------------------- |
 | [PF_MASTER_ARCHITECTURE.md](../docs/PF_MASTER_ARCHITECTURE.md)                   | § 1-11      | Arquitetura, SDK, Backend, Tokenomics |
 | [PF_SDK_REFERENCE.md](../docs/PF_SDK_REFERENCE.md)                               | Módulos     | API Panda.\*                          |
+| [PF_TOKENOMICS_REFERENCE.md](../docs/PF_TOKENOMICS_REFERENCE.md)                 | §9 Completo | PC, PAT, Treasury, Constituição       |
 | [PF_CSS_REFERENCE.md](../docs/PF_CSS_REFERENCE.md)                               | Tokens      | Design System                         |
 | [PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Plugins     | Apps, Plugins, Marketplace            |
 | [PF_CTRADER_REFERENCE.md](../docs/PF_CTRADER_REFERENCE.md)                       | Trading     | cTrader API, WebSocket, OAuth         |
