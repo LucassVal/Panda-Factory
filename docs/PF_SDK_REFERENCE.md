@@ -200,6 +200,43 @@ Panda.UI.closePopout("console");
 
 ---
 
+### 🌍 Panda.Polyglot
+
+**Tradução Global Offline (200 idiomas).** Executa via Rust Agent.
+
+| Método                        | Retorno                       | Descrição                          |
+| ----------------------------- | ----------------------------- | ---------------------------------- |
+| `translate(text, from, to)`   | `Promise<string>`             | Traduz texto entre idiomas         |
+| `translateStream(stream, to)` | `AsyncIterator<string>`       | Tradução em tempo real (streaming) |
+| `detectLanguage(text)`        | `Promise<{lang, confidence}>` | Detecta idioma automaticamente     |
+| `getSupportedLanguages()`     | `string[]`                    | Lista 200+ idiomas suportados      |
+| `localizeUI(langCode)`        | `void`                        | Aplica traduções na UI (i18n)      |
+| `transcribe(audioBlob)`       | `Promise<string>`             | 🎤 Áudio para texto (Whisper)      |
+| `transcribeStream(stream)`    | `AsyncIterator<string>`       | 🎤 Legendas em tempo real          |
+
+**Modelos (via Rust Agent):**
+
+- **NLLB-200** (~600MB): Tradução de texto para 200 idiomas
+- **Whisper Base** (~140MB): Speech-to-Text (legendas)
+
+```javascript
+// Tradução simples
+const texto = await Panda.Polyglot.translate("Hello world", "en", "pt");
+console.log(texto); // "Olá mundo"
+
+// Detectar idioma
+const { lang } = await Panda.Polyglot.detectLanguage("Bonjour");
+console.log(lang); // "fr"
+
+// Legendar áudio
+const transcricao = await Panda.Polyglot.transcribe(audioBlob);
+console.log(transcricao); // "Texto do áudio..."
+```
+
+> 🦀 **Requer Rust Agent** com modelos baixados (~740MB total). Funciona 100% offline.
+
+---
+
 ### 🏛️ Panda.Governance
 
 **Constituição Hardcoded do Ecossistema (12 Artigos).** Read-only.
@@ -292,6 +329,17 @@ Panda.on("wallet:change", ({ balance }) => {
 ---
 
 ## Changelog
+
+### [0.8.0] - 2026-01-23 (Polyglot & Treasury)
+
+- **Feature:** Módulo `Polyglot` - Tradução global offline (200 idiomas)
+- **Feature:** `Polyglot.translate()` - Tradução de texto via NLLB-200
+- **Feature:** `Polyglot.transcribe()` - Áudio para texto via Whisper
+- **Feature:** `Polyglot.detectLanguage()` - Detecção automática de idioma
+- **Feature:** `Polyglot.translateStream()` - Tradução em tempo real
+- **Docs:** Atualização PANDA.md, PF_MASTER_ARCHITECTURE.md
+- **Architecture:** Treasury Backing (PAXG 70%, USDC 30%)
+- **Architecture:** Download progressivo Rust Agent (~850MB total)
 
 ### [0.5.1] - 2026-01-22
 

@@ -1,6 +1,6 @@
 # 🐼 PANDA FABRICS - Private Dev Repository
 
-![Panda Logo](assets/panda_logo_original.jpg)
+![Panda Logo](assets/assets/panda_logo.png)
 
 > **⚠️ DEV ONLY** | Versão 5.0.0 | Repositório Privado de Desenvolvimento
 
@@ -25,9 +25,10 @@
 
 | Doc                       | Descrição                         | Link                                                        |
 | ------------------------- | --------------------------------- | ----------------------------------------------------------- |
-| **📖 Arquitetura Mestre** | Documento completo (~1400 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
+| **📖 Arquitetura Mestre** | Documento completo (~1600 linhas) | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) |
 | **📦 SDK Reference**      | API da biblioteca Panda SDK       | [PF_SDK_REFERENCE.md](docs/PF_SDK_REFERENCE.md)             |
 | **🎨 CSS Reference**      | Design System                     | [PF_CSS_REFERENCE.md](docs/PF_CSS_REFERENCE.md)             |
+| **🏠 HTML Reference**     | Arquitetura de Componentes        | [PF_HTML_REFERENCE.md](docs/PF_HTML_REFERENCE.md)           |
 | **🐼 PANDA.md**           | Codex Central (AI Agent)          | [.agent/PANDA.md](.agent/PANDA.md)                          |
 
 ### Navegação Rápida (Hierarquia Visual)
@@ -329,6 +330,16 @@ Store                          └══█══█══█
 ---
 
 ## 📋 Changelog
+
+### [8.0.0] - 2026-01-23 (Polyglot & Treasury)
+
+- **Novo:** Módulo `Panda.Polyglot` - Tradução offline (200 idiomas via NLLB-200)
+- **Novo:** Seção Translation no Settings Modal (11 seções agora)
+- **Novo:** Treasury Backing (PAXG 70%, USDC 30%, snapshots diários)
+- **Novo:** Health Score widget no Header
+- **Novo:** Download progressivo do Rust Agent (~850MB total)
+- **Docs:** `PF_HTML_REFERENCE.md` - Arquitetura de componentes
+- **Docs:** Polyglot, Treasury, Whisper documentados em todos os arquivos
 
 ### [7.0.0] - 2026-01-22 (Google AI Ultra + Ed25519 Security)
 

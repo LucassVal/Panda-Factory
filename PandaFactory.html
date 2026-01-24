@@ -1,1086 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panda Fabrics 🐼</title>
-    
+
     <!-- PWA Setup -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#667eea">
-    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#667eea" />
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+
+    <!-- 🎨 PANDA UNIFIED THEME -->
+    <link rel="stylesheet" href="css/pf.theme.css?v=3.1" />
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- PANDA SYSTEM CORE (Isolated Kernel) -->
     <script src="_system/sdk/repository.js?v=sys_v1"></script>
     <script src="_system/sdk/api.js?v=sys_v1"></script>
     <script src="_system/core/kernel.js?v=sys_v1"></script>
+
     <!-- 🐼 PANDA SDK MOCK (Governance + PAT) -->
-    <script src="js/pf.sdk.js?v=0.6"></script>
-    
-    <!-- 🎨 PANDA UNIFIED THEME -->
-    <link rel="stylesheet" href="css/pf.theme.css?v=3.0">
-    
+    <script src="js/pf.sdk.js?v=0.8"></script>
+
     <!-- 🚀 APP INITIALIZATION -->
-    <script src="js/pf.app-init.js?v=1.0" defer></script>
-    
+    <script src="js/pf.app-init.js?v=1.1" defer></script>
+
     <!-- 🧩 MODULAR UI CONTROLLERS -->
     <script src="js/ui/pf.omnibar.js?v=2.0" defer></script>
     <script src="js/ui/pf.modal-pin.js?v=1.0" defer></script>
     <script src="js/ui/pf.settings.js?v=1.0" defer></script>
-    <script src="js/core/pf.firebase-bridge.js?v=1.0" defer></script>
-    
+    <script src="js/ui/pf.dock-drag.js?v=1.0" defer></script>
+    <script src="js/ui/pf.devtools.js?v=1.0" defer></script>
+
     <!-- 🧠 PANDA AI CORE (PAT) -->
     <script src="js/core/pf.ai-core.js?v=1.0" defer></script>
-    
-    <!-- 🎯 DOCK DRAG CONTROLLER -->
-    <script src="js/ui/pf.dock-drag.js?v=1.0" defer></script>
-    
-    
-    <!-- CSS now in pf.theme.css -->
-</head>
+    <script src="js/core/pf.firebase-bridge.js?v=1.0" defer></script>
+  </head>
+
   <body>
+    <!-- 🐼 LOADING SCREEN -->
+    <div id="panda-loading" class="panda-loading-screen">
+      <img src="assets/panda_logo.jpg" alt="Panda" class="panda-loading-logo" />
+    </div>
+
+    <!-- 🎯 MAIN CONTAINER -->
     <div class="container">
-      
-      <!-- HEADER COMPONENT CONTAINER -->
+      <!-- COMPONENT CONTAINERS (Loaded by loader.js) -->
       <div id="header-container"></div>
-      
-      <!-- COMPONENT CONTAINERS -->
       <div id="app-dock-container"></div>
       <div id="dev-dock-container"></div>
       <div id="settings-modal-container"></div>
       <div id="sidebar-container"></div>
 
-      <!-- Component Loader Script (System Core) -->
-      <script src="_system/core/loader.js"></script>
-    <!-- Legacy elements moved to components -->
-<div id="panda-loading" class="panda-loading-screen">
-          <img src="assets/panda_logo.jpg" alt="Panda" class="panda-loading-logo">
-      </div>
-
       <!-- INÍCIO VIEW (Clean Canvas) -->
       <div id="inicio-view" class="view-section active clean-canvas">
-          <img src="assets/panda_logo.jpg" alt="Panda Fabrics" class="canvas-logo">
-      </div>
-
-      <!-- Loading logic in pf.app-init.js -->
-    <!-- Legacy elements moved to components -->
-<div id="customFieldsContainer" style="grid-column: 1 / -1; display:grid; grid-template-columns: 1fr 1fr; gap:15px;"></div>
-
-            <div class="form-group" style="grid-column: 1 / -1;">
-                <label class="form-label">Telefones</label>
-                <div id="phonesContainer"></div>
-                <button class="config-btn" onclick="adicionarInputTelefone('Celular', '')" style="background:#10b981;">➕ Adicionar Telefone</button>
-            </div>
-            
-            <div class="form-group" style="grid-column: 1 / -1;">
-                 <label class="form-label">Valor Estimado (R$)</label>
-                 <input type="number" class="form-input" id="newClientValor">
-            </div>
-        </div>
-
-        <div style="padding:20px; text-align:right; border-top:1px solid #eee;">
-            <button class="btn btn-success" onclick="salvarNovoCliente()">💾 Salvar Cliente</button>
-        </div>
+        <img
+          src="assets/panda_logo.jpg"
+          alt="Panda Fabrics"
+          class="canvas-logo"
+        />
       </div>
     </div>
-    <!-- Legacy elements moved to components -->
-<script src="js/panda.core.js"></script>
-    <!-- Legacy elements moved to components -->
-<script src="dados/auto_import.js" onerror="console.log('Nenhum dado novo do scraper encontrado.')"></script>
-    <!-- Legacy elements moved to components -->
-<script>
+
+    <!-- Component Loader Script (System Core) -->
+    <script src="_system/core/loader.js"></script>
+
+    <!-- Legacy Core (CRM) -->
+    <script
+      src="js/panda.core.js"
+      onerror="console.log('panda.core.js not found')"
+    ></script>
+    <script
+      src="dados/auto_import.js"
+      onerror="console.log('Nenhum dado do scraper')"
+    ></script>
+
+    <script>
       // PWA Service Worker Registration
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('./sw.js')
-            .then(function(registration) {
-              console.log('🐼 Panda CRM: ServiceWorker registrado com sucesso: ', registration.scope);
-            }, function(err) {
-              console.log('❌ ServiceWorker falhou: ', err);
-            });
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("./sw.js")
+            .then((reg) => console.log("🐼 ServiceWorker OK:", reg.scope))
+            .catch((err) => console.log("❌ ServiceWorker falhou:", err));
         });
       }
     </script>
-    <!-- OMNI-BAR LOGIC -->
-    <script>
-        const omniOverlay = document.getElementById('omni-overlay');
-        const omniInput = document.getElementById('omni-input');
-        const omniResults = document.getElementById('omni-results');
-        const modelBadge = document.getElementById('current-model-badge');
-        let isOmniOpen = false;
 
-        const MODELS = [
-            { id: 'gemini-3.0-flash', name: 'Gemini 3.0 Flash', icon: 'fa-bolt', free: true },
-            { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', icon: 'fa-brain', free: false },
-            { id: 'gpt-4o', name: 'GPT-4o', icon: 'fa-robot', free: false },
-            { id: 'claude-3.5-sonnet', name: 'Claude 3.5', icon: 'fa-feather', free: false },
-            { id: 'imagen-3', name: 'Imagen 3', icon: 'fa-image', free: false }
-        ];
-        let currentModelIndex = 0;
-
-        // Toggle Omni-Bar (Ctrl+K or Command+K)
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                toggleOmniBar();
-            }
-            if (e.key === 'Escape' && isOmniOpen) {
-                toggleOmniBar();
-            }
-        });
-
-        function toggleOmniBar() {
-            isOmniOpen = !isOmniOpen;
-            omniOverlay.style.display = isOmniOpen ? 'flex' : 'none';
-            if (isOmniOpen) {
-                omniInput.value = '';
-                omniInput.focus();
-                renderResults([]); // Show default or history
-            }
-        }
-
-        function cycleModel() {
-            currentModelIndex = (currentModelIndex + 1) % MODELS.length;
-            const model = MODELS[currentModelIndex];
-            modelBadge.innerHTML = `<i class="fas ${model.icon}"></i> ${model.name}`;
-            // TODO: Save preference to LocalStorage
-        }
-
-        // Search Mockup & ENTER Key Support
-        omniInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-               const query = omniInput.value.trim();
-               if (query) {
-                   // TODO: Enviar para AI Agent ou Executar Comando
-                   console.log('🐼 Executando comando Omni-Bar:', query);
-                   alert(`Panda Assistant em breve processará: "${query}"\n(Funcionalidade v3.0 em desenvolvimento)`);
-                   toggleOmniBar(); // Opcional: fechar após enviar
-               }
-            }
-        });
-
-        omniInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            if(!query) { omniResults.innerHTML = ''; return; }
-            
-            // Mock Results
-            const results = [
-                { title: 'Analisar Contrato', desc: 'Use Gemini para ler PDF', icon: 'fa-file-contract', type: 'AI' },
-                { title: 'Criar Imagem', desc: 'Gerar assets visuais', icon: 'fa-paint-brush', type: 'AI' },
-                { title: 'Financeiro', desc: 'Abrir Dashboard Financeiro', icon: 'fa-chart-line', type: 'Nav' },
-                { title: 'Novo Cliente', desc: 'Cadastrar lead', icon: 'fa-user-plus', type: 'Action' }
-            ].filter(r => r.title.toLowerCase().includes(query));
-
-            renderResults(results);
-        });
-        
-        // Prevent closing when clicking inside input wrapper
-        document.querySelector('.omni-input-wrapper').onclick = function(e) {
-            e.stopPropagation();
-        };
-
-        function renderResults(list) {
-            omniResults.innerHTML = list.map(item => `
-                <div class="omni-item">
-                    <div class="omni-item-icon"><i class="fas ${item.icon}"></i></div>
-                    <div class="omni-item-content">
-                        <div class="omni-item-title">${item.title}</div>
-                        <div class="omni-item-desc">${item.desc}</div>
-                    </div>
-                    <div class="omni-shortcut">↵</div>
-                </div>
-            `).join('');
-        }
-    </script>
-    <script>
-      // ========== MODAL PIN/FIX LOGIC ==========
-      let pinnedModals = {}; // Rastreia quais modais estão fixados
-
-      function togglePinModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        
-        const isPinned = !!pinnedModals[modalId];
-        pinnedModals[modalId] = !isPinned; // Toggle State
-        
-        const btnFn = modal.querySelector('.pin-btn');
-        
-        if (pinnedModals[modalId]) {
-            // ATIVAR PIN (Permite clicar no fundo)
-            modal.style.backgroundColor = 'transparent';
-            modal.style.pointerEvents = 'none'; // Deixa clicar no fundo
-            
-            // Mas o conteúdo deve continuar clicável
-            const content = modal.querySelector('.modal-content');
-            if(content) {
-                content.style.pointerEvents = 'auto';
-                content.style.border = '2px solid #3b82f6'; // Realce azul
-                content.style.boxShadow = '0 0 15px rgba(59, 130, 246, 0.3)';
-            }
-
-            if(btnFn) {
-                btnFn.innerHTML = '🔒';
-                btnFn.title = 'Desafixar (Voltar ao modo Modal)';
-                btnFn.style.background = '#e2e8f0';
-            }
-        } else {
-            // DESATIVAR PIN (Modo Modal Normal)
-            modal.style.backgroundColor = ''; // Volta ao CSS original (rgba)
-            modal.style.pointerEvents = '';
-            
-            const content = modal.querySelector('.modal-content');
-            if(content) {
-                content.style.pointerEvents = '';
-                content.style.border = '';
-                content.style.boxShadow = '';
-            }
-
-            if(btnFn) {
-                btnFn.innerHTML = '🔓';
-                btnFn.title = 'Fixar (Permitir uso do HUD)';
-                btnFn.style.background = 'transparent';
-            }
-        }
-      }
-
-      // ========== NATIVE POP-OUT (Picture-in-Picture) ==========
-      async function togglePopOut(modalId) {
-        const modal = document.getElementById(modalId);
-        const content = modal.querySelector('.modal-content');
-        
-        // Verifica suporte
-        if (!window.documentPictureInPicture) {
-            alert('Seu navegador não suporta Pop-out Nativo (Document PiP). Use Chrome ou Edge atualizado.');
-            return;
-        }
-
-        try {
-            // Se já estiver em PiP, poderíamos trazer de volta (complexo gerenciar estado), 
-            // por enquanto focamos em abrir.
-            
-            const pipWindow = await window.documentPictureInPicture.requestWindow({
-                width: content.offsetWidth || 800,
-                height: content.offsetHeight || 600,
-            });
-
-            // Copiar estilos para a nova janela
-            [...document.styleSheets].forEach((styleSheet) => {
-                try {
-                    const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
-                    const style = document.createElement('style');
-                    style.textContent = cssRules;
-                    pipWindow.document.head.appendChild(style);
-                } catch (e) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.type = styleSheet.type;
-                    link.media = styleSheet.media;
-                    link.href = styleSheet.href;
-                    pipWindow.document.head.appendChild(link);
-                }
-            });
-
-            // Mover conteúdo para a janela
-            pipWindow.document.body.append(content);
-            
-            // Fechar modal original (que ficou vazio)
-            modal.style.display = 'none';
-
-            // Quando fechar a janela PiP, trazer de volta
-            pipWindow.addEventListener('pagehide', (event) => {
-                const modalParams = document.getElementById(modalId);
-                if(modalParams) {
-                    modalParams.style.display = 'flex'; // ou block
-                    modalParams.appendChild(content); // Retorna o filho
-                    // Restaurar background se estava pinned
-                    togglePinModal(modalId); // Reset ou force state
-                    pinnedModals[modalId] = false; // Reset logico
-                    
-                    // Re-render styles cleanup se necessario
-                    modalParams.style.backgroundColor = '';
-                    modalParams.style.pointerEvents = '';
-                    content.style.border = '';
-                }
-            });
-
-        } catch (err) {
-            console.error("Erro ao abrir Pop-out:", err);
-        }
-      }
-
-
-      // Override no click fora do modal (Mantido logicamente)
-      window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            const modalId = event.target.id;
-            // Se pinned, nem recebe evento pq pointer-events = none no container
-            // Mas se receber (algum browser behavior), checa:
-            if (pinnedModals[modalId]) return;
-            
-            fecharModal();
-        }
-        
-        if (event.target.id === 'omni-overlay') {
-            toggleOmniBar();
-        }
-      }
-    </script>
-    
-    <!-- Inline CSS moved to pf.theme.css -->
-</head>
-  <body>
-    <div class="container">
-      
-      <!-- HEADER COMPONENT CONTAINER -->
-      <div id="header-container"></div>
-      
-      <!-- COMPONENT CONTAINERS -->
-      <div id="app-dock-container"></div>
-      <div id="dev-dock-container"></div>
-      <div id="settings-modal-container"></div>
-      <div id="sidebar-container"></div>
-
-      <!-- Component Loader Script (System Core) -->
-      <script src="_system/core/loader.js"></script>
-    <!-- Legacy elements moved to components -->
-<div id="panda-loading" class="panda-loading-screen">
-          <img src="assets/panda_logo.jpg" alt="Panda" class="panda-loading-logo">
-      </div>
-
-      <!-- INÍCIO VIEW (Clean Canvas) -->
-      <div id="inicio-view" class="view-section active clean-canvas">
-          <img src="assets/panda_logo.jpg" alt="Panda Fabrics" class="canvas-logo">
-      </div>
-
-      <!-- Loading logic in pf.app-init.js -->
-    <!-- Legacy elements moved to components -->
-<div id="customFieldsContainer" style="grid-column: 1 / -1; display:grid; grid-template-columns: 1fr 1fr; gap:15px;"></div>
-
-            <div class="form-group" style="grid-column: 1 / -1;">
-                <label class="form-label">Telefones</label>
-                <div id="phonesContainer"></div>
-                <button class="config-btn" onclick="adicionarInputTelefone('Celular', '')" style="background:#10b981;">➕ Adicionar Telefone</button>
-            </div>
-            
-            <div class="form-group" style="grid-column: 1 / -1;">
-                 <label class="form-label">Valor Estimado (R$)</label>
-                 <input type="number" class="form-input" id="newClientValor">
-            </div>
-        </div>
-
-        <div style="padding:20px; text-align:right; border-top:1px solid #eee;">
-            <button class="btn btn-success" onclick="salvarNovoCliente()">💾 Salvar Cliente</button>
-        </div>
-      </div>
-    </div>
-    <!-- Legacy elements moved to components -->
-<script src="js/panda.core.js"></script>
-    <!-- Legacy elements moved to components -->
-<script src="dados/auto_import.js" onerror="console.log('Nenhum dado novo do scraper encontrado.')"></script>
-    <!-- Legacy elements moved to components -->
-<script>
-      // PWA Service Worker Registration
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('./sw.js')
-            .then(function(registration) {
-              console.log('🐼 Panda CRM: ServiceWorker registrado com sucesso: ', registration.scope);
-            }, function(err) {
-              console.log('❌ ServiceWorker falhou: ', err);
-            });
-        });
-      }
-    </script>
-    <!-- OMNI-BAR LOGIC -->
-    <script>
-        const omniOverlay = document.getElementById('omni-overlay');
-        const omniInput = document.getElementById('omni-input');
-        const omniResults = document.getElementById('omni-results');
-        const modelBadge = document.getElementById('current-model-badge');
-        let isOmniOpen = false;
-
-        const MODELS = [
-            { id: 'gemini-3.0-flash', name: 'Gemini 3.0 Flash', icon: 'fa-bolt', free: true },
-            { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', icon: 'fa-brain', free: false },
-            { id: 'gpt-4o', name: 'GPT-4o', icon: 'fa-robot', free: false },
-            { id: 'claude-3.5-sonnet', name: 'Claude 3.5', icon: 'fa-feather', free: false },
-            { id: 'imagen-3', name: 'Imagen 3', icon: 'fa-image', free: false }
-        ];
-        let currentModelIndex = 0;
-
-        // Toggle Omni-Bar (Ctrl+K or Command+K)
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                toggleOmniBar();
-            }
-            if (e.key === 'Escape' && isOmniOpen) {
-                toggleOmniBar();
-            }
-        });
-
-        function toggleOmniBar() {
-            isOmniOpen = !isOmniOpen;
-            omniOverlay.style.display = isOmniOpen ? 'flex' : 'none';
-            if (isOmniOpen) {
-                omniInput.value = '';
-                omniInput.focus();
-                renderResults([]); // Show default or history
-            }
-        }
-
-        function cycleModel() {
-            currentModelIndex = (currentModelIndex + 1) % MODELS.length;
-            const model = MODELS[currentModelIndex];
-            modelBadge.innerHTML = `<i class="fas ${model.icon}"></i> ${model.name}`;
-            // TODO: Save preference to LocalStorage
-        }
-
-        // Search Mockup & ENTER Key Support
-        omniInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-               const query = omniInput.value.trim();
-               if (query) {
-                   // TODO: Enviar para AI Agent ou Executar Comando
-                   console.log('🐼 Executando comando Omni-Bar:', query);
-                   alert(`Panda Assistant em breve processará: "${query}"\n(Funcionalidade v3.0 em desenvolvimento)`);
-                   toggleOmniBar(); // Opcional: fechar após enviar
-               }
-            }
-        });
-
-        omniInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            if(!query) { omniResults.innerHTML = ''; return; }
-            
-            // Mock Results
-            const results = [
-                { title: 'Analisar Contrato', desc: 'Use Gemini para ler PDF', icon: 'fa-file-contract', type: 'AI' },
-                { title: 'Criar Imagem', desc: 'Gerar assets visuais', icon: 'fa-paint-brush', type: 'AI' },
-                { title: 'Financeiro', desc: 'Abrir Dashboard Financeiro', icon: 'fa-chart-line', type: 'Nav' },
-                { title: 'Novo Cliente', desc: 'Cadastrar lead', icon: 'fa-user-plus', type: 'Action' }
-            ].filter(r => r.title.toLowerCase().includes(query));
-
-            renderResults(results);
-        });
-        
-        // Prevent closing when clicking inside input wrapper
-        document.querySelector('.omni-input-wrapper').onclick = function(e) {
-            e.stopPropagation();
-        };
-
-        function renderResults(list) {
-            omniResults.innerHTML = list.map(item => `
-                <div class="omni-item">
-                    <div class="omni-item-icon"><i class="fas ${item.icon}"></i></div>
-                    <div class="omni-item-content">
-                        <div class="omni-item-title">${item.title}</div>
-                        <div class="omni-item-desc">${item.desc}</div>
-                    </div>
-                    <div class="omni-shortcut">↵</div>
-                </div>
-            `).join('');
-        }
-    </script>
-    <script>
-      // ========== MODAL PIN/FIX LOGIC ==========
-      let pinnedModals = {}; // Rastreia quais modais estão fixados
-
-      function togglePinModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        
-        const isPinned = !!pinnedModals[modalId];
-        pinnedModals[modalId] = !isPinned; // Toggle State
-        
-        const btnFn = modal.querySelector('.pin-btn');
-        
-        if (pinnedModals[modalId]) {
-            // ATIVAR PIN (Permite clicar no fundo)
-            modal.style.backgroundColor = 'transparent';
-            modal.style.pointerEvents = 'none'; // Deixa clicar no fundo
-            
-            // Mas o conteúdo deve continuar clicável
-            const content = modal.querySelector('.modal-content');
-            if(content) {
-                content.style.pointerEvents = 'auto';
-                content.style.border = '2px solid #3b82f6'; // Realce azul
-                content.style.boxShadow = '0 0 15px rgba(59, 130, 246, 0.3)';
-            }
-
-            if(btnFn) {
-                btnFn.innerHTML = '🔒';
-                btnFn.title = 'Desafixar (Voltar ao modo Modal)';
-                btnFn.style.background = '#e2e8f0';
-            }
-        } else {
-            // DESATIVAR PIN (Modo Modal Normal)
-            modal.style.backgroundColor = ''; // Volta ao CSS original (rgba)
-            modal.style.pointerEvents = '';
-            
-            const content = modal.querySelector('.modal-content');
-            if(content) {
-                content.style.pointerEvents = '';
-                content.style.border = '';
-                content.style.boxShadow = '';
-            }
-
-            if(btnFn) {
-                btnFn.innerHTML = '🔓';
-                btnFn.title = 'Fixar (Permitir uso do HUD)';
-                btnFn.style.background = 'transparent';
-            }
-        }
-      }
-
-      // ========== NATIVE POP-OUT (Picture-in-Picture) ==========
-      async function togglePopOut(modalId) {
-        const modal = document.getElementById(modalId);
-        const content = modal.querySelector('.modal-content');
-        
-        // Verifica suporte
-        if (!window.documentPictureInPicture) {
-            alert('Seu navegador não suporta Pop-out Nativo (Document PiP). Use Chrome ou Edge atualizado.');
-            return;
-        }
-
-        try {
-            // Se já estiver em PiP, poderíamos trazer de volta (complexo gerenciar estado), 
-            // por enquanto focamos em abrir.
-            
-            const pipWindow = await window.documentPictureInPicture.requestWindow({
-                width: content.offsetWidth || 800,
-                height: content.offsetHeight || 600,
-            });
-
-            // Copiar estilos para a nova janela
-            [...document.styleSheets].forEach((styleSheet) => {
-                try {
-                    const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
-                    const style = document.createElement('style');
-                    style.textContent = cssRules;
-                    pipWindow.document.head.appendChild(style);
-                } catch (e) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.type = styleSheet.type;
-                    link.media = styleSheet.media;
-                    link.href = styleSheet.href;
-                    pipWindow.document.head.appendChild(link);
-                }
-            });
-
-            // Mover conteúdo para a janela
-            pipWindow.document.body.append(content);
-            
-            // Fechar modal original (que ficou vazio)
-            modal.style.display = 'none';
-
-            // Quando fechar a janela PiP, trazer de volta
-            pipWindow.addEventListener('pagehide', (event) => {
-                const modalParams = document.getElementById(modalId);
-                if(modalParams) {
-                    modalParams.style.display = 'flex'; // ou block
-                    modalParams.appendChild(content); // Retorna o filho
-                    // Restaurar background se estava pinned
-                    togglePinModal(modalId); // Reset ou force state
-                    pinnedModals[modalId] = false; // Reset logico
-                    
-                    // Re-render styles cleanup se necessario
-                    modalParams.style.backgroundColor = '';
-                    modalParams.style.pointerEvents = '';
-                    content.style.border = '';
-                }
-            });
-
-        } catch (err) {
-            console.error("Erro ao abrir Pop-out:", err);
-        }
-      }
-
-
-      // Override no click fora do modal (Mantido logicamente)
-      window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            const modalId = event.target.id;
-            // Se pinned, nem recebe evento pq pointer-events = none no container
-            // Mas se receber (algum browser behavior), checa:
-            if (pinnedModals[modalId]) return;
-            
-            fecharModal();
-        }
-        
-        if (event.target.id === 'omni-overlay') {
-            toggleOmniBar();
-        }
-      }
-    </script>
     <style>
-        .pin-btn, .popout-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 5px 8px;
-            border-radius: 4px;
-            margin-right: 5px;
-            transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .pin-btn:hover, .popout-btn:hover {
-            background: #f1f5f9;
-        }
-    
-      /* =========================================
-       * CLEAN CANVAS & OMNI BAR (Vercel Themed)
-       * ========================================= */
-      .clean-canvas {
-        position: relative; width: 100%; height: 100vh; overflow: hidden;
-        background: var(--ds-background-100);
-      }
-      .omni-search-bar {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        width: 100%; max-width: 650px; padding: 15px 25px;
-        background: var(--ds-background-100);
-        border: 1px solid var(--ds-gray-alpha-400); border-radius: 20px;
-        box-shadow: var(--ds-shadow-border), 0 10px 40px rgba(0,0,0,0.2);
-        display: flex; flex-direction: column; gap: 10px; cursor: grab;
-        transition: box-shadow 0.3s, transform 0.1s; z-index: 100;
-        user-select: none; backdrop-filter: blur(10px);
-      }
-      .omni-search-bar:active { cursor: grabbing; }
-      .omni-search-bar:hover { box-shadow: var(--ds-shadow-border), 0 20px 60px rgba(0,0,0,0.3); }
-      .omni-greeting { font-size: 18px; color: var(--ds-gray-1000); font-weight: 500; margin-left: 5px; font-family: var(--font-sans); }
-      .omni-fake-input { 
-        display: flex; align-items: center; background: var(--ds-gray-100);
-        padding: 12px 20px; border-radius: 12px; color: var(--ds-gray-900);
-        border: 1px solid transparent; transition: all 0.2s;
-      }
-      .omni-fake-input:hover { background: var(--ds-gray-200); border-color: var(--ds-gray-alpha-400); }
-      .omni-search-icon { color: var(--ds-gray-500); font-size: 18px; margin-right: 15px; }
-      .omni-placeholder { font-size: 16px; color: var(--ds-gray-600); }
-      .omni-shortcut-badge { 
-        margin-left: auto; color: var(--ds-gray-500); font-size: 11px; 
-        background: var(--ds-background-100); padding: 4px 8px; border-radius: 6px; 
-        border: 1px solid var(--ds-gray-alpha-400); font-weight: 600;
-      }
+      /* Loading Screen Styles */
       .panda-loading-screen {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: var(--ds-background-100); z-index: 9999;
-        display: flex; align-items: center; justify-content: center;
-        transition: opacity 0.5s ease-out; pointer-events: none;
-      }
-      .panda-loading-logo { font-size: 80px; animation: floatPanda 2s ease-in-out infinite; }
-</style>
-    <script>
-      // === MVP FIX: ATUALIZAR ESTATISTICAS (HERO) ===
-      // Substitui a lógica antiga de gráficos que foi removida
-      function atualizarEstatisticas() {
-        if (!window.clientes) return;
-
-        const total = window.clientes.length;
-        // Filtrar fechados (status 'fechado' ou 'finalizado' dependendo da regra de negócio, aqui focando em vendas)
-        const fechados = window.clientes.filter(c => c.status === 'fechado').length;
-
-        const elProspects = document.getElementById('totalProspects');
-        const elFechados = document.getElementById('totalFechados');
-        
-        // Animação simples de números poderia vir aqui
-        if(elProspects) elProspects.innerText = total; 
-        if(elFechados) elFechados.innerText = fechados;
-        
-        console.log('🐼 Stats Updated:', { total, fechados });
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--ds-background-100, #0a0a0f);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-out;
       }
 
-      // Hook para rodar após carregar dados
-      // Se Repository.js chama 'filtrarClientes()', podemos hookar lá ou usar Intervalo para MVP
-      setInterval(atualizarEstatisticas, 2000); // Polling a cada 2s para garantir atualização sem mexer no Core
-    </script>
-  
-      <!-- APP DOCK (Mac-style) -->
-      
-
-    <script>
-      // Omni-Bar is now FIXED (no drag)
-    </script>
-
-<style>
-/* HEADER REFINEMENTS */
-.version-badge {
-    background: var(--ds-gray-200); color: var(--ds-gray-1000);
-    padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;
-    vertical-align: middle; border: 1px solid var(--ds-gray-alpha-400);
-}
-
-.energy-wrapper {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--ds-background-200); padding: 5px 12px; border-radius: 99px;
-    border: 1px solid var(--ds-gray-alpha-400); height: 34px; box-sizing: border-box;
-}
-.energy-bar-container {
-    width: 60px; height: 6px; background: var(--ds-gray-300); border-radius: 3px; overflow: hidden;
-}
-.energy-fill {
-    height: 100%; background: linear-gradient(90deg, #10b981, #3b82f6);
-    transition: width 0.5s ease;
-}
-.energy-text { font-size: 12px; font-weight: 600; color: var(--ds-gray-1000); min-width: 35px; text-align:right; }
-
-.theme-toggle-btn {
-    background: transparent; border: 1px solid var(--ds-gray-alpha-400);
-    width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px; transition: all 0.2s; color: var(--ds-gray-1000);
-}
-.theme-toggle-btn:hover { background: var(--ds-gray-200); }
-
-/* User Info Styles Injection Helper */
-#userLoginInfo span { color: var(--ds-gray-1000) !important; }
-#userLoginInfo span[style*="font-size:10px"] { color: var(--ds-gray-500) !important; }
-</style>
-
-<script>
-  function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      localStorage.setItem('crmTheme', isDark ? 'dark' : 'light');
-      
-      // Update Icon
-      const icon = document.getElementById('themeIcon');
-      if(icon) icon.textContent = isDark ? '☀️' : '🌙';
-  }
-
-  // Auto-load theme
-  (function() {
-      const saved = localStorage.getItem('crmTheme');
-      if(saved === 'dark') {
-          document.body.classList.add('dark-mode');
-          const icon = document.getElementById('themeIcon');
-          if(icon) icon.textContent = '☀️';
+      .panda-loading-logo {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        animation: pulsePanda 1.5s ease-in-out infinite;
       }
-  })();
-</script>
 
-<!-- Config Modal in component -->
-
-
-<script>
-    // Omni Bar Features
-    function minimizeOmniBar() {
-        // Logic to minimize: Scale down and move to corner, or hide and show a bubble
-        // For now, let's just fade it out and show a refined notification or bubble (future)
-        // User said: "when it minimizes ... opens the pop window"
-        
-        const bar = document.getElementById('omni-trigger');
-        bar.style.transform = 'translate(-50%, 100vh)'; // Slide down off screen?
-        bar.style.opacity = '0';
-        
-        // Show restore button (Mini Pop) - TODO: Implement the dedicated pop/bubble trigger
-        // For now, let's allow Ctrl+K to restore
-        setTimeout(() => {
-             // Create or show a mini bubble? 
-             // "vamos deixa o modo pop de fora" -> Maybe just hide it effectively.
-        }, 300);
-    }
-    
-    function toggleModelSelector() {
-        const results = document.getElementById('omni-results');
-        const isVisible = results.style.display !== 'none';
-        
-        if(isVisible) {
-            results.style.display = 'none';
-            return;
+      @keyframes pulsePanda {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
-        
-        // Populate with Model Garden options
-        const models = [
-            {id: 'gemini-flash', name: 'Gemini 1.5 Flash', icon: 'fa-bolt', desc: 'Rápido e eficiente'},
-            {id: 'gemini-pro', name: 'Gemini 1.5 Pro', icon: 'fa-brain', desc: 'Raciocínio complexo'},
-            {id: 'claude-sonnet', name: 'Claude 3.5 Sonnet', icon: 'fa-feather', desc: 'Criatividade e código'},
-            {id: 'imagen-3', name: 'Imagen 3', icon: 'fa-image', desc: 'Geração de imagens'}
-        ];
-        
-        let html = '<div style="padding:8px;"><div style="font-size:11px; font-weight:600; color:var(--text-secondary); margin-bottom:8px; padding-left:8px;">MODEL GARDEN</div>';
-        
-        models.forEach(m => {
-            html += `
-            <div class="omni-item" onclick="selectModel('${m.name}')" style="padding:8px 12px; border-radius:8px; display:flex; align-items:center; gap:10px; cursor:pointer;">
-                <div style="width:24px; height:24px; background:var(--bg-app); border-radius:6px; display:flex; align-items:center; justify-content:center;">
-                    <i class="fas ${m.icon}" style="font-size:12px;"></i>
-                </div>
-                <div>
-                    <div style="font-size:13px; font-weight:500; color:var(--text-primary);">${m.name}</div>
-                    <div style="font-size:11px; color:var(--text-secondary);">${m.desc}</div>
-                </div>
-                ${document.getElementById('model-name-text').innerText === m.name ? '<i class="fas fa-check" style="margin-left:auto; color:var(--accent-primary); font-size:12px;"></i>' : ''}
-            </div>
-            `;
-        });
-        
-        html += '</div>';
-        results.innerHTML = html;
-        results.style.display = 'block';
-    }
-    
-    function selectModel(name) {
-        document.getElementById('model-name-text').innerText = name;
-        document.getElementById('omni-results').style.display = 'none';
-    }
-</script>
-
-
-<script>
-    // Extend Omni Input to show chat on Enter
-    document.getElementById('omni-input').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && e.target.value.trim()) {
-            // Show chat window
-            const chatArea = document.getElementById('omni-chat-expansion');
-            chatArea.style.display = 'block';
-            
-            // Add user message (Demo)
-            const msg = document.createElement('div');
-            msg.innerHTML = `<div style="text-align:right; margin-bottom:10px;"><span style="background:var(--accent-primary); color:white; padding:6px 12px; border-radius:12px 12px 0 12px; font-size:14px;">${e.target.value}</span></div>`;
-            chatArea.appendChild(msg);
-            
-            // Simulate Reply
-            setTimeout(() => {
-                 const reply = document.createElement('div');
-                 reply.innerHTML = `<div style="text-align:left; margin-bottom:10px; display:flex; gap:8px;">
-                    <div style="font-size:20px;">🐼</div>
-                    <div style="background:var(--bg-card); border:1px solid var(--border-subtle); padding:8px 12px; border-radius:12px 12px 12px 0; font-size:14px; color:var(--text-primary);">Processando sua solicitação... <br><span style="font-size:11px; opacity:0.7;">(Conectado ao Gemini Flash)</span></div>
-                 </div>`;
-                 chatArea.appendChild(reply);
-                 chatArea.scrollTop = chatArea.scrollHeight;
-            }, 600);
-            
-            e.target.value = ''; // Clear
+        50% {
+          transform: scale(1.05);
+          opacity: 0.8;
         }
-    });
-</script>
+      }
 
+      /* Clean Canvas */
+      .clean-canvas {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ds-background-100, #0a0a0f);
+      }
 
-<script>
-    // State: Start with Bar Open, FAB Hidden (or logic choice)
-    // User wants: Minimize -> Show FAB. Click FAB -> Show Bar.
-    
-    function minimizeOmniBar() {
-        // Animation Out
-        const bar = document.getElementById('omni-trigger');
-        bar.style.opacity = '0';
-        bar.style.transform = 'translate(-50%, 20px) scale(0.95)';
-        
-        setTimeout(() => {
-            bar.style.display = 'none';
-            // Show FAB
-            const fab = document.getElementById('panda-fab');
-            fab.style.display = 'flex';
-            // Small animation for FAB pop
-            fab.style.transform = 'scale(0)';
-            setTimeout(() => fab.style.transform = 'scale(1)', 50);
-        }, 200);
-    }
-    
-    // This function might already exist, we override or ensure it handles the FAB
-    window.toggleOmniBar = function() {
-        const bar = document.getElementById('omni-trigger');
-        const fab = document.getElementById('panda-fab');
-        
-        // If bar is hidden, show it
-        if (bar.style.display === 'none') {
-            fab.style.transform = 'scale(0)';
-            setTimeout(() => fab.style.display = 'none', 200);
-            
-            bar.style.display = 'flex';
-            
-            setTimeout(() => {
-                bar.style.opacity = '1';
-                // CRITICAL: Preserve bottom-centered positioning
-                bar.style.transform = 'translateX(-50%)';
-            }, 50);
-            
-            // Focus input
-            setTimeout(() => document.getElementById('omni-input').focus(), 100);
-            
-        } else {
-            minimizeOmniBar();
-        }
-    };
-    
-    // Ensure Minimize Icon is Visible (Force Color fix if needed)
-    // Injected styles handle it, but let's be safe.
-</script>
-
-
-<script>
-    // Language Switcher Logic
-    function toggleLangMenu() {
-        const dropdown = document.getElementById('langDropdown');
-        dropdown.classList.toggle('show');
-        
-        // Close on click outside
-        document.addEventListener('click', function closeLang(e) {
-            if (!e.target.closest('.lang-switcher-wrapper')) {
-                dropdown.classList.remove('show');
-                document.removeEventListener('click', closeLang);
-            }
-        });
-    }
-
-    function changeLanguage(lang) {
-        const btn = document.getElementById('langBtn');
-        const map = {
-            'pt': '🇧🇷',
-            'en': '🇺🇸',
-            'es': '🇪🇸'
-        };
-        btn.innerHTML = `<span style="font-size: 16px;">${map[lang]}</span>`;
-        // Future: trigger translation logic here
-        console.log("Language changed to:", lang);
-    }
-</script>
-
-
-<script type="module">
-    // 🐼 Panda Fabrics - Firebase Bridge (Frontend)
-    // Connects Browser -> Firebase -> Rust Agent
-    
-    // Config Placeholder (User needs to fill this securely)
-    const FIREBASE_CONFIG = {
-        databaseURL: "https://YOUR-PROJECT.firebasedatabase.app",
-        projectId: "YOUR-PROJECT",
-    };
-
-    class PandaBridgeFirebase {
-        constructor() {
-            this.uid = null;
-            this.db = null; // Initialize Firebase ref
-            this.status = 'disconnected';
-            this.monitors = {
-                fb: document.querySelector('.status-pill[title*="Firebase"] .status-dot'),
-                ru: document.querySelector('.status-pill[title*="Rust"] .status-dot')
-            };
-            
-            console.log("🐼 Bridge: Initializing...");
-            this.updateStatus('fb', 'warning'); // Connecting
-        }
-
-        async connect(uid) {
-            this.uid = uid;
-            // Mock connection success
-            setTimeout(() => {
-                this.status = 'connected';
-                this.updateStatus('fb', 'online');
-                console.log(`🐼 Bridge: Connected to Channel [${uid}]`);
-                
-                // Simulate heartbeat from Rust
-                this.simulateRustHeartbeat();
-            }, 1000);
-        }
-           
-        updateStatus(agent, state) {
-            // state: online, warning, offline
-            if(this.monitors[agent]) {
-                const dot = this.monitors[agent];
-                dot.className = `status-dot ${state}`;
-            }
-        }
-
-        async sendCommand(action, payload) {
-            if (this.status !== 'connected') {
-                console.warn("🐼 Bridge: Offline. Check Firebase.");
-                return;
-            }
-            
-            const cmdId = Date.now().toString(36);
-            const securePayload = this.encrypt(payload); // Client-side encryption
-            
-            console.log(`🚀 Sending Command [${action}] -> Firebase...`);
-            // Real code would use: set(ref(db, `channels/${this.uid}/command_queue/${cmdId}`), ...)
-            
-            return cmdId;
-        }
-
-        encrypt(data) {
-            // TODO: Implement AES-GCM 256 here.
-            // For now, identity.
-            return data;
-        }
-        
-        simulateRustHeartbeat() {
-            // Mocking Rust agent coming online after a few seconds
-            setTimeout(() => {
-                this.updateStatus('ru', 'online');
-                console.log("🦀 Rust Agent: ONLINE via Firebase");
-            }, 3000);
-        }
-    }
-
-    // Expose Global
-    window.PandaBridge = new PandaBridgeFirebase();
-    
-    // Auto-connect on load (Mock ID)
-    window.addEventListener('load', () => {
-        window.PandaBridge.connect('user_123_mock');
-    });
-
-</script>
-
-
-<script>
-    // Settings Modal Logic
-    function mudarSecaoSettings(sectionId) {
-        // 1. Sidebar Active State
-        document.querySelectorAll('.settings-nav-item').forEach(item => {
-            item.classList.remove('active');
-            if(item.getAttribute('data-section') === sectionId) {
-                item.classList.add('active');
-            }
-        });
-
-        // 2. Hide all Sections
-        document.querySelectorAll('.settings-section').forEach(sec => {
-            sec.style.display = 'none';
-        });
-
-        // 3. Show Target Section
-        const target = document.getElementById('settings-' + sectionId);
-        if(target) {
-            target.style.display = 'block';
-            // Animation
-            target.style.opacity = '0';
-            target.style.transform = 'translateY(10px)';
-            setTimeout(() => {
-                target.style.opacity = '1';
-                target.style.transform = 'translateY(0)';
-            }, 50);
-        }
-    }
-
-    // Toggle GPU Mock
-    function toggleGPU() {
-        const toggle = document.getElementById('gpuToggle');
-        toggle.classList.toggle('active');
-        const isActive = toggle.classList.contains('active');
-        
-        // Update Badge
-        const badge = document.getElementById('gpuBadge');
-        if(isActive) {
-            badge.className = 'gpu-badge online';
-            badge.innerHTML = '<span>⚡</span> RTX 3060 (Simulated)';
-        } else {
-            badge.className = 'gpu-badge offline';
-            badge.innerHTML = '<span>⚠️</span> Nenhuma GPU detectada';
-        }
-    }
-</script>
-
-<script type="module" src="js/kernel/pf.loader.js"></script>
-</body>
+      .canvas-logo {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        opacity: 0.3;
+      }
+    </style>
+  </body>
 </html>
-
-
-
-
-

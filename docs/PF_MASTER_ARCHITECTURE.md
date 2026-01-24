@@ -254,6 +254,113 @@ window.PandaDevTools = {
 | `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout` |
 | `css/pf.theme.css`                  | Estilos modal/popout                |
 
+### 2.4. Sistema de Ícones (Logo Kit) 🎨
+
+O Panda Factory utiliza emojis como ícones para garantir consistência cross-platform. Esta seção documenta todos os ícones usados no sistema para criação de kits de logos SVG/PNG.
+
+#### A. Ícones de Navegação (Docks)
+
+| Ícone | Uso Principal        | Componente      |
+| ----- | -------------------- | --------------- |
+| 🐼    | Logo/Branding        | Header, Loading |
+| 🏠    | Home/Dashboard       | AppDock         |
+| 📋    | Contatos/CRM         | AppDock         |
+| 📅    | Agenda/Calendar      | AppDock         |
+| 📊    | Relatórios/Analytics | AppDock         |
+| 🏪    | Store/Marketplace    | AppDock         |
+| 🛠️    | Dev Mode (OFF)       | AppDock         |
+| 🔧    | Dev Mode (ON)        | AppDock         |
+| ⚙️    | Settings             | Header          |
+
+#### B. Ícones de Settings Modal
+
+| Ícone | Seção         | SDK Connection |
+| ----- | ------------- | -------------- |
+| 👤    | Profile       | `Panda.Auth`   |
+| 🎨    | Appearance    | Theme/Colors   |
+| 🔔    | Notifications | Events         |
+| 🧠    | AI Settings   | `Panda.Brain`  |
+| 💰    | Wallet        | `Panda.Wallet` |
+| ⚡    | Performance   | `Panda.GPU`    |
+| 🔒    | Security      | Auth/2FA       |
+| 🔌    | Integrations  | `Panda.Bridge` |
+| 📊    | Developer     | DevTools       |
+| ℹ️    | About         | Version        |
+
+#### C. Ícones de DevTools
+
+| Ícone | Tool          | Descrição          |
+| ----- | ------------- | ------------------ |
+| 💻    | Console       | JavaScript REPL    |
+| 🧰    | MCP Browser   | Lista de Tools     |
+| 🔌    | API Tester    | Testar endpoints   |
+| 🏦    | PAT Treasury  | Banco Central IA   |
+| ⚖️    | Constitution  | Validar 12 Artigos |
+| 🧩    | Extensions    | Marketplace        |
+| 📝    | Code Editor   | Monaco (futuro)    |
+| 🦀    | RIG Config    | Providers IA       |
+| 🗄️    | DB Explorer   | Sheets/Firebase    |
+| 🌐    | Browser       | Embedded (futuro)  |
+| 📄    | Artifacts     | Viewer artefatos   |
+| 💬    | Conversations | Histórico chat     |
+
+#### D. Ícones de Status
+
+| Ícone | Status           | Cor Associada |
+| ----- | ---------------- | ------------- |
+| 🟢    | Online/Connected | `#10b981`     |
+| 🔴    | Offline/Error    | `#ef4444`     |
+| 🟡    | Warning/Pending  | `#f59e0b`     |
+| 🔵    | Info/Active      | `#667eea`     |
+| ⚡    | GPU Active       | `#f59e0b`     |
+| ☁️    | Cloud Mode       | `#667eea`     |
+| 🦀    | Rust Agent       | `#f97316`     |
+| 🔥    | Firebase         | `#f59e0b`     |
+
+#### E. Ícones de Backend/Arquitetura
+
+| Ícone | Conceito       | Contexto           |
+| ----- | -------------- | ------------------ |
+| 📜    | GAS Backend    | Google Apps Script |
+| 🦀    | Rust Agent     | Hardware local     |
+| ☁️    | Cloud/Firebase | Signaling          |
+| 💾    | Cache          | Offline sync       |
+| 🔄    | Sync           | Data sync          |
+| 🎯    | SDK            | Router central     |
+| 👨‍💻    | Developer      | User context       |
+
+#### F. Ícones de Economia
+
+| Ícone | Conceito       | Uso        |
+| ----- | -------------- | ---------- |
+| 💰    | Wallet/Balance | Saldo PC   |
+| 💳    | Payment        | Cards/Fiat |
+| 🪙    | Panda Coins    | Crypto     |
+| 📈    | Growth         | Charts     |
+| 💵    | USD/Fiat       | Currency   |
+
+#### G. Cores do Sistema (Accent Palette)
+
+| Cor | Hex       | Nome             | Uso Principal         |
+| --- | --------- | ---------------- | --------------------- |
+| 🟣  | `#667eea` | Purple Primary   | Accent, Active states |
+| 🟣  | `#764ba2` | Purple Secondary | Gradients             |
+| 🟢  | `#10b981` | Emerald          | Success, Online       |
+| 🔴  | `#ef4444` | Red              | Error, Offline        |
+| 🟡  | `#f59e0b` | Amber            | Warning, Pending      |
+| 🔵  | `#3b82f6` | Blue             | Info, Links           |
+
+#### H. Assets de Logo
+
+| Arquivo                  | Tamanho | Uso           |
+| ------------------------ | ------- | ------------- |
+| `assets/panda_logo.png`  | Full    | Canvas, About |
+| `icons/icon-192x192.png` | 192px   | PWA           |
+| `icons/icon-512x512.png` | 512px   | PWA HD        |
+| `icons/favicon.ico`      | 64px    | Browser tab   |
+
+> **📝 Para Kit de Logos:** Substituir emojis por SVGs customizados mantendo significado e cores associadas.
+
 ---
 
 ## 3. Camada de Abstração: Panda SDK
@@ -488,6 +595,102 @@ Para Traders e Gamers:
 
 - O Rust desenha **Overlay Transparente** sobre outros apps.
 - Mostra "Vendas Hoje: R$ 5.000" sem alt-tab.
+
+#### G. Polyglot Module (Tradução Global) 🌍
+
+O Rust Agent inclui tradução offline para 200 idiomas:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    POLYGLOT - ARQUITETURA                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  MODELO: NLLB-200 (Meta AI)                                            │
+│  ├── Tamanho: ~600MB (único arquivo)                                   │
+│  ├── Idiomas: 200+ (PT, EN, ES, FR, DE, 中文, 日本語, العربية...)       │
+│  ├── Qualidade: ★★★★ (Pesquisa Meta)                                   │
+│  └── Runtime: ONNX via `ort` crate                                     │
+│                                                                         │
+│  LEGENDAS: Whisper Base (OpenAI)                                       │
+│  ├── Tamanho: ~140MB                                                   │
+│  ├── Função: Speech-to-Text (STT)                                      │
+│  └── Fluxo: Áudio → Whisper → Texto → NLLB → Legenda traduzida         │
+│                                                                         │
+│  HOSPEDAGEM: Hugging Face Hub (CDN Global, 100% Grátis)                │
+│  └── URL: huggingface.co/facebook/nllb-200-distilled-600M              │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**SDK Integration:**
+
+```javascript
+// Panda.Polyglot - Módulo de tradução global
+Panda.Polyglot = {
+  translate(text, from, to),      // Promise<string>
+  translateStream(stream, to),    // AsyncIterator<string>
+  detectLanguage(text),           // Promise<{lang, confidence}>
+  getSupportedLanguages(),        // string[] (200+)
+  localizeUI(langCode)            // void (aplica traduções na UI)
+};
+```
+
+**Por que Local (Rust) e não Cloud?**
+
+| Aspecto | Cloud API | Rust Local |
+|---------------|--------------------|--------------------||
+| **Privacidade** | ❌ Dados saem | ✅ Zero vazamento |
+| **Custo** | 💰 Por caractere | ✅ Grátis infinito |
+| **Latência** | 🐢 100-500ms | ⚡ ~50ms |
+| **Offline** | ❌ Requer internet | ✅ 100% offline |
+
+#### H. Download Progressivo (Instalação Inteligente) 📦
+
+O Rust Agent usa download progressivo para minimizar atrito inicial:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    FLUXO DE INSTALAÇÃO PROGRESSIVA                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. USUÁRIO ACESSA PANDA FACTORY (Shell/Web)                           │
+│     └── Funciona sem Rust (modo limitado)                              │
+│                                                                         │
+│  2. PROMPT: "Instale o Panda Agent para recursos completos"            │
+│     └── Download: panda-agent-base.exe (~30MB)                         │
+│                                                                         │
+│  3. RUST INICIA E BAIXA DEPENDÊNCIAS (Primeira Execução)               │
+│     ├── runtime/                                                       │
+│     │   └── onnxruntime.dll ........... 50MB                           │
+│     ├── tools/                                                         │
+│     │   ├── rg.exe (ripgrep) .......... 6MB                            │
+│     │   ├── fd.exe (find) ............. 3MB                            │
+│     │   ├── bat.exe (cat) ............. 5MB                            │
+│     │   ├── delta.exe (diff) .......... 8MB                            │
+│     │   └── fzf.exe (fuzzy) ........... 3MB                            │
+│     └── models/                                                        │
+│         ├── nllb-200.onnx ............. 600MB (tradução)               │
+│         └── whisper-base.onnx ......... 140MB (legendas)               │
+│                                                                         │
+│  4. PRONTO! Sistema completo funcionando offline                       │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Tamanhos por Fase:**
+
+| Fase                   | Tamanho | Conteúdo                  |
+| ---------------------- | ------- | ------------------------- |
+| **Instalação inicial** | ~30MB   | Rust Agent base           |
+| **Primeira execução**  | ~820MB  | Runtime + Tools + Modelos |
+| **Total final**        | ~850MB  | Sistema completo offline  |
+
+**Hospedagem de Modelos:**
+
+| Plataforma       | Limite      | Custo     | Uso                  |
+| ---------------- | ----------- | --------- | -------------------- |
+| Hugging Face Hub | ∞ Ilimitado | ✅ Grátis | Modelos NLLB/Whisper |
+| GitHub Releases  | 2GB/arquivo | ✅ Grátis | Binários, DLLs       |
 
 ---
 
@@ -1229,7 +1432,102 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 > - O DAO pode aumentar as taxas de Ops e Fundo em até **2.5% adicionais cada** (de 1% para máx 3.5%).
 > - _Cenário Máximo:_ 3% Gas + 3.5% Ops + 3.5% Fundo = 10%. (Host 90%).
 
-### 9.3. Hierarquia de Governança (4 Camadas)
+### 9.2. Treasury Backing (Reservas & Lastro) 🏦
+
+O Panda Coin é lastreado em ativos reais para garantir solvência e confiança:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    TREASURY - ARQUITETURA DE LASTRO                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  PAXG (Ouro Tokenizado) - LASTRO PRIMÁRIO 🥇                           │
+│  ├── Proporção: ~70% das reservas                                      │
+│  ├── Função: Lastro de VALOR do futuro Panda Coin on-chain             │
+│  ├── Blockchain: Ethereum (ERC-20) / Solana (Wrapped)                  │
+│  └── Razão: Ouro é reserva de valor milenar, proteção contra inflação  │
+│                                                                         │
+│  USDC (Dólar Tokenizado) - LIQUIDEZ & SOLVÊNCIA 💵                      │
+│  ├── Proporção: ~30% das reservas                                      │
+│  ├── Função: Garantir SAQUES imediatos em fiat                         │
+│  ├── Blockchain: Solana (nativo) / Ethereum                           │
+│  └── Razão: Estabilidade e liquidez instantânea                        │
+│                                                                         │
+│  AUDITORIA ON-CHAIN - SNAPSHOTS DIÁRIOS 📊                            │
+│  ├── Frequência: 1x ao dia (custo ~$0.01/dia = $0.30/mês)              │
+│  ├── Blockchain: Solana (taxas baixas)                                 │
+│  ├── Conteúdo: Hash do balanço total + timestamp                       │
+│  └── Verificador: Qualquer pessoa pode auditar via explorer            │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### A. Health Score (Pontuação de Saúde do Treasury)
+
+O Health Score é exibido no Header e calculado dinamicamente:
+
+```javascript
+// Cálculo do Health Score (0-100%)
+function calculateHealthScore(treasury) {
+  const weights = {
+    reserves: 0.4, // Reservas totais vs supply circulante
+    runway: 0.25, // Meses de operação garantidos
+    diversification: 0.2, // Distribuição PAXG/USDC/Ops
+    liquidity: 0.15, // Capacidade de saque imediat
+  };
+
+  const scores = {
+    reserves: Math.min(
+      100,
+      (treasury.totalReserves / treasury.circulatingSupply) * 100,
+    ),
+    runway: Math.min(100, (treasury.runwayMonths / 12) * 100),
+    diversification: calculateDiversificationScore(treasury.breakdown),
+    liquidity: Math.min(
+      100,
+      (treasury.usdc / treasury.monthlyWithdrawals) * 33,
+    ),
+  };
+
+  return Object.entries(weights).reduce(
+    (total, [key, weight]) => total + scores[key] * weight,
+    0,
+  );
+}
+```
+
+#### B. Indicadores do Treasury Dashboard
+
+| Métrica             | Fórmula                 | Meta Saudável |
+| ------------------- | ----------------------- | ------------- |
+| **Backing Ratio**   | Reservas / Supply       | ≥ 100%        |
+| **Runway**          | Reservas / Custo Mensal | ≥ 12 meses    |
+| **PAXG Ratio**      | PAXG / Total Reservas   | 60-80%        |
+| **Liquidity Ratio** | USDC / Saques (30d)     | ≥ 3x          |
+| **Snapshot Age**    | Tempo desde último hash | < 24h         |
+
+#### C. Widget do Header (Arc Energy Bar)
+
+```text
+┌──────────────────────────────────────────────────┐
+│  [Logo]  FB ●  RU ●  GPU ●     ╭───╮  🏦 92%  ⚙️  │
+│                               │ 65%│              │
+│                               ╰───╯              │
+│                                ▲                  │
+│                          Arc Energy        Treasury│
+│                          (PC Balance)      Health  │
+└──────────────────────────────────────────────────┘
+
+Clique em 🏦 92% → Abre Treasury Dashboard Modal
+```
+
+> **Por que Daily Snapshots?**
+>
+> - Custo Solana: ~$0.01/transação = $0.30/mês (muito barato)
+> - Equilíbrio: Seguranca adequada sem overhead excessivo
+> - Auditabilidade: Qualquer pessoa verifica via Solscan
+
+### 9.3. Hierarquia de Governança (4 Camadas)
 
 A economia é gerida por um sistema de pesos e contrapesos para garantir longevidade.
 

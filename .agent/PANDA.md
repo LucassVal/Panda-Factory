@@ -1,6 +1,6 @@
 # 🐼 PANDA FACTORY - CODEX CENTRAL v5.0
 
-![Panda Logo](../assets/panda_logo_original.jpg)
+![Panda Logo](../assets/panda_logo.png)
 
 > **LEIA ANTES DE QUALQUER TAREFA**
 > Use: `@.agent/PANDA.md [sua tarefa]`
@@ -97,20 +97,23 @@
 
 ### 🟡 UI/Frontend
 
-| Arquivo                    | Motivo                |
-| -------------------------- | --------------------- |
-| `PandaFactory.html`        | Estrutura HTML mestra |
-| `css/pf.theme.css`         | Design tokens         |
-| `docs/PF_CSS_REFERENCE.md` | Referência CSS        |
-| `js/ui/pf.omnibar.js`      | Padrão IIFE           |
+| Arquivo                     | Motivo                     |
+| --------------------------- | -------------------------- |
+| `PandaFactory.html`         | Estrutura HTML mestra      |
+| `css/pf.theme.css`          | Design tokens              |
+| `docs/PF_CSS_REFERENCE.md`  | Referência CSS             |
+| `docs/PF_HTML_REFERENCE.md` | Arquitetura de componentes |
+| `js/ui/pf.omnibar.js`       | Padrão IIFE                |
 
 ### 🟢 Componentes HTML
 
-| Arquivo                              | Motivo         |
-| ------------------------------------ | -------------- |
-| `components/Comp_HeaderStatus.html`  | Exemplo padrão |
-| `components/Comp_SettingsModal.html` | Modal complexo |
-| `js/kernel/pf.components.js`         | Como carregar  |
+| Arquivo                                  | Motivo              |
+| ---------------------------------------- | ------------------- |
+| `components/Comp_HeaderStatus.html`      | Header + Treasury   |
+| `components/Comp_SettingsModal.html`     | Modal configurações |
+| `components/Comp_TreasuryDashboard.html` | Dashboard Treasury  |
+| `components/Comp_AppDock.html`           | Dock v4.0           |
+| `js/kernel/pf.components.js`             | Como carregar       |
 
 ### 🔵 Economia/Tokenomics
 
@@ -124,6 +127,21 @@
 | -------------------------------------- | ------------------------- |
 | `docs/PF_MASTER_ARCHITECTURE.md § 7.5` | Tiers (Shell/Hybrid/Full) |
 | `panda.config.js` (exemplo)            | Configuração White Label  |
+
+### 🦀 Rust Agent
+
+| Arquivo                                  | Motivo                      |
+| ---------------------------------------- | --------------------------- |
+| `docs/PF_MASTER_ARCHITECTURE.md § 4`     | Arquitetura Rust Agent      |
+| `docs/PF_MASTER_ARCHITECTURE.md § 4.7.G` | Polyglot (NLLB-200/Whisper) |
+| `docs/PF_MASTER_ARCHITECTURE.md § 4.7.H` | Download Progressivo        |
+
+### 🌍 i18n / Polyglot
+
+| Arquivo                | Motivo                        |
+| ---------------------- | ----------------------------- |
+| `js/core/pf.i18n.js`   | Sistema de tradução UI        |
+| `Panda.Polyglot` (SDK) | Tradução global (200 idiomas) |
 
 ---
 
@@ -397,6 +415,19 @@ window.Panda = {
     popout(toolId, options?),     // 🪟 Promise<Window> (multi-window)
     getPopouts(),                 // Map<string, Window>
     closePopout(toolId)           // void
+  },
+
+  // ==========================================
+  // TRADUÇÃO GLOBAL (Offline via Rust)
+  // ==========================================
+  Polyglot: {
+    translate(text, from, to),      // Promise<string> - 200 idiomas
+    translateStream(stream, to),    // AsyncIterator<string> - Tempo real
+    detectLanguage(text),           // Promise<{lang, confidence}>
+    getSupportedLanguages(),        // string[] (200+)
+    localizeUI(langCode)            // void (aplica traduções na UI)
+    // Modelo: NLLB-200 (~600MB) via Rust Agent
+    // Legendas: Whisper Base (~140MB) opcional
   },
 
   // ==========================================
