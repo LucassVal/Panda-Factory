@@ -1,14 +1,14 @@
 """
-🏛️ PANDA COUNCIL ORCHESTRATOR
-Multi-Agent System for Gemini + Claude APIs
+🏛️ PANDA COUNCIL ORCHESTRATOR (Gemini-Only)
+Multi-Agent System using only Google Gemini APIs
 
 Usage:
     python panda_orchestrator.py "Implementar feature X"
     
-This script orchestrates multiple AI agents:
-- Gemini 3 Pro (Architect) 
-- Claude Sonnet (Auditor)
-- Claude Opus (Implementer)
+Agents (all Gemini):
+- Gemini 3 Pro (Architect) - Complex reasoning
+- Gemini 3 Flash (Auditor) - Fast review
+- Gemini 3 Pro (Implementer) - Code generation
 """
 
 import os
@@ -16,134 +16,136 @@ import json
 import asyncio
 from typing import Optional
 import google.generativeai as genai
-import anthropic
 
 # ==========================================
 # CONFIG
 # ==========================================
 CONFIG = {
-    "gemini_model": "gemini-2.0-flash",
-    "claude_model": "claude-sonnet-4-20250514",
-    "opus_model": "claude-sonnet-4-20250514",  # Use Opus when available
-    "max_tokens": 4096,
+    # Models for each role
+    "architect_model": "gemini-3-pro-preview",     # Deep reasoning
+    "auditor_model": "gemini-3-flash-latest",      # Fast review
+    "implementer_model": "gemini-3-pro-preview",   # Code generation
+    
+    "max_output_tokens": 8192,
     "docs_path": "docs/",
-    "workflows_path": ".agent/workflows/",
+    "output_path": "council_output/",
 }
 
 # ==========================================
-# LOAD API KEYS
+# LOAD API KEY
 # ==========================================
-GEMINI_KEY = os.getenv("GEMINI_API_KEY") or "YOUR_GEMINI_KEY"
-ANTHROPIC_KEY = os.getenv("ANTHROPIC_API_KEY") or "YOUR_ANTHROPIC_KEY"
-
+GEMINI_KEY = os.getenv("GEMINI_API_KEY") or "AIzaSyB7fd4wjaco1d8glU9UkWaCisC-mbU5EUw"
 genai.configure(api_key=GEMINI_KEY)
-claude = anthropic.Anthropic(api_key=ANTHROPIC_KEY)
 
 # ==========================================
-# AGENT DEFINITIONS
+# AGENT CALLS
 # ==========================================
 
-async def call_gemini(prompt: str, system: str = "") -> str:
-    """Call Gemini 3 Pro for architecture/planning"""
-    model = genai.GenerativeModel(CONFIG["gemini_model"])
-    full_prompt = f"{system}\n\n{prompt}" if system else prompt
-    response = await asyncio.to_thread(
-        model.generate_content, full_prompt
-    )
-    return response.text
-
-async def call_claude(prompt: str, system: str = "", model: str = None) -> str:
-    """Call Claude Sonnet/Opus for review/implementation"""
-    model = model or CONFIG["claude_model"]
-    response = await asyncio.to_thread(
-        claude.messages.create,
-        model=model,
-        max_tokens=CONFIG["max_tokens"],
-        system=system,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.content[0].text
+async def call_gemini(prompt: str, system: str = "", model_name: str = None) -> str:
+    """Call Gemini with specified model"""
+    model_name = model_name or CONFIG["architect_model"]
+    
+    try:
+        model = genai.GenerativeModel(
+            model_name,
+            system_instruction=system if system else None
+        )
+        
+        response = await asyncio.to_thread(
+            model.generate_content,
+            prompt,
+            generation_config=genai.GenerationConfig(
+                max_output_tokens=CONFIG["max_output_tokens"]
+            )
+        )
+        return response.text
+    except Exception as e:
+        print(f"⚠️ Error with {model_name}: {e}")
+        # Fallback to flash
+        model = genai.GenerativeModel("gemini-2.0-flash")
+        response = await asyncio.to_thread(model.generate_content, prompt)
+        return response.text
 
 # ==========================================
 # WORKFLOW PHASES
 # ==========================================
 
 async def phase_1_architect(objective: str, docs_context: str) -> str:
-    """Phase 1: Gemini creates architecture"""
-    print("🏗️ PHASE 1: Architecture (Gemini)")
+    """Phase 1: Gemini 3 Pro creates architecture"""
+    print("\n🏗️ PHASE 1: Architecture (Gemini 3 Pro)")
+    print("-" * 40)
     
-    system = """You are the ARCHITECT agent in the Panda Council.
-Your role: Create complete architecture for the given objective.
-Output: Markdown architecture.md with:
-- System overview
-- File structure
-- Component interfaces
-- Data flow"""
+    system = """Você é o ARQUITETO no Panda Council.
+Seu papel: Criar arquitetura completa para o objetivo dado.
+Saída: Markdown com:
+- Visão geral do sistema
+- Estrutura de arquivos
+- Interfaces dos componentes
+- Fluxo de dados
+- Dependências"""
 
-    prompt = f"""
-OBJECTIVE: {objective}
+    prompt = f"""OBJETIVO: {objective}
 
-CONTEXT (from docs):
-{docs_context[:10000]}
+CONTEXTO DOS DOCS:
+{docs_context[:8000]}
 
-Create the architecture.md for this objective.
-"""
+Crie a arquitetura completa em markdown."""
     
-    result = await call_gemini(prompt, system)
-    print("✅ Architecture created")
+    result = await call_gemini(prompt, system, CONFIG["architect_model"])
+    print("✅ Arquitetura criada")
     return result
 
 async def phase_2_audit(architecture: str) -> tuple[bool, str]:
-    """Phase 2: Claude Sonnet audits and critiques"""
-    print("🔍 PHASE 2: Audit (Claude Sonnet)")
+    """Phase 2: Gemini 3 Flash audits (fast)"""
+    print("\n🔍 PHASE 2: Auditoria (Gemini 3 Flash)")
+    print("-" * 40)
     
-    system = """You are the AUDITOR agent in the Panda Council.
-Your role: Critically review the architecture for:
-- Logic flaws
-- Security vulnerabilities
-- Performance issues
-- Missing requirements
+    system = """Você é o AUDITOR no Panda Council.
+Seu papel: Revisar criticamente a arquitetura.
+Verificar:
+- Falhas de lógica
+- Vulnerabilidades de segurança
+- Problemas de performance
+- Requisitos faltando
 
-If issues found: Output "🔴 REFAZER" with list of issues.
-If approved: Output "🟢 APROVADO" with test_plan.md"""
+Se há problemas: "🔴 REFAZER" + lista de issues
+Se aprovado: "🟢 APROVADO" + resumo do test_plan"""
 
-    prompt = f"""
-Review this architecture:
+    prompt = f"""Revise esta arquitetura:
 
 {architecture}
 
-Is it approved or needs rework?
-"""
+Dê seu veredito: APROVADO ou REFAZER?"""
     
-    result = await call_claude(prompt, system)
-    approved = "🟢 APROVADO" in result or "APROVADO" in result.upper()
-    print(f"{'✅ Approved' if approved else '⚠️ Needs rework'}")
+    result = await call_gemini(prompt, system, CONFIG["auditor_model"])
+    approved = "🟢" in result or "APROVADO" in result.upper()
+    print(f"{'✅ Aprovado' if approved else '⚠️ Precisa refazer'}")
     return approved, result
 
-async def phase_3_implement(architecture: str, test_plan: str) -> str:
-    """Phase 3: Claude Opus implements the code"""
-    print("⚙️ PHASE 3: Implementation (Claude Opus)")
+async def phase_3_implement(architecture: str, audit_notes: str) -> str:
+    """Phase 3: Gemini 3 Pro implements code"""
+    print("\n⚙️ PHASE 3: Implementação (Gemini 3 Pro)")
+    print("-" * 40)
     
-    system = """You are the IMPLEMENTER agent in the Panda Council.
-Your role: Write production-ready code following the architecture.
-Rules:
-- Follow architecture exactly
-- Clean, documented code
-- Error handling included
-- Ready to run"""
+    system = """Você é o IMPLEMENTADOR no Panda Council.
+Seu papel: Escrever código de produção seguindo a arquitetura.
+Regras:
+- Seguir arquitetura exatamente
+- Código limpo e documentado
+- Tratamento de erros incluído
+- Pronto para rodar
+- Usar JavaScript/Python conforme apropriado"""
 
-    prompt = f"""
-ARCHITECTURE:
+    prompt = f"""ARQUITETURA:
 {architecture}
 
-TEST PLAN:
-{test_plan}
+NOTAS DA AUDITORIA:
+{audit_notes}
 
-Implement the complete code.
-"""
+Implemente o código completo. Inclua todos os arquivos necessários."""
     
-    result = await call_claude(prompt, system, CONFIG["opus_model"])
-    print("✅ Implementation complete")
+    result = await call_gemini(prompt, system, CONFIG["implementer_model"])
+    print("✅ Implementação completa")
     return result
 
 # ==========================================
@@ -152,9 +154,10 @@ Implement the complete code.
 
 async def run_council(objective: str) -> dict:
     """Run the full Panda Council workflow"""
-    print(f"\n🏛️ PANDA COUNCIL ACTIVATED")
-    print(f"📋 Objective: {objective}\n")
+    print("\n" + "=" * 50)
+    print("🏛️ PANDA COUNCIL ATIVADO (Gemini-Only)")
     print("=" * 50)
+    print(f"\n📋 Objetivo: {objective}")
     
     # Load docs context
     docs_context = ""
@@ -164,6 +167,9 @@ async def run_council(objective: str) -> dict:
         if os.path.exists(path):
             with open(path, 'r', encoding='utf-8') as f:
                 docs_context += f"\n\n# {doc}\n{f.read()[:5000]}"
+    
+    if not docs_context:
+        docs_context = "Nenhum documento de contexto encontrado."
     
     # Phase 1: Architecture
     architecture = await phase_1_architect(objective, docs_context)
@@ -175,16 +181,16 @@ async def run_council(objective: str) -> dict:
         if approved:
             break
         if attempt < max_retries:
-            print(f"🔄 Retry {attempt + 1}: Refining architecture...")
+            print(f"\n🔄 Retry {attempt + 1}: Refinando arquitetura...")
             architecture = await phase_1_architect(
-                f"{objective}\n\nPREVIOUS ISSUES:\n{audit_result}",
+                f"{objective}\n\nPROBLEMAS ANTERIORES:\n{audit_result}",
                 docs_context
             )
     
     if not approved:
         return {
             "status": "BLOCKED",
-            "reason": "Architecture not approved after retries",
+            "reason": "Arquitetura não aprovada após retentativas",
             "audit_result": audit_result
         }
     
@@ -193,6 +199,7 @@ async def run_council(objective: str) -> dict:
     
     print("\n" + "=" * 50)
     print("✅ COUNCIL COMPLETE")
+    print("=" * 50)
     
     return {
         "status": "SUCCESS",
@@ -205,19 +212,47 @@ async def run_council(objective: str) -> dict:
 # CLI
 # ==========================================
 
+def save_output(result: dict, objective: str):
+    """Save outputs to files"""
+    os.makedirs(CONFIG["output_path"], exist_ok=True)
+    
+    # Save full JSON
+    with open(os.path.join(CONFIG["output_path"], "council_result.json"), "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+    
+    if result["status"] == "SUCCESS":
+        # Save individual files
+        with open(os.path.join(CONFIG["output_path"], "architecture.md"), "w", encoding="utf-8") as f:
+            f.write(f"# Arquitetura: {objective}\n\n{result['architecture']}")
+        
+        with open(os.path.join(CONFIG["output_path"], "audit.md"), "w", encoding="utf-8") as f:
+            f.write(f"# Auditoria\n\n{result['audit']}")
+        
+        with open(os.path.join(CONFIG["output_path"], "implementation.md"), "w", encoding="utf-8") as f:
+            f.write(f"# Implementação\n\n{result['implementation']}")
+
 if __name__ == "__main__":
     import sys
     
     if len(sys.argv) < 2:
-        print("Usage: python panda_orchestrator.py 'Your objective here'")
+        print("🏛️ PANDA COUNCIL - Gemini-Only Multi-Agent")
+        print("-" * 40)
+        print("Uso: python panda_orchestrator.py 'Seu objetivo aqui'")
+        print("\nExemplo:")
+        print("  python panda_orchestrator.py 'Criar componente OmniBar'")
         sys.exit(1)
     
     objective = " ".join(sys.argv[1:])
     result = asyncio.run(run_council(objective))
     
     # Save outputs
-    with open("council_output.json", "w") as f:
-        json.dump(result, f, indent=2)
+    save_output(result, objective)
     
-    print(f"\n📁 Output saved to council_output.json")
+    print(f"\n📁 Outputs salvos em: {CONFIG['output_path']}")
     print(f"📊 Status: {result['status']}")
+    
+    if result["status"] == "SUCCESS":
+        print("\n📄 Arquivos gerados:")
+        print("  - architecture.md")
+        print("  - audit.md")
+        print("  - implementation.md")
