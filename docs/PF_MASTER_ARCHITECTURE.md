@@ -11,16 +11,16 @@
 ## 📋 Índice
 
 1. [Visão Geral (Mapas Visuais)](#1-visão-geral)
-2. [Camada Frontend: Panda UI & Docks](#2-camada-frontend)
+2. [Camada Frontend: Panda UI &amp; Docks](#2-camada-frontend)
 3. [Camada de Abstração: Panda SDK](#3-camada-sdk)
 4. [Backend Pilar 1: Rust Agent (Hardware)](#4-pilar-rust)
 5. [Backend Pilar 2: Firebase Colmeia (Signaling)](#5-pilar-firebase)
 6. [Backend Pilar 3: GAS Backend (Serverless)](#6-pilar-gas)
-7. [Infraestrutura Híbrida: VMs & BYOD](#7-infraestrutura-hibrida)
-8. [Segurança & Zero-Knowledge](#8-segurança)
-9. [Ecossistema: Tokenomics & Monetização](#9-ecossistema)
+7. [Infraestrutura Híbrida: VMs &amp; BYOD](#7-infraestrutura-hibrida)
+8. [Segurança &amp; Zero-Knowledge](#8-segurança)
+9. [Ecossistema: Tokenomics &amp; Monetização](#9-ecossistema)
 10. [Roadmap de Implementação](#10-roadmap)
-11. [Referências & Convenções](#11-referencias)
+11. [Referências &amp; Convenções](#11-referencias)
 
 ---
 
@@ -408,24 +408,7 @@ window.Panda = {
 
 > **Modelo:** SDK → Tentáculos → Pais → Filhos
 
-O SDK central se estende através de **tentáculos modulares** que agrupam funcionalidades por domínio.
-
-```text
-              🐼 pf.sdk.js (ÚNICO)
-                     │
-     ┌───────────────┼───────────────┐
-     │               │               │
- TENTÁCULO      TENTÁCULO       TENTÁCULO
-   Social        Trading          Brain
-     │               │               │
-    PAI             PAI             PAI
- Panda.Social   Panda.Trading   Panda.Brain
-     │               │               │
- ┌───┼───┐       ┌───┼───┐       ┌───┼───┐
- │   │   │       │   │   │       │   │   │
-WA  TW  YT     cTr Sig Bk      Gem Loc GPU
-    FILHOS         FILHOS          FILHOS
-```
+    🐼 pf.sdk.js (ÚNICO)
 
 #### Estrutura de Arquivos
 
@@ -698,12 +681,12 @@ Panda.Polyglot = {
 
 **Por que Local (Rust) e não Cloud?**
 
-| Aspecto | Cloud API | Rust Local |
-|---------------|--------------------|--------------------||
-| **Privacidade** | ❌ Dados saem | ✅ Zero vazamento |
-| **Custo** | 💰 Por caractere | ✅ Grátis infinito |
-| **Latência** | 🐢 100-500ms | ⚡ ~50ms |
-| **Offline** | ❌ Requer internet | ✅ 100% offline |
+| Aspecto         | Cloud API          | Rust Local         |
+| --------------- | ------------------ | ------------------ |
+| **Privacidade** | ❌ Dados saem      | ✅ Zero vazamento  |
+| **Custo**       | 💰 Por caractere   | ✅ Grátis infinito |
+| **Latência**    | 🐢 100-500ms       | ⚡ ~50ms           |
+| **Offline**     | ❌ Requer internet | ✅ 100% offline    |
 
 #### H. Download Progressivo (Instalação Inteligente) 📦
 
@@ -922,12 +905,12 @@ Utilizamos arbitragem de preços de computação para criar máquinas virtuais e
 
 - **Google Cloud Spot Instances:** Consumimos capacidade ociosa de Data Centers do Google com 70-90% de desconto. Isso gera volume de uso para nossa parceria (Google Partner) enquanto reduz o TCO para o cliente.
 - **The Safety Net Protocol (Resiliência):**
-  1.  O **Panda Orchestrator** sobe uma instância Spot barata (ex: Google e2-standard-4).
-  2.  O **Rust Agent** roda nela e inicia o processamento.
-  3.  Se o Google envia o sinal de desligamento (SIGTERM - 30s de aviso):
-      - O Agente "congela" o estado da memória (Snapshot em tempo real).
-      - O estado é transferido instantaneamente para outra Spot ou para o **PC Local** do usuário.
-      - O processamento continua sem perda de dados (Zero-Downtime aparente).
+  1. O **Panda Orchestrator** sobe uma instância Spot barata (ex: Google e2-standard-4).
+  2. O **Rust Agent** roda nela e inicia o processamento.
+  3. Se o Google envia o sinal de desligamento (SIGTERM - 30s de aviso):
+     - O Agente "congela" o estado da memória (Snapshot em tempo real).
+     - O estado é transferido instantaneamente para outra Spot ou para o **PC Local** do usuário.
+     - O processamento continua sem perda de dados (Zero-Downtime aparente).
 
 ### 7.2. BYOD: Panda Swarm (Google-Managed Edge)
 
@@ -958,9 +941,9 @@ Resolvemos o complexo problema de licenciamento de software proprietário em nuv
   - A Panda fornece apenas a infraestrutura (CPU, RAM, OS Base, Drivers).
   - A Panda **NÃO** hospeda, vende ou distribui binários de terceiros (ex: MetaTrader, Photoshop).
 - **Processo de Injeção:**
-  1.  O usuário conecta seu cofre pessoal (Storage Privado).
-  2.  No boot da VM (Cloud ou Local), o script do Panda injeta o executável e a licença do usuário na memória volátil.
-  3.  O software roda legitimamente sob a licença do usuário final.
+  1. O usuário conecta seu cofre pessoal (Storage Privado).
+  2. No boot da VM (Cloud ou Local), o script do Panda injeta o executável e a licença do usuário na memória volátil.
+  3. O software roda legitimamente sob a licença do usuário final.
 - **Compliance:** Atuamos estritamente como provedor de "Metal", isentando a plataforma de passivos de propriedade intelectual.
 
 ### 7.4. Resumo Visual da Orquestração
@@ -1193,7 +1176,7 @@ O **Panda Meter** (Gasômetro/Pandômetro) é **SEMPRE OBRIGATÓRIO** em todos o
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-> **📌 Para detalhes completos sobre preços, splits e descontos, veja [§9 - Tokenomics & Monetização](#9-ecossistema-tokenomics--monetização).**
+> **📌 Para detalhes completos sobre preços, splits e descontos, veja [§9 - Tokenomics &amp; Monetização](#9-ecossistema-tokenomics--monetização).**
 
 ##### Configuração do Dev (panda.config.js)
 
@@ -1641,15 +1624,15 @@ _O Protocolo é neutro como a Física. Ele não julga, apenas executa._
 > **Nota de Aplicação do Fundo (Art 2, 4 & 8) - Distribuição Total (100%):**
 > O Fundo de Incentivo (~23% da Receita Global) é **100% Alocado** via Hardcode:
 >
-> 1.  **25% - Panda Labs (Educação & P&D):**
->     - `20%` **Bolsas "Learn-to-Earn":** Pagamento direto e automático p/ alunos (Automação Total).
->     - `5%` **Hubs & Infra:** Modernização de laboratórios físicos e Doação de Hardware para Universidades parceiras.
-> 2.  **65% - Crescimento & Distribuição (Gestão Ativa via IA):**
->     - `30%` **Robin Hood (Subsídios):** Custeia o acesso de entrada e "Free Tier" para baixa renda.
->     - `20%` **Viralização (Afiliados):** Comissões automáticas para influencers e referrals.
->     - `15%` **Eventos (Bootcamps):** Hackathons e prêmios para atrair devs.
-> 3.  **10% - Reserva Técnica (Lastro):**
->     - Mínimo existencial para estabilidade. Todo excedente acima de 10% é **Reinvestido automaticamente** (via PAT) em Bolsas e Subsídios. Zero desperdício.
+> 1. **25% - Panda Labs (Educação & P&D):**
+>    - `20%` **Bolsas "Learn-to-Earn":** Pagamento direto e automático p/ alunos (Automação Total).
+>    - `5%` **Hubs & Infra:** Modernização de laboratórios físicos e Doação de Hardware para Universidades parceiras.
+> 2. **65% - Crescimento & Distribuição (Gestão Ativa via IA):**
+>    - `30%` **Robin Hood (Subsídios):** Custeia o acesso de entrada e "Free Tier" para baixa renda.
+>    - `20%` **Viralização (Afiliados):** Comissões automáticas para influencers e referrals.
+>    - `15%` **Eventos (Bootcamps):** Hackathons e prêmios para atrair devs.
+> 3. **10% - Reserva Técnica (Lastro):**
+>    - Mínimo existencial para estabilidade. Todo excedente acima de 10% é **Reinvestido automaticamente** (via PAT) em Bolsas e Subsídios. Zero desperdício.
 
 #### B. Camada 2: Governança via IA ("Super Jarvis")
 
@@ -1666,9 +1649,9 @@ Em vez de políticos humanos (DAO), uma **Superinteligência (PAT)** gere o ecos
 **Capacidades Expandidas (Google Organism):**
 A IA não é isolada. Ela atua como um "Crawler Inteligente" dentro do ecossistema Google:
 
-1.  **Hunter de Inovação:** Monitora o _Google Garden_ e _Hugging Face_ por novos modelos (Gemini, Llama) e sugere auto-implementação.
-2.  **Trend Watcher:** Busca na web por demandas emergentes (ex: "Rust está em alta") para criar currículos do Panda Labs instantaneamente.
-3.  **Cloud Native:** Acesso direto às APIs do Google Cloud para alocar/desalocar recursos conforme a demanda.
+1. **Hunter de Inovação:** Monitora o _Google Garden_ e _Hugging Face_ por novos modelos (Gemini, Llama) e sugere auto-implementação.
+2. **Trend Watcher:** Busca na web por demandas emergentes (ex: "Rust está em alta") para criar currículos do Panda Labs instantaneamente.
+3. **Cloud Native:** Acesso direto às APIs do Google Cloud para alocar/desalocar recursos conforme a demanda.
 
 #### C. Camada 3: Panda AI Treasury (PAT)
 
@@ -1685,10 +1668,10 @@ A IA atua como **Banco Central**, executando a política monetária para manter 
 
 Um único mercado para todos, com descontos automáticos por volume histórico.
 
-| Volume         | Desconto | Fonte dos Tokens                          |
+| Volume         | Desconto | Fonte dos Tokens                          |            |
 | -------------- | -------- | ----------------------------------------- | ---------- |
-| **Iniciante**  | 0%       | Mercado Aberto (Sobe preço)               |
-| **Dev Ativo**  | 5-20%    | Mercado Aberto (Sobe preço)               |
+| **Iniciante**  | 0%       | Mercado Aberto (Sobe preço)               |            |
+| **Dev Ativo**  | 5-20%    | Mercado Aberto (Sobe preço)               |            |
 | **Enterprise** | 30-50%   | **Reserva de Liquidez** (Não afeta preço) | Inviolável |
 
 ---
@@ -1717,23 +1700,27 @@ Store                          └══█══█══█
 
 - [ ] Settings Modal conectado ao SDK
 - [ ] Login Screen + Dashboard
+
 - **Milestone:** 10 alpha testers
 
 #### Fase 3: Backend Real
 
 - [ ] `PF_Dispatcher.gs` + Firebase real
 - [ ] Rust Agent MVP
+
 - **Milestone:** 50 closed beta
 
 #### Fase 4: Store & Marketplace
 
 - [ ] Payment gateway (Stripe/Pix)
 - [ ] 5 módulos publicados
+
 - **Milestone:** 100 paying users
 
 #### Fase 5: Crypto Layer (Após R$ 100K GMV)
 
 - [ ] Solana/Polygon integration
+
 - **Milestone:** 1000 active wallets
 
 ---
