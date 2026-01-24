@@ -199,9 +199,152 @@ const OracleService = {
 
 ---
 
-## 4. Segurança
+## 4. Segurança (🔐 IMPORTANTE)
 
-### Token JWT (Simplificado)
+### 4.1 Arquitetura de Segurança
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    FLUXO DE SEGURANÇA                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  USUÁRIO ───► SDK (Client) ───► GAS (Server) ───► Serviços  │
+│                   │                    │                     │
+│                   ▼                    ▼                     │
+│            ┌──────────┐         ┌──────────────┐            │
+│            │ GATE 1   │         │    GATE 2    │            │
+│            │ Role     │         │    Token     │            │
+│            │ Check    │         │    Validate  │            │
+│            └──────────┘         └──────────────┘            │
+│                                                              │
+│  🛡️ DUPLA VALIDAÇÃO: SDK verifica ROLE, GAS verifica TOKEN   │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**O GAS é acessível publicamente como URL, MAS:**
+
+1. **SDK filtra** quais ações cada ROLE pode chamar
+2. **GAS valida** token JWT em cada request
+3. **Ações sensíveis** exigem role mínimo
+
+### 4.2 Matriz de Acesso por Role
+
+| Action           | User (3) | Dev (2) | Founder (1) | Requires Token |
+| ---------------- | -------- | ------- | ----------- | -------------- |
+| `oracle.usd`     | ✅       | ✅      | ✅          | ❌             |
+| `brain.chat`     | ✅       | ✅      | ✅          | ✅             |
+| `wallet.balance` | ✅       | ✅      | ✅          | ✅             |
+| `data.get`       | ✅       | ✅      | ✅          | ✅             |
+| `data.save`      | ❌       | ✅      | ✅          | ✅             |
+| `data.delete`    | ❌       | ✅      | ✅          | ✅             |
+| `brain.gems`     | ❌       | ✅      | ✅          | ✅             |
+| `analytics.*`    | ❌       | ❌      | ✅          | ✅             |
+| `pat.*`          | ❌       | ❌      | ✅          | ✅             |
+| `governance.*`   | ❌       | ❌      | ✅          | ✅             |
+
+### 4.3 SDK → GAS Translation Layer
+
+O SDK traduz chamadas de alto nível para requests GAS:
+
+```javascript
+// 📱 SDK (Frontend) - O que o dev/user vê
+await Panda.Brain.chat("Olá!");
+
+// 🔄 TRADUÇÃO INTERNA
+// SDK faz:
+// 1. Verifica se user tem role >= 3 ✅
+// 2. Pega token do Auth ✅
+// 3. Chama GAS ✅
+
+// 📡 GAS (Backend) - O que é enviado
+POST https://script.google.com/.../exec
+{
+  "action": "brain.chat",
+  "payload": { "message": "Olá!" },
+  "token": "eyJ...",
+  "role": 3
+}
+```
+
+### 4.4 Implementação no SDK
+
+```javascript
+// Em pf.sdk.js
+const ACTION_ROLES = {
+  // Públicas (qualquer role)
+  "oracle.usd": 3,
+  "brain.chat": 3,
+  "wallet.balance": 3,
+
+  // Dev+ (role 2+)
+  "data.save": 2,
+  "data.delete": 2,
+  "brain.gems": 2,
+
+  // Founder ONLY (role 1)
+  "pat.checkin": 1,
+  "pat.profile": 1,
+  "governance.validate": 1,
+  "analytics.report": 1,
+};
+
+async function callGAS(action, payload) {
+  const userRole = Panda.Auth.getRole();
+  const minRole = ACTION_ROLES[action] || 1;
+
+  // GATE 1: Role check (client-side)
+  if (userRole > minRole) {
+    throw new Error(`🔒 Acesso negado: ${action} requer role ${minRole}`);
+  }
+
+  // GATE 2: Token attached (server validates)
+  const token = Panda.Auth.getToken();
+
+  const response = await fetch(Config.GAS_URL, {
+    method: "POST",
+    body: JSON.stringify({ action, payload, token, role: userRole }),
+  });
+
+  return response.json();
+}
+```
+
+### 4.5 Implementação no GAS
+
+```javascript
+// Em PF_Dispatcher.gs
+const ROLE_REQUIRED = {
+  "pat.checkin": 1,
+  "governance.validate": 1,
+  "data.delete": 2,
+};
+
+function doPost(e) {
+  const { action, payload, token, role } = JSON.parse(e.postData.contents);
+
+  // GATE 2: Validate token (server-side)
+  const user = validateToken(token);
+  if (!user) {
+    return jsonResponse({ error: "Token inválido" }, 401);
+  }
+
+  // GATE 2b: Verify role matches token
+  if (user.role !== role) {
+    return jsonResponse({ error: "Role mismatch" }, 403);
+  }
+
+  // GATE 2c: Check action permission
+  const minRole = ROLE_REQUIRED[action] || 3;
+  if (user.role > minRole) {
+    return jsonResponse({ error: "Acesso negado" }, 403);
+  }
+
+  // Proceed with action...
+}
+```
+
+### 4.6 Token JWT (Simplificado)
 
 ```javascript
 function generateToken(user) {
@@ -229,20 +372,18 @@ function validateToken(token) {
 }
 ```
 
-### Ações que Requerem Auth
+### 4.7 Resumo: O que é exposto?
 
-```javascript
-const AUTH_REQUIRED = [
-  "wallet.balance",
-  "wallet.charge",
-  "data.save",
-  "data.delete",
-];
+| O que          | Público?   | Protegido por            |
+| -------------- | ---------- | ------------------------ |
+| URL do GAS     | ✅ Sim     | N/A                      |
+| `oracle.usd`   | ✅ Sim     | Nada (público)           |
+| `brain.chat`   | ✅ Sim     | Token                    |
+| `wallet.*`     | ⚠️ Parcial | Token + userId próprio   |
+| `pat.*`        | 🔒 Não     | Token + Role 1 (Founder) |
+| `governance.*` | 🔒 Não     | Token + Role 1 (Founder) |
 
-function requiresAuth(action) {
-  return AUTH_REQUIRED.includes(action);
-}
-```
+> **Conclusão**: O SDK é o **gatekeeper** que impede chamadas inválidas. O GAS faz **dupla verificação** para garantir que ninguém burle o SDK.
 
 ---
 
