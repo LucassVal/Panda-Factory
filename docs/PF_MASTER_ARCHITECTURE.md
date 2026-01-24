@@ -1705,7 +1705,7 @@ Para produtores que vendem cursos/acessos externos:
 
 ## 12. Referências & Convenções
 
-### 11.1. Convenção de Nomes (PF)
+### 12.1. Convenção de Nomes (PF)
 
 - **GitHub Repos:** `pf-sdk`, `pf-agent`, `pf-registry`
 - **GAS Scripts:** `PF_Dispatcher`, `PF_Wallet`
@@ -1714,10 +1714,126 @@ Para produtores que vendem cursos/acessos externos:
 - **Eventos:** `pf:ready`
 - **CSS Vars:** `--pf-primary`
 
-### 11.2. Mapa da Documentação
+### 12.2. Mapa da Documentação
 
-- `PF_MASTER_ARCHITECTURE.md`: Este arquivo (A Bíblia completa).
-- `SDK_REFERENCE.md`: API Reference da biblioteca Panda SDK.
-- `README.md`: Entry point para devs novatos.
+| Documento                            | Descrição                             |
+| ------------------------------------ | ------------------------------------- |
+| `PF_MASTER_ARCHITECTURE.md`          | Este arquivo (A Bíblia completa)      |
+| `PF_SDK_REFERENCE.md`                | API Reference da biblioteca Panda SDK |
+| `PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Plugins e sistema modular             |
+| `PF_CTRADER_REFERENCE.md`            | Integração cTrader Open API           |
+| `PF_GAS_REFERENCE.md`                | Backend Google Apps Script            |
+| `PF_CSS_REFERENCE.md`                | Design System                         |
+| `PF_HTML_REFERENCE.md`               | Componentes HTML                      |
+| `.agent/PANDA.md`                    | Codex Central (ler primeiro)          |
+| `README.md`                          | Entry point para devs novatos         |
+
+---
+
+## 13. Trading Hub (cTrader Integration)
+
+O Trading Hub conecta o Panda Factory ao mercado financeiro via cTrader Open API.
+
+### 13.1. Arquitetura
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         TRADING HUB                                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐   │
+│  │ pf.ctrader-api   │    │ pf.ctrader-oauth │    │  AI Signals      │   │
+│  │ (WebSocket)      │    │ (User Auth)      │    │  (Panda.Brain)   │   │
+│  └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘   │
+│           │                       │                       │              │
+│           └───────────────────────┼───────────────────────┘              │
+│                                   ▼                                      │
+│                     ┌──────────────────────────┐                         │
+│                     │    cTrader Open API      │                         │
+│                     │  (Port 5036 - JSON/WS)   │                         │
+│                     └──────────────────────────┘                         │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 13.2. Módulos
+
+| Módulo            | Arquivo                                   | Descrição                    |
+| ----------------- | ----------------------------------------- | ---------------------------- |
+| **API Connector** | `js/trading/pf.ctrader-api.js`            | WebSocket, Orders, Positions |
+| **OAuth**         | `js/trading/pf.ctrader-oauth.js`          | User login flow              |
+| **UI**            | `components/trading/Comp_TradingHub.html` | Trading interface            |
+
+### 13.3. Credenciais (App: Antigravity)
+
+| Item             | Valor                                             |
+| ---------------- | ------------------------------------------------- |
+| **Client ID**    | `19151_S6shjal0uQ...`                             |
+| **Redirect URI** | `https://lucassval.github.io/panda-ctrader-auth/` |
+| **Scope**        | `trading`                                         |
+| **WS Port**      | `5036` (JSON)                                     |
+
+### 13.4. Monetização Trading
+
+| Feature     | Custo (PC)  |
+| ----------- | ----------- |
+| Conexão API | GRÁTIS      |
+| AI Signal   | 50 PC/sinal |
+| AI Analysis | 30 PC       |
+| Backtesting | 100 PC/run  |
+
+> 📖 **Referência detalhada:** [PF_CTRADER_REFERENCE.md](PF_CTRADER_REFERENCE.md)
+
+---
+
+## 14. Social Media Hub (Plugin Ecosystem)
+
+Sistema modular de plugins para gestão de redes sociais.
+
+### 14.1. Arquitetura
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                       SOCIAL MEDIA HUB                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────────┐ │
+│  │                    pf.social-core.js (GRÁTIS)                      │ │
+│  │  • CRM Integrado  • Agenda  • Generator Base  • Plugin Loader      │ │
+│  └────────────────────────────────────────────────────────────────────┘ │
+│                                   │                                      │
+│      ┌──────────┬──────────┬──────┴──────┬──────────┬──────────┐        │
+│      ▼          ▼          ▼             ▼          ▼          ▼        │
+│  ┌────────┐ ┌────────┐ ┌────────┐   ┌────────┐ ┌────────┐ ┌────────┐   │
+│  │YouTube │ │TikTok  │ │ Meta   │   │Twitter │ │WhatsApp│ │ ...    │   │
+│  │ 499 PC │ │ 399 PC │ │ 599 PC │   │ 299 PC │ │ 799 PC │ │ Future │   │
+│  └────────┘ └────────┘ └────────┘   └────────┘ └────────┘ └────────┘   │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 14.2. Plugins Disponíveis
+
+| Plugin        | Arquivo                 | Preço  | Features                    |
+| ------------- | ----------------------- | ------ | --------------------------- |
+| **Core**      | `pf.social-core.js`     | GRÁTIS | CRM, Agenda, Generators     |
+| **YouTube**   | `pf.social-youtube.js`  | 499 PC | SEO, Thumbnails AI, Scripts |
+| **TikTok**    | `pf.social-tiktok.js`   | 399 PC | Trends, Viral, Hashtags     |
+| **Meta**      | `pf.social-meta.js`     | 599 PC | Posts, Stories, Reels, Ads  |
+| **Twitter/X** | `pf.social-twitter.js`  | 299 PC | Threads, Hooks, Spaces      |
+| **WhatsApp**  | `pf.social-whatsapp.js` | 799 PC | Broadcast, Leads, Flows     |
+
+### 14.3. Revenue Split
+
+```text
+Venda de Plugin (100 PC):
+├── Dev (Criador)     → 70 PC (70%)
+├── Panda Factory     → 25 PC (25%)
+└── Founder           →  5 PC (5%)
+```
+
+> 📖 **Referência detalhada:** [PF_PLUGIN_AND_MODULAR_REFERENCE.md](PF_PLUGIN_AND_MODULAR_REFERENCE.md)
+
+---
 
 > _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_
