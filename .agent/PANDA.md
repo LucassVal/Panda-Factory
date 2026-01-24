@@ -17,8 +17,7 @@
 | [PF_SDK_REFERENCE.md](../docs/PF_SDK_REFERENCE.md)                               | Módulos     | API Panda.\*                          |
 | [PF_TOKENOMICS_REFERENCE.md](../docs/PF_TOKENOMICS_REFERENCE.md)                 | §9 Completo | PC, PAT, Treasury, Constituição       |
 | [PF_CSS_REFERENCE.md](../docs/PF_CSS_REFERENCE.md)                               | Tokens      | Design System                         |
-| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Plugins     | Apps, Plugins, Marketplace            |
-| [PF_CTRADER_REFERENCE.md](../docs/PF_CTRADER_REFERENCE.md)                       | Trading     | cTrader API, WebSocket, OAuth         |
+| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Plugins     | Apps, Plugins, cTrader, Marketplace   |
 | [PF_GAS_REFERENCE.md](../docs/PF_GAS_REFERENCE.md)                               | Backend     | Google Apps Script                    |
 | [README.md](../README.md)                                                        | Quick Start | Entry point para devs                 |
 
