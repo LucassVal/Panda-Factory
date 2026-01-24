@@ -1884,4 +1884,83 @@ Venda de Plugin (100 PC):
 
 ---
 
+## 15. P2P Compute Network
+
+> **Conceito:** Qualquer pessoa pode alugar capacidade computacional por PC
+
+### 15.1. Arquitetura
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    PANDA COMPUTE NETWORK                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  PROVIDERS (Quem Aluga)           CONSUMERS (Quem Usa)      │
+│  ├── Google Colab (oficial)       ├── Dev compilando        │
+│  ├── WebNVIDIA/GeForce Now        ├── Artista renderizando  │
+│  ├── Servers dedicados            ├── Jornalista processando│
+│  └── Usuário (PC gamer ocioso)    └── Estudante treinando ML│
+│                                                             │
+│  SPLIT DE RECEITA (Art. 7 Constituição)                     │
+│  └── 95% Host / 5% Panda                                    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 15.2. Registro de Host
+
+| Etapa | Ação                                           |
+| ----- | ---------------------------------------------- |
+| 1     | Usuário tem servidor/PC ocioso                 |
+| 2     | Registra no Panda Network (specs + preço/hora) |
+| 3     | Recebe jobs via Firebase signaling             |
+| 4     | Executa em sandbox (Rust Agent)                |
+| 5     | Recebe PC automaticamente (95%)                |
+
+### 15.3. Validação com Constituição
+
+- **Art. 7 (Garantia Host):** 90-95% vai para o host ✅
+- **Taxa P2P:** 5-10% (configurável via DAO) ✅
+
+---
+
+## 16. Google Partner Strategy
+
+> **Visão:** Panda Factory = Showcase completo de integração Google
+
+### 16.1. Por que Google Partner?
+
+| Argumento               | Benefício para Google                                        |
+| ----------------------- | ------------------------------------------------------------ |
+| **Showcase completo**   | Prova que dá para construir plataforma inteira só com Google |
+| **Zero vendor lock-in** | Usuário usa conta Google dele (mais usuários Google)         |
+| **Educação**            | Ensina devs a usar serviços Google                           |
+| **Custo ~R$0**          | Free Tier generoso = mais adoção                             |
+
+### 16.2. Serviços Google Integrados
+
+| Serviço           | Uso no Panda          | Tentáculo              |
+| ----------------- | --------------------- | ---------------------- |
+| **Google Drive**  | Storage base          | google/drive.js        |
+| **Google Sheets** | DB gratuito           | google/sheets.js       |
+| **Google Colab**  | GPU/Compile universal | google/colab.js        |
+| **Firebase**      | Auth + Realtime       | google/firebase.js     |
+| **Gemini**        | IA principal          | brain/gemini.js        |
+| **YouTube Data**  | Analytics, Upload     | google/youtube-data.js |
+| **Calendar**      | Agendamento           | google/calendar.js     |
+
+### 16.3. VSX Store Universal
+
+Não reinventar a roda. Integrar fontes existentes:
+
+| Fonte                   | Tipo      | Prioridade |
+| ----------------------- | --------- | ---------- |
+| **GitHub**              | Microsoft | 🔴 Alta    |
+| **Google Cloud Source** | Google    | 🔴 Alta    |
+| GitLab                  | Open      | 🟡 Média   |
+
+> 📖 **Referência estratégica:** [ROADMAP_ESTRATEGICO.md](ROADMAP_ESTRATEGICO.md)
+
+---
+
 > _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_

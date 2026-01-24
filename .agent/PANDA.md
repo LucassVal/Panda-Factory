@@ -19,6 +19,7 @@
 | [PF_CSS_REFERENCE.md](../docs/PF_CSS_REFERENCE.md)                               | Tokens      | Design System                         |
 | [PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Plugins     | Apps, Plugins, cTrader, Marketplace   |
 | [PF_GAS_REFERENCE.md](../docs/PF_GAS_REFERENCE.md)                               | Backend     | Google Apps Script                    |
+| [ROADMAP_ESTRATEGICO.md](../docs/ROADMAP_ESTRATEGICO.md)                         | Fases 1-4   | Google Partner, P2P Compute, VSX      |
 | [README.md](../README.md)                                                        | Quick Start | Entry point para devs                 |
 
 ### Índice Cruzado (PANDA.md ↔ PF_MASTER_ARCHITECTURE.md)

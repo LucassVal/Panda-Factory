@@ -362,6 +362,13 @@ TentacleMonitor.getLogs({ level: "error", limit: 10 });
 
 ## Changelog
 
+### [0.9.2] - 2026-01-24 (Roadmap Strategy)
+
+- **Roadmap:** Google Partner Strategy definida
+- **Roadmap:** P2P Compute Network planejada
+- **Roadmap:** VSX Store Universal (GitHub + Google Source)
+- **Planned:** Google Tentacle (`google/drive.js`, `sheets.js`, `colab.js`)
+
 ### [0.9.1] - 2026-01-24 (Tentacle Architecture)
 
 - **Feature:** Arquitetura de Tentáculos (SDK → Parents → Children)
