@@ -358,6 +358,25 @@ console.table(TentacleMonitor.getTree());
 TentacleMonitor.getLogs({ level: "error", limit: 10 });
 ```
 
+### Tentacles Implementados
+
+| Tentáculo   | Parent          | Children                         |
+| ----------- | --------------- | -------------------------------- |
+| **social**  | `Panda.Social`  | WhatsApp, Twitter, YouTube, Meta |
+| **trading** | `Panda.Trading` | cTrader                          |
+| **brain**   | `Panda.Brain`   | Gemini, LocalLLM                 |
+
+### Tentacles Planejados
+
+| Tentáculo     | Parent            | Children Planejados                      |
+| ------------- | ----------------- | ---------------------------------------- |
+| **google**    | `Panda.Google`    | Drive, Sheets, Colab, Firebase, Calendar |
+| **education** | `Panda.Education` | Kiwify, Hotmart, Eduzz                   |
+| **gaming**    | `Panda.Gaming`    | Godot, Bevy, ThreeJS, PixiJS             |
+| **audio**     | `Panda.Audio`     | ToneJS, ElevenLabs, Whisper, Suno        |
+| **video**     | `Panda.Video`     | FFmpeg, Remotion, Veo                    |
+| **compute**   | `Panda.Compute`   | Colab, P2P Hosts                         |
+
 ---
 
 ## Changelog

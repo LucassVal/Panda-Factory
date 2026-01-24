@@ -21,6 +21,12 @@
 9. [Ecossistema: Tokenomics &amp; Monetização](#9-ecossistema)
 10. [Roadmap de Implementação](#10-roadmap)
 11. [Referências &amp; Convenções](#11-referencias)
+12. [Trading Hub (cTrader)](#12-trading-hub)
+13. [Social Media Hub](#13-social-media-hub)
+14. [P2P Compute Network](#15-p2p-compute-network)
+15. [Google Partner Strategy](#16-google-partner-strategy)
+16. [EdTech & Multi-Market](#17-edtech-multi-market)
+17. [Gaming, Audio & Video Tentacles](#18-gaming-audio-video)
 
 ---
 
@@ -1960,6 +1966,83 @@ Não reinventar a roda. Integrar fontes existentes:
 | GitLab                  | Open      | 🟡 Média   |
 
 > 📖 **Referência estratégica:** [ROADMAP_ESTRATEGICO.md](ROADMAP_ESTRATEGICO.md)
+
+---
+
+## 17. EdTech & Multi-Market Expansion
+
+> **Objetivo:** Hooks para Kiwify, Hotmart, Eduzz e outras plataformas
+
+### 17.1. DRM Tokenizado
+
+Sistema de acesso condicional usando `Panda.Wallet`:
+
+```javascript
+// Verificar acesso a conteúdo pago
+async function checkAccess(contentId) {
+  const balance = await Panda.Wallet.getBalance();
+  const required = await Panda.Data.get("content_prices", contentId);
+  return balance >= required.price;
+}
+```
+
+### 17.2. Webhooks de Pagamento
+
+| Plataforma | Status          | Arquivo               |
+| ---------- | --------------- | --------------------- |
+| Kiwify     | ✅ Implementado | `PF_Core_Webhooks.gs` |
+| Hotmart    | 🔴 Pendente     | Clone Kiwify          |
+| Eduzz      | 🔴 Pendente     | Clone Kiwify          |
+
+### 17.3. White-Label Cursos
+
+- Estrutura: Tentacle `education/`
+- Parent: `pf.education-parent.js`
+- Children: `kiwify.js`, `hotmart.js`, `eduzz.js`
+
+---
+
+## 18. Gaming, Audio & Video Tentacles
+
+> **Objetivo:** Integrações criativas para devs, artistas e produtores
+
+### 18.1. Gaming Tentacle
+
+| Ferramenta     | Tipo        | Integração  |
+| -------------- | ----------- | ----------- |
+| **Godot**      | Engine      | Wasm nativo |
+| **Bevy**       | Engine Rust | Wasm        |
+| **Three.js**   | 3D Web      | JS direto   |
+| **PixiJS**     | 2D Web      | JS direto   |
+| **PlayCanvas** | Web Engine  | JS          |
+
+### 18.2. Audio Tentacle
+
+| Ferramenta     | Uso             | Custo            |
+| -------------- | --------------- | ---------------- |
+| **Tone.js**    | Synth web       | Grátis           |
+| **ElevenLabs** | TTS/Voice clone | PC/char          |
+| **Whisper**    | Transcrição     | Local:0 / API:PC |
+| **Suno AI**    | Geração música  | PC/track         |
+
+### 18.3. Video Tentacle
+
+| Ferramenta          | Uso                | Custo  |
+| ------------------- | ------------------ | ------ |
+| **FFmpeg (Wasm)**   | Codec universal    | Grátis |
+| **Remotion**        | Video programático | Grátis |
+| **Veo (Google)**    | IA Video           | PC/min |
+| **Pexels/Unsplash** | Stock              | Grátis |
+
+### 18.4. Google Colab - Casos de Uso Universal
+
+| Área           | Uso                                    |
+| -------------- | -------------------------------------- |
+| **Dev**        | Compilar apps Rust, Godot, Android     |
+| **Jornalismo** | Processar vídeos, transcrição em massa |
+| **Acadêmico**  | TCC, análise de dados, ML              |
+| **Criativo**   | Render 3D, processamento de áudio      |
+| **IA**         | Fine-tuning, inference                 |
 
 ---
 
