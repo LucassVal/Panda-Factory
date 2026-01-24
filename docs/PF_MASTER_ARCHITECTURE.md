@@ -25,8 +25,12 @@
 13. [Social Media Hub](#13-social-media-hub)
 14. [P2P Compute Network](#15-p2p-compute-network)
 15. [Google Partner Strategy](#16-google-partner-strategy)
-16. [EdTech & Multi-Market](#17-edtech-multi-market)
-17. [Gaming, Audio & Video Tentacles](#18-gaming-audio-video)
+16. [EdTech &amp; Multi-Market](#17-edtech-multi-market)
+17. [Gaming, Audio &amp; Video Tentacles](#18-gaming-audio-video)
+18. [Multi-Market Expansion](#19-multi-market-expansion)
+19. [Game Studio &amp; Publisher](#20-game-studio-publisher)
+20. [Bounty System](#21-bounty-system)
+21. [O Diferencial "Hook"](#22-o-diferencial-hook)
 
 ---
 
@@ -2043,6 +2047,166 @@ async function checkAccess(contentId) {
 | **Acadêmico**  | TCC, análise de dados, ML              |
 | **Criativo**   | Render 3D, processamento de áudio      |
 | **IA**         | Fine-tuning, inference                 |
+
+---
+
+## 19. Multi-Market Expansion (A "Amazon" de Serviços Digitais)
+
+> **Filosofia:** O Panda não vende apenas cursos ou jogos. É o hub de distribuição para qualquer ativo digital.
+
+### 19.1. EdTech & Info (Kiwify/Hotmart Hook)
+
+| Conceito           | Descrição                                                 |
+| ------------------ | --------------------------------------------------------- |
+| **White-Label**    | Cursos vendidos fora, rodando na infraestrutura Panda     |
+| **DRM Tokenizado** | Acesso ao conteúdo depende de validação da carteira Panda |
+
+### 19.2. Gaming & Entertainment (Steam/Epic/Mobile)
+
+| Conceito          | Descrição                                                          |
+| ----------------- | ------------------------------------------------------------------ |
+| **Panda Publish** | CI/CD que compila e publica na Steam, Google Play, Apple App Store |
+| **Panda Arcade**  | Loja própria para jogos WebGPU "Click-to-Play" (sem download)      |
+
+### 19.3. Creative Assets (Sketchfab/ArtStation Model)
+
+| Conceito               | Descrição                                                   |
+| ---------------------- | ----------------------------------------------------------- |
+| **Marketplace 3D/2D**  | Venda de modelos, texturas e sons (IA ou artistas)          |
+| **Interoperabilidade** | Asset comprado abre direto no Blender/Godot dentro do Panda |
+
+### 19.4. Dev Tools & Plugins (VSX Store)
+
+| Conceito          | Descrição                                          |
+| ----------------- | -------------------------------------------------- |
+| **Extensões VSX** | Devs portam extensões VS Code para vender no Panda |
+| **Módulos SaaS**  | Venda de microsserviços (ex: API WhatsApp) via MCP |
+
+---
+
+## 20. Game Studio & Publisher
+
+> **Modelo:** Agregador de Engines + Cross-Commerce
+
+### 20.1. Engines Suportadas
+
+| Engine     | Modo                    | Categoria         |
+| ---------- | ----------------------- | ----------------- |
+| **Godot**  | Nativo (Wasm/WebGPU)    | Open Source       |
+| **Bevy**   | Nativo (Rust/Wasm)      | Open Source       |
+| **Unreal** | Pixel Streaming (Nuvem) | Big Tech (Bridge) |
+| **Unity**  | Pixel Streaming (Nuvem) | Big Tech (Bridge) |
+
+### 20.2. Funcionalidades
+
+| Feature             | Descrição                                                               |
+| ------------------- | ----------------------------------------------------------------------- |
+| **Panda Team Link** | Plugin para colaboração em tempo real (Google Docs para código de jogo) |
+| **Cross-Commerce**  | Venda de "Founder Packs" via Kiwify que liberam chaves na Steam/Panda   |
+
+### 20.3. Validação Simplificada
+
+> ⚠️ **Foque primeiro:** Valide apenas o **itch.io** (aberto e fácil) ou o **Panda Arcade** próprio.
+
+---
+
+## 21. Bounty System (Outsourcing via Comunidade)
+
+> **Filosofia:** Use a "Vibe Dev" e a comunidade Open Source. Não escreva integrações chatas.
+
+### 21.1. Como Funciona
+
+| Papel              | Responsabilidade                                                                |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **Você (Core)**    | Constrói a Documentação da API (`Panda.Publish.Interface`)                      |
+| **Bounty**         | _"Pago 5.000 PC para quem criar o Conector Epic Games seguindo essa interface"_ |
+| **Dev Comunidade** | Faz a integração. Você só valida (Code Review)                                  |
+
+### 21.2. Níveis de Tentáculos
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                     🐼 PANDA SDK CORE                       │
+│  ────────────────────────────────────────────────────────   │
+│  IMUTÁVEL. Apenas Founder altera.                          │
+│  Panda.Auth, Panda.Wallet, Panda.Data, TentacleMonitor     │
+└─────────────────────────────────────────────────────────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+     OFICIAL             COMUNIDADE          ENTERPRISE
+     (Panda)             (Bounty)            (Privado)
+          │                   │                   │
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ google/         │ │ epic-games/     │ │ cliente-x/      │
+│ social/         │ │ cielo/          │ │ (white-label)   │
+│ trading/        │ │ stripe-br/      │ │                 │
+│ brain/          │ │ mercadopago/    │ │                 │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+    ✅ Core Team       🏆 Bounty           💼 Pago
+```
+
+### 21.3. Promoção de Tentáculos
+
+| De         | Para       | Requisitos                           |
+| ---------- | ---------- | ------------------------------------ |
+| Comunidade | Oficial    | Code Review + Testes + 1 mês estável |
+| Enterprise | Comunidade | Cliente autoriza open-source         |
+
+### 21.4. Revenue Split (ref: TOKENOMICS §9.1.B)
+
+| Destino         | Store/Compute |
+| --------------- | ------------- |
+| Dev/Host        | 55%           |
+| Fundo Incentivo | 22%           |
+| Panda Ops       | 15%           |
+| Founder         | 5%            |
+| Gateway         | 3%            |
+
+---
+
+## 22. O Diferencial "Hook" (Filosofia Core)
+
+> **"O Panda Factory não compete com a Steam, a Hotmart ou o VS Code. Ele engole todos através de integrações (Hooks)."**
+
+### 22.1. O Princípio
+
+```text
+Usuário cria UMA VEZ no Panda
+        ↓
+Distribui para TODOS os canais:
+├── Steam
+├── Epic Games
+├── Google Play
+├── Kiwify/Hotmart
+├── VS Code Marketplace
+└── Panda Arcade
+
+A IA gerencia a complexidade.
+O Token captura o valor.
+```
+
+### 22.2. Blindagem do SDK
+
+| Regra | Tentacle Comunidade                                  |
+| ----- | ---------------------------------------------------- |
+| ❌    | `window.Panda.Auth = malicious;` (Sobrescrever Core) |
+| ❌    | `window.Panda._internal = {};` (Acessar internos)    |
+| ❌    | `fetch()` sem `Panda.Bridge` (Bypass proxy)          |
+| ✅    | `TentacleMonitor.registerChild('epic', API);`        |
+| ✅    | `Panda.emit('community:epic:connected');`            |
+| ✅    | Usar qualquer API pública do SDK                     |
+
+### 22.3. Resumo para Paz Mental
+
+| Princípio              | Descrição                                            |
+| ---------------------- | ---------------------------------------------------- |
+| **Core Estável**       | O Panda Core não muda por causa de terceiros         |
+| **Drivers Isolados**   | Integrações são plugins descartáveis/substituíveis   |
+| **Validação Unitária** | Teste um canal de cada vez (ex: só itch.io primeiro) |
+| **Bounties**           | Deixe a comunidade preencher lacunas das APIs        |
+
+> **APIs novas = Branches da comunidade, regulados por você, MAS NÃO são Core.**
 
 ---
 
