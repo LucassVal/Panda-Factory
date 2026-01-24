@@ -8,11 +8,54 @@ test_data/
 .clasprc.json      # TOKEN DE ACESSO (PERIGO MÁXIMO SE VAZAR)
 appsscript.json    
 
-# Segredos
+# ============================================================================
+# 🔐 SEGREDOS E CREDENCIAIS (NUNCA COMMITAR!)
+# ============================================================================
+
+# Arquivos de ambiente
 .env
+.env.local
+.env.production
+.env.*.local
+
+# Chaves genéricas
 secrets.js
 credentials.json
 key.json
+*.pem
+*.key
+*.p12
+
+# 🤖 AI APIs (FUTURO)
+# - GEMINI_API_KEY
+# - ANTHROPIC_API_KEY (Claude)
+# - OPENAI_API_KEY
+gemini_key.txt
+anthropic_key.txt
+openai_key.txt
+
+# 💳 Payment Providers (FUTURO)
+# - STRIPE_SECRET_KEY
+# - PAGSEGURO_TOKEN
+# - COINBASE_API_KEY
+stripe_key.txt
+pagseguro_key.txt
+crypto_keys.json
+
+# 🏢 Business (FUTURO)
+# - CNPJ credentials
+# - Nota Fiscal API keys
+# - Banking credentials
+business_credentials.json
+cnpj_cert.pfx
+nfe_cert.pfx
+
+# 🔥 Firebase
+firebase-admin-sdk*.json
+firebase-key*.json
+serviceAccountKey.json
+
+# ============================================================================
 
 # Arquivos de sistema
 .DS_Store
