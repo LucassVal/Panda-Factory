@@ -575,6 +575,18 @@ pub fn check_action(user_level: Role, action: Action) -> Result<(), SecurityErro
 | `pf.meta.js`     | `Panda.Meta`     | Reels, Carousels, Multi-post |
 | `pf.ctrader.js`  | `Panda.CTrader`  | AI Signals, Backtester       |
 
+### 🐙 Tentacles Architecture (js/tentacles/) - NEW
+
+> **Arquitetura:** SDK → Tentáculos → Pais → Filhos
+
+| Arquivo                          | Camada  | Descrição         |
+| -------------------------------- | ------- | ----------------- |
+| `monitor/pf.tentacle-monitor.js` | Monitor | Log em tempo real |
+| `social/pf.social-parent.js`     | Parent  | Agrupador Social  |
+| `social/children/whatsapp.js`    | Child   | API WhatsApp      |
+| `trading/pf.trading-parent.js`   | Parent  | Agrupador Trading |
+| `trading/children/ctrader.js`    | Child   | API cTrader       |
+
 ### 🎨 UI Controllers (js/ui/)
 
 | Arquivo           | Global            | Descrição      |

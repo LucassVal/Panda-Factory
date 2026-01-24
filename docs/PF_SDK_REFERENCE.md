@@ -329,9 +329,44 @@ Panda.on("wallet:change", ({ balance }) => {
 | Bridge  | ⚠️ Semi-público | Algumas tools são sensíveis       |
 | Config  | 🔒 Interno      | Não modificar em produção         |
 
+## 🐙 Tentacle Architecture (NEW)
+
+> **Modelo:** SDK → Tentáculos → Pais → Filhos
+
+### TentacleMonitor
+
+Log em tempo real para hierarquia de módulos.
+
+| Método                               | Retorno      | Descrição          |
+| ------------------------------------ | ------------ | ------------------ |
+| `registerTentacle(name, config)`     | `void`       | Registra tentáculo |
+| `registerParent(tentacle, parentId)` | `void`       | Registra pai       |
+| `registerChild(tentacle, childId)`   | `void`       | Registra filho     |
+| `log(level, source, message, data)`  | `LogEntry`   | Log com nível      |
+| `trace(source, method, fn)`          | `Promise<T>` | Wrap com timing    |
+| `getTree()`                          | `TreeObject` | Árvore de status   |
+| `getLogs(filter)`                    | `LogEntry[]` | Logs filtrados     |
+
+```javascript
+// Exemplo: Monitorar hierarquia
+TentacleMonitor.log("info", "social:whatsapp", "Message sent");
+
+// Ver árvore
+console.table(TentacleMonitor.getTree());
+
+// Filtrar logs
+TentacleMonitor.getLogs({ level: "error", limit: 10 });
+```
+
 ---
 
 ## Changelog
+
+### [0.9.1] - 2026-01-24 (Tentacle Architecture)
+
+- **Feature:** Arquitetura de Tentáculos (SDK → Parents → Children)
+- **Feature:** `TentacleMonitor` - Log em tempo real
+- **Feature:** Sandbox automático para children
 
 ### [0.9.0] - 2026-01-24 (SDK Audit & Sync)
 
