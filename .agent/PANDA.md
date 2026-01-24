@@ -11,12 +11,15 @@
 
 > **⚠️ ANTES de editar este arquivo ou qualquer doc, VERIFIQUE os outros:**
 
-| Documento                                                      | Índice      | Quando Verificar                      |
-| -------------------------------------------------------------- | ----------- | ------------------------------------- |
-| [PF_MASTER_ARCHITECTURE.md](../docs/PF_MASTER_ARCHITECTURE.md) | § 1-11      | Arquitetura, SDK, Backend, Tokenomics |
-| [PF_SDK_REFERENCE.md](../docs/PF_SDK_REFERENCE.md)             | Módulos     | API Panda.\*                          |
-| [PF_CSS_REFERENCE.md](../docs/PF_CSS_REFERENCE.md)             | Tokens      | Design System                         |
-| [README.md](../README.md)                                      | Quick Start | Entry point para devs                 |
+| Documento                                                                        | Índice      | Quando Verificar                      |
+| -------------------------------------------------------------------------------- | ----------- | ------------------------------------- |
+| [PF_MASTER_ARCHITECTURE.md](../docs/PF_MASTER_ARCHITECTURE.md)                   | § 1-11      | Arquitetura, SDK, Backend, Tokenomics |
+| [PF_SDK_REFERENCE.md](../docs/PF_SDK_REFERENCE.md)                               | Módulos     | API Panda.\*                          |
+| [PF_CSS_REFERENCE.md](../docs/PF_CSS_REFERENCE.md)                               | Tokens      | Design System                         |
+| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Plugins     | Apps, Plugins, Marketplace            |
+| [PF_CTRADER_REFERENCE.md](../docs/PF_CTRADER_REFERENCE.md)                       | Trading     | cTrader API, WebSocket, OAuth         |
+| [PF_GAS_REFERENCE.md](../docs/PF_GAS_REFERENCE.md)                               | Backend     | Google Apps Script                    |
+| [README.md](../README.md)                                                        | Quick Start | Entry point para devs                 |
 
 ### Índice Cruzado (PANDA.md ↔ PF_MASTER_ARCHITECTURE.md)
 
@@ -65,16 +68,18 @@
 
 ### 3. Tabela de Atualização Obrigatória
 
-| Se Modificou...    | Atualizar                        |
-| ------------------ | -------------------------------- |
-| `pf.sdk.js`        | `docs/PF_SDK_REFERENCE.md`       |
-| `css/pf.theme.css` | `docs/PF_CSS_REFERENCE.md`       |
-| Componentes HTML   | `README.md` (estrutura)          |
-| Arquitetura        | `docs/PF_MASTER_ARCHITECTURE.md` |
-| JS files novos     | `.agent/PANDA.md` (inventário)   |
-| Security/Hooks     | `PF_MASTER_ARCHITECTURE.md` § 8  |
-| Backend GAS        | `backend/` e README              |
-| Tokenomics         | `PF_MASTER_ARCHITECTURE.md` § 9  |
+| Se Modificou...    | Atualizar                                 |
+| ------------------ | ----------------------------------------- |
+| `pf.sdk.js`        | `docs/PF_SDK_REFERENCE.md`                |
+| `css/pf.theme.css` | `docs/PF_CSS_REFERENCE.md`                |
+| Componentes HTML   | `docs/PF_HTML_REFERENCE.md`               |
+| Arquitetura        | `docs/PF_MASTER_ARCHITECTURE.md`          |
+| JS files novos     | `.agent/PANDA.md` (inventário)            |
+| Security/Hooks     | `PF_MASTER_ARCHITECTURE.md` § 8           |
+| Backend GAS        | `docs/PF_GAS_REFERENCE.md`                |
+| Tokenomics         | `PF_MASTER_ARCHITECTURE.md` § 9           |
+| Plugins/Módulos    | `docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md` |
+| Trading/cTrader    | `docs/PF_CTRADER_REFERENCE.md`            |
 
 ---
 
@@ -578,6 +583,31 @@ pub fn check_action(user_level: Role, action: Action) -> Result<(), SecurityErro
 | `pf.loader.js`     | `PandaLoader`    | Module loader |
 | `pf.components.js` | `loadComponents` | HTML fetcher  |
 
+### 📱 Social Media Hub (js/social/)
+
+| Arquivo                 | Global                  | Descrição                |
+| ----------------------- | ----------------------- | ------------------------ |
+| `pf.social-core.js`     | `Panda.Social`          | Core + CRM + Agenda      |
+| `pf.social-youtube.js`  | `Panda.Social.YouTube`  | SEO, Thumbnails, Scripts |
+| `pf.social-tiktok.js`   | `Panda.Social.TikTok`   | Trends, Viral, Hashtags  |
+| `pf.social-meta.js`     | `Panda.Social.Meta`     | Posts, Stories, Ads      |
+| `pf.social-twitter.js`  | `Panda.Social.Twitter`  | Threads, Hooks, Spaces   |
+| `pf.social-whatsapp.js` | `Panda.Social.WhatsApp` | Broadcast, Leads, Flows  |
+
+### 📈 Trading Hub (js/trading/)
+
+| Arquivo               | Global               | Descrição                 |
+| --------------------- | -------------------- | ------------------------- |
+| `pf.ctrader-api.js`   | `Panda.CTrader`      | WebSocket API connector   |
+| `pf.ctrader-oauth.js` | `Panda.CTraderOAuth` | OAuth user authentication |
+
+### 🤖 Automation (js/core/)
+
+| Arquivo                  | Global           | Descrição              |
+| ------------------------ | ---------------- | ---------------------- |
+| `pf.workflow-builder.js` | `Panda.Workflow` | Workflow + AI Adaptive |
+| `pf.i18n.js`             | `Panda.i18n`     | Internacionalização    |
+
 ### 🧩 Features (js/features/)
 
 | Arquivo          | Global          | Descrição             |
@@ -593,20 +623,22 @@ pub fn check_action(user_level: Role, action: Action) -> Result<(), SecurityErro
 | `Comp_DevToolsDock.html`    | Dock desenvolvedor      |
 | `Comp_SettingsModal.html`   | Modal configurações     |
 | `Comp_Sidebar.html`         | Sidebar IA              |
+| `Comp_TradingHub.html`      | UI de Trading           |
 | `ui/Comp_LoginOverlay.html` | Overlay de login        |
 | `ui/Comp_AgendaDrawer.html` | Drawer de agenda        |
 
 ### 📜 Backend GAS (backend/)
 
-| Arquivo                    | Descrição                     |
-| -------------------------- | ----------------------------- |
-| `core/PF_Dispatcher.gs`    | Entry point (doGet/doPost)    |
-| `core/PF_Config.gs`        | Configurações                 |
-| `core/PF_Core_AI.gs`       | IA backend                    |
-| `core/PF_Core_Oracle.gs`   | Oracle de preços              |
-| `core/PF_Core_Webhooks.gs` | Webhooks                      |
-| `core/PF_App_Init.gs`      | Inicialização                 |
-| `domains/`                 | finance/, store/, automation/ |
+| Arquivo                    | Descrição                      |
+| -------------------------- | ------------------------------ |
+| `core/PF_Dispatcher.gs`    | Entry point (doGet/doPost)     |
+| `core/PF_Config.gs`        | Configurações                  |
+| `core/PF_Core_AI.gs`       | IA backend                     |
+| `core/PF_Core_Oracle.gs`   | Oracle de preços (USD/BTC/XAU) |
+| `core/PF_Core_Webhooks.gs` | Webhooks (Eduzz/Kiwify)        |
+| `core/PF_PAT_Core.gs`      | PAT Treasury AI                |
+| `core/PF_Brain_Core.gs`    | Brain Core (6 Gems)            |
+| `domains/`                 | finance/, store/, automation/  |
 
 ### 🗄️ Legacy (\_system/)
 
