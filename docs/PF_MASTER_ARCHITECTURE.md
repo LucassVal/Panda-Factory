@@ -8,29 +8,73 @@
 
 ---
 
+## 🗺️ Mapa de Navegação
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    PANDA OS ARCHITECTURE                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  PARTE I: FUNDAMENTOS          PARTE II: TÉCNICA            │
+│  ├── §1 Visão Geral            ├── §3 Frontend              │
+│  └── §2 Filosofia Hook         ├── §4 SDK (Coração)         │
+│                                 ├── §5 Backend (3 Pilares)   │
+│  PARTE III: ECONOMIA           ├── §6 Infraestrutura        │
+│  ├── §8 Tokenomics             └── §7 Segurança             │
+│  ├── §9 P2P Compute                                         │
+│  └── §10 Bounty System         PARTE IV: HUBS               │
+│                                 ├── §11 Social Media        │
+│  PARTE V: ESTRATÉGIA           ├── §12 Trading (cTrader)    │
+│  ├── §17 Google Partner        ├── §13 Gaming/Audio/Video   │
+│  ├── §18 Game Studio           ├── §14 EdTech               │
+│  ├── §19 Roadmap               ├── §15 Assets Marketplace   │
+│  └── §20 Referências           └── §16 DevTools/VSX         │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## 📋 Índice
 
-1. [Visão Geral (Mapas Visuais)](#1-visão-geral)
-2. [Camada Frontend: Panda UI &amp; Docks](#2-camada-frontend)
-3. [Camada de Abstração: Panda SDK](#3-camada-sdk)
-4. [Backend Pilar 1: Rust Agent (Hardware)](#4-pilar-rust)
-5. [Backend Pilar 2: Firebase Colmeia (Signaling)](#5-pilar-firebase)
-6. [Backend Pilar 3: GAS Backend (Serverless)](#6-pilar-gas)
-7. [Infraestrutura Híbrida: VMs &amp; BYOD](#7-infraestrutura-hibrida)
-8. [Segurança &amp; Zero-Knowledge](#8-segurança)
-9. [Ecossistema: Tokenomics &amp; Monetização](#9-ecossistema)
-10. [Roadmap de Implementação](#10-roadmap)
-11. [Referências &amp; Convenções](#11-referencias)
+### PARTE I: FUNDAMENTOS
+
+1. [Visão Geral & Mapas Visuais](#1-visão-geral)
+2. [O Diferencial "Hook" (Filosofia Core)](#2-filosofia-hook)
+
+### PARTE II: ARQUITETURA TÉCNICA
+
+3. [Camada Frontend: Panda UI & Docks](#3-camada-frontend)
+4. [Camada SDK: O Coração](#4-camada-sdk)
+5. [Backend: Os 3 Pilares](#5-backend-pilares)
+6. [Infraestrutura Híbrida](#6-infraestrutura)
+7. [Segurança & Zero-Knowledge](#7-seguranca)
+
+### PARTE III: ECOSSISTEMA ECONÔMICO
+
+8. [Tokenomics & Monetização](#8-tokenomics)
+9. [P2P Compute Network](#9-p2p-compute)
+10. [Bounty System & Comunidade](#10-bounty-system)
+
+### PARTE IV: HUBS DE INTEGRAÇÃO
+
+11. [Social Media Hub](#11-social-hub)
 12. [Trading Hub (cTrader)](#12-trading-hub)
-13. [Social Media Hub](#13-social-media-hub)
-14. [P2P Compute Network](#15-p2p-compute-network)
-15. [Google Partner Strategy](#16-google-partner-strategy)
-16. [EdTech &amp; Multi-Market](#17-edtech-multi-market)
-17. [Gaming, Audio &amp; Video Tentacles](#18-gaming-audio-video)
-18. [Multi-Market Expansion](#19-multi-market-expansion)
-19. [Game Studio &amp; Publisher](#20-game-studio-publisher)
-20. [Bounty System](#21-bounty-system)
-21. [O Diferencial "Hook"](#22-o-diferencial-hook)
+13. [Gaming, Audio & Video](#13-gaming-audio-video)
+14. [EdTech & Infoprodutos](#14-edtech)
+15. [Creative Assets Marketplace](#15-assets-marketplace)
+16. [Dev Tools & VSX Store](#16-devtools-vsx)
+
+### PARTE V: ESTRATÉGIA & CRESCIMENTO
+
+17. [Google Partner Strategy](#17-google-partner)
+18. [Game Studio & Publisher](#18-game-studio)
+19. [Roadmap de Implementação](#19-roadmap)
+20. [Referências & Convenções](#20-referencias)
+
+---
+
+# PARTE I: FUNDAMENTOS
 
 ---
 
