@@ -18,10 +18,39 @@
   // ==========================================
   const Config = {
     mode: "CLOUD", // 'LOCAL' (Rust) ou 'CLOUD' (GAS)
-    version: "0.8.0",
+    version: "0.9.0",
     debug: true,
     agentConnected: false, // Simula se Rust Agent está online
     mockDelay: { min: 300, max: 1200 },
+
+    // 🔗 GAS BACKEND CONNECTION
+    useMock: true, // false = real GAS API
+    GAS_URL: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
+  };
+
+  // ==========================================
+  // 🔗 GAS API CALLER (Real Backend)
+  // ==========================================
+  const callGAS = async (action, payload = {}) => {
+    if (Config.useMock) {
+      log("GAS", `[MOCK] Would call: ${action}`, payload);
+      await fakeDelay();
+      return null; // Return null to indicate mock mode
+    }
+
+    try {
+      const response = await fetch(Config.GAS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, ...payload }),
+      });
+      const data = await response.json();
+      log("GAS", `[REAL] ${action}`, data);
+      return data;
+    } catch (error) {
+      console.error(`[GAS ERROR] ${action}:`, error);
+      throw error;
+    }
   };
 
   // Delay aleatório para simular latência real
