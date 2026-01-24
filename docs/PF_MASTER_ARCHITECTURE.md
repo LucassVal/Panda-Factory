@@ -404,6 +404,67 @@ window.Panda = {
     └── Adapters variados
 ```
 
+### 3.3. Arquitetura de Tentáculos (SDK Extensions)
+
+> **Modelo:** SDK → Tentáculos → Pais → Filhos
+
+O SDK central se estende através de **tentáculos modulares** que agrupam funcionalidades por domínio.
+
+```text
+              🐼 pf.sdk.js (ÚNICO)
+                     │
+     ┌───────────────┼───────────────┐
+     │               │               │
+ TENTÁCULO      TENTÁCULO       TENTÁCULO
+   Social        Trading          Brain
+     │               │               │
+    PAI             PAI             PAI
+ Panda.Social   Panda.Trading   Panda.Brain
+     │               │               │
+ ┌───┼───┐       ┌───┼───┐       ┌───┼───┐
+ │   │   │       │   │   │       │   │   │
+WA  TW  YT     cTr Sig Bk      Gem Loc GPU
+    FILHOS         FILHOS          FILHOS
+```
+
+#### Estrutura de Arquivos
+
+```
+js/tentacles/
+├── monitor/pf.tentacle-monitor.js  ← Log em tempo real
+├── social/
+│   ├── pf.social-parent.js         ← Parent
+│   └── children/
+│       ├── whatsapp.js             ← Child API
+│       ├── twitter.js
+│       ├── youtube.js
+│       └── meta.js
+├── trading/
+│   ├── pf.trading-parent.js
+│   └── children/ctrader.js
+└── brain/
+    ├── pf.brain-parent.js
+    └── children/
+        ├── gemini.js
+        └── local-llm.js
+```
+
+#### TentacleMonitor API
+
+| Método                                | Descrição                  |
+| ------------------------------------- | -------------------------- |
+| `TM.registerTentacle(name)`           | Registra tentáculo         |
+| `TM.registerChild(tentacle, childId)` | Registra filho             |
+| `TM.log(level, source, msg)`          | Log com nível              |
+| `TM.getTree()`                        | Retorna árvore hierárquica |
+| `TM.getLogs(filter)`                  | Logs filtrados             |
+
+#### Benefícios
+
+- **Isolamento:** Se um child falha, o resto continua
+- **Hot-Swap:** Atualizar módulo sem reload
+- **Observabilidade:** DevTools UI (F12) visualiza tudo
+
 ---
 
 ## 4. Backend Pilar 1: Rust Agent (Hardware)
