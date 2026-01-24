@@ -155,7 +155,7 @@
 
 ---
 
-## 2. Camada Frontend: Panda UI & Docks
+## 3. Camada Frontend: Panda UI & Docks
 
 A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a aplicação.
 
@@ -417,7 +417,7 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 ---
 
-## 3. Camada de Abstração: Panda SDK
+## 4. Camada SDK: O Coração
 
 ### A Regra de Ouro
 
@@ -504,7 +504,9 @@ js/tentacles/
 
 ---
 
-## 4. Backend Pilar 1: Rust Agent (Hardware)
+## 5. Backend: Os 3 Pilares
+
+### 5.1. Pilar Rust Agent (Hardware)
 
 Este é o "Corpo Físico" do sistema no PC do usuário. Obrigatório para operações locais.
 
@@ -792,7 +794,7 @@ O Rust Agent usa download progressivo para minimizar atrito inicial:
 
 ---
 
-## 5. Backend Pilar 2: Firebase Colmeia (Signaling)
+### 5.2. Pilar Firebase Colmeia (Signaling)
 
 O Firebase atua APENAS como canal de sinalização e sincronia em tempo real. Não armazena dados persistentes de negócio.
 
@@ -860,7 +862,7 @@ Garante que usuários não leiam dados uns dos outros:
 
 ---
 
-## 6. Backend Pilar 3: GAS Backend (Serverless)
+### 5.3. Pilar GAS Backend (Serverless)
 
 O Google Apps Script (GAS) é o "Cérebro Lógico" e Banco de Dados (Sheets).
 
@@ -947,7 +949,7 @@ function saveData(collection, data) {
 
 ---
 
-## 7. Infraestrutura Híbrida: O Tecido (The Fabric)
+## 6. Infraestrutura Híbrida
 
 > **Filosofia:** "Hardware é commodity. A inteligência está na Orquestração."
 
@@ -1246,7 +1248,7 @@ economy: {
 
 ---
 
-## 8. Segurança & Zero-Knowledge
+## 7. Segurança & Zero-Knowledge
 
 ### 8.1. Princípio Fundamental
 
@@ -1489,7 +1491,7 @@ O Ed25519 é **nativamente compatível** com:
 
 ---
 
-## 9. Ecossistema: Tokenomics & Monetização
+## 8. Tokenomics & Monetização
 
 > **Filosofia:** "O Token é Energia. Quem produz, ganha. Quem consome, paga. O Fundador recebe eternamente."
 
@@ -1730,7 +1732,7 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ---
 
-## 10. Roadmap de Implementação
+## 19. Roadmap de Implementação
 
 ### 10.1. Cronograma Visual
 
@@ -1779,7 +1781,7 @@ Store                          └══█══█══█
 
 ---
 
-## 11. Integrações Monetárias & Gateways (Input Layer)
+## 20. Referências & Integrações Monetárias
 
 O sistema aceita entradas de capital via canais tradicionais e webhooks de infoprodutos.
 
@@ -1938,7 +1940,7 @@ Venda de Plugin (100 PC):
 
 ---
 
-## 15. P2P Compute Network
+## 9. P2P Compute Network
 
 > **Conceito:** Qualquer pessoa pode alugar capacidade computacional por PC
 
@@ -2128,7 +2130,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 20. Game Studio & Publisher
+## 18. Game Studio & Publisher
 
 > **Modelo:** Agregador de Engines + Cross-Commerce
 
@@ -2154,7 +2156,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 21. Bounty System (Outsourcing via Comunidade)
+## 10. Bounty System & Comunidade
 
 > **Filosofia:** Use a "Vibe Dev" e a comunidade Open Source. Não escreva integrações chatas.
 
@@ -2209,7 +2211,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 22. O Diferencial "Hook" (Filosofia Core)
+## 2. O Diferencial "Hook" (Filosofia Core)
 
 > **"O Panda Factory não compete com a Steam, a Hotmart ou o VS Code. Ele engole todos através de integrações (Hooks)."**
 
