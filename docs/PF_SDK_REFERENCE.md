@@ -1,6 +1,6 @@
 # 🐼 Panda SDK - Referência da Biblioteca
 
-> **Versão:** 0.7.0 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
+> **Versão:** 0.9.0 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
 
 ---
 
@@ -43,6 +43,9 @@ Gerenciamento de identidade e sessão.
 | `isLoggedIn()`           | `boolean`                                          | Verifica se está logado                                     |
 | `signCommand(payload)`   | `Promise<{payload, signature, timestamp, signer}>` | 🔐 Assina comando com Ed25519 (Founder only)                |
 | `isFounder()`            | `boolean`                                          | Verifica se é o Founder                                     |
+| `ROLES`                  | `{FOUNDER: 1, DEV: 2, USER: 3}`                    | Constantes de nível de acesso (frozen)                      |
+| `getRole()`              | `number`                                           | Retorna nível atual (1=Founder, 2=Dev, 3=User)              |
+| `canAccess(minRole)`     | `boolean`                                          | Verifica se usuário tem acesso ao nível mínimo              |
 
 ```javascript
 // Exemplo
@@ -329,6 +332,16 @@ Panda.on("wallet:change", ({ balance }) => {
 ---
 
 ## Changelog
+
+### [0.9.0] - 2026-01-24 (SDK Audit & Sync)
+
+- **Audit:** Cross-reference audit completa com todas as docs
+- **Feature:** `Auth.ROLES` - Constantes de acesso (FOUNDER/DEV/USER)
+- **Feature:** `Auth.getRole()` - Retorna nível de acesso numérico
+- **Feature:** `Auth.canAccess(minRole)` - Verificação de permissão
+- **Feature:** `Polyglot.getSettings()` / `setSettings()` - Configuração
+- **Feature:** `Polyglot.status()` - Status do módulo
+- **Docs:** Versão sincronizada em todos os arquivos
 
 ### [0.8.0] - 2026-01-23 (Polyglot & Treasury)
 

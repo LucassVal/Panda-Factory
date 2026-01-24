@@ -341,7 +341,7 @@ O Panda possui **DUAS camadas distintas de IA** com propósitos diferentes:
 ## 3. SDK - ESTRUTURA DO OBJETO PANDA
 
 ```javascript
-// js/pf.sdk.js - v0.7.0
+// js/pf.sdk.js - v0.9.0
 window.Panda = {
   // ==========================================
   // AUTENTICAÇÃO & SEGURANÇA

@@ -1,5 +1,5 @@
 /**
- * 🐼 Panda SDK v0.5 (Enterprise Mock - Code Frozen)
+ * 🐼 Panda SDK v0.9.0 (Enterprise Mock)
  * ==================================================
  * Módulos: Auth, Events, Data, Storage, Wallet, Brain, GPU, Bridge, UI
  *
