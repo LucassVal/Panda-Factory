@@ -379,18 +379,21 @@
 
         log(`📈 Enviando ordem ${tradeSide} 0.01 EURUSD...`, "info");
 
+        // cTrader Open API Enums:
+        // tradeSide: BUY=1, SELL=2
+        // orderType: MARKET=1, LIMIT=2, STOP=3, etc
+        const tradeSideEnum = tradeSide === "BUY" ? 1 : 2;
+
         // ProtoOANewOrderReq (payloadType 2126)
-        // Volume: 10000 = 0.01 lote (centavos)
-        // SymbolId: 1 = EURUSD (geralmente)
+        // Volume: 100 = 0.01 lote (in cents, so 100 cents = 0.01 lot)
         const response = await send({
           payloadType: 2126,
           payload: {
             ctidTraderAccountId: currentAccountId,
             symbolId: 1, // EURUSD
-            orderType: "MARKET",
-            tradeSide: tradeSide, // "BUY" ou "SELL"
-            volume: 10000, // 0.01 lote
-            comment: "Panda Trading Test",
+            orderType: 1, // MARKET = 1
+            tradeSide: tradeSideEnum, // BUY=1, SELL=2
+            volume: 100, // 0.01 lote (menor unidade)
           },
         });
 
@@ -398,7 +401,14 @@
           log("✅ ORDEM EXECUTADA COM SUCESSO!", "success");
           log("   Detalhes: " + JSON.stringify(response.payload), "data");
         } else if (response.payloadType === 2142) {
-          log("❌ Erro na ordem: " + response.payload?.description, "error");
+          // ProtoOAErrorRes - show full error
+          log(
+            "❌ Erro na ordem: " +
+              (response.payload?.description ||
+                response.payload?.errorCode ||
+                JSON.stringify(response.payload)),
+            "error",
+          );
         } else {
           log("⚠️ Resposta: " + JSON.stringify(response), "data");
         }
