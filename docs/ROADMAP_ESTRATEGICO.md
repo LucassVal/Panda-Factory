@@ -1,168 +1,194 @@
 # 🗺️ ROADMAP ESTRATÉGICO - Panda Factory
 
-> **Data:** 2026-01-24 | **Fonte:** Com certeza.md (70% não implementado)  
-> **Validação cruzada:** PANDA.md, PF_MASTER_ARCHITECTURE.md, PF_TOKENOMICS_REFERENCE.md
+> **Data:** 2026-01-24 | **Fonte:** Com certeza.md + Debates  
+> **Validação:** PANDA.md, PF_MASTER_ARCHITECTURE.md, PF_TOKENOMICS_REFERENCE.md  
+> **Visão:** Google Partner Showcase + P2P Compute Network
 
 ---
 
 ## 📊 Status Geral
 
-| Categoria                | Implementado | Pendente | Conflitos |
-| ------------------------ | ------------ | -------- | --------- |
-| Tentacles Architecture   | ✅ 100%      | -        | Nenhum    |
-| Multi-Market Expansion   | ❌ 10%       | 90%      | Nenhum    |
-| VSX/Plugin Store         | ❌ 0%        | 100%     | Nenhum    |
-| Gaming Studio            | ❌ 5%        | 95%      | Nenhum    |
-| Tokenomics               | ✅ 100%      | -        | Validado  |
-| Infraestrutura Zero-Cost | ⚠️ 30%       | 70%      | -         |
+| Categoria              | Implementado | Pendente | Prioridade |
+| ---------------------- | ------------ | -------- | ---------- |
+| Tentacles Architecture | ✅ 100%      | -        | ✅ Feito   |
+| **Google Tentacle**    | ❌ 0%        | 100%     | 🔴 Alta    |
+| Multi-Market Expansion | ❌ 10%       | 90%      | 🔴 Alta    |
+| VSX/Plugin Store       | ❌ 0%        | 100%     | 🟡 Média   |
+| P2P Compute Network    | ❌ 0%        | 100%     | 🟡 Média   |
+| Gaming/Audio/Video     | ❌ 5%        | 95%      | 🟢 Baixa   |
 
 ---
 
-## 🔴 FASE 1: Multi-Market Expansion (Prioridade Alta)
+## 🔴 FASE 1: Google Tentacle (PRIORIDADE MÁXIMA)
 
-> **Fonte:** Com certeza.md linhas 14-40
+> **Objetivo:** Panda = Showcase de integração Google
 
-### 1.1. EdTech & Info (Kiwify/Hotmart Hook)
+### 1.1. Estrutura do Tentáculo
 
-| Conceito           | Status      | Implementação          |
-| ------------------ | ----------- | ---------------------- |
-| White-Label Cursos | ❌ Pendente | Tentacle: `education/` |
-| DRM Tokenizado     | ❌ Pendente | GAS: validação wallet  |
-| Webhook Kiwify     | ✅ Parcial  | `PF_Core_Webhooks.gs`  |
-| Webhook Hotmart    | ❌ Pendente | Clone do Kiwify        |
+```
+js/tentacles/google/
+├── pf.google-parent.js          ← Parent nativo
+└── children/
+    ├── drive.js                 ← Storage base
+    ├── sheets.js                ← DB gratuito
+    ├── colab.js                 ← GPU/Compile universal
+    ├── firebase.js              ← Auth + Realtime
+    ├── calendar.js              ← Agendamento
+    ├── docs.js                  ← Documentos
+    ├── gmail.js                 ← Email
+    └── youtube-data.js          ← API YouTube
+```
 
-**Comparativo com Tokenomics:**
+### 1.2. Por que Google Partner?
 
-- Split de Receita EdTech: **55% Dev, 22% Fundo, 15% Ops, 5% Founder** ✅ Alinhado
-- DRM usa: `Panda.Wallet.getBalance()` para validar acesso
+| Argumento               | Benefício para Google                                        |
+| ----------------------- | ------------------------------------------------------------ |
+| **Showcase completo**   | Prova que dá para construir plataforma inteira só com Google |
+| **Zero vendor lock-in** | Usuário usa conta Google dele (mais usuários Google)         |
+| **Educação**            | Ensina devs a usar serviços Google                           |
+| **Custo ~R$0**          | Free Tier generoso = mais adoção                             |
 
-### 1.2. Creative Assets (Marketplace 3D/2D)
+### 1.3. Casos de Uso do Colab
 
-| Conceito              | Status      | Implementação            |
-| --------------------- | ----------- | ------------------------ |
-| Marketplace Assets    | ❌ Pendente | Tentacle: `marketplace/` |
-| Interop Blender/Godot | ❌ Pendente | MCP Tool                 |
-| Upload de Modelos     | ❌ Pendente | Storage + metadata       |
-
-**Dependências:**
-
-- Panda.Storage (✅ existe)
-- Asset metadata schema (❌ criar)
-
-### 1.3. Dev Tools & Plugins (VSX Store)
-
-| Conceito           | Status      | Implementação   |
-| ------------------ | ----------- | --------------- |
-| VSX Compatibility  | ❌ Pendente | Parser .vsix    |
-| Plugin Marketplace | ❌ Pendente | Store UI        |
-| MCP Modules        | ⚠️ Parcial  | Conceito existe |
-
-**Comparativo com PANDA.md:**
-
-- Já existe: `Panda.Bridge.execute()` para MCP
-- Falta: Runtime de extensões isoladas
+| Área           | Uso                                    |
+| -------------- | -------------------------------------- |
+| **Dev**        | Compilar apps Rust, Godot, Android     |
+| **Jornalismo** | Processar vídeos, transcrição em massa |
+| **Acadêmico**  | TCC, análise de dados, ML              |
+| **Criativo**   | Render 3D, processamento de áudio      |
+| **IA**         | Fine-tuning, inference                 |
 
 ---
 
-## 🟡 FASE 2: Gaming & Entertainment (Médio Prazo)
+## 🟡 FASE 2: P2P Compute Network
 
-> **Fonte:** Com certeza.md linhas 71-82
+> **Conceito:** Qualquer pessoa pode alugar capacidade computacional por PC
 
-### 2.1. Panda Arcade (Loja Própria)
+### 2.1. Como Funciona
 
-| Conceito           | Status      | Comparativo                  |
-| ------------------ | ----------- | ---------------------------- |
-| WebGPU Games       | ❌ Pendente | Alinhado com GPU tentacle    |
-| Jogos sem Download | ❌ Pendente | -                            |
-| Microtransações PC | ❌ Pendente | Usar `Panda.Wallet.charge()` |
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    PANDA COMPUTE NETWORK                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  PROVIDERS (Quem Aluga)           CONSUMERS (Quem Usa)      │
+│  ├── Google Colab (oficial)       ├── Dev compilando        │
+│  ├── WebNVIDIA/GeForce Now        ├── Artista renderizando  │
+│  ├── Servers dedicados            ├── Jornalista processando│
+│  └── Fulano (PC gamer ocioso)     └── Estudante treinando ML│
+│                                                             │
+│  SPLIT DE RECEITA (Art. 7 Constituição)                     │
+│  └── 95% Host / 5% Panda                                    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
-### 2.2. Panda Publish (CI/CD)
+### 2.2. Registro de Host
 
-| Conceito           | Status      | Implementação       |
-| ------------------ | ----------- | ------------------- |
-| Build para Steam   | ❌ Pendente | Google Colab        |
-| Build para Android | ❌ Pendente | Google Colab        |
-| Build para Apple   | ❌ Pendente | Requer Mac (futuro) |
+| Etapa | Ação                                           |
+| ----- | ---------------------------------------------- |
+| 1     | Fulano tem servidor/PC ocioso                  |
+| 2     | Registra no Panda Network (specs + preço/hora) |
+| 3     | Recebe jobs via Firebase signaling             |
+| 4     | Executa em sandbox (Rust Agent)                |
+| 5     | Recebe PC automaticamente (95%)                |
 
-**Estratégia Zero-Cost (validada):**
+### 2.3. Validação com Tokenomics
 
-- Usar **Google Colab** como compilador (linha 722-736 Com certeza)
-- Salvar em **Google Drive** do usuário
-- Custo Panda: R$ 0,00
-
-### 2.3. Engine Integration
-
-| Engine | Modo            | Status      |
-| ------ | --------------- | ----------- |
-| Godot  | Nativo (Wasm)   | ❌ Pendente |
-| Bevy   | Nativo (Wasm)   | ❌ Pendente |
-| Unreal | Pixel Streaming | ❌ Fase 3   |
-| Unity  | Pixel Streaming | ❌ Fase 3   |
-
----
-
-## 🟢 FASE 3: Infraestrutura Avançada (Longo Prazo)
-
-### 3.1. VFS (Virtual File System)
-
-| Conceito      | Status      | Comparativo                 |
-| ------------- | ----------- | --------------------------- |
-| Panda Drive   | ❌ Pendente | Substituir `Panda.Storage`? |
-| Versionamento | ❌ Pendente | Git-like local              |
-
-### 3.2. VSX Sandbox Runtime
-
-| Conceito       | Status      | Detalhes                 |
-| -------------- | ----------- | ------------------------ |
-| Extensões .vsx | ❌ Pendente | Parser TypeScript        |
-| Sandboxing     | ⚠️ Parcial  | TentacleMonitor já isola |
-
-### 3.3. Social & Vibe Dev
-
-| Conceito          | Status      | Comparativo com Tokenomics               |
-| ----------------- | ----------- | ---------------------------------------- |
-| Matchfunding      | ❌ Pendente | **25% Fundo → Labs** ✅ Alinhado         |
-| Bolsas            | ❌ Pendente | **20% Labs → Learn-to-Earn** ✅ Alinhado |
-| Pipeline Base→Dev | ❌ Pendente | Modelo documentado                       |
+- **Art. 7 (Garantia Host):** 90-95% vai para o host ✅
+- **Taxa P2P:** 5-10% (configurável via DAO) ✅
+- **O modelo P2P Compute é 100% compatível**
 
 ---
 
-## ⚠️ CONFLITOS IDENTIFICADOS
+## 🟡 FASE 3: VSX Store Universal
 
-### Nenhum conflito crítico!
+> **Conceito:** Não reinventar a roda. Integrar fontes existentes.
 
-Os valores do `Com certeza.md` foram validados contra os docs oficiais:
+### 3.1. Fontes de Código Integradas
 
-| Tópico               | Com certeza.md | PF_TOKENOMICS           | Status       |
-| -------------------- | -------------- | ----------------------- | ------------ |
-| Fundo Redistribuição | "20%"          | **22% Fundo Incentivo** | ✅ ~Alinhado |
-| Founder Fee          | Não menciona   | **5% Eterno**           | ✅ OK        |
-| Reserva PAXG         | Não menciona   | **70% PAXG**            | ✅ OK        |
-| Inflação Max         | Não menciona   | **5% a.a. Hardcoded**   | ✅ OK        |
+| Fonte                   | Tipo      | Status        |
+| ----------------------- | --------- | ------------- |
+| **GitHub**              | Microsoft | 🔴 Prioridade |
+| **Google Cloud Source** | Google    | 🔴 Prioridade |
+| GitLab                  | Open      | 🟡 Médio      |
+| Bitbucket               | Atlassian | 🟢 Baixo      |
+| SourceForge             | Legacy    | 🟢 Baixo      |
 
-**Conclusão:** O arquivo `Com certeza.md` é compatível com a Constituição estabelecida.
+### 3.2. Fluxo do Usuário
 
----
+```text
+Usuário no Panda → Abre VSX Store → Busca "markdown editor"
+        ↓
+Store busca em: GitHub + Google Source + GitLab
+        ↓
+Usuário escolhe repo → Instala como extensão
+        ↓
+Extensão roda em sandbox (TentacleMonitor)
+```
 
-## 📋 Priorização Sugerida
+### 3.3. ~~VFS Próprio~~ → DESCARTADO
 
-| Prioridade | Item                    | Esforço | Impacto |
-| ---------- | ----------------------- | ------- | ------- |
-| 🔴 1       | Webhook Hotmart         | 2h      | Alto    |
-| 🔴 2       | DRM Tokenizado          | 4h      | Alto    |
-| 🟡 3       | Marketplace Assets (UI) | 8h      | Médio   |
-| 🟡 4       | Panda Publish (Colab)   | 12h     | Alto    |
-| 🟢 5       | VSX Runtime             | 20h     | Médio   |
-| 🟢 6       | VFS Panda Drive         | 40h     | Baixo   |
+**Decisão:** Não criar sistema de arquivos próprio.
 
----
-
-## 📁 Arquivos Relacionados
-
-- [PF_TOKENOMICS_REFERENCE.md](PF_TOKENOMICS_REFERENCE.md) - Valores estabelecidos
-- [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) - Arquitetura
-- [PANDA.md](../.agent/PANDA.md) - Codex Central
+- Usar **Google Drive** como storage
+- Usar **GitHub** para versionamento
+- Foco em ser **aggregador**, não concorrente
 
 ---
 
-> 📝 **Fonte arquivada:** O arquivo `Com certeza.md` foi movido para `_archive/`.
+## 🟢 FASE 4: Gaming, Audio & Video
+
+### 4.1. Gaming
+
+| Ferramenta | Integração  |
+| ---------- | ----------- |
+| Godot      | Wasm nativo |
+| Bevy       | Rust/Wasm   |
+| Three.js   | JS direto   |
+| PixiJS     | JS direto   |
+
+### 4.2. Audio
+
+| Ferramenta | Uso             |
+| ---------- | --------------- |
+| Tone.js    | Synth web       |
+| ElevenLabs | TTS/Voice clone |
+| Whisper    | Transcrição     |
+| Suno AI    | Geração música  |
+
+### 4.3. Video
+
+| Ferramenta    | Uso                |
+| ------------- | ------------------ |
+| FFmpeg (Wasm) | Codec universal    |
+| Remotion      | Video programático |
+| Veo (Google)  | IA Video           |
+
+---
+
+## 📋 Priorização Atualizada
+
+| #   | Item                | Fase | Esforço | Impacto    |
+| --- | ------------------- | ---- | ------- | ---------- |
+| 1   | **Google Tentacle** | 1    | 16h     | 🔴 Crítico |
+| 2   | Webhook Hotmart     | 1    | 2h      | Alto       |
+| 3   | DRM Tokenizado      | 1    | 4h      | Alto       |
+| 4   | P2P Compute MVP     | 2    | 20h     | Alto       |
+| 5   | VSX Store (GitHub)  | 3    | 12h     | Médio      |
+| 6   | Gaming Tentacle     | 4    | 8h      | Médio      |
+
+---
+
+## ⚠️ Decisões Estratégicas
+
+| Decisão          | Razão                                 |
+| ---------------- | ------------------------------------- |
+| ❌ VFS Próprio   | Foco em parceria, não concorrência    |
+| ✅ Google First  | Showcase = argumento para partnership |
+| ✅ P2P Compute   | Descentralização + monetização hosts  |
+| ✅ VSX Universal | Aggregar, não duplicar                |
+
+---
+
+> 📝 **Fonte arquivada:** `_archive/Com certeza.md`
