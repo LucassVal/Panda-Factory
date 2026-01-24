@@ -561,9 +561,19 @@ pub fn check_action(user_level: Role, action: Action) -> Result<(), SecurityErro
 
 | Arquivo                         | Global        | Descrição       |
 | ------------------------------- | ------------- | --------------- |
-| `js/pf.sdk.js`                  | `Panda.*`     | SDK Mock v0.7.0 |
+| `js/pf.sdk.js`                  | `Panda.*`     | SDK Mock v0.9.0 |
 | `js/core/pf.ai-core.js`         | `PandaAI.*`   | PAT Treasury    |
 | `js/core/pf.firebase-bridge.js` | `PandaBridge` | Signaling       |
+
+### 🚀 Integrations (js/integrations/) - NEW
+
+| Arquivo          | Global           | Descrição                    |
+| ---------------- | ---------------- | ---------------------------- |
+| `pf.whatsapp.js` | `Panda.WhatsApp` | Bulk, Chatbot, Campaigns     |
+| `pf.twitter.js`  | `Panda.Twitter`  | Threads, AI Generate         |
+| `pf.youtube.js`  | `Panda.YouTube`  | Shorts, Thumbnails AI, SEO   |
+| `pf.meta.js`     | `Panda.Meta`     | Reels, Carousels, Multi-post |
+| `pf.ctrader.js`  | `Panda.CTrader`  | AI Signals, Backtester       |
 
 ### 🎨 UI Controllers (js/ui/)
 
@@ -651,14 +661,17 @@ pub fn check_action(user_level: Role, action: Action) -> Result<(), SecurityErro
 
 ## 8. DOCUMENTOS DO PROJETO
 
-| Documento         | Arquivo                          | Conteúdo                        |
-| ----------------- | -------------------------------- | ------------------------------- |
-| **README**        | `README.md`                      | Visão geral, roadmap, changelog |
-| **Arquitetura**   | `docs/PF_MASTER_ARCHITECTURE.md` | 1100+ linhas, tudo técnico      |
-| **SDK Reference** | `docs/SDK_REFERENCE.md`          | API do Panda.\*                 |
-| **CSS Reference** | `docs/CSS_REFERENCE.md`          | Design tokens                   |
-| **Financial**     | `docs/PF_FINANCIAL_5Y.md`        | Projeção 5 anos                 |
-| **AI Context**    | `.agent/PANDA.md`                | Este arquivo                    |
+| Documento          | Arquivo                                   | Conteúdo                 |
+| ------------------ | ----------------------------------------- | ------------------------ |
+| **README**         | `README.md`                               | Visão geral, quick start |
+| **Arquitetura**    | `docs/PF_MASTER_ARCHITECTURE.md`          | 93KB, tudo técnico       |
+| **SDK Reference**  | `docs/PF_SDK_REFERENCE.md`                | API v0.9.0               |
+| **Tokenomics**     | `docs/PF_TOKENOMICS_REFERENCE.md`         | §9 PC/PAT/Treasury       |
+| **Plugins**        | `docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Plugins + cTrader        |
+| **HTML Reference** | `docs/PF_HTML_REFERENCE.md`               | Components               |
+| **GAS Reference**  | `docs/PF_GAS_REFERENCE.md`                | Backend GAS              |
+| **CSS Reference**  | `docs/PF_CSS_REFERENCE.md`                | Design tokens            |
+| **AI Context**     | `.agent/PANDA.md`                         | Este arquivo             |
 
 ---
 
@@ -682,7 +695,7 @@ pub fn check_action(user_level: Role, action: Action) -> Result<(), SecurityErro
 
 ```javascript
 // SDK
-Panda.version(); // "0.7.0"
+Panda.version(); // "0.9.0"
 Panda.Config; // { mode, debug, ... }
 Panda.Bridge._mockConnect(true); // Simular Agent
 
