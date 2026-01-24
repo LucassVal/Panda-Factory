@@ -113,6 +113,29 @@
       <!-- TRADING PANEL -->
       <div class="card" id="tradingPanel" style="display: none">
         <h3 style="margin-bottom: 15px">📈 Trading Demo</h3>
+
+        <!-- Balance Info -->
+        <div
+          id="accountInfo"
+          style="
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+          "
+        >
+          <span style="color: #94a3b8">💰 Saldo: </span>
+          <span id="accountBalance" style="color: #10b981; font-weight: bold"
+            >--</span
+          >
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 10px">
+          <button onclick="getBalance()" style="background: #3b82f6; flex: 1">
+            💰 Ver Saldo
+          </button>
+        </div>
+
         <div style="display: flex; gap: 10px; margin-bottom: 10px">
           <button
             onclick="placeOrder('BUY')"
@@ -411,6 +434,61 @@
           );
         } else {
           log("⚠️ Resposta: " + JSON.stringify(response), "data");
+        }
+      }
+
+      async function getBalance() {
+        if (!currentAccountId) {
+          log("❌ Conta não autenticada!", "error");
+          return;
+        }
+
+        log("💰 Buscando saldo da conta...", "info");
+
+        // ProtoOATraderReq (payloadType 2121) - Get account info
+        const response = await send({
+          payloadType: 2121,
+          payload: {
+            ctidTraderAccountId: currentAccountId,
+          },
+        });
+
+        if (response.payloadType === 2122) {
+          // ProtoOATraderRes
+          const trader = response.payload;
+          const balance = (trader.balance / 100).toFixed(2); // cents to currency
+          const equity = trader.equity || balance;
+          const freeMargin = trader.freeMargin
+            ? (trader.freeMargin / 100).toFixed(2)
+            : "N/A";
+
+          log(
+            `✅ Saldo: ${balance} ${trader.depositAssetId ? "USD" : "?"}`,
+            "success",
+          );
+          log(`   Equity: ${(equity / 100).toFixed(2)}`, "data");
+          log(`   Margem Livre: ${freeMargin}`, "data");
+          log(
+            `   Alavancagem: 1:${trader.leverageInCents ? trader.leverageInCents / 100 : "N/A"}`,
+            "data",
+          );
+
+          // Update UI
+          const balanceEl = document.getElementById("accountBalance");
+          if (balanceEl) {
+            balanceEl.textContent = `${balance} USD`;
+            balanceEl.style.color =
+              parseFloat(balance) > 0 ? "#10b981" : "#ef4444";
+          }
+        } else if (response.payloadType === 2142) {
+          log(
+            "❌ Erro ao buscar saldo: " +
+              (response.payload?.description ||
+                JSON.stringify(response.payload)),
+            "error",
+          );
+        } else {
+          log("⚠️ Resposta saldo: " + JSON.stringify(response), "data");
         }
       }
 
