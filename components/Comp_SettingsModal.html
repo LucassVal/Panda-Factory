@@ -1,326 +1,1411 @@
 <!-- ============================================= -->
-<!-- SETTINGS MODAL COMPONENT (Fixed/Core) -->
+<!-- SETTINGS MODAL v3.0 (Glassmorphism Edition) -->
+<!-- 10 Sections · Light/Dark Glassmorphism      -->
 <!-- ============================================= -->
+<style>
+  /* ============================================= */
+  /* SETTINGS MODAL - GLASSMORPHISM THEME         */
+  /* ============================================= */
+
+  .settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .settings-overlay.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .settings-modal {
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    height: 80vh;
+    max-height: 700px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    animation: modalSlideIn 0.3s ease;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      transform: scale(0.95) translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Light Mode Glassmorphism */
+  .settings-modal {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* Dark Mode Glassmorphism */
+  .dark-mode .settings-modal {
+    background: rgba(15, 15, 20, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* ============================================= */
+  /* SIDEBAR                                       */
+  /* ============================================= */
+
+  .settings-sidebar {
+    width: 220px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-right: 1px solid rgba(102, 126, 234, 0.1);
+  }
+
+  /* Light Mode Sidebar */
+  .settings-sidebar {
+    background: rgba(102, 126, 234, 0.05);
+  }
+
+  /* Dark Mode Sidebar */
+  .dark-mode .settings-sidebar {
+    background: rgba(102, 126, 234, 0.08);
+  }
+
+  /* User Profile Header */
+  .settings-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 12px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background: rgba(102, 126, 234, 0.1);
+  }
+
+  .settings-user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .settings-user-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a2e);
+  }
+
+  .dark-mode .settings-user-info h4 {
+    color: #fff;
+  }
+
+  .settings-user-info span {
+    font-size: 12px;
+    color: #667eea;
+    font-weight: 500;
+  }
+
+  /* Nav Items */
+  .settings-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary, #64748b);
+  }
+
+  .dark-mode .settings-nav-item {
+    color: #a0a0a0;
+  }
+
+  .settings-nav-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+  }
+
+  .settings-nav-item.active {
+    background: linear-gradient(
+      135deg,
+      rgba(102, 126, 234, 0.2),
+      rgba(118, 75, 162, 0.2)
+    );
+    color: #667eea;
+    font-weight: 600;
+  }
+
+  .settings-nav-item span {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+  }
+
+  /* ============================================= */
+  /* CONTENT AREA                                  */
+  /* ============================================= */
+
+  .settings-content {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+  }
+
+  .settings-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .settings-section.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .settings-section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--text-primary, #1a1a2e);
+  }
+
+  .dark-mode .settings-section-title {
+    color: #fff;
+  }
+
+  .settings-section-desc {
+    color: var(--text-secondary, #64748b);
+    margin: 0 0 24px 0;
+    font-size: 14px;
+  }
+
+  /* Cards with Glassmorphism */
+  .settings-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .dark-mode .settings-card {
+    background: rgba(30, 30, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.08);
+  }
+
+  .settings-row:last-child {
+    border-bottom: none;
+  }
+
+  .settings-label {
+    font-weight: 600;
+    color: var(--text-primary, #1a1a2e);
+    font-size: 14px;
+  }
+
+  .dark-mode .settings-label {
+    color: #fff;
+  }
+
+  .settings-sublabel {
+    font-size: 12px;
+    color: var(--text-secondary, #64748b);
+    margin-top: 2px;
+  }
+
+  /* ============================================= */
+  /* TOGGLE SWITCH (Purple Accent)                 */
+  /* ============================================= */
+
+  .toggle-switch {
+    width: 48px;
+    height: 26px;
+    background: #e2e8f0;
+    border-radius: 13px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .dark-mode .toggle-switch {
+    background: #374151;
+  }
+
+  .toggle-switch::after {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .toggle-switch.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+
+  .toggle-switch.active::after {
+    left: 24px;
+  }
+
+  /* ============================================= */
+  /* BUTTONS                                       */
+  /* ============================================= */
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .btn-secondary {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(102, 126, 234, 0.2);
+  }
+
+  /* ============================================= */
+  /* INPUTS                                        */
+  /* ============================================= */
+
+  .settings-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+
+  .dark-mode .settings-input {
+    background: rgba(20, 20, 30, 0.8);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #fff;
+  }
+
+  .settings-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  }
+
+  .settings-select {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .dark-mode .settings-select {
+    background: rgba(30, 30, 40, 0.9);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #fff;
+  }
+
+  /* ============================================= */
+  /* COLOR PICKER                                  */
+  /* ============================================= */
+
+  .color-picker {
+    display: flex;
+    gap: 8px;
+  }
+
+  .color-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .color-dot:hover {
+    transform: scale(1.15);
+  }
+
+  .color-dot.active {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px #667eea;
+  }
+
+  /* ============================================= */
+  /* WALLET DISPLAY                                */
+  /* ============================================= */
+
+  .wallet-balance {
+    text-align: center;
+    padding: 24px;
+  }
+
+  .wallet-amount {
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 12px 0;
+  }
+
+  /* ============================================= */
+  /* STATUS BADGES                                 */
+  /* ============================================= */
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-badge.online {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+  }
+
+  .status-badge.offline {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+  }
+
+  /* ============================================= */
+  /* CLOSE BUTTON                                  */
+  /* ============================================= */
+
+  .settings-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.1);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-secondary, #64748b);
+    transition: all 0.2s ease;
+  }
+
+  .settings-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+</style>
+
 <div
   class="settings-overlay"
   id="settingsOverlay"
-  onclick="if (event.target === this) fecharConfiguracoes();"
+  onclick="if (event.target === this) PandaSettings.close();"
 >
   <div class="settings-modal">
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
     <div class="settings-sidebar">
+      <!-- User Profile -->
+      <div class="settings-user">
+        <div class="settings-user-avatar">🐼</div>
+        <div class="settings-user-info">
+          <h4 id="settings-user-name">Admin</h4>
+          <span id="settings-user-role">Administrator</span>
+        </div>
+      </div>
+
+      <!-- Nav Items -->
       <div
         class="settings-nav-item active"
         data-section="profile"
-        onclick="mudarSecaoSettings('profile')"
+        onclick="PandaSettings.showSection('profile')"
       >
         <span>👤</span> Profile
       </div>
       <div
         class="settings-nav-item"
         data-section="appearance"
-        onclick="mudarSecaoSettings('appearance')"
+        onclick="PandaSettings.showSection('appearance')"
       >
         <span>🎨</span> Appearance
       </div>
       <div
         class="settings-nav-item"
+        data-section="translation"
+        onclick="PandaSettings.showSection('translation')"
+      >
+        <span>🌐</span> Translation
+      </div>
+      <div
+        class="settings-nav-item"
+        data-section="notifications"
+        onclick="PandaSettings.showSection('notifications')"
+      >
+        <span>🔔</span> Notifications
+      </div>
+      <div
+        class="settings-nav-item"
+        data-section="ai"
+        onclick="PandaSettings.showSection('ai')"
+      >
+        <span>🧠</span> AI Settings
+      </div>
+      <div
+        class="settings-nav-item"
         data-section="wallet"
-        onclick="mudarSecaoSettings('wallet')"
+        onclick="PandaSettings.showSection('wallet')"
       >
-        <span>💳</span> Wallet
+        <span>💰</span> Wallet
       </div>
       <div
         class="settings-nav-item"
-        data-section="gpu"
-        onclick="mudarSecaoSettings('gpu')"
+        data-section="performance"
+        onclick="PandaSettings.showSection('performance')"
       >
-        <span>🖥️</span> GPU Settings
+        <span>⚡</span> Performance
       </div>
       <div
         class="settings-nav-item"
-        data-section="store"
-        onclick="mudarSecaoSettings('store')"
+        data-section="security"
+        onclick="PandaSettings.showSection('security')"
       >
-        <span>🛒</span> Store
+        <span>🔒</span> Security
+      </div>
+      <div
+        class="settings-nav-item"
+        data-section="integrations"
+        onclick="PandaSettings.showSection('integrations')"
+      >
+        <span>🔌</span> Integrations
+      </div>
+      <div
+        class="settings-nav-item"
+        data-section="developer"
+        onclick="PandaSettings.showSection('developer')"
+      >
+        <span>📊</span> Developer
       </div>
       <div
         class="settings-nav-item"
         data-section="about"
-        onclick="mudarSecaoSettings('about')"
+        onclick="PandaSettings.showSection('about')"
       >
         <span>ℹ️</span> About
       </div>
     </div>
 
-    <!-- Content -->
+    <!-- CONTENT -->
     <div class="settings-content">
-      <!-- Profile Section -->
-      <div class="settings-section" id="settings-profile">
+      <!-- =========== PROFILE SECTION =========== -->
+      <div class="settings-section active" id="section-profile">
         <h2 class="settings-section-title">Profile</h2>
-        <p class="settings-section-desc">Gerencie suas informações pessoais</p>
+        <p class="settings-section-desc">Manage your account information</p>
 
         <div class="settings-card">
           <div class="settings-row">
             <div>
-              <div class="settings-label">Nome de usuário</div>
-              <div class="settings-sublabel" id="settings-username">admin</div>
+              <div class="settings-label">Username</div>
+              <div class="settings-sublabel" id="profile-username">admin</div>
             </div>
             <button
-              onclick="editarNomeUsuario()"
-              style="
-                background: #222;
-                border: 1px solid #333;
-                color: #fff;
-                padding: 8px 16px;
-                border-radius: 6px;
-                cursor: pointer;
-              "
+              class="btn-secondary"
+              onclick="PandaSettings.editProfile('username')"
             >
-              Editar
+              Edit
             </button>
           </div>
           <div class="settings-row">
             <div>
-              <div class="settings-label">Tenant ID</div>
-              <div class="settings-sublabel" id="settings-tenant">
-                tenant_001
+              <div class="settings-label">Email</div>
+              <div class="settings-sublabel" id="profile-email">
+                admin@panda.io
               </div>
             </div>
+            <button
+              class="btn-secondary"
+              onclick="PandaSettings.editProfile('email')"
+            >
+              Edit
+            </button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Role</div>
+              <div class="settings-sublabel" id="profile-role">
+                Administrator
+              </div>
+            </div>
+            <span class="status-badge online">Active</span>
           </div>
         </div>
       </div>
 
-      <!-- Appearance Section -->
-      <div
-        class="settings-section"
-        id="settings-appearance"
-        style="display: none"
-      >
+      <!-- =========== APPEARANCE SECTION =========== -->
+      <div class="settings-section" id="section-appearance">
         <h2 class="settings-section-title">Appearance</h2>
-        <p class="settings-section-desc">Personalize a aparência do sistema</p>
+        <p class="settings-section-desc">Customize the look and feel</p>
 
         <div class="settings-card">
           <div class="settings-row">
             <div>
-              <div class="settings-label">Tema Escuro</div>
+              <div class="settings-label">Theme</div>
               <div class="settings-sublabel">
-                Ative o modo dark para melhor visualização
+                Switch between light and dark mode
               </div>
             </div>
             <div
-              class="toggle-switch active"
-              id="darkModeToggle"
-              onclick="toggleDarkMode()"
+              class="toggle-switch"
+              id="themeToggle"
+              onclick="PandaSettings.toggleTheme()"
             ></div>
           </div>
+        </div>
+
+        <div class="settings-card">
+          <div
+            class="settings-row"
+            style="flex-direction: column; align-items: flex-start; gap: 12px"
+          >
+            <div class="settings-label">Accent Color</div>
+            <div class="color-picker">
+              <div
+                class="color-dot active"
+                style="background: #667eea"
+                onclick="PandaSettings.setAccent('#667eea')"
+              ></div>
+              <div
+                class="color-dot"
+                style="background: #10b981"
+                onclick="PandaSettings.setAccent('#10b981')"
+              ></div>
+              <div
+                class="color-dot"
+                style="background: #f59e0b"
+                onclick="PandaSettings.setAccent('#f59e0b')"
+              ></div>
+              <div
+                class="color-dot"
+                style="background: #ef4444"
+                onclick="PandaSettings.setAccent('#ef4444')"
+              ></div>
+              <div
+                class="color-dot"
+                style="background: #8b5cf6"
+                onclick="PandaSettings.setAccent('#8b5cf6')"
+              ></div>
+              <div
+                class="color-dot"
+                style="background: #ec4899"
+                onclick="PandaSettings.setAccent('#ec4899')"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-card">
           <div class="settings-row">
             <div>
-              <div class="settings-label">Idioma</div>
-              <div class="settings-sublabel">Português (Brasil)</div>
+              <div class="settings-label">Language</div>
+              <div class="settings-sublabel">
+                Select your preferred language
+              </div>
             </div>
             <select
-              style="
-                background: #222;
-                border: 1px solid #333;
-                color: #fff;
-                padding: 8px 12px;
-                border-radius: 6px;
-              "
+              class="settings-select"
+              onchange="PandaSettings.setLanguage(this.value)"
             >
-              <option>Português</option>
-              <option>English</option>
-              <option>Español</option>
+              <option value="pt">🇧🇷 Português</option>
+              <option value="en">🇺🇸 English</option>
+              <option value="es">🇪🇸 Español</option>
             </select>
           </div>
         </div>
       </div>
 
-      <!-- Wallet Section -->
-      <div class="settings-section" id="settings-wallet" style="display: none">
-        <h2 class="settings-section-title">Wallet (Panda Coins)</h2>
-        <p class="settings-section-desc">Gerencie seus créditos de IA</p>
-
-        <div class="settings-card" style="text-align: center; padding: 30px">
-          <div style="font-size: 48px">💰</div>
-          <div
-            style="
-              font-size: 36px;
-              font-weight: bold;
-              color: #10b981;
-              margin: 16px 0;
-            "
-            id="walletBalance"
-          >
-            1,000 PC
-          </div>
-          <div style="color: #666; margin-bottom: 20px">Saldo disponível</div>
-          <button
-            style="
-              background: #10b981;
-              color: #fff;
-              border: none;
-              padding: 12px 24px;
-              border-radius: 8px;
-              font-weight: 600;
-              cursor: pointer;
-            "
-          >
-            + Recarregar
-          </button>
-        </div>
-
-        <div class="settings-card">
-          <div class="settings-row">
-            <div class="settings-label">Gastos Hoje</div>
-            <div style="color: #f59e0b">30 PC</div>
-          </div>
-          <div class="settings-row">
-            <div class="settings-label">Economia Local (GPU)</div>
-            <div style="color: #10b981">720 PC salvos</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GPU Settings Section -->
-      <div class="settings-section" id="settings-gpu" style="display: none">
-        <h2 class="settings-section-title">GPU & Agent Bridge</h2>
-        <p class="settings-section-desc">Conecte o Agente Local via Firebase</p>
+      <!-- =========== TRANSLATION SECTION =========== -->
+      <div class="settings-section" id="section-translation">
+        <h2 class="settings-section-title">🌐 Translation</h2>
+        <p class="settings-section-desc">
+          Configure auto-translation powered by Polyglot (200 languages)
+        </p>
 
         <div class="settings-card">
           <div class="settings-row">
             <div>
-              <div class="settings-label">Modo Agente Local (Rust)</div>
+              <div class="settings-label">Auto-Translate Content</div>
               <div class="settings-sublabel">
-                Processamento no seu hardware (0 tokens)
+                Automatically translate incoming content to your preferred
+                language
               </div>
             </div>
             <div
               class="toggle-switch"
-              id="gpuToggle"
-              onclick="toggleGPU()"
+              id="autoTranslateToggle"
+              onclick="PandaSettings.toggleAutoTranslate()"
             ></div>
           </div>
         </div>
 
         <div class="settings-card">
-          <div class="settings-row" style="display: block">
-            <div class="settings-label" style="margin-bottom: 8px">
-              Firebase Channel UID
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Preferred Language</div>
+              <div class="settings-sublabel">
+                Content will be translated to this language
+              </div>
             </div>
-            <input
-              type="text"
-              id="firebaseUidInput"
-              placeholder="ex: user_123_abc"
-              style="
-                width: 100%;
-                background: #111;
-                border: 1px solid #333;
-                color: #ccc;
-                padding: 10px;
-                border-radius: 6px;
-                font-family: monospace;
-              "
-            />
-            <div class="settings-sublabel" style="margin-top: 6px">
-              Este ID conecta seu navegador ao Agente Rust.
+            <select
+              class="settings-select"
+              id="preferredTranslationLang"
+              onchange="PandaSettings.setTranslationLang(this.value)"
+            >
+              <option value="pt">🇧🇷 Português</option>
+              <option value="en">🇺🇸 English</option>
+              <option value="es">🇪🇸 Español</option>
+              <option value="fr">🇫🇷 Français</option>
+              <option value="de">🇩🇪 Deutsch</option>
+              <option value="it">🇮🇹 Italiano</option>
+              <option value="ja">🇯🇵 日本語</option>
+              <option value="ko">🇰🇷 한국어</option>
+              <option value="zh">🇨🇳 中文</option>
+              <option value="ar">🇸🇦 العربية</option>
+              <option value="ru">🇷🇺 Русский</option>
+              <option value="hi">🇮🇳 हिन्दी</option>
+              <option value="nl">🇳🇱 Nederlands</option>
+              <option value="pl">🇵🇱 Polski</option>
+              <option value="tr">🇹🇷 Türkçe</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Translation Scope</div>
+              <div class="settings-sublabel">
+                What content should be auto-translated
+              </div>
+            </div>
+            <select
+              class="settings-select"
+              id="translationScope"
+              onchange="PandaSettings.setTranslationScope(this.value)"
+            >
+              <option value="all">All Content</option>
+              <option value="messages">Messages Only</option>
+              <option value="ai">AI Responses Only</option>
+              <option value="manual">Manual Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div
+            class="settings-row"
+            style="flex-direction: column; align-items: flex-start; gap: 12px"
+          >
+            <div class="settings-label">Translation Engine</div>
+            <div
+              style="display: flex; align-items: center; gap: 12px; width: 100%"
+            >
+              <span class="status-badge online">
+                <span>🦀</span> NLLB-200 (Offline)
+              </span>
+              <span class="settings-sublabel"
+                >~600MB · 200 languages · Runs locally via Rust Agent</span
+              >
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- =========== NOTIFICATIONS SECTION =========== -->
+      <div class="settings-section" id="section-notifications">
+        <h2 class="settings-section-title">Notifications</h2>
+        <p class="settings-section-desc">
+          Manage your notification preferences
+        </p>
+
+        <div class="settings-card">
           <div class="settings-row">
+            <div>
+              <div class="settings-label">Push Notifications</div>
+              <div class="settings-sublabel">Receive browser notifications</div>
+            </div>
+            <div
+              class="toggle-switch active"
+              onclick="this.classList.toggle('active')"
+            ></div>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Email Alerts</div>
+              <div class="settings-sublabel">
+                Receive important updates via email
+              </div>
+            </div>
+            <div
+              class="toggle-switch"
+              onclick="this.classList.toggle('active')"
+            ></div>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Sound Effects</div>
+              <div class="settings-sublabel">Play sounds for notifications</div>
+            </div>
+            <div
+              class="toggle-switch active"
+              onclick="this.classList.toggle('active')"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========== AI SETTINGS SECTION =========== -->
+      <div class="settings-section" id="section-ai">
+        <h2 class="settings-section-title">AI Settings</h2>
+        <p class="settings-section-desc">
+          Configure your AI assistant preferences
+        </p>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Default Model</div>
+              <div class="settings-sublabel">
+                Choose your preferred AI model
+              </div>
+            </div>
+            <select class="settings-select" id="ai-model">
+              <option value="gemini-flash">⚡ Gemini Flash 3 (Fast)</option>
+              <option value="gemini-pro">🧠 Gemini 1.5 Pro</option>
+              <option value="gpt-4o">🤖 GPT-4o</option>
+              <option value="claude-3.5">📝 Claude 3.5 Sonnet</option>
+              <option value="llama-local">🦙 Llama 3 (Local GPU)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div
+            class="settings-row"
+            style="flex-direction: column; align-items: flex-start; gap: 12px"
+          >
+            <div>
+              <div class="settings-label">Token Limit</div>
+              <div class="settings-sublabel">
+                Maximum tokens per request:
+                <strong id="token-value">8192</strong>
+              </div>
+            </div>
+            <input
+              type="range"
+              min="1024"
+              max="32000"
+              value="8192"
+              style="width: 100%"
+              oninput="
+                document.getElementById('token-value').textContent = this.value
+              "
+            />
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Auto-Suggest</div>
+              <div class="settings-sublabel">AI suggestions while typing</div>
+            </div>
+            <div
+              class="toggle-switch active"
+              onclick="this.classList.toggle('active')"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========== WALLET SECTION =========== -->
+      <div class="settings-section" id="section-wallet">
+        <h2 class="settings-section-title">Wallet</h2>
+        <p class="settings-section-desc">Manage your Panda Coins balance</p>
+
+        <div class="settings-card wallet-balance">
+          <div style="font-size: 48px">💰</div>
+          <div class="wallet-amount" id="wallet-balance">$1,250.00</div>
+          <div class="settings-sublabel">Available Balance</div>
+          <button
+            class="btn-primary"
+            style="margin-top: 16px"
+            onclick="PandaSettings.rechargeWallet()"
+          >
+            + Recharge
+          </button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div class="settings-label">Today's Usage</div>
+            <div style="color: #f59e0b; font-weight: 600">30 PC</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">GPU Savings</div>
+            <div style="color: #10b981; font-weight: 600">720 PC saved</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">Transaction History</div>
             <button
-              onclick="
-                window.PandaBridge.connect(
-                  document.getElementById('firebaseUidInput').value,
-                )
-              "
-              style="
-                width: 100%;
-                padding: 10px;
-                background: var(--accent-primary);
-                border: none;
-                color: white;
-                border-radius: 6px;
-                cursor: pointer;
-                font-weight: bold;
-              "
+              class="btn-secondary"
+              onclick="PandaSettings.showTransactions()"
             >
-              💾 Salvar & Conectar
+              View All
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========== PERFORMANCE SECTION =========== -->
+      <div class="settings-section" id="section-performance">
+        <h2 class="settings-section-title">Performance</h2>
+        <p class="settings-section-desc">Optimize system performance</p>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">GPU Acceleration</div>
+              <div class="settings-sublabel">
+                Use local GPU for AI processing
+              </div>
+            </div>
+            <div
+              class="toggle-switch"
+              id="gpuToggle"
+              onclick="PandaSettings.toggleGPU()"
+            ></div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">GPU Status</div>
+            <span class="status-badge offline" id="gpu-status">
+              <span>⚠️</span> Not Connected
+            </span>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Cache Controls</div>
+              <div class="settings-sublabel">Manage local cache storage</div>
+            </div>
+            <div style="display: flex; gap: 8px">
+              <button
+                class="btn-secondary"
+                onclick="PandaSettings.clearCache()"
+              >
+                Clear Cache
+              </button>
+              <button
+                class="btn-secondary"
+                onclick="PandaSettings.optimizeCache()"
+              >
+                Optimize
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========== SECURITY SECTION =========== -->
+      <div class="settings-section" id="section-security">
+        <h2 class="settings-section-title">Security</h2>
+        <p class="settings-section-desc">Protect your account</p>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Two-Factor Authentication</div>
+              <div class="settings-sublabel">
+                Add an extra layer of security
+              </div>
+            </div>
+            <div
+              class="toggle-switch"
+              onclick="this.classList.toggle('active')"
+            ></div>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Active Sessions</div>
+              <div class="settings-sublabel">Manage logged-in devices</div>
+            </div>
+            <button
+              class="btn-secondary"
+              onclick="PandaSettings.manageSessions()"
+            >
+              Manage
             </button>
           </div>
         </div>
 
         <div class="settings-card">
           <div class="settings-row">
-            <div class="settings-label">Status Panda Agent</div>
-            <div class="gpu-badge offline" id="agentBadge">
-              <span>🔴</span> Desconectado
+            <div>
+              <div class="settings-label">Change Password</div>
+              <div class="settings-sublabel">Update your account password</div>
             </div>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 20px">
-          <a href="#" style="color: #10b981; text-decoration: none"
-            >📥 Baixar Panda Agent Installer (v2.0)</a
-          >
-        </div>
-      </div>
-
-      <!-- Store Section -->
-      <div class="settings-section" id="settings-store" style="display: none">
-        <h2 class="settings-section-title">Store</h2>
-        <p class="settings-section-desc">
-          Instale módulos para expandir funcionalidades
-        </p>
-
-        <div class="store-grid">
-          <div class="store-card">
-            <div class="store-card-icon">📊</div>
-            <div class="store-card-title">Módulo Fiscal</div>
-            <div class="store-card-desc">NFe, NFCe, SPED</div>
-          </div>
-          <div class="store-card">
-            <div class="store-card-icon">📈</div>
-            <div class="store-card-title">Bot de Trade</div>
-            <div class="store-card-desc">Binance, MetaTrader</div>
-          </div>
-          <div class="store-card">
-            <div class="store-card-icon">💬</div>
-            <div class="store-card-title">WhatsApp Auto</div>
-            <div class="store-card-desc">Disparos em massa</div>
-          </div>
-          <div class="store-card">
-            <div class="store-card-icon">🏪</div>
-            <div class="store-card-title">Multi-Lojas</div>
-            <div class="store-card-desc">Gestão multi-tenant</div>
+            <button
+              class="btn-secondary"
+              onclick="PandaSettings.changePassword()"
+            >
+              Change
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- About Section -->
-      <div class="settings-section" id="settings-about" style="display: none">
-        <h2 class="settings-section-title">About</h2>
-        <p class="settings-section-desc">Informações do sistema</p>
+      <!-- =========== INTEGRATIONS SECTION =========== -->
+      <div class="settings-section" id="section-integrations">
+        <h2 class="settings-section-title">Integrations</h2>
+        <p class="settings-section-desc">Connect external services</p>
 
         <div class="settings-card">
           <div class="settings-row">
-            <div class="settings-label">Versão</div>
-            <div>v2.3.0</div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="font-size: 24px">🔥</span>
+              <div>
+                <div class="settings-label">Firebase</div>
+                <div class="settings-sublabel">Real-time database & auth</div>
+              </div>
+            </div>
+            <span class="status-badge online" id="firebase-status">
+              <span>✓</span> Connected
+            </span>
           </div>
           <div class="settings-row">
-            <div class="settings-label">SDK</div>
-            <div>Panda SDK v1.0.0</div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="font-size: 24px">🦀</span>
+              <div>
+                <div class="settings-label">Panda Agent (Rust)</div>
+                <div class="settings-sublabel">Local GPU processing</div>
+              </div>
+            </div>
+            <span class="status-badge offline" id="agent-status">
+              <span>○</span> Disconnected
+            </span>
           </div>
           <div class="settings-row">
-            <div class="settings-label">Design System</div>
-            <div>Vercel/Geist</div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="font-size: 24px">🧰</span>
+              <div>
+                <div class="settings-label">MCP Servers</div>
+                <div class="settings-sublabel">Model Context Protocol</div>
+              </div>
+            </div>
+            <button
+              class="btn-secondary"
+              onclick="PandaSettings.configureMCP()"
+            >
+              Configure
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========== DEVELOPER SECTION =========== -->
+      <div class="settings-section" id="section-developer">
+        <h2 class="settings-section-title">Developer</h2>
+        <p class="settings-section-desc">Advanced developer options</p>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Debug Mode</div>
+              <div class="settings-sublabel">Enable verbose logging</div>
+            </div>
+            <div
+              class="toggle-switch"
+              onclick="this.classList.toggle('active')"
+            ></div>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">API Status</div>
+              <div class="settings-sublabel" style="font-family: monospace">
+                >_ api_status
+              </div>
+            </div>
+            <span class="status-badge online">OK</span>
           </div>
         </div>
 
-        <div style="text-align: center; margin-top: 20px; color: #666">
-          <p>© 2026 Panda Fabrics</p>
-          <p>Building the Developer Soil</p>
+        <div class="settings-card">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">API Tokens</div>
+              <div class="settings-sublabel">Manage your API access tokens</div>
+            </div>
+            <button
+              class="btn-secondary"
+              onclick="PandaSettings.viewApiTokens()"
+            >
+              View Tokens
+            </button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Open Console</div>
+              <div class="settings-sublabel">Developer console & testing</div>
+            </div>
+            <button class="btn-primary" onclick="PandaSettings.openConsole()">
+              💻 Open
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========== ABOUT SECTION =========== -->
+      <div class="settings-section" id="section-about">
+        <h2 class="settings-section-title">About</h2>
+        <p class="settings-section-desc">System information</p>
+
+        <div class="settings-card">
+          <div class="settings-row">
+            <div class="settings-label">Version</div>
+            <div>v5.0.0</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">SDK Version</div>
+            <div>Panda SDK v0.7.1</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">Design System</div>
+            <div>Glassmorphism v3.0</div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">License</div>
+            <div><a href="#" style="color: #667eea">View License</a></div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px; padding: 24px">
+          <img
+            src="assets/panda_logo.jpg"
+            alt="Panda"
+            style="
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              margin-bottom: 16px;
+            "
+          />
+          <h3 style="margin: 0; color: var(--text-primary)">Panda Fabrics</h3>
+          <p style="color: var(--text-secondary); margin: 8px 0">
+            Building the Developer Soil 🐼
+          </p>
+          <p style="color: var(--text-secondary); font-size: 12px">
+            © 2026 Panda Factory
+          </p>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  /**
+   * PandaSettings Controller v3.0
+   * Modular Settings Modal with SDK Integration
+   */
+  window.PandaSettings = {
+    currentSection: "profile",
+
+    // Open/Close Modal
+    open() {
+      const overlay = document.getElementById("settingsOverlay");
+      overlay.classList.add("active");
+      this.loadUserData();
+    },
+
+    close() {
+      const overlay = document.getElementById("settingsOverlay");
+      overlay.classList.remove("active");
+    },
+
+    toggle() {
+      const overlay = document.getElementById("settingsOverlay");
+      overlay.classList.contains("active") ? this.close() : this.open();
+    },
+
+    // Section Navigation
+    showSection(sectionId) {
+      // Update nav items
+      document.querySelectorAll(".settings-nav-item").forEach((item) => {
+        item.classList.remove("active");
+        if (item.dataset.section === sectionId) {
+          item.classList.add("active");
+        }
+      });
+
+      // Update sections
+      document.querySelectorAll(".settings-section").forEach((sec) => {
+        sec.classList.remove("active");
+      });
+
+      const target = document.getElementById("section-" + sectionId);
+      if (target) {
+        target.classList.add("active");
+      }
+
+      this.currentSection = sectionId;
+    },
+
+    // Load User Data from SDK
+    async loadUserData() {
+      if (typeof Panda !== "undefined" && Panda.Auth) {
+        const user = Panda.Auth.getUser();
+        if (user) {
+          document.getElementById("settings-user-name").textContent =
+            user.name || "User";
+          document.getElementById("settings-user-role").textContent =
+            user.role || "User";
+          document.getElementById("profile-username").textContent =
+            user.name || "admin";
+          document.getElementById("profile-email").textContent =
+            user.email || "user@panda.io";
+        }
+      }
+
+      if (typeof Panda !== "undefined" && Panda.Wallet) {
+        try {
+          const balance = await Panda.Wallet.getBalance();
+          document.getElementById("wallet-balance").textContent =
+            `${balance.coins} PC`;
+        } catch (e) {}
+      }
+
+      // Update theme toggle
+      const isDark = document.body.classList.contains("dark-mode");
+      const toggle = document.getElementById("themeToggle");
+      if (toggle) {
+        toggle.classList.toggle("active", isDark);
+      }
+
+      // Load translation settings
+      this.loadTranslationSettings();
+    },
+
+    // Theme Toggle
+    toggleTheme() {
+      const toggle = document.getElementById("themeToggle");
+      toggle.classList.toggle("active");
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem(
+        "crmTheme",
+        document.body.classList.contains("dark-mode") ? "dark" : "light",
+      );
+    },
+
+    // Set Accent Color
+    setAccent(color) {
+      document.documentElement.style.setProperty("--accent-primary", color);
+      document
+        .querySelectorAll(".color-dot")
+        .forEach((dot) => dot.classList.remove("active"));
+      event.target.classList.add("active");
+      localStorage.setItem("pandaAccent", color);
+    },
+
+    // GPU Toggle
+    toggleGPU() {
+      const toggle = document.getElementById("gpuToggle");
+      const status = document.getElementById("gpu-status");
+      toggle.classList.toggle("active");
+
+      if (toggle.classList.contains("active")) {
+        status.className = "status-badge online";
+        status.innerHTML = "<span>⚡</span> Active";
+      } else {
+        status.className = "status-badge offline";
+        status.innerHTML = "<span>⚠️</span> Not Connected";
+      }
+    },
+
+    // Placeholder methods for SDK integration
+    editProfile(field) {
+      Panda?.UI?.toast?.("Edit " + field + " coming soon", "info");
+    },
+    setLanguage(lang) {
+      console.log("Language:", lang);
+      if (typeof PandaI18n !== "undefined") {
+        PandaI18n.setLanguage(lang);
+      }
+      localStorage.setItem("pandaLang", lang);
+    },
+
+    // Translation Settings (Polyglot)
+    toggleAutoTranslate() {
+      const toggle = document.getElementById("autoTranslateToggle");
+      toggle.classList.toggle("active");
+      const enabled = toggle.classList.contains("active");
+      localStorage.setItem("pandaAutoTranslate", enabled);
+      Panda?.UI?.toast?.(
+        enabled ? "Auto-translate enabled" : "Auto-translate disabled",
+        "info",
+      );
+    },
+
+    setTranslationLang(lang) {
+      localStorage.setItem("pandaTranslationLang", lang);
+      console.log("Translation language:", lang);
+    },
+
+    setTranslationScope(scope) {
+      localStorage.setItem("pandaTranslationScope", scope);
+      console.log("Translation scope:", scope);
+    },
+
+    loadTranslationSettings() {
+      // Auto-translate toggle
+      const autoTranslate =
+        localStorage.getItem("pandaAutoTranslate") === "true";
+      const toggle = document.getElementById("autoTranslateToggle");
+      if (toggle) {
+        toggle.classList.toggle("active", autoTranslate);
+      }
+
+      // Preferred language
+      const lang = localStorage.getItem("pandaTranslationLang") || "pt";
+      const langSelect = document.getElementById("preferredTranslationLang");
+      if (langSelect) {
+        langSelect.value = lang;
+      }
+
+      // Scope
+      const scope = localStorage.getItem("pandaTranslationScope") || "all";
+      const scopeSelect = document.getElementById("translationScope");
+      if (scopeSelect) {
+        scopeSelect.value = scope;
+      }
+    },
+
+    rechargeWallet() {
+      Panda?.UI?.toast?.("Recharge coming soon", "info");
+    },
+    showTransactions() {
+      Panda?.UI?.toast?.("Transaction history coming soon", "info");
+    },
+    clearCache() {
+      localStorage.clear();
+      Panda?.UI?.toast?.("Cache cleared", "success");
+    },
+    optimizeCache() {
+      Panda?.UI?.toast?.("Cache optimized", "success");
+    },
+    manageSessions() {
+      Panda?.UI?.toast?.("Session management coming soon", "info");
+    },
+    changePassword() {
+      Panda?.UI?.toast?.("Password change coming soon", "info");
+    },
+    configureMCP() {
+      Panda?.UI?.toast?.("MCP configuration coming soon", "info");
+    },
+    viewApiTokens() {
+      Panda?.UI?.toast?.("API tokens coming soon", "info");
+    },
+    openConsole() {
+      if (typeof PandaDevTools !== "undefined") {
+        PandaDevTools.open("console");
+      } else {
+        console.log("🐼 Panda Console - Type Panda.* to explore the SDK");
+      }
+    },
+  };
+
+  // Backward compatibility
+  function mudarSecaoSettings(s) {
+    PandaSettings.showSection(s);
+  }
+  function fecharConfiguracoes() {
+    PandaSettings.close();
+  }
+  function abrirConfiguracoes() {
+    PandaSettings.open();
+  }
+
+  console.log("🐼 PandaSettings v3.0 loaded");
+</script>
