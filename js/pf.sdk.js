@@ -143,6 +143,40 @@
     isLoggedIn: () => _currentUser !== null,
 
     /**
+     * 🔐 3-LAYER ACCESS SYSTEM (Master Tools)
+     * FOUNDER (1): Full access - PAT, Constitution
+     * DEV (2): DevTools - Console, API, MCP
+     * USER (3): Basic UI only
+     */
+    ROLES: Object.freeze({
+      FOUNDER: 1,
+      DEV: 2,
+      USER: 3,
+    }),
+
+    /**
+     * Get current user's role level (1-3)
+     * @returns {number} 1=Founder, 2=Dev, 3=User
+     */
+    getRole: () => {
+      if (!_currentUser) return 3; // Guest = User
+      if (_currentUser.role === "FOUNDER") return 1;
+      if (_currentUser.role === "ADMIN" || _currentUser.role === "DEV")
+        return 2;
+      return 3;
+    },
+
+    /**
+     * Check if user can access a feature by minimum role
+     * @param {number} minRole - Minimum role required (1, 2, or 3)
+     * @returns {boolean}
+     */
+    canAccess: (minRole) => {
+      const userRole = Auth.getRole();
+      return userRole <= minRole;
+    },
+
+    /**
      * 🔐 Ed25519 Founder Authentication (PRONTO - NÃO ATIVO)
      * Assina um comando com a chave privada do Founder via Rust Agent.
      * @param {object} payload - O comando a ser assinado

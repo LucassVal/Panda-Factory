@@ -13,58 +13,69 @@
   let devModeEnabled = localStorage.getItem("panda_dev_mode") === "true";
 
   // ==========================================
-  // DEV TOOLS REGISTRY
+  // DEV TOOLS REGISTRY (with Access Levels)
+  // minRole: 1=Founder, 2=Dev, 3=User
   // ==========================================
   const DEVTOOLS = {
     extensions: {
       icon: "🧩",
       title: "Extensions",
       description: "Gerenciar extensões (Nativas, GitHub, VSX)",
+      minRole: 3, // Everyone
     },
     console: {
       icon: "💻",
       title: "Console",
       description: "Console de desenvolvedor",
+      minRole: 2, // Dev+
     },
     api: {
       icon: "🔌",
       title: "API Tester",
       description: "Testar endpoints GAS",
+      minRole: 2, // Dev+
     },
     database: {
       icon: "🗄️",
       title: "DB Explorer",
       description: "Explorar Sheets/Firebase",
+      minRole: 2, // Dev+
     },
     editor: {
       icon: "📝",
       title: "Code Editor",
       description: "Editor Monaco (futuro)",
+      minRole: 2, // Dev+
     },
     ai: {
       icon: "🤖",
       title: "AI Agents",
       description: "Gerenciar agentes IA",
+      minRole: 2, // Dev+
     },
     mcp: {
       icon: "🧰",
       title: "MCP Browser",
       description: "Ver MCP Tools disponíveis",
+      minRole: 2, // Dev+
     },
     rig: {
       icon: "🦀",
       title: "RIG Config",
       description: "Configurar providers IA",
+      minRole: 2, // Dev+
     },
     pat: {
       icon: "🏦",
       title: "PAT Treasury",
       description: "Controles do tesouro",
+      minRole: 1, // Founder ONLY
     },
     constitution: {
       icon: "⚖️",
       title: "Constitution",
       description: "Validar ações vs 12 Artigos",
+      minRole: 1, // Founder ONLY
     },
   };
 
@@ -103,11 +114,31 @@
 
   // ==========================================
   // OPEN DEV TOOL (Modal or Pop-out)
+  // With 3-Layer Access Control
   // ==========================================
   function openDevTool(toolId, forcePopout = false) {
     const tool = DEVTOOLS[toolId];
     if (!tool) {
       console.warn(`DevTool "${toolId}" not found`);
+      return;
+    }
+
+    // 🔐 ACCESS GATE - Check user role
+    const userRole = window.Panda?.Auth?.getRole?.() ?? 3;
+    const minRole = tool.minRole ?? 3;
+
+    if (userRole > minRole) {
+      const roleNames = { 1: "Founder", 2: "Dev", 3: "User" };
+      console.warn(
+        `🔒 Access denied to ${toolId}. Requires: ${roleNames[minRole]}, User is: ${roleNames[userRole]}`,
+      );
+
+      if (window.Panda?.UI?.toast) {
+        window.Panda.UI.toast(
+          `🔒 Acesso restrito (requer ${roleNames[minRole]})`,
+          "error",
+        );
+      }
       return;
     }
 
