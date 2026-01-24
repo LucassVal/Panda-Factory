@@ -30,8 +30,8 @@
     AUTH_URL: "https://id.ctrader.com/my/settings/openapi/grantingaccess/",
     TOKEN_URL: "https://openapi.ctrader.com/apps/token",
 
-    // Redirect URI - PRECISA CADASTRAR NO PORTAL CTRADER
-    REDIRECT_URI: window.location.origin + "/auth/ctrader/callback",
+    // Redirect URI - CADASTRADO NO PORTAL CTRADER ✅
+    REDIRECT_URI: "https://lucassval.github.io/panda-ctrader-auth/",
 
     // Scopes
     SCOPE: "trading", // 'accounts' ou 'trading'

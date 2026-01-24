@@ -110,6 +110,28 @@
         <button onclick="clearLog()">🗑️ Limpar Log</button>
       </div>
 
+      <!-- TRADING PANEL -->
+      <div class="card" id="tradingPanel" style="display: none">
+        <h3 style="margin-bottom: 15px">📈 Trading Demo</h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px">
+          <button
+            onclick="placeOrder('BUY')"
+            style="background: #10b981; flex: 1"
+          >
+            📈 COMPRAR 0.01 EURUSD
+          </button>
+          <button
+            onclick="placeOrder('SELL')"
+            style="background: #ef4444; flex: 1"
+          >
+            📉 VENDER 0.01 EURUSD
+          </button>
+        </div>
+        <button onclick="getPositions()" style="background: #8b5cf6">
+          📋 Ver Posições Abertas
+        </button>
+      </div>
+
       <div class="card">
         <h3 style="margin-bottom: 10px">📜 Log</h3>
         <div id="log"></div>
@@ -131,6 +153,7 @@
       let ws = null;
       let requestId = 1;
       let pendingRequests = new Map();
+      let currentAccountId = null; // Store authenticated account ID
 
       // ============================================================================
       // LOGGING
@@ -158,6 +181,11 @@
         document.getElementById("btnConnect").disabled = connected;
         document.getElementById("btnDisconnect").disabled = !connected;
         document.getElementById("btnAccounts").disabled = !connected;
+
+        // Show/hide trading panel
+        document.getElementById("tradingPanel").style.display = connected
+          ? "block"
+          : "none";
       }
 
       // ============================================================================
@@ -241,6 +269,7 @@
 
         if (response.payloadType === 2103) {
           log("✅ Conta autenticada!", "success");
+          currentAccountId = ctidTraderAccountId;
           updateStatus(true);
         } else {
           log(
@@ -335,6 +364,80 @@
           }
         } catch (e) {
           log("❌ Erro ao parsear: " + e.message, "error");
+        }
+      }
+
+      // ============================================================================
+      // TRADING FUNCTIONS
+      // ============================================================================
+
+      async function placeOrder(tradeSide) {
+        if (!currentAccountId) {
+          log("❌ Conta não autenticada!", "error");
+          return;
+        }
+
+        log(`📈 Enviando ordem ${tradeSide} 0.01 EURUSD...`, "info");
+
+        // ProtoOANewOrderReq (payloadType 2126)
+        // Volume: 10000 = 0.01 lote (centavos)
+        // SymbolId: 1 = EURUSD (geralmente)
+        const response = await send({
+          payloadType: 2126,
+          payload: {
+            ctidTraderAccountId: currentAccountId,
+            symbolId: 1, // EURUSD
+            orderType: "MARKET",
+            tradeSide: tradeSide, // "BUY" ou "SELL"
+            volume: 10000, // 0.01 lote
+            comment: "Panda Trading Test",
+          },
+        });
+
+        if (response.payloadType === 2127) {
+          log("✅ ORDEM EXECUTADA COM SUCESSO!", "success");
+          log("   Detalhes: " + JSON.stringify(response.payload), "data");
+        } else if (response.payloadType === 2142) {
+          log("❌ Erro na ordem: " + response.payload?.description, "error");
+        } else {
+          log("⚠️ Resposta: " + JSON.stringify(response), "data");
+        }
+      }
+
+      async function getPositions() {
+        if (!currentAccountId) {
+          log("❌ Conta não autenticada!", "error");
+          return;
+        }
+
+        log("📋 Buscando posições abertas...", "info");
+
+        // ProtoOAReconcileReq (payloadType 2124)
+        const response = await send({
+          payloadType: 2124,
+          payload: {
+            ctidTraderAccountId: currentAccountId,
+          },
+        });
+
+        if (response.payload?.position) {
+          const positions = response.payload.position;
+          log("✅ Posições encontradas: " + positions.length, "success");
+
+          positions.forEach((pos) => {
+            const side = pos.tradeSide === "BUY" ? "📈 BUY" : "📉 SELL";
+            const pnl = pos.swap + pos.commission + (pos.unrealizedPnl || 0);
+            log(
+              `   ${side} | Vol: ${pos.volume / 100000} | P/L: ${pnl.toFixed(2)}`,
+              "data",
+            );
+          });
+        } else {
+          log(
+            "📭 Nenhuma posição aberta ou resposta: " +
+              JSON.stringify(response),
+            "data",
+          );
         }
       }
     </script>
