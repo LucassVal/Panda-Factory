@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🐼 Panda Factory - Beta</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#4cc9f0" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- GitHub Config (auto-detected from URL) -->
+    <meta name="panda-owner" content="LucassVal" />
+    <meta name="panda-repo" content="SAAS" />
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="Panda Factory - Create apps, games, and businesses without code. Powered by AI."
+    />
+    <meta name="keywords" content="no-code, app builder, AI, panda, factory" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-primary: #0a0a1a;
+        --bg-secondary: #12122a;
+        --accent: #4cc9f0;
+        --accent-glow: rgba(76, 201, 240, 0.3);
+        --text: #eaeaea;
+        --text-muted: #8888aa;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--bg-primary),
+          var(--bg-secondary)
+        );
+        color: var(--text);
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+        padding: 2rem;
+        max-width: 600px;
+      }
+
+      .logo {
+        font-size: 6rem;
+        margin-bottom: 1rem;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(90deg, var(--accent), #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .tagline {
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .status {
+        background: var(--bg-secondary);
+        border: 1px solid var(--accent);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 0 30px var(--accent-glow);
+      }
+
+      .status-title {
+        font-size: 0.9rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+      }
+
+      .status-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .feature {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: left;
+      }
+
+      .feature-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .feature-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .feature-desc {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .cta {
+        background: linear-gradient(90deg, var(--accent), #a855f7);
+        border: none;
+        color: #000;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .cta:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px var(--accent-glow);
+      }
+
+      .footer {
+        margin-top: 2rem;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+      }
+
+      .footer a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      #console {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: monospace;
+        font-size: 0.8rem;
+        max-height: 150px;
+        overflow-y: auto;
+        display: none;
+      }
+
+      #console.visible {
+        display: block;
+      }
+
+      .log {
+        margin: 0.25rem 0;
+      }
+      .log-info {
+        color: #4cc9f0;
+      }
+      .log-success {
+        color: #4ade80;
+      }
+      .log-error {
+        color: #f87171;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">🐼</div>
+      <h1>Panda Factory</h1>
+      <p class="tagline">Create apps, games, and businesses without code</p>
+
+      <div class="status">
+        <div class="status-title">System Status</div>
+        <div class="status-value" id="status">Initializing...</div>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🐙</div>
+          <div class="feature-title">GitHub Backend</div>
+          <div class="feature-desc">Zero server. Free hosting.</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-title">AI Powered</div>
+          <div class="feature-desc">Gemini + Local LLMs</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div class="feature-title">App Factory</div>
+          <div class="feature-desc">Build Android apps in minutes</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎮</div>
+          <div class="feature-title">Game Studio</div>
+          <div class="feature-desc">Publish to Panda Arcade</div>
+        </div>
+      </div>
+
+      <button class="cta" id="launch-btn">Launch Console</button>
+
+      <div class="footer">
+        <p>
+          Beta Version |
+          <a href="https://github.com/LucassVal/SAAS" target="_blank">GitHub</a>
+        </p>
+        <p>Dual Cloud: Microsoft + Google = Zero Lock-in</p>
+      </div>
+    </div>
+
+    <div id="console"></div>
+
+    <!-- SDK -->
+    <script src="js/pf.sdk.js"></script>
+    <script src="js/pf.bootstrap.js"></script>
+
+    <script>
+      // Console logger
+      const consoleEl = document.getElementById("console");
+      const statusEl = document.getElementById("status");
+      const launchBtn = document.getElementById("launch-btn");
+
+      function log(message, type = "info") {
+        const div = document.createElement("div");
+        div.className = `log log-${type}`;
+        div.textContent = `> ${message}`;
+        consoleEl.appendChild(div);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+
+      // Listen for Panda ready
+      window.addEventListener("panda:ready", async (e) => {
+        statusEl.textContent = "✅ Online";
+        statusEl.style.color = "#4ade80";
+
+        log("Panda SDK initialized", "success");
+        log(`Mode: ${e.detail?.mode || "github"}`, "info");
+        log(`Repo: ${e.detail?.owner}/${e.detail?.repo}`, "info");
+
+        // Check data collections
+        if (window.Panda?.Data?.getCollections) {
+          try {
+            const collections = await Panda.Data.getCollections();
+            if (collections.success) {
+              log(
+                `Collections: ${collections.collections.join(", ") || "none"}`,
+                "info",
+              );
+            }
+          } catch (e) {
+            log("Collections check skipped", "info");
+          }
+        }
+      });
+
+      // Fallback for when bootstrap isn't loaded
+      setTimeout(() => {
+        if (statusEl.textContent === "Initializing...") {
+          statusEl.textContent = "🟡 Offline (Dev)";
+          log("Running in dev mode", "info");
+        }
+      }, 3000);
+
+      // Launch button
+      launchBtn.addEventListener("click", () => {
+        consoleEl.classList.toggle("visible");
+        launchBtn.textContent = consoleEl.classList.contains("visible")
+          ? "Hide Console"
+          : "Launch Console";
+      });
+
+      // Initial log
+      log("Starting Panda Factory...", "info");
+    </script>
+  </body>
+</html>
