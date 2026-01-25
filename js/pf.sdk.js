@@ -788,7 +788,9 @@
       },
     ],
     splits: {
-      primary: { devHost: 55, fund: 22, ops: 15, founder: 5, gateway: 3 },
+      // NOVO SPLIT: Dev 52%, Fundo 25%, Ops 15%, Founder 5%, Gateway 3%
+      // Mínimos hardcoded: Fundo ≥25%, Ops ≥15%
+      primary: { devHost: 52, fund: 25, ops: 15, founder: 5, gateway: 3 },
       p2pPreChain: { host: 95, fund: 1, ops: 4, founder: 0, gateway: 0 },
       p2pOnChain: { host: 95, fund: 1, ops: 1, founder: 0, gas: 3 },
     },
@@ -819,8 +821,8 @@
         multiplier: 2.5, // Padrão do mercado
         maxLicenses: Infinity,
         split: {
-          dev: 0.55,
-          fund: 0.22,
+          dev: 0.52,
+          fund: 0.25,
           ops: 0.15,
           founder: 0.05,
           gateway: 0.03,

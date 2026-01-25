@@ -21,10 +21,12 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 
 #### B. Split de Receita (Transações)
 
+> **NOVO SPLIT (v1.1):** Mínimos hardcoded: Fundo ≥25%, Ops ≥15%
+
 | Destino               | Store/Compute | P2P Off-chain (Pre) | P2P On-Chain |
 | --------------------- | ------------- | ------------------- | ------------ |
-| **Dev/Host**          | 55%           | 95%                 | 95%          |
-| **Fundo Incentivo**   | 22%           | 1%                  | 1%           |
+| **Dev/Host**          | 52%           | 95%                 | 95%          |
+| **Fundo Incentivo**   | 25%           | 1%                  | 1%           |
 | **Panda Operacional** | 15%           | 4%                  | 1%           |
 | **Founder (Lucas)**   | 5%            | 0%                  | 0%           |
 | **Gateway/GAS**       | 3%            | 0%                  | 3%           |
