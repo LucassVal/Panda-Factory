@@ -103,7 +103,7 @@
 
 | Item                 | Status | Esforço | Data Alvo |
 | -------------------- | ------ | ------- | --------- |
-| MCP Server (Tools)   | 🟡 20% | 16h     | Fev/2026  |
+| MCP Server (Tools)   | 🟡 60% | 8h      | Fev/2026  |
 | WebView (Tauri)      | ❌ 0%  | 8h      | Fev/2026  |
 | GPU Detection        | ❌ 0%  | 4h      | Fev/2026  |
 | Polyglot (NLLB)      | ❌ 0%  | 8h      | Fev/2026  |
@@ -168,7 +168,7 @@ js/tentacles/google/
 | Webhook Landing       | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
 | Webhook Stripe        | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
 | Webhook Mercado Pago  | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
-| DRM Tokenizado        | ❌ 0%    | 4h      | Fev/2026  | -                   |
+| DRM Tokenizado        | ✅ Feito | -       | ✅ Jan    | pf.drm.js           |
 | Solana Migration      | ❌ 0%    | 40h     | Q2/2026   | -                   |
 
 ### 1.7. Segurança
