@@ -257,6 +257,257 @@
   };
 
   // ==========================================
+  // 🏆 COMMUNITY TRACKER (Contributor Ranking)
+  // Powers the rotative Beta Founder licenses
+  // ==========================================
+  const CommunityTracker = {
+    // Repositories to track
+    repos: [
+      { owner: "LucassVal", repo: "SAAS", weight: 1.0 },
+      { owner: "LucassVal", repo: "panda-sdk", weight: 1.0 },
+      { owner: "LucassVal", repo: "panda-sdk-community", weight: 0.8 },
+    ],
+
+    // Scoring configuration (matches §9.4)
+    scoring: {
+      PR_MERGED: 50,
+      ISSUE_CLOSED: 20,
+      DOCUMENTATION: 30,
+      BUG_REPORT: 10,
+      COMMUNITY_HELP: 5,
+      PLUGIN_PUBLISHED: 100,
+      REFERRAL: 15,
+    },
+
+    // In-memory contributor data (production: Firestore)
+    contributors: new Map(),
+    lastSync: null,
+
+    /**
+     * Sync contributors from all tracked repositories
+     */
+    async syncAll() {
+      if (!GitHub.token) {
+        log("COMMUNITY", "GitHub token not set, cannot sync");
+        return { success: false, reason: "No token" };
+      }
+
+      log("COMMUNITY", "Starting full contributor sync...");
+      const startTime = Date.now();
+
+      for (const repo of this.repos) {
+        await this._syncRepo(repo.owner, repo.repo, repo.weight);
+      }
+
+      this.lastSync = new Date().toISOString();
+      const elapsed = Date.now() - startTime;
+
+      log(
+        "COMMUNITY",
+        `Sync complete. ${this.contributors.size} contributors. ${elapsed}ms`,
+      );
+
+      return {
+        success: true,
+        contributors: this.contributors.size,
+        elapsed,
+        lastSync: this.lastSync,
+      };
+    },
+
+    /**
+     * Sync a single repository
+     */
+    async _syncRepo(owner, repo, weight = 1.0) {
+      try {
+        // Fetch PRs
+        const prs = await this._fetchPRs(owner, repo);
+        for (const pr of prs) {
+          if (pr.merged_at) {
+            this._addPoints(
+              pr.user.login,
+              pr.user.id,
+              this.scoring.PR_MERGED * weight,
+              "PR_MERGED",
+              pr.title,
+            );
+          }
+        }
+
+        // Fetch Issues (closed by author = contributor)
+        const issues = await this._fetchIssues(owner, repo);
+        for (const issue of issues) {
+          if (!issue.pull_request) {
+            // Exclude PRs
+            if (issue.state === "closed") {
+              this._addPoints(
+                issue.user.login,
+                issue.user.id,
+                this.scoring.ISSUE_CLOSED * weight,
+                "ISSUE_CLOSED",
+                issue.title,
+              );
+            } else {
+              this._addPoints(
+                issue.user.login,
+                issue.user.id,
+                this.scoring.BUG_REPORT * weight,
+                "BUG_REPORT",
+                issue.title,
+              );
+            }
+          }
+        }
+
+        log("COMMUNITY", `Synced ${owner}/${repo}`);
+      } catch (error) {
+        log(
+          "COMMUNITY_ERROR",
+          `Failed to sync ${owner}/${repo}: ${error.message}`,
+        );
+      }
+    },
+
+    /**
+     * Fetch PRs from GitHub
+     */
+    async _fetchPRs(owner, repo) {
+      try {
+        const response = await fetch(
+          `${AI_CONFIG.github.apiBase}/repos/${owner}/${repo}/pulls?state=all&per_page=100`,
+          {
+            headers: {
+              Authorization: `token ${GitHub.token}`,
+              Accept: "application/vnd.github.v3+json",
+            },
+          },
+        );
+        if (!response.ok) return [];
+        return await response.json();
+      } catch {
+        return [];
+      }
+    },
+
+    /**
+     * Fetch Issues from GitHub
+     */
+    async _fetchIssues(owner, repo) {
+      try {
+        const response = await fetch(
+          `${AI_CONFIG.github.apiBase}/repos/${owner}/${repo}/issues?state=all&per_page=100`,
+          {
+            headers: {
+              Authorization: `token ${GitHub.token}`,
+              Accept: "application/vnd.github.v3+json",
+            },
+          },
+        );
+        if (!response.ok) return [];
+        return await response.json();
+      } catch {
+        return [];
+      }
+    },
+
+    /**
+     * Add points to a contributor
+     */
+    _addPoints(username, githubId, points, type, description) {
+      if (!this.contributors.has(username)) {
+        this.contributors.set(username, {
+          username,
+          githubId,
+          points: 0,
+          contributions: [],
+          tier: "STANDARD",
+        });
+      }
+
+      const contributor = this.contributors.get(username);
+      contributor.points += points;
+      contributor.contributions.push({
+        type,
+        points,
+        description: description?.substring(0, 50),
+        timestamp: Date.now(),
+      });
+    },
+
+    /**
+     * Add manual points (community help, plugins, referrals)
+     */
+    addManualPoints(username, githubId, type, description = "") {
+      const points = this.scoring[type] || 0;
+      if (points > 0) {
+        this._addPoints(username, githubId, points, type, description);
+        log("COMMUNITY", `Manual points: ${username} +${points} (${type})`);
+        return { success: true, username, points, type };
+      }
+      return { success: false, reason: "Invalid type" };
+    },
+
+    /**
+     * Get ranked contributors (Top N)
+     */
+    getRanking(limit = 100) {
+      const sorted = Array.from(this.contributors.values())
+        .sort((a, b) => b.points - a.points)
+        .slice(0, limit);
+
+      // Update tiers based on ranking
+      sorted.forEach((c, index) => {
+        c.rank = index + 1;
+        c.tier = index < 100 ? "BETA_FOUNDER" : "STANDARD";
+      });
+
+      return sorted;
+    },
+
+    /**
+     * Get Top 100 for Beta Founder eligibility
+     */
+    getTop100() {
+      return this.getRanking(100);
+    },
+
+    /**
+     * Check if user qualifies for Beta Founder
+     */
+    isBetaFounder(username) {
+      const top100 = this.getTop100();
+      return top100.some((c) => c.username === username);
+    },
+
+    /**
+     * Get contributor details
+     */
+    getContributor(username) {
+      return this.contributors.get(username) || null;
+    },
+
+    /**
+     * Get summary stats
+     */
+    getStats() {
+      const all = Array.from(this.contributors.values());
+      return {
+        totalContributors: all.length,
+        totalPoints: all.reduce((sum, c) => sum + c.points, 0),
+        top10: this.getRanking(10).map((c) => ({
+          username: c.username,
+          points: c.points,
+        })),
+        betaFounderSlots: {
+          used: Math.min(all.length, 100),
+          available: Math.max(0, 100 - all.length),
+        },
+        lastSync: this.lastSync,
+      };
+    },
+  };
+
+  // ==========================================
   // 🧠 FOUNDER MINDMAP (Memory System)
   // ==========================================
   const MindMap = {
