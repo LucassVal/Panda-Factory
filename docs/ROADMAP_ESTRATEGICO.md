@@ -146,25 +146,30 @@ js/tentacles/google/
 
 | Item            | Status   | Esforço | Data Alvo |
 | --------------- | -------- | ------- | --------- |
-| drive.js        | ❌ 0%    | 4h      | Fev/2026  |
-| sheets.js       | ❌ 0%    | 2h      | Fev/2026  |
-| colab.js        | ❌ 0%    | 8h      | Fev/2026  |
+| drive.js        | ✅ Feito | -       | ✅ Jan    |
+| sheets.js       | ✅ Feito | -       | ✅ Jan    |
+| colab.js        | ✅ Feito | -       | ✅ Jan    |
 | firebase.js     | ✅ Feito | -       | ✅ Jan    |
-| calendar.js     | ❌ 0%    | 2h      | Mar/2026  |
-| docs.js         | ❌ 0%    | 2h      | Mar/2026  |
-| gmail.js        | ❌ 0%    | 2h      | Mar/2026  |
-| youtube-data.js | ❌ 0%    | 4h      | Mar/2026  |
+| calendar.js     | ✅ Feito | -       | ✅ Jan    |
+| docs.js         | ✅ Feito | -       | ✅ Jan    |
+| gmail.js        | ✅ Feito | -       | ✅ Jan    |
+| youtube-data.js | ✅ Feito | -       | ✅ Jan    |
 
-### 1.6. Tokenomics
+### 1.6. Tokenomics & Webhooks
 
-| Item                  | Status   | Esforço | Data Alvo |
-| --------------------- | -------- | ------- | --------- |
-| Panda Coin (PC) Logic | ✅ Feito | -       | ✅ Jan    |
-| Dev/User Split        | ✅ Feito | -       | ✅ Jan    |
-| Free Tier Rules       | ✅ Feito | -       | ✅ Jan    |
-| Webhook Hotmart       | ❌ 0%    | 2h      | Fev/2026  |
-| DRM Tokenizado        | ❌ 0%    | 4h      | Fev/2026  |
-| Solana Migration      | ❌ 0%    | 40h     | Q2/2026   |
+| Item                  | Status   | Esforço | Data Alvo | Arquivo             |
+| --------------------- | -------- | ------- | --------- | ------------------- |
+| Panda Coin (PC) Logic | ✅ Feito | -       | ✅ Jan    | PF_Wallet.gs        |
+| Dev/User Split        | ✅ Feito | -       | ✅ Jan    | PF_Tokenomics       |
+| Free Tier Rules       | ✅ Feito | -       | ✅ Jan    | PF_Config.gs        |
+| Webhook Kiwify        | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
+| Webhook Hotmart       | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
+| Webhook Eduzz         | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
+| Webhook Landing       | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
+| Webhook Stripe        | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
+| Webhook Mercado Pago  | ✅ Feito | -       | ✅ Jan    | PF_Core_Webhooks.gs |
+| DRM Tokenizado        | ❌ 0%    | 4h      | Fev/2026  | -                   |
+| Solana Migration      | ❌ 0%    | 40h     | Q2/2026   | -                   |
 
 ### 1.7. Segurança
 
@@ -172,7 +177,7 @@ js/tentacles/google/
 | -------------------- | -------- | ------- | --------- |
 | Ed25519 Founder Auth | 🟡 50%   | 8h      | Fev/2026  |
 | Cell Isolation       | ✅ Feito | -       | ✅ Jan    |
-| Kill Switch          | ❌ 0%    | 2h      | Fev/2026  |
+| Kill Switch          | ✅ Feito | -       | ✅ Jan    |
 | WASM Sandbox         | ❌ 0%    | 8h      | Mar/2026  |
 
 ---
@@ -208,34 +213,66 @@ js/tentacles/google/
 | Payment Split     | ❌ 0%  | 8h      | Mar/2026  |
 | Sandbox Execution | ❌ 0%  | 16h     | Abr/2026  |
 
-### 2.2. VSX Store Universal
+### 2.2. VSX Store Universal + VM Network
 
-| Item                | Status | Esforço | Data Alvo |
-| ------------------- | ------ | ------- | --------- |
-| GitHub Integration  | ❌ 0%  | 8h      | Mar/2026  |
-| Google Cloud Source | ❌ 0%  | 8h      | Mar/2026  |
-| GitLab Integration  | ❌ 0%  | 4h      | Abr/2026  |
-| Plugin Sandbox      | ❌ 0%  | 12h     | Abr/2026  |
-| Auto-update System  | ❌ 0%  | 8h      | Abr/2026  |
+> **Foco Principal:** Google Cloud VMs como base, com rede descentralizada de hosts/farms
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              VSX STORE + VM NETWORK                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  TIER 1: GOOGLE VMS (Foco Principal)                        │
+│  ├── Compute Engine (VMs on-demand)                         │
+│  ├── Cloud Run (Containers)                                 │
+│  └── Colab Pro (GPU/ML)                                     │
+│                                                             │
+│  TIER 2: REDE DESCENTRALIZADA                               │
+│  ├── Hosts (usuários com PC potente)                        │
+│  ├── Farms (datacenters parceiros)                          │
+│  └── Ingress (usuários que querem alugar capacidade)        │
+│                                                             │
+│  FLUXO: User → Panda → Google VM (default) → Fallback Hosts │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+| Item                    | Status | Esforço | Data Alvo |
+| ----------------------- | ------ | ------- | --------- |
+| Google VM Integration   | ❌ 0%  | 12h     | Mar/2026  |
+| GitHub Integration      | ❌ 0%  | 8h      | Mar/2026  |
+| Google Cloud Source     | ❌ 0%  | 8h      | Mar/2026  |
+| GitLab Integration      | ❌ 0%  | 4h      | Abr/2026  |
+| Host Registration       | ❌ 0%  | 8h      | Abr/2026  |
+| Farm Partnership Portal | ❌ 0%  | 12h     | Abr/2026  |
+| Auto-update System      | ❌ 0%  | 8h      | Abr/2026  |
 
 ### 2.3. Social Hub
 
-| Item                   | Status | Esforço | Data Alvo |
-| ---------------------- | ------ | ------- | --------- |
-| WhatsApp (via Baileys) | 🟡 30% | 8h      | Mar/2026  |
-| Instagram Basic        | ❌ 0%  | 8h      | Mar/2026  |
-| YouTube Data           | ❌ 0%  | 4h      | Mar/2026  |
-| Telegram               | ❌ 0%  | 4h      | Abr/2026  |
-| Twitter/X              | ❌ 0%  | 6h      | Abr/2026  |
+> **Arquivos encontrados:** `js/social/` (6 arquivos) + `js/tentacles/social/children/` (4 arquivos)
+
+| Item           | Status   | Esforço | Data Alvo | Arquivo                  |
+| -------------- | -------- | ------- | --------- | ------------------------ |
+| Social Core    | ✅ Feito | -       | ✅ Jan    | pf.social-core.js (11KB) |
+| WhatsApp       | 🟡 50%   | 4h      | Fev/2026  | pf.social-whatsapp.js    |
+| YouTube        | 🟡 60%   | 4h      | Fev/2026  | pf.social-youtube.js     |
+| Instagram/Meta | 🟡 30%   | 6h      | Mar/2026  | pf.social-meta.js        |
+| TikTok         | 🟡 40%   | 4h      | Mar/2026  | pf.social-tiktok.js      |
+| Twitter/X      | 🟡 30%   | 4h      | Mar/2026  | pf.social-twitter.js     |
+| Telegram       | ❌ 0%    | 4h      | Abr/2026  | -                        |
 
 ### 2.4. Trading Hub (cTrader)
 
-| Item                | Status | Esforço | Data Alvo |
-| ------------------- | ------ | ------- | --------- |
-| Open API Connection | ❌ 5%  | 8h      | Mar/2026  |
-| cBot Template       | ❌ 0%  | 12h     | Abr/2026  |
-| Indicator System    | ❌ 0%  | 8h      | Abr/2026  |
-| Backtesting         | ❌ 0%  | 16h     | Mai/2026  |
+> **Arquivos:** `js/tentacles/trading/pf.trading-parent.js` + `children/ctrader.js`
+
+| Item                 | Status   | Esforço | Data Alvo | Arquivo              |
+| -------------------- | -------- | ------- | --------- | -------------------- |
+| Trading Parent       | ✅ Feito | -       | ✅ Jan    | pf.trading-parent.js |
+| cTrader Connection   | 🟡 30%   | 8h      | Mar/2026  | children/ctrader.js  |
+| Open API Integration | ❌ 0%    | 8h      | Mar/2026  | -                    |
+| cBot Template        | ❌ 0%    | 12h     | Abr/2026  | -                    |
+| Indicator System     | ❌ 0%    | 8h      | Abr/2026  | -                    |
+| Backtesting          | ❌ 0%    | 16h     | Mai/2026  | -                    |
 
 ---
 
