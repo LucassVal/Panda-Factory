@@ -254,8 +254,8 @@ js/tentacles/google/
 | Item           | Status   | Esforço | Data Alvo | Arquivo                  |
 | -------------- | -------- | ------- | --------- | ------------------------ |
 | Social Core    | ✅ Feito | -       | ✅ Jan    | pf.social-core.js (11KB) |
-| WhatsApp       | 🟡 50%   | 4h      | Fev/2026  | pf.social-whatsapp.js    |
-| YouTube        | 🟡 60%   | 4h      | Fev/2026  | pf.social-youtube.js     |
+| WhatsApp       | ✅ Feito | -       | ✅ Jan    | pf.social-whatsapp.js    |
+| YouTube        | ✅ Feito | -       | ✅ Jan    | pf.social-youtube.js     |
 | Instagram/Meta | 🟡 30%   | 6h      | Mar/2026  | pf.social-meta.js        |
 | TikTok         | 🟡 40%   | 4h      | Mar/2026  | pf.social-tiktok.js      |
 | Twitter/X      | 🟡 30%   | 4h      | Mar/2026  | pf.social-twitter.js     |
