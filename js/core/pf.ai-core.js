@@ -257,6 +257,297 @@
   };
 
   // ==========================================
+  // 🧠 FOUNDER MINDMAP (Memory System)
+  // ==========================================
+  const MindMap = {
+    // In-memory storage (production: Firestore)
+    data: {
+      values: [], // Core values/beliefs
+      decisions: [], // Past decision patterns
+      preferences: [], // Style preferences
+      redlines: [], // Hard limits (never cross)
+    },
+
+    /**
+     * Add a value/belief to the mindmap
+     */
+    addValue(value, source = "interview") {
+      this.data.values.push({
+        value,
+        source,
+        timestamp: Date.now(),
+        weight: 1.0,
+      });
+      log("MINDMAP", `Value added: "${value.substring(0, 50)}..."`);
+      this._persist();
+    },
+
+    /**
+     * Record a decision pattern
+     */
+    recordDecision(context, decision, reasoning) {
+      this.data.decisions.push({
+        context,
+        decision,
+        reasoning,
+        timestamp: Date.now(),
+      });
+      log("MINDMAP", `Decision recorded: ${decision}`);
+      this._persist();
+    },
+
+    /**
+     * Add a red line (never cross)
+     */
+    addRedline(rule, severity = "critical") {
+      this.data.redlines.push({
+        rule,
+        severity,
+        timestamp: Date.now(),
+        immutable: true,
+      });
+      log("MINDMAP", `Redline added: "${rule}"`);
+      this._persist();
+    },
+
+    /**
+     * Query mindmap for relevant context
+     */
+    async query(topic) {
+      const relevant = {
+        values: this.data.values.filter((v) =>
+          v.value.toLowerCase().includes(topic.toLowerCase()),
+        ),
+        decisions: this.data.decisions.filter((d) =>
+          d.context.toLowerCase().includes(topic.toLowerCase()),
+        ),
+        redlines: this.data.redlines.filter((r) =>
+          r.rule.toLowerCase().includes(topic.toLowerCase()),
+        ),
+      };
+      return relevant;
+    },
+
+    /**
+     * Check if action violates any redline
+     */
+    checkRedlines(action) {
+      const violations = this.data.redlines.filter((r) => {
+        const keywords = r.rule.toLowerCase().split(" ");
+        return keywords.some((k) => action.toLowerCase().includes(k));
+      });
+      return {
+        allowed: violations.length === 0,
+        violations,
+      };
+    },
+
+    /**
+     * Get summary of mindmap
+     */
+    getSummary() {
+      return {
+        valuesCount: this.data.values.length,
+        decisionsCount: this.data.decisions.length,
+        redlinesCount: this.data.redlines.length,
+        lastUpdate: Math.max(
+          ...this.data.values.map((v) => v.timestamp),
+          ...this.data.decisions.map((d) => d.timestamp),
+          0,
+        ),
+      };
+    },
+
+    /**
+     * Persist to storage
+     */
+    async _persist() {
+      try {
+        localStorage.setItem("panda_pat_mindmap", JSON.stringify(this.data));
+      } catch (e) {
+        log("MINDMAP_ERROR", "Failed to persist: " + e.message);
+      }
+    },
+
+    /**
+     * Load from storage
+     */
+    async _load() {
+      try {
+        const stored = localStorage.getItem("panda_pat_mindmap");
+        if (stored) {
+          this.data = JSON.parse(stored);
+          log("MINDMAP", `Loaded ${this.getSummary().valuesCount} values`);
+        }
+      } catch (e) {
+        log("MINDMAP_ERROR", "Failed to load: " + e.message);
+      }
+    },
+  };
+
+  // ==========================================
+  // 🎙️ FOUNDER INTERVIEW SYSTEM
+  // ==========================================
+  const Interview = {
+    currentSession: null,
+    questions: [
+      // Core Values
+      {
+        id: 1,
+        category: "values",
+        q: "O que te motivou a criar o Panda Factory?",
+      },
+      {
+        id: 2,
+        category: "values",
+        q: "Qual é o maior valor que você quer que o Panda represente?",
+      },
+      {
+        id: 3,
+        category: "values",
+        q: "O que você NUNCA permitiria que o Panda fizesse?",
+      },
+
+      // Decision Making
+      {
+        id: 4,
+        category: "decisions",
+        q: "Quando você tem que escolher entre lucro e usuário, qual prioriza?",
+      },
+      {
+        id: 5,
+        category: "decisions",
+        q: "Como você lida com críticas ao projeto?",
+      },
+      {
+        id: 6,
+        category: "decisions",
+        q: "Qual seria uma razão válida para mudar a Constituição?",
+      },
+
+      // Red Lines
+      {
+        id: 7,
+        category: "redlines",
+        q: "Existe alguma ação que você NUNCA tomaria, mesmo que fosse lucrativa?",
+      },
+      {
+        id: 8,
+        category: "redlines",
+        q: "Quais comportamentos de usuário/dev são inaceitáveis?",
+      },
+
+      // Legacy
+      {
+        id: 9,
+        category: "legacy",
+        q: "Se você não pudesse mais gerenciar o Panda, o que a IA deveria preservar?",
+      },
+      {
+        id: 10,
+        category: "legacy",
+        q: "Qual seria o maior sucesso do Panda daqui a 10 anos?",
+      },
+    ],
+
+    /**
+     * Start interview session
+     */
+    startSession() {
+      this.currentSession = {
+        startedAt: Date.now(),
+        responses: [],
+        currentQuestion: 0,
+      };
+      log("INTERVIEW", "Session started");
+      return this.getNextQuestion();
+    },
+
+    /**
+     * Get current question
+     */
+    getNextQuestion() {
+      if (!this.currentSession) return null;
+
+      const idx = this.currentSession.currentQuestion;
+      if (idx >= this.questions.length) {
+        return { complete: true, message: "Entrevista completa! Obrigado." };
+      }
+
+      return {
+        complete: false,
+        progress: `${idx + 1}/${this.questions.length}`,
+        ...this.questions[idx],
+      };
+    },
+
+    /**
+     * Submit answer to current question
+     */
+    submitAnswer(answer) {
+      if (!this.currentSession) return { error: "No active session" };
+
+      const question = this.questions[this.currentSession.currentQuestion];
+
+      // Record response
+      this.currentSession.responses.push({
+        questionId: question.id,
+        category: question.category,
+        question: question.q,
+        answer,
+        timestamp: Date.now(),
+      });
+
+      // Process into MindMap based on category
+      switch (question.category) {
+        case "values":
+        case "legacy":
+          MindMap.addValue(answer, "interview");
+          break;
+        case "decisions":
+          MindMap.recordDecision(question.q, answer, "founder_interview");
+          break;
+        case "redlines":
+          MindMap.addRedline(answer, "critical");
+          break;
+      }
+
+      // Advance to next
+      this.currentSession.currentQuestion++;
+
+      return this.getNextQuestion();
+    },
+
+    /**
+     * End session and save
+     */
+    endSession() {
+      if (!this.currentSession) return null;
+
+      const session = {
+        ...this.currentSession,
+        endedAt: Date.now(),
+        responsesCount: this.currentSession.responses.length,
+      };
+
+      log("INTERVIEW", `Session ended: ${session.responsesCount} responses`);
+      this.currentSession = null;
+
+      return session;
+    },
+
+    /**
+     * Add custom question
+     */
+    addQuestion(category, question) {
+      const id = this.questions.length + 1;
+      this.questions.push({ id, category, q: question });
+      log("INTERVIEW", `Question added: "${question.substring(0, 30)}..."`);
+      return id;
+    },
+  };
+
+  // ==========================================
   // AI DECISION ENGINE
   // ==========================================
   const DecisionEngine = {
@@ -450,6 +741,32 @@
     },
     _setDeflation: (v) => {
       aiState.deflation = v;
+    },
+
+    // ==========================================
+    // MINDMAP (Founder Memory System)
+    // ==========================================
+    mindMap: {
+      addValue: (value, source) => MindMap.addValue(value, source),
+      recordDecision: (ctx, dec, reason) =>
+        MindMap.recordDecision(ctx, dec, reason),
+      addRedline: (rule, severity) => MindMap.addRedline(rule, severity),
+      query: (topic) => MindMap.query(topic),
+      checkRedlines: (action) => MindMap.checkRedlines(action),
+      getSummary: () => MindMap.getSummary(),
+      load: () => MindMap._load(),
+    },
+
+    // ==========================================
+    // INTERVIEW (Founder Training)
+    // ==========================================
+    interview: {
+      start: () => Interview.startSession(),
+      next: () => Interview.getNextQuestion(),
+      answer: (response) => Interview.submitAnswer(response),
+      end: () => Interview.endSession(),
+      addQuestion: (cat, q) => Interview.addQuestion(cat, q),
+      getQuestions: () => [...Interview.questions],
     },
   };
 
