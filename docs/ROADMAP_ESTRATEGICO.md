@@ -115,8 +115,8 @@
 
 | Core           | Status | Esforço | Data Alvo | Descrição               |
 | -------------- | ------ | ------- | --------- | ----------------------- |
-| PAT (Core 1)   | 🟡 30% | 20h     | Fev/2026  | Founder/Governance      |
-| Brain (Core 2) | 🟡 50% | 12h     | Fev/2026  | Users/Devs headless     |
+| PAT (Core 1)   | 🟡 70% | 8h      | Fev/2026  | Founder/Governance      |
+| Brain (Core 2) | 🟡 80% | 4h      | Fev/2026  | Users/Devs headless     |
 | Antigravity    | ❌ 0%  | 16h     | Fev/2026  | Coding Assistant (BYOL) |
 
 ### 1.4. Medusa Store
