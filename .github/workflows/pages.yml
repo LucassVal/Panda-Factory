@@ -1,0 +1,106 @@
+name: GitHub Pages Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source directory'
+        required: false
+        default: '.'
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🐼 Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: 🐼 Build Panda Factory
+        run: |
+          echo "🐼 Preparing Panda Factory for deployment..."
+          
+          # Create data directory for GitHub DB
+          mkdir -p data
+          
+          # Ensure index.html exists
+          if [ ! -f "index.html" ]; then
+            echo "Creating default index.html..."
+            cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>🐼 Panda Factory</title>
+            <link rel="manifest" href="/manifest.json">
+            <meta name="theme-color" content="#4cc9f0">
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body { 
+                background: linear-gradient(135deg, #1a1a2e, #16213e); 
+                color: #eee; 
+                font-family: system-ui; 
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              .loading { text-align: center; }
+              .loading h1 { font-size: 4rem; margin-bottom: 1rem; }
+            </style>
+          </head>
+          <body>
+            <div class="loading">
+              <h1>🐼</h1>
+              <p>Loading Panda Factory...</p>
+            </div>
+            <script src="js/pf.sdk.js"></script>
+            <script src="js/pf.bootstrap.js"></script>
+          </body>
+          </html>
+          EOF
+          fi
+          
+          echo "✅ Build complete!"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '${{ github.event.inputs.source || '.' }}'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: 🐼 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: 🎉 Deployment Complete
+        run: |
+          echo "🐼 Panda Factory is LIVE!"
+          echo "URL: ${{ steps.deployment.outputs.page_url }}"

@@ -1,0 +1,24 @@
+{
+  "_meta": {
+    "name": "Panda Factory Database",
+    "version": "1.0.0",
+    "created": "2026-01-25",
+    "type": "GitHub JSON Database",
+    "collections": [
+      "users",
+      "projects",
+      "deployments",
+      "transactions",
+      "arcade_games"
+    ]
+  },
+  "infrastructure": {
+    "database": "GitHub JSON (this repo)",
+    "hosting": "GitHub Pages",
+    "compute": "GitHub Actions",
+    "ai": "Google Gemini + Ollama",
+    "storage": "Google Drive + GitHub Releases",
+    "analytics": "Google Analytics"
+  },
+  "strategy": "Dual Cloud (Microsoft + Google) = Zero Lock-in"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "panda_config",
+  "mode": "beta",
+  "infrastructure": {
+    "primary": "github",
+    "database": {
+      "type": "github-json",
+      "path": "data/",
+      "backup": "google-drive"
+    },
+    "hosting": {
+      "type": "github-pages",
+      "custom_domain": null,
+      "ssl": true
+    },
+    "compute": {
+      "type": "github-actions",
+      "minutes_free": 2000,
+      "gpu": "google-colab"
+    },
+    "storage": {
+      "small": "github-repo",
+      "large": "google-drive",
+      "cdn": "github-releases"
+    }
+  },
+  "ai": {
+    "cloud": "gemini",
+    "local": ["ollama", "lm-studio"],
+    "fallback": true
+  },
+  "cloud_strategy": {
+    "microsoft": {
+      "github": ["hosting", "db", "actions", "releases"],
+      "azure": "future"
+    },
+    "google": {
+      "gemini": "ai",
+      "drive": "storage",
+      "sheets": "spreadsheet-db",
+      "colab": "gpu-compute",
+      "firebase": "future-auth"
+    }
+  },
+  "_note": "Dual cloud = zero vendor lock-in. Both giants compete for us."
+}
