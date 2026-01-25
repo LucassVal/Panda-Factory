@@ -297,19 +297,49 @@ Além dos tiers padrão, existem licenças especiais com condições exclusivas:
 
 > **Nota:** O Founder paga por uso como qualquer outro usuário, mas com taxa mínima (1.03x) para cobrir custos operacionais. Microtransações (5%) são iguais para todos.
 
-#### B. Beta Founder Tier (100 Licenças)
+#### B. Beta Founder Tier (100 Licenças ROTATIVAS)
 
-| Aspecto              | Valor              | Justificativa                   |
-| -------------------- | ------------------ | ------------------------------- |
-| **Quantidade Total** | **100**            | Early adopters limitados        |
-| **Desconto**         | **50% vitalício**  | De 2.5x para 1.25x              |
-| **Token Multiplier** | **1.25x**          | Piso mínimo absoluto            |
-| **Margem Panda**     | ~25%               | Mínimo sustentável              |
-| **Validade**         | **NUNCA EXPIRA**   | Vitalício                       |
-| **Transferível**     | NÃO                | Vinculado ao user ID original   |
-| **Atribuição**       | Código promocional | `BETA_XXXXXX` no primeiro login |
+> **Modelo:** Meritocracia. Os **TOP 100 contribuidores** ganham 50% de desconto.
 
-> **Nota:** Essas 100 contas representam os early supporters que confiaram no projeto desde o início. A margem de 25% é baixa, mas sustentável como investimento em comunidade.
+| Aspecto              | Valor             | Justificativa                        |
+| -------------------- | ----------------- | ------------------------------------ |
+| **Quantidade**       | **100**           | Slots rotativos                      |
+| **Tipo**             | **ROTATIVO**      | Baseado em contribuição              |
+| **Desconto**         | **50% vitalício** | De 2.5x para 1.25x                   |
+| **Token Multiplier** | **1.25x**         | Piso mínimo absoluto                 |
+| **Margem Panda**     | ~25%              | Break-even (devs ajudam a organizar) |
+| **Elegibilidade**    | Contribuição      | PRs, Issues, Docs, Community         |
+| **Transferível**     | NÃO               | Vinculado ao user ID                 |
+
+**Sistema de Pontuação:**
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    BETA FOUNDER - SISTEMA DE MERITOCRACIA               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  📊 PONTUAÇÃO POR CONTRIBUIÇÃO                                         │
+│  ├── Pull Request (merged)         : +50 pontos                        │
+│  ├── Issue resolvida               : +20 pontos                        │
+│  ├── Documentação                  : +30 pontos                        │
+│  ├── Bug report válido             : +10 pontos                        │
+│  ├── Community help (Discord)      : +5 pontos/semana                  │
+│  ├── Plugin/Extension publicado    : +100 pontos                       │
+│  └── Indicação de dev ativo        : +15 pontos                        │
+│                                                                         │
+│  🔄 ROTAÇÃO                                                            │
+│  ├── Recálculo: Mensal (dia 1)                                         │
+│  ├── Top 100 mantém desconto                                           │
+│  ├── Dev fora do top 100 → Standard (sem penalidade)                   │
+│  └── Dev volta ao top 100 → Recupera desconto automaticamente          │
+│                                                                         │
+│  💡 OBJETIVO                                                           │
+│  └── Devs que ajudam a organizar a casa são recompensados              │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+> **Filosofia:** 25% de margem é baixo, mas esses 100 devs estão **trabalhando** para o projeto. O desconto é compensação pelo trabalho, não caridade.
 
 #### C. Tabela Comparativa de Tiers
 
