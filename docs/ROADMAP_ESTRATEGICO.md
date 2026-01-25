@@ -1,31 +1,83 @@
 # 🗺️ ROADMAP ESTRATÉGICO - Panda Factory
 
-> **Data:** 2026-01-24 | **Fonte:** Com certeza.md + Debates  
+> **Última Atualização:** 2026-01-24  
 > **Validação:** PANDA.md, PF_MASTER_ARCHITECTURE.md, PF_TOKENOMICS_REFERENCE.md  
 > **Visão:** Google Partner Showcase + P2P Compute Network
 
 ---
 
-## 📊 Status Geral
+## 📊 Status Geral por Categoria
 
-| Categoria              | Implementado | Pendente | Prioridade |
-| ---------------------- | ------------ | -------- | ---------- |
-| Tentacles Architecture | ✅ 100%      | -        | ✅ Feito   |
-| **Google Tentacle**    | ❌ 0%        | 100%     | 🔴 Alta    |
-| Multi-Market Expansion | ❌ 10%       | 90%      | 🔴 Alta    |
-| VSX/Plugin Store       | ❌ 0%        | 100%     | 🟡 Média   |
-| P2P Compute Network    | ❌ 0%        | 100%     | 🟡 Média   |
-| Gaming/Audio/Video     | ❌ 5%        | 95%      | 🟢 Baixa   |
+| #   | Categoria                  | Implementado | Pendente | Prioridade | Fase |
+| --- | -------------------------- | ------------ | -------- | ---------- | ---- |
+| 1   | **Shell/Frontend**         | ✅ 95%       | 5%       | ✅ Feito   | 0    |
+| 2   | **SDK Core**               | ✅ 85%       | 15%      | ✅ Feito   | 0    |
+| 3   | **Firebase/GAS Backend**   | ✅ 90%       | 10%      | ✅ Feito   | 0    |
+| 4   | **Tentacles Architecture** | ✅ 100%      | -        | ✅ Feito   | 0    |
+| 5   | **Rust Agent**             | 🟡 20%       | 80%      | 🔴 Alta    | 1    |
+| 6   | **GPU/NVIDIA**             | 🟡 10%       | 90%      | 🔴 Alta    | 1    |
+| 7   | **Medusa Store**           | ❌ 0%        | 100%     | 🔴 Alta    | 1    |
+| 8   | **3 AI Cores**             | 🟡 30%       | 70%      | 🔴 Alta    | 1    |
+| 9   | **Google Tentacle**        | ❌ 0%        | 100%     | 🔴 Alta    | 1    |
+| 10  | **Tokenomics/PC**          | 🟡 40%       | 60%      | 🔴 Alta    | 1    |
+| 11  | **Segurança (Ed25519)**    | 🟡 50%       | 50%      | 🔴 Alta    | 1    |
+| 12  | **P2P Compute Network**    | ❌ 0%        | 100%     | 🟡 Média   | 2    |
+| 13  | **VSX/Plugin Store**       | ❌ 0%        | 100%     | 🟡 Média   | 2    |
+| 14  | **Social Hub**             | 🟡 30%       | 70%      | 🟡 Média   | 2    |
+| 15  | **Trading Hub (cTrader)**  | ❌ 5%        | 95%      | 🟡 Média   | 2    |
+| 16  | **EdTech/Infoprodutos**    | ❌ 0%        | 100%     | 🟢 Baixa   | 3    |
+| 17  | **Creative Marketplace**   | ❌ 0%        | 100%     | 🟢 Baixa   | 3    |
+| 18  | **Gaming/Audio/Video**     | ❌ 5%        | 95%      | 🟢 Baixa   | 3    |
 
 ---
 
-## 🔴 FASE 1: Stack Dia 1 (PRIORIDADE MÁXIMA)
+## ✅ FASE 0: Foundation (FEITO)
 
-> **Objetivo:** Panda nasce completo: Shell + Store + GPU + AI
+> **Status:** 95% Completo | **Data:** Jan/2026
+
+### 0.1. Shell Frontend
+
+| Item              | Status   | Arquivo                  |
+| ----------------- | -------- | ------------------------ |
+| PandaFactory.html | ✅ Feito | `PandaFactory.html`      |
+| AppDock           | ✅ Feito | `Comp_AppDock.html`      |
+| DevToolsDock      | ✅ Feito | `Comp_DevToolsDock.html` |
+| Sidebar (Chat IA) | ✅ Feito | `Comp_Sidebar.html`      |
+| Header            | ✅ Feito | `Comp_Header.html`       |
+| Theme System      | ✅ Feito | `pf.theme.css`           |
+
+### 0.2. SDK Core
+
+| Módulo       | Status   | Descrição             |
+| ------------ | -------- | --------------------- |
+| Panda.Auth   | ✅ Feito | Firebase Auth         |
+| Panda.Data   | ✅ Feito | CRUD Sheets/Firestore |
+| Panda.UI     | ✅ Feito | Modais, toasts, dock  |
+| Panda.Bridge | 🟡 90%   | Comunicação Rust      |
+| Panda.Wallet | ✅ Feito | Saldo PC              |
+| Panda.Brain  | 🟡 70%   | IA headless           |
+| Panda.GPU    | ❌ 10%   | GPU detection         |
+
+### 0.3. Backend GAS
+
+| Script           | Status   | Função           |
+| ---------------- | -------- | ---------------- |
+| PF_Auth.gs       | ✅ Feito | Autenticação     |
+| PF_Dispatcher.gs | ✅ Feito | Router principal |
+| PF_Wallet.gs     | ✅ Feito | Transações PC    |
+| PF_Data.gs       | ✅ Feito | CRUD Sheets      |
+| PF_Brain_Core.gs | 🟡 70%   | 6 GEMS           |
+
+---
+
+## 🔴 FASE 1: Stack Dia 1 (EM DEV)
+
+> **Objetivo:** Panda nasce completo: Shell + Store + GPU + AI  
+> **Data Alvo:** Fev/2026
 
 ### 1.1. Estrutura Dia 1
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         STACK DIA 1                                     │
 ├─────────────────────────────────────────────────────────────────────────┤
@@ -47,9 +99,38 @@
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 1.2. Google Tentacle
+### 1.2. Rust Agent
 
-```
+| Item                 | Status | Esforço | Data Alvo |
+| -------------------- | ------ | ------- | --------- |
+| MCP Server (Tools)   | 🟡 20% | 16h     | Fev/2026  |
+| WebView (Tauri)      | ❌ 0%  | 8h      | Fev/2026  |
+| GPU Detection        | ❌ 0%  | 4h      | Fev/2026  |
+| Polyglot (NLLB)      | ❌ 0%  | 8h      | Fev/2026  |
+| Whisper (STT)        | ❌ 0%  | 8h      | Fev/2026  |
+| Antigravity UI       | ❌ 0%  | 12h     | Fev/2026  |
+| Download Progressivo | ❌ 0%  | 8h      | Fev/2026  |
+
+### 1.3. 3 AI Cores
+
+| Core           | Status | Esforço | Data Alvo | Descrição               |
+| -------------- | ------ | ------- | --------- | ----------------------- |
+| PAT (Core 1)   | 🟡 30% | 20h     | Fev/2026  | Founder/Governance      |
+| Brain (Core 2) | 🟡 50% | 12h     | Fev/2026  | Users/Devs headless     |
+| Antigravity    | ❌ 0%  | 16h     | Fev/2026  | Coding Assistant (BYOL) |
+
+### 1.4. Medusa Store
+
+| Item                  | Status | Esforço | Data Alvo |
+| --------------------- | ------ | ------- | --------- |
+| Base Setup            | ❌ 0%  | 4h      | Fev/2026  |
+| Admin SDK Integration | ❌ 0%  | 8h      | Fev/2026  |
+| White-label System    | ❌ 0%  | 16h     | Mar/2026  |
+| Plugin System         | ❌ 0%  | 12h     | Mar/2026  |
+
+### 1.5. Google Tentacle
+
+```text
 js/tentacles/google/
 ├── pf.google-parent.js          ← Parent nativo
 └── children/
@@ -63,32 +144,45 @@ js/tentacles/google/
     └── youtube-data.js          ← API YouTube
 ```
 
-### 1.2. Por que Google Partner?
+| Item            | Status   | Esforço | Data Alvo |
+| --------------- | -------- | ------- | --------- |
+| drive.js        | ❌ 0%    | 4h      | Fev/2026  |
+| sheets.js       | ❌ 0%    | 2h      | Fev/2026  |
+| colab.js        | ❌ 0%    | 8h      | Fev/2026  |
+| firebase.js     | ✅ Feito | -       | ✅ Jan    |
+| calendar.js     | ❌ 0%    | 2h      | Mar/2026  |
+| docs.js         | ❌ 0%    | 2h      | Mar/2026  |
+| gmail.js        | ❌ 0%    | 2h      | Mar/2026  |
+| youtube-data.js | ❌ 0%    | 4h      | Mar/2026  |
 
-| Argumento               | Benefício para Google                                        |
-| ----------------------- | ------------------------------------------------------------ |
-| **Showcase completo**   | Prova que dá para construir plataforma inteira só com Google |
-| **Zero vendor lock-in** | Usuário usa conta Google dele (mais usuários Google)         |
-| **Educação**            | Ensina devs a usar serviços Google                           |
-| **Custo ~R$0**          | Free Tier generoso = mais adoção                             |
+### 1.6. Tokenomics
 
-### 1.3. Casos de Uso do Colab
+| Item                  | Status   | Esforço | Data Alvo |
+| --------------------- | -------- | ------- | --------- |
+| Panda Coin (PC) Logic | ✅ Feito | -       | ✅ Jan    |
+| Dev/User Split        | ✅ Feito | -       | ✅ Jan    |
+| Free Tier Rules       | ✅ Feito | -       | ✅ Jan    |
+| Webhook Hotmart       | ❌ 0%    | 2h      | Fev/2026  |
+| DRM Tokenizado        | ❌ 0%    | 4h      | Fev/2026  |
+| Solana Migration      | ❌ 0%    | 40h     | Q2/2026   |
 
-| Área           | Uso                                    |
-| -------------- | -------------------------------------- |
-| **Dev**        | Compilar apps Rust, Godot, Android     |
-| **Jornalismo** | Processar vídeos, transcrição em massa |
-| **Acadêmico**  | TCC, análise de dados, ML              |
-| **Criativo**   | Render 3D, processamento de áudio      |
-| **IA**         | Fine-tuning, inference                 |
+### 1.7. Segurança
+
+| Item                 | Status   | Esforço | Data Alvo |
+| -------------------- | -------- | ------- | --------- |
+| Ed25519 Founder Auth | 🟡 50%   | 8h      | Fev/2026  |
+| Cell Isolation       | ✅ Feito | -       | ✅ Jan    |
+| Kill Switch          | ❌ 0%    | 2h      | Fev/2026  |
+| WASM Sandbox         | ❌ 0%    | 8h      | Mar/2026  |
 
 ---
 
-## 🟡 FASE 2: P2P Compute Network
+## 🟡 FASE 2: Escala (PLANEJADO)
 
-> **Conceito:** Qualquer pessoa pode alugar capacidade computacional por PC
+> **Objetivo:** Expandir mercados e monetização  
+> **Data Alvo:** Mar-Abr/2026
 
-### 2.1. Como Funciona
+### 2.1. P2P Compute Network
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -107,111 +201,126 @@ js/tentacles/google/
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2. Registro de Host
+| Item              | Status | Esforço | Data Alvo |
+| ----------------- | ------ | ------- | --------- |
+| Host Registration | ❌ 0%  | 8h      | Mar/2026  |
+| Job Queue System  | ❌ 0%  | 12h     | Mar/2026  |
+| Payment Split     | ❌ 0%  | 8h      | Mar/2026  |
+| Sandbox Execution | ❌ 0%  | 16h     | Abr/2026  |
 
-| Etapa | Ação                                           |
-| ----- | ---------------------------------------------- |
-| 1     | Fulano tem servidor/PC ocioso                  |
-| 2     | Registra no Panda Network (specs + preço/hora) |
-| 3     | Recebe jobs via Firebase signaling             |
-| 4     | Executa em sandbox (Rust Agent)                |
-| 5     | Recebe PC automaticamente (95%)                |
+### 2.2. VSX Store Universal
 
-### 2.3. Validação com Tokenomics
+| Item                | Status | Esforço | Data Alvo |
+| ------------------- | ------ | ------- | --------- |
+| GitHub Integration  | ❌ 0%  | 8h      | Mar/2026  |
+| Google Cloud Source | ❌ 0%  | 8h      | Mar/2026  |
+| GitLab Integration  | ❌ 0%  | 4h      | Abr/2026  |
+| Plugin Sandbox      | ❌ 0%  | 12h     | Abr/2026  |
+| Auto-update System  | ❌ 0%  | 8h      | Abr/2026  |
 
-- **Art. 7 (Garantia Host):** 90-95% vai para o host ✅
-- **Taxa P2P:** 5-10% (configurável via DAO) ✅
-- **O modelo P2P Compute é 100% compatível**
+### 2.3. Social Hub
 
----
+| Item                   | Status | Esforço | Data Alvo |
+| ---------------------- | ------ | ------- | --------- |
+| WhatsApp (via Baileys) | 🟡 30% | 8h      | Mar/2026  |
+| Instagram Basic        | ❌ 0%  | 8h      | Mar/2026  |
+| YouTube Data           | ❌ 0%  | 4h      | Mar/2026  |
+| Telegram               | ❌ 0%  | 4h      | Abr/2026  |
+| Twitter/X              | ❌ 0%  | 6h      | Abr/2026  |
 
-## 🟡 FASE 3: VSX Store Universal
+### 2.4. Trading Hub (cTrader)
 
-> **Conceito:** Não reinventar a roda. Integrar fontes existentes.
-
-### 3.1. Fontes de Código Integradas
-
-| Fonte                   | Tipo      | Status        |
-| ----------------------- | --------- | ------------- |
-| **GitHub**              | Microsoft | 🔴 Prioridade |
-| **Google Cloud Source** | Google    | 🔴 Prioridade |
-| GitLab                  | Open      | 🟡 Médio      |
-| Bitbucket               | Atlassian | 🟢 Baixo      |
-| SourceForge             | Legacy    | 🟢 Baixo      |
-
-### 3.2. Fluxo do Usuário
-
-```text
-Usuário no Panda → Abre VSX Store → Busca "markdown editor"
-        ↓
-Store busca em: GitHub + Google Source + GitLab
-        ↓
-Usuário escolhe repo → Instala como extensão
-        ↓
-Extensão roda em sandbox (TentacleMonitor)
-```
-
-### 3.3. ~~VFS Próprio~~ → DESCARTADO
-
-**Decisão:** Não criar sistema de arquivos próprio.
-
-- Usar **Google Drive** como storage
-- Usar **GitHub** para versionamento
-- Foco em ser **aggregador**, não concorrente
+| Item                | Status | Esforço | Data Alvo |
+| ------------------- | ------ | ------- | --------- |
+| Open API Connection | ❌ 5%  | 8h      | Mar/2026  |
+| cBot Template       | ❌ 0%  | 12h     | Abr/2026  |
+| Indicator System    | ❌ 0%  | 8h      | Abr/2026  |
+| Backtesting         | ❌ 0%  | 16h     | Mai/2026  |
 
 ---
 
-## 🟢 FASE 4: Gaming, Audio & Video
+## 🟢 FASE 3: Expansão (FUTURO)
 
-### 4.1. Gaming
+> **Objetivo:** Novos mercados verticais  
+> **Data Alvo:** Q2-Q3/2026
 
-| Ferramenta | Integração  |
-| ---------- | ----------- |
-| Godot      | Wasm nativo |
-| Bevy       | Rust/Wasm   |
-| Three.js   | JS direto   |
-| PixiJS     | JS direto   |
+### 3.1. EdTech & Infoprodutos
 
-### 4.2. Audio
+| Item                  | Status | Esforço | Data Alvo |
+| --------------------- | ------ | ------- | --------- |
+| Course Builder        | ❌ 0%  | 20h     | Mai/2026  |
+| Hotmart/Eduzz Webhook | ❌ 0%  | 4h      | Mai/2026  |
+| DRM Protection        | ❌ 0%  | 8h      | Mai/2026  |
+| Certificate Generator | ❌ 0%  | 8h      | Jun/2026  |
 
-| Ferramenta | Uso             |
-| ---------- | --------------- |
-| Tone.js    | Synth web       |
-| ElevenLabs | TTS/Voice clone |
-| Whisper    | Transcrição     |
-| Suno AI    | Geração música  |
+### 3.2. Creative Marketplace
 
-### 4.3. Video
+| Item               | Status | Esforço | Data Alvo |
+| ------------------ | ------ | ------- | --------- |
+| Asset Upload       | ❌ 0%  | 8h      | Jun/2026  |
+| Preview System     | ❌ 0%  | 8h      | Jun/2026  |
+| License Management | ❌ 0%  | 12h     | Jun/2026  |
+| Creator Payouts    | ❌ 0%  | 8h      | Jul/2026  |
 
-| Ferramenta    | Uso                |
-| ------------- | ------------------ |
-| FFmpeg (Wasm) | Codec universal    |
-| Remotion      | Video programático |
-| Veo (Google)  | IA Video           |
+### 3.3. Gaming, Audio & Video
+
+| Area   | Item           | Status | Esforço | Data Alvo |
+| ------ | -------------- | ------ | ------- | --------- |
+| Gaming | Godot Wasm     | ❌ 0%  | 12h     | Mai/2026  |
+| Gaming | Bevy Rust      | ❌ 0%  | 16h     | Jun/2026  |
+| Gaming | Three.js       | ❌ 5%  | 8h      | Mai/2026  |
+| Audio  | Whisper STT    | ❌ 0%  | 8h      | Abr/2026  |
+| Audio  | ElevenLabs TTS | ❌ 0%  | 4h      | Abr/2026  |
+| Video  | FFmpeg Wasm    | ❌ 0%  | 8h      | Mai/2026  |
+| Video  | Veo (Google)   | ❌ 0%  | 8h      | Jun/2026  |
 
 ---
 
-## 📋 Priorização Atualizada
+## 📋 Priorização Master
 
-| #   | Item                | Fase | Esforço | Impacto    |
-| --- | ------------------- | ---- | ------- | ---------- |
-| 1   | **Google Tentacle** | 1    | 16h     | 🔴 Crítico |
-| 2   | Webhook Hotmart     | 1    | 2h      | Alto       |
-| 3   | DRM Tokenizado      | 1    | 4h      | Alto       |
-| 4   | P2P Compute MVP     | 2    | 20h     | Alto       |
-| 5   | VSX Store (GitHub)  | 3    | 12h     | Médio      |
-| 6   | Gaming Tentacle     | 4    | 8h      | Médio      |
+| #   | Item                 | Fase | Esforço | Data Alvo | Impacto    |
+| --- | -------------------- | ---- | ------- | --------- | ---------- |
+| 1   | Rust Agent (MCP)     | 1    | 16h     | Fev/2026  | 🔴 Crítico |
+| 2   | 3 AI Cores           | 1    | 48h     | Fev/2026  | 🔴 Crítico |
+| 3   | GPU/NVIDIA           | 1    | 12h     | Fev/2026  | 🔴 Crítico |
+| 4   | Medusa Store         | 1    | 40h     | Mar/2026  | 🔴 Crítico |
+| 5   | Google Tentacle      | 1    | 24h     | Mar/2026  | 🔴 Crítico |
+| 6   | Ed25519 Security     | 1    | 8h      | Fev/2026  | Alto       |
+| 7   | Webhook Hotmart      | 1    | 2h      | Fev/2026  | Alto       |
+| 8   | P2P Compute MVP      | 2    | 44h     | Abr/2026  | Alto       |
+| 9   | VSX Store            | 2    | 40h     | Abr/2026  | Médio      |
+| 10  | Social Hub           | 2    | 30h     | Mar/2026  | Médio      |
+| 11  | Trading Hub          | 2    | 44h     | Mai/2026  | Médio      |
+| 12  | EdTech               | 3    | 40h     | Jun/2026  | Médio      |
+| 13  | Creative Marketplace | 3    | 36h     | Jul/2026  | Baixo      |
+| 14  | Gaming/Audio/Video   | 3    | 64h     | Q3/2026   | Baixo      |
 
 ---
 
 ## ⚠️ Decisões Estratégicas
 
-| Decisão          | Razão                                 |
-| ---------------- | ------------------------------------- |
-| ❌ VFS Próprio   | Foco em parceria, não concorrência    |
-| ✅ Google First  | Showcase = argumento para partnership |
-| ✅ P2P Compute   | Descentralização + monetização hosts  |
-| ✅ VSX Universal | Aggregar, não duplicar                |
+| Decisão               | Razão                                  |
+| --------------------- | -------------------------------------- |
+| ❌ VFS Próprio        | Foco em parceria, não concorrência     |
+| ✅ Google First       | Showcase = argumento para partnership  |
+| ✅ P2P Compute        | Descentralização + monetização hosts   |
+| ✅ VSX Universal      | Aggregar, não duplicar                 |
+| ✅ BYOL Antigravity   | Dev traz sua key, custo zero pra Panda |
+| ✅ GCP on-demand      | Core 1 sem infra própria               |
+| ✅ Medusa White-label | Store customizável para clientes       |
+
+---
+
+## 🔗 Referências
+
+| Documento                            | Conteúdo                   |
+| ------------------------------------ | -------------------------- |
+| `PANDA.md`                           | Constituição (12 Artigos)  |
+| `PF_MASTER_ARCHITECTURE.md`          | Como implementar tudo      |
+| `PF_TOKENOMICS_REFERENCE.md`         | Panda Coin, splits, tiers  |
+| `PF_SDK_REFERENCE.md`                | API do SDK JavaScript      |
+| `PF_GAS_REFERENCE.md`                | Backend Google Apps Script |
+| `PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Sistema de plugins         |
 
 ---
 
