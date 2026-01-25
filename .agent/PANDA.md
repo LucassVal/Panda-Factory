@@ -504,6 +504,55 @@ window.Panda = {
   Config: { mode, version, debug, agentConnected },
   version(),                     // "0.7.0"
   setMode(mode)                  // 'LOCAL' | 'CLOUD'
+
+  // ==========================================
+  // SECURITY (NEW - Jan/2026)
+  // ==========================================
+  KillSwitch: {
+    isActive(),                  // boolean
+    getMessage(),                // string | null
+    activate(message, sig),      // Promise<boolean> (Founder only)
+    deactivate(sig),             // Promise<boolean> (Founder only)
+    enforceUI()                  // void (blocks all UI)
+    // Arquivo: js/core/pf.kill-switch.js
+  },
+
+  DRM: {
+    generateToken(contentId, userId, opts), // Promise<object>
+    validateToken(token, contentId),        // Promise<{valid, source}>
+    revokeToken(token, reason),             // Promise<boolean>
+    applyWatermark(element, userId),        // void
+    blockScreenCapture(container),          // void
+    getDeviceFingerprint()                  // Promise<string>
+    // Arquivo: js/core/pf.drm.js
+  },
+
+  // ==========================================
+  // GOOGLE TENTACLE (NEW - Jan/2026)
+  // ==========================================
+  Google: {
+    Drive: { list, upload, download, createFolder, move, trash, search, getShareLink },
+    Sheets: { read, write, append, clear, create, listSheets, addSheet },
+    Colab: { createNotebook, getNotebookUrl, templateRustCompiler, templateGPU, templateWhisper },
+    Calendar: { listEvents, createEvent, updateEvent, deleteEvent, findFreeSlot },
+    Docs: { create, read, append, replace, exportPDF },
+    Gmail: { send, sendTemplate, createDraft, list },
+    YouTube: { search, getVideo, listChannelVideos, getChannelStats, listComments, getTranscript }
+    // Arquivos: js/tentacles/google/pf.google-parent.js + children/
+  },
+
+  // ==========================================
+  // SOCIAL HUB (Updated - Jan/2026)
+  // ==========================================
+  Social: {
+    WhatsApp: { generateBroadcast, generateAutoReplies, generateLeadTemplate, generateFlow },
+    YouTube: { search, getVideo, generateScript, generateThumbnailPrompt },
+    Meta: { generatePost, generateStory, generateAd },
+    TikTok: { generateVideo, getTrends },
+    Twitter: { generateThread, generateTweet },
+    Telegram: { setupBot, sendMessage, broadcast, sendInlineMenu, setWebhook, postToChannel }
+    // Arquivos: js/social/ + js/tentacles/social/
+  }
 };
 
 // TODOS OS MÓDULOS SÃO FROZEN (Object.freeze)

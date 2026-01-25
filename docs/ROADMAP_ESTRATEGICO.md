@@ -259,7 +259,7 @@ js/tentacles/google/
 | Instagram/Meta | 🟡 30%   | 6h      | Mar/2026  | pf.social-meta.js        |
 | TikTok         | 🟡 40%   | 4h      | Mar/2026  | pf.social-tiktok.js      |
 | Twitter/X      | 🟡 30%   | 4h      | Mar/2026  | pf.social-twitter.js     |
-| Telegram       | ❌ 0%    | 4h      | Abr/2026  | -                        |
+| Telegram       | ✅ Feito | -       | ✅ Jan    | pf.social-telegram.js    |
 
 ### 2.4. Trading Hub (cTrader)
 
