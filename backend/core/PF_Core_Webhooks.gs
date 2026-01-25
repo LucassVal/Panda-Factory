@@ -83,6 +83,79 @@ function processB2BWebhook(payload, source) {
       transactionId = payload.transaction_id || `LAND_${Date.now()}`;
     }
 
+    // === STRIPE ===
+    else if (source === "STRIPE") {
+      // Stripe Webhook Events
+      // Documentação: https://stripe.com/docs/webhooks
+      const eventType = payload.type;
+
+      // Eventos de pagamento bem-sucedido
+      if (
+        eventType === "checkout.session.completed" ||
+        eventType === "payment_intent.succeeded"
+      ) {
+        const data = payload.data?.object || payload.object || payload;
+
+        userEmail = data.customer_email || data.receipt_email || data.email;
+
+        // Stripe envia em centavos
+        amountPaid = parseFloat(data.amount_total || data.amount || 0) / 100;
+        transactionId = data.id || data.payment_intent || payload.id;
+        productId = data.metadata?.product_id || "STRIPE_GENERIC";
+
+        // Converte USD para BRL se necessário
+        const currency = data.currency?.toLowerCase();
+        if (currency === "usd") {
+          amountPaid = amountPaid * getUsdRate();
+        }
+      }
+    }
+
+    // === MERCADO PAGO ===
+    else if (source === "MERCADOPAGO" || source === "MP") {
+      // Mercado Pago IPN (Instant Payment Notification)
+      // Documentação: https://www.mercadopago.com.br/developers/pt/docs/notifications/ipn
+      const topic = payload.topic || payload.type;
+      const action = payload.action;
+
+      // Notificação de pagamento aprovado
+      if (
+        topic === "payment" ||
+        action === "payment.created" ||
+        action === "payment.updated"
+      ) {
+        const paymentData = payload.data || payload;
+        const paymentStatus = paymentData.status;
+
+        // Só processa pagamentos aprovados
+        if (paymentStatus === "approved") {
+          userEmail =
+            paymentData.payer?.email ||
+            paymentData.additional_info?.payer?.email;
+          amountPaid = parseFloat(
+            paymentData.transaction_amount || paymentData.total_amount || 0,
+          );
+          transactionId = paymentData.id?.toString() || `MP_${Date.now()}`;
+          productId =
+            paymentData.additional_info?.items?.[0]?.id ||
+            paymentData.external_reference ||
+            "MP_GENERIC";
+        }
+      }
+
+      // Notificação de merchant_order (pedido completo)
+      if (topic === "merchant_order") {
+        const orderStatus = payload.order_status;
+
+        if (orderStatus === "paid") {
+          userEmail = payload.payer?.email;
+          amountPaid = parseFloat(payload.total_amount || 0);
+          transactionId = payload.id?.toString() || `MP_ORDER_${Date.now()}`;
+          productId = payload.external_reference || "MP_ORDER";
+        }
+      }
+    }
+
     // === LÓGICA DE CRÉDITO ===
     if (userEmail && amountPaid > 0) {
       const coins = calculateCoinsFromB2B(amountPaid, productId);
