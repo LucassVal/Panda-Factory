@@ -1,0 +1,24 @@
+{
+  "name": "panda-jam",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Panda Jam - Core UI Canvas with TLDraw + GoldenLayout",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@tldraw/tldraw": "^2.0.0",
+    "golden-layout": "^2.6.0",
+    "yjs": "^13.6.0",
+    "y-websocket": "^1.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "vite": "^5.0.0"
+  }
+}

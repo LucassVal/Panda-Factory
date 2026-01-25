@@ -1,0 +1,271 @@
+/* 🐼 Panda Jam - Core Styles */
+
+:root {
+  --jam-bg: #1a1a2e;
+  --jam-surface: #16213e;
+  --jam-accent: #e94560;
+  --jam-text: #eaeaea;
+  --jam-text-muted: #8a8a9a;
+  --jam-border: #2a2a4e;
+  --jam-dock-bg: rgba(22, 33, 62, 0.95);
+  --jam-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--jam-bg);
+  color: var(--jam-text);
+}
+
+/* Container */
+.jam-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+/* Header */
+.jam-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--jam-surface);
+  border-bottom: 1px solid var(--jam-border);
+  height: 48px;
+  z-index: 100;
+}
+
+.jam-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.jam-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.jam-header-btn {
+  padding: 6px 12px;
+  background: var(--jam-border);
+  border: none;
+  border-radius: 6px;
+  color: var(--jam-text);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.jam-header-btn:hover {
+  background: var(--jam-accent);
+}
+
+/* Main Canvas */
+.jam-main {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dock */
+.jam-dock {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--jam-dock-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid var(--jam-border);
+  box-shadow: var(--jam-shadow);
+  z-index: 1000;
+}
+
+.jam-dock-item {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--jam-surface);
+  border-radius: 12px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--jam-border);
+}
+
+.jam-dock-item:hover {
+  transform: scale(1.3) translateY(-8px);
+  background: var(--jam-accent);
+}
+
+/* Store Modal */
+.jam-store-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.jam-store {
+  width: 80%;
+  max-width: 900px;
+  max-height: 80vh;
+  background: var(--jam-surface);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--jam-border);
+  box-shadow: var(--jam-shadow);
+}
+
+.jam-store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--jam-border);
+}
+
+.jam-store-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.jam-store-close {
+  background: none;
+  border: none;
+  color: var(--jam-text-muted);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.jam-store-content {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
+}
+
+.jam-store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.jam-store-card {
+  background: var(--jam-bg);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--jam-border);
+  transition: all 0.2s;
+}
+
+.jam-store-card:hover {
+  border-color: var(--jam-accent);
+  transform: translateY(-4px);
+}
+
+.jam-store-card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.jam-store-card-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.jam-store-card-desc {
+  font-size: 13px;
+  color: var(--jam-text-muted);
+  margin-bottom: 12px;
+}
+
+.jam-store-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.jam-store-card-price {
+  font-weight: 600;
+  color: var(--jam-accent);
+}
+
+.jam-store-card-btn {
+  padding: 6px 16px;
+  background: var(--jam-accent);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Watermark - CANNOT BE REMOVED */
+.jam-watermark {
+  position: fixed;
+  bottom: 8px;
+  right: 16px;
+  font-size: 11px;
+  color: var(--jam-text-muted);
+  opacity: 0.7;
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* Canvas Empty State */
+.jam-canvas-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--jam-text-muted);
+}
+
+.jam-canvas-empty-icon {
+  font-size: 64px;
+  opacity: 0.5;
+}
+
+.jam-canvas-empty-text {
+  font-size: 18px;
+}
+
+.jam-canvas-empty-btn {
+  padding: 12px 24px;
+  background: var(--jam-accent);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 16px;
+}
