@@ -70,6 +70,90 @@
       { id: 10, name: "Arbitragem", rule: "IA → Founder" },
       { id: 11, name: "Leis Pétreas", rule: "Imutável" },
       { id: 12, name: "Emergência", rule: "Failover Agent" },
+      {
+        id: 13,
+        name: "Developer First",
+        rule: "Desconto 10% (2.5x→2.25x) quando sustentável OU deflação",
+        details: {
+          principle: "O foco são os devs. Quando sustentável, reduzir custos.",
+
+          // Ativação por SUSTENTABILIDADE (todas obrigatórias)
+          activationSustainable: {
+            mau: 1000, // Monthly Active Users mínimo
+            health: 80, // Health Score mínimo
+            revenue: 10000, // Receita mensal mínima (R$)
+            runway: 12, // Meses de runway mínimo
+          },
+
+          // Ativação por DEFLAÇÃO (alternativa - combate deflação)
+          activationDeflation: {
+            deflationRate: 2.0, // Se deflação > 2%, ativa desconto
+            purpose: "Incentivar uso para aumentar volume de transações",
+          },
+
+          benefit: {
+            maxDiscount: 0.1, // 10% máximo
+            defaultMultiplier: 2.5,
+            discountedMultiplier: 2.25, // 2.5 * 0.9 = 2.25
+          },
+
+          protected: ["split", "fundo", "educação", "bootcamps"],
+          note: "Split 55/22/15/5/3 NUNCA muda. PAT também usa para combater deflação.",
+        },
+      },
+      {
+        id: 14,
+        name: "Buyback Automático",
+        rule: "PAT compra tokens quando inflação>5% (reduz supply)",
+        details: {
+          principle: "Controle de inflação via recompra e queima de tokens.",
+
+          // Gatilho de ativação
+          trigger: {
+            inflationRate: 5.0, // Inflação > 5% por 30 dias
+            consecutiveDays: 30,
+          },
+
+          // Limites de segurança
+          limits: {
+            maxMonthly: 0.1, // Máx 10% da Reserva de Liquidez/mês
+            maxPerOrder: 10000, // Máx R$10.000 por ordem
+            priceDiscount: 0.02, // Compra a 98% do preço (2% incentivo)
+          },
+
+          // Destino dos tokens comprados
+          destination: {
+            burn: 0.7, // 70% queimados
+            reserve: 0.3, // 30% para reserva
+          },
+
+          // Aprovação escalonada
+          approval: {
+            auto: 1000, // < R$1.000: PAT auto-approve
+            founder: 10000, // R$1.000-10.000: Ed25519 (24h timeout)
+            manual: Infinity, // > R$10.000: Review manual obrigatório
+          },
+
+          // 🔄 MODO DUAL (Switch para migração)
+          mode: "OFF_CHAIN", // "OFF_CHAIN" ou "ON_CHAIN"
+
+          offChain: {
+            enabled: true,
+            payment: "PIX", // Via Open Finance
+            storage: "Firestore", // Tokens marcados como burned
+            masterAccount: "OPEN_FINANCE_MASTER_ID",
+          },
+
+          onChain: {
+            enabled: false, // Ativar quando migrar
+            network: "solana",
+            burnContract: "SOLANA_BURN_CONTRACT_ADDRESS",
+            wallet: "SOLANA_TREASURY_WALLET_ADDRESS",
+          },
+
+          note: "Switch mode de OFF_CHAIN para ON_CHAIN quando migrar para cripto",
+        },
+      },
     ],
 
     validate(action, params = {}) {
@@ -163,6 +247,191 @@
       aiState.inflation = Math.max(0, aiState.inflation - 0.5);
       aiState.lastAction = { type: "burn", amount, time: Date.now() };
       return { success: true, action: "Queimado", amount };
+    },
+
+    // ==========================================
+    // 💰 BUYBACK (Art. 14 - Dual Mode)
+    // ==========================================
+    buybackConfig: {
+      mode: "OFF_CHAIN", // 🔄 SWITCH: "OFF_CHAIN" ou "ON_CHAIN"
+
+      // OFF-CHAIN (PIX/Open Finance) - AGORA
+      offChain: {
+        enabled: true,
+        masterAccountId: "OPEN_FINANCE_MASTER_ID",
+        paymentMethod: "PIX",
+        burnStorage: "firestore", // Marca como burned no DB
+      },
+
+      // ON-CHAIN (Solana) - FUTURO
+      onChain: {
+        enabled: false,
+        network: "solana",
+        rpcUrl: "https://api.mainnet-beta.solana.com",
+        treasuryWallet: "SOLANA_TREASURY_WALLET_PLACEHOLDER",
+        burnContract: "SOLANA_BURN_CONTRACT_PLACEHOLDER",
+        tokenMint: "PANDA_COIN_MINT_PLACEHOLDER",
+      },
+    },
+
+    /**
+     * Executa buyback de tokens (Art. 14)
+     * @param {number} amountBRL - Valor em BRL para comprar
+     * @param {object} options - { forceMode, skipApproval }
+     */
+    async buyback(amountBRL, options = {}) {
+      const art14 = Constitution.articles.find((a) => a.id === 14);
+      const mode = options.forceMode || this.buybackConfig.mode;
+
+      log("BUYBACK", `Iniciando buyback de R$${amountBRL} (modo: ${mode})`);
+
+      // 1. Validar gatilho (inflação > 5%)
+      if (aiState.inflation <= 5.0 && !options.force) {
+        log("BUYBACK", "Inflação sob controle, buyback não necessário");
+        return {
+          success: false,
+          reason: "Inflação <= 5%",
+          inflation: aiState.inflation,
+        };
+      }
+
+      // 2. Validar limite por ordem
+      const maxPerOrder = art14?.details?.limits?.maxPerOrder || 10000;
+      if (amountBRL > maxPerOrder) {
+        return { success: false, reason: `Máximo por ordem: R$${maxPerOrder}` };
+      }
+
+      // 3. Verificar aprovação
+      const approvalLevels = art14?.details?.approval || {
+        auto: 1000,
+        founder: 10000,
+      };
+      let approvalType = "auto";
+      if (amountBRL > approvalLevels.auto) approvalType = "founder";
+      if (amountBRL > approvalLevels.founder) approvalType = "manual";
+
+      log("BUYBACK", `Aprovação necessária: ${approvalType}`);
+
+      // 4. Executar baseado no modo
+      let result;
+      if (mode === "OFF_CHAIN") {
+        result = await this._buybackOffChain(amountBRL, approvalType);
+      } else {
+        result = await this._buybackOnChain(amountBRL, approvalType);
+      }
+
+      if (result.success) {
+        // 5. Registrar ação
+        aiState.lastAction = {
+          type: "buyback",
+          amount: amountBRL,
+          mode,
+          tokensBurned: result.tokensBurned,
+          time: Date.now(),
+        };
+
+        // 6. Ajustar inflação (simular impacto)
+        aiState.inflation = Math.max(0, aiState.inflation - 0.3);
+      }
+
+      return result;
+    },
+
+    /**
+     * Buyback OFF-CHAIN (PIX/Open Finance)
+     * @private
+     */
+    async _buybackOffChain(amountBRL, approvalType) {
+      log("BUYBACK", "[OFF-CHAIN] Executando via PIX...");
+
+      // Mock: Em produção, integra com Open Finance API
+      const mockTokenPrice = 0.01; // R$0.01 por PC
+      const tokensToBuy = Math.floor(amountBRL / mockTokenPrice);
+      const tokensToBurn = Math.floor(tokensToBuy * 0.7); // 70% burn
+      const tokensToReserve = tokensToBuy - tokensToBurn; // 30% reserve
+
+      // Simular ordem no P2P
+      const order = {
+        id: "BUY_" + Date.now().toString(16),
+        type: "BUYBACK",
+        amountBRL,
+        tokensRequested: tokensToBuy,
+        pricePerToken: mockTokenPrice * 0.98, // 2% desconto
+        status: "OPEN",
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24h
+        mode: "OFF_CHAIN",
+        createdAt: Date.now(),
+      };
+
+      log(
+        "BUYBACK",
+        `[OFF-CHAIN] Ordem criada: ${order.id}, ${tokensToBuy} PC`,
+      );
+
+      return {
+        success: true,
+        mode: "OFF_CHAIN",
+        order,
+        tokensBought: tokensToBuy,
+        tokensBurned: tokensToBurn,
+        tokensToReserve: tokensToReserve,
+        payment: "PIX_PENDING",
+        message: "Ordem de compra criada. Aguardando vendedores.",
+      };
+    },
+
+    /**
+     * Buyback ON-CHAIN (Solana)
+     * @private
+     */
+    async _buybackOnChain(amountBRL, approvalType) {
+      log("BUYBACK", "[ON-CHAIN] Executando via Solana...");
+
+      const config = this.buybackConfig.onChain;
+
+      if (!config.enabled) {
+        return {
+          success: false,
+          reason:
+            "Modo ON-CHAIN não habilitado. Altere buybackConfig.onChain.enabled = true",
+        };
+      }
+
+      // Placeholder: Em produção, integra com Solana SDK
+      // const connection = new Connection(config.rpcUrl);
+      // const tx = await burnTokens(config.treasuryWallet, amount);
+
+      log(
+        "BUYBACK",
+        "[ON-CHAIN] Placeholder - implementar quando migrar para cripto",
+      );
+
+      return {
+        success: false,
+        mode: "ON_CHAIN",
+        reason: "Solana integration not implemented yet",
+        hint: "Switch to OFF_CHAIN or implement Solana SDK",
+      };
+    },
+
+    /**
+     * Migrar modo de buyback
+     * @param {'OFF_CHAIN' | 'ON_CHAIN'} newMode
+     */
+    switchBuybackMode(newMode) {
+      const oldMode = this.buybackConfig.mode;
+      this.buybackConfig.mode = newMode;
+
+      if (newMode === "ON_CHAIN") {
+        this.buybackConfig.offChain.enabled = false;
+        this.buybackConfig.onChain.enabled = true;
+      } else {
+        this.buybackConfig.offChain.enabled = true;
+        this.buybackConfig.onChain.enabled = false;
+      }
+
+      log("BUYBACK", `Modo alterado: ${oldMode} → ${newMode}`);
+      return { oldMode, newMode, config: this.buybackConfig };
     },
   };
 

@@ -776,6 +776,16 @@
       { id: 10, name: "Arbitragem", rule: "IA → Founder" },
       { id: 11, name: "Leis Pétreas", rule: "Imutável" },
       { id: 12, name: "Emergência", rule: "Failover Agent" },
+      {
+        id: 13,
+        name: "Developer First",
+        rule: "Desconto 10% (2.5x→2.25x) quando sustentável OU deflação>2%",
+      },
+      {
+        id: 14,
+        name: "Buyback Automático",
+        rule: "PAT compra tokens quando inflação>5% (dual-mode: PIX/Solana)",
+      },
     ],
     splits: {
       primary: { devHost: 55, fund: 22, ops: 15, founder: 5, gateway: 3 },
