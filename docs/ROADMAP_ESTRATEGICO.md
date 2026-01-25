@@ -256,9 +256,9 @@ js/tentacles/google/
 | Social Core    | ✅ Feito | -       | ✅ Jan    | pf.social-core.js (11KB) |
 | WhatsApp       | ✅ Feito | -       | ✅ Jan    | pf.social-whatsapp.js    |
 | YouTube        | ✅ Feito | -       | ✅ Jan    | pf.social-youtube.js     |
-| Instagram/Meta | 🟡 30%   | 6h      | Mar/2026  | pf.social-meta.js        |
-| TikTok         | 🟡 40%   | 4h      | Mar/2026  | pf.social-tiktok.js      |
-| Twitter/X      | 🟡 30%   | 4h      | Mar/2026  | pf.social-twitter.js     |
+| Instagram/Meta | ✅ Feito | -       | ✅ Jan    | pf.social-meta.js        |
+| TikTok         | ✅ Feito | -       | ✅ Jan    | pf.social-tiktok.js      |
+| Twitter/X      | ✅ Feito | -       | ✅ Jan    | pf.social-twitter.js     |
 | Telegram       | ✅ Feito | -       | ✅ Jan    | pf.social-telegram.js    |
 
 ### 2.4. Trading Hub (cTrader)
