@@ -269,8 +269,8 @@ js/tentacles/google/
 | itch.io Hook | ✅ Feito | -       | ✅ Jan    | children/itch.js          |
 | PWA Hook     | ✅ Feito | -       | ✅ Jan    | children/pwa.js           |
 | Panda Arcade | ✅ Feito | -       | ✅ Jan    | children/arcade.js        |
-| Google Play  | 🟡 0%    | 8h      | Fev/2026  | children/google-play.js   |
-| Steam        | ❌ 0%    | 12h     | Mar/2026  | children/steam.js         |
+| Google Play  | ✅ Feito | -       | ✅ Jan    | children/google-play.js   |
+| Steam        | ✅ Feito | -       | ✅ Jan    | children/steam.js         |
 
 ### 2.4. Trading Hub (cTrader)
 

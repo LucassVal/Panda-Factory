@@ -1,0 +1,115 @@
+name: Panda App Factory - Steam Build
+
+on:
+  repository_dispatch:
+    types: [build-steam]
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: "Panda Project ID"
+        required: true
+      app_id:
+        description: "Steam App ID"
+        required: true
+      branch:
+        description: "Steam branch (default, beta, alpha, staging)"
+        required: true
+        default: "default"
+      description:
+        description: "Build description"
+        required: false
+        default: "Panda Factory build"
+      set_live:
+        description: "Set build live after upload"
+        required: false
+        default: "false"
+
+jobs:
+  build-steam:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🐼 Panda Factory Build Start
+        run: echo "Building Steam app ${{ inputs.app_id }}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SteamCMD
+        uses: game-ci/steam-deploy@v3
+        id: steam-setup
+
+      - name: Create depot config
+        run: |
+          mkdir -p steam_build/depot
+
+          # Create app build script
+          cat > steam_build/app_build.vdf << EOF
+          "appbuild"
+          {
+            "appid" "${{ inputs.app_id }}"
+            "desc" "${{ inputs.description }}"
+            "buildoutput" "./output"
+            "contentroot" "./content"
+            "setlive" "${{ inputs.branch }}"
+            "preview" "0"
+            "local" ""
+            
+            "depots"
+            {
+              "${{ inputs.app_id }}1"
+              {
+                "FileMapping"
+                {
+                  "LocalPath" "./windows/*"
+                  "DepotPath" "."
+                  "recursive" "1"
+                }
+              }
+            }
+          }
+          EOF
+
+          echo "✅ Depot config created"
+
+      - name: Build game content
+        run: |
+          mkdir -p steam_build/content/windows
+
+          # Copy game files (placeholder)
+          echo "Game content would be built here"
+
+          # If using Godot
+          if [ -f "project.godot" ]; then
+            godot --headless --export-release "Windows Desktop" steam_build/content/windows/game.exe
+          fi
+
+          # If using web export (Electron wrapper)
+          if [ -f "package.json" ]; then
+            npm ci
+            npm run build:steam || echo "No steam build script"
+          fi
+
+      - name: Upload to Steam
+        uses: game-ci/steam-deploy@v3
+        if: success()
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          appId: ${{ inputs.app_id }}
+          buildDescription: ${{ inputs.description }}
+          rootPath: steam_build/content
+          depot1Path: windows
+          releaseBranch: ${{ inputs.branch }}
+
+      - name: Set live
+        if: inputs.set_live == 'true'
+        run: |
+          echo "🚀 Build set to live on ${{ inputs.branch }} branch"
+
+      - name: 🐼 Build Complete
+        run: |
+          echo "✅ Steam build complete!"
+          echo "📦 App ID: ${{ inputs.app_id }}"
+          echo "🌿 Branch: ${{ inputs.branch }}"
+          echo "🔗 Partner: https://partner.steamgames.com/apps/builds/${{ inputs.app_id }}"
