@@ -113,16 +113,86 @@ console.log(`Saldo: ${coins} PC`);
 
 ### 🧠 Panda.Brain
 
-Inteligência Artificial (Gemini/Claude/GPT).
+Inteligência Artificial (Gemini/Claude/GPT + Local LLMs). **Tentacle com 3 children.**
 
-| Método                    | Retorno                         | Descrição        |
-| ------------------------- | ------------------------------- | ---------------- |
-| `chat(message, options?)` | `Promise<{response, tokens}>`   | Chat com IA      |
-| `analyze(data)`           | `Promise<{sentiment, summary}>` | Análise de dados |
+#### Brain.Gemini (Google AI + 6 GEMs)
+
+| Método                    | Retorno                        | Descrição           |
+| ------------------------- | ------------------------------ | ------------------- |
+| `setApiKey(key)`          | `void`                         | Configura API key   |
+| `hasApiKey()`             | `boolean`                      | Verifica config     |
+| `chat(message, options?)` | `Promise<{text, tokens, gem}>` | Chat com IA         |
+| `analyze(data, question)` | `Promise<{text, tokens}>`      | Analyst GEM 📊      |
+| `code(task, language)`    | `Promise<{text, tokens}>`      | Coder GEM 💻        |
+| `write(topic, format)`    | `Promise<{text, tokens}>`      | Writer GEM ✍️       |
+| `design(concept)`         | `Promise<{text, tokens}>`      | Designer GEM 🎨     |
+| `plan(objective)`         | `Promise<{text, tokens}>`      | Planner GEM 📋      |
+| `research(topic)`         | `Promise<{text, tokens}>`      | Researcher GEM 🔬   |
+| `generateImage(prompt)`   | `Promise<{image, success}>`    | Geração de imagem   |
+| `getGems()`               | `GEM[]`                        | Lista 6 GEMs        |
+| `getModels()`             | `{flash, pro, thinking}`       | Modelos disponíveis |
 
 ```javascript
-const { response } = await Panda.Brain.chat("Analise minhas vendas");
+// Usar GEM específica
+const { text } = await Panda.Brain.Gemini.code(
+  "Button component React",
+  "typescript",
+);
+
+// Chat genérico
+const { text } = await Panda.Brain.Gemini.chat("Olá", {
+  gem: "writer",
+  temperature: 0.9,
+});
 ```
+
+#### Brain.GPU (Detection & Acceleration)
+
+| Método                    | Retorno                        | Descrição                  |
+| ------------------------- | ------------------------------ | -------------------------- |
+| `detect()`                | `Promise<{webgl, webgpu,...}>` | Detecta capabilities       |
+| `getRecommendedBackend()` | `Promise<{backend, perf}>`     | Backend recomendado p/ ML  |
+| `benchmark()`             | `Promise<{capabilities, ops}>` | Benchmark GPU              |
+| `canRunModel(size)`       | `Promise<{canRun, reason}>`    | Verifica se suporta modelo |
+| `getSummary()`            | `Promise<{gpu, vendor, apis}>` | Resumo do GPU              |
+
+```javascript
+// Verificar GPU
+const caps = await Panda.Brain.GPU.detect();
+console.log(caps); // { webgl: true, webgpu: true, renderer: "NVIDIA..." }
+
+// Verificar se pode rodar modelo
+const { canRun } = await Panda.Brain.GPU.canRunModel("large"); // 4GB+
+```
+
+#### Brain.LocalLLM (Ollama / LM Studio)
+
+| Método                    | Retorno                       | Descrição                 |
+| ------------------------- | ----------------------------- | ------------------------- |
+| `detect()`                | `Promise<backends[]>`         | Detecta backends locais   |
+| `connect(backend?)`       | `Promise<{success, models}>`  | Conecta (auto ou manual)  |
+| `chat(message, options?)` | `Promise<{response, tokens}>` | Chat local (CUSTO: 0 PC)  |
+| `embed(text)`             | `Promise<{embedding, dims}>`  | Embeddings locais         |
+| `listModels()`            | `Promise<models[]>`           | Lista modelos disponíveis |
+| `pullModel(name)`         | `Promise<{success}>`          | Pull modelo (Ollama)      |
+| `getRecommendedModels()`  | `Model[]`                     | Modelos sugeridos         |
+| `getStatus()`             | `{loaded, model, backend}`    | Status atual              |
+| `configure(opts)`         | `Object`                      | Config URLs               |
+
+```javascript
+// Auto-detect e conectar
+const { models } = await Panda.Brain.LocalLLM.connect();
+
+// Chat grátis!
+const { response } = await Panda.Brain.LocalLLM.chat("Olá", {
+  model: "llama3.2:3b",
+});
+
+// Pull novo modelo
+await Panda.Brain.LocalLLM.pullModel("codellama:7b");
+```
+
+> 🆓 **CUSTO ZERO:** LocalLLM roda 100% local, sem cobrar PC.
 
 ---
 
@@ -358,13 +428,15 @@ console.table(TentacleMonitor.getTree());
 TentacleMonitor.getLogs({ level: "error", limit: 10 });
 ```
 
-### Tentacles Implementados
+### Tentacles Implementados (Jan/2026)
 
-| Tentáculo   | Parent          | Children                         |
-| ----------- | --------------- | -------------------------------- |
-| **social**  | `Panda.Social`  | WhatsApp, Twitter, YouTube, Meta |
-| **trading** | `Panda.Trading` | cTrader                          |
-| **brain**   | `Panda.Brain`   | Gemini, LocalLLM                 |
+| Tentáculo        | Parent          | Children                                             |
+| ---------------- | --------------- | ---------------------------------------------------- |
+| **social**       | `Panda.Social`  | WhatsApp, Twitter, YouTube, Meta, Telegram, TikTok   |
+| **trading**      | `Panda.Trading` | cTrader                                              |
+| **brain**        | `Panda.Brain`   | Gemini (6 GEMs), GPU, LocalLLM                       |
+| **google**       | `Panda.Google`  | Drive, Sheets, Colab, Calendar, Docs, Gmail, YouTube |
+| **distribution** | `Panda.Dist`    | itch.io, PWA, Panda Arcade                           |
 
 ### Tentacles Planejados
 
@@ -380,6 +452,19 @@ TentacleMonitor.getLogs({ level: "error", limit: 10 });
 ---
 
 ## Changelog
+
+### [0.9.3] - 2026-01-25 (AI Cores + Distribution)
+
+- **Feature:** Brain.Gemini - 6 GEMs (Writer, Analyst, Coder, Designer, Planner, Researcher)
+- **Feature:** Brain.GPU - WebGL/WebGPU detection, benchmark, ML compatibility
+- **Feature:** Brain.LocalLLM - Ollama/LM Studio integration (custo 0 PC)
+- **Feature:** PAT.mindMap - Firestore cloud sync, merge strategy, export/import
+- **Feature:** PAT.interview - 10 questions, 4 categories
+- **Feature:** Distribution Tentacle - itch.io, PWA, Panda Arcade hooks
+- **Feature:** Google Tentacle - 8 children (Drive, Sheets, Colab, Calendar, Docs, Gmail, YouTube, Firebase)
+- **Feature:** Social Hub - 7 children (WhatsApp, YouTube, Meta, TikTok, Twitter, Telegram)
+- **Feature:** cTrader Open API integration
+- **Status:** PAT Core 100%, Brain 100%
 
 ### [0.9.2] - 2026-01-24 (Roadmap Strategy)
 

@@ -476,6 +476,54 @@ window.Panda = {
   },
 
   // ==========================================
+  // 🧠 BRAIN TENTACLE (NEW - Jan/2026)
+  // ==========================================
+  Brain: {
+    // GEMINI (Google AI)
+    Gemini: {
+      setApiKey(key),               // Configure API key
+      hasApiKey(),                  // boolean
+      chat(message, opts),          // Promise<{text, tokens, model}>
+      // Specialized GEMs:
+      analyze(data, question),      // Analyst GEM
+      code(task, language),         // Coder GEM
+      write(topic, format),         // Writer GEM
+      design(concept),              // Designer GEM
+      plan(objective),              // Planner GEM
+      research(topic),              // Researcher GEM
+      generateImage(prompt),        // Image generation
+      getGems(),                    // List 6 GEMs
+      getModels(),                  // List models
+      // Arquivo: js/tentacles/brain/children/gemini.js
+    },
+
+    // GPU (Detection & Acceleration)
+    GPU: {
+      detect(),                     // Promise<{webgl, webgpu, vendor, renderer}>
+      getRecommendedBackend(),      // Promise<{backend, performance}>
+      benchmark(),                  // Promise<{capabilities, benchmark}>
+      canRunModel(size),            // Promise<{canRun, reason}>
+      getSummary(),                 // Promise<gpu info>
+      // Arquivo: js/tentacles/brain/children/gpu.js
+    },
+
+    // LOCAL LLM (Ollama/LM Studio)
+    LocalLLM: {
+      detect(),                     // Promise<backends[]>
+      connect(backend),             // Promise<{success, models}>
+      chat(message, opts),          // Promise<{response, tokens, cost:0}>
+      embed(text),                  // Promise<{embedding[], dimensions}>
+      listModels(),                 // Promise<models[]>
+      pullModel(name),              // Ollama only
+      getRecommendedModels(),       // Suggested models
+      getStatus(),                  // {loaded, model, backend}
+      configure(opts),              // {ollamaUrl, lmStudioUrl}
+      // Arquivo: js/tentacles/brain/children/local-llm.js
+      // CUSTO: 0 PC (rodando local!)
+    },
+  },
+
+  // ==========================================
   // GOVERNANÇA (Frozen - Imutável)
   // ==========================================
   Governance: {
