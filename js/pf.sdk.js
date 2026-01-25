@@ -783,6 +783,41 @@
       p2pOnChain: { host: 95, fund: 1, ops: 1, founder: 0, gas: 3 },
     },
     fundAllocation: { labs: 25, growth: 65, reserve: 10 },
+
+    // 🎫 LICENSE TIERS (§9.4 - Hardcoded)
+    licenseTiers: {
+      FOUNDER: {
+        id: "FOUNDER_001",
+        multiplier: 1.03, // Custo + 3% overhead
+        maxLicenses: 1,
+        split: { owner: 0.6, fund: 0.25, ops: 0.15 },
+        microtx: 0.05, // 5% igual a todos
+        verification: "ed25519",
+        description: "Founder tier - minimal cost, custom split",
+      },
+      BETA_FOUNDER: {
+        prefix: "BETA_",
+        multiplier: 1.25, // 50% off do padrão (2.5x)
+        maxLicenses: 100,
+        discount: 0.5,
+        lifetime: true,
+        transferable: false,
+        split: "standard", // Usa split padrão
+        description: "100 early supporters - 50% off vitalício",
+      },
+      STANDARD: {
+        multiplier: 2.5, // Padrão do mercado
+        maxLicenses: Infinity,
+        split: {
+          dev: 0.55,
+          fund: 0.22,
+          ops: 0.15,
+          founder: 0.05,
+          gateway: 0.03,
+        },
+        description: "Standard tier - full price",
+      },
+    },
   };
 
   const Governance = {
@@ -886,6 +921,140 @@
 
       // Default: Permitido se não há regra específica
       return { allowed: true, reason: "Ação não restrita pela Constituição." };
+    },
+
+    // ==========================================
+    // 🎫 LICENSE TIER MANAGEMENT (§9.4)
+    // ==========================================
+
+    /**
+     * Lista de Beta Founders registrados (user IDs)
+     * @private
+     */
+    _betaFounders: [],
+    _betaFounderCount: 0,
+
+    /**
+     * Retorna o tier de licença de um usuário.
+     * @param {string} userId - ID do usuário
+     * @returns {'FOUNDER' | 'BETA_FOUNDER' | 'STANDARD'}
+     */
+    getLicenseTier: (userId) => {
+      // Check Founder (via Ed25519 ou ID hardcoded)
+      if (userId === "FOUNDER_001" || Auth.isFounder()) {
+        return "FOUNDER";
+      }
+
+      // Check Beta Founder
+      if (Governance._betaFounders.includes(userId)) {
+        return "BETA_FOUNDER";
+      }
+
+      return "STANDARD";
+    },
+
+    /**
+     * Calcula custo de tokens baseado no tier do usuário.
+     * @param {number} baseCost - Custo base em PC
+     * @param {string} userId - ID do usuário (opcional, usa current user se não fornecido)
+     * @returns {{ cost: number, tier: string, multiplier: number, discount: number }}
+     */
+    calculateTokenCost: (baseCost, userId = null) => {
+      const uid = userId || _currentUser?.uid || "anonymous";
+      const tier = Governance.getLicenseTier(uid);
+      const tierConfig = _CONSTITUTION.licenseTiers[tier];
+
+      const multiplier = tierConfig.multiplier;
+      const cost = Math.ceil(baseCost * multiplier);
+      const standardCost = Math.ceil(baseCost * 2.5);
+      const discount =
+        standardCost > 0 ? Math.round((1 - cost / standardCost) * 100) : 0;
+
+      log(
+        "GOVERNANCE",
+        `Token cost: ${baseCost} base → ${cost} PC (${tier}, ${multiplier}x, ${discount}% off)`,
+      );
+
+      return {
+        cost,
+        tier,
+        multiplier,
+        discount,
+        baseCost,
+        standardCost,
+      };
+    },
+
+    /**
+     * Registra um Beta Founder (máximo 100).
+     * @param {string} userId - ID do usuário
+     * @param {string} code - Código promocional (BETA_XXXXXX)
+     * @returns {{ success: boolean, message: string, remaining?: number }}
+     */
+    registerBetaFounder: async (userId, code) => {
+      log(
+        "GOVERNANCE",
+        `Registering Beta Founder: ${userId} with code ${code}`,
+      );
+
+      const maxLicenses = _CONSTITUTION.licenseTiers.BETA_FOUNDER.maxLicenses;
+
+      // Validate code format
+      if (!code || !code.startsWith("BETA_")) {
+        return {
+          success: false,
+          message: "Código inválido. Use formato BETA_XXXXXX",
+        };
+      }
+
+      // Check limit
+      if (Governance._betaFounderCount >= maxLicenses) {
+        return {
+          success: false,
+          message: `Limite de ${maxLicenses} licenças beta atingido.`,
+        };
+      }
+
+      // Check if already registered
+      if (Governance._betaFounders.includes(userId)) {
+        return { success: false, message: "Usuário já é Beta Founder." };
+      }
+
+      // Register
+      Governance._betaFounders.push(userId);
+      Governance._betaFounderCount++;
+
+      const remaining = maxLicenses - Governance._betaFounderCount;
+
+      Events.emit("governance:beta_registered", { userId, remaining });
+
+      return {
+        success: true,
+        message: `🌟 Bem-vindo, Beta Founder! Você tem 50% de desconto vitalício.`,
+        tier: "BETA_FOUNDER",
+        remaining,
+      };
+    },
+
+    /**
+     * Retorna quantas licenças beta ainda estão disponíveis.
+     * @returns {{ total: number, used: number, available: number }}
+     */
+    getBetaLicenseStatus: () => {
+      const total = _CONSTITUTION.licenseTiers.BETA_FOUNDER.maxLicenses;
+      const used = Governance._betaFounderCount;
+      return {
+        total,
+        used,
+        available: total - used,
+      };
+    },
+
+    /**
+     * Retorna todos os tiers de licença configurados.
+     */
+    getLicenseTiers: () => {
+      return { ..._CONSTITUTION.licenseTiers };
     },
   };
 

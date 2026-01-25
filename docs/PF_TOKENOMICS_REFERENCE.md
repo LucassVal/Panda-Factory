@@ -255,6 +255,102 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ---
 
+### 9.4. Tiers Especiais (Licenças Hardcoded) 🎫
+
+Além dos tiers padrão, existem licenças especiais com condições exclusivas:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    TIERS DE LICENÇA - HIERARQUIA                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  FOUNDER (1 licença - Lucas Valério) 👑                                │
+│  ├── Multiplier: 1.03x (custo + 3% overhead)                           │
+│  ├── Microtransações: 5% (igual a todos)                               │
+│  ├── Split Vendas Próprias: 60% Founder / 25% Fundo / 15% Ops          │
+│  └── Justificativa: Criador recebe condições de custo operacional      │
+│                                                                         │
+│  BETA FOUNDER (100 licenças - Early Supporters) 🌟                     │
+│  ├── Multiplier: 1.25x (50% desconto vitalício)                        │
+│  ├── Quantidade: 100 (não expansível)                                  │
+│  ├── Validade: VITALÍCIA (nunca expira)                                │
+│  ├── Transferível: NÃO                                                 │
+│  ├── Margem Panda: ~25% (break-even sustentável)                       │
+│  └── Atribuição: Via código promocional no primeiro login              │
+│                                                                         │
+│  STANDARD (Todos os demais) 📦                                         │
+│  ├── Multiplier: 2.5x (padrão do mercado)                              │
+│  └── Descontos: Via volume histórico (Camada 4)                        │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### A. Founder Tier (Único)
+
+| Aspecto              | Valor             | Justificativa                          |
+| -------------------- | ----------------- | -------------------------------------- |
+| **ID**               | `FOUNDER_001`     | Licença única                          |
+| **Token Multiplier** | **1.03x**         | Cobre custo cloud + 3% overhead        |
+| **Microtransações**  | 5%                | Igual a todos (não há privilégio)      |
+| **Split Vendas**     | 60/25/15          | 60% Founder, 25% Fundo, 15% Ops        |
+| **Elegibilidade**    | Ed25519 Signature | Verificado via chave pública hardcoded |
+
+> **Nota:** O Founder paga por uso como qualquer outro usuário, mas com taxa mínima (1.03x) para cobrir custos operacionais. Microtransações (5%) são iguais para todos.
+
+#### B. Beta Founder Tier (100 Licenças)
+
+| Aspecto              | Valor              | Justificativa                   |
+| -------------------- | ------------------ | ------------------------------- |
+| **Quantidade Total** | **100**            | Early adopters limitados        |
+| **Desconto**         | **50% vitalício**  | De 2.5x para 1.25x              |
+| **Token Multiplier** | **1.25x**          | Piso mínimo absoluto            |
+| **Margem Panda**     | ~25%               | Mínimo sustentável              |
+| **Validade**         | **NUNCA EXPIRA**   | Vitalício                       |
+| **Transferível**     | NÃO                | Vinculado ao user ID original   |
+| **Atribuição**       | Código promocional | `BETA_XXXXXX` no primeiro login |
+
+> **Nota:** Essas 100 contas representam os early supporters que confiaram no projeto desde o início. A margem de 25% é baixa, mas sustentável como investimento em comunidade.
+
+#### C. Tabela Comparativa de Tiers
+
+| Tier             | Multiplier | PC por R$1 | Desconto | Limite | Split        |
+| ---------------- | ---------- | ---------- | -------- | ------ | ------------ |
+| **Founder**      | 1.03x      | ~97 PC     | ~59%     | 1      | 60/25/15     |
+| **Beta Founder** | 1.25x      | ~80 PC     | 50%      | 100    | Padrão       |
+| **Standard**     | 2.50x      | ~40 PC     | 0%       | ∞      | 55/22/15/5/3 |
+
+#### D. Implementação Técnica
+
+```javascript
+// js/pf.sdk.js - License Tiers
+Panda._LICENSE_TIERS = {
+  FOUNDER: {
+    id: "FOUNDER_001",
+    multiplier: 1.03,
+    maxLicenses: 1,
+    split: { owner: 0.6, fund: 0.25, ops: 0.15 },
+    microtx: 0.05,
+    verification: "ed25519",
+  },
+  BETA_FOUNDER: {
+    prefix: "BETA_",
+    multiplier: 1.25,
+    maxLicenses: 100,
+    discount: 0.5,
+    lifetime: true,
+    transferable: false,
+    split: "standard",
+  },
+  STANDARD: {
+    multiplier: 2.5,
+    maxLicenses: Infinity,
+    split: { dev: 0.55, fund: 0.22, ops: 0.15, founder: 0.05, gateway: 0.03 },
+  },
+};
+```
+
+---
+
 ## 10. Custos BASE por Módulo
 
 > ⚠️ **Valores são REFERÊNCIA**. PAT ajusta via `PAT_MULTIPLIER` (0.5-1.5).
