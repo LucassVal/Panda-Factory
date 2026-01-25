@@ -571,6 +571,26 @@ window.Panda = {
     Twitter: { generateThread, generateTweet },
     Telegram: { setupBot, sendMessage, broadcast, sendInlineMenu, setWebhook, postToChannel }
     // Arquivos: js/social/ + js/tentacles/social/
+  },
+
+  // ==========================================
+  // 📦 DISTRIBUTION (NEW - Jan/2026)
+  // ==========================================
+  Dist: {
+    configure(platform, creds),   // Configure platform credentials
+    getConfigured(),              // List configured platforms
+    build(projectId, targets),    // ['android', 'web', 'desktop']
+    deploy(projectId, platform),  // 1-click deploy
+    deployAll(projectId, plats),  // Multi-platform deploy
+    getStatus(projectId),         // Status across platforms
+    getAnalytics(projectId, period),
+
+    // Available hooks (children):
+    itch: { deploy(projectId, opts), getAnalytics(), getChannels() },
+    pwa: { deploy(projectId, opts), getAnalytics() },
+    arcade: { deploy(projectId, opts), update(), unpublish(), getAnalytics() }
+    // Planned: google_play, steam, epic, vscode, npm
+    // Arquivos: js/tentacles/distribution/
   }
 };
 

@@ -261,6 +261,17 @@ js/tentacles/google/
 | Twitter/X      | ✅ Feito | -       | ✅ Jan    | pf.social-twitter.js     |
 | Telegram       | ✅ Feito | -       | ✅ Jan    | pf.social-telegram.js    |
 
+### 2.5. Distribution Hub (NEW - Jan/2026)
+
+| Item         | Status   | Esforço | Data Alvo | Arquivo                   |
+| ------------ | -------- | ------- | --------- | ------------------------- |
+| Dist Parent  | ✅ Feito | -       | ✅ Jan    | pf.distribution-parent.js |
+| itch.io Hook | ✅ Feito | -       | ✅ Jan    | children/itch.js          |
+| PWA Hook     | ✅ Feito | -       | ✅ Jan    | children/pwa.js           |
+| Panda Arcade | ✅ Feito | -       | ✅ Jan    | children/arcade.js        |
+| Google Play  | 🟡 0%    | 8h      | Fev/2026  | children/google-play.js   |
+| Steam        | ❌ 0%    | 12h     | Mar/2026  | children/steam.js         |
+
 ### 2.4. Trading Hub (cTrader)
 
 > **Arquivos:** `js/tentacles/trading/pf.trading-parent.js` + `children/ctrader.js`
