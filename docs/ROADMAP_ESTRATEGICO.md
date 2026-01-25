@@ -268,8 +268,8 @@ js/tentacles/google/
 | Item                 | Status   | Esforço | Data Alvo | Arquivo              |
 | -------------------- | -------- | ------- | --------- | -------------------- |
 | Trading Parent       | ✅ Feito | -       | ✅ Jan    | pf.trading-parent.js |
-| cTrader Connection   | 🟡 30%   | 8h      | Mar/2026  | children/ctrader.js  |
-| Open API Integration | ❌ 0%    | 8h      | Mar/2026  | -                    |
+| cTrader Connection   | ✅ Feito | -       | ✅ Jan    | children/ctrader.js  |
+| Open API Integration | ✅ Feito | -       | ✅ Jan    | children/ctrader.js  |
 | cBot Template        | ❌ 0%    | 12h     | Abr/2026  | -                    |
 | Indicator System     | ❌ 0%    | 8h      | Abr/2026  | -                    |
 | Backtesting          | ❌ 0%    | 16h     | Mai/2026  | -                    |
