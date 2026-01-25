@@ -110,6 +110,10 @@
 │ • DLL/Exe Install   │  │ • Status Online     │  │ • Auth/Quotas       │
 │ • MCP Server        │  │ • Telemetria        │  │ • Dispatcher Core   │
 │ • Local AI (LLama)  │  │                     │  │                     │
+│ • WebView (Tauri)   │  │                     │  │                     │
+│ • Antigravity UI    │  │                     │  │                     │
+│ • Polyglot (NLLB)   │  │                     │  │                     │
+│ • Whisper (STT)     │  │                     │  │                     │
 └─────────────────────┘  └─────────────────────┘  └─────────────────────┘
         │                                                    │
         │  DADOS NUNCA SAEM DAQUI                           │
@@ -217,16 +221,21 @@ O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores, inspir
 
 #### B. DevTools v2.0 - Ferramentas Disponíveis
 
-| Tool                         | Ícone | Modal | Pop-out | Descrição                          |
-| ---------------------------- | ----- | ----- | ------- | ---------------------------------- |
-| **Console**                  | 💻    | ✅    | ✅      | Execução JavaScript em sandbox     |
-| **MCP Browser**              | 🧰    | ✅    | ✅      | Lista de MCP Tools do Rust Agent   |
-| **API Tester**               | 🔌    | ✅    | ✅      | Testar endpoints GAS               |
-| **PAT Treasury**             | 🏦    | ✅    | ✅      | Controles do Banco Central IA      |
-| **Constitution Validator**   | ⚖️    | ✅    | ✅      | Validar ações contra os 12 Artigos |
-| **RIG Config** _(futuro)_    | 🦀    | ✅    | ✅      | Configurar providers IA            |
-| **DB Explorer** _(futuro)_   | 🗄️    | ✅    | ✅      | Explorar Sheets/Firebase           |
-| **Monaco Editor** _(futuro)_ | 📝    | ✅    | ✅      | Editor de código integrado         |
+| Tool                         | Ícone | Modal | Pop-out    | Descrição                          |
+| ---------------------------- | ----- | ----- | ---------- | ---------------------------------- |
+| **Console**                  | 💻    | ✅    | ✅         | Execução JavaScript em sandbox     |
+| **MCP Browser**              | 🧰    | ✅    | ✅         | Lista de MCP Tools do Rust Agent   |
+| **API Tester**               | 🔌    | ✅    | ✅         | Testar endpoints GAS               |
+| **PAT Treasury**             | 🏦    | ✅    | ✅         | Controles do Banco Central IA      |
+| **Constitution Validator**   | ⚖️    | ✅    | ✅         | Validar ações contra os 12 Artigos |
+| **Antigravity** ⭐           | 🐼    | ❌    | ✅ WebView | Coding Assistant (BYOL Gemini)     |
+| **RIG Config** _(futuro)_    | 🦀    | ✅    | ✅         | Configurar providers IA            |
+| **DB Explorer** _(futuro)_   | 🗄️    | ✅    | ✅         | Explorar Sheets/Firebase           |
+| **Monaco Editor** _(futuro)_ | 📝    | ✅    | ✅         | Editor de código integrado         |
+
+> **Antigravity** abre em **WebView nativo** no Rust Agent (não no browser).
+> Usa BYOL (Bring Your Own License) - dev conecta sua API key Google.
+> Auto-update: detecta novas versões e oferece atualização in-app.
 
 #### C. Arquitetura Multi-Window (Document PiP)
 

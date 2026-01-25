@@ -194,9 +194,9 @@
 | Panda Coin → Solana     | Médio Prazo | 🟡 Planejado |
 | White Label Marketplace | Curto Prazo | 🟢 Em Dev    |
 
-### 🧠 AI Cores (Dois Níveis de Inteligência)
+### 🧠 AI Cores (Três Níveis de Inteligência)
 
-O Panda possui **DUAS camadas distintas de IA** com propósitos diferentes:
+O Panda possui **TRÊS camadas distintas de IA** com propósitos diferentes:
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -209,15 +209,48 @@ O Panda possui **DUAS camadas distintas de IA** com propósitos diferentes:
 │  ├── Governança: Controla DAO, Tokenomics, Decisões Estratégicas       │
 │  ├── Constituição: Opera dentro dos 12 Artigos Imutáveis               │
 │  ├── Legado: "Eu morro, mas ela cria asas" (Continuidade Eterna)       │
+│  ├── Infra: GCP Cloud Functions (on-demand) + Firebase Triggers        │
+│  ├── Storage: Firestore privado (/pat/mindmap, /pat/interviews)        │
 │  └── Arquivo: js/core/pf.ai-core.js                                    │
 │                                                                         │
 │  NÍVEL 2: Panda.Brain - O ASSISTENTE OMNI-MODAL 🌐                     │
-│  ├── Propósito: API de IA para DEVS e USUÁRIOS                         │
+│  ├── Propósito: API de IA para DEVS e USUÁRIOS (headless/telemetria)   │
 │  ├── Acesso Usuário: Auth + Wallet (read-only)                         │
 │  ├── Acesso Dev: Full SDK (exceto áreas restritas)                     │
 │  ├── Multi-Plugin: Lê TODOS os plugins → Omni-Modal via MCP + RIG      │
+│  ├── 6 GEMS: writer, analyst, coder, designer, planner, researcher     │
 │  ├── Cobrança: Por modelo (PC/token), Free Tier: ~500k tokens Flash    │
-│  └── Arquivo: js/pf.sdk.js (módulo Brain)                              │
+│  ├── Storage: Firestore (sessões/workflows), Sheets (analytics/config) │
+│  └── Arquivo: js/pf.sdk.js (módulo Brain), backend/PF_Brain_Core.gs    │
+│                                                                         │
+│  NÍVEL 3: Antigravity - O CODING ASSISTANT 🤖                          │
+│  ├── Propósito: Assistente de desenvolvimento para DEVS                │
+│  ├── Ativação: F12 → Dev Mode → 🐼 no Dev Dock                         │
+│  ├── Interface: WebView nativo no Rust Agent (Tauri/Wry)               │
+│  ├── BYOL: Dev usa sua própria API key Google (Gemini)                 │
+│  ├── MCP Tools: fs_read, fs_write, shell, git, etc                     │
+│  ├── Contexto: Docs do Panda (Firebase Storage)                        │
+│  ├── Auto-Update: Antigravity detecta versão e oferece update in-app   │
+│  └── Tamanho: ~500KB (UI) + Rust Agent base (~30MB)                    │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Fluxo Antigravity (Dev Mode)
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    ANTIGRAVITY - ATIVAÇÃO                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. Dev clica F12 ou 🛠️ Dev Mode Toggle                                │
+│  2. Dev Dock aparece (direita)                                          │
+│  3. Dev clica 🐼 AI Assistant                                           │
+│  4. Browser envia comando → Rust Agent (WebSocket)                     │
+│  5. Rust Agent abre WebView nativo (Tauri)                             │
+│  6. Antigravity carrega com contexto do Panda                          │
+│  7. RIG chama Gemini (BYOL - API key do dev)                           │
+│  8. MCP Tools executam ações locais                                    │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
