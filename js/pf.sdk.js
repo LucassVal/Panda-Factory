@@ -244,6 +244,16 @@
      * @returns {boolean}
      */
     isFounder: () => _currentUser?.role === "FOUNDER",
+
+    /**
+     * 📋 Retorna permissões do plugin atual (v1 Alpha)
+     * @returns {string[]} Array de permissões concedidas
+     */
+    getPermissions: () => {
+      log("AUTH", "Getting plugin permissions...");
+      // Mock: Retorna permissões padrão
+      return ["auth.read", "wallet.read", "storage.read", "ui.window"];
+    },
   };
 
   // ==========================================
@@ -393,6 +403,32 @@
       await fakeDelay();
       return true;
     },
+
+    /**
+     * 🔄 Força sincronização com a nuvem (v1 Alpha)
+     * @returns {Promise<{synced: boolean, timestamp: number}>}
+     */
+    sync: async () => {
+      log("STORAGE", "Forcing cloud sync...");
+      await fakeDelay(1000);
+      Events.emit("storage:sync", { status: "complete" });
+      return { synced: true, timestamp: Date.now() };
+    },
+
+    /**
+     * 📊 Retorna quota de armazenamento (v1 Alpha)
+     * @returns {Promise<{used: number, available: number, total: number}>}
+     */
+    getQuota: async () => {
+      log("STORAGE", "Getting storage quota...");
+      await fakeDelay(300);
+      return {
+        used: 1024 * 1024 * 50, // 50MB
+        available: 1024 * 1024 * 950, // 950MB
+        total: 1024 * 1024 * 1000, // 1GB
+        unit: "bytes",
+      };
+    },
   };
 
   // ==========================================
@@ -469,6 +505,93 @@
         "⚠️ Wallet._mockCharge é apenas para DEBUG. Não use em produção!",
       );
       return _WalletInternal.charge(amount, reason);
+    },
+
+    /**
+     * 💳 Solicita pagamento ao usuário (v1 Alpha)
+     * Abre modal de autorização antes de debitar.
+     * ⚡ INCLUI SPLIT AUTOMÁTICO (Art 7: 95% Host, 5% Platform)
+     *
+     * @param {number} amount - Quantidade de Panda Coins
+     * @param {string} reason - Motivo do pagamento
+     * @param {object} options - { sellerId, skipModal }
+     * @returns {Promise<{success: boolean, txId?: string, split?: object}>}
+     */
+    requestPayment: async (amount, reason, options = {}) => {
+      log("WALLET", `Request payment: ${amount} PC for "${reason}"`);
+
+      // Skip modal for micropayments < 10 PC (opcional)
+      const skipModal = options.skipModal && amount < 10;
+
+      if (!skipModal) {
+        // Abre modal de confirmação
+        const result = await UI.modal({
+          title: "💳 Confirmar Pagamento",
+          message: `Autorizar débito de ${amount} PC?\n\nMotivo: ${reason}`,
+          type: "confirm",
+          buttons: ["Cancelar", "Pagar"],
+        });
+
+        if (!result.confirmed) {
+          return { success: false, reason: "Pagamento cancelado pelo usuário" };
+        }
+      }
+
+      // 💰 APLICA SPLIT AUTOMÁTICO (Art 7 da Constituição)
+      // P2P Off-chain: 95% Host, 1% Fund, 4% Ops, 0% Founder
+      const SPLIT = {
+        host: 0.95, // 95% vai pro vendedor
+        fund: 0.01, // 1% pro Panda Fund
+        ops: 0.04, // 4% pra operações
+        founder: 0.0, // 0% (já incluso em outras taxas)
+      };
+
+      const split = {
+        total: amount,
+        toHost: Math.floor(amount * SPLIT.host),
+        toFund: Math.floor(amount * SPLIT.fund),
+        toOps: Math.ceil(amount * SPLIT.ops), // ceil pra garantir 100%
+        sellerId: options.sellerId || "unknown",
+      };
+
+      log(
+        "WALLET",
+        `[SPLIT] Total: ${amount} → Host: ${split.toHost}, Fund: ${split.toFund}, Ops: ${split.toOps}`,
+      );
+
+      // Processa pagamento
+      try {
+        await _WalletInternal.charge(amount, reason);
+
+        const txId = "tx_" + Date.now().toString(16);
+
+        // Emite evento de split para backend processar
+        Events.emit("wallet:split", {
+          txId,
+          split,
+          reason,
+          timestamp: Date.now(),
+        });
+
+        return {
+          success: true,
+          txId,
+          newBalance: _walletBalance,
+          split, // Retorna breakdown do split
+        };
+      } catch (e) {
+        return { success: false, reason: e.message };
+      }
+    },
+
+    /**
+     * ✅ Verifica se usuário pode pagar valor (v1 Alpha)
+     * @param {number} amount - Quantidade a verificar
+     * @returns {boolean}
+     */
+    checkBalance: (amount) => {
+      log("WALLET", `Check balance for ${amount} PC`);
+      return _walletBalance >= amount;
     },
   };
 
@@ -591,6 +714,43 @@
       Config.agentConnected = connected;
       Events.emit("agent:status", { connected });
       log("BRIDGE", `Agent ${connected ? "CONNECTED" : "DISCONNECTED"}`);
+    },
+
+    /**
+     * 🧩 Carrega módulo WebAssembly (v1 Alpha)
+     * @param {string} wasmUrl - URL do arquivo .wasm
+     * @returns {Promise<{instance: object, exports: object}>}
+     */
+    loadModule: async (wasmUrl) => {
+      log("BRIDGE", `Loading Wasm module: ${wasmUrl}`);
+
+      if (!Config.agentConnected) {
+        // Mock mode
+        await fakeDelay(500);
+        return {
+          instance: { mock: true },
+          exports: {
+            init: () => log("WASM", "[Mock] init() called"),
+            process: (data) => ({ result: "mock", input: data }),
+            cleanup: () => log("WASM", "[Mock] cleanup() called"),
+          },
+          _mockWarning: "Wasm not actually loaded - mock mode",
+        };
+      }
+
+      // Real Wasm loading
+      try {
+        const response = await fetch(wasmUrl);
+        const bytes = await response.arrayBuffer();
+        const { instance } = await WebAssembly.instantiate(bytes);
+        log("BRIDGE", "Wasm module loaded", {
+          exports: Object.keys(instance.exports),
+        });
+        return { instance, exports: instance.exports };
+      } catch (error) {
+        console.error("[BRIDGE] Wasm load failed:", error);
+        throw error;
+      }
     },
   };
 
@@ -949,6 +1109,61 @@
       if (popouts?.has(toolId)) {
         popouts.get(toolId).close();
       }
+    },
+
+    /**
+     * 📌 Registra item de menu (v1 Alpha - Hooks)
+     * @param {'appdock' | 'contextmenu' | 'mainmenu'} location - Onde adicionar
+     * @param {string} label - Texto do botão
+     * @param {Function} action - Callback ao clicar
+     * @param {object} options - { icon, order, pluginId }
+     * @returns {string} menuItemId
+     */
+    registerMenu: (location, label, action, options = {}) => {
+      const id = `menu_${location}_${Date.now()}`;
+      log("UI", `Register menu: ${location} → "${label}"`, { id, options });
+
+      // Armazena em registry global
+      if (!window._pandaMenuRegistry) {
+        window._pandaMenuRegistry = new Map();
+      }
+
+      window._pandaMenuRegistry.set(id, {
+        location,
+        label,
+        action,
+        icon: options.icon || "🔌",
+        order: options.order || 999,
+        pluginId: options.pluginId || "unknown",
+      });
+
+      Events.emit("ui:menu:register", { id, location, label });
+      return id;
+    },
+
+    /**
+     * 🗑️ Remove item de menu registrado
+     * @param {string} menuItemId
+     */
+    unregisterMenu: (menuItemId) => {
+      log("UI", `Unregister menu: ${menuItemId}`);
+      window._pandaMenuRegistry?.delete(menuItemId);
+      Events.emit("ui:menu:unregister", { id: menuItemId });
+    },
+
+    /**
+     * 📋 Lista todos os menus registrados
+     * @param {string} location - Filtrar por location
+     * @returns {Array}
+     */
+    getMenuItems: (location) => {
+      const items = [];
+      window._pandaMenuRegistry?.forEach((item, id) => {
+        if (!location || item.location === location) {
+          items.push({ id, ...item });
+        }
+      });
+      return items.sort((a, b) => a.order - b.order);
     },
   };
 
