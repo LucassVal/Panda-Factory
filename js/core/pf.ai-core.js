@@ -4,12 +4,35 @@
  *
  * This is the Core AI that:
  * - Monitors system state (inflation, reserves, deflation)
- * - Executes treasury operations (reinvest, accelerate, vesting, burn)
- * - Enforces the 12 Constitutional Articles
+ * - Executes treasury operations (reinvest, accelerate, vesting, burn, buyback)
+ * - Enforces the 14 Constitutional Articles
+ * - Tracks GitHub communities and ranks contributors
  * - Connects to GitHub for version control and self-improvement
  *
  * Version: 1.0.0
  * Architecture: Runs in Browser → Can be upgraded to Rust Agent
+ *
+ * ==========================================
+ * 🚀 PHASE ROADMAP
+ * ==========================================
+ *
+ * PHASE BETA (Atual):
+ * ├── ✅ Splits (55/22/15/5/3)
+ * ├── ✅ Pandômetro (usage tracking)
+ * ├── ✅ Constitution (14 Articles - read-only)
+ * └── ❌ PAT Operations (disabled)
+ *
+ * PHASE 1.0 (Futuro):
+ * ├── ✅ PAT Operations (reinvest, accelerate, vesting, burn, buyback)
+ * ├── ✅ CommunityTracker (contributor ranking)
+ * ├── ✅ MindMap (Founder memory)
+ * ├── ✅ Interview System
+ * └── ✅ Full Tokenomics automation
+ *
+ * PHASE 2.0 (Cripto):
+ * ├── ✅ ON_CHAIN mode (Solana)
+ * ├── ✅ Smart contracts
+ * └── ✅ Burn on-chain
  */
 
 (function () {
