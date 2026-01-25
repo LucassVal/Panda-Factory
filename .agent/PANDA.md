@@ -489,6 +489,25 @@ window.Panda = {
     getStatus(),                 // Promise<{inflation, reserve, deflation}>
     execute(tool, params?)       // Promise<{success, action, amount?}>
     // Tools: reinvest, accelerate, vesting, burn
+
+    // 🧠 MINDMAP (Founder Memory) - NEW
+    mindMap: {
+      addValue(value, source),     // Store value/belief
+      recordDecision(ctx, dec),    // Store decision pattern
+      addRedline(rule, severity),  // Store hard limit
+      query(topic),                // Search memory
+      checkRedlines(action),       // Validate against limits
+      getSummary(),                // {valuesCount, decisionsCount, redlinesCount}
+    },
+
+    // 🎙️ INTERVIEW (Founder Training) - NEW
+    interview: {
+      start(),                   // Start interview session
+      next(),                    // Get next question
+      answer(response),          // Submit answer
+      end(),                     // End session
+      addQuestion(cat, q),       // Add custom question
+    },
   },
 
   // ==========================================
