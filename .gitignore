@@ -1,71 +1,81 @@
-# Dependências e Logs
-node_modules/
-*.log
-test_data/
+# 🐼 Panda Factory - .gitignore
+# ==============================
+# NOTA: Este .gitignore é para o REPO PRIVADO (SAAS).
+# Arquivos sensíveis que nunca devem ir para commits.
 
-# Google & CLASP (CRÍTICO)
-.clasp.json        
-.clasprc.json      # TOKEN DE ACESSO (PERIGO MÁXIMO SE VAZAR)
-appsscript.json    
-
-# ============================================================================
-# 🔐 SEGREDOS E CREDENCIAIS (NUNCA COMMITAR!)
-# ============================================================================
-
-# Arquivos de ambiente
-.env
-.env.local
-.env.production
-.env.*.local
-
-# Chaves genéricas
-secrets.js
-credentials.json
-key.json
-*.pem
+# ====================
+# 🔒 SECRETS & KEYS
+# ====================
+*.secret
 *.key
-*.p12
+*.pem
+.env
+.env.*
+!.env.example
+secrets/
+data/secrets/
 
-# 🤖 AI APIs (FUTURO)
-# - GEMINI_API_KEY
-# - ANTHROPIC_API_KEY (Claude)
-# - OPENAI_API_KEY
-gemini_key.txt
-anthropic_key.txt
-openai_key.txt
+# Token do GitHub (NUNCA commitar!)
+**/github_token*
+**/ghp_*
 
-# 💳 Payment Providers (FUTURO)
-# - STRIPE_SECRET_KEY
-# - PAGSEGURO_TOKEN
-# - COINBASE_API_KEY
-stripe_key.txt
-pagseguro_key.txt
-crypto_keys.json
+# ====================
+# 📦 DEPENDÊNCIAS
+# ====================
+node_modules/
+vendor/
+*.lock
+!package-lock.json
 
-# 🏢 Business (FUTURO)
-# - CNPJ credentials
-# - Nota Fiscal API keys
-# - Banking credentials
-business_credentials.json
-cnpj_cert.pfx
-nfe_cert.pfx
-
-# 🔥 Firebase
-firebase-admin-sdk*.json
-firebase-key*.json
-serviceAccountKey.json
-
-# ============================================================================
-
-# Arquivos de sistema
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-
-# Build
+# ====================
+# 🔨 BUILD
+# ====================
 dist/
 build/
-.tmp.driveupload/
+*.exe
+*.dll
+*.so
+*.dylib
+target/
+
+# ====================
+# 💻 IDE
+# ====================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ====================
+# 🗄️ OS
+# ====================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ====================
+# 📝 LOGS
+# ====================
+*.log
+logs/
+npm-debug.log*
+
+# ====================
+# 🐼 PANDA ESPECÍFICO
+# ====================
+# Backups locais
+backups/
+*.backup
+
+# Dados de teste
+data/test/
+
+# Cache
+.cache/
+__pycache__/
+
+# Rust build artifacts (já no target/)
+rust-agent/target/
