@@ -190,6 +190,12 @@
 
 | Meta                    | Horizonte   | Status       |
 | ----------------------- | ----------- | ------------ |
+| **Stack Dia 1**         | **Dia 1**   | 🟢 Em Dev    |
+| ├─ Rust Agent + Tauri   | Dia 1       | 🟢 Em Dev    |
+| ├─ GPU/NVIDIA           | Dia 1       | 🟢 Em Dev    |
+| ├─ Medusa Store         | Dia 1       | 🟡 Planejado |
+| ├─ 3 AI Cores           | Dia 1       | 🟢 Em Dev    |
+| └─ Firebase/GAS         | Dia 1       | ✅ Feito     |
 | Google Partner          | Médio Prazo | 🟡 Planejado |
 | Panda Coin → Solana     | Médio Prazo | 🟡 Planejado |
 | White Label Marketplace | Curto Prazo | 🟢 Em Dev    |

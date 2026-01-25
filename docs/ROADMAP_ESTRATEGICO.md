@@ -19,11 +19,35 @@
 
 ---
 
-## 🔴 FASE 1: Google Tentacle (PRIORIDADE MÁXIMA)
+## 🔴 FASE 1: Stack Dia 1 (PRIORIDADE MÁXIMA)
 
-> **Objetivo:** Panda = Showcase de integração Google
+> **Objetivo:** Panda nasce completo: Shell + Store + GPU + AI
 
-### 1.1. Estrutura do Tentáculo
+### 1.1. Estrutura Dia 1
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         STACK DIA 1                                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  🦀 RUST AGENT                          🔥 FIREBASE/GAS                │
+│  ├── MCP Server                         ├── Auth                        │
+│  ├── WebView (Tauri)                    ├── Firestore                   │
+│  ├── GPU/CUDA Detection                 ├── Sheets (Configs)            │
+│  ├── Polyglot (NLLB)                    └── Cloud Functions             │
+│  ├── Whisper (STT)                                                      │
+│  └── Antigravity UI                     🛒 MEDUSA STORE                 │
+│                                         ├── Admin SDK                   │
+│  🤖 3 AI CORES                          ├── White-label                 │
+│  ├── PAT (Founder/Governance)           └── Plugin System               │
+│  ├── Brain (Users/Devs headless)                                        │
+│  └── Antigravity (Coding Assistant)     💻 GPU                          │
+│                                         ├── NVIDIA Web (Cloud)          │
+│                                         └── NVIDIA Local (Free)         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 1.2. Google Tentacle
 
 ```
 js/tentacles/google/
