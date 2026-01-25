@@ -359,29 +359,146 @@
     },
 
     /**
-     * Persist to storage
+     * Persist to localStorage + Firestore (if available)
      */
     async _persist() {
+      // Local storage (always)
       try {
         localStorage.setItem("panda_pat_mindmap", JSON.stringify(this.data));
       } catch (e) {
-        log("MINDMAP_ERROR", "Failed to persist: " + e.message);
+        log("MINDMAP_ERROR", "LocalStorage failed: " + e.message);
+      }
+
+      // Cloud sync (if Panda.Data available)
+      try {
+        if (window.Panda?.Data?.save) {
+          const userId =
+            (await window.Panda?.Auth?.getUser?.()?.uid) || "founder";
+          await window.Panda.Data.save("pat_mindmaps", {
+            id: `mindmap_${userId}`,
+            userId,
+            data: this.data,
+            updatedAt: Date.now(),
+            version: this._version || 1,
+          });
+          this._version = (this._version || 1) + 1;
+          log("MINDMAP", "Synced to cloud");
+        }
+      } catch (e) {
+        log("MINDMAP_WARN", "Cloud sync failed: " + e.message);
       }
     },
 
     /**
-     * Load from storage
+     * Load from localStorage + Firestore merge
      */
     async _load() {
+      let localData = null;
+      let cloudData = null;
+
+      // Load from localStorage
       try {
         const stored = localStorage.getItem("panda_pat_mindmap");
         if (stored) {
-          this.data = JSON.parse(stored);
-          log("MINDMAP", `Loaded ${this.getSummary().valuesCount} values`);
+          localData = JSON.parse(stored);
         }
       } catch (e) {
-        log("MINDMAP_ERROR", "Failed to load: " + e.message);
+        log("MINDMAP_ERROR", "LocalStorage load failed: " + e.message);
       }
+
+      // Load from cloud
+      try {
+        if (window.Panda?.Data?.get) {
+          const userId =
+            (await window.Panda?.Auth?.getUser?.()?.uid) || "founder";
+          const cloud = await window.Panda.Data.get(
+            "pat_mindmaps",
+            `mindmap_${userId}`,
+          );
+          if (cloud?.data) {
+            cloudData = cloud.data;
+            this._version = cloud.version || 1;
+          }
+        }
+      } catch (e) {
+        log("MINDMAP_WARN", "Cloud load failed: " + e.message);
+      }
+
+      // Merge strategy: cloud wins for newer, merge arrays
+      if (cloudData && localData) {
+        this.data = this._mergeData(localData, cloudData);
+        log("MINDMAP", "Merged local + cloud data");
+      } else if (cloudData) {
+        this.data = cloudData;
+        log("MINDMAP", "Loaded from cloud");
+      } else if (localData) {
+        this.data = localData;
+        log("MINDMAP", "Loaded from localStorage");
+      }
+
+      log(
+        "MINDMAP",
+        `Loaded: ${this.getSummary().valuesCount} values, ${this.getSummary().decisionsCount} decisions, ${this.getSummary().redlinesCount} redlines`,
+      );
+    },
+
+    /**
+     * Merge local and cloud data (deduplication)
+     */
+    _mergeData(local, cloud) {
+      const merged = {
+        values: this._mergeArray(local.values || [], cloud.values || []),
+        decisions: this._mergeArray(
+          local.decisions || [],
+          cloud.decisions || [],
+        ),
+        preferences: this._mergeArray(
+          local.preferences || [],
+          cloud.preferences || [],
+        ),
+        redlines: this._mergeArray(local.redlines || [], cloud.redlines || []),
+      };
+      return merged;
+    },
+
+    /**
+     * Merge arrays by timestamp (dedupe)
+     */
+    _mergeArray(arr1, arr2) {
+      const combined = [...arr1, ...arr2];
+      const seen = new Set();
+      return combined
+        .filter((item) => {
+          const key = `${item.timestamp || 0}_${JSON.stringify(item).substring(0, 50)}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+    },
+
+    /**
+     * Export mindmap for backup
+     */
+    async export() {
+      return {
+        exported: new Date().toISOString(),
+        version: this._version || 1,
+        data: this.data,
+      };
+    },
+
+    /**
+     * Import mindmap from backup
+     */
+    async import(backup) {
+      if (!backup?.data) {
+        throw new Error("Invalid backup format");
+      }
+      this.data = backup.data;
+      await this._persist();
+      log("MINDMAP", "Imported backup");
+      return this.getSummary();
     },
   };
 

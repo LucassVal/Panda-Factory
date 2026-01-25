@@ -113,11 +113,11 @@
 
 ### 1.3. 3 AI Cores
 
-| Core           | Status | Esforço | Data Alvo | Descrição               |
-| -------------- | ------ | ------- | --------- | ----------------------- |
-| PAT (Core 1)   | 🟡 70% | 8h      | Fev/2026  | Founder/Governance      |
-| Brain (Core 2) | 🟡 80% | 4h      | Fev/2026  | Users/Devs headless     |
-| Antigravity    | ❌ 0%  | 16h     | Fev/2026  | Coding Assistant (BYOL) |
+| Core           | Status  | Esforço | Data Alvo | Descrição               |
+| -------------- | ------- | ------- | --------- | ----------------------- |
+| PAT (Core 1)   | ✅ 100% | -       | ✅ Jan    | Founder/Governance      |
+| Brain (Core 2) | ✅ 100% | -       | ✅ Jan    | Users/Devs headless     |
+| Antigravity    | ❌ 0%   | 16h     | Fev/2026  | Coding Assistant (BYOL) |
 
 ### 1.4. Medusa Store
 
