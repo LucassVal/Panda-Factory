@@ -1,0 +1,232 @@
+/* LoginModal.css - Authentication modal styles */
+
+.login-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.login-modal {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: var(--color-bg-elevated, #1a1a1a);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.login-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary, #1e1e1e);
+  border: none;
+  border-radius: 8px;
+  color: var(--color-text-secondary, #888);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-close:hover {
+  background: var(--color-bg-hover, rgba(255, 255, 255, 0.1));
+  color: var(--color-text-primary, #e0e0e0);
+}
+
+/* Header */
+.login-header {
+  padding: 32px 24px 16px;
+  text-align: center;
+}
+
+.login-logo {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.login-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary, #e0e0e0);
+}
+
+/* Body */
+.login-body {
+  padding: 16px 24px 32px;
+}
+
+.login-subtitle {
+  text-align: center;
+  color: var(--color-text-secondary, #888);
+  margin-bottom: 20px;
+}
+
+/* Login Options */
+.login-option {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--color-bg-secondary, #1e1e1e);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 10px;
+  color: var(--color-text-primary, #e0e0e0);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-option:hover {
+  background: var(--color-bg-hover, rgba(255, 255, 255, 0.05));
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.login-option:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.login-google .google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Divider */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border, #333);
+}
+
+.login-divider span {
+  padding: 0 16px;
+  color: var(--color-text-muted, #666);
+  font-size: 13px;
+}
+
+/* Test Accounts */
+.login-test-accounts {
+  margin-top: 20px;
+  padding: 12px;
+  background: var(--color-bg-primary, #121212);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--color-text-secondary, #888);
+}
+
+.login-test-accounts p {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.login-test-accounts code {
+  background: var(--color-bg-secondary, #1e1e1e);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* Back Button */
+.login-back {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary, #888);
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.login-back:hover {
+  color: var(--color-text-primary, #e0e0e0);
+}
+
+/* Form Fields */
+.login-field {
+  margin-bottom: 16px;
+}
+
+.login-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary, #888);
+}
+
+.login-field input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--color-bg-primary, #121212);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 8px;
+  color: var(--color-text-primary, #e0e0e0);
+  font-size: 14px;
+}
+
+.login-field input:focus {
+  outline: none;
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.login-field input::placeholder {
+  color: var(--color-text-muted, #666);
+}
+
+/* Error */
+.login-error {
+  color: #ef4444;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* Submit Button */
+.login-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.login-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

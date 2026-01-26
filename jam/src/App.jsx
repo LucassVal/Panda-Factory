@@ -8,6 +8,9 @@ import JamChat from "./components/JamChat";
 import JamSettings from "./components/JamSettings";
 import JamRightToolbar from "./components/JamRightToolbar";
 import LoginGate from "./components/LoginGate";
+import { AuthProvider, useAuth } from "./hooks/useAuth";
+import { StatusBar } from "./components/StatusBar";
+import { FounderDashboard } from "./components/FounderDashboard";
 
 /**
  * 🐼 Panda Jam - Main Application v5.1
