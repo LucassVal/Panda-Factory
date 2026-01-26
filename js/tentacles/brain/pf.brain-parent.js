@@ -35,19 +35,40 @@
       TM.log("success", `${TENTACLE_ID}:${name}`, `✓ Child ready`);
     },
 
+    /**
+     * Wrap child with FAULT ISOLATION
+     * If hook crashes, returns graceful error instead of throwing
+     */
     _wrapChild(name, childApi) {
       const wrapped = {};
       Object.keys(childApi).forEach((method) => {
         if (typeof childApi[method] === "function") {
           wrapped[method] = async (...args) => {
-            return TM.trace(`${TENTACLE_ID}:${name}`, method, async () => {
-              try {
-                return await childApi[method](...args);
-              } catch (error) {
-                TM.setStatus(`${TENTACLE_ID}:${name}`, "error");
-                throw error;
-              }
-            });
+            try {
+              const result = await Promise.race([
+                childApi[method](...args),
+                new Promise((_, reject) =>
+                  setTimeout(
+                    () => reject(new Error(`Timeout: ${name}.${method}`)),
+                    30000,
+                  ),
+                ),
+              ]);
+              return result;
+            } catch (error) {
+              console.error(
+                `🔴 [${name}] Hook error in ${method}:`,
+                error.message,
+              );
+              TM?.setStatus?.(`${TENTACLE_ID}:${name}`, "error");
+              return {
+                success: false,
+                error: error.message,
+                hook: name,
+                method: method,
+                isolated: true,
+              };
+            }
           };
         } else {
           wrapped[method] = childApi[method];

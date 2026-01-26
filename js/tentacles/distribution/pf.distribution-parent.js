@@ -68,23 +68,39 @@
     },
 
     /**
-     * Wrap child methods with tracing
+     * Wrap child methods with FAULT ISOLATION
+     * If a child hook crashes, it won't bring down the parent
      */
     _wrapChild(name, childApi) {
       const wrapped = {};
       Object.keys(childApi).forEach((method) => {
         if (typeof childApi[method] === "function") {
           wrapped[method] = async (...args) => {
-            return (
-              TM?.trace(`${TENTACLE_ID}:${name}`, method, async () => {
-                try {
-                  return await childApi[method](...args);
-                } catch (error) {
-                  TM?.setStatus(`${TENTACLE_ID}:${name}`, "error");
-                  throw error;
-                }
-              }) || childApi[method](...args)
-            );
+            try {
+              const result = await Promise.race([
+                childApi[method](...args),
+                new Promise((_, reject) =>
+                  setTimeout(
+                    () => reject(new Error(`Timeout: ${name}.${method}`)),
+                    30000,
+                  ),
+                ),
+              ]);
+              return result;
+            } catch (error) {
+              console.error(
+                `🔴 [${name}] Hook error in ${method}:`,
+                error.message,
+              );
+              TM?.setStatus(`${TENTACLE_ID}:${name}`, "error");
+              return {
+                success: false,
+                error: error.message,
+                hook: name,
+                method: method,
+                isolated: true,
+              };
+            }
           };
         } else {
           wrapped[method] = childApi[method];
