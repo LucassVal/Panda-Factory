@@ -1,89 +1,70 @@
 # 🐼 Panda Factory
 
-> **Democratizing AI Infrastructure for Everyone**
+> **Sua IA Criativa, Simples e Acessível**
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue)](https://lucassval.github.io/Panda-Factory/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-
----
-
-## 🚀 O que é o Panda Factory?
-
-Panda Factory é uma plataforma open-source que democratiza o acesso à infraestrutura Google AI para criadores, desenvolvedores e empreendedores.
-
-### ✨ Features
-
-- 🎨 **JAM** - Editor visual com TLDraw
-- 🧠 **Brain** - 6 GEMs especializados (Writer, Analyst, Coder, Designer, Planner, Researcher)
-- 🪙 **Panda Coin** - Economia tokenizada
-- 🦀 **Rust Agent** - Processamento local com GPU
-- 📱 **Multi-plataforma** - Web, Desktop (Tauri), Mobile
+<p align="center">
+  <img src="LOGO/logo%20git%20hub.png" alt="Panda Factory" width="250">
+</p>
 
 ---
 
-## 🔧 Quick Start
+## ✨ O que é?
 
-```bash
-# Clone o repositório
-git clone https://github.com/LucassVal/Panda-Factory.git
-cd Panda-Factory
-
-# Instale as dependências
-cd jam
-npm install
-
-# Rode o servidor de desenvolvimento
-npm run dev
-```
+**Panda Factory** é sua plataforma de criação assistida por IA. Crie conteúdo, analise dados, planeje projetos e muito mais - tudo com ajuda de especialistas de IA.
 
 ---
 
-## 📖 Documentação
+## 🧠 Nossos Especialistas (GEMs)
 
-| Documento                                      | Descrição   |
-| ---------------------------------------------- | ----------- |
-| [SDK Reference](docs/PF_SDK_REFERENCE.md)      | API do SDK  |
-| [GAS Reference](docs/PF_GAS_REFERENCE.md)      | Backend GAS |
-| [MCP Reference](docs/PF_MCP_REFERENCE.md)      | MCP Tools   |
-| [Architecture](docs/PF_MASTER_ARCHITECTURE.md) | Arquitetura |
-
----
-
-## 🎯 Roadmap
-
-- [x] JAM UI com TLDraw
-- [x] 6 GEMs implementados
-- [x] Context Injection automático
-- [ ] Rust Agent Desktop
-- [ ] Mobile App
-- [ ] P2P Compute Network
+| Especialista      | O que faz                      |
+| ----------------- | ------------------------------ |
+| ✍️ **Writer**     | Escreve textos, artigos, posts |
+| 📊 **Analyst**    | Analisa dados e gera insights  |
+| 💻 **Coder**      | Cria código e automações       |
+| 🎨 **Designer**   | Projeta interfaces e visuais   |
+| 📋 **Planner**    | Organiza projetos e tarefas    |
+| 🔬 **Researcher** | Pesquisa temas em profundidade |
 
 ---
 
-## 🤝 Contribuindo
+## 🚀 Como Acessar
 
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+**Acesse agora:** [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/)
+
+1. Clique no link acima
+2. Faça login
+3. Comece a criar!
+
+---
+
+## 🌐 Comunidade
+
+Junte-se à nossa comunidade:
+
+| Plataforma   | Link                                              |
+| ------------ | ------------------------------------------------- |
+| 💬 Discord   | [Em breve]                                        |
+| 📱 Telegram  | [Em breve]                                        |
+| 🐦 Twitter   | [@pandafactory](https://twitter.com/pandafactory) |
+| 📸 Instagram | [Em breve]                                        |
+
+---
+
+## 💎 Para Desenvolvedores
+
+Quer criar plugins ou integrar o Panda?
+
+- **SDK**: [panda-sdk](https://github.com/LucassVal/panda-sdk)
+- **Documentação**: [docs/](docs/)
 
 ---
 
 ## 📜 Licença
 
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
-
----
-
-## 🐼 Time
-
-- **Lucas Valério** - Founder & Architect
+MIT License © 2026 Panda Factory
 
 ---
 
 <p align="center">
-  <img src="LOGO/logo%20git%20hub.png" alt="Panda Factory" width="200">
-  <br>
-  <strong>Panda Factory</strong> © 2026
+  <strong>Feito com 🐼 por Lucas Valério</strong>
 </p>
