@@ -19,7 +19,43 @@ Preço_Base = Custo_Cloud_Médio × 2.5
 Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 ```
 
-#### B. Split de Receita (Transações)
+#### B. Pacotes de PC (Compra)
+
+> **Desconto máximo: 30%** | Pacote mínimo: $20
+
+| Pacote         |  USD   | PC Base | Desconto | PC Final |
+| -------------- | :----: | :-----: | :------: | :------: |
+| **Starter**    |  $20   |  2.000  |    0%    |  2.000   |
+| **Basic**      |  $50   |  5.000  |    5%    |  5.250   |
+| **Pro**        |  $100  | 10.000  |   10%    |  11.000  |
+| **Business**   |  $250  | 25.000  |   15%    |  28.750  |
+| **Enterprise** |  $500  | 50.000  |   20%    |  60.000  |
+| **Whale**      | $1.000 | 100.000 |   25%    | 125.000  |
+| **Partner**    | $5.000 | 500.000 |   30%    | 650.000  |
+
+> **Nota:** Taxas de gateway são absorvidas pelo Panda (preço limpo para user).
+
+#### C. Split na Compra de PC
+
+| Destino          |  %  | Nota                          |
+| ---------------- | :-: | ----------------------------- |
+| **Panda Ops**    | 65% | Mantém infra, absorve gateway |
+| **Fundo Social** | 30% | Bolsas, bootcamps, promoções  |
+| **Founder**      | 5%  | Lucas (eterno)                |
+
+#### D. Top 100 Devs - Desconto Progressivo
+
+> **Desconto máximo: 30%**
+
+|  Ranking   | Desconto PC |
+| :--------: | :---------: |
+|  **1-10**  |     30%     |
+| **11-25**  |     25%     |
+| **26-50**  |     20%     |
+| **51-75**  |     15%     |
+| **76-100** |     10%     |
+
+#### E. Split de Receita (Transações)
 
 > **NOVO SPLIT (v1.1):** Mínimos hardcoded: Fundo ≥25%, Ops ≥15%
 
