@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       source:
-        description: 'Source directory'
+        description: "Source directory"
         required: false
-        default: '.'
+        default: "."
 
 # Sets permissions of the GITHUB_TOKEN
 permissions:
@@ -31,7 +31,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -39,10 +39,10 @@ jobs:
       - name: 🐼 Build Panda Factory
         run: |
           echo "🐼 Preparing Panda Factory for deployment..."
-          
+
           # Create data directory for GitHub DB
           mkdir -p data
-          
+
           # Ensure index.html exists
           if [ ! -f "index.html" ]; then
             echo "Creating default index.html..."
@@ -81,13 +81,13 @@ jobs:
           </html>
           EOF
           fi
-          
+
           echo "✅ Build complete!"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '${{ github.event.inputs.source || '.' }}'
+          path: ${{ github.event.inputs.source || '.' }}
 
   deploy:
     environment:

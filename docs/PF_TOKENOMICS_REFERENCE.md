@@ -440,15 +440,170 @@ Panda._LICENSE_TIERS = {
 
 ---
 
-## 11. Planos de Assinatura
+## 12. Arquitetura Client-Side First
 
-| Plano    | Preço    | PC Incluídos | PC/R$ |
-| -------- | -------- | ------------ | ----- |
-| Free     | R$ 0     | 100 PC       | -     |
-| Starter  | R$ 9,90  | 500 PC       | 50,5  |
-| Pro      | R$ 29,90 | 2000 PC      | 66,9  |
-| Business | R$ 99,90 | 8000 PC      | 80,1  |
-| Lifetime | R$ 150   | 500 PC/mês   | ∞     |
+> **Filosofia:** "O Browser faz 90% do trabalho. Cloud só para sync e billing."
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    ARQUITETURA CLIENT-SIDE FIRST                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  BROWSER (90% do trabalho)         CLOUD (10% - só sync/auth)          │
+│  ┌──────────────────────────┐     ┌──────────────────────────┐         │
+│  │ • React/TLDraw UI        │     │ • Firebase Auth          │         │
+│  │ • IndexedDB (local)      │     │ • Firebase RTDB (status) │         │
+│  │ • LocalStorage           │────▶│ • GAS (billing/PAT)      │         │
+│  │ • Gemini API (direto)    │     │ • Webhooks               │         │
+│  │ • Service Worker         │     │                          │         │
+│  └──────────────────────────┘     └──────────────────────────┘         │
+│                                                                         │
+│  RUST AGENT (opcional - 0% cloud)                                       │
+│  ┌──────────────────────────┐                                          │
+│  │ • GPU/ML local           │  ← Processamento 100% offline            │
+│  │ • Antigravity            │                                          │
+│  │ • MCP Tools              │                                          │
+│  └──────────────────────────┘                                          │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Por que Client-Side First?
+
+| Benefício           | Impacto                                 |
+| ------------------- | --------------------------------------- |
+| **Custo Cloud ~$0** | Processamento no browser não gera custo |
+| **Privacidade**     | Dados sensíveis ficam locais            |
+| **Offline-capable** | PWA funciona sem internet               |
+| **Escalabilidade**  | Mais users = mais CPU distribuída       |
+
+---
+
+## 13. Capacidade de Infraestrutura
+
+### 13.1 Limites Free Tier
+
+| Serviço                | Limite Gratuito         | Uso Real no Panda        |
+| ---------------------- | ----------------------- | ------------------------ |
+| **Firebase Auth**      | ∞ logins                | Só login (1x por sessão) |
+| **Firebase RTDB**      | 10GB/mês, 100k conexões | Status online, heartbeat |
+| **Google Apps Script** | 90min/dia exec          | Billing, PAT (ocasional) |
+| **Sheets como DB**     | 10M células             | Transações, usuários     |
+
+### 13.2 Capacidade Estimada
+
+```text
+📊 FREE TIER (Custo $0)
+
+├── Usuários Cadastrados: ~100,000+
+├── Usuários Ativos Simultâneos: ~10,000 (limite RTDB connections)
+├── Chamadas GAS/dia: ~50,000 (só billing/auth)
+├── Storage: ~1GB dados
+└── IA (Gemini): Depende do modelo de sharing
+
+COM RUST AGENT (Processamento Local):
+├── Usuários com GPU: ∞ (processamento local)
+├── Cloud: Praticamente zero
+└── Custo: $0 (P2P compute se monetiza sozinho)
+```
+
+### 13.3 Gargalos Reais
+
+| Gargalo                   | Limite           | Solução                 |
+| ------------------------- | ---------------- | ----------------------- |
+| Firebase RTDB Connections | 100k simultâneas | Sharding por região     |
+| GAS Quota Diária          | 90 min           | Batch operations, cache |
+| Gemini API (Founder)      | 300k tokens/dia  | Tiers de acesso         |
+
+---
+
+## 14. Modelo de Compartilhamento Gemini API
+
+> **Filosofia:** "Founder fornece a base (IA), Devs produzem o meio, Users consomem o fim."
+
+### 14.1 Tiers de Acesso à IA
+
+| Nível                 | Quem            | Modelo      | Quota Diária | Fonte            |
+| --------------------- | --------------- | ----------- | ------------ | ---------------- |
+| **Nível 3 (User)**    | Usuários finais | Flash 3.0   | 300k tokens  | Conta do Founder |
+| **Nível 2 (Dev)**     | Desenvolvedores | Flash + Pro | 300k + 100k  | Conta do Founder |
+| **Nível 1 (Founder)** | Lucas Valério   | Todos       | ∞            | Própria          |
+| **BYOL**              | Qualquer        | Qualquer    | ∞            | Própria API Key  |
+
+### 14.2 Estimativa de Usuários por Quota
+
+```text
+Flash 3.0: 300,000 tokens/dia (conta Founder)
+├── Média por usuário leve: ~1,000 tokens/dia
+├── Capacity: ~300 usuários ativos/dia
+│
+Pro (para devs): +100,000 tokens/dia
+├── Média por dev: ~1,000 tokens/dia
+└── Capacity: +100 devs ativos/dia
+
+TOTAL SEM BYOL: ~400 pessoas/dia usando IA compartilhada
+```
+
+### 14.3 BYOL (Bring Your Own License)
+
+Usuários que querem mais tokens podem:
+
+1. **Usar GPU local** (Rust Agent + Ollama/LM Studio) → 0 PC
+2. **Trazer sua API Key** (Gemini, OpenAI, Claude) → 0 PC
+3. **Comprar PC** para usar quota compartilhada → X PC/1k tokens
+
+| Estratégia          | Custo para User    | Custo para Founder |
+| ------------------- | ------------------ | ------------------ |
+| GPU Local           | $0                 | $0                 |
+| BYOL API Key        | ~$0.075/1M tokens  | $0                 |
+| Quota Compartilhada | 30-50 PC/1k tokens | Absorvido          |
+
+---
+
+## 15. Founder Dashboard (Monitors)
+
+> **Objetivo:** Visibilidade total do ecossistema para o Founder (Camada 1).
+
+### 15.1 Painéis Sugeridos
+
+| Painel                | Métricas                                   | Prioridade |
+| --------------------- | ------------------------------------------ | :--------: |
+| **PAT Dashboard**     | Treasury Health, Splits, Burns, Inflação   |  🔴 Alta   |
+| **Firebase Monitor**  | Auth, RTDB quota, Analytics, Errors        |  🔴 Alta   |
+| **GAS Metrics**       | Executions, Errors, Quota %, Response Time |  🔴 Alta   |
+| **SDK Analytics**     | API Calls, Latency, Errors, Cache Hit      |  🟡 Média  |
+| **Tentacle Status**   | Social, Trading, Brain per-channel         |  🟡 Média  |
+| **Rust Agent Fleet**  | Connected agents, GPU active, Compute/h    |  🟡 Média  |
+| **User Funnel**       | Signups, Activation, Retention, Churn      |  🟢 Baixa  |
+| **Revenue Dashboard** | PC Sales, Subscriptions, P2P Fees          |  🟢 Baixa  |
+
+### 15.2 Mockup do Dashboard
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     🐼 PANDA FOUNDER DASHBOARD                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  📊 OVERVIEW                    │ 🔥 FIREBASE STATUS                    │
+│  ├── Users Total: 1,234         │ ├── Auth: ● Online                   │
+│  ├── DAU: 89                    │ ├── RTDB: ● 45% quota                │
+│  ├── PC Circulante: 1.2M        │ └── Analytics: ● 12,456 events      │
+│  └── Revenue (24h): R$ 234      │                                       │
+│                                                                         │
+│  📜 GAS STATUS                  │ 🦀 RUST AGENT                         │
+│  ├── Executions (24h): 4,521    │ ├── Connected: 23 agents             │
+│  ├── Quota Used: 67%            │ ├── GPU Active: 12                   │
+│  ├── Errors: 3                  │ └── Compute/h: 1,234 PC              │
+│  └── Avg Response: 234ms        │                                       │
+│                                                                         │
+│  🤖 PAT (AI Treasury)           │ 🔌 TENTACLES                          │
+│  ├── Health Score: 92%          │ ├── WhatsApp: ● 234 msgs             │
+│  ├── Treasury: $12,345          │ ├── YouTube: ● 12 uploads            │
+│  ├── PAXG: 78%                  │ ├── cTrader: ● 45 trades             │
+│  └── USDC: 22%                  │ └── Telegram: ● 567 msgs             │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 

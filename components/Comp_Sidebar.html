@@ -1,0 +1,288 @@
+<!-- ============================================= -->
+<!-- SIDEBAR COMPONENT (Chat/Omni-Channel) -->
+<!-- Right Side/Bottom - Fixed -->
+<!-- ============================================= -->
+<div id="omni-channel-sidebar" class="sidebar-chat">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Panda AI Assistant</div>
+    <div class="sidebar-controls">
+      <button class="icon-btn" onclick="toggleSidebar()" title="Minimizar">
+        ▼
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-messages" id="chat-history">
+    <div class="chat-placeholder">
+      <div class="placeholder-icon">💬</div>
+      <p>Olá! Como posso ajudar você hoje?</p>
+      <div class="suggestion-chips">
+        <button onclick="setInput('Criar novo cliente')">
+          Criar novo cliente
+        </button>
+        <button onclick="setInput('Resumo financeiro')">
+          Resumo financeiro
+        </button>
+        <button onclick="setInput('Verificar servidor')">
+          Verificar servidor
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-input">
+    <input
+      type="text"
+      id="chat-input"
+      placeholder="Digite sua mensagem or /comando..."
+      autocomplete="off"
+    />
+    <button class="send-btn" onclick="sendMessage()">
+      <span>➤</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Sidebar / Chat Styles */
+  .sidebar-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 80px; /* Left of DevTools dock */
+    width: 350px;
+    height: 500px;
+    background: var(--bg-panel);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    box-shadow: var(--shadow-dock);
+    display: flex;
+    flex-direction: column;
+    z-index: 4000;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .sidebar-chat.collapsed {
+    height: 50px;
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+  }
+
+  .sidebar-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .sidebar-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-placeholder {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--text-secondary);
+  }
+
+  .placeholder-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  .suggestion-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .suggestion-chips button {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s;
+  }
+
+  .suggestion-chips button:hover {
+    border-color: var(--text-primary);
+    background: var(--bg-input);
+  }
+
+  .sidebar-input {
+    padding: 12px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 8px;
+    background: var(--bg-card);
+  }
+
+  .sidebar-input input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: var(--text-primary);
+    outline: none;
+  }
+
+  .sidebar-input input:focus {
+    border-color: var(--border-focus);
+  }
+
+  .send-btn {
+    background: var(--accent-primary);
+    color: var(--text-inverted);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  /**
+   * Panda AI Sidebar v1.1 - SDK Integrated
+   */
+
+  // Sidebar Interactivity
+  function toggleSidebar() {
+    const sidebar = document.getElementById("omni-channel-sidebar");
+    sidebar.classList.toggle("collapsed");
+  }
+
+  function setInput(text) {
+    document.getElementById("chat-input").value = text;
+    document.getElementById("chat-input").focus();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById("chat-input");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const history = document.getElementById("chat-history");
+
+    // User Message
+    const userDiv = document.createElement("div");
+    userDiv.className = "chat-bubble user";
+    userDiv.style.cssText =
+      "align-self:flex-end;background:var(--accent-primary);color:var(--text-inverted);padding:8px 12px;border-radius:12px 12px 0 12px;max-width:80%;font-size:13px;";
+    userDiv.textContent = text;
+    history.appendChild(userDiv);
+    input.value = "";
+    history.scrollTop = history.scrollHeight;
+
+    // Typing indicator
+    const typingDiv = document.createElement("div");
+    typingDiv.id = "typing-indicator";
+    typingDiv.style.cssText =
+      "align-self:flex-start;color:var(--text-secondary);font-size:12px;padding:8px;";
+    typingDiv.innerHTML = "🐼 Pensando...";
+    history.appendChild(typingDiv);
+    history.scrollTop = history.scrollHeight;
+
+    // Get response from SDK or mock
+    let response;
+    try {
+      if (typeof Panda !== "undefined" && Panda.Brain) {
+        response = await Panda.Brain.ask(text);
+
+        // Auto-translate if enabled
+        const settings = localStorage.getItem("pf_translation_settings");
+        if (settings) {
+          const prefs = JSON.parse(settings);
+          if (prefs.enabled && prefs.scope !== "manual") {
+            const detected = await Panda.Polyglot.detectLanguage(
+              response.answer,
+            );
+            if (detected.code !== prefs.preferredLang) {
+              const translated = await Panda.Polyglot.translate(
+                response.answer,
+                detected.code,
+                prefs.preferredLang,
+              );
+              response.answer = translated;
+            }
+          }
+        }
+      } else {
+        // Demo fallback
+        response = {
+          answer: getMockResponse(text),
+          confidence: 0.85,
+        };
+      }
+    } catch (e) {
+      response = { answer: "Erro ao processar: " + e.message, confidence: 0 };
+    }
+
+    // Remove typing indicator
+    const indicator = document.getElementById("typing-indicator");
+    if (indicator) indicator.remove();
+
+    // Bot Response
+    const botDiv = document.createElement("div");
+    botDiv.className = "chat-bubble bot";
+    botDiv.style.cssText =
+      "align-self:flex-start;background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-primary);padding:8px 12px;border-radius:12px 12px 12px 0;max-width:80%;font-size:13px;";
+    botDiv.innerHTML = response.answer;
+    history.appendChild(botDiv);
+    history.scrollTop = history.scrollHeight;
+
+    console.log("🐼 AI Response:", response);
+  }
+
+  function getMockResponse(input) {
+    const lower = input.toLowerCase();
+    if (lower.includes("cliente")) {
+      return "Para criar um novo cliente, acesse <b>CRM > Novo Cliente</b> e preencha os campos obrigatórios.";
+    } else if (lower.includes("financeiro") || lower.includes("resumo")) {
+      return "📊 Resumo do mês: <b>R$ 45.200</b> em vendas, <b>23 novos leads</b>.";
+    } else if (lower.includes("servidor") || lower.includes("status")) {
+      return "✅ Todos os serviços operacionais. Rust Agent: <b>Conectado</b>.";
+    } else {
+      return "Entendi! Posso ajudar com CRM, análises ou configurações. (Demo)";
+    }
+  }
+
+  document.getElementById("chat-input").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+
+  console.log("🐼 Panda AI Sidebar v1.1 loaded (SDK integrated)");
+</script>

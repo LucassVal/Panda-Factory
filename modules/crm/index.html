@@ -1,0 +1,235 @@
+<div id="contatos-view" class="view-section">
+      <div class="controls" style="display: flex; flex-direction: column; gap: 12px;">
+        <!-- LINHA 1: FILTROS (Espaçamento Justificado) -->
+        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+        <div class="search-box" style="flex: 1; max-width: 250px;">
+          <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, código ou cid..." oninput="filtrarClientes()" />
+        </div>
+        
+        <select class="filter-select" id="statusFilter">
+          <option value="">Status▼</option>
+          <option value="nao_acompanhando">⚪ Não Acompanhando</option>
+          <option value="em_acompanhamento">🟢 Em Acompanhamento</option>
+          <option value="com_orcamento">🔵 Com Orçamento</option>
+          <option value="fechado">✅ Fechado</option>
+          <option value="finalizado">🔴 Finalizado</option>
+        </select>
+        
+        <select class="filter-select" id="cidadeFilter">
+          <option value="">Cidade▼</option>
+        </select>
+        
+        <select class="filter-select" id="bairroFilter">
+          <option value="">Bairro▼</option>
+        </select>
+        
+        <input type="number" id="minArea" placeholder="Min" class="filter-select" style="width: 80px;">
+        <input type="number" id="maxArea" placeholder="Max" class="filter-select" style="width: 80px;">
+        </div>
+        
+        <!-- LINHA 2: AÇÕES (Espaçamento Justificado) -->
+        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between;">
+        <button class="btn btn-primary" onclick="abrirNovoCliente()" style="flex: 1;">
+          ➕ Novo
+        </button>
+        
+        <button class="btn btn-primary" id="toggleViewBtn" onclick="toggleKanbanView()" style="flex: 1;">
+          📊 Kanban
+        </button>
+        
+        <button class="btn" onclick="abrirImportacao()" style="background: #f59e0b; color: white; flex: 1;">
+          ↓ Import
+        </button>
+        
+        <!-- Auto Button Removed -->
+        
+        <button class="btn" onclick="exportarDados()" style="background: #667eea; color: white; flex: 1;">
+          💾 Export
+        </button>
+        </div>
+        
+        <!-- LINHA 3: FILTROS RÁPIDOS + ORDENAÇÃO ALFABÉTICA (Espaçamento Justificado) -->
+        <div class="quick-filters" style="display: flex; gap: 8px; align-items: center; justify-content: space-between;">
+          <button id="btnFiltroMeus" class="filter-tag" onclick="filtroRapido('meus')">👤 Meus clientes</button>
+          <button id="btnFiltroNovos" class="filter-tag" onclick="filtroRapido('novos')">🆕 Novos</button>
+          <button id="btnFiltroAtrasados" class="filter-tag" onclick="filtroRapido('atrasados')">⚠️ Atrasados</button>
+          <button class="filter-tag" onclick="ordenarClientes('bairro')">Bairro ⇅</button>
+          <button class="filter-tag" onclick="ordenarClientes('cidade')">Cidade ⇅</button>
+          <button class="filter-tag" onclick="ordenarClientes('nome')">Nome ⇅</button>
+          <div style="margin-left: auto; display: flex; gap: 8px;">
+            <button class="btn btn-success" onclick="aplicarFiltrosBotao()" style="min-width: 50px; padding: 8px 15px;" title="Aplicar Filtros">✓</button>
+            <button class="btn" style="background: #fee2e2; color: #b91c1c; min-width: 50px; padding: 8px 15px;" onclick="limparFiltrosRapidos()" title="Limpar Filtros">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="clients-grid" id="clientsGrid">
+        <!-- Cards de clientes -->
+      </div>
+      
+      <!-- KANBAN CONTAINER (Novo) -->
+      <div id="kanbanContainer" class="kanban-container">
+          <!-- Colunas serão geradas via JS -->
+      </div>
+
+
+<div class="modal" id="newClientModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>➕ Cadastrar Novo Cliente</h2>
+          <button class="close-btn" onclick="fecharNovoCliente()">×</button>
+        </div>
+
+        <div class="add-form" style="margin-bottom: 0">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+              gap: 15px;
+            "
+          >
+            <div class="form-group">
+              <label class="form-label required">Nome do Cliente</label>
+              <input
+                type="text"
+                class="form-input"
+                id="newClientName"
+                placeholder="Nome completo"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">Data de Contato</label>
+              <input
+                type="date"
+                class="form-input"
+                id="newClientData"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Telefone Principal</label>
+              <input
+                type="tel"
+                class="form-input phone-input-field"
+                id="newClientPhone"
+                placeholder="(XX) XXXXX-XXXX"
+                maxlength="15"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">Fonte de Captação</label>
+              <select class="form-input" id="newClientFonte" onchange="verificarFonteOutros(this)">
+                <option value="">Selecione...</option>
+                <option value="GC">GC - Guia da Construção</option>
+                <option value="APPARATO">APPARATO - Marcenaria</option>
+                <option value="APTTA">APTTA - Marcenaria</option>
+                <option value="SIGNORE">SIGNORE - Showroom</option>
+                <option value="GOOGLE">GOOGLE - Ads</option>
+                <option value="META">FACE/INSTA - Meta Ads</option>
+              </select>
+              <!-- Outros Removed -->
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">Vendedor Responsável</label>
+                <select class="form-input" id="newClientVendedor">
+                    <option value="">Selecione...</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1; background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #e2e8f0;">
+                <label class="form-label" style="color:#0f172a; font-weight:bold; display:flex; align-items:center; gap:5px;">
+                    📍 Endereço (Busca Automática)
+                </label>
+                <!-- Container for Google Maps Place Autocomplete Element -->
+                <div id="place-autocomplete-container" style="margin-bottom:10px;"></div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 100px; gap:10px; margin-top:10px;">
+                    <div>
+                        <label class="form-label" for="newClientRua" style="font-size:11px;">Rua/Logradouro</label>
+                        <input type="text" class="form-input" id="newClientRua" autocomplete="address-line1">
+                    </div>
+                    <div>
+                        <label class="form-label" for="newClientNumero" style="font-size:11px;">Número</label>
+                        <input type="text" class="form-input" id="newClientNumero" autocomplete="address-line2">
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                    <div>
+                        <label class="form-label" for="newClientBairro" style="font-size:11px;">Bairro</label>
+                        <input type="text" class="form-input" id="newClientBairro" autocomplete="address-level3">
+                    </div>
+                    <div>
+                        <label class="form-label" for="newClientCep" style="font-size:11px;">CEP</label>
+                        <input type="text" class="form-input" id="newClientCep" autocomplete="postal-code">
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 2fr 80px; gap:10px; margin-top:10px;">
+                    <div>
+                        <label class="form-label" for="newClientCidade" style="font-size:11px;">Cidade</label>
+                        <input type="text" class="form-input" id="newClientCidade" autocomplete="address-level2">
+                    </div>
+                    <div>
+                        <label class="form-label" for="newClientEstado" style="font-size:11px;">UF</label>
+                        <input type="text" class="form-input" id="newClientEstado" autocomplete="address-level1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Observações</label>
+                <textarea class="form-input" id="newClientObs" rows="3" placeholder="Detalhes importantes..."></textarea>
+            </div>
+            
+            <hr style="margin:20px 0; border:0; border-top:1px dashed #ccc;">
+            <h4 style="margin-bottom:10px; color:#666;">Campos Personalizados</h4>
+            <div id="customFieldsContainer"></div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label class="form-label">Telefones / Contatos</label>
+                <div id="phonesContainer">
+                    <!-- Inputs de telefone aqui -->
+                </div>
+                <button class="btn" style="background:#e0e7ff; color:#4338ca; width:100%; border:1px dashed #4338ca;" onclick="adicionarInputTelefone()">+ Adicionar Telefone</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Valor Estimado (R$)</label>
+              <input
+                type="number"
+                class="form-input"
+                id="newClientValor"
+                placeholder="0.00"
+                step="0.01"
+              />
+            </div>
+
+
+          </div>
+
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              justify-content: flex-end;
+              margin-top: 20px;
+            "
+          >
+            <button class="btn btn-warning" onclick="fecharNovoCliente()">
+              Cancelar
+            </button>
+            <button class="btn btn-success" onclick="salvarNovoCliente()">
+              💾 Salvar Cliente
+            </button>
+          </div>
+
+          <div id="newClientAlert" style="margin-top: 15px"></div>
+        </div>
+      </div>
+    </div>
+</div>

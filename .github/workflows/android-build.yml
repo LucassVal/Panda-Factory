@@ -1,0 +1,153 @@
+name: Panda App Factory - Android Build
+
+on:
+  repository_dispatch:
+    types: [build-android]
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: 'Panda Project ID'
+        required: true
+      package_name:
+        description: 'Android Package Name (com.example.app)'
+        required: true
+      version_name:
+        description: 'Version Name (1.0.0)'
+        required: true
+        default: '1.0.0'
+      output_format:
+        description: 'Output format (apk or aab)'
+        required: true
+        default: 'aab'
+      pwa_url:
+        description: 'PWA URL to wrap'
+        required: true
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🐼 Panda Factory Build Start
+        run: echo "Building Android app for ${{ inputs.package_name }}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Bubblewrap
+        run: npm install -g @anthropic/claude-code @nicolo-ribaudo/llhttp
+
+      - name: Create Bubblewrap manifest
+        run: |
+          mkdir -p build
+          cat > build/twa-manifest.json << EOF
+          {
+            "packageId": "${{ inputs.package_name }}",
+            "host": "${{ inputs.pwa_url }}",
+            "name": "Panda App",
+            "launcherName": "Panda",
+            "display": "standalone",
+            "themeColor": "#4cc9f0",
+            "navigationColor": "#1a1a2e",
+            "backgroundColor": "#1a1a2e",
+            "enableNotifications": true,
+            "startUrl": "/",
+            "iconUrl": "${{ inputs.pwa_url }}/icons/icon-512.png",
+            "maskableIconUrl": "${{ inputs.pwa_url }}/icons/icon-maskable-512.png",
+            "splashScreenFadeOutDuration": 300,
+            "signingKey": {
+              "path": "./panda-keystore.jks",
+              "alias": "panda"
+            },
+            "appVersion": "${{ inputs.version_name }}",
+            "appVersionCode": ${{ github.run_number }},
+            "shortcuts": [],
+            "generatorApp": "panda-factory",
+            "webManifestUrl": "${{ inputs.pwa_url }}/manifest.json",
+            "fallbackType": "customtabs",
+            "features": {
+              "locationDelegation": {
+                "enabled": true
+              },
+              "playBilling": {
+                "enabled": false
+              }
+            },
+            "enableSiteSettingsShortcut": true,
+            "isChromeOSOnly": false,
+            "orientation": "default",
+            "fingerprints": []
+          }
+          EOF
+
+      - name: Generate Keystore
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'panda123' }}
+        run: |
+          keytool -genkey -v \
+            -keystore build/panda-keystore.jks \
+            -alias panda \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass $KEYSTORE_PASSWORD \
+            -keypass $KEYSTORE_PASSWORD \
+            -dname "CN=Panda Factory, OU=Apps, O=Panda, L=SP, ST=SP, C=BR"
+
+      - name: Build with Bubblewrap
+        run: |
+          cd build
+          npx @nicolo-ribaudo/llhttp@latest twa-manifest.json \
+            --skipPwaValidation \
+            --skipSigning
+          
+          # Build APK or AAB based on input
+          if [ "${{ inputs.output_format }}" = "aab" ]; then
+            ./gradlew bundleRelease
+            mv app/build/outputs/bundle/release/app-release.aab ../app-release.aab
+          else
+            ./gradlew assembleRelease
+            mv app/build/outputs/apk/release/app-release-unsigned.apk ../app-release.apk
+          fi
+
+      - name: Sign APK (if APK)
+        if: inputs.output_format == 'apk'
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'panda123' }}
+        run: |
+          # Sign
+          jarsigner -verbose \
+            -keystore build/panda-keystore.jks \
+            -storepass $KEYSTORE_PASSWORD \
+            -keypass $KEYSTORE_PASSWORD \
+            app-release.apk panda
+          
+          # Align
+          zipalign -v 4 app-release.apk app-signed.apk
+          mv app-signed.apk app-release.apk
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: panda-android-${{ inputs.project_id }}
+          path: |
+            app-release.${{ inputs.output_format == 'aab' && 'aab' || 'apk' }}
+          retention-days: 7
+
+      - name: 🐼 Build Complete
+        run: |
+          echo "✅ Build complete!"
+          echo "📦 Package: ${{ inputs.package_name }}"
+          echo "📱 Version: ${{ inputs.version_name }}"
+          echo "📁 Format: ${{ inputs.output_format }}"

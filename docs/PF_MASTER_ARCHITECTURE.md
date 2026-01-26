@@ -2579,4 +2579,157 @@ DEPOIS do Panda App Factory:
 
 ---
 
+## 24. Dual Cloud Strategy (GitHub + Google)
+
+> **Filosofia:** Panda senta em cima de dois gigantes ao mesmo tempo.
+> Custo zero no beta. Zero lock-in. Máxima redundância.
+
+### 24.1. Visão Geral
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                    PANDA DUAL CLOUD                              │
+│                                                                  │
+│  ┌──────────────────────┐    ┌──────────────────────┐           │
+│  │   MICROSOFT/GitHub   │    │      GOOGLE           │           │
+│  │                      │    │                       │           │
+│  │  ├── Hosting (Pages) │    │  ├── AI (Gemini)     │           │
+│  │  ├── Database (JSON) │    │  ├── Storage (Drive) │           │
+│  │  ├── Compute (Actions)│   │  ├── Sheets (Data)   │           │
+│  │  ├── CDN (Releases)  │    │  ├── GPU (Colab)     │           │
+│  │  └── Source (Git)    │    │  └── Auth (Firebase) │           │
+│  │                      │    │                       │           │
+│  │  CUSTO: $0 (grátis)  │    │  CUSTO: $0-20/mês    │           │
+│  └──────────────────────┘    └──────────────────────┘           │
+│                                                                  │
+│                    ┌───────────────────┐                        │
+│                    │   PANDA SDK       │                        │
+│                    │   (Abstração)     │                        │
+│                    │                   │                        │
+│                    │  Panda.Data →     │                        │
+│                    │    GitHub JSON    │                        │
+│                    │    OU Sheets      │                        │
+│                    │    OU Firebase    │                        │
+│                    └───────────────────┘                        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 24.2. GitHub como Infraestrutura
+
+| Serviço             | Uso no Panda            | Custo Free   | Custo Pro   |
+| ------------------- | ----------------------- | ------------ | ----------- |
+| **GitHub Pages**    | Hosting estático        | ∞            | ∞           |
+| **GitHub JSON DB**  | Database (data/\*.json) | 100MB        | 2GB         |
+| **GitHub Actions**  | Compute serverless      | 2000 min/mês | 3000 min    |
+| **GitHub Releases** | CDN para assets         | 2GB/release  | 2GB         |
+| **GitHub API**      | CRUD via commits        | 5000 req/h   | 15000 req/h |
+
+**Vantagens:**
+
+- Versionamento automático (cada save = commit)
+- Rollback trivial (git revert)
+- Branch = ambientes (dev, staging, prod)
+- PR = code review para dados
+- Issues = tickets integrados
+
+### 24.3. Google como Compute/AI
+
+| Serviço           | Uso no Panda          | Custo Free |
+| ----------------- | --------------------- | ---------- |
+| **Gemini**        | IA principal (6 GEMs) | 60 req/min |
+| **Drive**         | Storage grande        | 15GB       |
+| **Sheets**        | Spreadsheet as DB     | ∞          |
+| **Colab**         | GPU para ML           | 12h/sessão |
+| **Firebase Auth** | Autenticação (futuro) | 50k/mês    |
+
+### 24.4. Arquivos do GitHub Tentacle
+
+```
+js/tentacles/github/
+├── pf.github-parent.js       (295 lines) - API Core
+└── children/
+    ├── database.js           (313 lines) - JSON as DB
+    ├── pages.js              (216 lines) - Static Hosting
+    └── actions.js            (263 lines) - Serverless
+
+js/pf.bootstrap.js            (250 lines) - Zero-config init
+
+.github/workflows/
+├── pages.yml                 - Auto-deploy
+└── android-build.yml         - Bubblewrap
+
+data/
+├── manifest.json             - DB structure
+├── config/panda.json         - System config
+├── users/                    - Users collection
+└── projects/                 - Projects collection
+```
+
+### 24.5. API Panda.GitHub
+
+```javascript
+// Inicialização (automática via bootstrap)
+await Panda.GitHub.init({
+  owner: "LucassVal",
+  repo: "SAAS",
+  token: "ghp_...", // Para escrita
+});
+
+// Database (CRUD)
+await Panda.Data.save("users", { name: "Lucas", role: "founder" });
+await Panda.Data.get("users", "abc123");
+await Panda.Data.list("users", { where: [["role", "==", "founder"]] });
+await Panda.Data.delete("users", "abc123");
+
+// Pages (Hosting)
+await Panda.GitHub.Pages.deploy();
+await Panda.GitHub.Pages.setCustomDomain("panda.factory");
+await Panda.GitHub.Pages.setupSPARouting();
+
+// Actions (Compute)
+await Panda.GitHub.Actions.trigger("build.yml", { target: "android" });
+await Panda.GitHub.Actions.waitForRun(runId);
+await Panda.GitHub.Actions.getArtifacts(runId);
+```
+
+### 24.6. Bootstrap Zero-Config
+
+```html
+<!-- Apenas isso é necessário -->
+<script src="js/pf.sdk.js"></script>
+<script src="js/pf.bootstrap.js"></script>
+
+<!-- Panda.* está pronto para uso -->
+<script>
+  window.addEventListener("panda:ready", async () => {
+    // GitHub detectado automaticamente
+    const users = await Panda.Data.list("users");
+    console.log(users);
+  });
+</script>
+```
+
+### 24.7. Planos de Upgrade
+
+| Fase       | Infra                     | Custo    |
+| ---------- | ------------------------- | -------- |
+| **Beta**   | GitHub Free + Google Free | $0/mês   |
+| **Launch** | GitHub Pro + Gemini API   | $20/mês  |
+| **Growth** | GitHub Enterprise + GCP   | $100/mês |
+| **Scale**  | Multi-cloud híbrido       | Variável |
+
+### 24.8. Migração Futura
+
+O SDK abstrai completamente a infra. Migrar de GitHub para Firebase/Supabase:
+
+```javascript
+// Mudar o backend (SDK permanece igual!)
+Panda.setBackend("firebase"); // ou "supabase", "pocketbase"
+
+// Código do app NÃO muda
+await Panda.Data.save("users", data); // Funciona igual
+```
+
+---
+
 > _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_

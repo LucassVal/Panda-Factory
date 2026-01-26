@@ -3,24 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🐼 Panda Factory - Beta</title>
-
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#4cc9f0" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-
-    <!-- GitHub Config (auto-detected from URL) -->
-    <meta name="panda-owner" content="LucassVal" />
-    <meta name="panda-repo" content="SAAS" />
-
-    <!-- SEO -->
-    <meta
-      name="description"
-      content="Panda Factory - Create apps, games, and businesses without code. Powered by AI."
+    <title>Panda Factory - IA para Todos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
     />
-    <meta name="keywords" content="no-code, app builder, AI, panda, factory" />
-
     <style>
       * {
         margin: 0;
@@ -28,44 +15,32 @@
         box-sizing: border-box;
       }
 
-      :root {
-        --bg-primary: #0a0a1a;
-        --bg-secondary: #12122a;
-        --accent: #4cc9f0;
-        --accent-glow: rgba(76, 201, 240, 0.3);
-        --text: #eaeaea;
-        --text-muted: #8888aa;
-      }
-
       body {
+        font-family: "Inter", sans-serif;
         background: linear-gradient(
           135deg,
-          var(--bg-primary),
-          var(--bg-secondary)
+          #0f172a 0%,
+          #1e1b4b 50%,
+          #0f172a 100%
         );
-        color: var(--text);
-        font-family:
-          "Inter",
-          system-ui,
-          -apple-system,
-          sans-serif;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
+        color: white;
       }
 
       .container {
         text-align: center;
-        padding: 2rem;
-        max-width: 600px;
+        padding: 40px;
+        max-width: 500px;
       }
 
       .logo {
-        font-size: 6rem;
-        margin-bottom: 1rem;
+        width: 150px;
+        height: 150px;
+        margin-bottom: 30px;
         animation: float 3s ease-in-out infinite;
       }
 
@@ -81,240 +56,241 @@
 
       h1 {
         font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-        background: linear-gradient(90deg, var(--accent), #a855f7);
+        margin-bottom: 15px;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
       .tagline {
-        color: var(--text-muted);
         font-size: 1.2rem;
-        margin-bottom: 2rem;
-      }
-
-      .status {
-        background: var(--bg-secondary);
-        border: 1px solid var(--accent);
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 0 30px var(--accent-glow);
-      }
-
-      .status-title {
-        font-size: 0.9rem;
-        color: var(--accent);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 0.5rem;
-      }
-
-      .status-value {
-        font-size: 1.5rem;
-        font-weight: bold;
+        color: #94a3b8;
+        margin-bottom: 40px;
       }
 
       .features {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        margin-bottom: 2rem;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
       }
 
       .feature {
         background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        padding: 1rem;
-        text-align: left;
+        padding: 15px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .feature-icon {
         font-size: 1.5rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 5px;
       }
 
-      .feature-title {
-        font-weight: 600;
-        margin-bottom: 0.25rem;
+      .feature-text {
+        font-size: 0.9rem;
+        color: #94a3b8;
       }
 
-      .feature-desc {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-      }
-
-      .cta {
-        background: linear-gradient(90deg, var(--accent), #a855f7);
-        border: none;
-        color: #000;
-        padding: 1rem 2rem;
-        border-radius: 50px;
+      .login-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: white;
+        color: #1f2937;
+        padding: 16px 32px;
+        border-radius: 12px;
         font-size: 1.1rem;
         font-weight: 600;
+        border: none;
         cursor: pointer;
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s;
+        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       }
 
-      .cta:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px var(--accent-glow);
+      .login-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(96, 165, 250, 0.3);
       }
 
-      .footer {
-        margin-top: 2rem;
-        color: var(--text-muted);
-        font-size: 0.8rem;
+      .login-btn img {
+        width: 24px;
+        height: 24px;
       }
 
-      .footer a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-
-      #console {
-        position: fixed;
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
-        background: rgba(0, 0, 0, 0.8);
-        border-radius: 8px;
-        padding: 1rem;
-        font-family: monospace;
-        font-size: 0.8rem;
-        max-height: 150px;
-        overflow-y: auto;
+      .loading {
         display: none;
+        margin-top: 20px;
+        color: #60a5fa;
       }
 
-      #console.visible {
+      .loading.show {
         display: block;
       }
 
-      .log {
-        margin: 0.25rem 0;
+      .footer {
+        margin-top: 60px;
+        color: #475569;
+        font-size: 0.85rem;
       }
-      .log-info {
-        color: #4cc9f0;
-      }
-      .log-success {
-        color: #4ade80;
-      }
-      .log-error {
-        color: #f87171;
+
+      .footer a {
+        color: #60a5fa;
+        text-decoration: none;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="logo">🐼</div>
-      <h1>Panda Factory</h1>
-      <p class="tagline">Create apps, games, and businesses without code</p>
+      <!-- Logo SVG inline para não depender de arquivo externo -->
+      <svg
+        class="logo"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="50" cy="50" r="45" fill="#1e293b" />
+        <circle cx="35" cy="40" r="12" fill="white" />
+        <circle cx="65" cy="40" r="12" fill="white" />
+        <circle cx="35" cy="40" r="6" fill="#1e293b" />
+        <circle cx="65" cy="40" r="6" fill="#1e293b" />
+        <ellipse cx="50" cy="60" rx="15" ry="10" fill="white" />
+        <circle cx="50" cy="58" rx="5" ry="5" fill="#1e293b" />
+      </svg>
 
-      <div class="status">
-        <div class="status-title">System Status</div>
-        <div class="status-value" id="status">Initializing...</div>
-      </div>
+      <h1>Panda Factory</h1>
+      <p class="tagline">IA para criar, automatizar e monetizar</p>
 
       <div class="features">
         <div class="feature">
-          <div class="feature-icon">🐙</div>
-          <div class="feature-title">GitHub Backend</div>
-          <div class="feature-desc">Zero server. Free hosting.</div>
-        </div>
-        <div class="feature">
           <div class="feature-icon">🧠</div>
-          <div class="feature-title">AI Powered</div>
-          <div class="feature-desc">Gemini + Local LLMs</div>
+          <div class="feature-text">6 IAs Especializadas</div>
         </div>
         <div class="feature">
-          <div class="feature-icon">📱</div>
-          <div class="feature-title">App Factory</div>
-          <div class="feature-desc">Build Android apps in minutes</div>
+          <div class="feature-icon">🔌</div>
+          <div class="feature-text">Multi-Integrações</div>
         </div>
         <div class="feature">
-          <div class="feature-icon">🎮</div>
-          <div class="feature-title">Game Studio</div>
-          <div class="feature-desc">Publish to Panda Arcade</div>
+          <div class="feature-icon">🚀</div>
+          <div class="feature-text">Deploy Fácil</div>
         </div>
       </div>
 
-      <button class="cta" id="launch-btn">Launch Console</button>
+      <button class="login-btn" onclick="signInWithGoogle()">
+        <img
+          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+          alt="Google"
+        />
+        Entrar com Google
+      </button>
+
+      <p class="loading" id="loading">Conectando...</p>
 
       <div class="footer">
+        <p>© 2026 Panda Factory</p>
         <p>
-          Beta Version |
-          <a href="https://github.com/LucassVal/SAAS" target="_blank">GitHub</a>
+          <a href="https://github.com/LucassVal/Panda-Factory" target="_blank"
+            >GitHub</a
+          >
         </p>
-        <p>Dual Cloud: Microsoft + Google = Zero Lock-in</p>
       </div>
     </div>
 
-    <div id="console"></div>
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        GoogleAuthProvider,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
-    <!-- SDK -->
-    <script src="js/pf.sdk.js"></script>
-    <script src="js/pf.bootstrap.js"></script>
+      // Firebase config - SUBSTITUA pelos seus valores
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        projectId: "YOUR_PROJECT",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
 
-    <script>
-      // Console logger
-      const consoleEl = document.getElementById("console");
-      const statusEl = document.getElementById("status");
-      const launchBtn = document.getElementById("launch-btn");
+      // GAS Web App URL - SUBSTITUA pela sua URL
+      const GAS_URL =
+        "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
 
-      function log(message, type = "info") {
-        const div = document.createElement("div");
-        div.className = `log log-${type}`;
-        div.textContent = `> ${message}`;
-        consoleEl.appendChild(div);
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-      }
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
 
-      // Listen for Panda ready
-      window.addEventListener("panda:ready", async (e) => {
-        statusEl.textContent = "✅ Online";
-        statusEl.style.color = "#4ade80";
+      // Check if already logged in
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          await connectToGAS(user);
+        }
+      });
 
-        log("Panda SDK initialized", "success");
-        log(`Mode: ${e.detail?.mode || "github"}`, "info");
-        log(`Repo: ${e.detail?.owner}/${e.detail?.repo}`, "info");
+      // Sign in function
+      window.signInWithGoogle = async function () {
+        try {
+          document.getElementById("loading").classList.add("show");
 
-        // Check data collections
-        if (window.Panda?.Data?.getCollections) {
-          try {
-            const collections = await Panda.Data.getCollections();
-            if (collections.success) {
-              log(
-                `Collections: ${collections.collections.join(", ") || "none"}`,
-                "info",
-              );
-            }
-          } catch (e) {
-            log("Collections check skipped", "info");
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+
+          await connectToGAS(user);
+        } catch (error) {
+          console.error("Login error:", error);
+          document.getElementById("loading").classList.remove("show");
+          alert("Erro ao fazer login. Tente novamente.");
+        }
+      };
+
+      // Connect to GAS backend
+      async function connectToGAS(user) {
+        try {
+          const token = await user.getIdToken();
+
+          const response = await fetch(GAS_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "auth.verify",
+              payload: {
+                email: user.email,
+                uid: user.uid,
+                name: user.displayName,
+              },
+              token: token,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.status === "SUCCESS" || data.valid) {
+            // Store session
+            localStorage.setItem("panda_token", token);
+            localStorage.setItem(
+              "panda_user",
+              JSON.stringify({
+                email: user.email,
+                name: user.displayName,
+                photo: user.photoURL,
+              }),
+            );
+
+            // Redirect to app (GAS Web App)
+            window.location.href = GAS_URL + "?action=app";
+          } else {
+            throw new Error(data.error || "Falha na autenticação");
           }
+        } catch (error) {
+          console.error("GAS connection error:", error);
+          document.getElementById("loading").classList.remove("show");
+          alert("Erro ao conectar. Tente novamente.");
         }
-      });
-
-      // Fallback for when bootstrap isn't loaded
-      setTimeout(() => {
-        if (statusEl.textContent === "Initializing...") {
-          statusEl.textContent = "🟡 Offline (Dev)";
-          log("Running in dev mode", "info");
-        }
-      }, 3000);
-
-      // Launch button
-      launchBtn.addEventListener("click", () => {
-        consoleEl.classList.toggle("visible");
-        launchBtn.textContent = consoleEl.classList.contains("visible")
-          ? "Hide Console"
-          : "Launch Console";
-      });
-
-      // Initial log
-      log("Starting Panda Factory...", "info");
+      }
     </script>
   </body>
 </html>

@@ -1,0 +1,450 @@
+<!-- ============================================= -->
+<!-- APP DOCK v4.0 (Simplified)                  -->
+<!-- Only: Catalog, Store, Dev Mode              -->
+<!-- Dynamic apps from user catalog              -->
+<!-- ============================================= -->
+<style>
+  /* Dock Base */
+  .left-dock {
+    position: fixed;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    transition: all 0.3s ease;
+  }
+
+  .left-dock.dragging {
+    cursor: grabbing;
+    opacity: 0.9;
+  }
+
+  .dock-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(102, 126, 234, 0.12);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark-mode .dock-items {
+    background: rgba(20, 20, 30, 0.88);
+    border-color: rgba(102, 126, 234, 0.2);
+  }
+
+  /* Dock Item */
+  .dock-item {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    position: relative;
+  }
+
+  .dock-item:hover {
+    background: rgba(102, 126, 234, 0.12);
+    transform: scale(1.15);
+  }
+
+  .dock-item:active {
+    transform: scale(0.95);
+  }
+
+  /* Fixed items (Catalog, Store, Dev) */
+  .dock-item.fixed {
+    opacity: 1;
+  }
+
+  /* Dynamic items (open apps) */
+  .dock-item.dynamic {
+    border-left: 3px solid #667eea;
+  }
+
+  .dock-item.dynamic.pinned::after {
+    content: "⭐";
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
+  }
+
+  /* Dev Mode Toggle */
+  .dock-item.dev-mode-toggle.active {
+    background: linear-gradient(
+      135deg,
+      rgba(16, 185, 129, 0.2),
+      rgba(52, 211, 153, 0.2)
+    );
+    box-shadow: inset 0 0 0 2px rgba(16, 185, 129, 0.4);
+  }
+
+  /* Separator */
+  .dock-separator {
+    width: 100%;
+    height: 1px;
+    background: rgba(102, 126, 234, 0.15);
+    margin: 4px 0;
+  }
+
+  /* Dynamic Apps Section */
+  .dock-dynamic-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .dock-dynamic-section::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .dock-dynamic-section::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 2px;
+  }
+
+  /* Context Menu */
+  .dock-context-menu {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(102, 126, 234, 0.15);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 3000;
+    display: none;
+    min-width: 160px;
+  }
+
+  .dark-mode .dock-context-menu {
+    background: rgba(25, 25, 35, 0.95);
+  }
+
+  .dock-context-menu.visible {
+    display: block;
+  }
+
+  .context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary, #1a1a2e);
+    transition: background 0.15s ease;
+  }
+
+  .dark-mode .context-menu-item {
+    color: #fff;
+  }
+
+  .context-menu-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+  }
+
+  .context-menu-item.danger {
+    color: #ef4444;
+  }
+
+  .context-menu-item.danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+  }
+
+  .context-menu-separator {
+    height: 1px;
+    background: rgba(102, 126, 234, 0.1);
+    margin: 4px 0;
+  }
+</style>
+
+<div id="appDock" class="modular-dock left-dock">
+  <div class="dock-items">
+    <!-- FIXED ITEMS -->
+    <div
+      class="dock-item fixed"
+      onclick="PandaCatalog.open()"
+      title="📁 Meu Catálogo"
+    >
+      📁
+    </div>
+    <div class="dock-item fixed" onclick="PandaStore.open()" title="🏪 Store">
+      🏪
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <!-- DEV MODE TOGGLE -->
+    <div
+      class="dock-item fixed dev-mode-toggle"
+      id="devModeToggle"
+      onclick="toggleDevMode()"
+      title="🛠️ Dev Mode"
+    >
+      🛠️
+    </div>
+
+    <div
+      class="dock-separator"
+      id="dynamicSeparator"
+      style="display: none"
+    ></div>
+
+    <!-- DYNAMIC APPS (from catalog) -->
+    <div class="dock-dynamic-section" id="dynamicApps">
+      <!-- Apps appear here when opened from catalog -->
+    </div>
+  </div>
+</div>
+
+<!-- Context Menu (Right Click) -->
+<div class="dock-context-menu" id="dockContextMenu">
+  <div class="context-menu-item" onclick="DockContext.pinApp()">
+    <span>📌</span> Fixar no Dock
+  </div>
+  <div class="context-menu-item" onclick="DockContext.closeApp()">
+    <span>❌</span> Fechar
+  </div>
+  <div class="context-menu-separator"></div>
+  <div class="context-menu-item" onclick="DockContext.openSettings()">
+    <span>⚙️</span> Configurações
+  </div>
+  <div class="context-menu-item" onclick="DockContext.sdkActions()">
+    <span>🔧</span> Ações SDK
+  </div>
+  <div class="context-menu-separator"></div>
+  <div class="context-menu-item danger" onclick="DockContext.uninstallApp()">
+    <span>🗑️</span> Desinstalar
+  </div>
+</div>
+
+<script>
+  /**
+   * PandaDock Controller v4.0
+   */
+  window.PandaDock = {
+    openApps: new Map(), // Currently open apps
+    pinnedApps: new Set(), // Pinned to dock permanently
+
+    // Add app to dock (when opened from catalog)
+    addApp(appId, appData) {
+      if (this.openApps.has(appId)) return;
+
+      this.openApps.set(appId, appData);
+      this.renderDynamicApps();
+
+      // Show separator
+      document.getElementById("dynamicSeparator").style.display = "block";
+    },
+
+    // Remove app from dock (when closed)
+    removeApp(appId) {
+      if (this.pinnedApps.has(appId)) return; // Don't remove pinned
+
+      this.openApps.delete(appId);
+      this.renderDynamicApps();
+
+      // Hide separator if no apps
+      if (this.openApps.size === 0) {
+        document.getElementById("dynamicSeparator").style.display = "none";
+      }
+    },
+
+    // Pin app to dock
+    pinApp(appId) {
+      this.pinnedApps.add(appId);
+      localStorage.setItem("pinnedApps", JSON.stringify([...this.pinnedApps]));
+      this.renderDynamicApps();
+    },
+
+    // Unpin app
+    unpinApp(appId) {
+      this.pinnedApps.delete(appId);
+      localStorage.setItem("pinnedApps", JSON.stringify([...this.pinnedApps]));
+      if (!this.openApps.has(appId)) {
+        this.renderDynamicApps();
+      }
+    },
+
+    // Render dynamic apps section
+    renderDynamicApps() {
+      const container = document.getElementById("dynamicApps");
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      // Combine open and pinned apps
+      const allApps = new Map([...this.openApps]);
+      this.pinnedApps.forEach((id) => {
+        if (!allApps.has(id)) {
+          allApps.set(id, { icon: "📱", name: "App " + id });
+        }
+      });
+
+      allApps.forEach((app, id) => {
+        const isPinned = this.pinnedApps.has(id);
+        const div = document.createElement("div");
+        div.className = `dock-item dynamic${isPinned ? " pinned" : ""}`;
+        div.title = app.name || id;
+        div.innerHTML = app.icon || "📱";
+        div.onclick = () => this.focusApp(id);
+        div.oncontextmenu = (e) => {
+          e.preventDefault();
+          DockContext.show(e, id, app);
+        };
+        container.appendChild(div);
+      });
+    },
+
+    // Focus/switch to app
+    focusApp(appId) {
+      console.log("🐼 Focus app:", appId);
+      // Will connect to multi-window system
+      Panda?.UI?.focusWindow?.(appId);
+    },
+
+    // Load pinned apps from storage
+    init() {
+      const saved = localStorage.getItem("pinnedApps");
+      if (saved) {
+        this.pinnedApps = new Set(JSON.parse(saved));
+        this.renderDynamicApps();
+      }
+    },
+  };
+
+  /**
+   * Context Menu Controller
+   */
+  window.DockContext = {
+    currentApp: null,
+
+    show(event, appId, appData) {
+      this.currentApp = { id: appId, data: appData };
+      const menu = document.getElementById("dockContextMenu");
+
+      menu.style.left = event.clientX + "px";
+      menu.style.top = event.clientY + "px";
+      menu.classList.add("visible");
+
+      // Close when clicking outside
+      setTimeout(() => {
+        document.addEventListener("click", this.hide, { once: true });
+      }, 10);
+    },
+
+    hide() {
+      document.getElementById("dockContextMenu")?.classList.remove("visible");
+    },
+
+    pinApp() {
+      if (this.currentApp) {
+        PandaDock.pinApp(this.currentApp.id);
+        Panda?.UI?.toast?.("📌 App fixado no dock", "success");
+      }
+      this.hide();
+    },
+
+    closeApp() {
+      if (this.currentApp) {
+        PandaDock.removeApp(this.currentApp.id);
+        // Close the actual window
+        Panda?.UI?.closeWindow?.(this.currentApp.id);
+      }
+      this.hide();
+    },
+
+    openSettings() {
+      Panda?.UI?.toast?.("⚙️ App settings coming soon", "info");
+      this.hide();
+    },
+
+    sdkActions() {
+      // Opens SDK actions menu - extensible by devs
+      console.log("🔧 SDK Actions for:", this.currentApp?.id);
+      Panda?.UI?.toast?.("🔧 SDK Actions extensible", "info");
+      this.hide();
+    },
+
+    uninstallApp() {
+      if (this.currentApp) {
+        if (
+          confirm(
+            `Desinstalar ${this.currentApp.data?.name || this.currentApp.id}?`,
+          )
+        ) {
+          PandaDock.removeApp(this.currentApp.id);
+          PandaDock.unpinApp(this.currentApp.id);
+          Panda?.UI?.toast?.("🗑️ App desinstalado", "success");
+        }
+      }
+      this.hide();
+    },
+  };
+
+  /**
+   * Placeholder controllers for Catalog and Store
+   */
+  window.PandaCatalog = {
+    open() {
+      Panda?.UI?.toast?.("📁 Catálogo - Em desenvolvimento", "info");
+      // Will open catalog modal showing user's installed apps
+    },
+  };
+
+  window.PandaStore = {
+    open() {
+      Panda?.UI?.toast?.("🏪 Store - Em desenvolvimento", "info");
+      // Will open store modal
+    },
+  };
+
+  // Dev Mode Toggle
+  window.toggleDevMode = function () {
+    const devDock = document.getElementById("devDock");
+    const toggleBtn = document.getElementById("devModeToggle");
+    const isActive = devDock?.classList.toggle("active");
+
+    if (toggleBtn) {
+      toggleBtn.innerHTML = isActive ? "🔧" : "🛠️";
+      toggleBtn.classList.toggle("active", isActive);
+    }
+
+    localStorage.setItem("panda_dev_mode", isActive ? "true" : "false");
+    Panda?.UI?.toast?.(
+      isActive ? "🔧 Dev Mode ON" : "🛠️ Dev Mode OFF",
+      isActive ? "success" : "info",
+    );
+  };
+
+  // Init on load
+  document.addEventListener("DOMContentLoaded", () => {
+    PandaDock.init();
+
+    // Restore dev mode
+    if (localStorage.getItem("panda_dev_mode") === "true") {
+      document.getElementById("devDock")?.classList.add("active");
+      const btn = document.getElementById("devModeToggle");
+      if (btn) {
+        btn.innerHTML = "🔧";
+        btn.classList.add("active");
+      }
+    }
+  });
+
+  console.log("🐼 AppDock v4.0 loaded");
+</script>
