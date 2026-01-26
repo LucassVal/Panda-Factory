@@ -73,14 +73,19 @@
     },
 
     /**
-     * Wrap child methods with FAULT ISOLATION
+     * Wrap child methods with FAULT ISOLATION + TELEMETRY
      * If a child hook crashes, it won't bring down the parent
+     * Reports all activities to Founder Dashboard
      */
     _wrapChild(name, childApi) {
       const wrapped = {};
+      const AT = window.AgentTelemetry;
+
       Object.keys(childApi).forEach((method) => {
         if (typeof childApi[method] === "function") {
           wrapped[method] = async (...args) => {
+            const start = Date.now();
+
             // FAULT ISOLATION: Wrap in try/catch with graceful degradation
             try {
               const result = await Promise.race([
@@ -93,6 +98,14 @@
                   ),
                 ),
               ]);
+
+              // Report success to Founder Dashboard
+              AT?.report?.(`${TENTACLE_ID}:${name}`, method, {
+                success: result?.success !== false,
+                duration: Date.now() - start,
+                cost: result?.cost,
+              });
+
               return result;
             } catch (error) {
               // Log error but DON'T propagate - return graceful failure
@@ -106,6 +119,9 @@
                 `${TENTACLE_ID}:${name}`,
                 `${method} failed: ${error.message}`,
               );
+
+              // Report error to Founder Dashboard
+              AT?.reportError?.(`${TENTACLE_ID}:${name}`, error, { method });
 
               // Return standardized error response - DON'T throw
               return {
