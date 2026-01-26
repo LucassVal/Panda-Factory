@@ -48,7 +48,7 @@
 4. [Camada SDK: O Coração](#4-camada-sdk)
 5. [Backend: Os 3 Pilares](#5-backend-pilares)
 6. [Infraestrutura Híbrida](#6-infraestrutura)
-7. [Segurança & Zero-Knowledge](#7-seguranca)
+7. [Segurança & Zero-Knowledge](#7-seguranca) (§7.1-7.10)
 
 ### PARTE III: ECOSSISTEMA ECONÔMICO
 
@@ -1356,11 +1356,11 @@ economy: {
 
 ## 7. Segurança & Zero-Knowledge
 
-### 8.1. Princípio Fundamental
+### 7.1. Princípio Fundamental
 
 > **"A Panda Fabrics não vê seus dados. O processamento é Local ou na Nuvem privada do Tenant."**
 
-### 8.2. Camadas de Segurança (Layers)
+### 7.2. Camadas de Segurança (Layers)
 
 ```text
 LAYER 1: FRONTEND (Input Validation)
@@ -1374,11 +1374,11 @@ LAYER 4: RUST AGENT (Assinatura Digital + Sandbox)
 LAYER 5: ADMIN (Audit + Kill Switch)
 ```
 
-### 8.3. Estratégia Open Core (Anti-Fork)
+### 7.3. Estratégia Open Core (Anti-Fork)
 
 O `pf-agent` é Open Source, mas a compilação oficial (`official_build`) inclui chaves proprietárias para acessar a Store e a Nuvem Panda. Forks não conseguem se conectar ao ecossistema oficial.
 
-### 8.4. Modelo de Permissões "Android-Style" 🛡️
+### 7.4. Modelo de Permissões "Android-Style" 🛡️
 
 O Rust **NUNCA** executa ações perigosas silenciosamente:
 
@@ -1386,7 +1386,7 @@ O Rust **NUNCA** executa ações perigosas silenciosamente:
 - **Pop-up Desktop:** "O App Panda CRM deseja ler sua pasta de Notas. [Permitir] [Bloquear]".
 - **Persistência:** O usuário aceita explicitamente. Isso isenta a Panda de responsabilidade.
 
-### 8.5. Assinatura Digital de Plugins (Code Signing) ✍️
+### 7.5. Assinatura Digital de Plugins (Code Signing) ✍️
 
 Para evitar uso malicioso:
 
@@ -1394,18 +1394,18 @@ Para evitar uso malicioso:
 - Drivers não assinados são bloqueados: _"Assinatura Inválida"_.
 - **Review:** Equipe audita código antes de assinar e publicar na Store.
 
-### 8.6. Termos de Uso (Isenção)
+### 7.6. Termos de Uso (Isenção)
 
 > "O Panda Agent é uma ferramenta de automação passiva. A Panda Fabrics **não se responsabiliza** por perda de dados, ordens financeiras erradas ou mau uso. O usuário detém controle total e responsabilidade final sobre as permissões concedidas."
 
-### 8.7. Botão de Pânico (Kill Switch) 🚨
+### 7.7. Botão de Pânico (Kill Switch) 🚨
 
 Se detectarmos vulnerabilidade global:
 
 - Firebase envia sinal `EMERGENCY_STOP`.
 - **Todos** os Agents entram em "Modo Seguro" (leitura apenas) instantaneamente.
 
-### 8.8. Ed25519 Founder Authentication (O Anel do Rei) 👑
+### 7.8. Ed25519 Founder Authentication (O Anel do Rei) 👑
 
 > **STATUS: PRONTO (Não Ativo)** - Arquitetura documentada, implementação mock no SDK.
 
@@ -1594,6 +1594,103 @@ O Ed25519 é **nativamente compatível** com:
 | **Polkadot** | Ed25519   | ✅ Nativo               |
 
 > **Roadmap:** Quando migrar para on-chain, a chave Ed25519 do Founder pode virar uma Wallet Solana real.
+
+### 7.9. Fault Isolation Pattern (Constituição) 🛡️
+
+> **REGRA CONSTITUCIONAL:** Nenhum hook/tentacle pode `throw error` - falhas devem retornar graciosamente.
+
+```javascript
+// ❌ PROIBIDO - Erro propaga e trava outros hooks
+throw new Error("Hook failed");
+
+// ✅ CORRETO - Erro isolado, outros hooks continuam
+return {
+  success: false,
+  error: error.message,
+  hook: name,
+  method: method,
+  isolated: true,
+};
+```
+
+**Requisitos Obrigatórios:**
+
+| Requisito     | Implementação                                |
+| ------------- | -------------------------------------------- |
+| **Timeout**   | 30 segundos por chamada (Promise.race)       |
+| **Catch-All** | try/catch em todo `_wrapChild()`             |
+| **Report**    | Erros via `TM.reportError()`                 |
+| **Graceful**  | Retorna `{ success: false }` em vez de throw |
+| **Status**    | Marca hook como "error" no TentacleMonitor   |
+
+**Implementação (Todos os Parents):**
+
+```javascript
+// _wrapChild em TODOS os Parents (education, social, trading, google, brain, distribution)
+_wrapChild(name, childApi) {
+  wrapped[method] = async (...args) => {
+    try {
+      const result = await Promise.race([
+        childApi[method](...args),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error(`Timeout: ${name}.${method}`)), 30000)
+        ),
+      ]);
+      return result;
+    } catch (error) {
+      console.error(`🔴 [${name}] Hook error in ${method}:`, error.message);
+      TM?.setStatus?.(`${TENTACLE_ID}:${name}`, "error");
+      return { success: false, error: error.message, hook: name, isolated: true };
+    }
+  };
+}
+```
+
+### 7.10. Error Registry Protocol (Constituição) 📝
+
+> **REGRA CONSTITUCIONAL:** Todos os erros de hooks devem ser registrados para visibilidade de agentes.
+
+**TentacleMonitor Error API:**
+
+| Método                                           | Uso                                |
+| ------------------------------------------------ | ---------------------------------- |
+| `TM.reportError(source, method, error, context)` | Registrar erro de hook             |
+| `TM.getErrors(filter)`                           | Consultar erros por categoria/hook |
+| `TM.getErrorSummary()`                           | Agregado para dashboard            |
+| `TM.resolveError(id)`                            | Marcar como resolvido              |
+| `Panda.emit('monitor:error')`                    | Evento real-time                   |
+
+**Estrutura do Erro:**
+
+```javascript
+{
+  id: "err_1234567890_abc",
+  timestamp: Date.now(),
+  source: "education:kiwify",    // category:hook
+  category: "education",
+  hook: "kiwify",
+  method: "validateWebhook",
+  error: "Timeout: kiwify.validateWebhook",
+  stack: "...",
+  context: {},                   // dados adicionais
+  resolved: false,
+  resolvedAt: null
+}
+```
+
+**Fluxo de Erro:**
+
+```text
+[Hook Falha]
+     │
+     ├──> 1. Catch-All captura
+     │
+     ├──> 2. TM.reportError() registra
+     │
+     ├──> 3. Panda.emit('monitor:error') notifica
+     │
+     └──> 4. Retorna { success: false, isolated: true }
+```
 
 ---
 
