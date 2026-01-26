@@ -1,81 +1,83 @@
-# 🐼 Panda Factory - .gitignore
-# ==============================
-# NOTA: Este .gitignore é para o REPO PRIVADO (SAAS).
-# Arquivos sensíveis que nunca devem ir para commits.
+# 🔒 Panda Factory Public - Exclusões
 
-# ====================
-# 🔒 SECRETS & KEYS
-# ====================
-*.secret
-*.key
-*.pem
+# ========================================
+# SENSÍVEL - NÃO ENVIAR PARA REPO PÚBLICO
+# ========================================
+
+# Backend (contém lógica de negócio)
+backend/
+
+# Agente Rust (privado)
+rust-agent/
+
+# PAT e AI Core (segredos)
+js/core/
+js/pat/
+
+# Arquivos de ambiente
 .env
 .env.*
-!.env.example
+*.env
+
+# Chaves e configs sensíveis
+.clasp.json
+*.key
+*.pem
 secrets/
-data/secrets/
+_archive/legacy/secrets.js
 
-# Token do GitHub (NUNCA commitar!)
-**/github_token*
-**/ghp_*
+# Scripts internos
+scripts/
 
-# ====================
-# 📦 DEPENDÊNCIAS
-# ====================
+# Dados locais
+dados/
+data/
+
+# Sistema interno
+_system/
+
+# Configuração do agent
+.agent/
+
+# ========================================
+# MANTÉM NO REPO PÚBLICO
+# ========================================
+# !jam/            → UI Pública
+# !docs/           → Docs públicos
+# !README.md       → Página inicial
+# !LOGO/           → Assets visuais
+# !community/      → Templates comunidade
+# !index.html      → Landing page
+# !_config.yml     → GitHub Pages
+
+# ========================================
+# PADRÃO
+# ========================================
+
+# Node
 node_modules/
-vendor/
-*.lock
-!package-lock.json
+package-lock.json
+npm-debug.log*
 
-# ====================
-# 🔨 BUILD
-# ====================
+# Build
 dist/
 build/
-*.exe
-*.dll
-*.so
-*.dylib
-target/
+.cache/
 
-# ====================
-# 💻 IDE
-# ====================
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
+# IDE
+.vscode/
 .idea/
 *.swp
 *.swo
-*~
 
-# ====================
-# 🗄️ OS
-# ====================
+# OS
 .DS_Store
 Thumbs.db
-Desktop.ini
 
-# ====================
-# 📝 LOGS
-# ====================
+# Logs
 *.log
 logs/
-npm-debug.log*
 
-# ====================
-# 🐼 PANDA ESPECÍFICO
-# ====================
-# Backups locais
-backups/
-*.backup
-
-# Dados de teste
-data/test/
-
-# Cache
-.cache/
-__pycache__/
-
-# Rust build artifacts (já no target/)
-rust-agent/target/
+# Backups
+*_BACKUP.*
+*.bak
