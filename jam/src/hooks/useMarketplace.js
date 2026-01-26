@@ -153,7 +153,10 @@ export function useMarketplace() {
       try {
         const platform = platforms[platformId];
         if (!platform) {
-          throw new Error(`Unknown platform: ${platformId}`);
+          console.error(`Unknown platform: ${platformId}`);
+          setError(`Unknown platform: ${platformId}`);
+          setIsLoading(false);
+          return { success: false, error: `Unknown platform: ${platformId}`, isolated: true };
         }
 
         // Route to appropriate tentacle
@@ -200,7 +203,10 @@ export function useMarketplace() {
       try {
         const platform = platforms[platformId];
         if (!platform) {
-          throw new Error(`Unknown platform: ${platformId}`);
+          console.error(`Unknown platform: ${platformId}`);
+          setError(`Unknown platform: ${platformId}`);
+          setIsLoading(false);
+          return { success: false, error: `Unknown platform: ${platformId}`, isolated: true };
         }
 
         let products = [];

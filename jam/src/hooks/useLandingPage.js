@@ -104,7 +104,14 @@ export function useLandingPage() {
       try {
         const templateConfig = TEMPLATE_CONFIGS[template];
         if (!templateConfig) {
-          throw new Error(`Unknown template: ${template}`);
+          console.error(`Unknown template: ${template}`);
+          setError(`Unknown template: ${template}`);
+          setIsLoading(false);
+          return {
+            success: false,
+            error: `Unknown template: ${template}`,
+            isolated: true,
+          };
         }
 
         const page = {
@@ -172,7 +179,14 @@ export function useLandingPage() {
       }
 
       if (!page) {
-        throw new Error(`Page not found: ${pageId}`);
+        console.error(`Page not found: ${pageId}`);
+        setError(`Page not found: ${pageId}`);
+        setIsLoading(false);
+        return {
+          success: false,
+          error: `Page not found: ${pageId}`,
+          isolated: true,
+        };
       }
 
       setCurrentPage(page);

@@ -62,19 +62,25 @@ async function callGAS(action, params = {}, signature = null) {
     });
 
     if (!response.ok) {
-      throw new Error(`GAS request failed: ${response.status}`);
+      console.error(`GAS request failed: ${response.status}`);
+      return {
+        success: false,
+        error: `GAS request failed: ${response.status}`,
+        isolated: true,
+      };
     }
 
     const data = await response.json();
 
     if (data.error) {
-      throw new Error(data.error);
+      console.error(`GAS error: ${data.error}`);
+      return { success: false, error: data.error, isolated: true };
     }
 
-    return data;
+    return { success: true, ...data };
   } catch (error) {
     console.error(`GAS call failed [${action}]:`, error);
-    throw error;
+    return { success: false, error: error.message, action, isolated: true };
   }
 }
 
@@ -93,15 +99,14 @@ export function useGAS() {
     setIsLoading(true);
     setError(null);
 
-    try {
-      const result = await callGAS(action, params, signature);
-      return result;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setIsLoading(false);
+    const result = await callGAS(action, params, signature);
+
+    if (!result.success) {
+      setError(result.error);
     }
+
+    setIsLoading(false);
+    return result;
   }, []);
 
   /**
@@ -156,7 +161,12 @@ export function useGAS() {
   const killSwitch = useCallback(
     async (signature, reason = "") => {
       if (!signature) {
-        throw new Error("Ed25519 signature required for kill switch");
+        console.error("Ed25519 signature required for kill switch");
+        return {
+          success: false,
+          error: "Ed25519 signature required for kill switch",
+          isolated: true,
+        };
       }
 
       console.warn("⚠️ KILL SWITCH ACTIVATED");
