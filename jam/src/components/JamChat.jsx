@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { injectContext, getUIContext } from "../services/uiContext";
 
 /**
  * 🐼 Jam Chat - Omnichannel AI Chat (Bottom Right)
@@ -191,6 +192,9 @@ function JamChat() {
     setInput("");
     setIsLoading(true);
 
+    // AUTO-INJECT UI CONTEXT (all agents, all tiers)
+    const messageWithContext = injectContext(currentInput);
+
     try {
       let response;
 
@@ -198,17 +202,17 @@ function JamChat() {
       if (activeGem) {
         const gemAction = activeGem; // writer, analyst, coder, etc.
         response = await callBrain(gemAction, {
-          topic: currentInput,
-          task: currentInput,
-          concept: currentInput,
-          objective: currentInput,
-          message: currentInput,
+          topic: messageWithContext,
+          task: messageWithContext,
+          concept: messageWithContext,
+          objective: messageWithContext,
+          message: messageWithContext,
         });
       }
       // Regular chat with model
       else {
         response = await callBrain("chat", {
-          message: currentInput,
+          message: messageWithContext,
           options: {
             model: activeModel,
             gem: null,
