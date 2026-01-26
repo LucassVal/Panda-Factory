@@ -247,44 +247,32 @@
         }
       };
 
-      // Connect to GAS backend
+      // Connect to GAS backend (redirect-based, no CORS)
       async function connectToGAS(user) {
         try {
           const token = await user.getIdToken();
 
-          const response = await fetch(GAS_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              action: "auth.verify",
-              payload: {
-                email: user.email,
-                uid: user.uid,
-                name: user.displayName,
-              },
-              token: token,
+          // Store session locally
+          localStorage.setItem("panda_token", token);
+          localStorage.setItem(
+            "panda_user",
+            JSON.stringify({
+              email: user.email,
+              name: user.displayName,
+              photo: user.photoURL,
+              uid: user.uid,
             }),
+          );
+
+          // Redirect to GAS with user info in URL params (GET request)
+          const params = new URLSearchParams({
+            action: "app",
+            email: user.email,
+            uid: user.uid,
+            name: user.displayName || "",
           });
 
-          const data = await response.json();
-
-          if (data.status === "SUCCESS" || data.valid) {
-            // Store session
-            localStorage.setItem("panda_token", token);
-            localStorage.setItem(
-              "panda_user",
-              JSON.stringify({
-                email: user.email,
-                name: user.displayName,
-                photo: user.photoURL,
-              }),
-            );
-
-            // Redirect to app (GAS Web App)
-            window.location.href = GAS_URL + "?action=app";
-          } else {
-            throw new Error(data.error || "Falha na autenticação");
-          }
+          window.location.href = GAS_URL + "?" + params.toString();
         } catch (error) {
           console.error("GAS connection error:", error);
           document.getElementById("loading").classList.remove("show");
