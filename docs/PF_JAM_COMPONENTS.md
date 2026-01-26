@@ -80,6 +80,8 @@ jam/src/
 | `useGAS.js`            | Google Apps Script   |
 | `useHealthStatus.js`   | Health polling       |
 | `useFounderMetrics.js` | Métricas dashboard   |
+| `useMarketplace.js`    | Marketplace hooks    |
+| `useLandingPage.js`    | Landing page builder |
 
 ---
 
