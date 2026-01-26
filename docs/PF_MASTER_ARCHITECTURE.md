@@ -157,6 +157,70 @@
                   (Signaling + Células)
 ```
 
+### 1.4. Arquitetura Client-Side First
+
+> **Filosofia:** "O Browser faz 90% do trabalho. Cloud só para sync e billing."
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    ARQUITETURA CLIENT-SIDE FIRST                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  BROWSER (90% do trabalho)         CLOUD (10% - só sync/auth)          │
+│  ┌──────────────────────────┐     ┌──────────────────────────┐         │
+│  │ • React/TLDraw UI        │     │ • Firebase Auth          │         │
+│  │ • IndexedDB (local)      │     │ • Firebase RTDB (status) │         │
+│  │ • LocalStorage           │────▶│ • GAS (billing/PAT)      │         │
+│  │ • Gemini API (direto)    │     │ • Webhooks               │         │
+│  │ • Service Worker         │     │                          │         │
+│  └──────────────────────────┘     └──────────────────────────┘         │
+│                                                                         │
+│  RUST AGENT (opcional - 0% cloud)                                       │
+│  ┌──────────────────────────┐                                          │
+│  │ • GPU/ML local           │  ← Processamento 100% offline            │
+│  │ • Antigravity            │                                          │
+│  │ • MCP Tools              │                                          │
+│  └──────────────────────────┘                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+| Benefício           | Impacto                                 |
+| ------------------- | --------------------------------------- |
+| **Custo Cloud ~$0** | Processamento no browser não gera custo |
+| **Privacidade**     | Dados sensíveis ficam locais            |
+| **Offline-capable** | PWA funciona sem internet               |
+| **Escalabilidade**  | Mais users = mais CPU distribuída       |
+
+### 1.5. Capacidade de Infraestrutura (Free Tier)
+
+| Serviço                | Limite Gratuito         | Uso Real no Panda        |
+| ---------------------- | ----------------------- | ------------------------ |
+| **Firebase Auth**      | ∞ logins                | Só login (1x por sessão) |
+| **Firebase RTDB**      | 10GB/mês, 100k conexões | Status online, heartbeat |
+| **Google Apps Script** | 90min/dia exec          | Billing, PAT (ocasional) |
+| **Sheets como DB**     | 10M células             | Transações, usuários     |
+
+```text
+📊 CAPACIDADE ESTIMADA (Free Tier - Custo $0)
+
+├── Usuários Cadastrados: ~100,000+
+├── Usuários Ativos Simultâneos: ~10,000 (limite RTDB connections)
+├── Chamadas GAS/dia: ~50,000 (só billing/auth)
+├── Storage: ~1GB dados
+└── Com Rust Agent: ∞ (processamento local)
+```
+
+### 1.6. Modelo Gemini API Compartilhada
+
+> **Referência:** [PF_TOKENOMICS_REFERENCE.md §14](PF_TOKENOMICS_REFERENCE.md#14-modelo-de-compartilhamento-gemini-api)
+
+| Nível           | Quem            | Modelo      | Quota/dia   | Fonte           |
+| --------------- | --------------- | ----------- | ----------- | --------------- |
+| **User (3)**    | Usuários finais | Flash 3.0   | 300k tokens | Conta Founder   |
+| **Dev (2)**     | Desenvolvedores | Flash + Pro | 400k tokens | Conta Founder   |
+| **Founder (1)** | Lucas Valério   | Todos       | ∞           | Própria         |
+| **BYOL**        | Qualquer        | Qualquer    | ∞           | Própria API Key |
+
 ---
 
 ## 3. Camada Frontend: Panda UI & Docks
