@@ -15,9 +15,11 @@ O PC é **Energy Credit** lastrado em custo computacional real, não especulativ
 #### A. Fórmula Base (Piso Inviolável)
 
 ```text
-Preço_Base = Custo_Cloud_Médio × 2.5
-Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
+Preço_Base = Custo_Cloud_Médio × 4.0
+Exemplo: $0.0025/PC custo × 4.0 = $0.01/PC (1 centavo)
 ```
+
+> **Nota sobre Custos Decrescentes:** Com o crescimento da infra e volume, o custo unitário tende a cair. O markup de 4.0x garante margem para reinvestimento contínuo em atualizações e escalabilidade.
 
 #### B. Pacotes de PC (Compra)
 
@@ -82,6 +84,39 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 >
 > - O DAO pode aumentar as taxas de Ops e Fundo em até **2.5% adicionais cada** (de 1% para máx 3.5%).
 > - _Cenário Máximo:_ 3% Gas + 3.5% Ops + 3.5% Fundo = 10%. (Host 90%).
+
+---
+
+#### F. Projeção Financeira (24 meses)
+
+> **Premissas:** Markup 4.0x | Custo PC: $0.0025 | Preço PC: $0.01 | Margem Bruta: 75%
+
+**Cenário Conservador 🐢** _(crescimento orgânico)_
+
+| Período  | Users  | Compra Média | Receita Bruta | Lucro Bruto |
+| -------- | :----: | :----------: | :-----------: | :---------: |
+| 6 meses  |  500   |     $50      |    $25.000    |   $18.750   |
+| 12 meses | 2.000  |     $75      |   $150.000    |  $112.500   |
+| 18 meses | 5.000  |     $100     |   $500.000    |  $375.000   |
+| 24 meses | 10.000 |     $120     |  $1.200.000   |  $900.000   |
+
+**Cenário Moderado 🐼** _(marketing + parcerias)_
+
+| Período  | Users  | Compra Média | Receita Bruta | Lucro Bruto |
+| -------- | :----: | :----------: | :-----------: | :---------: |
+| 6 meses  | 1.500  |     $75      |   $112.500    |   $84.375   |
+| 12 meses | 8.000  |     $100     |   $800.000    |  $600.000   |
+| 18 meses | 25.000 |     $125     |  $3.125.000   | $2.343.750  |
+| 24 meses | 50.000 |     $150     |  $7.500.000   | $5.625.000  |
+
+**Cenário Otimista 🚀** _(viral + parceria Google)_
+
+| Período  |  Users  | Compra Média | Receita Bruta | Lucro Bruto |
+| -------- | :-----: | :----------: | :-----------: | :---------: |
+| 6 meses  |  5.000  |     $100     |   $500.000    |  $375.000   |
+| 12 meses | 30.000  |     $150     |  $4.500.000   | $3.375.000  |
+| 18 meses | 100.000 |     $200     |  $20.000.000  | $15.000.000 |
+| 24 meses | 250.000 |     $250     |  $62.500.000  | $46.875.000 |
 
 ---
 
