@@ -224,15 +224,15 @@ PANDA STORE (hospedado em GAS/GitHub Pages)
 
 > O que faz devs escolherem Panda para publicar plugins?
 
-| Diferencial       | Descrição                      |
-| ----------------- | ------------------------------ |
-| **Split 70%**     | Dev fica com 70% das vendas    |
-| **GitHub nativo** | Sem plataforma proprietária    |
-| **SDK simples**   | `Panda.Brain.chat()`           |
-| **IA tutora**     | Tutorial automático para users |
-| **Multi-window**  | Plugins podem usar docks       |
-| **Tokenomics**    | Monetização built-in com PC    |
-| **Zero config**   | User não configura API keys    |
+| Diferencial       | Descrição                           |
+| ----------------- | ----------------------------------- | --- |
+| **Split 52%**     | Dev fica com 52% das vendas (Store) |     |
+| **GitHub nativo** | Sem plataforma proprietária         |
+| **SDK simples**   | `Panda.Brain.chat()`                |
+| **IA tutora**     | Tutorial automático para users      |
+| **Multi-window**  | Plugins podem usar docks            |
+| **Tokenomics**    | Monetização built-in com PC         |
+| **Zero config**   | User não configura API keys         |
 
 ### Comparação com Outras Plataformas
 
