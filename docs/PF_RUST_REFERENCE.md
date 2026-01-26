@@ -84,41 +84,42 @@ O **Rust Agent** é o "corpo físico" do Panda Factory no PC do usuário. Respon
 | **pf_automation**  | `rdev`/`enigo`  | Mouse/keyboard       |  🟢 Baixa  |
 | **pf_rig**         | `rig`           | Multi-provider IA    |  🟢 Baixa  |
 
-### 3.3 Antigravity Manager
+### 3.3 Antigravity & Modo Dev (Estratégia VSX)
 
-> ⚠️ **Questão de Arquitetura:** Como lidar com usuários que já têm Antigravity instalado?
+> **Decisão:** NÃO embutir Antigravity no Rust. Modo Dev via VSX Extensions + Loja.
 
-| Cenário                         | Estratégia                              |
-| ------------------------------- | --------------------------------------- |
-| Usuário **NÃO** tem Antigravity | Panda Agent instala embarcado (WebView) |
-| Usuário **JÁ** tem Antigravity  | Panda detecta e oferece escolha         |
-| **Conta Founder** pré-logada    | Usa token compartilhado via API         |
-| **BYOL** (Bring Your Own Login) | Usuário usa própria conta Google        |
-
-**Implementação planejada:**
-
-```rust
-// pf_antigravity/src/lib.rs
-pub struct AntigravityManager {
-    embedded: Option<TauriWebView>,  // Antigravity embarcado
-    external_path: Option<PathBuf>,  // Antigravity externo detectado
-    use_embedded: bool,              // Qual usar
-}
-
-impl AntigravityManager {
-    pub fn detect_external() -> Option<PathBuf> {
-        // Windows: %LOCALAPPDATA%\Google\Antigravity
-        // macOS: ~/Library/Application Support/Antigravity
-        // Linux: ~/.config/antigravity
-        todo!()
-    }
-
-    pub fn inject_founder_token(&mut self, token: &str) -> Result<()> {
-        // Injeta token da conta Founder para quota compartilhada
-        todo!()
-    }
-}
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                    MODO DEV - ESTRATÉGIA VSX                         │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  ANTIGRAVITY (Externo)          RUST AGENT                          │
+│  ┌──────────────────────┐      ┌──────────────────────┐             │
+│  │ Antigravity / VSCode │      │ pf_mcp (Server)      │             │
+│  │                      │ MCP  │                      │             │
+│  │ ┌──────────────────┐ │◀────▶│ ┌──────────────────┐ │             │
+│  │ │ 🐼 Panda VSX     │ │      │ │ Tools: GPU, File │ │             │
+│  │ │ (Extension)      │ │      │ │ DLL, Automation  │ │             │
+│  │ └──────────────────┘ │      │ └──────────────────┘ │             │
+│  │                      │      │                      │             │
+│  │ BYOL: Usuário usa    │      │ RIG: Multi-provider  │             │
+│  │ própria conta Google │      │ IA (Gemini/Claude)   │             │
+│  └──────────────────────┘      └──────────────────────┘             │
+└─────────────────────────────────────────────────────────────────────┘
 ```
+
+| Tier       | Antigravity          | Modo Dev                 |
+| ---------- | -------------------- | ------------------------ |
+| **Shell**  | N/A                  | DevTools Dock no browser |
+| **Hybrid** | VSX Extension (BYOL) | + Ferramentas VSX        |
+| **Full**   | VSX Extension (BYOL) | + Módulos da Loja        |
+
+**Benefícios:**
+
+- 🚫 Não precisa embutir Antigravity (~-50MB no binário)
+- 🔒 BYOL: Usuário usa própria conta (sem custo para nós)
+- 🧩 Modular: Extensões VSX como MCP clients
+- 🏪 Upsell: Módulos pagos na Panda Store
 
 ---
 
