@@ -1,0 +1,34 @@
+theme: jekyll-theme-midnight
+title: Panda Factory
+description: 🐼 Democratizing AI Infrastructure for Everyone
+show_downloads: true
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude from processing
+exclude:
+  - node_modules
+  - vendor
+  - .gitignore
+  - package.json
+  - package-lock.json
+  - Gemfile
+  - Gemfile.lock
+
+# Include JAM app
+include:
+  - jam
+  - docs
+
+# SEO
+url: https://lucassval.github.io
+baseurl: /Panda-Factory
+
+# Social links
+twitter_username: pandafactory
+github_username: LucassVal
+
+# Analytics (opcional)
+# google_analytics: UA-XXXXXXXX-X
