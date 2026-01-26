@@ -227,7 +227,7 @@
 
 A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a aplicação.
 
-### 2.1. Estrutura do DevTools Dock
+### 3.1. Estrutura do DevTools Dock
 
 As 3 Abas do Desenvolvedor:
 
@@ -251,11 +251,11 @@ As 3 Abas do Desenvolvedor:
 └─────────────────────────────────────────────┘
 ```
 
-### 2.2. Multi-Window Support
+### 3.2. Multi-Window Support
 
 > **📌 Nota:** A implementação completa de janelas pop-out usando a **Document Picture-in-Picture API** está documentada na seção [2.3.C - Arquitetura Multi-Window](#c-arquitetura-multi-window-document-pip).
 
-### 2.3. Dev Mode (Modo Desenvolvedor) 🛠️
+### 3.3. Dev Mode (Modo Desenvolvedor) 🛠️
 
 O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores, inspirado no Google Antigravity.
 
@@ -381,7 +381,7 @@ window.PandaDevTools = {
 | `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout` |
 | `css/pf.theme.css`                  | Estilos modal/popout                |
 
-### 2.4. Sistema de Ícones (Logo Kit) 🎨
+### 3.4. Sistema de Ícones (Logo Kit) 🎨
 
 O Panda Factory utiliza emojis como ícones para garantir consistência cross-platform. Esta seção documenta todos os ícones usados no sistema para criação de kits de logos SVG/PNG.
 
@@ -496,7 +496,7 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 > **"O Módulo NUNCA fala com o Servidor. O Módulo fala com o Panda, e o Panda fala com o Servidor."**
 
-### 3.1. Estrutura Global `Panda`
+### 4.1. Estrutura Global `Panda`
 
 ```javascript
 window.Panda = {
@@ -510,7 +510,7 @@ window.Panda = {
 };
 ```
 
-### 3.2. Arquitetura de Slots & Adapters
+### 4.2. Arquitetura de Slots & Adapters
 
 ```text
 🔌 SDK SLOTS
@@ -531,7 +531,7 @@ window.Panda = {
     └── Adapters variados
 ```
 
-### 3.3. Arquitetura de Tentáculos (SDK Extensions)
+### 4.3. Arquitetura de Tentáculos (SDK Extensions)
 
 > **Modelo:** SDK → Tentáculos → Pais → Filhos
 
@@ -583,7 +583,7 @@ js/tentacles/
 
 Este é o "Corpo Físico" do sistema no PC do usuário. Obrigatório para operações locais.
 
-### 4.1. Mapa de Capacidades
+### 5.1.A. Mapa de Capacidades
 
 ```text
 🦀 RUST AGENT
@@ -601,7 +601,7 @@ Este é o "Corpo Físico" do sistema no PC do usuário. Obrigatório para opera�
     └── Firebase Signaling (Heartbeat)
 ```
 
-### 4.2. Deep Dive: MCP (Model Context Protocol)
+### 5.1.B. Deep Dive: MCP (Model Context Protocol)
 
 O Rust expõe "Tools" que a IA pode invocar:
 
@@ -628,7 +628,7 @@ pub enum McpTool {
 }
 ```
 
-### 4.3. RIG Framework (Agentes Complexos)
+### 5.1.C. RIG Framework (Agentes Complexos)
 
 ```rust
 // pf_rig.rs - Suporte multi-provider
@@ -652,7 +652,7 @@ impl AgentRunner {
 }
 ```
 
-### 4.4. Token Meter & Economy (pf_meter.rs)
+### 5.1.D. Token Meter & Economy (pf_meter.rs)
 
 Contagem e billing de tokens por provider:
 
@@ -675,7 +675,7 @@ pub async fn track_usage(user: &str, provider: &str, model: &str,
 }
 ```
 
-### 4.5. Suporte Multi-User (Sessões Isoladas)
+### 5.1.E. Suporte Multi-User (Sessões Isoladas)
 
 ```rust
 // pf_multiuser.rs
@@ -697,7 +697,7 @@ pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response>
 }
 ```
 
-### 4.6. GPU Detection Flow & Economy
+### 5.1.F. GPU Detection Flow & Economy
 
 ```text
 [SITE PANDA]
@@ -904,7 +904,7 @@ A árvore de dados é efêmera e segregada por `user_uid`:
 }
 ```
 
-### 5.2. Regras de Segurança (Firestore Rules)
+### 5.2.A. Regras de Segurança (Firestore Rules)
 
 Garante que usuários não leiam dados uns dos outros:
 
@@ -921,7 +921,7 @@ Garante que usuários não leiam dados uns dos outros:
 }
 ```
 
-### 5.3. Fluxo de Execução (Browser ↔ Rust)
+### 5.2.B. Fluxo de Execução (Browser ↔ Rust)
 
 ```text
 [🖥️ BROWSER]                [🔥 FIREBASE]              [🦀 RUST AGENT]
@@ -939,7 +939,7 @@ Garante que usuários não leiam dados uns dos outros:
 
 O Google Apps Script (GAS) é o "Cérebro Lógico" e Banco de Dados (Sheets).
 
-### 6.1. Estrutura DDD (Domain Driven Design)
+### 5.3.A. Estrutura DDD (Domain Driven Design)
 
 Organizamos o backend em "Domínios" (Chapéus) para escalar:
 
@@ -965,7 +965,7 @@ Organizamos o backend em "Domínios" (Chapéus) para escalar:
     └── Webhooks (Hotmart/Kiwify)
 ```
 
-### 6.2. O Dispatcher Único (PF_Dispatcher.gs)
+### 5.3.B. O Dispatcher Único (PF_Dispatcher.gs)
 
 Todo request passa por aqui:
 
@@ -991,7 +991,7 @@ function doPost(e) {
 }
 ```
 
-### 6.3. Backend Multi-User (PF_Core_MultiUser.gs)
+### 5.3.C. Backend Multi-User (PF_Core_MultiUser.gs)
 
 ```javascript
 // Obtém tenant do usuário atual
@@ -1028,7 +1028,7 @@ function saveData(collection, data) {
 
 A Panda Fabrics opera uma arquitetura **DePIN (Decentralized Physical Infrastructure Network)** que estende a robustez da Google Cloud até a borda (Edge). Essa abordagem híbrida nos posiciona estrategicamente como parceiros de eficiência, oferecendo **SLA Enterprise com Custo de Hobby**.
 
-### 7.1. Panda Cloud VM: A "Frota Fantasma" (Ghost Fleet)
+### 6.1. Panda Cloud VM: A "Frota Fantasma" (Ghost Fleet)
 
 Utilizamos arbitragem de preços de computação para criar máquinas virtuais efêmeras, resilientes e alinhadas ao ecossistema Google.
 
@@ -1041,7 +1041,7 @@ Utilizamos arbitragem de preços de computação para criar máquinas virtuais e
      - O estado é transferido instantaneamente para outra Spot ou para o **PC Local** do usuário.
      - O processamento continua sem perda de dados (Zero-Downtime aparente).
 
-### 7.2. BYOD: Panda Swarm (Google-Managed Edge)
+### 6.2. BYOD: Panda Swarm (Google-Managed Edge)
 
 Estendemos o alcance da nuvem Google para a borda. O Panda Factory atua como o **Control Plane** (hospedado no GCP) que orquestra recursos descentralizados para cargas de trabalho específicas que não exigem SLA de Data Center.
 
@@ -1062,7 +1062,7 @@ Focamos a Swarm em tarefas onde a nuvem pública não é a melhor ferramenta:
 
 A Swarm serve como ambiente de desenvolvimento e teste de baixo custo. Quando a aplicação exige escala e confiabilidade, o Panda Factory oferece **migração "One-Click" para Google Cloud Spot (Tier 3)**, atuando como um funil de aquisição de novos workloads para o GCP.
 
-### 7.3. BYOL: Bring Your Own License (O Escudo Jurídico)
+### 6.3. BYOL: Bring Your Own License (O Escudo Jurídico)
 
 Resolvemos o complexo problema de licenciamento de software proprietário em nuvem através da técnica de **Injeção em Tempo de Execução**.
 
@@ -1075,7 +1075,7 @@ Resolvemos o complexo problema de licenciamento de software proprietário em nuv
   3. O software roda legitimamente sob a licença do usuário final.
 - **Compliance:** Atuamos estritamente como provedor de "Metal", isentando a plataforma de passivos de propriedade intelectual.
 
-### 7.4. Resumo Visual da Orquestração
+### 6.4. Resumo Visual da Orquestração
 
 ```text
        [ GOOGLE CLOUD PLATFORM (Control Plane) ]
@@ -1097,7 +1097,7 @@ Resolvemos o complexo problema de licenciamento de software proprietário em nuv
 > **Tier 2 (Edge):** Swarm residencial, IPs valiosos, pago em Coins.
 > **Tier 3 (Core):** Google Spot VMs, SLA enterprise, pago em Fiat/Coins.
 
-### 7.5. Deployment Tiers para Desenvolvedores (Modularidade)
+### 6.5. Deployment Tiers para Desenvolvedores (Modularidade)
 
 O Panda Factory é **100% modular**. Desenvolvedores podem escolher o nível de integração que melhor se adapta ao seu produto, desde apps simples até sistemas completos com automação local.
 
