@@ -73,13 +73,52 @@ O **Rust Agent** é o "corpo físico" do Panda Factory no PC do usuário. Respon
 
 ### 3.2 Extension Modules
 
-| Módulo            | Crate           | Função             | Prioridade |
-| ----------------- | --------------- | ------------------ | :--------: |
-| **pf_gpu**        | `cudarc`/`wgpu` | CUDA/WebGPU        |  🟡 Média  |
-| **pf_files**      | `std::fs`       | File operations    |  🟡 Média  |
-| **pf_dll**        | `libloading`    | DLL bridge (MT4/5) |  🟢 Baixa  |
-| **pf_automation** | `rdev`/`enigo`  | Mouse/keyboard     |  🟢 Baixa  |
-| **pf_rig**        | `rig`           | Multi-provider IA  |  🟢 Baixa  |
+| Módulo             | Crate           | Função               | Prioridade |
+| ------------------ | --------------- | -------------------- | :--------: |
+| **pf_gpu**         | `cudarc`/`wgpu` | CUDA/WebGPU          |  🟡 Média  |
+| **pf_files**       | `std::fs`       | File operations      |  🟡 Média  |
+| **pf_translator**  | `nllb` (ONNX)   | Tradução offline     |  🟡 Média  |
+| **pf_whisper**     | `whisper-rs`    | Speech-to-Text local |  🟡 Média  |
+| **pf_antigravity** | `tauri`+chrome  | IDE embarcada        |  🔴 Alta   |
+| **pf_dll**         | `libloading`    | DLL bridge (MT4/5)   |  🟢 Baixa  |
+| **pf_automation**  | `rdev`/`enigo`  | Mouse/keyboard       |  🟢 Baixa  |
+| **pf_rig**         | `rig`           | Multi-provider IA    |  🟢 Baixa  |
+
+### 3.3 Antigravity Manager
+
+> ⚠️ **Questão de Arquitetura:** Como lidar com usuários que já têm Antigravity instalado?
+
+| Cenário                         | Estratégia                              |
+| ------------------------------- | --------------------------------------- |
+| Usuário **NÃO** tem Antigravity | Panda Agent instala embarcado (WebView) |
+| Usuário **JÁ** tem Antigravity  | Panda detecta e oferece escolha         |
+| **Conta Founder** pré-logada    | Usa token compartilhado via API         |
+| **BYOL** (Bring Your Own Login) | Usuário usa própria conta Google        |
+
+**Implementação planejada:**
+
+```rust
+// pf_antigravity/src/lib.rs
+pub struct AntigravityManager {
+    embedded: Option<TauriWebView>,  // Antigravity embarcado
+    external_path: Option<PathBuf>,  // Antigravity externo detectado
+    use_embedded: bool,              // Qual usar
+}
+
+impl AntigravityManager {
+    pub fn detect_external() -> Option<PathBuf> {
+        // Windows: %LOCALAPPDATA%\Google\Antigravity
+        // macOS: ~/Library/Application Support/Antigravity
+        // Linux: ~/.config/antigravity
+        todo!()
+    }
+
+    pub fn inject_founder_token(&mut self, token: &str) -> Result<()> {
+        // Injeta token da conta Founder para quota compartilhada
+        todo!()
+    }
+}
+```
 
 ---
 
