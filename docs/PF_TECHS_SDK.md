@@ -145,3 +145,73 @@ await Panda.Hooks.ctrader.order(data); // Consome 10 PC
 - [Firebase](https://firebase.google.com)
 - [Vite](https://vitejs.dev)
 - [Yjs](https://yjs.dev)
+
+---
+
+## 7. Google APIs - Custos
+
+> **Princípio:** APIs de IA = User paga em PC | APIs de infra = Panda absorve
+
+### 7.1 APIs de IA (User Paga em PC)
+
+| API                   |  Preço Google  | Quem Paga? |
+| --------------------- | :------------: | :--------: |
+| **Gemini Flash**      |  ~$0.0001/req  | User (PC)  |
+| **Cloud Vision**      | $1.50/1k units | User (PC)  |
+| **Cloud Speech**      |   $0.024/min   | User (PC)  |
+| **Cloud TTS**         |  $4/1M chars   | User (PC)  |
+| **Cloud Translation** |  $20/1M chars  | User (PC)  |
+
+> Panda cobra PC do user → paga Google → margem 4.0x
+
+### 7.2 APIs de Infraestrutura (Panda Absorve)
+
+| API               | Limite Grátis  | Quem Paga? |
+| ----------------- | :------------: | :--------: |
+| **Firebase Auth** |       ∞        |   Grátis   |
+| **Firebase RTDB** | 1GB + 10GB/mês |   Panda    |
+| **Firestore**     | 50k reads/dia  |   Panda    |
+| **Drive API**     |       ∞        |   Grátis   |
+| **Calendar API**  |       ∞        |   Grátis   |
+| **BigQuery**      |    1TB/mês     |   Panda    |
+
+---
+
+## 8. Google Drive User Folder
+
+Cada usuário tem pasta virtual no Google Drive:
+
+```text
+PandaFactory_User_XYZ/
+├── apps/
+│   ├── plugin-ctrader/
+│   ├── plugin-canva/
+│   └── ...
+├── cache/
+│   └── (arquivos temporários)
+└── exports/
+    └── (arquivos exportados pelo user)
+```
+
+---
+
+## 9. Google Workspace APIs
+
+| API          | Uso                 |    Status    |
+| ------------ | ------------------- | :----------: |
+| **Calendar** | Eventos, lembretes  | 📋 Planejado |
+| **People**   | Contatos            | 📋 Planejado |
+| **Drive**    | Arquivos            |   ✅ Core    |
+| **Docs**     | Documentos          | 📋 Planejado |
+| **Sheets**   | Planilhas (via GAS) |   ✅ Core    |
+| **Gmail**    | Email (via GAS)     | 📋 Planejado |
+
+---
+
+## 10. Integrações Terceiros
+
+| Serviço         | Categoria |    Status    |
+| --------------- | --------- | :----------: |
+| **Canva**       | Design    | 📋 Planejado |
+| **cTrader/MT4** | Trading   | 📋 Planejado |
+| **WhatsApp**    | Mensagens | 📋 Planejado |

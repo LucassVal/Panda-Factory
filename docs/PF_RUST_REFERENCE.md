@@ -62,27 +62,49 @@ O **Rust Agent** é o "corpo físico" do Panda Factory no PC do usuário. Respon
 
 ## 3. Módulos Planejados
 
-### 3.1 Core Modules
+### 3.1 Core Modules (NÃO Substituíveis)
 
-| Módulo          | Crate     | Função              | Prioridade |
-| --------------- | --------- | ------------------- | :--------: |
-| **pf_core**     | -         | Bootstrap, config   |  🔴 Alta   |
-| **pf_mcp**      | `rmcp`    | MCP Server para IAs |  🔴 Alta   |
-| **pf_firebase** | `reqwest` | Firebase REST       |  🔴 Alta   |
-| **pf_tauri**    | `tauri`   | WebView UI          |  🟡 Média  |
+> ⚠️ **Módulos CORE controlam economia, auth e segurança. Não têm hooks.**
 
-### 3.2 Extension Modules
+| Módulo          | Crate/Service           | Função                |   Status    |
+| --------------- | ----------------------- | --------------------- | :---------: |
+| **pf_core**     | `tokio`, `serde`        | Bootstrap, config     | ✅ **CORE** |
+| **pf_mcp**      | `rmcp`                  | MCP Server para IAs   | ✅ **CORE** |
+| **pf_crypto**   | `ring`, `ed25519-dalek` | PC Cripto futuro      | ✅ **CORE** |
+| **pf_wallet**   | `rusqlite` + crypto     | Ledger local          | ✅ **CORE** |
+| **pf_firebase** | `reqwest`               | Auth, RTDB, Analytics | ✅ **CORE** |
+| **pf_tauri**    | `tauri`                 | WebView UI            | ✅ **CORE** |
 
-| Módulo             | Crate           | Função               | Prioridade |
-| ------------------ | --------------- | -------------------- | :--------: |
-| **pf_gpu**         | `cudarc`/`wgpu` | CUDA/WebGPU          |  🟡 Média  |
-| **pf_files**       | `std::fs`       | File operations      |  🟡 Média  |
-| **pf_translator**  | `nllb` (ONNX)   | Tradução offline     |  🟡 Média  |
-| **pf_whisper**     | `whisper-rs`    | Speech-to-Text local |  🟡 Média  |
-| **pf_antigravity** | `tauri`+chrome  | IDE embarcada        |  🔴 Alta   |
-| **pf_dll**         | `libloading`    | DLL bridge (MT4/5)   |  🟢 Baixa  |
-| **pf_automation**  | `rdev`/`enigo`  | Mouse/keyboard       |  🟢 Baixa  |
-| **pf_rig**         | `rig`           | Multi-provider IA    |  🟢 Baixa  |
+### 3.2 Extension Modules (Com Google Default)
+
+| Módulo           | Default Google  | Fallback Local  | Prioridade |
+| ---------------- | --------------- | --------------- | :--------: |
+| **pf_stt**       | Cloud Speech    | `whisper-rs`    |  🟡 Média  |
+| **pf_tts**       | Cloud TTS       | `tts-rs`        |  🟡 Média  |
+| **pf_ocr**       | Cloud Vision    | `tesseract-rs`  |  🟡 Média  |
+| **pf_translate** | Cloud Translate | NLLB via `ort`  |  🟡 Média  |
+| **pf_gpu**       | Cloud GPU       | `cudarc`/`wgpu` |  🟡 Média  |
+
+### 3.3 Hardware Modules (Com Segurança)
+
+| Módulo           | Crate           | Risco           | Mitigação               |
+| ---------------- | --------------- | --------------- | ----------------------- |
+| **pf_capture**   | `scap`          | Screen expose   | Permissão + notificação |
+| **pf_webcam**    | `nokhwa`        | Video capture   | Indicador visual        |
+| **pf_clipboard** | `arboard`       | Dados sensíveis | Permissão ativa         |
+| **pf_hotkeys**   | `global-hotkey` | Keylogger       | Lista branca            |
+| **pf_bluetooth** | `btleplug`      | Device access   | Permissão + whitelist   |
+| **pf_serial**    | `serialport`    | Hardware access | Permissão + assinatura  |
+
+### 3.4 Utility Modules
+
+| Módulo            | Crate          | Função             | Prioridade |
+| ----------------- | -------------- | ------------------ | :--------: |
+| **pf_files**      | `std::fs`      | File operations    |  🟡 Média  |
+| **pf_dll**        | `libloading`   | DLL bridge (MT4/5) |  🟢 Baixa  |
+| **pf_automation** | `rdev`/`enigo` | Mouse/keyboard     |  🟢 Baixa  |
+| **pf_pdf**        | `lopdf`        | PDF parsing        |  🟢 Baixa  |
+| **pf_email**      | `lettre`       | Email sending      |  🟢 Baixa  |
 
 ### 3.3 Antigravity & Modo Dev (Estratégia VSX)
 
