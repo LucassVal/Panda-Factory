@@ -1060,13 +1060,16 @@ body {
   right: 20px;
   width: 360px;
   height: 450px;
-  background: var(--jam-surface);
+  background: linear-gradient(145deg, #1a1f35 0%, #0f1322 100%);
   border-radius: 16px;
-  border: 1px solid var(--jam-border);
+  border: 1px solid rgba(102, 126, 234, 0.4);
   display: flex;
   flex-direction: column;
   z-index: 2500;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .jam-chat-header {
@@ -1309,7 +1312,12 @@ body {
 
 .jam-chat-message.assistant {
   align-self: flex-start;
-  background: rgba(102, 126, 234, 0.15);
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.15) 0%,
+    rgba(102, 126, 234, 0.2) 100%
+  );
+  border: 1px solid rgba(6, 182, 212, 0.2);
   color: var(--jam-text);
 }
 
@@ -1337,12 +1345,19 @@ body {
 .jam-chat-input {
   flex: 1;
   padding: 10px 14px;
-  border: 1px solid var(--jam-border);
+  border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 8px;
-  background: var(--jam-bg);
+  background: rgba(0, 0, 0, 0.4);
   color: var(--jam-text);
   font-size: 13px;
   resize: none;
+  transition: all 0.3s ease;
+}
+
+.jam-chat-input:focus {
+  outline: none;
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
 }
 
 .jam-chat-send {
