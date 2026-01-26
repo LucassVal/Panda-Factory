@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import PandaBrain, { GEMS as GEM_CONFIGS } from "../services/brain";
-import { AI_MODELS as MODEL_CONFIGS } from "../services/gemini";
 
 /**
  * 🐼 Jam Chat - Omnichannel AI Chat (Bottom Right)
@@ -11,7 +9,11 @@ import { AI_MODELS as MODEL_CONFIGS } from "../services/gemini";
  * - Fallout terminal style
  * - Model selector: Flash, Pro, Think, Research, Imagen
  * - 6 GEMs: Writer, Analyst, Coder, Designer, Planner, Researcher
- * - INTEGRATED with Panda.Brain (Gemini 3)
+ *
+ * ARCHITECTURE:
+ * - JamChat calls Panda.Brain.Gemini (SDK)
+ * - SDK translates to GAS backend call
+ * - Billing handled by backend
  */
 
 // AI Models for UI
@@ -53,7 +55,7 @@ const AI_MODELS = [
   },
 ];
 
-// 6 GEMs for UI
+// 6 GEMs for UI (mirrors backend GEMS)
 const GEMS = [
   { id: "writer", name: "Writer", icon: "✍️", description: "Escrita criativa" },
   {
@@ -68,26 +70,70 @@ const GEMS = [
   { id: "researcher", name: "Researcher", icon: "🔬", description: "Pesquisa" },
 ];
 
-// Initialize PandaBrain singleton
-let brainInstance = null;
+/**
+ * Check if Panda SDK is available (loaded via pf.sdk.js)
+ */
+function isPandaSDKAvailable() {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.Panda !== "undefined" &&
+    typeof window.Panda.Brain !== "undefined"
+  );
+}
 
-async function getBrain() {
-  if (!brainInstance) {
-    brainInstance = new PandaBrain({
-      userTier: "founder", // TODO: Get from auth
-    });
-
-    // Get API key from environment or localStorage
-    const apiKey =
-      import.meta.env?.VITE_GOOGLE_AI_API_KEY ||
-      localStorage.getItem("GOOGLE_AI_API_KEY") ||
-      null;
-
-    if (apiKey) {
-      await brainInstance.init(apiKey);
+/**
+ * Call GAS backend via Panda SDK or direct fetch
+ * Falls back to direct GAS call if SDK not loaded
+ */
+async function callBrain(action, payload) {
+  // Use Panda SDK if available
+  if (isPandaSDKAvailable()) {
+    switch (action) {
+      case "chat":
+        return window.Panda.Brain.Gemini.chat(payload.message, payload.options);
+      case "gems":
+        return window.Panda.Brain.Gemini.getGems();
+      case "analyze":
+        return window.Panda.Brain.Gemini.analyze(
+          payload.data,
+          payload.question,
+        );
+      case "code":
+        return window.Panda.Brain.Gemini.code(payload.task, payload.language);
+      case "write":
+        return window.Panda.Brain.Gemini.write(payload.topic, payload.format);
+      case "design":
+        return window.Panda.Brain.Gemini.design(payload.concept);
+      case "plan":
+        return window.Panda.Brain.Gemini.plan(payload.objective);
+      case "research":
+        return window.Panda.Brain.Gemini.research(payload.topic);
+      default:
+        throw new Error(`Unknown action: ${action}`);
     }
   }
-  return brainInstance;
+
+  // Direct GAS call fallback (for development/testing)
+  const GAS_URL =
+    import.meta.env?.VITE_GAS_URL || localStorage.getItem("GAS_URL");
+
+  if (!GAS_URL) {
+    throw new Error(
+      "SDK não carregado. Configure GAS_URL ou carregue pf.sdk.js",
+    );
+  }
+
+  const response = await fetch(GAS_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: `brain.${action}`,
+      payload,
+      token: localStorage.getItem("panda_token") || "",
+    }),
+  });
+
+  return response.json();
 }
 
 function JamChat() {
@@ -104,49 +150,37 @@ function JamChat() {
   const [activeGem, setActiveGem] = useState(null);
   const [showGems, setShowGems] = useState(false);
   const [isApiReady, setIsApiReady] = useState(false);
-  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
-  const [apiKeyInput, setApiKeyInput] = useState("");
 
   // Session stats
   const [sessionStats, setSessionStats] = useState({
     tokensUsed: 0,
-    tokensAvailable: 500000, // Free tier default
+    tokensAvailable: 500000,
     pcUsed: 0,
-    pcAvailable: 1000, // Default PC balance
+    pcAvailable: 1000,
     gasEnabled: false,
-    gasRate: 0.03, // 3% when enabled
+    gasRate: 0.03,
   });
 
   const messagesEndRef = useRef(null);
 
-  // Initialize brain on mount
+  // Check SDK/API status on mount
   useEffect(() => {
-    const initBrain = async () => {
-      try {
-        const brain = await getBrain();
-        setIsApiReady(brain.isReady());
-      } catch (error) {
-        console.error("Failed to init brain:", error);
-        setIsApiReady(false);
-      }
+    const checkApi = () => {
+      const sdkReady = isPandaSDKAvailable();
+      const gasConfigured = !!localStorage.getItem("GAS_URL");
+      setIsApiReady(sdkReady || gasConfigured);
     };
-    initBrain();
+
+    checkApi();
+    // Re-check when SDK might load
+    window.addEventListener("panda:ready", checkApi);
+    return () => window.removeEventListener("panda:ready", checkApi);
   }, []);
 
   // Scroll to bottom on new messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  const handleSaveApiKey = async () => {
-    if (!apiKeyInput.trim()) return;
-    localStorage.setItem("GOOGLE_AI_API_KEY", apiKeyInput);
-    brainInstance = null; // Reset to re-init
-    const brain = await getBrain();
-    setIsApiReady(brain.isReady());
-    setShowApiKeyInput(false);
-    setApiKeyInput("");
-  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -158,37 +192,27 @@ function JamChat() {
     setIsLoading(true);
 
     try {
-      const brain = await getBrain();
-
-      if (!brain.isReady()) {
-        throw new Error(
-          "API não configurada. Clique no ⚙️ para adicionar sua API key.",
-        );
-      }
-
       let response;
 
       // Use GEM if active
       if (activeGem) {
-        response = await brain.useGem(activeGem, currentInput);
+        const gemAction = activeGem; // writer, analyst, coder, etc.
+        response = await callBrain(gemAction, {
+          topic: currentInput,
+          task: currentInput,
+          concept: currentInput,
+          objective: currentInput,
+          message: currentInput,
+        });
       }
-      // Use Imagen for image generation
-      else if (activeModel === "imagen") {
-        const imageResult = await brain.generateImage(currentInput);
-        response = {
-          text: imageResult.base64
-            ? `![Imagem gerada](data:${imageResult.mimeType};base64,${imageResult.base64})`
-            : "Não foi possível gerar a imagem.",
-          modelIcon: "🎨",
-          modelName: "Imagen",
-          billing: imageResult.billing,
-        };
-      }
-      // Regular chat
+      // Regular chat with model
       else {
-        response = await brain.chat(currentInput, {
-          model: activeModel,
-          useSearch: activeModel === "research",
+        response = await callBrain("chat", {
+          message: currentInput,
+          options: {
+            model: activeModel,
+            gem: null,
+          },
         });
       }
 
@@ -197,20 +221,28 @@ function JamChat() {
 
       const prefix = gemInfo
         ? `[${gemInfo.icon} ${gemInfo.name}]`
-        : `[${response.modelIcon || modelInfo?.icon} ${response.modelName || modelInfo?.name}]`;
+        : `[${modelInfo?.icon} ${modelInfo?.name}]`;
 
-      const billingInfo = response.billing
-        ? ` (${response.billing.free ? "FREE" : response.billing.costPC.toFixed(2) + " PC"})`
+      // Update session stats from response
+      if (response.tokens || response.cost) {
+        setSessionStats((prev) => ({
+          ...prev,
+          tokensUsed: prev.tokensUsed + (response.tokens || 0),
+          pcUsed: prev.pcUsed + (response.cost || 0),
+        }));
+      }
+
+      const billingInfo = response.cost
+        ? ` (${response.cost.toFixed(2)} PC)`
         : "";
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: `> ${prefix}${billingInfo}\n\n${response.text}`,
+          content: `> ${prefix}${billingInfo}\n\n${response.text || response.response}`,
           model: activeModel,
           gem: activeGem,
-          billing: response.billing,
         },
       ]);
     } catch (error) {
@@ -306,13 +338,6 @@ function JamChat() {
               {isApiReady ? "●" : "○"}
             </span>
             <button
-              className="jam-chat-settings"
-              onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-              title="Configurar API Key"
-            >
-              ⚙️
-            </button>
-            <button
               className="jam-chat-gems-toggle"
               onClick={() => setShowGems(!showGems)}
               title="GEMs - Especialistas"
@@ -320,19 +345,6 @@ function JamChat() {
               {activeGem ? GEMS.find((g) => g.id === activeGem)?.icon : "💎"}
             </button>
           </div>
-
-          {/* API Key Input */}
-          {showApiKeyInput && (
-            <div className="jam-chat-api-input">
-              <input
-                type="password"
-                placeholder="Cole sua Google AI API Key..."
-                value={apiKeyInput}
-                onChange={(e) => setApiKeyInput(e.target.value)}
-              />
-              <button onClick={handleSaveApiKey}>Salvar</button>
-            </div>
-          )}
 
           {/* GEMs Panel */}
           {showGems && (
