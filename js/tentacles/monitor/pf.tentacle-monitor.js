@@ -25,6 +25,12 @@
   const logs = [];
   const MAX_LOGS = 500;
 
+  // ==========================================
+  // 🔴 ERROR REGISTRY (for agent visibility)
+  // ==========================================
+  const errorRegistry = [];
+  const MAX_ERRORS = 100;
+
   const COLORS = {
     trace: "color: #888",
     info: "color: #6d5dfc; font-weight: bold",
@@ -237,6 +243,119 @@
       }
 
       return result;
+    },
+
+    // ==========================================
+    // 🔴 ERROR REGISTRY METHODS (Agent Visibility)
+    // ==========================================
+
+    /**
+     * Report an error from a hook (called by fault isolation wrapper)
+     * This is the main entry point for agents to track errors
+     */
+    reportError(source, method, error, context = {}) {
+      const entry = {
+        id: `err_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: Date.now(),
+        time: new Date().toISOString(),
+        source, // e.g., "education:kiwify"
+        category: source.split(":")[0], // e.g., "education"
+        hook: source.split(":")[1] || null, // e.g., "kiwify"
+        method, // e.g., "validateWebhook"
+        error: error.message || error,
+        stack: error.stack || null,
+        context, // additional data passed by hook
+        resolved: false,
+        resolvedAt: null,
+      };
+
+      // Add to registry
+      errorRegistry.push(entry);
+      if (errorRegistry.length > MAX_ERRORS) errorRegistry.shift();
+
+      // Log it
+      this.log("error", source, `🔴 ${method}(): ${entry.error}`, {
+        errorId: entry.id,
+      });
+
+      // Emit event for real-time listeners
+      if (window.Panda?.emit) {
+        window.Panda.emit("monitor:error", entry);
+      }
+
+      return entry;
+    },
+
+    /**
+     * Get errors - for agents to query what went wrong
+     */
+    getErrors(filter = {}) {
+      let result = [...errorRegistry];
+
+      if (filter.category) {
+        result = result.filter((e) => e.category === filter.category);
+      }
+      if (filter.hook) {
+        result = result.filter((e) => e.hook === filter.hook);
+      }
+      if (filter.source) {
+        result = result.filter((e) => e.source.includes(filter.source));
+      }
+      if (filter.unresolved) {
+        result = result.filter((e) => !e.resolved);
+      }
+      if (filter.since) {
+        result = result.filter((e) => e.timestamp >= filter.since);
+      }
+      if (filter.limit) {
+        result = result.slice(-filter.limit);
+      }
+
+      return result;
+    },
+
+    /**
+     * Mark an error as resolved
+     */
+    resolveError(errorId) {
+      const entry = errorRegistry.find((e) => e.id === errorId);
+      if (entry) {
+        entry.resolved = true;
+        entry.resolvedAt = Date.now();
+        this.log("success", entry.source, `✓ Error ${errorId} resolved`);
+      }
+      return entry;
+    },
+
+    /**
+     * Get error summary by category (for dashboard)
+     */
+    getErrorSummary() {
+      const summary = {};
+      errorRegistry.forEach((e) => {
+        if (!summary[e.category]) {
+          summary[e.category] = { total: 0, unresolved: 0, hooks: {} };
+        }
+        summary[e.category].total++;
+        if (!e.resolved) summary[e.category].unresolved++;
+
+        if (e.hook) {
+          if (!summary[e.category].hooks[e.hook]) {
+            summary[e.category].hooks[e.hook] = { total: 0, unresolved: 0 };
+          }
+          summary[e.category].hooks[e.hook].total++;
+          if (!e.resolved) summary[e.category].hooks[e.hook].unresolved++;
+        }
+      });
+      return summary;
+    },
+
+    /**
+     * Clear all errors
+     */
+    clearErrors() {
+      errorRegistry.length = 0;
+      this.log("info", "monitor", "🧹 Error registry cleared");
     },
 
     /**
