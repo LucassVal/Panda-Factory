@@ -1,6 +1,6 @@
 # 📋 PF_JAM_COMPONENTS - Jam UI Components Reference
 
-> **Versão:** 1.0.0 | **Atualizado:** 2026-01-26
+> **Versão:** 1.1.0 | **Atualizado:** 2026-01-26
 
 ---
 
@@ -32,11 +32,13 @@ jam/src/
 │   ├── LoginModal.jsx           # Auth modal
 │   └── LoginGate.jsx            # Auth gate
 └── hooks/
-    ├── useAuth.js               # Auth provider + methods
+    ├── useAuth.jsx              # Auth provider (JSX - v1.1)
     ├── useFirebase.js           # Firebase connection
-    ├── useGAS.js                # GAS endpoints
+    ├── useGAS.js                # GAS endpoints (v1.1 - Fault Isolation)
     ├── useHealthStatus.js       # Health polling
-    └── useFounderMetrics.js     # Dashboard metrics
+    ├── useFounderMetrics.js     # Dashboard metrics (v1.1 - Telemetry)
+    ├── useMarketplace.js        # Marketplace hooks (v1.1 - Fault Isolation)
+    └── useLandingPage.js        # Landing page builder (v1.1 - Fault Isolation)
 ```
 
 ---
@@ -73,19 +75,55 @@ jam/src/
 
 ### 3.4 Hooks
 
-| Hook                   | Função               |
-| ---------------------- | -------------------- |
-| `useAuth.js`           | Autenticação         |
-| `useFirebase.js`       | Firebase RTDB + Auth |
-| `useGAS.js`            | Google Apps Script   |
-| `useHealthStatus.js`   | Health polling       |
-| `useFounderMetrics.js` | Métricas dashboard   |
-| `useMarketplace.js`    | Marketplace hooks    |
-| `useLandingPage.js`    | Landing page builder |
+| Hook                   | Versão | Função                               |
+| ---------------------- | ------ | ------------------------------------ |
+| `useAuth.jsx`          | v1.1   | Autenticação (renomeado .js → .jsx)  |
+| `useFirebase.js`       | v1.0   | Firebase RTDB + Auth                 |
+| `useGAS.js`            | v1.1   | GAS endpoints + Fault Isolation      |
+| `useHealthStatus.js`   | v1.0   | Health polling                       |
+| `useFounderMetrics.js` | v1.1   | Dashboard + AgentTelemetry real-time |
+| `useMarketplace.js`    | v1.1   | Marketplace + Fault Isolation        |
+| `useLandingPage.js`    | v1.1   | Landing builder + Fault Isolation    |
 
 ---
 
-## 4. App.jsx v5.2 Structure
+## 4. Hooks v1.1 Changes (2026-01-26)
+
+### useGAS.js - Fault Isolation Applied
+
+```javascript
+// ANTES (violava §7.6 Constituição)
+throw new Error(`GAS request failed`);
+
+// DEPOIS (§7.6 compliant)
+return { success: false, error: `GAS request failed`, isolated: true };
+```
+
+### useFounderMetrics.js - AgentTelemetry Integration
+
+```javascript
+// Obtém dados reais de Panda.Telemetry
+const agentMetrics = getAgentMetrics();
+
+// Eventos real-time
+Panda.on("founder:activity", handleActivity);
+Panda.on("founder:error", handleError);
+
+// Helpers disponíveis
+const feed = getActivityFeed(10);
+const errors = getErrorList(5, true);
+const status = getTentacleStatus();
+```
+
+### useLandingPage.js & useMarketplace.js
+
+- Throws removidos (linhas 107, 175, 156, 203)
+- Retorna `{ success: false, error, isolated: true }`
+- Logga via `console.error()` antes de retornar
+
+---
+
+## 5. App.jsx v5.2 Structure
 
 ```jsx
 <AuthProvider>
@@ -108,8 +146,19 @@ jam/src/
 
 ---
 
-## 5. Links
+## 6. Build Info
+
+```text
+✓ 925 modules transformed
+✓ 1.18MB JS (356KB gzip)
+✓ Built in 14.17s (Vite 5.4.21)
+```
+
+---
+
+## 7. Links
 
 - [App.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/App.jsx)
 - [PF_AUTH_REFERENCE.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_AUTH_REFERENCE.md)
 - [PF_HEALTH_STATUS.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_HEALTH_STATUS.md)
+- [PF_SDK_REFERENCE.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_SDK_REFERENCE.md)

@@ -232,6 +232,44 @@ return {
 }
 ```
 
+### §7.8 Agent Telemetry (Founder-Only)
+
+> **REGRA:** Todas as atividades de tentacles são reportadas para o Founder Dashboard.
+
+| Método                            | Uso                           |
+| --------------------------------- | ----------------------------- |
+| `AT.report(source, action, data)` | Reportar atividade            |
+| `AT.reportError(source, error)`   | Reportar erro                 |
+| `AT.alert(level, title, msg)`     | Criar alerta para Founder     |
+| `AT.getSummary()`                 | Dashboard data (Founder-only) |
+| `AT.getActivities(limit)`         | Feed de atividades            |
+| `AT.getErrors(limit)`             | Lista de erros                |
+
+**Integração no Parent:**
+
+```javascript
+// Em _wrapChild() de cada parent
+const AT = window.AgentTelemetry;
+
+// Após sucesso:
+AT?.report?.(`${TENTACLE_ID}:${name}`, method, {
+  success: result?.success !== false,
+  duration: Date.now() - start,
+  cost: result?.cost,
+});
+
+// Após erro:
+AT?.reportError?.(`${TENTACLE_ID}:${name}`, error, { method });
+```
+
+**Eventos Real-Time:**
+
+- `founder:activity` - Nova atividade
+- `founder:error` - Novo erro
+- `founder:alert` - Novo alerta
+
+**Arquivo:** `js/core/pf.agent-telemetry.js`
+
 ### §8.4 React Hooks Standard
 
 > **REGRA:** Hooks React usam estado + return, nunca throw.
@@ -281,7 +319,7 @@ if (error) {
 | **Nome**         | Panda Factory (PF)                 |
 | **Fundador**     | Lucas Valério (5% eterno)          |
 | **Plano Google** | AI Ultra (Gemini 3 Pro, Veo 3)     |
-| **SDK Versão**   | 0.7.1                              |
+| **SDK Versão**   | 0.9.5                              |
 | **Missão**       | Democratizar infraestrutura Google |
 | **Repositório**  | github.com/LucassVal/SAAS          |
 

@@ -1,6 +1,6 @@
 # 🐼 Panda SDK - Referência da Biblioteca
 
-> **Versão:** 0.9.0 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
+> **Versão:** 0.9.5 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
 
 ---
 
@@ -417,7 +417,7 @@ Log em tempo real para hierarquia de módulos.
 | `getTree()`                          | `TreeObject` | Árvore de status   |
 | `getLogs(filter)`                    | `LogEntry[]` | Logs filtrados     |
 
-```javascript
+````javascript
 // Exemplo: Monitorar hierarquia
 TentacleMonitor.log("info", "social:whatsapp", "Message sent");
 
@@ -426,7 +426,49 @@ console.table(TentacleMonitor.getTree());
 
 // Filtrar logs
 TentacleMonitor.getLogs({ level: "error", limit: 10 });
-```
+```---
+
+### 🔭 Panda.Telemetry (Agent Telemetry) - NEW
+
+**Sistema de telemetria Founder-only.** Coleta dados de todos os tentacles.
+
+| Método                      | Retorno                            | Descrição                    |
+| --------------------------- | ---------------------------------- | ---------------------------- |
+| `report(source, action, data)` | `Activity`                      | Reportar atividade           |
+| `reportError(source, error, ctx)` | `ErrorRecord`                | Reportar erro                |
+| `alert(level, title, msg)`   | `Alert`                           | Criar alerta para Founder    |
+| `getSummary()`               | `{tentacles, activities, errors}` | Dashboard data (Founder-only)|
+| `getActivities(limit, filter)` | `Activity[]`                    | Feed de atividades           |
+| `getErrors(limit, unresolved)` | `ErrorRecord[]`                 | Lista de erros               |
+| `getTentacleStatus()`        | `{id: status}`                    | Mapa de status tentacles     |
+| `resolveError(id)`           | `{success}`                       | Marcar erro como resolvido   |
+| `dismissAlert(id)`           | `{success}`                       | Dispensar alerta             |
+| `updateStatus(id, status)`   | `void`                            | Atualizar status tentacle    |
+
+**Eventos Founder-Only:**
+
+| Evento            | Payload              | Descrição              |
+| ----------------- | -------------------- | ---------------------- |
+| `founder:activity` | `Activity`          | Nova atividade         |
+| `founder:error`    | `ErrorRecord`       | Novo erro              |
+| `founder:alert`    | `Alert`             | Novo alerta            |
+| `founder:status`   | `{tentacleId, ...}` | Mudança de status      |
+
+```javascript
+// Reportar atividade manualmente
+Panda.Telemetry.report('custom:module', 'action', { data: 123 });
+
+// Criar alerta crítico
+Panda.Telemetry.alert('critical', 'API Down', 'Gemini API não responde');
+
+// Obter resumo para dashboard
+const summary = Panda.Telemetry.getSummary();
+console.log(summary.tentacles); // { total: 6, active: 5, errors: 1 }
+````
+
+> 🔐 **Founder-Only:** Dados só visíveis para usuário verificado como Founder via `Auth.isFounder()`, localStorage `panda_founder_mode`, ou URL `?founder=1`.
+
+---
 
 ### Tentacles Implementados (Jan/2026)
 
@@ -452,6 +494,18 @@ TentacleMonitor.getLogs({ level: "error", limit: 10 });
 ---
 
 ## Changelog
+
+### [0.9.5] - 2026-01-26 (Agent Telemetry + Founder Mode)
+
+- **Feature:** `pf.agent-telemetry.js` - Sistema de telemetria Founder-only (380 linhas)
+- **Feature:** `Panda.Telemetry` - Report, alert, getSummary, getActivities
+- **Feature:** Eventos `founder:activity`, `founder:error`, `founder:alert`
+- **Feature:** Todos 6 tentacle parents integrados com `AT.report()` / `AT.reportError()`
+- **Feature:** `useFounderMetrics.js` - Real-time event subscriptions
+- **Enhancement:** `whatsapp.js` - Evolution API, bulk messaging, AI chatbot (501 linhas)
+- **Fix:** Hooks fault isolation aplicado: `useGAS.js`, `useLandingPage.js`, `useMarketplace.js`
+- **Fix:** `useAuth.js` → `useAuth.jsx` (JSX syntax fix)
+- **Docs:** Constitutional amendments §7.6-7.10 (Fault Isolation, Error Registry)
 
 ### [0.9.3] - 2026-01-25 (AI Cores + Distribution)
 
