@@ -292,7 +292,7 @@ function JamChat() {
           "✕"
         ) : (
           <img
-            src="/jam/panda-chat-logo.png"
+            src="./panda-chat-logo.png"
             alt="Chat"
             className="jam-chat-fab-logo"
           />
@@ -305,7 +305,7 @@ function JamChat() {
           {/* Header */}
           <div className="jam-chat-header">
             <img
-              src="/jam/panda-chat-logo.png"
+              src="./panda-chat-logo.png"
               alt="Panda"
               className="jam-chat-header-logo"
             />

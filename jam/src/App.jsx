@@ -120,8 +120,7 @@ function AppContent() {
         onClose={() => setShowFounderDashboard(false)}
       />
 
-      {/* Health Status Bar (Bottom) */}
-      <StatusBar />
+      {/* StatusBar moved to JamStatusBar header - removed duplicate */}
 
       {/* Watermark - Required by TLDraw license */}
       <footer className="jam-footer">🐼 Panda Factory - TLDraw</footer>

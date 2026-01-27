@@ -125,11 +125,11 @@ function JamStatusBar({
         title="Abrir Store"
       >
         <img
-          src="/jam/panda-logo.png"
-          alt="Panda Fabrics"
+          src="./panda-logo.png"
+          alt="Panda Factory"
           className="jam-brand-logo"
         />
-        <span className="jam-brand-text">Panda Fabrics</span>
+        <span className="jam-brand-text">Panda Factory</span>
       </div>
 
       {/* Version + Status Pills */}

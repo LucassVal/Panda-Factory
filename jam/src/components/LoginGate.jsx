@@ -128,7 +128,7 @@ function LoginGate({ children }) {
     <div className="login-gate">
       <div className="login-container">
         <div className="login-logo">
-          <img src="/jam/panda-chat-logo.png" alt="Panda" />
+          <img src="./panda-chat-logo.png" alt="Panda" />
         </div>
         <h1 className="login-title">Panda Factory</h1>
         <p className="login-subtitle">Acesso Restrito</p>
