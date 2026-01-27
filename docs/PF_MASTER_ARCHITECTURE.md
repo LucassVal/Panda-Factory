@@ -5,6 +5,93 @@
 > **Documento Mestre de Arquitetura**
 > Consolidação unificada seguindo o Mapa Visual do Projeto.
 > Frontend → SDK → Backend Distribuído (3 Pilares).
+> **Atualizado:** 2026-01-27
+
+---
+
+## 📚 Arquivos de Referência
+
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         DOCUMENTAÇÃO PANDA FACTORY                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ARQUITETURA & CORE                    SDK & INTEGRAÇÕES                   │
+│  ├── PF_MASTER_ARCHITECTURE.md ★       ├── PF_SDK_REFERENCE.md             │
+│  ├── PF_GAS_REFERENCE.md               ├── PF_PLUGIN_AND_MODULAR.md        │
+│  ├── PF_FIREBASE_REFERENCE.md          ├── PF_PLUGIN_MANIFEST.md           │
+│  ├── PF_RUST_REFERENCE.md              ├── PF_MCP_REFERENCE.md             │
+│  └── PF_AUTH_REFERENCE.md              └── PF_TECHS_SDK.md                 │
+│                                                                             │
+│  FRONTEND & UI                         ECONOMIA & NEGÓCIOS                 │
+│  ├── PF_JAM_COMPONENTS.md              ├── PF_TOKENOMICS_REFERENCE.md      │
+│  ├── PF_CSS_REFERENCE.md               ├── PF_MEDUSA_REFERENCE.md          │
+│  └── PF_HTML_REFERENCE.md              └── PF_OPENSOURCE_CATALOG.md        │
+│                                                                             │
+│  AI & BRAIN                            OPERAÇÕES                           │
+│  ├── PF_GEMINI_REFERENCE.md            ├── PF_HEALTH_STATUS.md             │
+│  └── PF_EDUCATION_REFERENCE.md         └── README.md                       │
+│                                                                             │
+│  ★ = DOCUMENTO MESTRE (VOCÊ ESTÁ AQUI)                                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🗂️ Estrutura de Pastas do Projeto
+
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         PANDA FACTORY - FOLDER MAP                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  📁 PandaFactory/                                                          │
+│  ├── 📁 .agent/                    # Workflows IA (PANDA.md)               │
+│  ├── 📁 .github/workflows/         # CI/CD (Pages, Android, Steam)         │
+│  │                                                                          │
+│  ├── 📁 backend/                   # ☁️ Google Apps Script                  │
+│  │   └── core/                     # PF_Dispatcher.gs, Config              │
+│  │                                                                          │
+│  ├── 📁 jam/                       # 🍇 React Frontend (Vite + TLDraw)     │
+│  │   ├── src/components/           # 22 componentes React                  │
+│  │   ├── src/hooks/                # 7 custom hooks                        │
+│  │   ├── src/styles/               # jam.css (Design System)               │
+│  │   └── dist/                     # Build de produção                     │
+│  │                                                                          │
+│  ├── 📁 js/                        # 🐼 SDK & Tentacles                     │
+│  │   ├── pf.sdk.js                 # SDK principal (50KB)                  │
+│  │   ├── pf.bootstrap.js           # Zero-config init                      │
+│  │   ├── core/                     # Módulos core                          │
+│  │   └── tentacles/                # 8 Integration Modules                 │
+│  │       ├── brain/                # AI/ML (Gemini, LocalLLM)              │
+│  │       ├── social/               # WhatsApp, Twitter, Meta               │
+│  │       ├── trading/              # cTrader Open API                      │
+│  │       ├── google/               # Drive, Sheets, Colab                  │
+│  │       ├── distribution/         # PWA, Steam, itch.io                   │
+│  │       ├── education/            # Kiwify, Hotmart, Eduzz                │
+│  │       ├── github/               # Pages, JSON DB, Actions               │
+│  │       └── monitor/              # Health/Telemetry                      │
+│  │                                                                          │
+│  ├── 📁 rust-agent/                # 🦀 Local Agent (Tauri/MCP)            │
+│  │   ├── Cargo.toml                # Dependencies                          │
+│  │   └── src/                      # 5 modules (GPU, MCP, Firebase)        │
+│  │                                                                          │
+│  ├── 📁 panda-sdk/                 # 📦 SDK público (npm package)          │
+│  ├── 📁 docs/                      # 📚 19 reference documents             │
+│  ├── 📁 components/                # 🧩 HTML Components (legacy)           │
+│  ├── 📁 css/                       # 🎨 pf.theme.css                       │
+│  ├── 📁 data/                      # 💾 JSON Database local                │
+│  ├── 📁 dist/                      # 📤 Build output (GitHub Pages)        │
+│  ├── 📁 assets/                    # 🖼️ Images, logos                      │
+│  ├── 📁 tools/                     # 🔧 Dev utilities                      │
+│  │                                                                          │
+│  ├── .env                          # 🔐 SECRETS (gitignored)               │
+│  ├── index.html                    # 🏠 Entry point                        │
+│  ├── manifest.json                 # 📱 PWA config                         │
+│  └── PANDA_MASTER_REFERENCE.md     # 📋 Quick Reference                    │
+│                                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
