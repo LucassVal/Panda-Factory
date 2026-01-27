@@ -119,6 +119,92 @@
         height: 24px;
       }
 
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+        color: #64748b;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .divider span {
+        padding: 0 15px;
+        font-size: 0.85rem;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      .login-form input {
+        padding: 14px 18px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+        transition: all 0.3s;
+      }
+
+      .login-form input::placeholder {
+        color: #64748b;
+      }
+
+      .login-form input:focus {
+        outline: none;
+        border-color: #60a5fa;
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+      }
+
+      .login-form button {
+        padding: 14px 24px;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(135deg, #60a5fa, #a78bfa);
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: "Inter", sans-serif;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .login-form button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+      }
+
+      .login-form button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .error-msg {
+        color: #f87171;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .error-msg.show {
+        display: block;
+      }
+
       .loading {
         display: none;
         margin-top: 20px;
@@ -183,6 +269,33 @@
         />
         Entrar com Google
       </button>
+
+      <div class="divider">
+        <span>ou</span>
+      </div>
+
+      <form
+        class="login-form"
+        id="emailLoginForm"
+        onsubmit="return signInWithEmail(event);"
+      >
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Email"
+          autocomplete="email"
+          required
+        />
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Senha"
+          autocomplete="current-password"
+          required
+        />
+        <button type="submit" id="emailLoginBtn">Entrar com Email</button>
+        <p class="error-msg" id="errorMsg"></p>
+      </form>
 
       <p class="loading" id="loading">Conectando...</p>
 
@@ -279,6 +392,101 @@
           alert("Erro ao conectar. Tente novamente.");
         }
       }
+
+      // ===== LOGIN COM EMAIL/SENHA (Mock - sem Firebase) =====
+      // Credenciais de desenvolvedor para acesso local
+      const MOCK_USERS = {
+        "lucassvalerio@panda.com": {
+          password: "U@g1232025",
+          name: "Lucas Valério",
+          role: "founder",
+          uid: "founder-lucas-001",
+        },
+        "dev@panda.com": {
+          password: "dev123",
+          name: "Dev Panda",
+          role: "dev",
+          uid: "dev-mock-001",
+        },
+      };
+
+      window.signInWithEmail = function (event) {
+        event.preventDefault();
+
+        const email = document
+          .getElementById("loginEmail")
+          .value.trim()
+          .toLowerCase();
+        const password = document.getElementById("loginPassword").value;
+        const errorMsg = document.getElementById("errorMsg");
+        const loginBtn = document.getElementById("emailLoginBtn");
+
+        // Clear previous error
+        errorMsg.classList.remove("show");
+        errorMsg.textContent = "";
+
+        // Validate
+        if (!email || !password) {
+          errorMsg.textContent = "Preencha todos os campos";
+          errorMsg.classList.add("show");
+          return false;
+        }
+
+        // Check mock users
+        const user = MOCK_USERS[email];
+        if (user && user.password === password) {
+          loginBtn.disabled = true;
+          loginBtn.textContent = "Entrando...";
+
+          // Store session locally
+          const mockToken = btoa(
+            JSON.stringify({
+              email,
+              role: user.role,
+              exp: Date.now() + 86400000,
+            }),
+          );
+          localStorage.setItem("panda_token", mockToken);
+          localStorage.setItem(
+            "panda_user",
+            JSON.stringify({
+              email: email,
+              name: user.name,
+              photo: null,
+              uid: user.uid,
+              role: user.role,
+            }),
+          );
+
+          // Mark as authenticated for LoginGate
+          sessionStorage.setItem("panda_auth_token", mockToken);
+
+          // Check for founder mode
+          if (user.role === "founder") {
+            localStorage.setItem("panda_founder_mode", "true");
+          }
+
+          // Redirect to Jam app (local dev or GitHub Pages)
+          setTimeout(() => {
+            const isLocal =
+              window.location.hostname === "localhost" ||
+              window.location.hostname === "127.0.0.1";
+            if (isLocal) {
+              window.location.href = "/jam/dist/index.html";
+            } else {
+              // GitHub Pages - redirect to jam
+              window.location.href = "./jam/dist/index.html";
+            }
+          }, 500);
+
+          return false;
+        }
+
+        // Invalid credentials
+        errorMsg.textContent = "Email ou senha incorretos";
+        errorMsg.classList.add("show");
+        return false;
+      };
     </script>
   </body>
 </html>

@@ -34,10 +34,40 @@ function LoginGate({ children }) {
 
   // Check if already authenticated
   useEffect(() => {
+    // Check LoginGate's own auth token
     const authToken = sessionStorage.getItem("panda_auth");
     if (authToken === `${AUTH_HASH.user}-${AUTH_HASH.pass}`) {
       setIsAuthenticated(true);
+      setIsLoading(false);
+      return;
     }
+
+    // Also check token from index.html login (panda_auth_token)
+    const indexToken = sessionStorage.getItem("panda_auth_token");
+    if (indexToken) {
+      try {
+        const decoded = JSON.parse(atob(indexToken));
+        if (decoded.email && decoded.exp > Date.now()) {
+          setIsAuthenticated(true);
+        }
+      } catch (e) {
+        console.warn("Invalid panda_auth_token");
+      }
+    }
+
+    // Also check localStorage panda_token (used by useAuth)
+    const pandaUser = localStorage.getItem("panda_user");
+    if (pandaUser) {
+      try {
+        const user = JSON.parse(pandaUser);
+        if (user.email) {
+          setIsAuthenticated(true);
+        }
+      } catch (e) {
+        console.warn("Invalid panda_user");
+      }
+    }
+
     setIsLoading(false);
   }, []);
 
@@ -60,7 +90,12 @@ function LoginGate({ children }) {
   };
 
   const handleLogout = () => {
+    // Clear all auth tokens
     sessionStorage.removeItem("panda_auth");
+    sessionStorage.removeItem("panda_auth_token");
+    localStorage.removeItem("panda_user");
+    localStorage.removeItem("panda_token");
+    localStorage.removeItem("panda_founder_mode");
     setIsAuthenticated(false);
   };
 

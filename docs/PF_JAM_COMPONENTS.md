@@ -1,6 +1,6 @@
 # 📋 PF_JAM_COMPONENTS - Jam UI Components Reference
 
-> **Versão:** 1.1.0 | **Atualizado:** 2026-01-26
+> **Versão:** 1.2.0 | **Atualizado:** 2026-01-27
 
 ---
 
@@ -123,7 +123,49 @@ const status = getTentacleStatus();
 
 ---
 
-## 5. App.jsx v5.2 Structure
+## 5. LoginGate v1.2 - Unified Auth (2026-01-27)
+
+O `LoginGate.jsx` agora suporta múltiplas fontes de autenticação:
+
+### Tokens Reconhecidos
+
+| Token              | Storage        | Fonte                                |
+| ------------------ | -------------- | ------------------------------------ |
+| `panda_auth`       | sessionStorage | Login direto no Jam (username/senha) |
+| `panda_auth_token` | sessionStorage | Login via `index.html` (email/senha) |
+| `panda_user`       | localStorage   | useAuth + index.html                 |
+
+### Fluxo de Autenticação
+
+```text
+[Landing Page (index.html)]
+         │
+         ├── Google Login ────▶ Firebase Auth ────▶ GAS Redirect
+         │
+         └── Email/Password ──▶ Mock Auth ────────▶ Jam Redirect
+                                    │
+                                    ▼
+                            [Jam App (React)]
+                                    │
+                                    ▼
+                              [LoginGate.jsx]
+                                    │
+                    ┌───────────────┼───────────────┐
+                    ▼               ▼               ▼
+              panda_auth     panda_auth_token   panda_user
+              (Jam login)   (index.html token)  (localStorage)
+```
+
+### Credenciais Mock (Desenvolvimento)
+
+| Email                     | Senha        | Role    |
+| ------------------------- | ------------ | ------- |
+| `lucassvalerio@panda.com` | `U@g1232025` | founder |
+| `dev@panda.com`           | `dev123`     | dev     |
+
+---
+
+## 6. App.jsx v5.2 Structure
 
 ```jsx
 <AuthProvider>
@@ -146,19 +188,20 @@ const status = getTentacleStatus();
 
 ---
 
-## 6. Build Info
+## 7. Build Info
 
 ```text
 ✓ 925 modules transformed
 ✓ 1.18MB JS (356KB gzip)
-✓ Built in 14.17s (Vite 5.4.21)
+✓ Built in 28.91s (Vite 5.4.21)
+✓ Last Build: 2026-01-27
 ```
 
 ---
 
-## 7. Links
+## 8. Links
 
 - [App.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/App.jsx)
-- [PF_AUTH_REFERENCE.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_AUTH_REFERENCE.md)
-- [PF_HEALTH_STATUS.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_HEALTH_STATUS.md)
+- [LoginGate.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/components/LoginGate.jsx)
+- [index.html](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/index.html)
 - [PF_SDK_REFERENCE.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_SDK_REFERENCE.md)
