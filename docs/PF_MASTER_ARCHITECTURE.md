@@ -254,6 +254,41 @@ O Rust Agent pode se conectar **diretamente** ao Firebase, sem passar pelo brows
 - 📴 **Offline:** Rust faz queue local + sync depois
 - ⚡ **Rápido:** Conexão direta, sem intermediários
 
+### 1.8. Estratégia Dual Repositório
+
+> **Atualizado:** 2026-01-27
+
+O Panda Factory utiliza **dois repositórios** separados para desenvolvimento e produção:
+
+| Repo              | Visibilidade | URL                                  | Uso                       |
+| :---------------- | :----------- | :----------------------------------- | :------------------------ |
+| **SAAS**          | 🔒 Privado   | `github.com/LucassVal/SAAS`          | Desenvolvimento principal |
+| **Panda-Factory** | 🌐 Público   | `github.com/LucassVal/Panda-Factory` | GitHub Pages (produção)   |
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                    DUAL REPO SYNC STRATEGY                           │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  LOCAL DEV                    REMOTES                   DEPLOY      │
+│  ┌──────────────┐          ┌──────────────┐          ┌───────────┐ │
+│  │ Panda Factory │         │ origin:SAAS  │          │ GitHub    │ │
+│  │ (Desktop)     │────────▶│ (PRIVADO)    │          │ Pages     │ │
+│  │               │    +    ├──────────────┤          │           │ │
+│  │               │────────▶│ panda:Public │─────────▶│ Produção  │ │
+│  └──────────────┘          └──────────────┘          └───────────┘ │
+│                                                                      │
+│  COMANDOS:                                                           │
+│  git push origin main   ← Código privado                            │
+│  git push panda main    ← Deploy público                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**URLs de Produção:**
+
+- **App Principal:** `https://lucassval.github.io/Panda-Factory/`
+- **cTrader OAuth:** `https://lucassval.github.io/panda-ctrader-auth/`
+
 ---
 
 ## 3. Camada Frontend: Panda UI & Docks
@@ -521,6 +556,126 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 > **📝 Para Kit de Logos:** Substituir emojis por SVGs customizados mantendo significado e cores associadas.
 
+### 3.5. Jam Frontend (React + TLDraw) 🍇
+
+> **Atualizado:** 2026-01-27 | **Referência:** [PF_JAM_COMPONENTS.md](PF_JAM_COMPONENTS.md)
+
+O **Panda Jam** é o frontend moderno construído com React + Vite, oferecendo uma experiência de canvas infinito com TLDraw.
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                         PANDA JAM ARCHITECTURE                       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  jam/                        COMPONENTES (22)                       │
+│  ├── src/                                                           │
+│  │   ├── components/         ┌─────────────────────────────────┐   │
+│  │   │   ├── JamStatusBar    │ Header com status de agentes    │   │
+│  │   │   ├── JamChat         │ AI Panel (5 modelos, 6 GEMs)    │   │
+│  │   │   ├── JamDock         │ Dock lateral de apps            │   │
+│  │   │   ├── JamCanvas       │ TLDraw canvas infinito          │   │
+│  │   │   ├── LoginGate       │ Autenticação                    │   │
+│  │   │   └── ...             └─────────────────────────────────┘   │
+│  │   ├── hooks/              7 custom React hooks                   │
+│  │   ├── services/           uiContext, outros                      │
+│  │   └── styles/             jam.css (Design System)                │
+│  ├── public/                                                        │
+│  │   ├── panda-logo.png                                             │
+│  │   └── panda-chat-logo.png                                        │
+│  └── dist/                   Build de produção (Vite)               │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+#### A. Componentes Principais
+
+| Componente           | Responsabilidade                       | SDK Connection       |
+| :------------------- | :------------------------------------- | :------------------- |
+| **JamStatusBar**     | Header com status Firebase/GAS/Rust/AI | `Panda.Monitor`      |
+| **JamChat**          | Chat AI com 5 modelos e 6 GEMs         | `Panda.Brain.Gemini` |
+| **JamDock**          | Dock lateral de apps                   | `Panda.UI`           |
+| **JamCanvas**        | TLDraw canvas infinito                 | `Panda.Data`         |
+| **LoginGate**        | Autenticação (email/senha, Google)     | `Panda.Auth`         |
+| **FounderDashboard** | Painel administrativo                  | `Panda.PAT`          |
+
+#### B. JamChat: AI Models e GEMs
+
+```javascript
+// 5 Modelos de IA disponíveis
+const AI_MODELS = [
+  { id: "flash", name: "Flash", icon: "⚡", free: true },
+  { id: "pro", name: "Pro", icon: "🧠", free: false },
+  { id: "thinking", name: "Think", icon: "🤔", free: true },
+  { id: "research", name: "Research", icon: "🔬", free: false },
+  { id: "imagen", name: "Imagen", icon: "🎨", free: false },
+];
+
+// 6 GEMs Especialistas
+const GEMS = [
+  { id: "writer", name: "Writer", icon: "✍️" },
+  { id: "analyst", name: "Analyst", icon: "📊" },
+  { id: "coder", name: "Coder", icon: "💻" },
+  { id: "designer", name: "Designer", icon: "🎨" },
+  { id: "planner", name: "Planner", icon: "📋" },
+  { id: "researcher", name: "Researcher", icon: "🔬" },
+];
+```
+
+#### C. Fluxo de Autenticação
+
+```text
+                    ┌─────────────────┐
+                    │   StartPage     │
+                    │   (Landing)     │
+                    └────────┬────────┘
+                             │
+                    ┌────────▼────────┐
+                    │   LoginGate     │
+                    │ Email/Senha     │
+                    │ or Google OAuth │
+                    └────────┬────────┘
+                             │ onLogin()
+                    ┌────────▼────────┐
+                    │   App.jsx       │
+                    │ isLoggedIn=true │
+                    └────────┬────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        ▼                    ▼                    ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ JamStatusBar │    │  JamCanvas   │    │   JamChat    │
+│  (Header)    │    │  (TLDraw)    │    │  (AI Panel)  │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
+
+#### D. CSS Variables (jam.css)
+
+```css
+:root {
+  --jam-bg: #1a1a2e;
+  --jam-surface: #16213e;
+  --jam-accent: #e94560;
+  --jam-text: #eaeaea;
+  --jam-text-muted: #8a8a9a;
+  --jam-text-secondary: #c0c0d0; /* Para labels de gems */
+  --jam-border: #2a2a4e;
+  --jam-dock-bg: rgba(22, 33, 62, 0.95);
+}
+
+body.light-mode {
+  --jam-bg: #f5f5f7;
+  --jam-surface: #ffffff;
+  --jam-text: #1a1a2e;
+  --jam-text-secondary: #4a4a5a;
+}
+```
+
+#### E. Deploy
+
+- **Build:** `npm run build` (Vite)
+- **Output:** `/dist/jam/` → copiado para `/dist/jam/` na raiz
+- **Serve:** GitHub Pages em `https://lucassval.github.io/Panda-Factory/`
+
 ---
 
 ## 4. Camada SDK: O Coração
@@ -573,23 +728,58 @@ window.Panda = {
 #### Estrutura de Arquivos
 
 ```
-js/tentacles/
-├── monitor/pf.tentacle-monitor.js  ← Log em tempo real
-├── social/
-│   ├── pf.social-parent.js         ← Parent
+js/tentacles/                         # 8 Integration Modules
+├── brain/                            ← AI/ML
+│   ├── pf.brain-parent.js
 │   └── children/
-│       ├── whatsapp.js             ← Child API
+│       ├── gemini.js                 ← Gemini API
+│       ├── local-llm.js              ← Ollama/LM Studio
+│       ├── gpu.js                    ← WebGPU detection
+│       └── vision.js                 ← Image analysis
+├── social/                           ← Social Media
+│   ├── pf.social-parent.js
+│   └── children/
+│       ├── whatsapp.js               ← Evolution API/Baileys
 │       ├── twitter.js
 │       ├── youtube.js
-│       └── meta.js
-├── trading/
+│       ├── meta.js
+│       └── telegram.js
+├── trading/                          ← Financial Markets
 │   ├── pf.trading-parent.js
-│   └── children/ctrader.js
-└── brain/
-    ├── pf.brain-parent.js
-    └── children/
-        ├── gemini.js
-        └── local-llm.js
+│   └── children/ctrader.js           ← cTrader Open API
+├── google/                           ← Google Services
+│   ├── pf.google-parent.js
+│   └── children/
+│       ├── drive.js
+│       ├── sheets.js
+│       ├── colab.js
+│       ├── calendar.js
+│       ├── docs.js
+│       ├── gmail.js
+│       └── youtube.js
+├── distribution/                     ← App Publishing
+│   ├── pf.distribution-parent.js
+│   └── children/
+│       ├── pwa.js
+│       ├── itch.js
+│       ├── steam.js
+│       ├── android.js
+│       ├── ios.js
+│       └── arcade.js
+├── education/                        ← EdTech Platforms
+│   ├── pf.education-parent.js
+│   └── children/
+│       ├── kiwify.js
+│       ├── hotmart.js
+│       └── eduzz.js
+├── github/                           ← GitHub Integration
+│   ├── pf.github-parent.js
+│   └── children/
+│       ├── pages.js                  ← GitHub Pages deploy
+│       ├── jsondb.js                 ← JSON as database
+│       └── actions.js                ← CI/CD workflows
+└── monitor/                          ← System Health
+    └── pf.tentacle-monitor.js        ← Real-time logging
 ```
 
 #### TentacleMonitor API
