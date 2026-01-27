@@ -6,6 +6,7 @@
   --jam-accent: #e94560;
   --jam-text: #eaeaea;
   --jam-text-muted: #8a8a9a;
+  --jam-text-secondary: #c0c0d0; /* High-visibility for gem labels */
   --jam-border: #2a2a4e;
   --jam-dock-bg: rgba(22, 33, 62, 0.95);
   --jam-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -17,6 +18,7 @@ body.light-mode {
   --jam-surface: #ffffff;
   --jam-text: #1a1a2e;
   --jam-text-muted: #6a6a7a;
+  --jam-text-secondary: #4a4a5a; /* Darker for light mode visibility */
   --jam-border: #e0e0e5;
   --jam-dock-bg: rgba(255, 255, 255, 0.95);
   --jam-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
