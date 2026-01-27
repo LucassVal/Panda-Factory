@@ -108,14 +108,12 @@
 │                                 ├── §5 Backend (3 Pilares)   │
 │  PARTE III: ECONOMIA           ├── §6 Infraestrutura        │
 │  ├── §8 Tokenomics             └── §7 Segurança             │
-│  ├── §9 P2P Compute                                         │
-│  └── §10 Bounty System         PARTE IV: HUBS               │
-│                                 ├── §11 Social Media        │
-│  PARTE V: ESTRATÉGIA           ├── §12 Trading (cTrader)    │
-│  ├── §17 Google Partner        ├── §13 Gaming/Audio/Video   │
-│  ├── §18 Game Studio           ├── §14 EdTech               │
-│  ├── §19 Roadmap               ├── §15 Assets Marketplace   │
-│  └── §20 Referências           └── §16 DevTools/VSX         │
+│  └── §10 Bounty System                                       │
+│                                 PARTE IV: HUBS               │
+│  PARTE V: ESTRATÉGIA           ├── §12 Convenções           │
+│  ├── §18 Game Studio           ├── §13 Trading (cTrader)    │
+│  ├── §19 Roadmap               ├── §14 Social Media         │
+│  └── §20 Refs & Integrações    └── §23-24 (Extensões)       │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -378,6 +376,205 @@ O Panda Factory utiliza **dois repositórios** separados para desenvolvimento e 
 
 ---
 
+## 2. O Diferencial "Hook" (Filosofia Core)
+
+> **"O Panda Factory não compete com a Steam, a Hotmart ou o VS Code. Ele engole todos através de integrações (Hooks)."**
+
+### 2.1. O Princípio
+
+```text
+Usuário cria UMA VEZ no Panda
+        ↓
+Distribui para TODOS os canais:
+├── Steam
+├── Epic Games
+├── Google Play
+├── Kiwify/Hotmart
+├── VS Code Marketplace
+└── Panda Arcade
+
+A IA gerencia a complexidade.
+O Token captura o valor.
+```
+
+### 2.1.1. Distribution Hub - 1-Click Deploy
+
+> **"Criar é difícil. Distribuir deveria ser um clique."**
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DISTRIBUTION HUB - FLUXO UNIFICADO                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  USUÁRIO                     PANDA SDK                                  │
+│  ┌─────────┐                ┌──────────────┐                            │
+│  │ Projeto │────────────────│ Panda.Dist   │                            │
+│  └─────────┘                └──────┬───────┘                            │
+│                                    │                                     │
+│                    ┌───────────────┼───────────────┐                    │
+│                    ▼               ▼               ▼                    │
+│            ┌─────────────┐ ┌─────────────┐ ┌─────────────┐              │
+│            │ 📱 MOBILE   │ │ 🎮 GAMING   │ │ 💼 SAAS     │              │
+│            ├─────────────┤ ├─────────────┤ ├─────────────┤              │
+│            │ Google Play │ │ Steam       │ │ VS Code Mkt │              │
+│            │ App Store   │ │ Epic Games  │ │ Chrome Ext  │              │
+│            │ PWA Direct  │ │ itch.io     │ │ NPM         │              │
+│            │ APK Manual  │ │ Panda Arcade│ │ Github Rel  │              │
+│            └─────────────┘ └─────────────┘ └─────────────┘              │
+│                    │               │               │                    │
+│                    └───────────────┼───────────────┘                    │
+│                                    ▼                                     │
+│                         ┌──────────────────┐                            │
+│                         │ 📊 Analytics Hub │                            │
+│                         │ Downloads, Uso   │                            │
+│                         └──────────────────┘                            │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.1.2. API Panda.Dist (Distribution)
+
+```javascript
+// SDK para distribuição unificada
+window.Panda.Dist = {
+  // ==========================================
+  // CONFIGURAÇÃO (Uma vez por projeto)
+  // ==========================================
+  async configure(projectId, credentials) {
+    // Armazena credenciais de cada plataforma
+    // Steam: Steamworks partner key
+    // Google Play: Service account JSON
+    // VS Code: Personal access token
+    // etc.
+  },
+
+  // ==========================================
+  // BUILD
+  // ==========================================
+  async build(projectId, targets) {
+    // targets: ['android', 'windows', 'web', 'vscode']
+    // Usa GitHub Actions / Colab para builds pesadas
+  },
+
+  // ==========================================
+  // DEPLOY 1-CLICK
+  // ==========================================
+  async deploy(projectId, target, options) {
+    // target: 'google_play' | 'steam' | 'vscode' | 'npm' | 'panda_arcade'
+    // Faz upload automático para a plataforma
+
+    const result = await this._hooks[target].deploy(projectId, options);
+
+    // Registra no Analytics
+    await Panda.Data.save("deployments", {
+      projectId,
+      target,
+      version: options.version,
+      timestamp: Date.now(),
+    });
+
+    return result;
+  },
+
+  // Hooks por plataforma
+  _hooks: {
+    google_play: GooglePlayHook,
+    steam: SteamHook,
+    epic: EpicHook,
+    vscode: VSCodeHook,
+    npm: NPMHook,
+    panda_arcade: PandaArcadeHook,
+  },
+
+  // ==========================================
+  // STATUS
+  // ==========================================
+  async getStatus(projectId) {
+    // Retorna status em todas as plataformas
+  },
+
+  async getAnalytics(projectId, period) {
+    // Downloads, avaliações, revenue por plataforma
+  },
+};
+```
+
+### 2.1.3. Matriz de Plataformas
+
+| Plataforma       | Tipo    | Custo Build | Auto-Deploy     | Status |
+| ---------------- | ------- | ----------- | --------------- | ------ |
+| **Google Play**  | Mobile  | 500 PC      | ✅ Planejado    | 🔴     |
+| **PWA Direct**   | Web     | Grátis      | ✅ Pronto       | ✅     |
+| **Steam**        | Gaming  | 1000 PC     | 🟡 API paga     | 🔴     |
+| **Epic Games**   | Gaming  | 1000 PC     | 🟡 API restrita | 🔴     |
+| **itch.io**      | Gaming  | Grátis      | ✅ Butler CLI   | 🔴     |
+| **VS Code**      | Dev     | Grátis      | ✅ vsce         | 🔴     |
+| **NPM**          | Dev     | Grátis      | ✅ npm publish  | 🔴     |
+| **Panda Arcade** | Interno | Grátis      | ✅ Nativo       | ✅     |
+
+### 2.1.4. Cenários de Uso
+
+```text
+CENÁRIO 1: Game Developer
+──────────────────────────
+1. Dev cria jogo no Godot/Bevy (via Panda)
+2. Assets de IA: sprites, música, sfx
+3. Clica "Deploy" → Seleciona:
+   ☑ Steam
+   ☑ Epic Games
+   ☑ itch.io
+   ☑ Panda Arcade
+4. Panda empacota para cada plataforma
+5. Upload automático via hooks
+6. Dev recebe link de cada loja
+
+CENÁRIO 2: Pequeno Negócio
+──────────────────────────
+1. Dono cria app delivery (template Panda)
+2. Customiza cores, logo, cardápio
+3. Clica "Deploy" → Seleciona:
+   ☑ Google Play
+   ☑ PWA Direct
+4. Panda gera APK/AAB + PWA
+5. Upload para Play Store (ou APK direto)
+6. Dono compartilha link do app
+
+CENÁRIO 3: Criador de Conteúdo
+──────────────────────────────
+1. Educador cria curso no Panda
+2. Vídeos editados, quizzes, certificado
+3. Clica "Deploy" → Seleciona:
+   ☑ App Android (DRM)
+   ☑ Kiwify/Hotmart
+   ☑ Panda Cursos
+4. Panda distribui para todos os canais
+5. Pagamentos unificados via Panda Wallet
+```
+
+### 2.2. Blindagem do SDK
+
+| Regra | Tentacle Comunidade                                  |
+| ----- | ---------------------------------------------------- |
+| ❌    | `window.Panda.Auth = malicious;` (Sobrescrever Core) |
+| ❌    | `window.Panda._internal = {};` (Acessar internos)    |
+| ❌    | `fetch()` sem `Panda.Bridge` (Bypass proxy)          |
+| ✅    | `TentacleMonitor.registerChild('epic', API);`        |
+| ✅    | `Panda.emit('community:epic:connected');`            |
+| ✅    | Usar qualquer API pública do SDK                     |
+
+### 2.3. Resumo para Paz Mental
+
+| Princípio              | Descrição                                            |
+| ---------------------- | ---------------------------------------------------- |
+| **Core Estável**       | O Panda Core não muda por causa de terceiros         |
+| **Drivers Isolados**   | Integrações são plugins descartáveis/substituíveis   |
+| **Validação Unitária** | Teste um canal de cada vez (ex: só itch.io primeiro) |
+| **Bounties**           | Deixe a comunidade preencher lacunas das APIs        |
+
+> **APIs novas = Branches da comunidade, regulados por você, MAS NÃO são Core.**
+
+---
+
 ## 3. Camada Frontend: Panda UI & Docks
 
 A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a aplicação.
@@ -408,7 +605,7 @@ As 3 Abas do Desenvolvedor:
 
 ### 3.2. Multi-Window Support
 
-> **📌 Nota:** A implementação completa de janelas pop-out usando a **Document Picture-in-Picture API** está documentada na seção [2.3.C - Arquitetura Multi-Window](#c-arquitetura-multi-window-document-pip).
+> **📌 Nota:** A implementação completa de janelas pop-out usando a **Document Picture-in-Picture API** está documentada na seção [3.3.C - Arquitetura Multi-Window](#c-arquitetura-multi-window-document-pip).
 
 ### 3.3. Dev Mode (Modo Desenvolvedor) 🛠️
 
@@ -1032,7 +1229,7 @@ pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response>
   (0 PC/h - GRÁTIS)
 ```
 
-### 4.7. Módulos Avançados do Rust Agent
+### 5.2. Módulos Avançados do Rust Agent
 
 O Rust não é apenas GPU. É a **ponte** para o mundo real do Sistema Operacional:
 
@@ -1975,7 +2172,7 @@ _wrapChild(name, childApi) {
 
 > **Filosofia:** "O Token é Energia. Quem produz, ganha. Quem consome, paga. O Fundador recebe eternamente."
 
-### 9.1. Estrutura de Valor do Panda Coin (PC)
+### 8.1. Estrutura de Valor do Panda Coin (PC)
 
 O PC é **Energy Credit** lastrado em custo computacional real, não especulativo.
 
@@ -2012,7 +2209,7 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 > - O DAO pode aumentar as taxas de Ops e Fundo em até **2.5% adicionais cada** (de 1% para máx 3.5%).
 > - _Cenário Máximo:_ 3% Gas + 3.5% Ops + 3.5% Fundo = 10%. (Host 90%).
 
-### 9.2. Treasury Backing (Reservas & Lastro) 🏦
+### 8.2. Treasury Backing (Reservas & Lastro) 🏦
 
 O Panda Coin é lastreado em ativos reais para garantir solvência e confiança:
 
@@ -2107,7 +2304,7 @@ Clique em 🏦 92% → Abre Treasury Dashboard Modal
 > - Equilíbrio: Seguranca adequada sem overhead excessivo
 > - Auditabilidade: Qualquer pessoa verifica via Solscan
 
-### 9.3. Hierarquia de Governança (4 Camadas)
+### 8.3. Hierarquia de Governança (4 Camadas)
 
 A economia é gerida por um sistema de pesos e contrapesos para garantir longevidade.
 
@@ -2214,7 +2411,7 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ## 19. Roadmap de Implementação
 
-### 10.1. Cronograma Visual
+### 19.1. Cronograma Visual
 
 ```text
 Semana:  1  2  3  4  5  6  7  8  9  10 11 12
@@ -2224,7 +2421,7 @@ Backend            └══█══█══█══┐
 Store                          └══█══█══█
 ```
 
-### 10.2. Fases & Milestones
+### 19.2. Fases & Milestones
 
 #### Fase 1: SDK Mock ✅ CONCLUÍDO
 
@@ -2265,13 +2462,13 @@ Store                          └══█══█══█
 
 O sistema aceita entradas de capital via canais tradicionais e webhooks de infoprodutos.
 
-### 11.1. Gateways de Pagamento (Fiat)
+### 18.1. Gateways de Pagamento (Fiat)
 
 - **Stripe:** Processamento internacional (Cartão/ACH). Taxa padrão ~3%.
 - **PagSeguro:** Processamento nacional (Pix/Boleto/Cartão). Taxa padrão ~3-4%.
 - **Pix Nativo:** Integração direta (Open Finance) futura para zerar taxas.
 
-### 11.2. Integração Infoprodutos (Webhooks)
+### 18.2. Integração Infoprodutos (Webhooks)
 
 Para produtores que vendem cursos/acessos externos:
 
@@ -2279,7 +2476,7 @@ Para produtores que vendem cursos/acessos externos:
 - **Ação:** Cria conta Panda Pro automaticamente para o aluno.
 - **Modelo:** Venda B2B (Produtor compra lote de acessos com desconto).
 
-### 11.3. Sistema de Afiliados
+### 18.3. Sistema de Afiliados
 
 - **Nativo:** O Panda possui sistema próprio de tracking `?ref=aff_id`.
 - **Comissão:** Definida pelo DAO (Ex: 30% da venda).
@@ -2614,7 +2811,7 @@ async function checkAccess(contentId) {
 
 > **Modelo:** Agregador de Engines + Cross-Commerce
 
-### 20.1. Engines Suportadas
+### 18.1. Engines Suportadas
 
 | Engine     | Modo                    | Categoria         |
 | ---------- | ----------------------- | ----------------- |
@@ -2623,14 +2820,14 @@ async function checkAccess(contentId) {
 | **Unreal** | Pixel Streaming (Nuvem) | Big Tech (Bridge) |
 | **Unity**  | Pixel Streaming (Nuvem) | Big Tech (Bridge) |
 
-### 20.2. Funcionalidades
+### 18.2. Funcionalidades
 
 | Feature             | Descrição                                                               |
 | ------------------- | ----------------------------------------------------------------------- |
 | **Panda Team Link** | Plugin para colaboração em tempo real (Google Docs para código de jogo) |
 | **Cross-Commerce**  | Venda de "Founder Packs" via Kiwify que liberam chaves na Steam/Panda   |
 
-### 20.3. Validação Simplificada
+### 18.3. Validação Simplificada
 
 > ⚠️ **Foque primeiro:** Valide apenas o **itch.io** (aberto e fácil) ou o **Panda Arcade** próprio.
 
@@ -2640,7 +2837,7 @@ async function checkAccess(contentId) {
 
 > **Filosofia:** Use a "Vibe Dev" e a comunidade Open Source. Não escreva integrações chatas.
 
-### 21.1. Como Funciona
+### 10.1. Como Funciona
 
 | Papel              | Responsabilidade                                                                |
 | ------------------ | ------------------------------------------------------------------------------- |
@@ -2648,7 +2845,7 @@ async function checkAccess(contentId) {
 | **Bounty**         | _"Pago 5.000 PC para quem criar o Conector Epic Games seguindo essa interface"_ |
 | **Dev Comunidade** | Faz a integração. Você só valida (Code Review)                                  |
 
-### 21.2. Níveis de Tentáculos
+### 10.2. Níveis de Tentáculos
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -2672,14 +2869,14 @@ async function checkAccess(contentId) {
     ✅ Core Team       🏆 Bounty           💼 Pago
 ```
 
-### 21.3. Promoção de Tentáculos
+### 10.3. Promoção de Tentáculos
 
 | De         | Para       | Requisitos                           |
 | ---------- | ---------- | ------------------------------------ |
 | Comunidade | Oficial    | Code Review + Testes + 1 mês estável |
 | Enterprise | Comunidade | Cliente autoriza open-source         |
 
-### 21.4. Revenue Split (ref: TOKENOMICS §9.1.B)
+### 10.4. Revenue Split (ref: TOKENOMICS §9.1.B)
 
 | Destino         | Store/Compute |
 | --------------- | ------------- |
@@ -2688,205 +2885,6 @@ async function checkAccess(contentId) {
 | Panda Ops       | 15%           |
 | Founder         | 5%            |
 | Gateway         | 3%            |
-
----
-
-## 2. O Diferencial "Hook" (Filosofia Core)
-
-> **"O Panda Factory não compete com a Steam, a Hotmart ou o VS Code. Ele engole todos através de integrações (Hooks)."**
-
-### 22.1. O Princípio
-
-```text
-Usuário cria UMA VEZ no Panda
-        ↓
-Distribui para TODOS os canais:
-├── Steam
-├── Epic Games
-├── Google Play
-├── Kiwify/Hotmart
-├── VS Code Marketplace
-└── Panda Arcade
-
-A IA gerencia a complexidade.
-O Token captura o valor.
-```
-
-### 22.1.1. Distribution Hub - 1-Click Deploy
-
-> **"Criar é difícil. Distribuir deveria ser um clique."**
-
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    DISTRIBUTION HUB - FLUXO UNIFICADO                    │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  USUÁRIO                     PANDA SDK                                  │
-│  ┌─────────┐                ┌──────────────┐                            │
-│  │ Projeto │────────────────│ Panda.Dist   │                            │
-│  └─────────┘                └──────┬───────┘                            │
-│                                    │                                     │
-│                    ┌───────────────┼───────────────┐                    │
-│                    ▼               ▼               ▼                    │
-│            ┌─────────────┐ ┌─────────────┐ ┌─────────────┐              │
-│            │ 📱 MOBILE   │ │ 🎮 GAMING   │ │ 💼 SAAS     │              │
-│            ├─────────────┤ ├─────────────┤ ├─────────────┤              │
-│            │ Google Play │ │ Steam       │ │ VS Code Mkt │              │
-│            │ App Store   │ │ Epic Games  │ │ Chrome Ext  │              │
-│            │ PWA Direct  │ │ itch.io     │ │ NPM         │              │
-│            │ APK Manual  │ │ Panda Arcade│ │ Github Rel  │              │
-│            └─────────────┘ └─────────────┘ └─────────────┘              │
-│                    │               │               │                    │
-│                    └───────────────┼───────────────┘                    │
-│                                    ▼                                     │
-│                         ┌──────────────────┐                            │
-│                         │ 📊 Analytics Hub │                            │
-│                         │ Downloads, Uso   │                            │
-│                         └──────────────────┘                            │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
-### 22.1.2. API Panda.Dist (Distribution)
-
-```javascript
-// SDK para distribuição unificada
-window.Panda.Dist = {
-  // ==========================================
-  // CONFIGURAÇÃO (Uma vez por projeto)
-  // ==========================================
-  async configure(projectId, credentials) {
-    // Armazena credenciais de cada plataforma
-    // Steam: Steamworks partner key
-    // Google Play: Service account JSON
-    // VS Code: Personal access token
-    // etc.
-  },
-
-  // ==========================================
-  // BUILD
-  // ==========================================
-  async build(projectId, targets) {
-    // targets: ['android', 'windows', 'web', 'vscode']
-    // Usa GitHub Actions / Colab para builds pesadas
-  },
-
-  // ==========================================
-  // DEPLOY 1-CLICK
-  // ==========================================
-  async deploy(projectId, target, options) {
-    // target: 'google_play' | 'steam' | 'vscode' | 'npm' | 'panda_arcade'
-    // Faz upload automático para a plataforma
-
-    const result = await this._hooks[target].deploy(projectId, options);
-
-    // Registra no Analytics
-    await Panda.Data.save("deployments", {
-      projectId,
-      target,
-      version: options.version,
-      timestamp: Date.now(),
-    });
-
-    return result;
-  },
-
-  // Hooks por plataforma
-  _hooks: {
-    google_play: GooglePlayHook,
-    steam: SteamHook,
-    epic: EpicHook,
-    vscode: VSCodeHook,
-    npm: NPMHook,
-    panda_arcade: PandaArcadeHook,
-  },
-
-  // ==========================================
-  // STATUS
-  // ==========================================
-  async getStatus(projectId) {
-    // Retorna status em todas as plataformas
-  },
-
-  async getAnalytics(projectId, period) {
-    // Downloads, avaliações, revenue por plataforma
-  },
-};
-```
-
-### 22.1.3. Matriz de Plataformas
-
-| Plataforma       | Tipo    | Custo Build | Auto-Deploy     | Status |
-| ---------------- | ------- | ----------- | --------------- | ------ |
-| **Google Play**  | Mobile  | 500 PC      | ✅ Planejado    | 🔴     |
-| **PWA Direct**   | Web     | Grátis      | ✅ Pronto       | ✅     |
-| **Steam**        | Gaming  | 1000 PC     | 🟡 API paga     | 🔴     |
-| **Epic Games**   | Gaming  | 1000 PC     | 🟡 API restrita | 🔴     |
-| **itch.io**      | Gaming  | Grátis      | ✅ Butler CLI   | 🔴     |
-| **VS Code**      | Dev     | Grátis      | ✅ vsce         | 🔴     |
-| **NPM**          | Dev     | Grátis      | ✅ npm publish  | 🔴     |
-| **Panda Arcade** | Interno | Grátis      | ✅ Nativo       | ✅     |
-
-### 22.1.4. Cenários de Uso
-
-```text
-CENÁRIO 1: Game Developer
-──────────────────────────
-1. Dev cria jogo no Godot/Bevy (via Panda)
-2. Assets de IA: sprites, música, sfx
-3. Clica "Deploy" → Seleciona:
-   ☑ Steam
-   ☑ Epic Games
-   ☑ itch.io
-   ☑ Panda Arcade
-4. Panda empacota para cada plataforma
-5. Upload automático via hooks
-6. Dev recebe link de cada loja
-
-CENÁRIO 2: Pequeno Negócio
-──────────────────────────
-1. Dono cria app delivery (template Panda)
-2. Customiza cores, logo, cardápio
-3. Clica "Deploy" → Seleciona:
-   ☑ Google Play
-   ☑ PWA Direct
-4. Panda gera APK/AAB + PWA
-5. Upload para Play Store (ou APK direto)
-6. Dono compartilha link do app
-
-CENÁRIO 3: Criador de Conteúdo
-──────────────────────────────
-1. Educador cria curso no Panda
-2. Vídeos editados, quizzes, certificado
-3. Clica "Deploy" → Seleciona:
-   ☑ App Android (DRM)
-   ☑ Kiwify/Hotmart
-   ☑ Panda Cursos
-4. Panda distribui para todos os canais
-5. Pagamentos unificados via Panda Wallet
-```
-
-### 22.2. Blindagem do SDK
-
-| Regra | Tentacle Comunidade                                  |
-| ----- | ---------------------------------------------------- |
-| ❌    | `window.Panda.Auth = malicious;` (Sobrescrever Core) |
-| ❌    | `window.Panda._internal = {};` (Acessar internos)    |
-| ❌    | `fetch()` sem `Panda.Bridge` (Bypass proxy)          |
-| ✅    | `TentacleMonitor.registerChild('epic', API);`        |
-| ✅    | `Panda.emit('community:epic:connected');`            |
-| ✅    | Usar qualquer API pública do SDK                     |
-
-### 22.3. Resumo para Paz Mental
-
-| Princípio              | Descrição                                            |
-| ---------------------- | ---------------------------------------------------- |
-| **Core Estável**       | O Panda Core não muda por causa de terceiros         |
-| **Drivers Isolados**   | Integrações são plugins descartáveis/substituíveis   |
-| **Validação Unitária** | Teste um canal de cada vez (ex: só itch.io primeiro) |
-| **Bounties**           | Deixe a comunidade preencher lacunas das APIs        |
-
-> **APIs novas = Branches da comunidade, regulados por você, MAS NÃO são Core.**
 
 ---
 
