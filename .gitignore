@@ -25,6 +25,7 @@ js/pat/
 *.pem
 secrets/
 _archive/legacy/secrets.js
+LOGIN_DEV.md
 
 # Scripts internos
 scripts/
