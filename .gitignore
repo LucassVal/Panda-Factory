@@ -60,8 +60,8 @@ node_modules/
 package-lock.json
 npm-debug.log*
 
-# Build
-dist/
+# Build (keep dist/jam for GitHub Pages)
+# dist/  <- REMOVED: dist/jam needs to be in GitHub Pages
 build/
 .cache/
 
