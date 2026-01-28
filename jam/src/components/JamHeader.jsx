@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * 🐼 Jam Header
@@ -9,22 +9,16 @@ function JamHeader({ onStoreClick }) {
     <header className="jam-header">
       <div className="jam-header-logo">
         <span>🐼</span>
-        <span>Panda Jam</span>
+        <span>Panda Fabrics</span>
       </div>
-      
+
       <div className="jam-header-actions">
         <button className="jam-header-btn" onClick={onStoreClick}>
           📦 Store
         </button>
-        <button className="jam-header-btn">
-          ⬚ Fullscreen
-        </button>
-        <button className="jam-header-btn">
-          ⧉ Pop-out
-        </button>
-        <button className="jam-header-btn">
-          ⚙️
-        </button>
+        <button className="jam-header-btn">⬚ Fullscreen</button>
+        <button className="jam-header-btn">⧉ Pop-out</button>
+        <button className="jam-header-btn">⚙️</button>
       </div>
     </header>
   );

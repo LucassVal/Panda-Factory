@@ -234,7 +234,7 @@ function JamSettings({ isOpen, onClose }) {
           {activeSection === "about" && (
             <div className="jam-settings-section">
               <h2>ℹ️ About</h2>
-              <p>Panda Jam Information</p>
+              <p>Panda Fabrics Information</p>
               <div className="jam-settings-card">
                 <div className="jam-settings-row">
                   <div className="jam-settings-label">Version</div>

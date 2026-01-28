@@ -130,7 +130,7 @@ function LoginGate({ children }) {
         <div className="login-logo">
           <img src="./panda-chat-logo.png" alt="Panda" />
         </div>
-        <h1 className="login-title">Panda Factory</h1>
+        <h1 className="login-title">Panda Fabrics</h1>
         <p className="login-subtitle">Acesso Restrito</p>
 
         <form onSubmit={handleLogin} className="login-form">
@@ -164,7 +164,7 @@ function LoginGate({ children }) {
         </form>
 
         <p className="login-footer">
-          © 2026 Panda Factory - Todos os direitos reservados
+          © 2026 Panda Fabrics - Todos os direitos reservados
         </p>
       </div>
     </div>

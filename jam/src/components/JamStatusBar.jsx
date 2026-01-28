@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { openFounderDashboardPopout } from "./FounderDashboardPopout";
 
 /**
  * 🐼 Jam Status Bar (Top)
@@ -7,12 +8,15 @@ import React, { useState, useEffect } from "react";
  * - Arc Energy (wallet balance)
  * - Treasury Health Score
  * - Fullscreen / Pop-out buttons
+ * - Founder Dashboard pop-out (for founders only)
  */
 function JamStatusBar({
   onFullscreen,
   onPopout,
   onSettingsClick,
   onStoreClick,
+  onFounderClick,
+  isFounder = false,
 }) {
   const [time, setTime] = useState("");
   const [energy, setEnergy] = useState(90);
@@ -129,7 +133,7 @@ function JamStatusBar({
           alt="Panda Factory"
           className="jam-brand-logo"
         />
-        <span className="jam-brand-text">Panda Factory</span>
+        <span className="jam-brand-text">Panda Fabrics</span>
       </div>
 
       {/* Version + Status Pills */}
@@ -200,6 +204,17 @@ function JamStatusBar({
             <span className="jam-session-time">⏱️ {sessionDuration}</span>
           </div>
         </div>
+
+        {/* Founder Dashboard Pop-Out (only for founders) */}
+        {(isFounder || onFounderClick) && (
+          <button
+            className="jam-header-btn founder-btn"
+            onClick={() => openFounderDashboardPopout()}
+            title="Founder Dashboard (Pop-Out)"
+          >
+            🏭
+          </button>
+        )}
 
         {/* Fullscreen */}
         <button

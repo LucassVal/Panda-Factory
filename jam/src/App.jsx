@@ -13,7 +13,7 @@ import { StatusBar } from "./components/StatusBar";
 import { FounderDashboardModal } from "./components/FounderDashboardModal";
 
 /**
- * 🐼 Panda Jam - Main Application v5.2
+ * 🐼 Panda Fabrics - Main Application v5.2
  *
  * Complete UI with:
  * - Status Bar (top) with status pills, energy, treasury, user info
@@ -63,6 +63,7 @@ function AppContent() {
         onFounderClick={
           isFounder ? () => setShowFounderDashboard(true) : undefined
         }
+        isFounder={isFounder}
       />
 
       {/* Main Canvas Area */}
@@ -123,7 +124,7 @@ function AppContent() {
       {/* StatusBar moved to JamStatusBar header - removed duplicate */}
 
       {/* Watermark - Required by TLDraw license */}
-      <footer className="jam-footer">🐼 Panda Factory - TLDraw</footer>
+      <footer className="jam-footer">🐼 Panda Fabrics - TLDraw</footer>
     </div>
   );
 }

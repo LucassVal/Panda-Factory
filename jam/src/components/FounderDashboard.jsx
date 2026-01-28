@@ -3,6 +3,7 @@ import { useHealthStatus } from "../hooks/useHealthStatus";
 import { useFounderMetrics } from "../hooks/useFounderMetrics";
 import { PanicButton } from "./PanicButton";
 import { FinancePanel } from "./FinancePanel";
+import { PandaDefendDashboard } from "./PandaDefendDashboard";
 import "./FounderDashboard.css";
 
 /**
@@ -59,6 +60,12 @@ export function FounderDashboard() {
           onClick={setActiveTab}
         />
         <Tab
+          id="defend"
+          label="🛡️ Defend"
+          active={activeTab}
+          onClick={setActiveTab}
+        />
+        <Tab
           id="users"
           label="👥 Users"
           active={activeTab}
@@ -84,6 +91,7 @@ export function FounderDashboard() {
           <OverviewPanel metrics={metrics} services={services} />
         )}
         {activeTab === "finance" && <FinancePanel metrics={metrics} />}
+        {activeTab === "defend" && <PandaDefendDashboard />}
         {activeTab === "users" && <UsersPanel metrics={metrics} />}
         {activeTab === "services" && <ServicesPanel services={services} />}
         {activeTab === "logs" && <LogsPanel />}
