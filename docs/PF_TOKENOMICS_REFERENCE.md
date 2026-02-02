@@ -1,6 +1,6 @@
 # 💰 PF_TOKENOMICS_REFERENCE - Ecossistema Panda Coin
 
-> **Versão:** 2.0.0 | **Fonte:** PF_MASTER_ARCHITECTURE.md §9
+> **Versão:** 2.0.0 | **Atualizado:** 2026-01-27 | **Fonte:** PF_MASTER_ARCHITECTURE.md §9
 
 ---
 

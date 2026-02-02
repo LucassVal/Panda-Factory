@@ -51,9 +51,76 @@ function JamRightToolbar({ isOpen, onClose, onToolSelect, devMode = false }) {
   const handleToolClick = (toolId) => {
     setActiveTool(toolId);
 
-    // Set TLDraw tool
     const editor = window.TLDrawEditor;
-    if (editor) {
+    if (!editor) {
+      console.warn("TLDraw editor not available");
+      return;
+    }
+
+    // Map toolbar IDs to TLDraw tools
+    // TLDraw uses "geo" tool for shapes with props
+    const geoShapes = {
+      rectangle: "rectangle",
+      ellipse: "ellipse",
+      triangle: "triangle",
+    };
+
+    if (geoShapes[toolId]) {
+      // Set geo tool with specific shape
+      editor.setCurrentTool("geo");
+      // Set the geo shape type
+      editor.setStyleForNextShapes({ geo: geoShapes[toolId] });
+    } else if (toolId === "image") {
+      // Open file dialog for image upload
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.onchange = async (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = async () => {
+            const dataUrl = reader.result;
+            // Create image asset and shape in TLDraw
+            const assetId = `asset:${Date.now()}`;
+            const img = new Image();
+            img.src = dataUrl;
+            img.onload = () => {
+              editor.createAssets([
+                {
+                  id: assetId,
+                  type: "image",
+                  typeName: "asset",
+                  props: {
+                    src: dataUrl,
+                    name: file.name,
+                    w: img.width,
+                    h: img.height,
+                    mimeType: file.type,
+                    isAnimated: false,
+                  },
+                },
+              ]);
+              // Create the image shape on canvas
+              const center = editor.getViewportScreenCenter();
+              editor.createShape({
+                type: "image",
+                x: center.x - img.width / 4,
+                y: center.y - img.height / 4,
+                props: {
+                  assetId,
+                  w: img.width / 2,
+                  h: img.height / 2,
+                },
+              });
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
+    } else {
+      // Direct tool mapping
       editor.setCurrentTool(toolId);
     }
 

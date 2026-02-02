@@ -1,16 +1,68 @@
 # 🐼 Panda SDK - Referência da Biblioteca
 
-> **Versão:** 0.9.5 | **Status:** Mock (Development) | **Arquivo:** `js/pf.sdk.js`
+> **Versão:** 0.9.5 | **Status:** Mock (Development) | **Atualizado:** 2026-01-27
+> **Arquivo:** `js/pf.sdk.js`
 
 ---
 
 ## 📋 Índice
 
-1. [Instalação](#instalação)
-2. [Módulos Públicos](#módulos-públicos)
-3. [Event Bus](#event-bus)
-4. [Classificação de Segurança](#classificação-de-segurança)
-5. [Changelog](#changelog)
+1. [Tech Stack](#tech-stack)
+2. [Instalação](#instalação)
+3. [Módulos Públicos](#módulos-públicos)
+4. [Tentacle Architecture](#tentacle-architecture)
+5. [Event Bus](#event-bus)
+6. [Classificação de Segurança](#classificação-de-segurança)
+7. [Changelog](#changelog)
+
+---
+
+## Tech Stack
+
+> 🔗 **Consolidado de:** PF_TECHS_SDK.md
+
+### Arquitetura de Dependências
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                      🔒 CORE (Imutável)                          │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │ Firebase    │  │ Google Apps │  │ Ed25519     │              │
+│  │ Auth/DB     │  │ Script (GAS)│  │ Assinatura  │              │
+│  └─────────────┘  └─────────────┘  └─────────────┘              │
+├─────────────────────────────────────────────────────────────────┤
+│                      📦 SDK (Padrão + Extensível)                │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │ React       │  │ TLDraw      │  │ Yjs         │              │
+│  │ (UI Base)   │  │ (Canvas)    │  │ (Collab)    │              │
+│  └─────────────┘  └─────────────┘  └─────────────┘              │
+├─────────────────────────────────────────────────────────────────┤
+│                      🔌 Add-ons (Usuário Escolhe)                │
+│  AI: Gemini | OpenAI | Claude | Ollama                          │
+│  💰 PAGAMENTOS LOJA: APENAS PANDA COIN (PC)                      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Tecnologias por Prioridade
+
+| Prioridade | Categoria       | Techs                        |
+| ---------- | --------------- | ---------------------------- |
+| **P0**     | Core (imutável) | Firebase, GAS, Ed25519       |
+| **P1**     | SDK Base        | React 18, TLDraw, Yjs, Vite  |
+| **P2**     | Recomendado     | TypeScript, Zod, React Query |
+| **P3**     | Add-ons         | Gemini/OpenAI/Claude, S3/R2  |
+
+### Google APIs - Custos
+
+| API               | Quem Paga | Limite/Custo   |
+| ----------------- | --------- | -------------- |
+| **Firebase Auth** | Grátis    | ∞              |
+| **Firebase RTDB** | Panda     | 1GB + 10GB/mês |
+| **Gemini Flash**  | User (PC) | ~$0.0001/req   |
+| **Cloud Vision**  | User (PC) | $1.50/1k units |
+| **Drive API**     | Grátis    | ∞              |
+
+> ⚠️ **NUNCA substitua o Core.** Conectores adicionais são para EXTENSÕES.
 
 ---
 
@@ -490,6 +542,102 @@ console.log(summary.tentacles); // { total: 6, active: 5, errors: 1 }
 | **audio**     | `Panda.Audio`     | ToneJS, ElevenLabs, Whisper, Suno        |
 | **video**     | `Panda.Video`     | FFmpeg, Remotion, Veo                    |
 | **compute**   | `Panda.Compute`   | Colab, P2P Hosts                         |
+
+---
+
+### 🌐 Panda.Google (Tentáculo Completo)
+
+**Integração nativa com Google Workspace.** 7 children implementados.
+
+#### Google.Drive
+
+Operações de arquivo no Google Drive do usuário.
+
+| Método                         | Retorno                 | Descrição                |
+| ------------------------------ | ----------------------- | ------------------------ |
+| `list(folderId?, options?)`    | `Promise<File[]>`       | Lista arquivos           |
+| `upload(file, folderId?)`      | `Promise<FileMetadata>` | Upload de arquivo        |
+| `download(fileId)`             | `Promise<Blob>`         | Download de arquivo      |
+| `createFolder(name, parent?)`  | `Promise<Folder>`       | Cria pasta               |
+| `move(fileId, targetFolderId)` | `Promise<boolean>`      | Move arquivo/pasta       |
+| `trash(fileId)`                | `Promise<boolean>`      | Move para lixeira        |
+| `search(query)`                | `Promise<File[]>`       | Busca arquivos           |
+| `getShareLink(fileId, role?)`  | `Promise<string>`       | Link de compartilhamento |
+
+```javascript
+// Listar pasta raiz
+const files = await Panda.Google.Drive.list("root");
+
+// Upload com progresso
+await Panda.Google.Drive.upload(myFile, "folderId");
+
+// Download
+const blob = await Panda.Google.Drive.download("fileId");
+
+// Criar pasta de projeto
+await Panda.Google.Drive.createFolder("Meu Projeto Panda");
+```
+
+#### Google.Sheets
+
+CRUD em planilhas Google.
+
+| Método                       | Retorno            | Descrição       |
+| ---------------------------- | ------------------ | --------------- |
+| `read(spreadsheetId, range)` | `Promise<any[][]>` | Lê células      |
+| `write(id, range, values)`   | `Promise<boolean>` | Escreve células |
+| `append(id, range, values)`  | `Promise<boolean>` | Adiciona linhas |
+| `create(title)`              | `Promise<string>`  | Cria planilha   |
+
+#### Google.Calendar
+
+Gerenciamento de eventos.
+
+| Método                           | Retorno            | Descrição     |
+| -------------------------------- | ------------------ | ------------- |
+| `listEvents(calendarId, opts)`   | `Promise<Event[]>` | Lista eventos |
+| `createEvent(calendarId, event)` | `Promise<Event>`   | Cria evento   |
+| `deleteEvent(calendarId, id)`    | `Promise<boolean>` | Remove evento |
+
+#### Google.Docs
+
+Criação e edição de documentos.
+
+| Método                | Retorno            | Descrição       |
+| --------------------- | ------------------ | --------------- |
+| `create(title)`       | `Promise<string>`  | Cria documento  |
+| `get(docId)`          | `Promise<Doc>`     | Obtém documento |
+| `append(docId, text)` | `Promise<boolean>` | Adiciona texto  |
+
+#### Google.Gmail
+
+Envio de emails.
+
+| Método                    | Retorno            | Descrição    |
+| ------------------------- | ------------------ | ------------ |
+| `send(to, subject, body)` | `Promise<boolean>` | Envia email  |
+| `list(query?, max?)`      | `Promise<Email[]>` | Lista emails |
+
+#### Google.Colab
+
+Integração com notebooks.
+
+| Método                | Retorno           | Descrição        |
+| --------------------- | ----------------- | ---------------- |
+| `create(title)`       | `Promise<string>` | Cria notebook    |
+| `execute(notebookId)` | `Promise<Output>` | Executa notebook |
+
+#### Google.YouTube
+
+Upload e gerenciamento de vídeos.
+
+| Método                    | Retorno            | Descrição       |
+| ------------------------- | ------------------ | --------------- |
+| `upload(video, metadata)` | `Promise<Video>`   | Upload de vídeo |
+| `getChannel()`            | `Promise<Channel>` | Info do canal   |
+| `listVideos(channelId?)`  | `Promise<Video[]>` | Lista vídeos    |
+
+> 📍 **Localização:** `js/tentacles/google/` (parent + 7 children)
 
 ---
 

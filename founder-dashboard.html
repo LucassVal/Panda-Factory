@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🏭 Founder Dashboard - Panda Factory</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e1b4b 50%,
+          #0f172a 100%
+        );
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+
+      .founder-popout {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      /* Header */
+      .popout-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        background: rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .popout-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .popout-icon {
+        font-size: 24px;
+      }
+
+      .popout-title h1 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .popout-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .btn-refresh {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.2s;
+      }
+
+      .btn-refresh:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 8px #22c55e;
+      }
+
+      /* Tabs */
+      .popout-tabs {
+        display: flex;
+        gap: 4px;
+        padding: 12px 24px;
+        background: rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .tab-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+
+      .tab-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.2),
+          rgba(167, 139, 250, 0.2)
+        );
+        color: #fff;
+        border: 1px solid rgba(96, 165, 250, 0.3);
+      }
+
+      /* Content */
+      .popout-content {
+        flex: 1;
+        padding: 24px;
+        overflow-y: auto;
+      }
+
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      /* Metrics Grid */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+      }
+
+      .metric-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 24px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s;
+      }
+
+      .metric-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .metric-card.highlight {
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.15),
+          rgba(96, 165, 250, 0.15)
+        );
+        border-color: rgba(34, 197, 94, 0.3);
+      }
+
+      .metric-icon {
+        font-size: 28px;
+      }
+      .metric-value {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .metric-label {
+        font-size: 12px;
+        color: #94a3b8;
+        text-transform: uppercase;
+      }
+
+      /* Treasury */
+      .treasury-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .treasury-header h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .health-score {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px 24px;
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.15),
+          rgba(34, 197, 94, 0.05)
+        );
+        border-radius: 12px;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+      }
+
+      .score-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: #22c55e;
+      }
+      .score-label {
+        font-size: 11px;
+        color: #94a3b8;
+        text-transform: uppercase;
+      }
+
+      .treasury-breakdown {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .treasury-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+      }
+
+      .item-icon {
+        font-size: 20px;
+      }
+      .item-label {
+        flex: 1;
+        font-size: 14px;
+      }
+      .item-value {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .item-percent {
+        font-size: 12px;
+        color: #94a3b8;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      /* Controls */
+      .control-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+
+      .control-btn {
+        padding: 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .control-btn.danger {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+      }
+      .control-btn.danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+      }
+      .control-btn.warning {
+        background: linear-gradient(135deg, #eab308, #ca8a04);
+        color: white;
+      }
+      .control-btn.primary {
+        background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        color: white;
+      }
+      .control-btn.secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* Alerts */
+      .alerts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .alert-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
+      }
+
+      .alert-item.critical {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+      .alert-item.warning {
+        background: rgba(234, 179, 8, 0.1);
+        border: 1px solid rgba(234, 179, 8, 0.3);
+      }
+      .alert-item.info {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+      }
+
+      /* Footer */
+      .popout-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 24px;
+        background: rgba(0, 0, 0, 0.3);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="founder-popout">
+      <!-- Header -->
+      <header class="popout-header">
+        <div class="popout-title">
+          <span class="popout-icon">🏭</span>
+          <h1>Founder Dashboard</h1>
+        </div>
+        <div class="popout-actions">
+          <button
+            class="btn-refresh"
+            onclick="location.reload()"
+            title="Atualizar"
+          >
+            🔄
+          </button>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="popout-tabs">
+        <button class="tab-btn active" data-tab="overview">
+          <span>📊</span> Overview
+        </button>
+        <button class="tab-btn" data-tab="treasury">
+          <span>🏦</span> Treasury
+        </button>
+        <button class="tab-btn" data-tab="store"><span>📦</span> Store</button>
+        <button class="tab-btn" data-tab="defend">
+          <span>🛡️</span> Defend
+        </button>
+        <button class="tab-btn" data-tab="controls">
+          <span>⚙️</span> Controls
+        </button>
+      </nav>
+
+      <!-- Content -->
+      <main class="popout-content">
+        <!-- OVERVIEW -->
+        <div id="overview" class="tab-panel active">
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-icon">👥</span>
+              <span class="metric-value" id="users-total">1,234</span>
+              <span class="metric-label">Users Total</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-icon">📈</span>
+              <span class="metric-value" id="dau">89</span>
+              <span class="metric-label">DAU</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-icon">💰</span>
+              <span class="metric-value" id="pc-circulating">50K</span>
+              <span class="metric-label">PC Circulante</span>
+            </div>
+            <div class="metric-card highlight">
+              <span class="metric-icon">💵</span>
+              <span class="metric-value" id="revenue">$1,250</span>
+              <span class="metric-label">Revenue (30d)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TREASURY -->
+        <div id="treasury" class="tab-panel">
+          <div class="treasury-header">
+            <h2>🏦 Treasury Status</h2>
+            <div class="health-score">
+              <span class="score-value">92%</span>
+              <span class="score-label">Health Score</span>
+            </div>
+          </div>
+          <div class="treasury-breakdown">
+            <div class="treasury-item">
+              <span class="item-icon">🟡</span>
+              <span class="item-label">PAXG (Ouro)</span>
+              <span class="item-value">$3,500</span>
+              <span class="item-percent">35%</span>
+            </div>
+            <div class="treasury-item">
+              <span class="item-icon">🟢</span>
+              <span class="item-label">USDC (Stable)</span>
+              <span class="item-value">$4,500</span>
+              <span class="item-percent">45%</span>
+            </div>
+            <div class="treasury-item">
+              <span class="item-icon">🔵</span>
+              <span class="item-label">Ops Fund</span>
+              <span class="item-value">$2,000</span>
+              <span class="item-percent">20%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STORE -->
+        <div id="store" class="tab-panel">
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-value">234</span
+              ><span class="metric-label">Plugins</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value">12</span
+              ><span class="metric-label">Vendas Hoje</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value">89</span
+              ><span class="metric-label">Vendas Semana</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEFEND -->
+        <div id="defend" class="tab-panel">
+          <h2 style="margin-bottom: 20px">🛡️ Panda Defend</h2>
+          <div class="alerts-list">
+            <div class="alert-item critical">
+              <span>🔴</span>
+              <span>plugin-xyz: eval() detectado - BLOQUEADO</span>
+            </div>
+            <div class="alert-item warning">
+              <span>🟡</span>
+              <span>plugin-abc: fetch() não declarado - PENDENTE</span>
+            </div>
+            <div class="alert-item info">
+              <span>🟢</span>
+              <span>plugin-123: Score 85/100 - APROVADO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div id="controls" class="tab-panel">
+          <h2 style="margin-bottom: 20px">⚙️ Founder Controls</h2>
+          <div class="control-buttons">
+            <button class="control-btn danger" onclick="killSwitch()">
+              🔴 Kill Switch
+            </button>
+            <button class="control-btn warning">🟡 Pause Queue</button>
+            <button class="control-btn primary" onclick="broadcast()">
+              📢 Broadcast
+            </button>
+            <button class="control-btn secondary">📊 Export CSV</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="popout-footer">
+        <span>🐼 Panda Factory Founder Edition</span>
+        <span id="last-update">Last update: --:--:--</span>
+      </footer>
+    </div>
+
+    <script>
+      // Tab switching
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-panel")
+            .forEach((p) => p.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById(btn.dataset.tab).classList.add("active");
+        });
+      });
+
+      // Update time
+      function updateTime() {
+        document.getElementById("last-update").textContent =
+          "Last update: " + new Date().toLocaleTimeString();
+      }
+      setInterval(updateTime, 1000);
+      updateTime();
+
+      // Control functions
+      function killSwitch() {
+        if (
+          confirm(
+            "⚠️ KILL SWITCH: Isso irá pausar TODAS as operações. Confirmar?",
+          )
+        ) {
+          alert("🔴 KILL SWITCH ATIVADO");
+        }
+      }
+
+      function broadcast() {
+        const msg = prompt("Mensagem para todos os usuários:");
+        if (msg) {
+          alert("📢 BROADCAST enviado: " + msg);
+        }
+      }
+
+      // Save window position for multi-monitor
+      window.addEventListener("beforeunload", () => {
+        try {
+          localStorage.setItem(
+            "founder_dashboard_pos",
+            JSON.stringify({
+              x: window.screenX,
+              y: window.screenY,
+              w: window.innerWidth,
+              h: window.innerHeight,
+            }),
+          );
+        } catch (e) {}
+      });
+    </script>
+  </body>
+</html>

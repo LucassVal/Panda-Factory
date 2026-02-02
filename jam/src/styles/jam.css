@@ -1719,19 +1719,19 @@ body.light-mode .jam-right-toolbar {
 }
 
 .login-logout-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid var(--jam-border);
   background: var(--jam-surface);
   cursor: pointer;
-  font-size: 16px;
-  z-index: 9999;
-  opacity: 0.5;
+  font-size: 14px;
+  opacity: 0.6;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .login-logout-btn:hover {
@@ -1836,4 +1836,97 @@ body.light-mode .jam-right-toolbar {
   color: white;
   font-size: 12px;
   cursor: pointer;
+}
+
+/* =====================================================
+   LIGHT MODE - CHAT PANEL FIXES
+   ===================================================== */
+
+/* Chat Panel Background */
+body.light-mode .jam-chat-panel {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid #e0e0e5;
+}
+
+/* Chat Header */
+body.light-mode .jam-chat-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f0f5 100%);
+  border-bottom: 1px solid #e0e0e5;
+}
+
+body.light-mode .jam-chat-title {
+  color: #1a1a2e;
+}
+
+/* AI Messages - CRITICAL FIX for readability */
+body.light-mode .jam-chat-message.assistant {
+  color: #166534 !important;
+  background: rgba(34, 197, 94, 0.1) !important;
+  border-left-color: #22c55e !important;
+  text-shadow: none !important;
+}
+
+/* User Messages */
+body.light-mode .jam-chat-message.user {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+/* Chat Input */
+body.light-mode .jam-chat-input-wrapper {
+  background: #f5f5f7;
+  border-top: 1px solid #e0e0e5;
+}
+
+body.light-mode .jam-chat-input {
+  background: white;
+  color: #1a1a2e;
+  border: 1px solid #e0e0e5;
+}
+
+body.light-mode .jam-chat-input::placeholder {
+  color: #94a3b8;
+}
+
+/* Model Selector */
+body.light-mode .jam-chat-models {
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid #e0e0e5;
+}
+
+body.light-mode .jam-model-name {
+  color: #475569;
+}
+
+body.light-mode .jam-chat-model.active .jam-model-name {
+  color: #667eea;
+}
+
+/* GEMs Panel */
+body.light-mode .jam-chat-gems-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e0e0e5;
+}
+
+body.light-mode .jam-chat-gems-header {
+  color: #1a1a2e;
+}
+
+body.light-mode .jam-chat-gem {
+  background: rgba(0, 0, 0, 0.03);
+  color: #1a1a2e;
+}
+
+body.light-mode .jam-chat-gem:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+body.light-mode .jam-chat-gem.active {
+  background: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+}
+
+/* Session Stats */
+body.light-mode .jam-session-stats {
+  background: rgba(0, 0, 0, 0.05);
 }
