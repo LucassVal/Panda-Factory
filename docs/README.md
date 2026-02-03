@@ -169,12 +169,14 @@
 
 ## 🔗 Links Externos
 
-| Recurso          | URL                                                           |
-| ---------------- | ------------------------------------------------------------- |
-| GitHub (Privado) | https://github.com/LucassVal/panda-factory                    |
-| GitHub Pages     | https://lucassval.github.io/panda-factory/                    |
-| GAS Project      | https://script.google.com/d/{ID}/edit                         |
-| Firebase Console | https://console.firebase.google.com/project/panda-hook-master |
+| Recurso              | URL                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| **GitHub Principal** | [Panda-Factory](https://github.com/LucassVal/Panda-Factory)                        |
+| **SDK Community**    | [panda-sdk-community](https://github.com/LucassVal/panda-sdk-community)            |
+| **SDK Core**         | [panda-sdk](https://github.com/LucassVal/panda-sdk)                                |
+| **GitHub Pages**     | [lucassval.github.io/panda-factory](https://lucassval.github.io/panda-factory/)    |
+| **GAS Project**      | `https://script.google.com/d/{ID}/edit`                                            |
+| **Firebase Console** | [panda-hook-master](https://console.firebase.google.com/project/panda-hook-master) |
 
 ---
 

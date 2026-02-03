@@ -1,6 +1,6 @@
 # 🐼 Panda Factory
 
-> **Sua Plataforma de Criação com IA + Multi-Integrações**
+> **Sua Fábrica de Ferramentas com IA + Multi-Integrações**
 
 <p align="center">
   <img src="LOGO/logo%20git%20hub.png" alt="Panda Factory" width="250">
@@ -8,97 +8,141 @@
 
 ---
 
-## ✨ O que você pode fazer?
+## ✨ O que é o Panda Factory?
 
-### 🧠 IA que Trabalha pra Você
+Uma plataforma modular onde você pode:
 
-6 especialistas criados para suas necessidades:
-
-| Especialista      | O que faz                        |
-| ----------------- | -------------------------------- |
-| ✍️ **Writer**     | Textos, artigos, legendas, posts |
-| 📊 **Analyst**    | Relatórios, dados, insights      |
-| 💻 **Coder**      | Código, automações, bots         |
-| 🎨 **Designer**   | Visuais, interfaces, prompts     |
-| 📋 **Planner**    | Cronogramas, organização         |
-| 🔬 **Researcher** | Pesquisas profundas              |
+- 🧠 Usar IA especializada (6 agentes)
+- 🔌 Conectar qualquer API (Social, Trading, Games)
+- 🛒 Vender/Comprar plugins no Marketplace
+- 🚀 Publicar em qualquer plataforma (Web, Mobile, Desktop)
 
 ---
 
-### 🔌 Conecte TUDO (Multi-Hooks)
+## 🏪 Marketplace de Extensões
 
-Um único lugar para gerenciar todas suas ferramentas:
+| Categoria          | Exemplos                  |
+| ------------------ | ------------------------- |
+| 🤖 **Automações**  | Bots, scrapers, workflows |
+| 📊 **Dashboards**  | Analytics, relatórios     |
+| 🎨 **Templates**   | White-label prontos       |
+| 🔧 **Ferramentas** | Produtividade, dev tools  |
 
-| Categoria          | Integrações                                    |
-| ------------------ | ---------------------------------------------- |
-| 💬 **Social**      | WhatsApp, Telegram, Twitter, Instagram, TikTok |
-| 📺 **Conteúdo**    | YouTube, Twitch, Spotify                       |
-| 💰 **Monetização** | Kiwify, Hotmart, Stripe                        |
-| 📈 **Trading**     | cTrader, Binance                               |
-| 🎮 **Games**       | Godot, Unity                                   |
-| 🛒 **E-commerce**  | Shopify, Mercado Livre                         |
+**Crie e ganhe 70% da venda!**
 
 ---
 
-### 🏪 Marketplace de Extensões
+## 🔌 Integrações (Multi-Hooks)
 
-Milhares de plugins criados pela comunidade:
-
-- 🤖 Bots de automação
-- 📊 Dashboards personalizados
-- 🎨 Temas e templates
-- 🔧 Ferramentas de produtividade
-
-**Crie e venda seus próprios plugins!**
-
----
-
-### 🚀 Deploy Multi-Cenário
-
-Publique sua criação em qualquer lugar:
-
-| Destino                  | Um Clique |
-| ------------------------ | :-------: |
-| 🌐 Web (PWA)             |    ✅     |
-| 📱 Android (APK)         |    ✅     |
-| 🍎 iOS (App Store)       |    ✅     |
-| 🖥️ Desktop (Windows/Mac) |    ✅     |
-| 🎮 Steam / itch.io       |    ✅     |
-| 📦 NPM Package           |    ✅     |
+| Categoria         | Conexões                                       |
+| ----------------- | ---------------------------------------------- |
+| 💬 **Social**     | WhatsApp, Telegram, Twitter, Instagram, TikTok |
+| 📺 **Conteúdo**   | YouTube, Twitch, Spotify                       |
+| 💰 **Pagamentos** | Kiwify, Hotmart, Stripe, Pix                   |
+| 📈 **Trading**    | cTrader, Binance                               |
+| 🎮 **Games**      | Godot, Unity, Steam                            |
+| 💻 **Dev**        | GitHub, Colab, GAS                             |
 
 ---
 
-## 💎 Economia Justa
+## 💎 Economia Justa (Panda Coin)
 
-**Panda Coin (PC)** - créditos que você usa ou ganha:
-
-- 🆓 **Gratuito**: 500k tokens/mês de IA
-- 💰 **Ganhe vendendo**: plugins, templates, automações
-- ⚡ **Pague por uso**: só o que consumir
-- 🏆 **Top 100 devs**: 50% de desconto vitalício
-
----
-
-## 🚀 Comece Agora
-
-**Acesse:** [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/)
+```text
+┌─────────────────────────────────────────────────┐
+│              PANDA COIN (PC)                    │
+├─────────────────────────────────────────────────┤
+│  🆓 Free Tier    │ 500k tokens/mês grátis       │
+│  💰 Ganhe        │ Venda plugins, 70% pra você  │
+│  ⚡ Pay-as-you-go │ Só paga o que usar           │
+│  🏆 Top 100      │ 50% desconto vitalício       │
+└─────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🌐 Comunidade
+## 🗺️ Roadmap 2026
 
-| Plataforma   | Link                                                |
-| ------------ | --------------------------------------------------- |
-| 💬 Discord   | [Em breve]                                          |
-| 📱 Telegram  | [Em breve]                                          |
-| 🐦 Twitter   | [@pandafactory](https://twitter.com/pandafactory)   |
-| 📸 Instagram | [@pandafactory](https://instagram.com/pandafactory) |
+> **Status:** Fase 1 em Desenvolvimento
+
+```text
+Fase:   0 (Foundation)    1 (Dia 1)       2 (Escala)      3 (Expansão)
+        ════════✅        ═══█═══█        ───────         ───────
+        Jan/2026          Fev/2026        Mar-Abr         Q2-Q3
+```
+
+### Fase 0: Foundation ✅ (95% Completo)
+
+- [x] Shell Frontend (PandaFactory.html, AppDock, Sidebar)
+- [x] SDK Core (Auth, Data, Wallet, Brain, Bridge)
+- [x] Backend GAS (Dispatcher, Wallet, Webhooks)
+- [x] Tentacles Architecture
+- [x] Theme System
+- [x] Documentação base
+
+### Fase 1: Dia 1 🚧 (Em Desenvolvimento)
+
+- [ ] **Rust Agent** - MCP Server, WebView, GPU Detection
+- [ ] **3 AI Cores** - PAT, Brain, Antigravity
+- [ ] **Medusa Store** - Plugin marketplace
+- [ ] **Ed25519 Security** - Founder authentication
+- [ ] **Google Tentacle** - Complete integration
+
+### Fase 2: Escala (Planejado - Mar/Abr)
+
+- [ ] P2P Compute Network
+- [ ] VSX Store Universal
+- [ ] Social Hub completo
+- [ ] Trading Hub (cTrader)
+
+### Fase 3: Expansão (Futuro - Q2/Q3)
+
+- [ ] EdTech & Infoprodutos
+- [ ] Creative Marketplace
+- [ ] Gaming/Audio/Video
 
 ---
 
-## 👨‍💻 Para Desenvolvedores
+## 📚 Documentação
 
-Integre o Panda em 5 minutos:
+| Doc                                                 | Descrição                      |
+| --------------------------------------------------- | ------------------------------ |
+| [📖 Índice Central](docs/README.md)                 | Navegação de toda documentação |
+| [🏛️ Arquitetura](docs/PF_MASTER_ARCHITECTURE.md)    | Arquitetura completa           |
+| [💻 SDK](docs/PF_SDK_REFERENCE.md)                  | API JavaScript                 |
+| [💰 Tokenomics](docs/PF_TOKENOMICS_REFERENCE.md)    | Economia Panda Coin            |
+| [🗺️ Roadmap Detalhado](docs/ROADMAP_ESTRATEGICO.md) | Timeline completo              |
+
+---
+
+## 🔗 Repositórios
+
+| Repo                                                                    | Descrição                | Acesso     |
+| ----------------------------------------------------------------------- | ------------------------ | ---------- |
+| [Panda-Factory](https://github.com/LucassVal/Panda-Factory)             | Código principal         | 🔒 Privado |
+| [panda-sdk](https://github.com/LucassVal/panda-sdk)                     | SDK Core                 | 🔒 Privado |
+| [panda-sdk-community](https://github.com/LucassVal/panda-sdk-community) | Docs públicos, templates | 🌐 Público |
+
+### Estratégia de Repos
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    REPO STRATEGY                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  🔒 PRIVADO                      🌐 PÚBLICO                  │
+│  Panda-Factory + panda-sdk       panda-sdk-community         │
+│  ┌────────────────────┐         ┌────────────────────┐      │
+│  │ Código fonte       │         │ Docs sanitizados   │      │
+│  │ Secrets/Credentials│────────▶│ Templates/Examples │      │
+│  │ Backend completo   │ publish │ Guias de uso       │      │
+│  └────────────────────┘         └────────────────────┘      │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Quick Start
 
 ```javascript
 // Instale
@@ -107,12 +151,29 @@ npm install panda-sdk
 // Use
 import Panda from 'panda-sdk';
 
+// IA
 await Panda.Brain.chat("Analise meus dados");
-await Panda.Social.whatsapp.send("Olá!");
+
+// Social
+await Panda.Social.WhatsApp.send("Olá!");
+
+// Trading
+await Panda.Trading.CTrader.connect({ accountId: 123 });
+
+// Deploy
 await Panda.Deploy.publish("web");
 ```
 
-📚 **Documentação completa:** [docs/](docs/)
+---
+
+## 🌐 Comunidade
+
+| Plataforma      | Link                                                                            |
+| --------------- | ------------------------------------------------------------------------------- |
+| 📱 **App**      | [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/) |
+| 🤖 **Moltbook** | [@PandaMaster](https://moltbook.com/u/PandaMaster)                              |
+| 💬 Discord      | Em breve                                                                        |
+| 📱 Telegram     | Em breve                                                                        |
 
 ---
 

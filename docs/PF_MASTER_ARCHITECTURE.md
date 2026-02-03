@@ -2407,54 +2407,20 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 | **Dev Ativo**  | 5-20%    | Mercado Aberto (Sobe preço)               |            |
 | **Enterprise** | 30-50%   | **Reserva de Liquidez** (Não afeta preço) | Inviolável |
 
----
-
 ## 19. Roadmap de Implementação
 
-### 19.1. Cronograma Visual
+> 📖 **Documento completo:** [ROADMAP_ESTRATEGICO.md](ROADMAP_ESTRATEGICO.md)
 
-```text
-Semana:  1  2  3  4  5  6  7  8  9  10 11 12
-SDK Mock ════✅ (DONE)
-UI/UX       └══█══█══┐ (IN PROGRESS)
-Backend            └══█══█══█══┐
-Store                          └══█══█══█
-```
+O roadmap detalhado foi movido para um documento separado para melhor manutenção.
 
-### 19.2. Fases & Milestones
+### Visão Geral das Fases
 
-#### Fase 1: SDK Mock ✅ CONCLUÍDO
-
-- [x] `js/pf.sdk.js` - Enterprise Ready
-- [x] Módulos: Auth, Data, Storage, Wallet, Brain, GPU, Bridge, UI
-- [x] `docs/SDK_REFERENCE.md`
-
-#### Fase 2: UI/UX Integration 🚧 EM PROGRESSO
-
-- [ ] Settings Modal conectado ao SDK
-- [ ] Login Screen + Dashboard
-
-- **Milestone:** 10 alpha testers
-
-#### Fase 3: Backend Real
-
-- [ ] `PF_Dispatcher.gs` + Firebase real
-- [ ] Rust Agent MVP
-
-- **Milestone:** 50 closed beta
-
-#### Fase 4: Store & Marketplace
-
-- [ ] Payment gateway (Stripe/Pix)
-- [ ] 5 módulos publicados
-
-- **Milestone:** 100 paying users
-
-#### Fase 5: Crypto Layer (Após R$ 100K GMV)
-
-- [ ] Solana/Polygon integration
-
-- **Milestone:** 1000 active wallets
+| Fase               | Status | Período      | Foco                         |
+| ------------------ | ------ | ------------ | ---------------------------- |
+| **0 - Foundation** | ✅ 95% | Jan/2026     | Shell, SDK, GAS Backend      |
+| **1 - Dia 1**      | 🚧 30% | Fev/2026     | Rust Agent, AI Cores, Medusa |
+| **2 - Escala**     | ⏳ 0%  | Mar-Abr/2026 | P2P Compute, VSX Store       |
+| **3 - Expansão**   | ⏳ 0%  | Q2-Q3/2026   | EdTech, Marketplace          |
 
 ---
 
