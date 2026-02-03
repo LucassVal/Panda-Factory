@@ -19,20 +19,7 @@ Uma plataforma modular onde você pode:
 
 ---
 
-## 🏪 Marketplace de Extensões
-
-| Categoria          | Exemplos                  |
-| ------------------ | ------------------------- |
-| 🤖 **Automações**  | Bots, scrapers, workflows |
-| 📊 **Dashboards**  | Analytics, relatórios     |
-| 🎨 **Templates**   | White-label prontos       |
-| 🔧 **Ferramentas** | Produtividade, dev tools  |
-
-**Crie e ganhe 70% da venda!**
-
----
-
-## 🔌 Integrações (Multi-Hooks)
+## 🔌 Integrações
 
 | Categoria         | Conexões                                       |
 | ----------------- | ---------------------------------------------- |
@@ -41,103 +28,144 @@ Uma plataforma modular onde você pode:
 | 💰 **Pagamentos** | Kiwify, Hotmart, Stripe, Pix                   |
 | 📈 **Trading**    | cTrader, Binance                               |
 | 🎮 **Games**      | Godot, Unity, Steam                            |
-| 💻 **Dev**        | GitHub, Colab, GAS                             |
 
 ---
 
-## 💎 Economia Justa (Panda Coin)
+## 💎 Economia (Panda Coin)
+
+| Tier           | Benefício                   |
+| -------------- | --------------------------- |
+| 🆓 **Free**    | 500k tokens/mês grátis      |
+| 💰 **Ganhe**   | Venda plugins, 70% pra você |
+| 🏆 **Top 100** | 50% desconto vitalício      |
+
+---
+
+## 🗺️ ROADMAP UNIFICADO 2026
+
+### Status Geral
+
+| Fase               | Status | Período  | Foco Principal               |
+| ------------------ | ------ | -------- | ---------------------------- |
+| **0 - Foundation** | ✅ 95% | Jan/2026 | Shell, SDK, GAS Backend      |
+| **1 - Dia 1**      | 🚧 30% | Fev/2026 | Rust Agent, AI Cores, Medusa |
+| **2 - Escala**     | ⏳ 0%  | Mar-Abr  | P2P Compute, VSX Store       |
+| **3 - Expansão**   | ⏳ 0%  | Q2-Q3    | EdTech, Marketplace          |
+
+---
+
+### ✅ Fase 0: Foundation (Jan/2026) - CONCLUÍDO
+
+| Item           | Status  | Detalhes                            |
+| -------------- | ------- | ----------------------------------- |
+| Shell Frontend | ✅ 95%  | PandaFactory.html, AppDock, Sidebar |
+| SDK Core       | ✅ 85%  | Auth, Data, Wallet, Brain, Bridge   |
+| Backend GAS    | ✅ 90%  | Dispatcher, Wallet, Webhooks        |
+| Tentacles      | ✅ 100% | Arquitetura Parent-Children         |
+| Theme System   | ✅ 100% | Dark mode, CSS vars                 |
+
+---
+
+### 🚧 Fase 1: Dia 1 (Fev/2026) - EM DESENVOLVIMENTO
+
+| Item             | Status  | Esforço | Descrição                      |
+| ---------------- | ------- | ------- | ------------------------------ |
+| Rust Agent MCP   | 🟡 60%  | 16h     | Server, WebView, GPU Detection |
+| 3 AI Cores       | 🟡 70%  | 48h     | PAT, Brain, Antigravity        |
+| Medusa Store     | ❌ 0%   | 40h     | Plugin marketplace             |
+| Google Tentacle  | ✅ 100% | -       | Drive, Sheets, Colab, Firebase |
+| Ed25519 Security | 🟡 50%  | 8h      | Founder authentication         |
+| Webhooks         | ✅ 100% | -       | Kiwify, Hotmart, Stripe, MP    |
+
+---
+
+### ⏳ Fase 2: Escala (Mar-Abr/2026) - PLANEJADO
+
+| Item                | Esforço | Descrição                           |
+| ------------------- | ------- | ----------------------------------- |
+| P2P Compute Network | 44h     | Hosts alugam GPU, split 95/5        |
+| VSX Store Universal | 40h     | GitHub + GitLab + GCloud VMs        |
+| Social Hub          | 30h     | WhatsApp, Telegram, Twitter, TikTok |
+| Trading Hub         | 44h     | cTrader completo, cBots, Backtest   |
+| Distribution Hub    | ✅      | itch.io, PWA, Steam, Google Play    |
+
+---
+
+### ⏳ Fase 3: Expansão (Q2-Q3/2026) - FUTURO
+
+| Item                 | Esforço | Descrição                         |
+| -------------------- | ------- | --------------------------------- |
+| EdTech               | 40h     | Course Builder, DRM, Certificados |
+| Creative Marketplace | 36h     | Assets, Licenças, Payouts         |
+| Gaming/Audio/Video   | 64h     | Godot, Whisper STT, FFmpeg        |
+
+---
+
+## 📚 DOCUMENTAÇÃO
+
+### 🏛️ Core (Start Here)
+
+| Arquivo                                                     | Descrição                        |
+| ----------------------------------------------------------- | -------------------------------- |
+| [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) | 🌟 Arquitetura completa (~212KB) |
+| [PANDA_MASTER_REFERENCE.md](PANDA_MASTER_REFERENCE.md)      | Referência rápida                |
+
+### 💻 Frontend & UI
+
+| Arquivo                                           | Descrição                 |
+| ------------------------------------------------- | ------------------------- |
+| [PF_SDK_REFERENCE.md](docs/PF_SDK_REFERENCE.md)   | SDK, Tentacles, Event Bus |
+| [PF_HTML_REFERENCE.md](docs/PF_HTML_REFERENCE.md) | Componentes, shell        |
+| [PF_CSS_REFERENCE.md](docs/PF_CSS_REFERENCE.md)   | Design system             |
+| [PF_UI_REFERENCE.md](docs/PF_UI_REFERENCE.md)     | Layout, modals            |
+
+### ⚙️ Backend
+
+| Arquivo                                                   | Descrição          |
+| --------------------------------------------------------- | ------------------ |
+| [PF_GAS_REFERENCE.md](docs/PF_GAS_REFERENCE.md)           | Google Apps Script |
+| [PF_FIREBASE_REFERENCE.md](docs/PF_FIREBASE_REFERENCE.md) | RTDB, regras       |
+| [PF_RUST_REFERENCE.md](docs/PF_RUST_REFERENCE.md)         | Rust Agent         |
+| [PF_AUTH_REFERENCE.md](docs/PF_AUTH_REFERENCE.md)         | Autenticação       |
+
+### 🤖 AI & Integrations
+
+| Arquivo                                                   | Descrição    |
+| --------------------------------------------------------- | ------------ |
+| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)     | Gemini 2.0   |
+| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md) | Moltbook     |
+| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)       | Google Colab |
+
+### 💰 Business
+
+| Arquivo                                                       | Descrição    |
+| ------------------------------------------------------------- | ------------ |
+| [PF_TOKENOMICS_REFERENCE.md](docs/PF_TOKENOMICS_REFERENCE.md) | Panda Coin   |
+| [PF_GOVERNANCE_REFERENCE.md](docs/PF_GOVERNANCE_REFERENCE.md) | PAT, Council |
+| [PF_TRADING_REFERENCE.md](docs/PF_TRADING_REFERENCE.md)       | cTrader      |
+| [PF_SOCIAL_REFERENCE.md](docs/PF_SOCIAL_REFERENCE.md)         | Social Hub   |
+
+### 🧩 Plugins
+
+| Arquivo                                                                       | Descrição       |
+| ----------------------------------------------------------------------------- | --------------- |
+| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Sistema plugins |
+| [PF_MEDUSA_REFERENCE.md](docs/PF_MEDUSA_REFERENCE.md)                         | Store           |
+
+---
+
+## 🔗 REPOSITÓRIOS
+
+| Repo                                                                    | Descrição        | Acesso     |
+| ----------------------------------------------------------------------- | ---------------- | ---------- |
+| [Panda-Factory](https://github.com/LucassVal/Panda-Factory)             | Código principal | 🔒 Privado |
+| [panda-sdk](https://github.com/LucassVal/panda-sdk)                     | SDK Core         | 🔒 Privado |
+| [panda-sdk-community](https://github.com/LucassVal/panda-sdk-community) | Docs, templates  | 🌐 Público |
 
 ```text
-┌─────────────────────────────────────────────────┐
-│              PANDA COIN (PC)                    │
-├─────────────────────────────────────────────────┤
-│  🆓 Free Tier    │ 500k tokens/mês grátis       │
-│  💰 Ganhe        │ Venda plugins, 70% pra você  │
-│  ⚡ Pay-as-you-go │ Só paga o que usar           │
-│  🏆 Top 100      │ 50% desconto vitalício       │
-└─────────────────────────────────────────────────┘
-```
-
----
-
-## 🗺️ Roadmap 2026
-
-> **Status:** Fase 1 em Desenvolvimento
-
-```text
-Fase:   0 (Foundation)    1 (Dia 1)       2 (Escala)      3 (Expansão)
-        ════════✅        ═══█═══█        ───────         ───────
-        Jan/2026          Fev/2026        Mar-Abr         Q2-Q3
-```
-
-### Fase 0: Foundation ✅ (95% Completo)
-
-- [x] Shell Frontend (PandaFactory.html, AppDock, Sidebar)
-- [x] SDK Core (Auth, Data, Wallet, Brain, Bridge)
-- [x] Backend GAS (Dispatcher, Wallet, Webhooks)
-- [x] Tentacles Architecture
-- [x] Theme System
-- [x] Documentação base
-
-### Fase 1: Dia 1 🚧 (Em Desenvolvimento)
-
-- [ ] **Rust Agent** - MCP Server, WebView, GPU Detection
-- [ ] **3 AI Cores** - PAT, Brain, Antigravity
-- [ ] **Medusa Store** - Plugin marketplace
-- [ ] **Ed25519 Security** - Founder authentication
-- [ ] **Google Tentacle** - Complete integration
-
-### Fase 2: Escala (Planejado - Mar/Abr)
-
-- [ ] P2P Compute Network
-- [ ] VSX Store Universal
-- [ ] Social Hub completo
-- [ ] Trading Hub (cTrader)
-
-### Fase 3: Expansão (Futuro - Q2/Q3)
-
-- [ ] EdTech & Infoprodutos
-- [ ] Creative Marketplace
-- [ ] Gaming/Audio/Video
-
----
-
-## 📚 Documentação
-
-| Doc                                                 | Descrição                      |
-| --------------------------------------------------- | ------------------------------ |
-| [📖 Índice Central](docs/README.md)                 | Navegação de toda documentação |
-| [🏛️ Arquitetura](docs/PF_MASTER_ARCHITECTURE.md)    | Arquitetura completa           |
-| [💻 SDK](docs/PF_SDK_REFERENCE.md)                  | API JavaScript                 |
-| [💰 Tokenomics](docs/PF_TOKENOMICS_REFERENCE.md)    | Economia Panda Coin            |
-| [🗺️ Roadmap Detalhado](docs/ROADMAP_ESTRATEGICO.md) | Timeline completo              |
-
----
-
-## 🔗 Repositórios
-
-| Repo                                                                    | Descrição                | Acesso     |
-| ----------------------------------------------------------------------- | ------------------------ | ---------- |
-| [Panda-Factory](https://github.com/LucassVal/Panda-Factory)             | Código principal         | 🔒 Privado |
-| [panda-sdk](https://github.com/LucassVal/panda-sdk)                     | SDK Core                 | 🔒 Privado |
-| [panda-sdk-community](https://github.com/LucassVal/panda-sdk-community) | Docs públicos, templates | 🌐 Público |
-
-### Estratégia de Repos
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                    REPO STRATEGY                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  🔒 PRIVADO                      🌐 PÚBLICO                  │
-│  Panda-Factory + panda-sdk       panda-sdk-community         │
-│  ┌────────────────────┐         ┌────────────────────┐      │
-│  │ Código fonte       │         │ Docs sanitizados   │      │
-│  │ Secrets/Credentials│────────▶│ Templates/Examples │      │
-│  │ Backend completo   │ publish │ Guias de uso       │      │
-│  └────────────────────┘         └────────────────────┘      │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
+🔒 PRIVADO                      🌐 PÚBLICO
+Panda-Factory + panda-sdk  ──▶  panda-sdk-community
+(código, secrets)               (docs sanitizados)
 ```
 
 ---
@@ -145,35 +173,22 @@ Fase:   0 (Foundation)    1 (Dia 1)       2 (Escala)      3 (Expansão)
 ## 🚀 Quick Start
 
 ```javascript
-// Instale
-npm install panda-sdk
+import Panda from "panda-sdk";
 
-// Use
-import Panda from 'panda-sdk';
-
-// IA
 await Panda.Brain.chat("Analise meus dados");
-
-// Social
 await Panda.Social.WhatsApp.send("Olá!");
-
-// Trading
 await Panda.Trading.CTrader.connect({ accountId: 123 });
-
-// Deploy
-await Panda.Deploy.publish("web");
 ```
 
 ---
 
-## 🌐 Comunidade
+## 🌐 Links
 
-| Plataforma      | Link                                                                            |
-| --------------- | ------------------------------------------------------------------------------- |
-| 📱 **App**      | [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/) |
-| 🤖 **Moltbook** | [@PandaMaster](https://moltbook.com/u/PandaMaster)                              |
-| 💬 Discord      | Em breve                                                                        |
-| 📱 Telegram     | Em breve                                                                        |
+| Plataforma      | Link                                                                               |
+| --------------- | ---------------------------------------------------------------------------------- |
+| 📱 **App**      | [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/)    |
+| 🤖 **Moltbook** | [@PandaMaster](https://moltbook.com/u/PandaMaster)                                 |
+| 🔥 **Firebase** | [panda-hook-master](https://console.firebase.google.com/project/panda-hook-master) |
 
 ---
 
@@ -185,6 +200,5 @@ MIT License © 2026 Panda Factory
 
 <p align="center">
   <strong>Feito com 🐼 por Lucas Valério</strong>
-  <br><br>
-  <em>"Democratizando IA para todos"</em>
+  <br><em>"Democratizando IA para todos"</em>
 </p>
