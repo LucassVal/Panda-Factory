@@ -186,11 +186,13 @@ await Panda.Trading.CTrader.connect({ accountId: 123 });
 
 ## 🌐 Links
 
-| Plataforma      | Link                                                                               |
-| --------------- | ---------------------------------------------------------------------------------- |
-| 📱 **App**      | [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/)    |
-| 🤖 **Moltbook** | [@PandaMaster](https://moltbook.com/u/PandaMaster)                                 |
-| 🔥 **Firebase** | [panda-hook-master](https://console.firebase.google.com/project/panda-hook-master) |
+| Plataforma      | Link                                                                            |
+| --------------- | ------------------------------------------------------------------------------- |
+| 📱 **App**      | [lucassval.github.io/Panda-Factory](https://lucassval.github.io/Panda-Factory/) |
+| 🤖 **Moltbook** | [@PandaMaster](https://moltbook.com/u/PandaMaster)                              |
+| ☁️ **Colab**    | Templates GPU/ML (ver PF_COLAB_REFERENCE)                                       |
+| 🔥 **Firebase** | `panda-hook-master` (RTDB Backend)                                              |
+| 📧 **GAS**      | [Script Project](https://script.google.com) (ID privado)                        |
 
 ---
 

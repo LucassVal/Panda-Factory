@@ -2409,9 +2409,9 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ## 19. Roadmap de Implementação
 
-> 📖 **Documento completo:** [ROADMAP_ESTRATEGICO.md](ROADMAP_ESTRATEGICO.md)
+> 📖 **Documento completo:** [README_PANDA_OFICIAL.md](../README_PANDA_OFICIAL.md)
 
-O roadmap detalhado foi movido para um documento separado para melhor manutenção.
+O roadmap detalhado está consolidado no README principal.
 
 ### Visão Geral das Fases
 
