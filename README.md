@@ -130,11 +130,13 @@ Uma plataforma modular onde você pode:
 
 ### 🤖 AI & Integrations
 
-| Arquivo                                                   | Descrição    |
-| --------------------------------------------------------- | ------------ |
-| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)     | Gemini 2.0   |
-| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md) | Moltbook     |
-| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)       | Google Colab |
+| Arquivo                                                               | Descrição                  |
+| --------------------------------------------------------------------- | -------------------------- |
+| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)                 | Gemini 2.0                 |
+| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md)             | Moltbook                   |
+| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)                   | Google Colab               |
+| [PF_AGENT_CONSTITUTION.md](docs/PF_AGENT_CONSTITUTION.md)             | 🆕 Persona IA Pública      |
+| [PF_PAT_FOUNDER_CONSTITUTION.md](docs/PF_PAT_FOUNDER_CONSTITUTION.md) | 🆕 IA do Founder (isolada) |
 
 ### 💰 Business
 
