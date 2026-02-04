@@ -2187,8 +2187,8 @@ Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
 
 | Destino               | Store/Compute | P2P Off-chain (Pre) | P2P On-Chain |
 | --------------------- | ------------- | ------------------- | ------------ |
-| **Dev/Host**          | 55%           | 95%                 | 95%          |
-| **Fundo Incentivo**   | 22%           | 1%                  | 1%           |
+| **Dev/Host**          | 52%           | 95%                 | 95%          |
+| **Panda Educação**    | 25%           | 1%                  | 1%           |
 | **Panda Operacional** | 15%           | 4%                  | 1%           |
 | **Founder (Lucas)**   | 5%            | 0%                  | 0%           |
 | **Gateway/GAS**       | 3%            | 0%                  | 3%           |
@@ -2844,13 +2844,13 @@ async function checkAccess(contentId) {
 
 ### 10.4. Revenue Split (ref: TOKENOMICS §9.1.B)
 
-| Destino         | Store/Compute |
-| --------------- | ------------- |
-| Dev/Host        | 55%           |
-| Fundo Incentivo | 22%           |
-| Panda Ops       | 15%           |
-| Founder         | 5%            |
-| Gateway         | 3%            |
+| Destino        | Store/Compute |
+| -------------- | ------------- |
+| Dev/Host       | 52%           |
+| Panda Educação | 25%           |
+| Panda Ops      | 15%           |
+| Founder        | 5%            |
+| Gateway        | 3%            |
 
 ---
 

@@ -78,7 +78,7 @@
 4. git push → GitHub
 5. GitHub Action dispara webhook
 6. Medusa valida e publica na Store
-7. Users instalam e dev recebe 70% split
+7. Users instalam e dev recebe 52% split
 ```
 
 ---
@@ -238,7 +238,7 @@ PANDA STORE (hospedado em GAS/GitHub Pages)
 
 | Plataforma          | Split Dev |  Barreira Entrada   |  Monetização   |
 | ------------------- | :-------: | :-----------------: | :------------: |
-| **Panda**           |    70%    | 🟢 Baixa (git push) | ✅ PC built-in |
+| **Panda**           |    52%    | 🟢 Baixa (git push) | ✅ PC built-in |
 | Apple Store         |  70-85%   |  🔴 Alta ($99/ano)  |       ✅       |
 | Chrome Web Store    |    70%    |  🟡 Média (review)  |   ⚠️ Manual    |
 | VS Code Marketplace |    0%     |      🟢 Baixa       |     ❌ Sem     |

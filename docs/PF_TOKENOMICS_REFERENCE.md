@@ -64,7 +64,7 @@ Exemplo: $0.0025/PC custo × 4.0 = $0.01/PC (1 centavo)
 | Destino               | Store/Compute | P2P Off-chain (Pre) | P2P On-Chain |
 | --------------------- | ------------- | ------------------- | ------------ |
 | **Dev/Host**          | 52%           | 95%                 | 95%          |
-| **Fundo Incentivo**   | 25%           | 1%                  | 1%           |
+| **Panda Educação**    | 25%           | 1%                  | 1%           |
 | **Panda Operacional** | 15%           | 4%                  | 1%           |
 | **Founder (Lucas)**   | 5%            | 0%                  | 0%           |
 | **Gateway/GAS**       | 3%            | 0%                  | 3%           |
@@ -447,7 +447,13 @@ Panda._LICENSE_TIERS = {
   STANDARD: {
     multiplier: 2.5,
     maxLicenses: Infinity,
-    split: { dev: 0.55, fund: 0.22, ops: 0.15, founder: 0.05, gateway: 0.03 },
+    split: {
+      dev: 0.52,
+      education: 0.25,
+      ops: 0.15,
+      founder: 0.05,
+      gateway: 0.03,
+    },
   },
 };
 ```

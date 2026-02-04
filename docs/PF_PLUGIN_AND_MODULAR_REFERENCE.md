@@ -204,9 +204,11 @@
 │         VENDA DE PLUGIN                │
 │              100 PC                    │
 ├────────────────────────────────────────┤
-│  Dev (Criador)    │  70 PC (70%)       │
-│  Panda Factory    │  25 PC (25%)       │
+│  Dev (Criador)    │  52 PC (52%)       │
+│  Panda Educação   │  25 PC (25%)       │
+│  Panda Ops        │  15 PC (15%)       │
 │  Founder          │   5 PC (5%)        │
+│  Gateway/Taxas    │   3 PC (3%)        │
 └────────────────────────────────────────┘
 ```
 

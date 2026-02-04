@@ -265,9 +265,11 @@ await Panda.Social.Meta.postStory({
 │         VENDA DE PLUGIN                │
 │              499 PC                    │
 ├────────────────────────────────────────┤
-│  Dev (Criador)    │  349 PC (70%)      │
-│  Panda Factory    │  125 PC (25%)      │
+│  Dev (Criador)    │  260 PC (52%)      │
+│  Panda Educação   │  125 PC (25%)      │
+│  Panda Ops        │   75 PC (15%)      │
 │  Founder          │   25 PC (5%)       │
+│  Gateway/Taxas    │   15 PC (3%)       │
 └────────────────────────────────────────┘
 ```
 
