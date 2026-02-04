@@ -1,0 +1,72 @@
+# ===========================================
+# .antigravityignore - Panda Factory
+# Evita indexação de pastas pesadas
+# ===========================================
+
+# Dependências Node.js
+node_modules/
+**/node_modules/
+
+# Git e versionamento
+.git/
+.svn/
+.hg/
+
+# Build outputs
+dist/
+build/
+out/
+target/
+.next/
+.nuxt/
+
+# Cache e temporários
+.cache/
+*.cache
+.temp/
+tmp/
+*.tmp
+*.log
+
+# Lock files (grandes)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Cargo.lock
+
+# Binários e assets pesados
+*.exe
+*.dll
+*.so
+*.dylib
+*.wasm
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Mídia (se houver)
+*.mp4
+*.mp3
+*.wav
+*.avi
+*.mov
+
+# IDEs e editores
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Rust (se aplicável)
+target/
+
+# Artifacts do Antigravity (evita loop)
+.gemini/antigravity/brain/*/

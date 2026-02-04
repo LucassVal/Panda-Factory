@@ -66,6 +66,9 @@ anyhow = "1.0"
 tracing = "0.1"
 tracing-subscriber = "0.3"
 
+# URL Encoding (for Moltbook)
+urlencoding = "2.1"
+
 [features]
 default = ["core", "crypto"]
 core = []

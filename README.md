@@ -108,7 +108,7 @@ Uma plataforma modular onde você pode:
 | Arquivo                                                     | Descrição                        |
 | ----------------------------------------------------------- | -------------------------------- |
 | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) | 🌟 Arquitetura completa (~212KB) |
-| [PANDA_MASTER_REFERENCE.md](PANDA_MASTER_REFERENCE.md)      | Referência rápida                |
+| [PANDA_MASTER_REFERENCE.md](docs/PANDA_MASTER_REFERENCE.md) | Referência rápida                |
 
 ### 💻 Frontend & UI
 

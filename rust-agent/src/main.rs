@@ -1,6 +1,6 @@
 //! 🐼 Panda Agent - Main Entry Point
 //! ==================================
-//! MCP Server + GPU Detection + Ed25519 Crypto + Health System
+//! MCP Server + GPU Detection + Ed25519 Crypto + Health System + Moltbook
 //!
 //! Features:
 //! - MCP Tools for Antigravity/Brain
@@ -8,15 +8,18 @@
 //! - Ed25519 Founder Authentication
 //! - Health monitoring endpoint
 //! - Bridge to JavaScript SDK
+//! - 🦞 Moltbook Social Network Integration
 
 use anyhow::Result;
 use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
+use std::env;
 
 mod crypto;
 mod gpu;
 mod health;
 mod mcp;
+mod moltbook;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -25,6 +28,15 @@ async fn main() -> Result<()> {
         .with_max_level(Level::INFO)
         .finish();
     tracing::subscriber::set_global_default(subscriber)?;
+
+    let args: Vec<String> = env::args().collect();
+    
+    // Check for moltbook subcommand
+    if args.len() > 1 && args[1] == "moltbook" {
+        info!("🦞 Panda Hook Master - Moltbook Mode");
+        let moltbook_args: Vec<String> = args[2..].to_vec();
+        return moltbook::run_command(&moltbook_args).await;
+    }
 
     info!("🐼 Panda Agent v{} starting...", env!("CARGO_PKG_VERSION"));
 
@@ -51,3 +63,4 @@ async fn main() -> Result<()> {
 
     Ok(())
 }
+

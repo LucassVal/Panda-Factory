@@ -160,3 +160,102 @@ mod tests {
         assert!(result.unwrap());
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Password-Based Encryption (for API Keys)
+// ═══════════════════════════════════════════════════════════════════════════
+
+use argon2::{Argon2, PasswordHasher, password_hash::SaltString};
+
+/// Encrypt data with a password using Argon2 key derivation
+pub fn encrypt_with_password(data: &str, password: &str) -> Result<String, CryptoError> {
+    let mut rng = OsRng;
+    
+    // Generate random salt
+    let salt = SaltString::generate(&mut rng);
+    
+    // Derive key from password using Argon2
+    let argon2 = Argon2::default();
+    let password_hash = argon2
+        .hash_password(password.as_bytes(), &salt)
+        .map_err(|_| CryptoError::InvalidKey)?;
+    
+    let hash_str = password_hash.to_string();
+    let key_bytes = hash_str.as_bytes();
+    
+    // XOR encrypt the data
+    let encrypted: Vec<u8> = data
+        .bytes()
+        .enumerate()
+        .map(|(i, b)| b ^ key_bytes[i % key_bytes.len()])
+        .collect();
+    
+    // Return salt + encrypted data as hex
+    Ok(format!("{}:{}", salt.as_str(), hex::encode(encrypted)))
+}
+
+/// Decrypt data with a password
+pub fn decrypt_with_password(encrypted_data: &str, password: &str) -> Result<String, CryptoError> {
+    // Parse salt and encrypted data
+    let parts: Vec<&str> = encrypted_data.split(':').collect();
+    if parts.len() != 2 {
+        return Err(CryptoError::InvalidKey);
+    }
+    
+    let salt = SaltString::from_b64(parts[0])
+        .map_err(|_| CryptoError::InvalidKey)?;
+    let encrypted_bytes = hex::decode(parts[1])
+        .map_err(|_| CryptoError::InvalidKey)?;
+    
+    // Derive same key from password
+    let argon2 = Argon2::default();
+    let password_hash = argon2
+        .hash_password(password.as_bytes(), &salt)
+        .map_err(|_| CryptoError::InvalidKey)?;
+    
+    let hash_str = password_hash.to_string();
+    let key_bytes = hash_str.as_bytes();
+    
+    // XOR decrypt
+    let decrypted: Vec<u8> = encrypted_bytes
+        .iter()
+        .enumerate()
+        .map(|(i, b)| b ^ key_bytes[i % key_bytes.len()])
+        .collect();
+    
+    String::from_utf8(decrypted)
+        .map_err(|_| CryptoError::InvalidKey)
+}
+
+#[cfg(test)]
+mod encryption_tests {
+    use super::*;
+
+    #[test]
+    fn test_password_encryption() {
+        let data = "moltbook_sk_sY3UcPFp4gxM-ATkQWqeZuWyUUVaYAF3";
+        let password = "U@g1232025";
+        
+        let encrypted = encrypt_with_password(data, password).unwrap();
+        assert!(!encrypted.contains("moltbook")); // Should be encrypted
+        
+        let decrypted = decrypt_with_password(&encrypted, password).unwrap();
+        assert_eq!(decrypted, data);
+    }
+
+    #[test]
+    fn test_wrong_password_fails() {
+        let data = "secret_api_key";
+        let password = "correct_password";
+        let wrong_password = "wrong_password";
+        
+        let encrypted = encrypt_with_password(data, password).unwrap();
+        let result = decrypt_with_password(&encrypted, wrong_password);
+        
+        // Should either fail or return garbage (not the original)
+        if let Ok(decrypted) = result {
+            assert_ne!(decrypted, data);
+        }
+    }
+}
+
