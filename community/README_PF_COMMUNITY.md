@@ -1,8 +1,7 @@
 # 🐼 Panda SDK Community
 
 > **Open Source Extensions & Modules for Panda Factory**
-
-![Panda Logo](./assets/panda_logo.png)
+> **Referência:** [docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md)
 
 ---
 
@@ -76,11 +75,12 @@ npm run dev
 
 ## 🔗 Official Links
 
-| Resource               | Link                                                   |
-| ---------------------- | ------------------------------------------------------ |
-| **Panda Factory Docs** | [docs.pandafabrics.dev](https://docs.pandafabrics.dev) |
-| **SDK Reference**      | [Coming Soon]                                          |
-| **Discord Community**  | [Coming Soon]                                          |
+| Resource          | Link                                                                             |
+| ----------------- | -------------------------------------------------------------------------------- |
+| **Panda Factory** | [github.com/LucassVal/Panda-Factory](https://github.com/LucassVal/Panda-Factory) |
+| **SDK Reference** | [PF_SDK_REFERENCE.md](../docs/PF_SDK_REFERENCE.md)                               |
+| **Plugin Guide**  | [PF_PLUGIN_AND_MODULAR_REFERENCE.md](../docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) |
+| **Medusa Store**  | [PF_MEDUSA_REFERENCE.md](../docs/PF_MEDUSA_REFERENCE.md)                         |
 
 ---
 
@@ -90,5 +90,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-**Built with 🐼 by Panda Fabrics**
-
+**Built with 🐼 by Panda Factory**
