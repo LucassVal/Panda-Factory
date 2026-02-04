@@ -109,6 +109,8 @@ Uma plataforma modular onde você pode:
 | ----------------------------------------------------------- | -------------------------------- |
 | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) | 🌟 Arquitetura completa (~212KB) |
 | [PANDA_MASTER_REFERENCE.md](docs/PANDA_MASTER_REFERENCE.md) | Referência rápida                |
+| [DUAL_REPO_ARCHITECTURE.md](docs/DUAL_REPO_ARCHITECTURE.md) | Estratégia dual-repo             |
+| [PF_HEALTH_STATUS.md](docs/PF_HEALTH_STATUS.md)             | Health monitoring                |
 
 ### 💻 Frontend & UI
 
@@ -118,25 +120,29 @@ Uma plataforma modular onde você pode:
 | [PF_HTML_REFERENCE.md](docs/PF_HTML_REFERENCE.md) | Componentes, shell        |
 | [PF_CSS_REFERENCE.md](docs/PF_CSS_REFERENCE.md)   | Design system             |
 | [PF_UI_REFERENCE.md](docs/PF_UI_REFERENCE.md)     | Layout, modals            |
+| [PF_JAM_COMPONENTS.md](docs/PF_JAM_COMPONENTS.md) | JAM UI components         |
+| [PF_TECHS_SDK.md](docs/PF_TECHS_SDK.md)           | Tech stack                |
 
 ### ⚙️ Backend
 
-| Arquivo                                                   | Descrição          |
-| --------------------------------------------------------- | ------------------ |
-| [PF_GAS_REFERENCE.md](docs/PF_GAS_REFERENCE.md)           | Google Apps Script |
-| [PF_FIREBASE_REFERENCE.md](docs/PF_FIREBASE_REFERENCE.md) | RTDB, regras       |
-| [PF_RUST_REFERENCE.md](docs/PF_RUST_REFERENCE.md)         | Rust Agent         |
-| [PF_AUTH_REFERENCE.md](docs/PF_AUTH_REFERENCE.md)         | Autenticação       |
+| Arquivo                                                   | Descrição              |
+| --------------------------------------------------------- | ---------------------- |
+| [PF_GAS_REFERENCE.md](docs/PF_GAS_REFERENCE.md)           | Google Apps Script     |
+| [PF_FIREBASE_REFERENCE.md](docs/PF_FIREBASE_REFERENCE.md) | RTDB, regras           |
+| [PF_RUST_REFERENCE.md](docs/PF_RUST_REFERENCE.md)         | Rust Agent             |
+| [PF_AUTH_REFERENCE.md](docs/PF_AUTH_REFERENCE.md)         | Autenticação           |
+| [PF_BACKEND_REFERENCE.md](docs/PF_BACKEND_REFERENCE.md)   | Backend geral          |
+| [PF_MCP_REFERENCE.md](docs/PF_MCP_REFERENCE.md)           | Model Context Protocol |
 
 ### 🤖 AI & Integrations
 
-| Arquivo                                                               | Descrição                  |
-| --------------------------------------------------------------------- | -------------------------- |
-| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)                 | Gemini 2.0                 |
-| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md)             | Moltbook                   |
-| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)                   | Google Colab               |
-| [PF_AGENT_CONSTITUTION.md](docs/PF_AGENT_CONSTITUTION.md)             | 🆕 Persona IA Pública      |
-| [PF_PAT_FOUNDER_CONSTITUTION.md](docs/PF_PAT_FOUNDER_CONSTITUTION.md) | 🆕 IA do Founder (isolada) |
+| Arquivo                                                               | Descrição               |
+| --------------------------------------------------------------------- | ----------------------- |
+| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)                 | Gemini 2.0              |
+| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md)             | Moltbook                |
+| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)                   | Google Colab            |
+| [PF_AGENT_CONSTITUTION.md](docs/PF_AGENT_CONSTITUTION.md)             | Persona IA Pública      |
+| [PF_PAT_FOUNDER_CONSTITUTION.md](docs/PF_PAT_FOUNDER_CONSTITUTION.md) | IA do Founder (isolada) |
 
 ### 💰 Business
 
@@ -146,13 +152,16 @@ Uma plataforma modular onde você pode:
 | [PF_GOVERNANCE_REFERENCE.md](docs/PF_GOVERNANCE_REFERENCE.md) | PAT, Council |
 | [PF_TRADING_REFERENCE.md](docs/PF_TRADING_REFERENCE.md)       | cTrader      |
 | [PF_SOCIAL_REFERENCE.md](docs/PF_SOCIAL_REFERENCE.md)         | Social Hub   |
+| [PF_EDUCATION_REFERENCE.md](docs/PF_EDUCATION_REFERENCE.md)   | EdTech       |
 
-### 🧩 Plugins
+### 🧩 Plugins & Ecosystem
 
-| Arquivo                                                                       | Descrição       |
-| ----------------------------------------------------------------------------- | --------------- |
-| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Sistema plugins |
-| [PF_MEDUSA_REFERENCE.md](docs/PF_MEDUSA_REFERENCE.md)                         | Store           |
+| Arquivo                                                                       | Descrição          |
+| ----------------------------------------------------------------------------- | ------------------ |
+| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Sistema plugins    |
+| [PF_MEDUSA_REFERENCE.md](docs/PF_MEDUSA_REFERENCE.md)                         | Store              |
+| [PF_PLUGIN_MANIFEST.md](docs/PF_PLUGIN_MANIFEST.md)                           | Manifest structure |
+| [PF_OPENSOURCE_CATALOG.md](docs/PF_OPENSOURCE_CATALOG.md)                     | Catálogo OSS       |
 
 ---
 
