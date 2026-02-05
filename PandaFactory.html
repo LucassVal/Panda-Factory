@@ -8,42 +8,46 @@
     <!-- PWA Setup -->
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#667eea" />
-    <link rel="icon" type="image/png" href="icons/icon-192x192.png" />
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+    <link rel="icon" type="image/png" href="10.assets/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="10.assets/icons/icon-192x192.png" />
 
     <!-- 🎨 PANDA UNIFIED THEME -->
-    <link rel="stylesheet" href="css/pf.theme.css?v=3.1" />
+    <link rel="stylesheet" href="10.assets/css/pf.theme.css?v=3.1" />
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- PANDA SYSTEM CORE (Isolated Kernel) -->
-    <script src="_system/sdk/repository.js?v=sys_v1"></script>
-    <script src="_system/sdk/api.js?v=sys_v1"></script>
-    <script src="_system/core/kernel.js?v=sys_v1"></script>
+    <script src="2.system/sdk/repository.js?v=sys_v1"></script>
+    <script src="2.system/sdk/api.js?v=sys_v1"></script>
+    <script src="2.system/core/kernel.js?v=sys_v1"></script>
 
     <!-- 🐼 PANDA SDK MOCK (Governance + PAT) -->
-    <script src="js/pf.sdk.js?v=0.8"></script>
+    <script src="3.sdk/pf.sdk.js?v=0.8"></script>
 
     <!-- 🚀 APP INITIALIZATION -->
-    <script src="js/pf.app-init.js?v=1.1" defer></script>
+    <script src="3.sdk/pf.app-init.js?v=1.1" defer></script>
 
     <!-- 🧩 MODULAR UI CONTROLLERS -->
-    <script src="js/ui/pf.omnibar.js?v=2.0" defer></script>
-    <script src="js/ui/pf.modal-pin.js?v=1.0" defer></script>
-    <script src="js/ui/pf.settings.js?v=1.0" defer></script>
-    <script src="js/ui/pf.dock-drag.js?v=1.0" defer></script>
-    <script src="js/ui/pf.devtools.js?v=1.0" defer></script>
+    <script src="4.ui/pf.omnibar.js?v=2.0" defer></script>
+    <script src="4.ui/pf.modal-pin.js?v=1.0" defer></script>
+    <script src="4.ui/pf.settings.js?v=1.0" defer></script>
+    <script src="4.ui/pf.dock-drag.js?v=1.0" defer></script>
+    <script src="4.ui/pf.devtools.js?v=1.0" defer></script>
 
     <!-- 🧠 PANDA AI CORE (PAT) -->
-    <script src="js/core/pf.ai-core.js?v=1.0" defer></script>
-    <script src="js/core/pf.firebase-bridge.js?v=1.0" defer></script>
+    <script src="3.sdk/pf.ai-core.js?v=1.0" defer></script>
+    <script src="3.sdk/pf.firebase-bridge.js?v=1.0" defer></script>
   </head>
 
   <body>
     <!-- 🐼 LOADING SCREEN -->
     <div id="panda-loading" class="panda-loading-screen">
-      <img src="assets/panda_logo.jpg" alt="Panda" class="panda-loading-logo" />
+      <img
+        src="10.assets/panda_logo.jpg"
+        alt="Panda"
+        class="panda-loading-logo"
+      />
     </div>
 
     <!-- 🎯 MAIN CONTAINER -->
@@ -58,7 +62,7 @@
       <!-- INÍCIO VIEW (Clean Canvas) -->
       <div id="inicio-view" class="view-section active clean-canvas">
         <img
-          src="assets/panda_logo.jpg"
+          src="10.assets/panda_logo.jpg"
           alt="Panda Fabrics"
           class="canvas-logo"
         />
@@ -66,15 +70,15 @@
     </div>
 
     <!-- Component Loader Script (System Core) -->
-    <script src="_system/core/loader.js"></script>
+    <script src="2.system/core/loader.js"></script>
 
     <!-- Legacy Core (CRM) -->
     <script
-      src="js/panda.core.js"
+      src="3.sdk/panda.core.js"
       onerror="console.log('panda.core.js not found')"
     ></script>
     <script
-      src="dados/auto_import.js"
+      src="10.assets/data/auto_import.js"
       onerror="console.log('Nenhum dado do scraper')"
     ></script>
 
