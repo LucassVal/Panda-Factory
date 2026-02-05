@@ -5,7 +5,7 @@
 > **Documento Mestre de Arquitetura**
 > Consolidação unificada seguindo o Mapa Visual do Projeto.
 > Frontend → SDK → Backend Distribuído (3 Pilares).
-> **Atualizado:** 2026-01-27
+> **Atualizado:** 2026-02-05
 
 ---
 
@@ -64,7 +64,7 @@
 │  │   ├── pf.sdk.js                 # SDK principal (50KB)                  │
 │  │   ├── pf.bootstrap.js           # Zero-config init                      │
 │  │   ├── core/                     # Módulos core                          │
-│  │   └── tentacles/                # 8 Integration Modules                 │
+│  │   └── tentacles/                # 9 Integration Modules                 │
 │  │       ├── brain/                # AI/ML (Gemini, LocalLLM)              │
 │  │       ├── social/               # WhatsApp, Twitter, Meta               │
 │  │       ├── trading/              # cTrader Open API                      │
@@ -72,11 +72,12 @@
 │  │       ├── distribution/         # PWA, Steam, itch.io                   │
 │  │       ├── education/            # Kiwify, Hotmart, Eduzz                │
 │  │       ├── github/               # Pages, JSON DB, Actions               │
+│  │       ├── p2p/                  # 🌐 P2P Compute Network                │
 │  │       └── monitor/              # Health/Telemetry                      │
 │  │                                                                          │
 │  ├── 📁 rust-agent/                # 🦀 Local Agent (Tauri/MCP)            │
 │  │   ├── Cargo.toml                # Dependencies                          │
-│  │   └── src/                      # 5 modules (GPU, MCP, Firebase)        │
+│  │   └── src/                      # 8 modules (GPU, MCP, Node, Mining)    │
 │  │                                                                          │
 │  ├── 📁 panda-sdk/                 # 📦 SDK público (npm package)          │
 │  ├── 📁 docs/                      # 📚 19 reference documents             │
@@ -110,6 +111,7 @@
 │                                 ├── §5 Backend (3 Pilares)   │
 │  PARTE III: ECONOMIA           ├── §6 Infraestrutura        │
 │  ├── §8 Tokenomics             └── §7 Segurança             │
+│  ├── §9 P2P Compute 🌐                                       │
 │  └── §10 Bounty System                                       │
 │                                 PARTE IV: HUBS               │
 │  PARTE V: ESTRATÉGIA           ├── §12 Convenções           │
