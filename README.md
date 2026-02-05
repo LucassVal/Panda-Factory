@@ -16,6 +16,16 @@
   <img src="https://img.shields.io/badge/Infra_Cost-$0/month-00D4AA" alt="Zero Cost">
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react" alt="React">
+  <img src="https://img.shields.io/badge/Desktop-Tauri_Rust-B7410E?logo=rust" alt="Rust">
+  <img src="https://img.shields.io/badge/Canvas-TLDraw-FF6F61" alt="TLDraw">
+  <img src="https://img.shields.io/badge/Collab-Yjs-5C5CFF" alt="Yjs">
+  <img src="https://img.shields.io/badge/Protocol-MCP-8E75B2" alt="MCP">
+  <img src="https://img.shields.io/badge/Translation-NLLB_200-00A67E" alt="NLLB">
+  <img src="https://img.shields.io/badge/Speech-Whisper-74AA9C" alt="Whisper">
+</p>
+
 ---
 
 ## 📋 Table of Contents
