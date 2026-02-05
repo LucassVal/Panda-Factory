@@ -57,7 +57,7 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 
 ---
 
-## 📚 DOCUMENTAÇÃO (18 Docs Consolidados)
+## 📚 DOCUMENTAÇÃO (19 Docs Consolidados)
 
 ### 🏛️ Core (Start Here)
 
@@ -96,6 +96,7 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 | Arquivo                                                     | Descrição                                |
 | ----------------------------------------------------------- | ---------------------------------------- |
 | [PF_ECONOMY_REFERENCE.md](docs/PF_ECONOMY_REFERENCE.md)     | **Panda Coin + Tokenomics + Governance** |
+| [PF_SECURITY_REFERENCE.md](docs/PF_SECURITY_REFERENCE.md)   | Pipeline + Panda Defend + Semgrep Rules  |
 | [PF_SOCIAL_REFERENCE.md](docs/PF_SOCIAL_REFERENCE.md)       | Social Hub                               |
 | [PF_EDUCATION_REFERENCE.md](docs/PF_EDUCATION_REFERENCE.md) | EdTech                                   |
 
