@@ -51,8 +51,19 @@
 │  ├── 📁 .agent/                    # Workflows IA (PANDA.md)               │
 │  ├── 📁 .github/workflows/         # CI/CD (Pages, Android, Steam)         │
 │  │                                                                          │
-│  ├── 📁 backend/                   # ☁️ Google Apps Script                  │
-│  │   └── core/                     # PF_Dispatcher.gs, Config              │
+│  ├── 📁 backend/                   # ☁️ Google Apps Script (17 arquivos)    │
+│  │   ├── core/                     # 9 core modules                        │
+│  │   │   ├── PF_Dispatcher.gs      # Router principal (Tri-Mode)           │
+│  │   │   ├── PF_Config.gs          # Configurações                         │
+│  │   │   ├── PF_Core_AI.gs         # AI Service                            │
+│  │   │   ├── PF_Brain_Core.gs      # Brain orchestration                   │
+│  │   │   ├── PF_Moltbook.gs        # Social agent integration              │
+│  │   │   └── PF_PAT_Core.gs        # Panda Council (Governance)            │
+│  │   └── domains/                  # 4 domain modules                      │
+│  │       ├── finance/              # Wallet, Crypto, Fiat                  │
+│  │       ├── store/                # Medusa Store, Registry, Sales         │
+│  │       ├── automation/           # Bots                                  │
+│  │       └── p2p/                  # 🌐 P2P Compute Network                │
 │  │                                                                          │
 │  ├── 📁 jam/                       # 🍇 React Frontend (Vite + TLDraw)     │
 │  │   ├── src/components/           # 22 componentes React                  │
@@ -80,7 +91,7 @@
 │  │   └── src/                      # 8 modules (GPU, MCP, Node, Mining)    │
 │  │                                                                          │
 │  ├── 📁 panda-sdk/                 # 📦 SDK público (npm package)          │
-│  ├── 📁 docs/                      # 📚 19 reference documents             │
+│  ├── 📁 docs/                      # 📚 18 reference documents             │
 │  ├── 📁 components/                # 🧩 HTML Components (legacy)           │
 │  ├── 📁 css/                       # 🎨 pf.theme.css                       │
 │  ├── 📁 data/                      # 💾 JSON Database local                │
