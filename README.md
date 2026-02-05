@@ -25,13 +25,11 @@
 3. [Core Concepts](#-core-concepts)
 4. [Technical Stack](#-technical-stack)
 5. [MCP Protocol Integration](#-mcp-protocol-integration)
-6. [Economy & Tokenomics](#-economy--tokenomics)
-7. [Partner Mode (P2P Compute)](#-partner-mode-p2p-compute)
-8. [SDK Architecture](#-sdk-architecture)
-9. [Tentacle System](#-tentacle-system)
-10. [Governance (Constitution)](#-governance-constitution)
-11. [Roadmap](#-roadmap)
-12. [Contact](#-contact)
+6. [Partner Mode (P2P Compute)](#-partner-mode-p2p-compute)
+7. [SDK Architecture](#-sdk-architecture)
+8. [Tentacle System](#-tentacle-system)
+9. [Roadmap](#-roadmap)
+10. [Contact](#-contact)
 
 ---
 
@@ -179,17 +177,6 @@ Every tool is described for AI comprehension:
 
 **Result:** Users speak naturally, AI executes tools.
 
-### 4. Constitutional Governance
-
-12 hardcoded articles govern the ecosystem:
-
-| Article | Rule                                            | Enforcement   |
-| ------- | ----------------------------------------------- | ------------- |
-| Art 1   | Treasury Backing (70% PAXG, 30% USDC)           | Hardcoded     |
-| Art 2   | Primary Split (52% Dev, 25% Education, 15% Ops) | Hardcoded     |
-| Art 3   | Inflation Target (2% ± 0.5%)                    | AI-controlled |
-| Art 9.2 | Non-Expulsion (users can't be banned)           | Hardcoded     |
-
 ---
 
 ## 🛠 Technical Stack
@@ -250,7 +237,7 @@ Python (Colab)         █                      2%
 
 | Category          | Examples                        | Execution      |
 | ----------------- | ------------------------------- | -------------- |
-| **Web Tools**     | crm*\*, sheets*_, wallet\__     | Via GAS        |
+| **Web Tools**     | crm*\*, sheets*\_, wallet\_\_   | Via GAS        |
 | **AI Tools**      | brain_chat, brain_analyze       | Via Gemini API |
 | **Desktop Tools** | fs*read, screen_capture, gpu*\* | Via Rust Agent |
 
@@ -266,63 +253,6 @@ All plugins MUST have `panda.mcp.json`:
   "permissions": ["sheets", "brain"],
   "defendScore": 85  // Minimum 70 to publish
 }
-```
-
----
-
-## 💰 Economy & Tokenomics
-
-### Panda Coin (PC) - Internal Currency
-
-| Aspect           | Value                  |
-| ---------------- | ---------------------- |
-| Symbol           | PC (Panda Coin)        |
-| Backing          | 70% PAXG + 30% USDC    |
-| Inflation Target | 2% ± 0.5% annually     |
-| Mint Authority   | PAT (AI Treasury) only |
-
-### Revenue Splits
-
-**Plugin Store Sales:**
-
-```
-52% → Developer (creator)
-25% → Panda Education Fund
-15% → Operational costs
- 5% → Platform fee
- 3% → Payment gateway
-```
-
-**Partner Mode Earnings:**
-
-```
-50% → User (Panda Credits)
-25% → Tax Reserve
-23% → Operational
- 2% → Founder
-```
-
-### PAT (Panda AI Treasury)
-
-Autonomous AI managing monetary policy:
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  PAT DECISION FLOW                                               │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  IF reserve > 10%:                                               │
-│     → Reinvest excess into ecosystem                             │
-│                                                                  │
-│  IF deflation_pressure > threshold:                              │
-│     → Mint new PC (capped at 2% annual)                          │
-│                                                                  │
-│  IF inflation > 2.5%:                                            │
-│     → Burn excess PC from treasury                               │
-│                                                                  │
-│  ALWAYS: Follow 12 Constitutional Articles                       │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -416,28 +346,6 @@ Modular integration architecture:
 | **Distribution** | PWA, itch.io, Panda Arcade                           | ✅ Implemented |
 | **Education**    | Kiwify, Hotmart, Eduzz                               | 🚧 Planned     |
 | **Gaming**       | Godot, Bevy, ThreeJS, PixiJS                         | 🚧 Planned     |
-
----
-
-## 📜 Governance (Constitution)
-
-### 12 Articles Summary
-
-| #   | Article               | Description                   |
-| --- | --------------------- | ----------------------------- |
-| 1   | Treasury Backing      | 70% PAXG + 30% USDC           |
-| 2   | Primary Revenue Split | 52/25/15/5/3 distribution     |
-| 3   | Inflation Target      | 2% ± 0.5% annually            |
-| 4   | Reserve Ceiling       | Max 10%, auto-reinvest excess |
-| 5   | Vesting               | Founder 4-year cliff          |
-| 6   | Burn Mechanism        | Auto-burn on deflation        |
-| 7   | Education Fund        | 25% of all revenue            |
-| 8   | Transparency          | All operations logged         |
-| 9.1 | Plugin Rejection      | Only for security/scam        |
-| 9.2 | Non-Expulsion         | Users cannot be banned        |
-| 10  | Amendment Process     | Requires 2/3 majority         |
-| 11  | Emergency Powers      | Limited to 72h                |
-| 12  | Dispute Resolution    | Binding arbitration           |
 
 ---
 
