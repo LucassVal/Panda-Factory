@@ -11,7 +11,7 @@
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#architecture">Architecture</a> •
-  <a href="#business-model">Business Model</a> •
+  <a href="#key-differentiators">Differentiators</a> •
   <a href="#pitch-deck">Pitch Deck</a> •
   <a href="#roadmap">Roadmap</a>
 </p>
@@ -19,6 +19,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Stage-MVP-blue" alt="Stage">
   <img src="https://img.shields.io/badge/AI-Gemini%20Powered-purple" alt="AI">
+  <img src="https://img.shields.io/badge/MCP-Native-green" alt="MCP">
   <img src="https://img.shields.io/badge/License-Proprietary-orange" alt="License">
 </p>
 
@@ -34,14 +35,15 @@
 
 ## 💡 The Solution
 
-**Panda Factory** is a minimalist AI-powered runtime where plugins run, orchestrated by natural language.
+**Panda Factory** is a minimalist AI-powered runtime where plugins run, orchestrated by natural language via **MCP (Model Context Protocol)**.
 
-| Feature                | Description                                                              |
-| ---------------------- | ------------------------------------------------------------------------ |
-| 🧠 **Native AI (MCP)** | Every tool is AI-accessible. Ask in plain language, it executes.         |
-| 🔌 **Plugin-First**    | Minimal core. Everything via installable plugins. Pay only what you use. |
-| 🆓 **Free to Start**   | 500k tokens/month free. Gemini Flash 3.0 integrated.                     |
-| 🤝 **Partner Mode**    | Share idle CPU, earn credits. Zero cost, everyone wins.                  |
+| Feature              | Description                                                                                    |
+| -------------------- | ---------------------------------------------------------------------------------------------- |
+| 🧠 **MCP-Native**    | Every tool is AI-accessible. Ask in plain language, it executes. Works on **Web AND Desktop**. |
+| 🔌 **Plugin-First**  | Minimal core. Everything via installable plugins. Pay only what you use.                       |
+| 🪟 **Multi-Window**  | Document Picture-in-Picture API. Pop-out any tool to separate windows/monitors.                |
+| 🆓 **Free to Start** | 500k tokens/month free. Gemini Flash integrated.                                               |
+| 🤝 **Partner Mode**  | Share idle CPU, earn credits. Zero cost, everyone wins.                                        |
 
 ---
 
@@ -50,25 +52,61 @@
 Three-layer hybrid architecture for **$0 infrastructure cost**:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  ☁️  GOOGLE LAYER (90% of use cases)                        │
-│      Gemini API + GAS + Firebase → $0/month                 │
-├─────────────────────────────────────────────────────────────┤
-│  🐍  COLAB LAYER (Free GPU)                                 │
-│      User's Colab Account → ML, Whisper, AI tasks           │
-├─────────────────────────────────────────────────────────────┤
-│  🦀  RUST LAYER (Partner Mode)                              │
-│      Local Agent → Mining, GPU Pool, RPA                    │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│  ☁️  GOOGLE LAYER (Web-First - 90% of use cases)                    │
+│      Gemini API + GAS + Firebase → $0/month                         │
+│      🔌 MCP via manifest.json (PWA) - NO RUST REQUIRED              │
+├─────────────────────────────────────────────────────────────────────┤
+│  🐍  COLAB LAYER (Free GPU for heavy AI)                            │
+│      User's Colab Account → ML, Whisper, Image Gen                  │
+├─────────────────────────────────────────────────────────────────────┤
+│  🦀  RUST LAYER (Partner Mode + Local Power)                        │
+│      Local Tauri Agent → MCP Server, Mining, GPU Pool, RPA          │
+│      🪟 Multi-Window via Document PiP API                           │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Key Innovation:** Users contribute idle hardware → generate crypto → receive Panda Credits → spend in marketplace → circular economy.
+**Key Innovation:**
+
+- **Web-First:** Most users never need to install anything. MCP works via GAS/Firebase.
+- **Desktop Power:** Rust Agent unlocks GPU, local AI, mining, and automation.
+- **Multi-Window:** Pop-out Console, MCP Browser, Treasury to separate monitors.
+
+---
+
+## 🔑 Key Differentiators
+
+### 1. MCP Everywhere (Web + Desktop)
+
+```javascript
+// Works in browser (via GAS) OR desktop (via Rust Agent)
+const result = await Panda.Bridge.execute("my_tool", { params });
+```
+
+### 2. Multi-Window UI (Document PiP)
+
+```javascript
+// Pop any tool to a separate window
+await Panda.UI.popout("console", { width: 800, height: 600 });
+```
+
+### 3. Zero Infrastructure Cost
+
+```
+manifest.json (PWA) → GAS Backend → Firebase Signaling → $0/month
+```
+
+### 4. Partner Mode (P2P Compute)
+
+```
+User donates idle CPU → Earns Panda Credits → Spends in Store → Circular economy
+```
 
 ---
 
 ## 💰 Business Model
 
-### Revenue Stream 1: Plugin Store
+### Revenue Stream 1: Plugin Store (Medusa)
 
 | Split   | Recipient                  |
 | ------- | -------------------------- |
@@ -104,12 +142,12 @@ To convert to PDF:
 
 ## 🗺️ Roadmap
 
-| Phase             | Timeline     | Status | Description                           |
-| ----------------- | ------------ | ------ | ------------------------------------- |
-| **0. Foundation** | Jan 2026     | ✅ 95% | Shell, SDK, GAS Backend, Docs         |
-| **1. Day One**    | Feb 2026     | 🚧 30% | Rust Agent, AI Cores, Partner Mode    |
-| **2. Scale**      | Mar-Apr 2026 | ⏳     | P2P Compute, GPU Pool                 |
-| **3. Expansion**  | Q2-Q3 2026   | ⏳     | EdTech (Panda Labs), Open Marketplace |
+| Phase             | Timeline     | Status | Description                                 |
+| ----------------- | ------------ | ------ | ------------------------------------------- |
+| **0. Foundation** | Jan 2026     | ✅ 95% | Shell, SDK, GAS Backend, MCP Manifest, Docs |
+| **1. Day One**    | Feb 2026     | 🚧 30% | Rust Agent, AI Cores, Partner Mode          |
+| **2. Scale**      | Mar-Apr 2026 | ⏳     | P2P Compute, GPU Pool, Multi-Window polish  |
+| **3. Expansion**  | Q2-Q3 2026   | ⏳     | EdTech (Panda Labs), Open Marketplace       |
 
 ---
 
@@ -125,12 +163,12 @@ To convert to PDF:
 
 ## 🛠️ Tech Stack
 
-| Layer              | Technologies                            |
-| ------------------ | --------------------------------------- |
-| **Frontend**       | Vanilla JS, TLDraw, React components    |
-| **Backend**        | Rust, Google Apps Script, Firebase RTDB |
-| **AI/ML**          | Gemini API, Google Colab, MCP Protocol  |
-| **Infrastructure** | Google Cloud, User-contributed compute  |
+| Layer              | Technologies                                       |
+| ------------------ | -------------------------------------------------- |
+| **Frontend**       | Vanilla JS, React, TLDraw, Document PiP API        |
+| **Backend**        | Rust (Tauri), Google Apps Script, Firebase RTDB    |
+| **AI/ML**          | Gemini API, Google Colab, MCP Protocol             |
+| **Infrastructure** | Google Cloud (free tier), User-contributed compute |
 
 ---
 
