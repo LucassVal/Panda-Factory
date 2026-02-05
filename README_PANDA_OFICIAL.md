@@ -57,13 +57,14 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 
 ---
 
-## 📚 DOCUMENTAÇÃO (17 Docs Consolidados)
+## 📚 DOCUMENTAÇÃO (18 Docs Consolidados)
 
 ### 🏛️ Core (Start Here)
 
 | Arquivo                                                     | Descrição                        |
 | ----------------------------------------------------------- | -------------------------------- |
 | [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) | 🌟 Arquitetura completa (~208KB) |
+| [PF_FILE_REGISTRY.md](docs/PF_FILE_REGISTRY.md)             | 📁 Catálogo de todos os arquivos |
 
 ### 💻 Frontend & UI
 
