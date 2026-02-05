@@ -425,6 +425,19 @@ Every tentacle can hook into e-commerce and monetization:
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**External Distribution Hooks (SDK Bidirecional):**
+
+Hooks can flow inward (to Medusa Store) or outward (to external platforms):
+
+| Hook Type        | Platforms                              | Direction  |
+| ---------------- | -------------------------------------- | ---------- |
+| **Marketplace**  | Kiwify, Hotmart, Gumroad, Eduzz        | ← Outbound |
+| **App Stores**   | PlayStore, Apple Store, Steam, itch.io | ← Outbound |
+| **Plugin Store** | Medusa (internal)                      | ↔ Both     |
+| **Affiliate**    | Any platform with referral API         | ← Outbound |
+
+> **Dev Freedom:** You create once, distribute everywhere. SDK doesn't lock you in — it liberates.
+
 ### Google Workspace Deep Integration
 
 | Google Service    | Panda Module            | Use Case                          |
