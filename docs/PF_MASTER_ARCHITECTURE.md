@@ -13,26 +13,27 @@
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
-│                         DOCUMENTAÇÃO PANDA FACTORY                          │
+│                    DOCUMENTAÇÃO PANDA FACTORY (17 arquivos)                 │
 ├────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  ARQUITETURA & CORE                    SDK & INTEGRAÇÕES                   │
+│  ARQUITETURA & BACKEND                 SDK & INTEGRAÇÕES                   │
 │  ├── PF_MASTER_ARCHITECTURE.md ★       ├── PF_SDK_REFERENCE.md             │
-│  ├── PF_GAS_REFERENCE.md               ├── PF_PLUGIN_AND_MODULAR.md        │
-│  ├── PF_FIREBASE_REFERENCE.md          ├── PF_PLUGIN_MANIFEST.md           │
-│  ├── PF_RUST_REFERENCE.md              ├── PF_MCP_REFERENCE.md             │
-│  └── PF_AUTH_REFERENCE.md              └── PF_TECHS_SDK.md                 │
+│  ├── PF_BACKEND_REFERENCE.md           ├── PF_PLUGIN_AND_MODULAR.md        │
+│  ├── PF_GAS_REFERENCE.md               ├── PF_MCP_REFERENCE.md             │
+│  └── PF_COLAB_REFERENCE.md             └── PF_GEMINI_REFERENCE.md          │
 │                                                                             │
-│  FRONTEND & UI                         ECONOMIA & NEGÓCIOS                 │
-│  ├── PF_JAM_COMPONENTS.md              ├── PF_TOKENOMICS_REFERENCE.md      │
-│  ├── PF_CSS_REFERENCE.md               ├── PF_MEDUSA_REFERENCE.md          │
-│  └── PF_HTML_REFERENCE.md              └── PF_OPENSOURCE_CATALOG.md        │
+│  FRONTEND & UI (Consolidado)           ECONOMIA (Consolidado)              │
+│  └── PF_UI_REFERENCE.md ▸              └── PF_ECONOMY_REFERENCE.md ▸       │
+│      (CSS + HTML + JAM)                    (TOKENOMICS + PAT + GOVERNANCE) │
+│                                        └── PF_MEDUSA_REFERENCE.md          │
 │                                                                             │
-│  AI & BRAIN                            OPERAÇÕES                           │
-│  ├── PF_GEMINI_REFERENCE.md            ├── PF_HEALTH_STATUS.md             │
-│  └── PF_EDUCATION_REFERENCE.md         └── README.md                       │
+│  COMUNIDADE & SOCIAL                   CATÁLOGO                            │
+│  ├── PF_SOCIAL_REFERENCE.md            └── PF_OPENSOURCE_CATALOG.md        │
+│  ├── PF_MOLTBOOK_REFERENCE.md                                              │
+│  ├── PF_AGENT_CONSTITUTION.md                                              │
+│  └── PF_EDUCATION_REFERENCE.md                                             │
 │                                                                             │
-│  ★ = DOCUMENTO MESTRE (VOCÊ ESTÁ AQUI)                                     │
+│  ★ = DOCUMENTO MESTRE    ▸ = MEGA-DOC CONSOLIDADO                          │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -242,32 +243,80 @@
                   (Signaling + Células)
 ```
 
-### 1.4. Arquitetura Client-Side First
+### 1.4. Arquitetura Web-First (Zero Install)
 
 > **Filosofia:** "O Browser faz 90% do trabalho. Cloud só para sync e billing."
+> **Princípio:** 90% dos usuários NUNCA precisam instalar o Rust Agent.
+
+O Panda Factory opera em **DOIS MODOS** completamente funcionais:
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    ARQUITETURA CLIENT-SIDE FIRST                        │
+│  🌐 MODO WEB-ONLY (90% dos usuários) - INSTALAÇÃO ZERO                 │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
-│  BROWSER (90% do trabalho)         CLOUD (10% - só sync/auth)          │
-│  ┌──────────────────────────┐     ┌──────────────────────────┐         │
-│  │ • React/TLDraw UI        │     │ • Firebase Auth          │         │
-│  │ • IndexedDB (local)      │     │ • Firebase RTDB (status) │         │
-│  │ • LocalStorage           │────▶│ • GAS (billing/PAT)      │         │
-│  │ • Gemini API (direto)    │     │ • Webhooks               │         │
-│  │ • Service Worker         │     │                          │         │
-│  └──────────────────────────┘     └──────────────────────────┘         │
+│  Browser (PWA)              GAS Backend           Firebase             │
+│  ┌──────────────────┐      ┌──────────────┐      ┌───────────┐        │
+│  │ manifest.json    │─────▶│ Brain.gs     │─────▶│ RTDB      │        │
+│  │ panda.mcp.json   │      │ PAT.gs       │      │ Auth      │        │
+│  │ React/TLDraw UI  │      │ Billing.gs   │      │ Signaling │        │
+│  └──────────────────┘      └──────────────┘      └───────────┘        │
 │                                                                         │
-│  RUST AGENT (opcional - 0% cloud)                                       │
+│  ✅ FUNCIONALIDADES WEB-ONLY (100% funcional sem instalação):          │
+│  ├── AI Chat (Gemini via GAS)                                          │
+│  ├── Canvas TLDraw                                                     │
+│  ├── Data Persistence (Sheets)                                         │
+│  ├── Plugin Store (Medusa)                                             │
+│  ├── Wallet & Economy (Panda Coins)                                    │
+│  └── MCP Tools (via panda.mcp.json → GAS dispatcher)                   │
+│                                                                         │
+│  💰 CUSTO INFRAESTRUTURA: $0/mês (Free Tier Google)                    │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  🦀 MODO DESKTOP (10% dos usuários) - PODER COMPLETO                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  Rust Agent (Tauri)              +  Tudo do Modo Web                   │
 │  ┌──────────────────────────┐                                          │
-│  │ • GPU/ML local           │  ← Processamento 100% offline            │
-│  │ • Antigravity            │                                          │
-│  │ • MCP Tools              │                                          │
+│  │ • MCP Server nativo      │                                          │
+│  │ • GPU/CUDA local         │                                          │
+│  │ • Mining / Partner Mode  │                                          │
+│  │ • AI Offline (Whisper)   │                                          │
+│  │ • RPA / Automação        │                                          │
+│  │ • Multi-Window (PiP API) │                                          │
 │  └──────────────────────────┘                                          │
+│                                                                         │
+│  🔓 FUNCIONALIDADES EXCLUSIVAS DESKTOP:                                │
+│  ├── GPU Local (CUDA, Vulkan, WebGPU)                                  │
+│  ├── Mining / Partner Mode (ganhar Panda Credits)                      │
+│  ├── RPA / Automação Desktop (click, screen_capture)                   │
+│  ├── AI Local Offline (Whisper, NLLB - 140MB + 600MB)                  │
+│  ├── MCP Tools nativos (fs_read, fs_write, terminal)                   │
+│  └── Multi-Window Pop-out (Document Picture-in-Picture API)            │
+│                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+
+#### Comparativo Web vs Desktop
+
+| Aspecto           | 🌐 Modo Web              | 🦀 Modo Desktop               |
+| ----------------- | ------------------------ | ----------------------------- |
+| **Instalação**    | Zero (PWA)               | ~30MB + downloads             |
+| **AI**            | Gemini Cloud (via GAS)   | Cloud + Local (Whisper, NLLB) |
+| **MCP**           | Via panda.mcp.json + GAS | Nativo Rust (mais tools)      |
+| **GPU**           | Apenas detecção          | CUDA, Mining, AI local        |
+| **Partner Mode**  | ❌                       | ✅ Ganhar Panda Credits       |
+| **RPA/Automação** | ❌                       | ✅ click, fs, terminal        |
+| **Multi-Window**  | ❌                       | ✅ Document PiP               |
+| **Custo infra**   | $0/mês                   | $0/mês                        |
+| **Offline**       | Parcial (PWA)            | 100% (modelos locais)         |
+
+> **📌 Importante:** O fluxo `manifest.json → PWA → GAS → Firebase` é a base do ecossistema.
+> A maioria dos plugins funcionam perfeitamente no Modo Web.
+
+````
 
 | Benefício           | Impacto                                 |
 | ------------------- | --------------------------------------- |
@@ -293,11 +342,11 @@
 ├── Chamadas GAS/dia: ~50,000 (só billing/auth)
 ├── Storage: ~1GB dados
 └── Com Rust Agent: ∞ (processamento local)
-```
+````
 
 ### 1.6. Modelo Gemini API Compartilhada
 
-> **Referência:** [PF_TOKENOMICS_REFERENCE.md §14](PF_TOKENOMICS_REFERENCE.md#14-modelo-de-compartilhamento-gemini-api)
+> **Referência:** [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md)
 
 | Nível           | Quem            | Modelo      | Quota/dia   | Fonte           |
 | --------------- | --------------- | ----------- | ----------- | --------------- |
@@ -374,6 +423,58 @@ O Panda Factory utiliza **dois repositórios** separados para desenvolvimento e 
 - **App Principal:** `https://lucassval.github.io/Panda-Factory/`
 - **cTrader OAuth:** `https://lucassval.github.io/panda-ctrader-auth/`
 
+### 1.9. Filosofia Core Minimalista + Plugin-First
+
+> **Decisão Arquitetural:** 2026-02-04
+> O Panda Factory é um **runtime minimalista** onde plugins MCP-first rodam.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    CORE MINIMALISTA + PLUGIN-FIRST                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ANTES (Monolítico):              DEPOIS (Plugin-First):                │
+│  ┌──────────────────────┐         ┌──────────────────────┐              │
+│  │ Core (tudo embutido) │         │ Shell (mínimo)       │              │
+│  │ ├── TLDraw Canvas    │   ───▶  │ ├── Plugin Slot      │              │
+│  │ ├── DevTools         │         │ ├── Event Bus        │              │
+│  │ ├── Draw Tools       │         │ └── MCP Runtime      │              │
+│  │ └── Components       │         └──────────┬───────────┘              │
+│  └──────────────────────┘                    │                          │
+│                                              ▼                          │
+│                                 ┌────────────────────────┐              │
+│                                 │ Plugins (Medusa Store) │              │
+│                                 │ ├── @panda/draw-tools  │ ← Gratuito  │
+│                                 │ ├── @panda/ai-chat     │              │
+│                                 │ ├── @dev/fashion-agent │              │
+│                                 │ └── @dev/finance-tool  │              │
+│                                 └────────────────────────┘              │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+| Aspecto           | Antes            | Depois                        |
+| ----------------- | ---------------- | ----------------------------- |
+| **TLDraw/Canvas** | Embutido no core | Plugin `@panda/draw-tools`    |
+| **DevTools**      | Dock lateral     | Separado por Role (Dev/Admin) |
+| **Novo plugin**   | Modifica core    | Baixa da Medusa Store         |
+| **MCP**           | Opcional         | Obrigatório para todos        |
+
+**Benefícios:**
+
+- 🐼 **Core enxuto:** Shell carrega em <100ms, sem peso desnecessário
+- 🔌 **100% extensível:** Tudo que não é essencial vai para plugin
+- 🤖 **IA entende tudo:** MCP obrigatório = toda tool é AI-native
+- 💰 **Monetização clara:** Plugins pagos na Medusa Store
+
+**Plugins Gratuitos do Founder:**
+
+| Plugin                | Descrição               | MCP Tools                     |
+| --------------------- | ----------------------- | ----------------------------- |
+| `@panda/draw-tools`   | Canvas TLDraw completo  | `draw_shape`, `export_canvas` |
+| `@panda/ai-chat`      | Chat com Brain IA       | `send_message`, `get_history` |
+| `@panda/file-manager` | Gerenciador de arquivos | `upload`, `download`, `list`  |
+
 ---
 
 ## 2. O Diferencial "Hook" (Filosofia Core)
@@ -411,19 +512,6 @@ O Token captura o valor.
 │  │ Projeto │────────────────│ Panda.Dist   │                            │
 │  └─────────┘                └──────┬───────┘                            │
 │                                    │                                     │
-│                    ┌───────────────┼───────────────┐                    │
-│                    ▼               ▼               ▼                    │
-│            ┌─────────────┐ ┌─────────────┐ ┌─────────────┐              │
-│            │ 📱 MOBILE   │ │ 🎮 GAMING   │ │ 💼 SAAS     │              │
-│            ├─────────────┤ ├─────────────┤ ├─────────────┤              │
-│            │ Google Play │ │ Steam       │ │ VS Code Mkt │              │
-│            │ App Store   │ │ Epic Games  │ │ Chrome Ext  │              │
-│            │ PWA Direct  │ │ itch.io     │ │ NPM         │              │
-│            │ APK Manual  │ │ Panda Arcade│ │ Github Rel  │              │
-│            └─────────────┘ └─────────────┘ └─────────────┘              │
-│                    │               │               │                    │
-│                    └───────────────┼───────────────┘                    │
-│                                    ▼                                     │
 │                         ┌──────────────────┐                            │
 │                         │ 📊 Analytics Hub │                            │
 │                         │ Downloads, Uso   │                            │
@@ -579,58 +667,50 @@ CENÁRIO 3: Criador de Conteúdo
 
 A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a aplicação.
 
-### 3.1. Estrutura do DevTools Dock
-
-As 3 Abas do Desenvolvedor:
-
 ```text
-┌─────────────────────────────────────────────┐
-│  🧩 Extensions  │  💻 Console  │  🤖 Brain  │
-├─────────────────────────────────────────────┤
-│                                             │
-│  ┌─────────────────────────────────────┐   │
-│  │ 📦 PostgreSQL Connector    [Ativo]  │   │
-│  │    Permite IA ler bancos locais     │   │
-│  ├─────────────────────────────────────┤   │
-│  │ 📄 PDF Parser              [Ativo]  │   │
-│  │    Extrai texto de documentos       │   │
-│  ├─────────────────────────────────────┤   │
-│  │ 📈 MetaTrader Bridge       [Baixar] │   │
-│  │    Conecta com MT4/MT5              │   │
-│  └─────────────────────────────────────┘   │
-│                                             │
-│  [+ Explorar Loja]                         │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                    STATUS BAR (56px, fixed top)                     │
+│  [Logo][Brand] │ [v5.0][Pills][🌙] │ [90%][92%][User][btns][🕐]    │
+├───────┬─────────────────────────────────────────────────────┬───────┤
+│       │                                                     │       │
+│ LEFT  │               CANVAS AREA                           │ RIGHT │
+│ DOCK  │               (TLDraw)                              │ TOOLS │
+│       │                                                     │       │
+│ 68px  │            flex: 1, margin-top: 56px                │ 260px │
+├───────┴─────────────────────────────────────────────────────┴───────┤
+│                    CHAT FAB (bottom-right floating)                 │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.2. Multi-Window Support
+### Componentes Principais
+
+| Componente       | Z-Index    | Descrição                  |
+| ---------------- | ---------- | -------------------------- |
+| Canvas/TLDraw    | 0          | Área de trabalho principal |
+| Left/Right Docks | 1000       | Sidebars flutuantes        |
+| Status Bar       | 2000       | Header fixo                |
+| Chat Panel       | 3000       | Floating chat              |
+| Modals           | 5000-10000 | Settings, Login            |
+
+### DevTools (Dev Mode)
+
+| Tool            | Descrição          |
+| --------------- | ------------------ |
+| 💻 Console      | JavaScript sandbox |
+| 🧰 MCP Browser  | Rust Agent tools   |
+| 🔌 API Tester   | GAS endpoints      |
+| 🏦 PAT Treasury | Banco Central IA   |
+| 🐼 Antigravity  | Coding Assistant   |
+
+> 📖 **Detalhes completos:** [PF_UI_REFERENCE.md](PF_UI_REFERENCE.md)
+
+---
 
 > **📌 Nota:** A implementação completa de janelas pop-out usando a **Document Picture-in-Picture API** está documentada na seção [3.3.C - Arquitetura Multi-Window](#c-arquitetura-multi-window-document-pip).
 
 ### 3.3. Dev Mode (Modo Desenvolvedor) 🛠️
 
 O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores, inspirado no Google Antigravity.
-
-#### A. Ativação
-
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         DEV MODE TOGGLE                                  │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  [AppDock]                                                              │
-│  ├── 🏠 Home                                                            │
-│  ├── 📊 CRM                                                             │
-│  ├── ⚙️ Settings                                                        │
-│  ├── ────────────                                                       │
-│  └── 🛠️ Dev Mode ← CLIQUE ATIVA/DESATIVA                               │
-│         │                                                               │
-│         ├── OFF: DevToolsDock oculto                                    │
-│         ├── ON:  DevToolsDock visível + ícone muda para 🔧              │
-│         └── Persistência: localStorage.panda_dev_mode                   │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
-```
 
 **Componente:** `components/Comp_AppDock.html`
 **Lógica:** `js/ui/pf.devtools.js` → `toggleDevMode()`
@@ -842,7 +922,7 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 ### 3.5. Jam Frontend (React + TLDraw) 🍇
 
-> **Atualizado:** 2026-01-27 | **Referência:** [PF_JAM_COMPONENTS.md](PF_JAM_COMPONENTS.md)
+> **Atualizado:** 2026-01-27 | **Referência:** [PF_UI_REFERENCE.md](PF_UI_REFERENCE.md)
 
 O **Panda Jam** é o frontend moderno construído com React + Vite, oferecendo uma experiência de canvas infinito com TLDraw.
 
@@ -968,7 +1048,7 @@ body.light-mode {
 
 > **"O Módulo NUNCA fala com o Servidor. O Módulo fala com o Panda, e o Panda fala com o Servidor."**
 
-### 4.1. Estrutura Global `Panda`
+### Estrutura Global `Panda`
 
 ```javascript
 window.Panda = {
@@ -982,325 +1062,78 @@ window.Panda = {
 };
 ```
 
-### 4.2. Arquitetura de Slots & Adapters
+### Módulos Principais
+
+| Slot   | Descrição               | Custo   |
+| ------ | ----------------------- | ------- |
+| Data   | Persistência Sheets/SQL | GRÁTIS  |
+| Wallet | Economia PC             | GRÁTIS  |
+| Brain  | IA Gemini/Local         | Por uso |
+| Bridge | Rust Agent              | GRÁTIS  |
+| GPU    | Aceleração local        | GRÁTIS  |
+
+### Tentacle Architecture (8 Módulos de Integração)
 
 ```text
-🔌 SDK SLOTS
-├── (Core Protegido)
-│   ├── Panda.use()
-│   ├── Panda.version
-│   └── Sandbox
-├── (Slot Data)
-│   ├── Default: Sheets
-│   └── Adapters: MongoDB, Supabase, IndexedDB
-├── (Slot Brain)
-│   ├── Default: Gemini
-│   └── Adapters: Claude, GPT-4, Local Llama
-├── (Slot GPU)
-│   ├── Default: Cloud
-│   └── Adapters: CUDA, WebGPU
-└── (Slot Render/Audio/Network)
-    └── Adapters variados
+js/tentacles/
+├── brain/      ← AI/ML (Gemini, LocalLLM)
+├── social/     ← WhatsApp, Twitter, Meta
+├── trading/    ← cTrader Open API
+├── google/     ← Drive, Sheets, Colab
+├── distribution/ ← PWA, Steam, itch.io
+├── education/  ← Kiwify, Hotmart, Eduzz
+├── github/     ← Pages, JSON DB, Actions
+└── monitor/    ← System Health
 ```
 
-### 4.3. Arquitetura de Tentáculos (SDK Extensions)
-
-> **Modelo:** SDK → Tentáculos → Pais → Filhos
-
-    🐼 pf.sdk.js (ÚNICO)
-
-#### Estrutura de Arquivos
-
-```
-js/tentacles/                         # 8 Integration Modules
-├── brain/                            ← AI/ML
-│   ├── pf.brain-parent.js
-│   └── children/
-│       ├── gemini.js                 ← Gemini API
-│       ├── local-llm.js              ← Ollama/LM Studio
-│       ├── gpu.js                    ← WebGPU detection
-│       └── vision.js                 ← Image analysis
-├── social/                           ← Social Media
-│   ├── pf.social-parent.js
-│   └── children/
-│       ├── whatsapp.js               ← Evolution API/Baileys
-│       ├── twitter.js
-│       ├── youtube.js
-│       ├── meta.js
-│       └── telegram.js
-├── trading/                          ← Financial Markets
-│   ├── pf.trading-parent.js
-│   └── children/ctrader.js           ← cTrader Open API
-├── google/                           ← Google Services
-│   ├── pf.google-parent.js
-│   └── children/
-│       ├── drive.js
-│       ├── sheets.js
-│       ├── colab.js
-│       ├── calendar.js
-│       ├── docs.js
-│       ├── gmail.js
-│       └── youtube.js
-├── distribution/                     ← App Publishing
-│   ├── pf.distribution-parent.js
-│   └── children/
-│       ├── pwa.js
-│       ├── itch.js
-│       ├── steam.js
-│       ├── android.js
-│       ├── ios.js
-│       └── arcade.js
-├── education/                        ← EdTech Platforms
-│   ├── pf.education-parent.js
-│   └── children/
-│       ├── kiwify.js
-│       ├── hotmart.js
-│       └── eduzz.js
-├── github/                           ← GitHub Integration
-│   ├── pf.github-parent.js
-│   └── children/
-│       ├── pages.js                  ← GitHub Pages deploy
-│       ├── jsondb.js                 ← JSON as database
-│       └── actions.js                ← CI/CD workflows
-└── monitor/                          ← System Health
-    └── pf.tentacle-monitor.js        ← Real-time logging
-```
-
-#### TentacleMonitor API
-
-| Método                                | Descrição                  |
-| ------------------------------------- | -------------------------- |
-| `TM.registerTentacle(name)`           | Registra tentáculo         |
-| `TM.registerChild(tentacle, childId)` | Registra filho             |
-| `TM.log(level, source, msg)`          | Log com nível              |
-| `TM.getTree()`                        | Retorna árvore hierárquica |
-| `TM.getLogs(filter)`                  | Logs filtrados             |
-
-#### Benefícios
-
-- **Isolamento:** Se um child falha, o resto continua
-- **Hot-Swap:** Atualizar módulo sem reload
-- **Observabilidade:** DevTools UI (F12) visualiza tudo
+> 📖 **Detalhes completos:** [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md)
 
 ---
 
 ## 5. Backend: Os 3 Pilares
 
-### 5.1. Pilar Rust Agent (Hardware)
-
-Este é o "Corpo Físico" do sistema no PC do usuário. Obrigatório para operações locais.
-
-### 5.1.A. Mapa de Capacidades
-
-```text
-🦀 RUST AGENT
-├── (Papel)
-│   ├── Cache Manager
-│   ├── MCP Server (Tools para IA)
-│   └── Hardware Bridge
-├── (Capacidades)
-│   ├── GPU (CUDA/ROCm)
-│   ├── Files (Read/Write)
-│   ├── DLLs (MetaTrader/Drivers)
-│   ├── Automation (Mouse/Keyboard/OCR)
-│   └── Network (Proxy/VPN)
-└── (Comunicação)
-    └── Firebase Signaling (Heartbeat)
-```
-
-### 5.1.B. Deep Dive: MCP (Model Context Protocol)
-
-O Rust expõe "Tools" que a IA pode invocar:
-
-```rust
-// pf_mcp.rs - Tools disponíveis
-pub enum McpTool {
-    // Filesystem
-    FsRead { path: String },
-    FsWrite { path: String, content: String },
-    FsList { directory: String },
-
-    // GPU
-    GpuCheck,
-    GpuProcess { model: String, input: Vec<f32> },
-
-    // Automation (Bot/Farm)
-    MouseMove { x: i32, y: i32 },
-    KeyboardType { text: String },
-    ScreenCapture { region: Option<Rect> },
-
-    // Network
-    RotateIp,
-    GetFingerprint,
-}
-```
-
-### 5.1.C. RIG Framework (Agentes Complexos)
-
-```rust
-// pf_rig.rs - Suporte multi-provider
-use rig::providers::{gemini, anthropic, openai};
-
-pub struct AgentRunner {
-    providers: HashMap<String, Box<dyn Provider>>,
-}
-
-impl AgentRunner {
-    pub async fn chat(&self, config: AgentConfig) -> Result<String> {
-        let provider = self.providers.get(&config.provider)?;
-        let agent = provider.agent(&config.model)
-            .tool(McpToolset::new())
-            .build();
-
-        let (response, usage) = agent.chat(&config.input).await?;
-        meter::track_usage(usage).await; // Billing
-        Ok(response)
-    }
-}
-```
-
-### 5.1.D. Token Meter & Economy (pf_meter.rs)
-
-Contagem e billing de tokens por provider:
-
-```rust
-pub async fn track_usage(user: &str, provider: &str, model: &str,
-                         tokens_in: u64, tokens_out: u64) {
-    let (_, rate_in, rate_out) = RATES.iter()
-        .find(|(m, _, _)| *m == model)
-        .unwrap_or(&("default", 0.05, 0.20));
-
-    let cost = (tokens_in as f64 / 1000.0) * rate_in
-             + (tokens_out as f64 / 1000.0) * rate_out;
-
-    // Envia para Firebase
-    firebase::push(&format!("pf_cells/{}/usage", user), &TokenUsage {
-        cost_pc: cost,
-        timestamp: chrono::Utc::now().timestamp(),
-        // ...
-    }).await;
-}
-```
-
-### 5.1.E. Suporte Multi-User (Sessões Isoladas)
-
-```rust
-// pf_multiuser.rs
-pub struct MultiUserSession {
-    sessions: HashMap<String, UserSession>,
-}
-
-// Cada request identifica o usuário
-pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response> {
-    let session = sessions.get_session(user_id).ok_or("Auth failed")?;
-
-    // Executa no contexto do usuário
-    let result = execute_in_context(session, command).await?;
-
-    // Billing para o usuário correto
-    meter::track(session, &result.usage).await;
-
-    Ok(result)
-}
-```
-
-### 5.1.F. GPU Detection Flow & Economy
-
-```text
-[SITE PANDA]
-      │
-      ▼
- ┌───────────────┐
- │ AGENT ONLINE? │
- └──────┬────────┘
-        │ Não ───────────────┐
-        │                    │
-        │ Sim                ▼
-        ▼              [CLOUD MODE]
- ┌───────────────┐     (30 PC/h)
- │ DETECTAR GPU  │
- └──────┬────────┘           ▲
-        │                    │
-        ├──── Nenhuma ───────┘
-        │
-        │ Sim (NVIDIA/AMD)
-        ▼
-  [LOCAL MODE]
-  (0 PC/h - GRÁTIS)
-```
-
-### 5.2. Módulos Avançados do Rust Agent
-
-O Rust não é apenas GPU. É a **ponte** para o mundo real do Sistema Operacional:
-
-#### A. Módulo Financeiro & Trade (DLL Bridge)
-
-Plataformas de mercado financeiro (MetaTrader 4/5, Profitchart) só aceitam integração via **DLL Windows**.
-
-- O Rust carrega `mt5.dll` e expõe funções como `OrderSend()` via Firebase.
-- O SaaS Web envia ordens para terminais Desktop legados.
-
-#### B. Módulo RPA / Ghost User
-
-Para sistemas sem API nem DLL (ERPs antigos):
-
-- O Rust controla **Mouse e Teclado** (`enigo`, `winapi`).
-- O SaaS diz "Cadastrar Cliente X". O Rust abre janela, digita e salva.
-
-#### C. Módulo IoT & Hardware
-
-Acesso total a periféricos que o navegador não consegue:
-
-- Impressoras Térmicas (ESC-POS)
-- Balanças de precisão (Porta COM)
-- Leitores Biométricos
-
-#### D. Local AI Intelligence (Offline Brain) 🧠
-
-Para privacidade absoluta:
-
-- O Rust roda **Llama 3 / Mistral** quantizado localmente.
-- PDFs sigilosos são processados no PC. Apenas o resumo vai para a nuvem.
-
-#### E. Filesystem Watcher (Modo Dropbox) 📂
-
-O navegador não monitora pastas. O Rust pode:
-
-- Detecta arquivo novo em `C:\Downloads\Notas`.
-- Faz parse automático e envia para o SaaS: _"Nova NF detectada!"_.
-
-#### F. OS HUD / Overlay (DirectX Hook) 🕹️
-
-Para Traders e Gamers:
-
-- O Rust desenha **Overlay Transparente** sobre outros apps.
-- Mostra "Vendas Hoje: R$ 5.000" sem alt-tab.
-
-#### G. Polyglot Module (Tradução Global) 🌍
-
-O Rust Agent inclui tradução offline para 200 idiomas:
-
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    POLYGLOT - ARQUITETURA                               │
+│                    OS 3 PILARES DO BACKEND                              │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
-│  MODELO: NLLB-200 (Meta AI)                                            │
-│  ├── Tamanho: ~600MB (único arquivo)                                   │
-│  ├── Idiomas: 200+ (PT, EN, ES, FR, DE, 中文, 日本語, العربية...)       │
-│  ├── Qualidade: ★★★★ (Pesquisa Meta)                                   │
-│  └── Runtime: ONNX via `ort` crate                                     │
-│                                                                         │
-│  LEGENDAS: Whisper Base (OpenAI)                                       │
-│  ├── Tamanho: ~140MB                                                   │
-│  ├── Função: Speech-to-Text (STT)                                      │
-│  └── Fluxo: Áudio → Whisper → Texto → NLLB → Legenda traduzida         │
-│                                                                         │
-│  HOSPEDAGEM: Hugging Face Hub (CDN Global, 100% Grátis)                │
-│  └── URL: huggingface.co/facebook/nllb-200-distilled-600M              │
+│  🦀 RUST AGENT           ⚡ FIREBASE              ☁️ GOOGLE APPS SCRIPT │
+│  (Hardware Local)        (Signaling)              (Persistência)        │
+│  ├── GPU/CUDA            ├── Auth                 ├── Sheets DB         │
+│  ├── MCP Server          ├── RTDB Heartbeat       ├── Billing           │
+│  ├── DLL Bridge          └── Status               └── Dispatcher        │
+│  └── Automation                                                         │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Visão Geral
+
+| Pilar          | Responsabilidade                    | Custo     |
+| -------------- | ----------------------------------- | --------- |
+| **Rust Agent** | Hardware local, GPU, MCP, automação | GRÁTIS    |
+| **Firebase**   | Auth, signaling, status online      | Free tier |
+| **GAS**        | Persistência Sheets, billing, sync  | Free tier |
+
+> 📖 **Detalhes completos:** [PF_BACKEND_REFERENCE.md](PF_BACKEND_REFERENCE.md)
+
+---
+
+│ ├── Idiomas: 200+ (PT, EN, ES, FR, DE, 中文, 日本語, العربية...) │
+│ ├── Qualidade: ★★★★ (Pesquisa Meta) │
+│ └── Runtime: ONNX via `ort` crate │
+│ │
+│ LEGENDAS: Whisper Base (OpenAI) │
+│ ├── Tamanho: ~140MB │
+│ ├── Função: Speech-to-Text (STT) │
+│ └── Fluxo: Áudio → Whisper → Texto → NLLB → Legenda traduzida │
+│ │
+│ HOSPEDAGEM: Hugging Face Hub (CDN Global, 100% Grátis) │
+│ └── URL: huggingface.co/facebook/nllb-200-distilled-600M │
+│ │
+└─────────────────────────────────────────────────────────────────────────┘
+
+````
 
 **SDK Integration:**
 
@@ -1313,7 +1146,7 @@ Panda.Polyglot = {
   getSupportedLanguages(),        // string[] (200+)
   localizeUI(langCode)            // void (aplica traduções na UI)
 };
-```
+````
 
 **Por que Local (Rust) e não Cloud?**
 
@@ -2179,8 +2012,8 @@ O PC é **Energy Credit** lastrado em custo computacional real, não especulativ
 #### A. Fórmula Base (Piso Inviolável)
 
 ```text
-Preço_Base = Custo_Cloud_Médio × 2.5
-Exemplo: $0.10/hora × 2.5 = $0.25/hora ≈ 1000 PC
+Preço_Base = Custo_Cloud_Médio × 4.0
+Exemplo: $0.0025/PC custo × 4.0 = $0.01/PC (1 centavo)
 ```
 
 #### B. Split de Receita (Transações)
@@ -2310,7 +2143,7 @@ A economia é gerida por um sistema de pesos e contrapesos para garantir longevi
 
 ```text
 CAMADA 1: HARDCODE (A Constituição Imutável)
-[Piso 2.5x] [Founder 5%] [Min Fundo 15%]
+[Piso 4.0x] [Founder 5%] [Min Fundo 15%]
       │
       ▼
 CAMADA 2: DAO (O Congresso Político)
@@ -2335,7 +2168,7 @@ _Imutáveis. Smart Contract Nível Supremo._
 | **2. Panda Labs**     | `25% do Fundo → Educação`         | Verba garantida para University/Inovação                      |
 | **3. Reserva Ops**    | `20% do Lucro Ops → Caixa`        | Fundo de Emergência (Incide sobre Split Panda)                |
 | **4. Crescimento**    | `65% do Fundo → Ação`             | Subsídios, Viralização e Eventos (Gestão IA)                  |
-| **5. Piso Preço**     | `2.5x` (Min `1.25x`)              | Solvência. Permite descontos progressivos (até 50%)           |
+| **5. Piso Preço**     | `4.0x` (Min `2.8x`)               | Solvência. Permite descontos progressivos (até 30%)           |
 | **6. Founder Fee**    | `5%` Bruto Eterno                 | Direito do Criador ("Satoshi Fee")                            |
 | **7. Garantia Host**  | `90% a 95%` (Taxa P2P 5-10%)      | Blinda a descentralização contra taxas abusivas               |
 | **8. Reserva Fundo**  | `Max 10%` (Excedente = Reinveste) | Estabilidade. Sobra reforça Labs e Subsídios (PAT)            |
@@ -2463,17 +2296,15 @@ Para produtores que vendem cursos/acessos externos:
 
 ### 12.2. Mapa da Documentação
 
-| Documento                            | Descrição                             |
-| ------------------------------------ | ------------------------------------- |
-| `PF_MASTER_ARCHITECTURE.md`          | Este arquivo (A Bíblia completa)      |
-| `PF_SDK_REFERENCE.md`                | API Reference da biblioteca Panda SDK |
-| `PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Plugins e sistema modular             |
-| `PF_CTRADER_REFERENCE.md`            | Integração cTrader Open API           |
-| `PF_GAS_REFERENCE.md`                | Backend Google Apps Script            |
-| `PF_CSS_REFERENCE.md`                | Design System                         |
-| `PF_HTML_REFERENCE.md`               | Componentes HTML                      |
-| `.agent/PANDA.md`                    | Codex Central (ler primeiro)          |
-| `README.md`                          | Entry point para devs novatos         |
+| Documento                            | Descrição                                 |
+| ------------------------------------ | ----------------------------------------- |
+| `PF_MASTER_ARCHITECTURE.md`          | Este arquivo (A Bíblia completa)          |
+| `PF_SDK_REFERENCE.md`                | API Reference da biblioteca Panda SDK     |
+| `PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Plugins e sistema modular (incl. cTrader) |
+| `PF_GAS_REFERENCE.md`                | Backend Google Apps Script                |
+| `PF_UI_REFERENCE.md`                 | Design System (CSS + HTML + JAM)          |
+| `.agent/PANDA.md`                    | Codex Central (ler primeiro)              |
+| `README.md`                          | Entry point para devs novatos             |
 
 ---
 
@@ -2529,7 +2360,7 @@ O Trading Hub conecta o Panda Factory ao mercado financeiro via cTrader Open API
 | AI Analysis | 30 PC       |
 | Backtesting | 100 PC/run  |
 
-> 📖 **Referência detalhada:** [PF_CTRADER_REFERENCE.md](PF_CTRADER_REFERENCE.md)
+> 📖 **Referência detalhada:** [PF_PLUGIN_AND_MODULAR_REFERENCE.md](PF_PLUGIN_AND_MODULAR_REFERENCE.md)
 
 ---
 
@@ -3840,16 +3671,116 @@ const otp = crypto.getRandomValues(new Uint32Array(1))[0] % 1000000;
       - Panda.Crypto.secureRandom()
 ```
 
-##### Cobertura Final: 11 Regras = ~95%
+##### 🔴 REGRA 12: IA Externa Não Autorizada (PROTEÇÃO DE RECEITA)
 
-| Categoria         |   Regras   | Cobertura |
-| :---------------- | :--------: | :-------: |
-| **XSS/Injeção**   | R1, R2, R3 |    95%    |
-| **Exfiltração**   | R4, R5, R6 |    90%    |
-| **Cryptojacking** |     R7     |    85%    |
-| **Malware**       |     R8     |    75%    |
-| **RCE**           |   R1, R9   |    90%    |
-| **Credentials**   |  R10, R11  |    90%    |
+**O que é:** Chamadas diretas a APIs de IA (OpenAI, Anthropic, etc) sem passar pelo Panda.Brain
+**Por que bloqueia:** Bypass do sistema de billing, roubo de receita do ecossistema
+
+```javascript
+// ❌ BLOQUEADO - Chamada direta (bypass billing)
+fetch("https://api.openai.com/v1/chat/completions", {
+  headers: { Authorization: "Bearer sk-..." },
+});
+fetch("https://api.anthropic.com/v1/messages", { ... });
+fetch("https://generativelanguage.googleapis.com/v1/models", { ... });
+
+// ✅ PERMITIDO - Via Panda (billing automático)
+const response = await Panda.Brain.chat("Olá!", {
+  model: "gemini-3-flash-preview", // Debita PC automaticamente
+});
+
+// ✅ PERMITIDO - BYOL (chave do USUÁRIO, não hardcoded)
+const response = await Panda.Brain.chat("Olá!", {
+  provider: "openai",
+  byol: true, // Usuário configura sua key nas settings
+});
+```
+
+```yaml
+- id: panda-no-external-ai-bypass
+  pattern-either:
+    - pattern: fetch("https://api.openai.com/...", ...)
+    - pattern: fetch("https://api.anthropic.com/...", ...)
+    - pattern: fetch("https://generativelanguage.googleapis.com/...", ...)
+    - pattern: fetch("https://api.mistral.ai/...", ...)
+    - pattern: fetch("https://api.cohere.ai/...", ...)
+  message: "IA externa direta proibida - use Panda.Brain.chat()"
+  severity: ERROR
+  metadata:
+    reason: "Proteção de receita - todo uso de IA deve passar pelo billing"
+    allowed-alternative: "Panda.Brain.chat() com byol: true para BYOL"
+```
+
+##### 🔴 REGRA 13: Bypass de Billing (PROTEÇÃO DE RECEITA)
+
+**O que é:** Usar serviços pagos sem debitar Panda Coins
+**Por que bloqueia:** Consome recursos sem pagar, quebra modelo econômico
+
+```javascript
+// ❌ BLOQUEADO - Serviço pago sem billing
+await cloudService.runGPU(data); // Sem Panda.Wallet.charge()
+await externalAPI.process(image); // Custo não contabilizado
+
+// ✅ PERMITIDO - Com billing
+await Panda.Wallet.charge(50, "gpu_processing"); // Debita 50 PC
+await Panda.GPU.process(data); // Billing embutido
+
+// ✅ PERMITIDO - Serviços grátis
+await Panda.Storage.save(data); // Grátis
+await Panda.Brain.chat("Oi", { model: "gemini-3-flash-preview" }); // Free tier
+```
+
+```yaml
+- id: panda-billing-enforcement
+  pattern-either:
+    - pattern: $GPU.process(...) # Sem Panda.GPU wrapper
+    - pattern: $AI.generate(...) # Sem Panda.Brain wrapper
+  message: "Serviço pago deve usar wrapper Panda com billing"
+  severity: WARNING
+  metadata:
+    enforcement: "Behavior monitor detecta uso real vs billing"
+```
+
+##### 🔴 REGRA 14: MCP Manifest Obrigatório
+
+**O que é:** Todo plugin DEVE ter arquivo `panda.mcp.json`
+**Por que bloqueia:** Sem MCP, IA não entende o plugin = não integra no ecossistema
+
+```text
+❌ BLOQUEADO (Não publica na Store):
+my-plugin/
+├── main.js
+└── README.md          # Sem panda.mcp.json!
+
+✅ PERMITIDO:
+my-plugin/
+├── panda.mcp.json     # OBRIGATÓRIO
+├── main.js
+└── README.md
+```
+
+```yaml
+- id: panda-mcp-required
+  pattern: "file-exists: panda.mcp.json"
+  message: "Plugin DEVE ter panda.mcp.json"
+  severity: ERROR
+  metadata:
+    spec: "PF_MCP_MANIFEST_SPEC.md"
+    reason: "MCP é o diferencial do Panda - integração plug-and-play"
+```
+
+##### Cobertura Final: 14 Regras = ~97%
+
+| Categoria            |   Regras   | Cobertura |
+| :------------------- | :--------: | :-------: |
+| **XSS/Injeção**      | R1, R2, R3 |    95%    |
+| **Exfiltração**      | R4, R5, R6 |    90%    |
+| **Cryptojacking**    |     R7     |    85%    |
+| **Malware**          |     R8     |    75%    |
+| **RCE**              |   R1, R9   |    90%    |
+| **Credentials**      |  R10, R11  |    90%    |
+| **Proteção Receita** |  R12, R13  |    95%    |
+| **Integração MCP**   |    R14     |   100%    |
 
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ ⚠️ REGRAS DE ALERTA (Score -10 cada) │
@@ -3921,7 +3852,7 @@ const otp = crypto.getRandomValues(new Uint32Array(1))[0] % 1000000;
     "usd": 5.0
   }
 }
-````
+```
 
 #### E. Dashboard Panda Defend (Founder)
 
@@ -3996,3 +3927,8 @@ const otp = crypto.getRandomValues(new Uint32Array(1))[0] % 1000000;
 ---
 
 > _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_
+
+```
+
+```
+````
