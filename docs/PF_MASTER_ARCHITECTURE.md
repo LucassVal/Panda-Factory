@@ -2405,9 +2405,11 @@ Sistema modular de plugins para gestão de redes sociais.
 
 ```text
 Venda de Plugin (100 PC):
-├── Dev (Criador)     → 70 PC (70%)
-├── Panda Factory     → 25 PC (25%)
-└── Founder           →  5 PC (5%)
+├── Dev (Criador)     → 52 PC (52%)
+├── Panda Educação    → 25 PC (25%)
+├── Panda Operacional → 15 PC (15%)
+├── Founder           →  5 PC (5%)
+└── Gateway/GAS       →  3 PC (3%)
 ```
 
 > 📖 **Referência detalhada:** [PF_PLUGIN_AND_MODULAR_REFERENCE.md](PF_PLUGIN_AND_MODULAR_REFERENCE.md)

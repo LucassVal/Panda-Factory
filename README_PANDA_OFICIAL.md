@@ -17,6 +17,8 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 - 🛒 **Medusa Store** — Marketplace de plugins (gratuitos e pagos)
 - 🔌 **Zero Barrier** — Devs integram grátis, monetização no usuário final
 - 🚀 **Multi-Plataforma** — Web, Desktop (Tauri), Mobile (PWA)
+- 🔄 **SDK Bidirecional** — Hooks inbound (Kiwify, Hotmart) e outbound (PlayStore, Steam)
+- ⚡ **GAS Tri-Mode** — Backend único: JSON API + WEB pages + MCP manifest
 
 ---
 
@@ -37,7 +39,7 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 | Tier           | Benefício                   |
 | -------------- | --------------------------- |
 | 🆓 **Free**    | 500k tokens/mês grátis      |
-| 💰 **Ganhe**   | Venda plugins, 70% pra você |
+| 💰 **Ganhe**   | Venda plugins, 52% pra você |
 | 🏆 **Top 100** | 30% desconto vitalício      |
 
 ---
