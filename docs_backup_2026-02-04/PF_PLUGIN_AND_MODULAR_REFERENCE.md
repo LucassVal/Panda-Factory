@@ -6,11 +6,11 @@
 
 ## 📋 Índice
 
-1. [Arquitetura Modular](#1-arquitetura-modular)
-2. [Plugins Oficiais](#2-plugins-oficiais)
-3. [Como Criar um Plugin](#3-como-criar-um-plugin)
-4. [Marketplace](#4-marketplace)
-5. [Integração SDK](#5-integração-sdk)
+1. [Arquitetura Modular](#arquitetura-modular)
+2. [Plugins Oficiais](#plugins-oficiais)
+3. [Como Criar um Plugin](#como-criar-um-plugin)
+4. [Marketplace](#marketplace)
+5. [Integração SDK](#integração-sdk)
 
 ---
 
@@ -294,11 +294,215 @@ Panda.UI.modal({
 
 ---
 
+## 6. cTrader Open API Reference
+
+> **Fonte:** [cTrader Open API Docs](https://help.ctrader.com/open-api/)
+
+### 6.1. Visão Geral
+
+cTrader Open API permite criar aplicações que enviam/recebem dados do backend cTrader.
+
+**Casos de Uso:**
+
+- Trading app customizado
+- Bot Telegram/Discord
+- App mobile com AI
+- Integração com Panda Factory
+
+**Formato de Dados:**
+
+| Porta    | Formato          |
+| -------- | ---------------- |
+| **5035** | Protocol Buffers |
+| **5036** | JSON             |
+
+> ⚠️ **Panda usa porta 5036 (JSON)** para simplicidade.
+
+### 6.2. Conexão
+
+**Endpoints WebSocket:**
+
+| Ambiente | URL                              |
+| -------- | -------------------------------- |
+| **Demo** | `wss://demo.ctraderapi.com:5036` |
+| **Live** | `wss://live.ctraderapi.com:5036` |
+
+**Rate Limits:**
+
+- Normal requests: 50/segundo por conexão
+- Historical data: 5/segundo por conexão
+
+### 6.3. Autenticação
+
+**Fluxo OAuth:**
+
+```text
+┌──────────────┐        ┌──────────────┐        ┌──────────────┐
+│   Usuário    │───────►│   Panda App  │───────►│   cTrader    │
+│              │  OAuth │              │  Token │   Backend    │
+└──────────────┘        └──────────────┘        └──────────────┘
+```
+
+**Credenciais Panda (Antigravity App):**
+
+| Chave         | Variável .env           |
+| ------------- | ----------------------- |
+| Client ID     | `CTRADER_CLIENT_ID`     |
+| Client Secret | `CTRADER_SECRET`        |
+| Access Token  | `CTRADER_ACCESS_TOKEN`  |
+| Refresh Token | `CTRADER_REFRESH_TOKEN` |
+
+**Fluxo:**
+
+1. App Auth (2100 → 2101)
+2. List Accounts (2149 → 2150)
+3. Account Auth (2102 → 2103)
+
+### 6.4. Mensagens
+
+**Formato JSON:**
+
+```json
+{
+  "clientMsgId": "unique_id",
+  "payloadType": 2100,
+  "payload": {
+    "clientId": "...",
+    "clientSecret": "..."
+  }
+}
+```
+
+**PayloadTypes Principais:**
+
+| Código | Nome                                  | Descrição           |
+| ------ | ------------------------------------- | ------------------- |
+| 2100   | ProtoOAApplicationAuthReq             | Auth da app         |
+| 2101   | ProtoOAApplicationAuthRes             | Resposta auth app   |
+| 2102   | ProtoOAAccountAuthReq                 | Auth da conta       |
+| 2103   | ProtoOAAccountAuthRes                 | Resposta auth conta |
+| 2114   | ProtoOASymbolByIdReq                  | Info do símbolo     |
+| 2123   | ProtoOASubscribeSpotsReq              | Subscribe preços    |
+| 2124   | ProtoOASpotEvent                      | Evento de preço     |
+| 2126   | ProtoOANewOrderReq                    | Nova ordem          |
+| 2127   | ProtoOAExecutionEvent                 | Evento execução     |
+| 2128   | ProtoOAClosePositionReq               | Fechar posição      |
+| 2130   | ProtoOAAmendPositionSLTPReq           | Modificar SL/TP     |
+| 2132   | ProtoOAReconcileReq                   | Listar posições     |
+| 2134   | ProtoOAGetTrendbarsReq                | Dados históricos    |
+| 2142   | ProtoOAErrorRes                       | Resposta de erro    |
+| 2149   | ProtoOAGetAccountListByAccessTokenReq | Listar contas       |
+| 2150   | ProtoOAGetAccountListByAccessTokenRes | Resposta contas     |
+
+### 6.5. Market Data
+
+**Subscribe Spots (Preços Real-time):**
+
+```json
+{
+  "payloadType": 2123,
+  "payload": {
+    "ctidTraderAccountId": 45208457,
+    "symbolId": [1]
+  }
+}
+```
+
+**Períodos Disponíveis:**
+`M1, M2, M3, M4, M5, M10, M15, M30, H1, H4, H12, D1, W1, MN1`
+
+### 6.6. Trading
+
+**Nova Ordem (Market):**
+
+```json
+{
+  "payloadType": 2126,
+  "payload": {
+    "ctidTraderAccountId": 45208457,
+    "symbolId": 1,
+    "orderType": "MARKET",
+    "tradeSide": "BUY",
+    "volume": 10000,
+    "stopLoss": 1.083,
+    "takeProfit": 1.092,
+    "comment": "Panda Trading"
+  }
+}
+```
+
+**Order Types:**
+
+| Tipo       | Descrição         |
+| ---------- | ----------------- |
+| MARKET     | Execução imediata |
+| LIMIT      | Preço limite      |
+| STOP       | Stop order        |
+| STOP_LIMIT | Stop com limite   |
+
+**Trade Sides:**
+
+| Side | Descrição     |
+| ---- | ------------- |
+| BUY  | Compra (long) |
+| SELL | Venda (short) |
+
+**Volume:**
+
+- Volume em **centavos** (10000 = 0.01 lote)
+- 100000 = 0.1 lote
+- 1000000 = 1.0 lote
+
+### 6.7. Uso no SDK
+
+```javascript
+// Configurar
+Panda.CTrader.configure(
+  process.env.CTRADER_CLIENT_ID,
+  process.env.CTRADER_SECRET,
+  process.env.CTRADER_ACCESS_TOKEN,
+);
+
+// Conectar
+await Panda.CTrader.connect(true); // true = demo
+
+// Trading
+await Panda.CTrader.trade(
+  {
+    symbolId: 1,
+    type: "MARKET",
+    side: "BUY",
+    volume: 10000,
+  },
+  45208457,
+);
+
+// AI Analysis
+const analysis = await Panda.CTrader.AISignals.generate("EURUSD");
+```
+
+**Contas Disponíveis (Antigravity):**
+
+| ID       | Tipo | Status      |
+| -------- | ---- | ----------- |
+| 45208457 | Demo | ✅ Testado  |
+| 45208965 | Live | Não testado |
+| 45208968 | Live | Não testado |
+
+### Links cTrader
+
+- [Documentação Oficial](https://help.ctrader.com/open-api/)
+- [Mensagens Reference](https://help.ctrader.com/open-api/messages/)
+- [Portal de Apps](https://openapi.ctrader.com/apps/)
+
+---
+
 ## Arquivos Relacionados
 
 | Arquivo                          | Descrição          |
 | -------------------------------- | ------------------ |
 | `js/social/pf.social-*.js`       | Plugins Social Hub |
+| `js/trading/pf.ctrader-*.js`     | Plugins Trading    |
 | `js/integrations/pf.*.js`        | Integrations SDK   |
 | `js/core/pf.workflow-builder.js` | Workflow Builder   |
 | `js/pf.sdk.js`                   | SDK principal      |
@@ -308,5 +512,6 @@ Panda.UI.modal({
 > 📖 **Referências:**
 >
 > - [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md) - API do SDK
-> - [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) - Economia PC
+> - [PF_TOKENOMICS_REFERENCE.md](PF_TOKENOMICS_REFERENCE.md) - Economia PC
 > - [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) - Arquitetura completa
+> - [PANDA.md](../.agent/PANDA.md) - Codex Central

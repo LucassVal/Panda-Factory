@@ -1,7 +1,7 @@
 # ☁️ PF_COLAB_REFERENCE - Google Colab Integration
 
 > **Versão:** 1.0.0 | **Atualizado:** 2026-02-03
-> **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) | [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md)
+> **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) | [PF_TECHS_SDK.md](PF_TECHS_SDK.md)
 
 ---
 
@@ -309,7 +309,7 @@ Tarefas administrativas que o Founder pode executar no SEU Colab pessoal:
 ## 📎 Cross-References
 
 - [PF_MASTER_ARCHITECTURE.md §1.3](PF_MASTER_ARCHITECTURE.md) - Dual Cloud Strategy
-- [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md) - Stack tecnológico
+- [PF_TECHS_SDK.md](PF_TECHS_SDK.md) - Stack tecnológico
 - [PF_GEMINI_REFERENCE.md](PF_GEMINI_REFERENCE.md) - AI Integration
 
 ---

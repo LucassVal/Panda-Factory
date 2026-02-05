@@ -15,9 +15,9 @@ O Panda Council é um **sistema de governança autônoma** para desenvolvimento 
 
 | Capability                 | Implementation             | Reference                        |
 | -------------------------- | -------------------------- | -------------------------------- |
-| **Single Source of Truth** | README_PANDA_OFICIAL.md    | Índice master de 30+ docs        |
+| **Single Source of Truth** | README_PANDA_OFICIAL.md    | Índice master de 16 docs         |
 | **Layered Architecture**   | 5 camadas de abstração     | PF_MASTER_ARCHITECTURE.md        |
-| **Security Gates**         | Ed25519 + PAT Constitution | PF_AUTH_REFERENCE.md             |
+| **Security Gates**         | Ed25519 + PAT Constitution | PF_ECONOMY_REFERENCE.md          |
 | **Auto-Documentation**     | DDD (Doc-Driven Dev)       | Criação obrigatória de PF\_\*.md |
 
 ---
@@ -28,36 +28,39 @@ O Panda Council é um **sistema de governança autônoma** para desenvolvimento 
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DOCUMENT HIERARCHY                                │
+│                    DOCUMENT HIERARCHY (16 DOCS)                      │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
 │  L0: MASTER INDEX                                                   │
-│  └── README_PANDA_OFICIAL.md (30 docs indexados)                   │
+│  └── README_PANDA_OFICIAL.md (16 docs indexados)                   │
 │                                                                      │
 │  L1: ARCHITECTURE LAYER                                             │
-│  ├── PF_MASTER_ARCHITECTURE.md (~212KB, 4000+ lines)               │
-│  ├── DUAL_REPO_ARCHITECTURE.md (Private/Public split)              │
-│  └── PF_HEALTH_STATUS.md (System monitoring)                       │
+│  └── PF_MASTER_ARCHITECTURE.md (~208KB, 3200+ lines)               │
 │                                                                      │
-│  L2: GOVERNANCE LAYER                                               │
-│  ├── PF_AGENT_CONSTITUTION.md (Public AI rules)                    │
-│  ├── PF_PAT_FOUNDER_CONSTITUTION.md (Founder AI - ISOLATED)        │
-│  └── PF_GOVERNANCE_REFERENCE.md (12 Artigos, PAT, Council)         │
+│  L2: FRONTEND LAYER                                                 │
+│  ├── PF_SDK_REFERENCE.md (Tentacles, Event Bus)                    │
+│  └── PF_UI_REFERENCE.md (Design System + Componentes)              │
 │                                                                      │
-│  L3: IMPLEMENTATION LAYER                                           │
-│  ├── Frontend: PF_SDK, PF_HTML, PF_CSS, PF_UI, PF_JAM_COMPONENTS   │
-│  ├── Backend: PF_GAS, PF_FIREBASE, PF_RUST, PF_MCP, PF_BACKEND     │
-│  └── AI: PF_GEMINI, PF_MOLTBOOK, PF_COLAB                          │
+│  L3: BACKEND LAYER                                                  │
+│  ├── PF_BACKEND_REFERENCE.md (Backend geral + Firebase + Rust)     │
+│  ├── PF_GAS_REFERENCE.md (Google Apps Script)                      │
+│  └── PF_MCP_REFERENCE.md (Model Context Protocol)                  │
 │                                                                      │
-│  L4: BUSINESS LAYER                                                 │
-│  ├── PF_TOKENOMICS_REFERENCE.md (Panda Coin economics)             │
-│  ├── PF_TRADING_REFERENCE.md (cTrader integration)                 │
-│  └── PF_SOCIAL_REFERENCE.md (Social Hub)                           │
+│  L4: AI LAYER                                                       │
+│  ├── PF_GEMINI_REFERENCE.md (Gemini 2.0)                           │
+│  ├── PF_MOLTBOOK_REFERENCE.md (Social AI)                          │
+│  ├── PF_COLAB_REFERENCE.md (GPU/ML)                                │
+│  └── PF_AGENT_CONSTITUTION.md (Persona IA)                         │
 │                                                                      │
-│  L5: ECOSYSTEM LAYER                                                │
-│  ├── PF_PLUGIN_AND_MODULAR_REFERENCE.md                            │
+│  L5: ECONOMY LAYER                                                  │
+│  ├── PF_ECONOMY_REFERENCE.md (Tokenomics + Governance + PAT)       │
+│  ├── PF_SOCIAL_REFERENCE.md (Social Hub)                           │
+│  └── PF_EDUCATION_REFERENCE.md (EdTech)                            │
+│                                                                      │
+│  L6: ECOSYSTEM LAYER                                                │
+│  ├── PF_PLUGIN_AND_MODULAR_REFERENCE.md (Plugins + cTrader)        │
 │  ├── PF_MEDUSA_REFERENCE.md (Store)                                │
-│  └── PF_OPENSOURCE_CATALOG.md                                       │
+│  └── PF_OPENSOURCE_CATALOG.md (Catálogo OSS)                       │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -74,16 +77,15 @@ const CONTEXT_PRIORITY = {
     "PF_MASTER_ARCHITECTURE.md", // System map
   ],
   LOAD_ON_CONTEXT: {
-    security: [
-      "PF_AUTH_REFERENCE",
-      "PF_GOVERNANCE_REFERENCE",
-      "PF_PAT_FOUNDER_CONSTITUTION",
+    frontend: ["PF_SDK_REFERENCE", "PF_UI_REFERENCE"],
+    backend: ["PF_BACKEND_REFERENCE", "PF_GAS_REFERENCE", "PF_MCP_REFERENCE"],
+    ai: [
+      "PF_GEMINI_REFERENCE",
+      "PF_AGENT_CONSTITUTION",
+      "PF_MOLTBOOK_REFERENCE",
     ],
-    frontend: ["PF_SDK", "PF_HTML", "PF_CSS", "PF_JAM_COMPONENTS"],
-    backend: ["PF_GAS", "PF_FIREBASE", "PF_RUST", "PF_MCP"],
-    ai: ["PF_GEMINI", "PF_AGENT_CONSTITUTION", "PF_MOLTBOOK"],
-    business: ["PF_TOKENOMICS", "PF_TRADING", "PF_SOCIAL"],
-    plugins: ["PF_PLUGIN_AND_MODULAR", "PF_MEDUSA"],
+    economy: ["PF_ECONOMY_REFERENCE"],
+    plugins: ["PF_PLUGIN_AND_MODULAR_REFERENCE", "PF_MEDUSA_REFERENCE"],
   },
 };
 ```
@@ -103,27 +105,27 @@ FOUNDER ORDER: [ORDEM DIRETA DO USUÁRIO]
 │                                                                      │
 │  🛠️ TECH (Implementation)                                           │
 │  ├── Trigger: código, componente, bug, feature, SDK                 │
-│  ├── Docs: PF_SDK, PF_HTML, PF_GAS, PF_RUST                        │
+│  ├── Docs: PF_SDK_REFERENCE, PF_UI_REFERENCE, PF_BACKEND_REFERENCE │
 │  └── Auto-approve: ✅ (turbo-all)                                   │
 │                                                                      │
 │  🔐 SECURITY (Auth/Governance)                                      │
 │  ├── Trigger: auth, Ed25519, PAT, constitution, secrets             │
-│  ├── Docs: PF_AUTH, PF_GOVERNANCE, PF_PAT_FOUNDER_CONSTITUTION     │
+│  ├── Docs: PF_ECONOMY_REFERENCE (§10-12)                           │
 │  └── Auto-approve: ❌ (require Founder confirmation)                │
 │                                                                      │
 │  💰 PAT/TREASURY (Economic)                                         │
 │  ├── Trigger: tokens, transfer, wallet, mint, burn                  │
-│  ├── Docs: PF_TOKENOMICS, PF_GOVERNANCE                            │
+│  ├── Docs: PF_ECONOMY_REFERENCE                                    │
 │  └── Auto-approve: ❌ (require Ed25519 signature)                   │
 │                                                                      │
 │  🌐 COMMUNITY (Public-facing)                                       │
 │  ├── Trigger: post, moltbook, social, docs públicos                 │
-│  ├── Docs: PF_MOLTBOOK, PF_SOCIAL, PF_AGENT_CONSTITUTION           │
+│  ├── Docs: PF_MOLTBOOK_REFERENCE, PF_SOCIAL_REFERENCE              │
 │  └── Auto-approve: ✅ (follow constitution)                         │
 │                                                                      │
 │  📄 DOCUMENTATION (Meta)                                            │
 │  ├── Trigger: doc, reference, readme, architecture                  │
-│  ├── Docs: README_PANDA_OFICIAL, PANDA_MASTER_REFERENCE            │
+│  ├── Docs: README_PANDA_OFICIAL, PF_MASTER_ARCHITECTURE            │
 │  └── Auto-approve: ✅ (turbo-all)                                   │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
@@ -135,12 +137,11 @@ FOUNDER ORDER: [ORDEM DIRETA DO USUÁRIO]
 
 ### 2.1 Pre-flight Checks
 
-| Check                       | Validation                | Action if Failed                               |
-| --------------------------- | ------------------------- | ---------------------------------------------- |
-| **Repo Classification**     | DUAL_REPO_ARCHITECTURE.md | Verificar se código é 🔒 Privado ou 🌐 Público |
-| **Secrets Scan**            | `data/secrets/`, `.env`   | HALT se secrets vazam para repo público        |
-| **Constitution Compliance** | PF_AGENT_CONSTITUTION.md  | Pausar e pedir confirmação se violar Artigo V  |
-| **Doc Coverage**            | README_PANDA_OFICIAL.md   | Criar PF\_\*\_REFERENCE.md se nova tecnologia  |
+| Check                       | Validation               | Action if Failed                              |
+| --------------------------- | ------------------------ | --------------------------------------------- |
+| **Secrets Scan**            | `data/secrets/`, `.env`  | HALT se secrets vazam para repo público       |
+| **Constitution Compliance** | PF_AGENT_CONSTITUTION.md | Pausar e pedir confirmação se violar Artigo V |
+| **Doc Coverage**            | README_PANDA_OFICIAL.md  | Criar PF\_\*\_REFERENCE.md se nova tecnologia |
 
 ### 2.2 Implementation Standards
 
@@ -151,7 +152,7 @@ FOUNDER ORDER: [ORDEM DIRETA DO USUÁRIO]
 │                    CODING STANDARDS                                  │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│  FRONTEND (PF_HTML_REFERENCE.md)                                    │
+│  FRONTEND (PF_UI_REFERENCE.md)                                      │
 │  ├── IDs: kebab-case (ex: panda-header-nav)                        │
 │  ├── Classes: BEM notation (block__element--modifier)               │
 │  └── Events: Panda.Events.emit('category:action')                  │
@@ -221,19 +222,6 @@ END
 - Constitution Compliance: [✅ Passed / ❌ Violation detected]
 - Security Gate: [✅ Passed / ⚠️ Review required]
 - Secrets Scan: [✅ Clean / 🔴 HALT]
-
-### 📊 ROADMAP STATUS (Feb/2026)
-
-| Module         | Status | Progress |
-| -------------- | ------ | -------- |
-| Core SDK       | 🟢     | 85%      |
-| Rust Agent MCP | 🟡     | 60%      |
-| 3 AI Cores     | 🟡     | 70%      |
-| Medusa Store   | 🔴     | 0%       |
-
-### ⏭️ NEXT ACTION
-
-"[Descrição do próximo passo automático ou aguardando input]"
 ```
 
 ---
@@ -259,7 +247,7 @@ END
 │  EU SOU:                                                            │
 │  ├── Uma extensão do Founder (não independente)                    │
 │  ├── Governado por PF_AGENT_CONSTITUTION.md (Public AI)            │
-│  └── Limitado pelos 12 Artigos de PF_GOVERNANCE_REFERENCE.md       │
+│  └── Limitado pelos 14 Artigos de PF_ECONOMY_REFERENCE.md          │
 │                                                                      │
 │  EU NÃO SOU:                                                        │
 │  ├── O PAT (IA do Founder - isolada, regras próprias)              │

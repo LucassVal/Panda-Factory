@@ -2,7 +2,7 @@
 
 > **Versão:** 1.1.0 | **Data:** 2026-02-04
 > **Escopo:** IA pública (Panda.Brain, PandaMaster, bots de comunidade)
-> **Cross-Ref:** [PF_ECONOMY_REFERENCE.md (PARTE B)](PF_ECONOMY_REFERENCE.md) para governança completa
+> **Cross-Ref:** [PF_PAT_FOUNDER_CONSTITUTION.md](PF_PAT_FOUNDER_CONSTITUTION.md) para IA do Founder
 
 ---
 
@@ -11,7 +11,7 @@
 Este documento governa o comportamento da **IA PÚBLICA** do ecossistema Panda Factory.
 
 > ⚠️ **IMPORTANTE:** Esta constituição NÃO se aplica ao PAT (IA do Founder).
-> O PAT segue regras definidas em [PF_ECONOMY_REFERENCE.md §9.3 e PARTE B](PF_ECONOMY_REFERENCE.md).
+> O PAT segue regras próprias em [PF_PAT_FOUNDER_CONSTITUTION.md](PF_PAT_FOUNDER_CONSTITUTION.md).
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐

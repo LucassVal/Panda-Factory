@@ -57,7 +57,7 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 
 ---
 
-## 📚 DOCUMENTAÇÃO (19 Docs Consolidados)
+## 📚 DOCUMENTAÇÃO (18 Docs Consolidados)
 
 ### 🏛️ Core (Start Here)
 
@@ -78,10 +78,9 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 | Arquivo                                                 | Descrição                           |
 | ------------------------------------------------------- | ----------------------------------- |
 | [PF_BACKEND_REFERENCE.md](docs/PF_BACKEND_REFERENCE.md) | **Backend geral + Firebase + Rust** |
-| [PF_PARTNER_REFERENCE.md](docs/PF_PARTNER_REFERENCE.md) | **Partner Mode + Mining + Phantom** |
+| [PF_P2P_REFERENCE.md](docs/PF_P2P_REFERENCE.md)         | **P2P + Partner + Nodes + Mining**  |
 | [PF_GAS_REFERENCE.md](docs/PF_GAS_REFERENCE.md)         | Google Apps Script (Tri-Mode)       |
 | [PF_MCP_REFERENCE.md](docs/PF_MCP_REFERENCE.md)         | Model Context Protocol              |
-| [PF_P2P_REFERENCE.md](docs/PF_P2P_REFERENCE.md)         | **P2P Compute + Nodes + Mining**    |
 
 ### 🤖 AI & Integrations
 

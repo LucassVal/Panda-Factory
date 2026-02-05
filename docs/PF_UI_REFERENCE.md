@@ -2,7 +2,7 @@
 
 > **Versão:** 1.0.0 | **Atualizado:** 2026-02-02
 > **Referência:** `jam/src/styles/jam.css` (1933 linhas)
-> **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md §3](PF_MASTER_ARCHITECTURE.md#3-camada-frontend) | [PF_CSS_REFERENCE.md](PF_CSS_REFERENCE.md) | [PF_JAM_COMPONENTS.md](PF_JAM_COMPONENTS.md)
+> **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md §3](PF_MASTER_ARCHITECTURE.md#3-camada-frontend)
 
 ---
 
@@ -248,6 +248,62 @@ Total: ~68px
 }
 ```
 
+### 5.1 Role-Based Dock Items
+
+> **Decisão:** UI varia conforme `Panda.Auth.getRole()`
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DOCK POR ROLE                                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  TODOS (Role 1, 2, 3):                                                  │
+│  ├── 🎨 Ferramentas → abre Right Toolbar (TLDraw)                       │
+│  ├── 📁 Catálogo → abre modal de catálogo                               │
+│  └── 🧩 Plugins → plugins instalados do usuário                         │
+│                                                                          │
+│  DEV (Role ≤ 2):                                                        │
+│  └── 🔧 Dev Mode → abre JamDevPanel                                     │
+│       ├── 🧰 MCP Browser (ver tools disponíveis)                        │
+│       ├── 🦀 RIG Status (Rust Agent + GPU)                              │
+│       └── 📊 Plugin Status (validação panda.mcp.json)                   │
+│                                                                          │
+│  FOUNDER (Role = 1):                                                    │
+│  └── 👑 Admin → abre JamAdminPanel                                      │
+│       ├── 📊 Dashboard (stats do ecossistema)                           │
+│       ├── 🏦 Treasury (wallet + mint/burn)                              │
+│       ├── ⚖️ Constitution (regras da IA)                                │
+│       ├── 🛡️ Panda Defend (review + kill switch)                        │
+│       ├── 🦀 RIG Control (GPU pool)                                     │
+│       └── 📈 Analytics (custos, projeções)                              │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+| Role        | Valor | Vê no Dock     |
+| ----------- | :---: | -------------- |
+| **Founder** |   1   | Tudo + 🔧 + 👑 |
+| **Dev**     |   2   | Tudo + 🔧      |
+| **User**    |   3   | Apenas base    |
+
+#### Implementação
+
+```jsx
+// JamDock.jsx
+const role = Panda.Auth.getRole();
+
+return (
+  <>
+    <DockItem icon="🎨" onClick={onToolsClick} />
+    <DockItem icon="📁" onClick={onCatalogClick} />
+    <DockItem icon="🧩" onClick={onPluginsClick} />
+
+    {role <= 2 && <DockItem icon="🔧" onClick={onDevModeClick} />}
+    {role === 1 && <DockItem icon="👑" onClick={onAdminClick} />}
+  </>
+);
+```
+
 ---
 
 ## 6. Modal System
@@ -433,7 +489,445 @@ const isLight = document.body.classList.contains("light-mode");
 
 ## Links Relacionados
 
-- [PF_CSS_REFERENCE.md](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/docs/PF_CSS_REFERENCE.md)
-- [PF_JAM_COMPONENTS.md](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/docs/PF_JAM_COMPONENTS.md)
+- CSS Design System (consolidado abaixo - PARTE B)
+- Jam React Components (consolidado abaixo - PARTE D)
 - [jam.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/jam/src/styles/jam.css)
 - [PANDA.md](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/.agent/PANDA.md)
+
+---
+
+# PARTE B: CSS Design System
+
+> **Consolidado de:** `PF_CSS_REFERENCE.md` | **Fonte:** `css/pf.theme.css`
+
+## B.1 Cores Base
+
+```css
+/* Cores Primárias */
+--accent-primary: #3b82f6; /* Azul principal */
+--accent-primary-hover: #2563eb;
+--accent-primary-light: rgba(59, 130, 246, 0.1);
+
+/* Status */
+--accent-success: #22c55e; /* Verde */
+--accent-warning: #f59e0b; /* Amarelo */
+--accent-error: #ef4444; /* Vermelho */
+--accent-info: #3b82f6; /* Azul info */
+```
+
+## B.2 Fundos
+
+```css
+/* Light Mode */
+--bg-app: #f0f4f8; /* Fundo principal */
+--bg-card: #ffffff; /* Cards */
+--bg-panel: rgba(255, 255, 255, 0.8); /* Glassmorphism */
+--bg-input: #f8fafc; /* Inputs */
+--bg-hover: rgba(0, 0, 0, 0.04); /* Hover */
+--bg-selected: rgba(59, 130, 246, 0.1); /* Selecionado */
+
+/* Header */
+--header-bg: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+--header-height: 48px;
+```
+
+## B.3 Texto
+
+```css
+--text-primary: #1e293b; /* Texto principal */
+--text-secondary: #64748b; /* Texto secundário */
+--text-muted: #94a3b8; /* Texto desabilitado */
+--text-inverted: #ffffff; /* Texto em fundo escuro */
+--text-link: #3b82f6; /* Links */
+```
+
+## B.4 Bordas e Sombras
+
+```css
+/* Bordas */
+--border-subtle: rgba(0, 0, 0, 0.08);
+--border-default: rgba(0, 0, 0, 0.12);
+--border-focus: #3b82f6;
+--border-error: #ef4444;
+
+/* Sombras */
+--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+--shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+--shadow-dock: 0 8px 25px rgba(0, 0, 0, 0.15);
+--shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+--shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+```
+
+## B.5 Sizing & Spacing
+
+```css
+/* Border Radius */
+--radius-sm: 6px;
+--radius-btn: 8px;
+--radius-card: 12px;
+--radius-modal: 16px;
+--radius-full: 9999px;
+
+/* Spacing */
+--space-xs: 4px;
+--space-sm: 8px;
+--space-md: 16px;
+--space-lg: 24px;
+--space-xl: 32px;
+```
+
+## B.6 Animações
+
+```css
+/* Transitions */
+--transition-fast: 0.15s ease;
+--transition-normal: 0.2s ease;
+--transition-slow: 0.3s ease;
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+```
+
+## B.7 Dark Mode
+
+```css
+body.dark-mode {
+  --bg-app: #0f172a;
+  --bg-card: #1e293b;
+  --bg-panel: rgba(30, 41, 59, 0.9);
+  --bg-input: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.12);
+}
+```
+
+## B.8 Componentes Padrão
+
+```css
+/* Card */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-md);
+}
+
+/* Botão Primário */
+.btn-primary {
+  background: var(--accent-primary);
+  color: var(--text-inverted);
+  border-radius: var(--radius-btn);
+  padding: var(--space-sm) var(--space-md);
+  transition: var(--transition-fast);
+}
+.btn-primary:hover {
+  background: var(--accent-primary-hover);
+}
+
+/* Input */
+.input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-btn);
+  padding: var(--space-sm) var(--space-md);
+}
+.input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-primary-light);
+}
+
+/* Glassmorphism */
+.glass {
+  background: var(--bg-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+```
+
+---
+
+# PARTE C: HTML & Component Reference
+
+> **Consolidado de:** `PF_HTML_REFERENCE.md` | **Shell:** `PandaFactory.html`
+
+## C.1 Arquitetura de Componentes
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                        PandaFactory.html (Shell)                     │
+├─────────────────────────────────────────────────────────────────────┤
+│  #header-container    ← Comp_HeaderStatus.html                      │
+│  #sidebar-left        ← Comp_Sidebar.html                           │
+│  #canvas              ← Área de trabalho                            │
+│  #app-dock-container  ← Comp_AppDock.html                           │
+│  #modals-container    ← Modais carregados sob demanda               │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## C.2 Catálogo de Componentes
+
+| Componente   | Arquivo                       | Descrição           |
+| ------------ | ----------------------------- | ------------------- |
+| **Header**   | `Comp_HeaderStatus.html`      | Status pills, logo  |
+| **AppDock**  | `Comp_AppDock.html`           | Dock inferior       |
+| **Settings** | `Comp_SettingsModal.html`     | Modal 11 seções     |
+| **Treasury** | `Comp_TreasuryDashboard.html` | Dashboard PAXG/USDC |
+| **DevTools** | `Comp_DevToolsDock.html`      | Ferramentas dev     |
+
+## C.3 Ordem de Carregamento
+
+| Ordem | Arquivo            | Responsabilidade             |
+| ----- | ------------------ | ---------------------------- |
+| 1     | `pf.sdk.js`        | SDK Mock (Panda.\*)          |
+| 2     | `pf.i18n.js`       | Sistema de tradução          |
+| 3     | `pf.components.js` | Loader de componentes        |
+| 4     | `pf.app-init.js`   | Inicialização e orquestração |
+
+## C.4 JavaScript Controllers
+
+| Componente | Controller      | Métodos Principais                   |
+| ---------- | --------------- | ------------------------------------ |
+| Header     | `PandaHeader`   | `updateStatus()`, `setUser()`        |
+| Dock       | `PandaDock`     | `open()`, `addApp()`, `removeApp()`  |
+| Settings   | `PandaSettings` | `open()`, `close()`, `showSection()` |
+| Treasury   | `PandaTreasury` | `open()`, `refresh()`, `getHealth()` |
+
+## C.5 Convenções de Nomenclatura
+
+| Tipo       | Padrão                 | Exemplo                   |
+| ---------- | ---------------------- | ------------------------- |
+| Componente | `Comp_PascalCase.html` | `Comp_SettingsModal.html` |
+| JS Core    | `pf.kebab-case.js`     | `pf.app-init.js`          |
+| CSS        | `pf.kebab-case.css`    | `pf.theme.css`            |
+| Controller | `PandaPascalCase`      | `PandaSettings`           |
+| Evento     | `pf:kebab-case`        | `pf:ready`                |
+
+---
+
+# PARTE D: Jam React Components
+
+> **Consolidado de:** `PF_JAM_COMPONENTS.md` | **Versão:** 1.2.0
+
+## D.1 Estrutura de Arquivos
+
+```text
+jam/src/
+├── App.jsx                      # Main app v5.2
+├── components/
+│   ├── JamCanvas.jsx            # TLDraw canvas
+│   ├── JamDock.jsx              # Left dock
+│   ├── JamStatusBar.jsx         # Top status bar
+│   ├── JamChat.jsx              # AI chat floating
+│   ├── JamSettings.jsx          # Settings modal
+│   ├── JamStore.jsx             # Store modal
+│   ├── JamCatalog.jsx           # Catalog modal
+│   ├── JamRightToolbar.jsx      # Drawing tools
+│   ├── StatusBar.jsx            # Health status bar
+│   ├── FounderDashboard.jsx     # Founder dashboard
+│   ├── FinancePanel.jsx         # Treasury/finance
+│   ├── LoginModal.jsx           # Auth modal
+│   └── LoginGate.jsx            # Auth gate
+└── hooks/
+    ├── useAuth.jsx              # Auth provider
+    ├── useFirebase.js           # Firebase connection
+    ├── useGAS.js                # GAS endpoints
+    ├── useHealthStatus.js       # Health polling
+    ├── useFounderMetrics.js     # Dashboard metrics
+    └── useMarketplace.js        # Marketplace hooks
+```
+
+## D.2 Componentes por Categoria
+
+### Core Layout
+
+| Componente         | Função                   |
+| ------------------ | ------------------------ |
+| `App.jsx`          | Container principal v5.2 |
+| `JamCanvas.jsx`    | TLDraw canvas            |
+| `JamDock.jsx`      | Dock esquerda            |
+| `JamStatusBar.jsx` | Status bar topo          |
+
+### Modals
+
+| Componente                  | Função              |
+| --------------------------- | ------------------- |
+| `JamSettings.jsx`           | Configurações       |
+| `JamStore.jsx`              | Loja de plugins     |
+| `JamCatalog.jsx`            | Catálogo instalados |
+| `FounderDashboardModal.jsx` | Dashboard founder   |
+| `LoginModal.jsx`            | Login Google/Email  |
+
+### Hooks
+
+| Hook                   | Versão | Função                          |
+| ---------------------- | ------ | ------------------------------- |
+| `useAuth.jsx`          | v1.1   | Autenticação                    |
+| `useFirebase.js`       | v1.0   | Firebase RTDB + Auth            |
+| `useGAS.js`            | v1.1   | GAS endpoints + Fault Isolation |
+| `useHealthStatus.js`   | v1.0   | Health polling                  |
+| `useFounderMetrics.js` | v1.1   | Dashboard + Telemetry           |
+
+## D.3 App.jsx v5.2 Structure
+
+```jsx
+<AuthProvider>
+  <LoginGate>
+    <AppContent>
+      <JamStatusBar /> {/* Top */}
+      <JamCanvas /> {/* Center */}
+      <JamDock /> {/* Left */}
+      <JamRightToolbar />
+      {/* Right */}
+      <JamChat /> {/* Floating */}
+      <JamSettings /> {/* Modal */}
+      <JamCatalog /> {/* Modal */}
+      <JamStore /> {/* Modal */}
+      <FounderDashboardModal /> {/* Modal */}
+      <StatusBar /> {/* Bottom */}
+    </AppContent>
+  </LoginGate>
+</AuthProvider>
+```
+
+## D.4 LoginGate v1.2
+
+| Token              | Storage        | Fonte                |
+| ------------------ | -------------- | -------------------- |
+| `panda_auth`       | sessionStorage | Login direto no Jam  |
+| `panda_auth_token` | sessionStorage | Login via index.html |
+| `panda_user`       | localStorage   | useAuth + index.html |
+
+## D.5 Build Info
+
+```text
+✓ 925 modules transformed
+✓ 1.18MB JS (356KB gzip)
+✓ Built in 28.91s (Vite 5.4.21)
+```
+
+---
+
+> 📖 **PF_UI_REFERENCE v2.0** | Consolidado: UI Layout + CSS Design System + HTML Components + Jam React
+
+---
+
+# PARTE E: DevTools & Developer Experience
+
+> **Consolidado de:** PF_MASTER_ARCHITECTURE.md §3.3
+
+## E.1 Dev Mode Toggle
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         DEV MODE TOGGLE                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│  [AppDock]                                                              │
+│  ├── 🏠 Home                                                            │
+│  ├── 📊 CRM                                                             │
+│  ├── ⚙️ Settings                                                        │
+│  ├── ────────────                                                       │
+│  └── 🛠️ Dev Mode ← CLIQUE ATIVA/DESATIVA                               │
+│         │                                                               │
+│         ├── OFF: DevToolsDock oculto                                    │
+│         ├── ON:  DevToolsDock visível + ícone muda para 🔧              │
+│         └── Persistência: localStorage.panda_dev_mode                   │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Componente:** `components/Comp_AppDock.html`
+**Lógica:** `js/ui/pf.devtools.js` → `toggleDevMode()`
+
+## E.2 DevTools v2.0 - Ferramentas Disponíveis
+
+| Tool                       | Ícone | Modal | Pop-out    | Descrição                          |
+| -------------------------- | ----- | ----- | ---------- | ---------------------------------- |
+| **Console**                | 💻    | ✅    | ✅         | Execução JavaScript em sandbox     |
+| **MCP Browser**            | 🧰    | ✅    | ✅         | Lista de MCP Tools do Rust Agent   |
+| **API Tester**             | 🔌    | ✅    | ✅         | Testar endpoints GAS               |
+| **PAT Treasury**           | 🏦    | ✅    | ✅         | Controles do Banco Central IA      |
+| **Constitution Validator** | ⚖️    | ✅    | ✅         | Validar ações contra os 12 Artigos |
+| **Antigravity** ⭐         | 🐼    | ❌    | ✅ WebView | Coding Assistant (BYOL Gemini)     |
+
+> **Antigravity** abre em **WebView nativo** no Rust Agent (não no browser).
+
+## E.3 Multi-Window (Document PiP)
+
+O sistema suporta destacar ferramentas para janelas separadas usando a **Document Picture-in-Picture API**:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           JANELA PRINCIPAL                              │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │                    Panda Factory (PandaFactory.html)            │   │
+│  │  ┌─────────┐  ┌─────────────────────┐  ┌─────────┐              │   │
+│  │  │ AppDock │  │     Canvas          │  │ DevDock │              │   │
+│  │  └─────────┘  └─────────────────────┘  └─────────┘              │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────┘
+                    │ POP-OUT (Document PiP) │
+         ┌──────────┴──────────┬─────────────┴────────────┐
+         ▼                     ▼                          ▼
+┌─────────────────┐  ┌─────────────────┐       ┌─────────────────┐
+│  💻 Console     │  │  🧰 MCP Browser │  ...  │  🏦 PAT Treasury│
+│   (Monitor 2)   │  │   (Monitor 3)   │       │   (Monitor N)   │
+└─────────────────┘  └─────────────────┘       └─────────────────┘
+```
+
+**SDK API:**
+
+```javascript
+// Abrir ferramenta em janela separada
+const pipWindow = await Panda.UI.popout("console", {
+  width: 800,
+  height: 600,
+});
+
+// Listar pop-outs ativos
+const active = Panda.UI.getPopouts(); // Map<toolId, Window>
+
+// Fechar pop-out
+Panda.UI.closePopout("console");
+```
+
+**Compatibilidade:**
+
+| Browser      | Suporte                   |
+| ------------ | ------------------------- |
+| Chrome 116+  | ✅ Document PiP nativo    |
+| Edge 116+    | ✅ Document PiP nativo    |
+| Firefox 115+ | ⚠️ Fallback window.open() |
+| Safari 17+   | ⚠️ Fallback window.open() |
+
+---
+
+> 📖 **Versão:** 2.1.0 | **Consolidado:** UI + CSS + HTML + DevTools + Multi-Window

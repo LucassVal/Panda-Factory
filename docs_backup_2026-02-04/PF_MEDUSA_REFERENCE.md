@@ -82,7 +82,7 @@
 ```
 
 > ⚠️ **MCP OBRIGATÓRIO:** Todo plugin DEVE ter `panda.mcp.json`. Sem MCP = não publica.
-> Ver [PF_MCP_REFERENCE.md (PARTE B)](PF_MCP_REFERENCE.md) para especificação completa.
+> Ver [PF_MCP_MANIFEST_SPEC.md](PF_MCP_MANIFEST_SPEC.md) para especificação completa.
 
 ### 2.1 Filosofia Zero Barreira
 
@@ -299,9 +299,9 @@ Além de devs individuais, empresas podem plugar infraestrutura no SDK:
 
 ## 8. Referências
 
-- [PF_BACKEND_REFERENCE.md](PF_BACKEND_REFERENCE.md) - Rust Agent + Backend
-- [PF_MCP_REFERENCE.md](PF_MCP_REFERENCE.md) - MCP Tools + Manifest
-- [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) - Economia PC/Splits
+- [PF_RUST_REFERENCE.md](PF_RUST_REFERENCE.md) - Rust Agent
+- [PF_PLUGIN_AND_MODULAR_REFERENCE.md](PF_PLUGIN_AND_MODULAR_REFERENCE.md) - Sistema de Plugins
+- [PF_TOKENOMICS_REFERENCE.md](PF_TOKENOMICS_REFERENCE.md) - Economia PC/Splits
 - [GitHub Actions](https://docs.github.com/actions)
 
 ---
