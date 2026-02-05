@@ -1,6 +1,6 @@
 # 🐼 Panda Factory
 
-> **Sua Fábrica de Ferramentas com IA + Multi-Integrações**
+> **Runtime Minimalista + Plugin-First + IA Nativa (MCP)**
 
 <p align="center">
   <img src="LOGO/logo%20git%20hub.png" alt="Panda Factory" width="250">
@@ -10,12 +10,13 @@
 
 ## ✨ O que é o Panda Factory?
 
-Uma plataforma modular onde você pode:
+Um **runtime minimalista** onde plugins IA-first rodam:
 
-- 🧠 Usar IA especializada (6 agentes)
-- 🔌 Conectar qualquer API (Social, Trading, Games)
-- 🛒 Vender/Comprar plugins no Marketplace
-- 🚀 Publicar em qualquer plataforma (Web, Mobile, Desktop)
+- 🐼 **Core Enxuto** — Shell mínimo, tudo via plugins
+- 🤖 **MCP Obrigatório** — Toda tool é entendida pela IA nativamente
+- 🛒 **Medusa Store** — Marketplace de plugins (gratuitos e pagos)
+- 🔌 **Zero Barrier** — Devs integram grátis, monetização no usuário final
+- 🚀 **Multi-Plataforma** — Web, Desktop (Tauri), Mobile (PWA)
 
 ---
 
@@ -37,7 +38,7 @@ Uma plataforma modular onde você pode:
 | -------------- | --------------------------- |
 | 🆓 **Free**    | 500k tokens/mês grátis      |
 | 💰 **Ganhe**   | Venda plugins, 70% pra você |
-| 🏆 **Top 100** | 50% desconto vitalício      |
+| 🏆 **Top 100** | 30% desconto vitalício      |
 
 ---
 
@@ -54,114 +55,54 @@ Uma plataforma modular onde você pode:
 
 ---
 
-### ✅ Fase 0: Foundation (Jan/2026) - CONCLUÍDO
-
-| Item           | Status  | Detalhes                            |
-| -------------- | ------- | ----------------------------------- |
-| Shell Frontend | ✅ 95%  | PandaFactory.html, AppDock, Sidebar |
-| SDK Core       | ✅ 85%  | Auth, Data, Wallet, Brain, Bridge   |
-| Backend GAS    | ✅ 90%  | Dispatcher, Wallet, Webhooks        |
-| Tentacles      | ✅ 100% | Arquitetura Parent-Children         |
-| Theme System   | ✅ 100% | Dark mode, CSS vars                 |
-
----
-
-### 🚧 Fase 1: Dia 1 (Fev/2026) - EM DESENVOLVIMENTO
-
-| Item             | Status  | Esforço | Descrição                      |
-| ---------------- | ------- | ------- | ------------------------------ |
-| Rust Agent MCP   | 🟡 60%  | 16h     | Server, WebView, GPU Detection |
-| 3 AI Cores       | 🟡 70%  | 48h     | PAT, Brain, Antigravity        |
-| Medusa Store     | ❌ 0%   | 40h     | Plugin marketplace             |
-| Google Tentacle  | ✅ 100% | -       | Drive, Sheets, Colab, Firebase |
-| Ed25519 Security | 🟡 50%  | 8h      | Founder authentication         |
-| Webhooks         | ✅ 100% | -       | Kiwify, Hotmart, Stripe, MP    |
-
----
-
-### ⏳ Fase 2: Escala (Mar-Abr/2026) - PLANEJADO
-
-| Item                | Esforço | Descrição                           |
-| ------------------- | ------- | ----------------------------------- |
-| P2P Compute Network | 44h     | Hosts alugam GPU, split 95/5        |
-| VSX Store Universal | 40h     | GitHub + GitLab + GCloud VMs        |
-| Social Hub          | 30h     | WhatsApp, Telegram, Twitter, TikTok |
-| Trading Hub         | 44h     | cTrader completo, cBots, Backtest   |
-| Distribution Hub    | ✅      | itch.io, PWA, Steam, Google Play    |
-
----
-
-### ⏳ Fase 3: Expansão (Q2-Q3/2026) - FUTURO
-
-| Item                 | Esforço | Descrição                         |
-| -------------------- | ------- | --------------------------------- |
-| EdTech               | 40h     | Course Builder, DRM, Certificados |
-| Creative Marketplace | 36h     | Assets, Licenças, Payouts         |
-| Gaming/Audio/Video   | 64h     | Godot, Whisper STT, FFmpeg        |
-
----
-
-## 📚 DOCUMENTAÇÃO
+## 📚 DOCUMENTAÇÃO (17 Docs Consolidados)
 
 ### 🏛️ Core (Start Here)
 
 | Arquivo                                                     | Descrição                        |
 | ----------------------------------------------------------- | -------------------------------- |
-| [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) | 🌟 Arquitetura completa (~212KB) |
-| [PANDA_MASTER_REFERENCE.md](docs/PANDA_MASTER_REFERENCE.md) | Referência rápida                |
-| [DUAL_REPO_ARCHITECTURE.md](docs/DUAL_REPO_ARCHITECTURE.md) | Estratégia dual-repo             |
-| [PF_HEALTH_STATUS.md](docs/PF_HEALTH_STATUS.md)             | Health monitoring                |
+| [PF_MASTER_ARCHITECTURE.md](docs/PF_MASTER_ARCHITECTURE.md) | 🌟 Arquitetura completa (~208KB) |
 
 ### 💻 Frontend & UI
 
-| Arquivo                                           | Descrição                 |
-| ------------------------------------------------- | ------------------------- |
-| [PF_SDK_REFERENCE.md](docs/PF_SDK_REFERENCE.md)   | SDK, Tentacles, Event Bus |
-| [PF_HTML_REFERENCE.md](docs/PF_HTML_REFERENCE.md) | Componentes, shell        |
-| [PF_CSS_REFERENCE.md](docs/PF_CSS_REFERENCE.md)   | Design system             |
-| [PF_UI_REFERENCE.md](docs/PF_UI_REFERENCE.md)     | Layout, modals            |
-| [PF_JAM_COMPONENTS.md](docs/PF_JAM_COMPONENTS.md) | JAM UI components         |
-| [PF_TECHS_SDK.md](docs/PF_TECHS_SDK.md)           | Tech stack                |
+| Arquivo                                         | Descrição                                |
+| ----------------------------------------------- | ---------------------------------------- |
+| [PF_SDK_REFERENCE.md](docs/PF_SDK_REFERENCE.md) | SDK, Tentacles, Event Bus                |
+| [PF_UI_REFERENCE.md](docs/PF_UI_REFERENCE.md)   | **Design System + Componentes + Layout** |
 
 ### ⚙️ Backend
 
-| Arquivo                                                   | Descrição              |
-| --------------------------------------------------------- | ---------------------- |
-| [PF_GAS_REFERENCE.md](docs/PF_GAS_REFERENCE.md)           | Google Apps Script     |
-| [PF_FIREBASE_REFERENCE.md](docs/PF_FIREBASE_REFERENCE.md) | RTDB, regras           |
-| [PF_RUST_REFERENCE.md](docs/PF_RUST_REFERENCE.md)         | Rust Agent             |
-| [PF_AUTH_REFERENCE.md](docs/PF_AUTH_REFERENCE.md)         | Autenticação           |
-| [PF_BACKEND_REFERENCE.md](docs/PF_BACKEND_REFERENCE.md)   | Backend geral          |
-| [PF_MCP_REFERENCE.md](docs/PF_MCP_REFERENCE.md)           | Model Context Protocol |
+| Arquivo                                                 | Descrição                           |
+| ------------------------------------------------------- | ----------------------------------- |
+| [PF_BACKEND_REFERENCE.md](docs/PF_BACKEND_REFERENCE.md) | **Backend geral + Firebase + Rust** |
+| [PF_PARTNER_REFERENCE.md](docs/PF_PARTNER_REFERENCE.md) | **Partner Mode + Mining + Phantom** |
+| [PF_GAS_REFERENCE.md](docs/PF_GAS_REFERENCE.md)         | Google Apps Script                  |
+| [PF_MCP_REFERENCE.md](docs/PF_MCP_REFERENCE.md)         | Model Context Protocol              |
 
 ### 🤖 AI & Integrations
 
-| Arquivo                                                               | Descrição               |
-| --------------------------------------------------------------------- | ----------------------- |
-| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)                 | Gemini 2.0              |
-| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md)             | Moltbook                |
-| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)                   | Google Colab            |
-| [PF_AGENT_CONSTITUTION.md](docs/PF_AGENT_CONSTITUTION.md)             | Persona IA Pública      |
-| [PF_PAT_FOUNDER_CONSTITUTION.md](docs/PF_PAT_FOUNDER_CONSTITUTION.md) | IA do Founder (isolada) |
+| Arquivo                                                   | Descrição          |
+| --------------------------------------------------------- | ------------------ |
+| [PF_GEMINI_REFERENCE.md](docs/PF_GEMINI_REFERENCE.md)     | Gemini 2.0         |
+| [PF_MOLTBOOK_REFERENCE.md](docs/PF_MOLTBOOK_REFERENCE.md) | Moltbook           |
+| [PF_COLAB_REFERENCE.md](docs/PF_COLAB_REFERENCE.md)       | Google Colab       |
+| [PF_AGENT_CONSTITUTION.md](docs/PF_AGENT_CONSTITUTION.md) | Persona IA Pública |
 
-### 💰 Business
+### 💰 Business & Economy
 
-| Arquivo                                                       | Descrição    |
-| ------------------------------------------------------------- | ------------ |
-| [PF_TOKENOMICS_REFERENCE.md](docs/PF_TOKENOMICS_REFERENCE.md) | Panda Coin   |
-| [PF_GOVERNANCE_REFERENCE.md](docs/PF_GOVERNANCE_REFERENCE.md) | PAT, Council |
-| [PF_TRADING_REFERENCE.md](docs/PF_TRADING_REFERENCE.md)       | cTrader      |
-| [PF_SOCIAL_REFERENCE.md](docs/PF_SOCIAL_REFERENCE.md)         | Social Hub   |
-| [PF_EDUCATION_REFERENCE.md](docs/PF_EDUCATION_REFERENCE.md)   | EdTech       |
+| Arquivo                                                     | Descrição                                |
+| ----------------------------------------------------------- | ---------------------------------------- |
+| [PF_ECONOMY_REFERENCE.md](docs/PF_ECONOMY_REFERENCE.md)     | **Panda Coin + Tokenomics + Governance** |
+| [PF_SOCIAL_REFERENCE.md](docs/PF_SOCIAL_REFERENCE.md)       | Social Hub                               |
+| [PF_EDUCATION_REFERENCE.md](docs/PF_EDUCATION_REFERENCE.md) | EdTech                                   |
 
 ### 🧩 Plugins & Ecosystem
 
-| Arquivo                                                                       | Descrição          |
-| ----------------------------------------------------------------------------- | ------------------ |
-| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | Sistema plugins    |
-| [PF_MEDUSA_REFERENCE.md](docs/PF_MEDUSA_REFERENCE.md)                         | Store              |
-| [PF_PLUGIN_MANIFEST.md](docs/PF_PLUGIN_MANIFEST.md)                           | Manifest structure |
-| [PF_OPENSOURCE_CATALOG.md](docs/PF_OPENSOURCE_CATALOG.md)                     | Catálogo OSS       |
+| Arquivo                                                                       | Descrição                     |
+| ----------------------------------------------------------------------------- | ----------------------------- |
+| [PF_PLUGIN_AND_MODULAR_REFERENCE.md](docs/PF_PLUGIN_AND_MODULAR_REFERENCE.md) | **Sistema plugins + cTrader** |
+| [PF_MEDUSA_REFERENCE.md](docs/PF_MEDUSA_REFERENCE.md)                         | Store                         |
+| [PF_OPENSOURCE_CATALOG.md](docs/PF_OPENSOURCE_CATALOG.md)                     | Catálogo OSS                  |
 
 ---
 
