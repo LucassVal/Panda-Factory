@@ -180,10 +180,10 @@ Minimal core (~50KB). Everything is a plugin:
 
 **90% of users never install anything:**
 
-| Mode         | Install        | Features                             | Cost     |
-| ------------ | -------------- | ------------------------------------ | -------- |
-| **Web-Only** | Zero (PWA)     | AI Chat, Canvas, Data, Store, Wallet | $0/month |
-| **Desktop**  | ~30MB + models | + GPU, Mining, RPA, Local AI         | $0/month |
+| Mode         | Install           | Features                                                                                     | Cost     |
+| ------------ | ----------------- | -------------------------------------------------------------------------------------------- | -------- |
+| **Web-Only** | Zero (PWA)        | AI Chat, Canvas, Data, Store, Wallet, MCP Tools                                              | $0/month |
+| **Desktop**  | ~30MB + AI models | + NLLB Translation (200 langs), Whisper STT, GPU/CUDA, Partner Mode, RPA, Multi-Window (PiP) | $0/month |
 
 ### 3. AI-Native (MCP Protocol)
 
