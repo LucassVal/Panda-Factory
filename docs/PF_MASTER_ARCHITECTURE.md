@@ -67,7 +67,7 @@
 │  │                                                                          │
 │  ├── 📁 jam/                       # 🍇 React Frontend (Vite + TLDraw)     │
 │  │   ├── src/components/           # 22 componentes React                  │
-│  │   ├── src/hooks/                # 7 custom hooks                        │
+│  │   ├── src/hooks/                # 8 custom hooks                        │
 │  │   ├── src/styles/               # jam.css (Design System)               │
 │  │   └── dist/                     # Build de produção                     │
 │  │                                                                          │
@@ -2253,47 +2253,6 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 | **Iniciante**  | 0%       | Mercado Aberto (Sobe preço)               |            |
 | **Dev Ativo**  | 5-20%    | Mercado Aberto (Sobe preço)               |            |
 | **Enterprise** | 30-50%   | **Reserva de Liquidez** (Não afeta preço) | Inviolável |
-
-## 19. Roadmap de Implementação
-
-> 📖 **Documento completo:** [README_PANDA_OFICIAL.md](../README_PANDA_OFICIAL.md)
-
-O roadmap detalhado está consolidado no README principal.
-
-### Visão Geral das Fases
-
-| Fase               | Status | Período      | Foco                         |
-| ------------------ | ------ | ------------ | ---------------------------- |
-| **0 - Foundation** | ✅ 95% | Jan/2026     | Shell, SDK, GAS Backend      |
-| **1 - Dia 1**      | 🚧 30% | Fev/2026     | Rust Agent, AI Cores, Medusa |
-| **2 - Escala**     | ⏳ 0%  | Mar-Abr/2026 | P2P Compute, VSX Store       |
-| **3 - Expansão**   | ⏳ 0%  | Q2-Q3/2026   | EdTech, Marketplace          |
-
----
-
-## 20. Referências & Integrações Monetárias
-
-O sistema aceita entradas de capital via canais tradicionais e webhooks de infoprodutos.
-
-### 18.1. Gateways de Pagamento (Fiat)
-
-- **Stripe:** Processamento internacional (Cartão/ACH). Taxa padrão ~3%.
-- **PagSeguro:** Processamento nacional (Pix/Boleto/Cartão). Taxa padrão ~3-4%.
-- **Pix Nativo:** Integração direta (Open Finance) futura para zerar taxas.
-
-### 18.2. Integração Infoprodutos (Webhooks)
-
-Para produtores que vendem cursos/acessos externos:
-
-- **Kiwify / Hotmart:** O sistema escuta Webhooks de "Compra Aprovada".
-- **Ação:** Cria conta Panda Pro automaticamente para o aluno.
-- **Modelo:** Venda B2B (Produtor compra lote de acessos com desconto).
-
-### 18.3. Sistema de Afiliados
-
-- **Nativo:** O Panda possui sistema próprio de tracking `?ref=aff_id`.
-- **Comissão:** Definida pelo DAO (Ex: 30% da venda).
-- **Origem:** O valor da comissão é descontado da margem de Marketing (Ops) ou do Split Dev, dependendo da regra do produto.
 
 ---
 
