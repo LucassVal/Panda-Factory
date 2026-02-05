@@ -48,12 +48,24 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 
 ### Status Geral
 
-| Fase               | Status | Período  | Foco Principal               |
-| ------------------ | ------ | -------- | ---------------------------- |
-| **0 - Foundation** | ✅ 95% | Jan/2026 | Shell, SDK, GAS Backend      |
-| **1 - Dia 1**      | 🚧 30% | Fev/2026 | Rust Agent, AI Cores, Medusa |
-| **2 - Escala**     | ⏳ 0%  | Mar-Abr  | P2P Compute, VSX Store       |
-| **3 - Expansão**   | ⏳ 0%  | Q2-Q3    | EdTech, Marketplace          |
+| Fase               | Status  | Período  | Foco Principal              |
+| ------------------ | ------- | -------- | --------------------------- |
+| **0 - Foundation** | ✅ 100% | Jan/2026 | Shell, SDK, GAS Backend     |
+| **1 - Dia 1**      | 🚧 65%  | Fev/2026 | Rust Agent, AI Cores, Docs  |
+| **2 - Escala**     | ⏳ 10%  | Mar-Abr  | P2P Network, Medusa Store   |
+| **3 - Expansão**   | ⏳ 0%   | Q2-Q3    | EdTech, Marketplace, Mobile |
+
+### Fase 1 - Detalhes (Em Progresso)
+
+| Componente          | Status  | Notas                            |
+| ------------------- | ------- | -------------------------------- |
+| Rust Agent (8 mods) | ✅ 100% | crypto, gpu, health, mcp, mining |
+| Documentação (19)   | ✅ 100% | Consolidados + PF_SECURITY       |
+| P2P Reference       | ✅ 100% | Partner nodes + compute network  |
+| MCP Protocol        | ✅ 100% | Tri-Mode GAS integrado           |
+| Panda Defend        | ✅ 100% | 14 regras Semgrep documentadas   |
+| Medusa Store UI     | 🚧 30%  | Listings + checkout pendente     |
+| Auth Ed25519        | 🚧 50%  | Integração frontend pendente     |
 
 ---
 
