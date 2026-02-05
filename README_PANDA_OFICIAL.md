@@ -57,15 +57,18 @@ Um **runtime minimalista** onde plugins IA-first rodam:
 
 ### Fase 1 - Detalhes (Em Progresso)
 
-| Componente          | Status  | Notas                            |
-| ------------------- | ------- | -------------------------------- |
-| Rust Agent (8 mods) | ✅ 100% | crypto, gpu, health, mcp, mining |
-| Documentação (19)   | ✅ 100% | Consolidados + PF_SECURITY       |
-| P2P Reference       | ✅ 100% | Partner nodes + compute network  |
-| MCP Protocol        | ✅ 100% | Tri-Mode GAS integrado           |
-| Panda Defend        | ✅ 100% | 14 regras Semgrep documentadas   |
-| Medusa Store UI     | 🚧 30%  | Listings + checkout pendente     |
-| Auth Ed25519        | 🚧 50%  | Integração frontend pendente     |
+| Componente          | Status  | Notas                              |
+| ------------------- | ------- | ---------------------------------- |
+| SDK Mock v0.9.0     | ✅ 100% | 9 módulos: Auth, Events, Data...   |
+| Rust Agent (8 mods) | ✅ 100% | crypto, gpu, health, mcp, mining   |
+| Documentação (19)   | ✅ 100% | Consolidados + PF_SECURITY         |
+| P2P Reference       | ✅ 100% | Partner nodes + compute network    |
+| MCP Protocol        | ✅ 100% | Tri-Mode GAS integrado             |
+| Panda Defend        | ✅ 100% | 14 regras Semgrep documentadas     |
+| UI Components       | ✅ 100% | 6 componentes + PandaFactory.html  |
+| Auth Ed25519        | 🚧 50%  | Crypto pronto, integração pendente |
+| Medusa Store UI     | 🚧 30%  | Listings + checkout pendente       |
+| GAS Real Deploy     | ⏳ 0%   | Próximo: useMock: false            |
 
 ---
 
