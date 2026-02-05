@@ -9,7 +9,7 @@
 
 | Extensão | Quantidade | Domínio Principal |
 | -------- | ---------- | ----------------- |
-| `.gs`    | 16         | Backend GAS       |
+| `.gs`    | 17         | Backend GAS       |
 | `.rs`    | 8          | Rust Agent        |
 | `.md`    | 18         | Documentação      |
 | `.js`    | 73+        | Frontend/SDK      |
@@ -56,6 +56,12 @@
 | Arquivo      | Caminho                       | Descrição            |
 | ------------ | ----------------------------- | -------------------- |
 | `PF_Bots.gs` | `backend/domains/automation/` | Automação de tarefas |
+
+### P2P
+
+| Arquivo     | Caminho                | Descrição                        |
+| ----------- | ---------------------- | -------------------------------- |
+| `PF_P2P.gs` | `backend/domains/p2p/` | 🌐 Node registry, tasks, rewards |
 
 ---
 
@@ -186,6 +192,12 @@
 | `gemini.js`          | `js/tentacles/brain/children/` | Gemini AI          |
 | `gpu.js`             | `js/tentacles/brain/children/` | GPU compute        |
 | `local-llm.js`       | `js/tentacles/brain/children/` | Local LLM (Ollama) |
+
+### P2P Tentacles
+
+| Arquivo            | Caminho             | Descrição                          |
+| ------------------ | ------------------- | ---------------------------------- |
+| `pf.p2p-parent.js` | `js/tentacles/p2p/` | 🌐 P2P orchestrator (node, mining) |
 
 ### Distribution Tentacles
 

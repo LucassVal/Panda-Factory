@@ -214,6 +214,35 @@ function doPost(e) {
       return jsonResponse(dispatchRequest(userId, type, payload.payload));
     }
 
+    // === P2P COMPUTE NETWORK ===
+    if (action === 'P2P_REGISTER') {
+      return jsonResponse(P2PService.registerNode({ userId, resources: payload.resources }));
+    }
+    if (action === 'P2P_HEARTBEAT') {
+      return jsonResponse(P2PService.heartbeat({ nodeId: payload.nodeId, stats: payload.stats }));
+    }
+    if (action === 'P2P_STATS') {
+      return jsonResponse(P2PService.getStats({ nodeId: payload.nodeId, userId }));
+    }
+    if (action === 'P2P_SUBMIT_TASK') {
+      return jsonResponse(P2PService.submitTask({ 
+        userId, 
+        taskType: payload.taskType, 
+        data: payload.data, 
+        priority: payload.priority 
+      }));
+    }
+    if (action === 'P2P_COMPLETE_TASK') {
+      return jsonResponse(P2PService.completeTask({ 
+        taskId: payload.taskId, 
+        result: payload.result, 
+        success: payload.success 
+      }));
+    }
+    if (action === 'P2P_SETUP') {
+      return jsonResponse({ result: setupP2PSheets() });
+    }
+
     return jsonResponse({ error: 'Ação desconhecida' }, 400);
 
   } catch (error) {

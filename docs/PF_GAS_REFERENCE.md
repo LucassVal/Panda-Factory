@@ -1,6 +1,6 @@
 # 🐼 Panda GAS Backend - Referência
 
-> **Versão:** 1.0.0 | **Runtime:** Google Apps Script | **Pasta:** `backend/`
+> **Versão:** 1.1.0 | **Runtime:** Google Apps Script | **Pasta:** `backend/`
 
 ---
 
@@ -9,8 +9,9 @@
 1. [Estrutura de Arquivos](#estrutura-de-arquivos)
 2. [Dispatcher (Router)](#dispatcher)
 3. [Módulos de Serviço](#módulos-de-serviço)
-4. [Segurança](#segurança)
-5. [Deploy](#deploy)
+4. [P2P Compute Network](#p2p-compute-network)
+5. [Segurança](#segurança)
+6. [Deploy](#deploy)
 
 ---
 
@@ -26,12 +27,15 @@ backend/
 │   ├── PF_App_Init.gs    # Inicialização
 │   ├── PF_Core_AI.gs     # Serviço de IA
 │   ├── PF_Core_Oracle.gs # Cotação USD/BRL
+│   ├── PF_Moltbook.gs    # Moltbook integration
+│   ├── PF_PAT_Core.gs    # Panda Council (Governance)
 │   └── PF_Core_Webhooks.gs # Webhooks externos
 ├── domains/
-│   ├── auth/             # Autenticação
-│   ├── wallet/           # Carteira Panda Coin
-│   ├── data/             # CRUD dados
-│   └── store/            # Marketplace
+│   ├── finance/          # Wallet, Crypto, Fiat
+│   ├── store/            # Marketplace (Sales, Registry)
+│   ├── automation/       # Bots
+│   └── p2p/              # 🌐 P2P Compute Network
+│       └── PF_P2P.gs     # Node registry, tasks, rewards
 └── sdks/
     └── gemini.gs         # SDK Gemini
 ```
