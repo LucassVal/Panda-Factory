@@ -5,158 +5,496 @@
 <h1 align="center">🐼 Panda Factory</h1>
 
 <p align="center">
-  <strong>"Do PhD ao Favelado"</strong> — Democratizing Software with Google AI
+  <strong>"Do PhD ao Favelado"</strong> — Democratizing AI-Powered Software
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Built_on-Google_Cloud-4285F4?logo=google-cloud" alt="Google Cloud">
-  <img src="https://img.shields.io/badge/AI-Gemini_Powered-8E75B2?logo=google" alt="Gemini">
+  <img src="https://img.shields.io/badge/AI-Gemini_2.0-8E75B2?logo=google" alt="Gemini">
   <img src="https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase" alt="Firebase">
+  <img src="https://img.shields.io/badge/Backend-Apps_Script-34A853?logo=google" alt="GAS">
+  <img src="https://img.shields.io/badge/Infra_Cost-$0/month-00D4AA" alt="Zero Cost">
 </p>
+
+---
+
+## 📋 Table of Contents
+
+1. [Vision](#-vision)
+2. [Google-First Architecture](#-google-first-architecture)
+3. [Core Concepts](#-core-concepts)
+4. [Technical Stack](#-technical-stack)
+5. [MCP Protocol Integration](#-mcp-protocol-integration)
+6. [Economy & Tokenomics](#-economy--tokenomics)
+7. [Partner Mode (P2P Compute)](#-partner-mode-p2p-compute)
+8. [SDK Architecture](#-sdk-architecture)
+9. [Tentacle System](#-tentacle-system)
+10. [Governance (Constitution)](#-governance-constitution)
+11. [Roadmap](#-roadmap)
+12. [Contact](#-contact)
 
 ---
 
 ## 🎯 Vision
 
-**Panda Factory** is a minimalist AI-powered platform that democratizes software access for underserved communities. We leverage the **Google ecosystem** as our primary infrastructure, generating demand for Google services while reducing barriers to technology adoption.
+**Panda Factory** is a minimalist AI-powered runtime that democratizes software access. Our philosophy:
+
+> **"The Browser does 90% of the work. Cloud only for sync and billing."**
+
+We maximize Google infrastructure usage while minimizing costs through:
+
+- **Client-side processing** (user's browser/GPU)
+- **Google Free Tier** for backend (GAS, Firebase, Gemini)
+- **P2P Compute Network** for heavy tasks (Partner Mode)
+
+### Target Audience
+
+| Segment             | Description                                  |
+| ------------------- | -------------------------------------------- |
+| **90% Web Users**   | Zero install, PWA experience, Gemini-powered |
+| **10% Power Users** | Desktop app with local AI, GPU mining, RPA   |
+| **Developers**      | Plugin creators earning revenue via store    |
 
 ---
 
 ## 🔷 Google-First Architecture
 
-Our entire stack is built on Google infrastructure, maximizing the ecosystem's potential:
+Our entire stack prioritizes Google services, generating demand while maintaining $0 infrastructure cost:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         GOOGLE-FIRST ARCHITECTURE                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  🌐 WEB LAYER (Browser - PWA)                                        │   │
+│  │  ├── manifest.json (PWA config, offline cache)                       │   │
+│  │  ├── panda.mcp.json (MCP tools registry)                             │   │
+│  │  ├── React + TLDraw (Canvas UI)                                      │   │
+│  │  └── Yjs (Real-time collaboration)                                   │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                              ↓ HTTPS                                         │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  ☁️ GOOGLE APPS SCRIPT (Backend - Serverless)                        │   │
+│  │  ├── Brain.gs → Gemini API routing + billing                         │   │
+│  │  ├── PAT.gs → Treasury autonomous logic                              │   │
+│  │  ├── Wallet.gs → Panda Coin transactions                             │   │
+│  │  └── Dispatcher.gs → MCP tools execution                             │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                              ↓ REST API                                      │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  🔥 FIREBASE (Realtime + Auth)                                       │   │
+│  │  ├── Authentication (Google Sign-In, magic links)                    │   │
+│  │  ├── Realtime Database (P2P signaling, presence)                     │   │
+│  │  └── Hosting (Static assets, PWA shell)                              │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                              ↓ Optional                                      │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  🦀 RUST AGENT (Desktop - Optional)                                  │   │
+│  │  ├── Local GPU processing (CUDA, Vulkan, WebGPU)                     │   │
+│  │  ├── Whisper + NLLB (Offline AI models)                              │   │
+│  │  ├── Partner Mode (P2P compute mining)                               │   │
+│  │  └── Native MCP Server (fs, terminal, screen)                        │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Google Services Demand Generation
+
+Every Panda Factory user generates demand for Google services:
+
+| Google Service         | Usage in Panda Factory             | User Action → Google Demand     |
+| ---------------------- | ---------------------------------- | ------------------------------- |
+| **Gemini API**         | AI chat, analysis, code generation | Every message = API call        |
+| **Google Apps Script** | Serverless backend, billing        | Every operation = GAS execution |
+| **Google Sheets**      | Database, transaction logs         | Every save = Sheets row         |
+| **Firebase Auth**      | User authentication                | Every signup = new user         |
+| **Firebase RTDB**      | Real-time presence, P2P signaling  | Active = connection             |
+| **Google Colab**       | Heavy ML tasks (BYOC model)        | GPU sessions                    |
+| **Google Drive**       | File storage, exports              | Storage consumption             |
+
+### Free Tier Limits We Operate Within
+
+| Service        | Free Tier             | Our Usage                |
+| -------------- | --------------------- | ------------------------ |
+| GAS Executions | 6M/month              | ~200k estimated          |
+| Firebase Auth  | Unlimited             | All users                |
+| Firebase RTDB  | 1GB + 10GB/month      | Signaling only           |
+| Gemini Flash   | 1500 req/day          | Distributed across users |
+| Sheets         | 10M cells/spreadsheet | Sharded by month         |
+
+---
+
+## 🧠 Core Concepts
+
+### 1. Plugin-First Runtime
+
+Minimal core (~50KB). Everything is a plugin:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    GOOGLE-FIRST STACK                           │
+│  PANDA FACTORY SHELL                                             │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
+│  │   Core Shell    │  │   Plugin A      │  │   Plugin B      │  │
+│  │   (~50KB)       │  │   (CRM)         │  │   (Trading)     │  │
+│  │   ├── Auth      │  │   + MCP tools   │  │   + MCP tools   │  │
+│  │   ├── Billing   │  │   + UI views    │  │   + UI views    │  │
+│  │   └── Events    │  │   + Styles      │  │   + Styles      │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+│                              ↓                                   │
+│                    panda.mcp.json (AI understands all)          │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 2. Web-First (Zero Install)
+
+**90% of users never install anything:**
+
+| Mode         | Install        | Features                             | Cost     |
+| ------------ | -------------- | ------------------------------------ | -------- |
+| **Web-Only** | Zero (PWA)     | AI Chat, Canvas, Data, Store, Wallet | $0/month |
+| **Desktop**  | ~30MB + models | + GPU, Mining, RPA, Local AI         | $0/month |
+
+### 3. AI-Native (MCP Protocol)
+
+Every tool is described for AI comprehension:
+
+```json
+// panda.mcp.json example
+{
+  "name": "panda-crm",
+  "tools": [
+    {
+      "name": "crm_list_clients",
+      "description": "List all clients with optional filters",
+      "parameters": {
+        "status": { "type": "string", "enum": ["active", "inactive"] }
+      }
+    }
+  ]
+}
+```
+
+**Result:** Users speak naturally, AI executes tools.
+
+### 4. Constitutional Governance
+
+12 hardcoded articles govern the ecosystem:
+
+| Article | Rule                                            | Enforcement   |
+| ------- | ----------------------------------------------- | ------------- |
+| Art 1   | Treasury Backing (70% PAXG, 30% USDC)           | Hardcoded     |
+| Art 2   | Primary Split (52% Dev, 25% Education, 15% Ops) | Hardcoded     |
+| Art 3   | Inflation Target (2% ± 0.5%)                    | AI-controlled |
+| Art 9.2 | Non-Expulsion (users can't be banned)           | Hardcoded     |
+
+---
+
+## 🛠 Technical Stack
+
+### Priority Hierarchy
+
+| Priority | Category         | Technologies                           |
+| -------- | ---------------- | -------------------------------------- |
+| **P0**   | Core (Immutable) | Firebase Auth, GAS, Ed25519 signatures |
+| **P1**   | SDK Base         | React 18, TLDraw, Yjs, Vite            |
+| **P2**   | Recommended      | TypeScript, Zod, React Query           |
+| **P3**   | Add-ons          | Gemini/OpenAI/Claude, Ollama, WebGPU   |
+
+### Language Distribution
+
+```
+JavaScript/TypeScript  ████████████████████  78%
+Rust (Agent)           ████                  15%
+Google Apps Script     ██                     5%
+Python (Colab)         █                      2%
+```
+
+### Key Files
+
+| File             | Purpose                     |
+| ---------------- | --------------------------- |
+| `manifest.json`  | PWA config, offline caching |
+| `panda.mcp.json` | MCP tools registry for AI   |
+| `pf.sdk.js`      | Browser SDK (~200KB)        |
+| `Brain.gs`       | GAS backend, Gemini routing |
+| `main.rs`        | Rust Agent entry point      |
+
+---
+
+## 🔌 MCP Protocol Integration
+
+**Model Context Protocol (MCP)** is our core differentiator:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  MCP FLOW: User → AI → Tool → Result                            │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  🧠 AI LAYER                    ☁️ BACKEND LAYER                │
-│  ├── Gemini 2.0 Flash          ├── Google Apps Script          │
-│  ├── Gemini Pro                ├── Google Sheets (as DB)       │
-│  └── Gemini Imagen             └── Google Drive (storage)      │
-│                                                                  │
-│  🔐 AUTH & REALTIME            🐍 COMPUTE LAYER                 │
-│  ├── Firebase Auth             ├── Google Colab (free GPU)     │
-│  ├── Firebase RTDB             └── User-side processing        │
-│  └── Firebase Hosting                                           │
+│  User: "Add João to my CRM"                                      │
+│         ↓                                                        │
+│  Gemini: [Reads panda.mcp.json] → Identifies: crm_create_client  │
+│         ↓                                                        │
+│  Dispatcher: Execute crm_create_client({ name: "João" })         │
+│         ↓                                                        │
+│  GAS Backend: Sheets.appendRow(["João", ...])                    │
+│         ↓                                                        │
+│  Response: "✅ João added to CRM"                                │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### Services Utilized
+### MCP Tool Categories
 
-| Google Service         | Usage                  | Demand Generation                 |
-| ---------------------- | ---------------------- | --------------------------------- |
-| **Gemini API**         | Core AI chat, analysis | Every user interaction = API call |
-| **Google Apps Script** | Backend logic, billing | Serverless compute                |
-| **Google Sheets**      | Database, transactions | Scales with users                 |
-| **Firebase Auth**      | User authentication    | User acquisition                  |
-| **Firebase RTDB**      | Real-time signaling    | Active connections                |
-| **Google Colab**       | Heavy AI tasks (BYOC)  | GPU usage, Pro upgrades           |
-| **Google Drive**       | File storage           | Storage consumption               |
+| Category          | Examples                        | Execution      |
+| ----------------- | ------------------------------- | -------------- |
+| **Web Tools**     | crm*\*, sheets*_, wallet\__     | Via GAS        |
+| **AI Tools**      | brain_chat, brain_analyze       | Via Gemini API |
+| **Desktop Tools** | fs*read, screen_capture, gpu*\* | Via Rust Agent |
 
----
+### Plugin Publishing Requirements
 
-## 💡 The Hooks Model
+All plugins MUST have `panda.mcp.json`:
 
-We integrate with multiple platforms, but **Google services are always the primary choice**:
-
-```
-PRIORITY HIERARCHY:
-1️⃣ Google Services (always first)
-2️⃣ User-side processing (local)
-3️⃣ Third-party only when unavoidable
+```json
+{
+  "name": "my-plugin",
+  "version": "1.0.0",
+  "tools": [...],
+  "permissions": ["sheets", "brain"],
+  "defendScore": 85  // Minimum 70 to publish
+}
 ```
 
-| Need         | Google Solution   | Fallback         |
-| ------------ | ----------------- | ---------------- |
-| AI/ML        | Gemini API        | Local (user GPU) |
-| Auth         | Firebase Auth     | -                |
-| Database     | Sheets + Firebase | -                |
-| File Storage | Drive             | -                |
-| Compute      | Colab             | User local       |
-| Payments     | -                 | Stripe/PIX       |
-
 ---
 
-## 📈 Demand Generation for Google
+## 💰 Economy & Tokenomics
 
-Every Panda Factory user generates demand for Google services:
+### Panda Coin (PC) - Internal Currency
+
+| Aspect           | Value                  |
+| ---------------- | ---------------------- |
+| Symbol           | PC (Panda Coin)        |
+| Backing          | 70% PAXG + 30% USDC    |
+| Inflation Target | 2% ± 0.5% annually     |
+| Mint Authority   | PAT (AI Treasury) only |
+
+### Revenue Splits
+
+**Plugin Store Sales:**
 
 ```
-USER JOURNEY → GOOGLE DEMAND
-
-1. User signs up      → Firebase Auth (new user)
-2. User chats with AI → Gemini API calls (~500k tokens/user/month)
-3. User stores data   → Sheets rows + Drive files
-4. User needs compute → Colab session (potential Pro conversion)
-5. User builds plugin → More API calls, more storage
+52% → Developer (creator)
+25% → Panda Education Fund
+15% → Operational costs
+ 5% → Platform fee
+ 3% → Payment gateway
 ```
 
-### Projected Impact (Phase 1)
+**Partner Mode Earnings:**
 
-| Metric                  | Estimate         |
-| ----------------------- | ---------------- |
-| Target users (Y1)       | 10,000           |
-| Gemini calls/user/month | 500k tokens      |
-| Total Gemini demand     | 5B tokens/month  |
-| Firebase connections    | 1,000 concurrent |
-| Colab sessions/week     | 500              |
+```
+50% → User (Panda Credits)
+25% → Tax Reserve
+23% → Operational
+ 2% → Founder
+```
 
----
+### PAT (Panda AI Treasury)
 
-## 🏗️ Core Concepts
+Autonomous AI managing monetary policy:
 
-### 1. Plugin-First Runtime
-
-Minimal core shell. All features are plugins with **MCP (Model Context Protocol)** for AI-native interaction.
-
-### 2. Web-First (90% Zero-Install)
-
-Most users run entirely in browser via **PWA → GAS → Firebase**. Desktop app optional for power users.
-
-### 3. Partner Mode (P2P Compute)
-
-Users share idle resources → Earn credits → Spend in ecosystem. Circular economy.
-
-### 4. AI Treasury (PAT)
-
-Autonomous AI governs token economics following hardcoded rules (12 Articles Constitution).
-
----
-
-## 🎯 Target Verticals
-
-| Vertical          | Google Alignment                           |
-| ----------------- | ------------------------------------------ |
-| **EdTech**        | Colab for learning, Gemini for tutoring    |
-| **SaaS for SMBs** | Sheets as backend, low-cost infrastructure |
-| **AI/ML**         | Gemini-first, Colab integration            |
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  PAT DECISION FLOW                                               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  IF reserve > 10%:                                               │
+│     → Reinvest excess into ecosystem                             │
+│                                                                  │
+│  IF deflation_pressure > threshold:                              │
+│     → Mint new PC (capped at 2% annual)                          │
+│                                                                  │
+│  IF inflation > 2.5%:                                            │
+│     → Burn excess PC from treasury                               │
+│                                                                  │
+│  ALWAYS: Follow 12 Constitutional Articles                       │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🗺️ Roadmap
+## 🤝 Partner Mode (P2P Compute)
 
-| Phase           | Focus      | Google Services                         |
-| --------------- | ---------- | --------------------------------------- |
-| **0** (Current) | Foundation | GAS, Firebase, Gemini                   |
-| **1** (Q1 2026) | Launch     | Scale Gemini usage, Colab templates     |
-| **2** (Q2 2026) | Growth     | Cloud Run (future), BigQuery analytics  |
-| **3** (Q3 2026) | Expansion  | Google Ads integration, Play Store apps |
+**Partner Mode** allows users to share idle resources and earn:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  P2P COMPUTE NETWORK                                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Partner A (GPU Idle)      Task Queue        Partner B (Request) │
+│  ┌─────────────────┐      ┌──────────┐      ┌─────────────────┐  │
+│  │ RTX 3060        │ ←──→ │ Firebase │ ←──→ │ Needs Whisper   │  │
+│  │ Mining = ON     │      │ RTDB     │      │ transcription   │  │
+│  │ Earns: 50 PC/hr │      │ Signaling│      │ Pays: 10 PC     │  │
+│  └─────────────────┘      └──────────┘      └─────────────────┘  │
+│                                                                  │
+│  SUPPORTED TASKS:                                                │
+│  ├── Whisper transcription (audio → text)                        │
+│  ├── NLLB translation (200 languages)                            │
+│  ├── Image generation (Stable Diffusion)                         │
+│  └── Custom ML inference                                         │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Partner Mode Phases
+
+| Phase         | Feature                        | Status          |
+| ------------- | ------------------------------ | --------------- |
+| **Pre-Chain** | Firebase signaling, PC credits | Planned Q1 2026 |
+| **On-Chain**  | Solana anchoring, USDC bridge  | Planned Q3 2026 |
+
+---
+
+## 📦 SDK Architecture
+
+### Module Hierarchy (Tentacles)
+
+```
+Panda (Global)
+├── Auth         → Firebase Auth wrapper
+├── Data         → Sheets CRUD
+├── Storage      → Drive files
+├── Wallet       → PC balance (read-only)
+├── Brain        → AI module
+│   ├── Gemini   → 6 specialized GEMs
+│   ├── GPU      → WebGPU detection
+│   └── LocalLLM → Ollama/LM Studio
+├── Bridge       → Rust Agent communication
+├── UI           → Toast, Modal, Popout
+├── Polyglot     → Translation (requires Rust)
+├── Governance   → Constitution reader
+└── PAT          → Treasury status
+```
+
+### Usage Example
+
+```javascript
+// AI Chat with billing
+const { text } = await Panda.Brain.Gemini.chat("Hello!", {
+  gem: "writer",
+  temperature: 0.7,
+});
+
+// Data CRUD
+await Panda.Data.save("clients", { name: "João", email: "joao@email.com" });
+
+// GPU Detection
+const caps = await Panda.Brain.GPU.detect();
+console.log(caps.webgpu); // true/false
+
+// Partner Mode status
+const isPartner = await Panda.Bridge.isConnected();
+```
+
+---
+
+## 🐙 Tentacle System
+
+Modular integration architecture:
+
+| Tentacle         | Children                                             | Status         |
+| ---------------- | ---------------------------------------------------- | -------------- |
+| **Brain**        | Gemini, GPU, LocalLLM                                | ✅ Implemented |
+| **Google**       | Drive, Sheets, Colab, Calendar, Docs, Gmail, YouTube | ✅ Implemented |
+| **Social**       | WhatsApp, Twitter, YouTube, Meta, Telegram, TikTok   | ✅ Implemented |
+| **Distribution** | PWA, itch.io, Panda Arcade                           | ✅ Implemented |
+| **Education**    | Kiwify, Hotmart, Eduzz                               | 🚧 Planned     |
+| **Gaming**       | Godot, Bevy, ThreeJS, PixiJS                         | 🚧 Planned     |
+
+---
+
+## 📜 Governance (Constitution)
+
+### 12 Articles Summary
+
+| #   | Article               | Description                   |
+| --- | --------------------- | ----------------------------- |
+| 1   | Treasury Backing      | 70% PAXG + 30% USDC           |
+| 2   | Primary Revenue Split | 52/25/15/5/3 distribution     |
+| 3   | Inflation Target      | 2% ± 0.5% annually            |
+| 4   | Reserve Ceiling       | Max 10%, auto-reinvest excess |
+| 5   | Vesting               | Founder 4-year cliff          |
+| 6   | Burn Mechanism        | Auto-burn on deflation        |
+| 7   | Education Fund        | 25% of all revenue            |
+| 8   | Transparency          | All operations logged         |
+| 9.1 | Plugin Rejection      | Only for security/scam        |
+| 9.2 | Non-Expulsion         | Users cannot be banned        |
+| 10  | Amendment Process     | Requires 2/3 majority         |
+| 11  | Emergency Powers      | Limited to 72h                |
+| 12  | Dispute Resolution    | Binding arbitration           |
+
+---
+
+## 🗺 Roadmap
+
+| Phase | Timeline    | Focus                                  | Google Services       |
+| ----- | ----------- | -------------------------------------- | --------------------- |
+| **0** | ✅ Jan 2026 | Foundation: Shell, SDK, GAS, Docs      | GAS, Firebase, Gemini |
+| **1** | 🚧 Feb 2026 | Day 1: Rust Agent, Partner Mode, Store | + Colab integration   |
+| **2** | Q2 2026     | Scale: P2P Network, VSX Store          | + Cloud Run, BigQuery |
+| **3** | Q3 2026     | Expansion: EdTech, Marketplace         | + Google Ads          |
+
+### Current Status (Phase 0 - 95% Complete)
+
+- ✅ 17 Technical Documents (~200KB total)
+- ✅ SDK with 10+ modules
+- ✅ GAS backend fully functional
+- ✅ Firebase Auth + RTDB integration
+- ✅ Constitution codified (12 Articles)
+- 🚧 Rust Agent (in development)
+- 🚧 Partner Mode (planned)
+
+---
+
+## 📂 Repository Structure
+
+```
+Panda-Factory/ (This Showcase Repo)
+├── README.md       ← You are here
+├── pitch-deck.html ← 8-slide presentation
+├── logo.png        ← Main logo
+└── LOGO/           ← High-res logos
+
+SAAS/ (Private Development Repo)
+├── docs/           ← 17 technical documents
+├── js/             ← SDK source code
+├── jam/            ← React UI components
+├── backend/        ← GAS scripts
+└── rust-agent/     ← Desktop agent
+```
 
 ---
 
 ## 📬 Contact
 
-**Lucas Valério** — Founder
+**Lucas Valério** — Founder & Solo Developer
 
 - 🐙 GitHub: [@LucassVal](https://github.com/LucassVal)
 - 📧 Open to Google for Startups partnership discussions
+- 🌐 pandafactory.dev (coming soon)
 
 ---
 
 <p align="center">
   <strong>🐼 Panda Factory</strong><br>
-  <em>Built on Google. Built for everyone.</em>
+  <em>Built on Google. Built for everyone.</em><br><br>
+  <img src="https://img.shields.io/badge/Status-Active_Development-brightgreen" alt="Status">
+  <img src="https://img.shields.io/badge/Phase-0_Foundation-blue" alt="Phase">
+  <img src="https://img.shields.io/badge/Docs-17_files-purple" alt="Docs">
 </p>
