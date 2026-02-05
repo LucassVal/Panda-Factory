@@ -2430,46 +2430,6 @@ Venda de Plugin (100 PC):
 
 ---
 
-## 9. P2P Compute Network
-
-> **Conceito:** Qualquer pessoa pode alugar capacidade computacional por PC
-
-### 15.1. Arquitetura
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                    PANDA COMPUTE NETWORK                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  PROVIDERS (Quem Aluga)           CONSUMERS (Quem Usa)      │
-│  ├── Google Colab (oficial)       ├── Dev compilando        │
-│  ├── WebNVIDIA/GeForce Now        ├── Artista renderizando  │
-│  ├── Servers dedicados            ├── Jornalista processando│
-│  └── Usuário (PC gamer ocioso)    └── Estudante treinando ML│
-│                                                             │
-│  SPLIT DE RECEITA (Art. 7 Constituição)                     │
-│  └── 95% Host / 5% Panda                                    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### 15.2. Registro de Host
-
-| Etapa | Ação                                           |
-| ----- | ---------------------------------------------- |
-| 1     | Usuário tem servidor/PC ocioso                 |
-| 2     | Registra no Panda Network (specs + preço/hora) |
-| 3     | Recebe jobs via Firebase signaling             |
-| 4     | Executa em sandbox (Rust Agent)                |
-| 5     | Recebe PC automaticamente (95%)                |
-
-### 15.3. Validação com Constituição
-
-- **Art. 7 (Garantia Host):** 90-95% vai para o host ✅
-- **Taxa P2P:** 5-10% (configurável via DAO) ✅
-
----
-
 ## 16. Google Partner Strategy
 
 > **Visão:** Panda Factory = Showcase completo de integração Google
