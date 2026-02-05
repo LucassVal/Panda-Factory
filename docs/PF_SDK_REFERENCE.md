@@ -9,12 +9,13 @@
 
 1. [Tech Stack](#tech-stack)
 2. [Instalação](#instalação)
-3. [**⚠️ REGRAS OBRIGATÓRIAS**](#️-regras-obrigatórias-leia-antes-de-tudo)
-4. [Módulos Públicos](#módulos-públicos)
-5. [Tentacle Architecture](#tentacle-architecture)
-6. [Event Bus](#event-bus)
-7. [Classificação de Segurança](#classificação-de-segurança)
-8. [Changelog](#changelog)
+3. [**🔄 SDK Bidirecional (Hooks)**](#-sdk-bidirecional-hooks)
+4. [**⚠️ REGRAS OBRIGATÓRIAS**](#️-regras-obrigatórias-leia-antes-de-tudo)
+5. [Módulos Públicos](#módulos-públicos)
+6. [Tentacle Architecture](#tentacle-architecture)
+7. [Event Bus](#event-bus)
+8. [Classificação de Segurança](#classificação-de-segurança)
+9. [Changelog](#changelog)
 
 ---
 
@@ -78,6 +79,81 @@
   console.log(Panda.version()); // "0.5.1"
 </script>
 ```
+
+---
+
+## 🔄 SDK Bidirecional (Hooks)
+
+> **Filosofia:** O SDK conecta o Panda Factory ao mundo externo em **duas direções**.
+
+### Arquitetura
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        SDK BIDIRECIONAL                                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  📥 INBOUND HOOKS                 📤 OUTBOUND HOOKS                     │
+│  (External → Panda)               (Panda → External)                    │
+│                                                                          │
+│  ┌─────────────┐                  ┌─────────────┐                       │
+│  │ Kiwify      │───webhook──▶     ◀──publish───│ PlayStore  │          │
+│  │ Hotmart     │                                │ Apple Store│          │
+│  │ Gumroad     │                                │ Steam      │          │
+│  └─────────────┘                  └─────────────┘                       │
+│          │                                │                              │
+│          ▼                                ▼                              │
+│  ┌───────────────────────────────────────────────────────┐              │
+│  │               PANDA SDK (pf.sdk.js)                   │              │
+│  │               Events.emit() / Events.on()             │              │
+│  └───────────────────────────────────────────────────────┘              │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 📥 Inbound Hooks (Marketplace → Panda)
+
+Recebe eventos de vendas de marketplaces externos via GAS webhooks.
+
+| Marketplace | Evento Recebido     | Handler                           |
+| ----------- | ------------------- | --------------------------------- |
+| **Kiwify**  | `purchase.approved` | `Panda.Hooks.onKiwifyPurchase()`  |
+| **Hotmart** | `PURCHASE.APPROVED` | `Panda.Hooks.onHotmartPurchase()` |
+| **Gumroad** | `sale.completed`    | `Panda.Hooks.onGumroadSale()`     |
+
+```javascript
+// GAS Webhook Handler (PF_Core_Webhooks.gs)
+function handleKiwifyWebhook(payload) {
+  const { email, product_id, amount } = payload;
+
+  // Credita PC no usuário
+  WalletService.credit(email, amount * 100, "Kiwify: " + product_id);
+
+  // Emite evento para UI
+  broadcastEvent("purchase:kiwify", { email, product_id });
+}
+```
+
+### 📤 Outbound Hooks (Panda → App Stores)
+
+Publica plugins/apps diretamente para lojas externas.
+
+| Destino         | Método SDK                     | Status     |
+| --------------- | ------------------------------ | ---------- |
+| **PlayStore**   | `Panda.Publish.toPlayStore()`  | 🔮 Roadmap |
+| **Apple Store** | `Panda.Publish.toAppleStore()` | 🔮 Roadmap |
+| **Steam**       | `Panda.Publish.toSteam()`      | 🔮 Roadmap |
+
+```javascript
+// Futuro: Publicar app para múltiplas lojas
+await Panda.Publish.toMultiple({
+  targets: ["playstore", "steam"],
+  bundle: "./dist/my-app.zip",
+  metadata: { name: "Meu App", version: "1.0.0" },
+});
+```
+
+> **Dev Freedom:** "Crie no Panda, distribua pra qualquer lugar."
 
 ---
 

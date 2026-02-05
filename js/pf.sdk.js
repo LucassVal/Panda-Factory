@@ -764,7 +764,7 @@
       { id: 2, name: "Panda Labs", rule: "25% do Fundo → Educação" },
       { id: 3, name: "Reserva Ops", rule: "20% do Lucro Ops → Caixa" },
       { id: 4, name: "Crescimento", rule: "65% do Fundo → Ação" },
-      { id: 5, name: "Piso Preço", rule: "2.5x (Min 1.25x)" },
+      { id: 5, name: "Piso Preço", rule: "4.0x (Min 2.8x)" },
       { id: 6, name: "Founder Fee", rule: "5% Bruto Eterno" },
       { id: 7, name: "Garantia Host", rule: "90% a 95% (Taxa P2P 5-10%)" },
       { id: 8, name: "Reserva Fundo", rule: "Max 10% (Excedente = Reinveste)" },
@@ -779,7 +779,7 @@
       {
         id: 13,
         name: "Developer First",
-        rule: "Desconto 10% (2.5x→2.25x) quando sustentável OU deflação>2%",
+        rule: "Desconto 10% (4.0x→3.6x) quando sustentável OU deflação>2%",
       },
       {
         id: 14,
@@ -809,16 +809,16 @@
       },
       BETA_FOUNDER: {
         prefix: "BETA_",
-        multiplier: 1.25, // 50% off do padrão (2.5x)
+        multiplier: 2.8, // 30% off do padrão (4.0x)
         maxLicenses: 100,
-        discount: 0.5,
+        discount: 0.3,
         lifetime: true,
         transferable: false,
         split: "standard", // Usa split padrão
-        description: "100 early supporters - 50% off vitalício",
+        description: "100 early supporters - 30% off vitalício",
       },
       STANDARD: {
-        multiplier: 2.5, // Padrão do mercado
+        multiplier: 4.0, // Padrão do mercado (conforme PF_ECONOMY_REFERENCE)
         maxLicenses: Infinity,
         split: {
           dev: 0.52,
@@ -978,7 +978,7 @@
 
       const multiplier = tierConfig.multiplier;
       const cost = Math.ceil(baseCost * multiplier);
-      const standardCost = Math.ceil(baseCost * 2.5);
+      const standardCost = Math.ceil(baseCost * 4.0);
       const discount =
         standardCost > 0 ? Math.round((1 - cost / standardCost) * 100) : 0;
 

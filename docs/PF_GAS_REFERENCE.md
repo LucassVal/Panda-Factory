@@ -102,18 +102,101 @@ function doPost(e) {
 }
 ```
 
-### doGet - Health Check
+### doGet - Tri-Mode Dispatcher (JSON / WEB / MCP)
+
+O `doGet` agora suporta **3 modos de entrada**:
+
+| Modo       | Query Param     | Retorno     | Uso                   |
+| ---------- | --------------- | ----------- | --------------------- |
+| **Health** | `(nenhum)`      | JSON status | Verificação de uptime |
+| **WEB**    | `?page=nome`    | HTML        | Servir páginas web    |
+| **MCP**    | `?mcp=manifest` | JSON        | Expor tools para IA   |
 
 ```javascript
 function doGet(e) {
+  const params = e?.parameter || {};
+
+  // 🔌 MCP MODE: Expose tools for AI agents
+  if (params.mcp === "manifest") {
+    return jsonResponse(getMcpManifest());
+  }
+
+  // 🌐 WEB MODE: Serve HTML pages
+  if (params.page) {
+    return serveWebPage(params.page);
+  }
+
+  // 💚 HEALTH MODE: Status check (default)
   return ContentService.createTextOutput(
     JSON.stringify({
       status: "online",
       version: "1.0.0",
+      modes: ["JSON", "WEB", "MCP"],
       timestamp: new Date().toISOString(),
     }),
   ).setMimeType(ContentService.MimeType.JSON);
 }
+
+// 🔌 MCP Manifest Generator
+function getMcpManifest() {
+  return {
+    name: "panda-gas-backend",
+    version: "1.0.0",
+    description: "Panda Factory GAS Backend - AI-Callable Tools",
+    tools: [
+      {
+        name: "brain.chat",
+        description: "Chat with Gemini AI",
+        inputSchema: { message: "string", gem: "string?" },
+      },
+      {
+        name: "wallet.balance",
+        description: "Get user wallet balance",
+        inputSchema: { userId: "string" },
+      },
+      {
+        name: "data.list",
+        description: "List collection items",
+        inputSchema: { collection: "string" },
+      },
+      {
+        name: "oracle.usd",
+        description: "Get USD/BRL exchange rate",
+        inputSchema: {},
+      },
+    ],
+  };
+}
+
+// 🌐 Web Page Server
+function serveWebPage(pageName) {
+  const pages = {
+    dashboard: HtmlService.createHtmlOutputFromFile("pages/dashboard"),
+    login: HtmlService.createHtmlOutputFromFile("pages/login"),
+  };
+
+  if (pages[pageName]) {
+    return pages[pageName].setTitle("Panda Factory");
+  }
+
+  return HtmlService.createHtmlOutput("<h1>404 - Page Not Found</h1>");
+}
+```
+
+**Exemplos de uso:**
+
+```
+# Health check
+GET https://script.google.com/.../exec
+→ {"status": "online", "modes": ["JSON", "WEB", "MCP"]}
+
+# MCP manifest (para IA)
+GET https://script.google.com/.../exec?mcp=manifest
+→ {"name": "panda-gas-backend", "tools": [...]}
+
+# Servir página web
+GET https://script.google.com/.../exec?page=dashboard
+→ HTML do dashboard
 ```
 
 ---
