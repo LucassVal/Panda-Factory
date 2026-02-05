@@ -22,6 +22,7 @@
   <img src="https://img.shields.io/badge/Canvas-TLDraw-FF6F61" alt="TLDraw">
   <img src="https://img.shields.io/badge/Collab-Yjs-5C5CFF" alt="Yjs">
   <img src="https://img.shields.io/badge/Protocol-MCP-8E75B2" alt="MCP">
+  <img src="https://img.shields.io/badge/Translation-NLLB_200-00A67E" alt="NLLB">
   <img src="https://img.shields.io/badge/Speech-Whisper-74AA9C" alt="Whisper">
 </p>
 
@@ -129,7 +130,7 @@ Our entire stack prioritizes Google services, generating demand while maintainin
 │  ┌──────────────────────────────────────────────────────────────────────┐   │
 │  │  🦀 RUST AGENT (Desktop - Optional)                                  │   │
 │  │  ├── Local GPU processing (CUDA, Vulkan, WebGPU)                     │   │
-│  │  ├── Whisper (Offline STT + Translation)                             │   │
+│  │  ├── Whisper + NLLB (Offline AI models)                              │   │
 │  │  ├── Partner Mode (P2P compute mining)                               │   │
 │  │  └── Native MCP Server (fs, terminal, screen)                        │   │
 │  └──────────────────────────────────────────────────────────────────────┘   │
@@ -189,10 +190,10 @@ Minimal core (~50KB). Everything is a plugin:
 
 **90% of users never install anything:**
 
-| Mode         | Install           | Features                                                                   | Cost     |
-| ------------ | ----------------- | -------------------------------------------------------------------------- | -------- |
-| **Web-Only** | Zero (PWA)        | AI Chat, Canvas, Data, Store, Wallet, MCP Tools                            | $0/month |
-| **Desktop**  | ~30MB + AI models | + Whisper STT/Translation, GPU/CUDA, Partner Mode, RPA, Multi-Window (PiP) | $0/month |
+| Mode         | Install           | Features                                                                                     | Cost     |
+| ------------ | ----------------- | -------------------------------------------------------------------------------------------- | -------- |
+| **Web-Only** | Zero (PWA)        | AI Chat, Canvas, Data, Store, Wallet, MCP Tools                                              | $0/month |
+| **Desktop**  | ~30MB + AI models | + NLLB Translation (200 langs), Whisper STT, GPU/CUDA, Partner Mode, RPA, Multi-Window (PiP) | $0/month |
 
 ### 3. AI-Native (MCP Protocol)
 
@@ -314,7 +315,7 @@ All plugins MUST have `panda.mcp.json`:
 │                                                                  │
 │  SUPPORTED TASKS:                                                │
 │  ├── Whisper transcription (audio → text)                        │
-│  ├── Whisper translation (native interface)                      │
+│  ├── NLLB translation (200 languages)                            │
 │  ├── Image generation (Stable Diffusion)                         │
 │  └── Custom ML inference                                         │
 │                                                                  │
@@ -346,7 +347,7 @@ Panda (Global)
 │   └── LocalLLM → Ollama/LM Studio integration
 ├── Bridge       → Rust Agent communication (MCP native)
 ├── UI           → Toast, Modal, Popout (Document PiP API)
-├── Polyglot     → Whisper Translation (native interface, requires Rust)
+├── Polyglot     → NLLB Translation (200 languages, requires Rust)
 └── Google       → Workspace integration tentacle
     ├── Drive    → File operations
     ├── Sheets   → Database operations
