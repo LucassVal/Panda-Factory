@@ -1,187 +1,162 @@
 <p align="center">
-  <img src="logo.png" alt="Panda Factory" width="200">
+  <img src="logo.png" alt="Panda Factory" width="180">
 </p>
 
 <h1 align="center">🐼 Panda Factory</h1>
 
 <p align="center">
-  <strong>"Do PhD ao Favelado"</strong> — Democratizing Software with AI
+  <strong>"Do PhD ao Favelado"</strong> — Democratizing Software with Google AI
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#key-differentiators">Differentiators</a> •
-  <a href="#pitch-deck">Pitch Deck</a> •
-  <a href="#roadmap">Roadmap</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Stage-MVP-blue" alt="Stage">
-  <img src="https://img.shields.io/badge/AI-Gemini%20Powered-purple" alt="AI">
-  <img src="https://img.shields.io/badge/MCP-Native-green" alt="MCP">
-  <img src="https://img.shields.io/badge/License-Proprietary-orange" alt="License">
+  <img src="https://img.shields.io/badge/Built_on-Google_Cloud-4285F4?logo=google-cloud" alt="Google Cloud">
+  <img src="https://img.shields.io/badge/AI-Gemini_Powered-8E75B2?logo=google" alt="Gemini">
+  <img src="https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase" alt="Firebase">
 </p>
 
 ---
 
-## 🎯 The Problem
+## 🎯 Vision
 
-**80% of small businesses don't automate** because software is:
-
-- ❌ Too expensive ($50-500/month per tool)
-- ❌ Too complex (steep learning curves)
-- ❌ Fragmented (data silos, broken integrations)
-
-## 💡 The Solution
-
-**Panda Factory** is a minimalist AI-powered runtime where plugins run, orchestrated by natural language via **MCP (Model Context Protocol)**.
-
-| Feature              | Description                                                                                    |
-| -------------------- | ---------------------------------------------------------------------------------------------- |
-| 🧠 **MCP-Native**    | Every tool is AI-accessible. Ask in plain language, it executes. Works on **Web AND Desktop**. |
-| 🔌 **Plugin-First**  | Minimal core. Everything via installable plugins. Pay only what you use.                       |
-| 🪟 **Multi-Window**  | Document Picture-in-Picture API. Pop-out any tool to separate windows/monitors.                |
-| 🆓 **Free to Start** | 500k tokens/month free. Gemini Flash integrated.                                               |
-| 🤝 **Partner Mode**  | Share idle CPU, earn credits. Zero cost, everyone wins.                                        |
+**Panda Factory** is a minimalist AI-powered platform that democratizes software access for underserved communities. We leverage the **Google ecosystem** as our primary infrastructure, generating demand for Google services while reducing barriers to technology adoption.
 
 ---
 
-## 🏗️ Architecture
+## 🔷 Google-First Architecture
 
-Three-layer hybrid architecture for **$0 infrastructure cost**:
+Our entire stack is built on Google infrastructure, maximizing the ecosystem's potential:
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│  ☁️  GOOGLE LAYER (Web-First - 90% of use cases)                    │
-│      Gemini API + GAS + Firebase → $0/month                         │
-│      🔌 MCP via manifest.json (PWA) - NO RUST REQUIRED              │
-├─────────────────────────────────────────────────────────────────────┤
-│  🐍  COLAB LAYER (Free GPU for heavy AI)                            │
-│      User's Colab Account → ML, Whisper, Image Gen                  │
-├─────────────────────────────────────────────────────────────────────┤
-│  🦀  RUST LAYER (Partner Mode + Local Power)                        │
-│      Local Tauri Agent → MCP Server, Mining, GPU Pool, RPA          │
-│      🪟 Multi-Window via Document PiP API                           │
-└─────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                    GOOGLE-FIRST STACK                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  🧠 AI LAYER                    ☁️ BACKEND LAYER                │
+│  ├── Gemini 2.0 Flash          ├── Google Apps Script          │
+│  ├── Gemini Pro                ├── Google Sheets (as DB)       │
+│  └── Gemini Imagen             └── Google Drive (storage)      │
+│                                                                  │
+│  🔐 AUTH & REALTIME            🐍 COMPUTE LAYER                 │
+│  ├── Firebase Auth             ├── Google Colab (free GPU)     │
+│  ├── Firebase RTDB             └── User-side processing        │
+│  └── Firebase Hosting                                           │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-**Key Innovation:**
+### Services Utilized
 
-- **Web-First:** Most users never need to install anything. MCP works via GAS/Firebase.
-- **Desktop Power:** Rust Agent unlocks GPU, local AI, mining, and automation.
-- **Multi-Window:** Pop-out Console, MCP Browser, Treasury to separate monitors.
+| Google Service         | Usage                  | Demand Generation                 |
+| ---------------------- | ---------------------- | --------------------------------- |
+| **Gemini API**         | Core AI chat, analysis | Every user interaction = API call |
+| **Google Apps Script** | Backend logic, billing | Serverless compute                |
+| **Google Sheets**      | Database, transactions | Scales with users                 |
+| **Firebase Auth**      | User authentication    | User acquisition                  |
+| **Firebase RTDB**      | Real-time signaling    | Active connections                |
+| **Google Colab**       | Heavy AI tasks (BYOC)  | GPU usage, Pro upgrades           |
+| **Google Drive**       | File storage           | Storage consumption               |
 
 ---
 
-## 🔑 Key Differentiators
+## 💡 The Hooks Model
 
-### 1. MCP Everywhere (Web + Desktop)
-
-```javascript
-// Works in browser (via GAS) OR desktop (via Rust Agent)
-const result = await Panda.Bridge.execute("my_tool", { params });
-```
-
-### 2. Multi-Window UI (Document PiP)
-
-```javascript
-// Pop any tool to a separate window
-await Panda.UI.popout("console", { width: 800, height: 600 });
-```
-
-### 3. Zero Infrastructure Cost
+We integrate with multiple platforms, but **Google services are always the primary choice**:
 
 ```
-manifest.json (PWA) → GAS Backend → Firebase Signaling → $0/month
+PRIORITY HIERARCHY:
+1️⃣ Google Services (always first)
+2️⃣ User-side processing (local)
+3️⃣ Third-party only when unavoidable
 ```
 
-### 4. Partner Mode (P2P Compute)
-
-```
-User donates idle CPU → Earns Panda Credits → Spends in Store → Circular economy
-```
+| Need         | Google Solution   | Fallback         |
+| ------------ | ----------------- | ---------------- |
+| AI/ML        | Gemini API        | Local (user GPU) |
+| Auth         | Firebase Auth     | -                |
+| Database     | Sheets + Firebase | -                |
+| File Storage | Drive             | -                |
+| Compute      | Colab             | User local       |
+| Payments     | -                 | Stripe/PIX       |
 
 ---
 
-## 💰 Business Model
+## 📈 Demand Generation for Google
 
-### Revenue Stream 1: Plugin Store (Medusa)
+Every Panda Factory user generates demand for Google services:
 
-| Split   | Recipient                  |
-| ------- | -------------------------- |
-| 52%     | Developer (plugin creator) |
-| 25%     | Education Fund             |
-| 15%     | Operations                 |
-| 5% + 3% | Platform + Gateway         |
+```
+USER JOURNEY → GOOGLE DEMAND
 
-### Revenue Stream 2: Partner Mode (Mining)
+1. User signs up      → Firebase Auth (new user)
+2. User chats with AI → Gemini API calls (~500k tokens/user/month)
+3. User stores data   → Sheets rows + Drive files
+4. User needs compute → Colab session (potential Pro conversion)
+5. User builds plugin → More API calls, more storage
+```
 
-| Split | Recipient               |
-| ----- | ----------------------- |
-| 50%   | User (as Panda Credits) |
-| 25%   | Tax Reserve             |
-| 23%   | Operations              |
-| 2%    | Founder                 |
+### Projected Impact (Phase 1)
+
+| Metric                  | Estimate         |
+| ----------------------- | ---------------- |
+| Target users (Y1)       | 10,000           |
+| Gemini calls/user/month | 500k tokens      |
+| Total Gemini demand     | 5B tokens/month  |
+| Firebase connections    | 1,000 concurrent |
+| Colab sessions/week     | 500              |
 
 ---
 
-## 📊 Pitch Deck
+## 🏗️ Core Concepts
 
-**[📥 View Pitch Deck (HTML)](pitch-deck.html)** — 8 slides, professional design
+### 1. Plugin-First Runtime
 
-To convert to PDF:
+Minimal core shell. All features are plugins with **MCP (Model Context Protocol)** for AI-native interaction.
 
-1. Open in Chrome
-2. Press `Ctrl+P`
-3. Destination: **Save as PDF**
-4. Layout: **Landscape**
-5. Enable: **Background graphics**
+### 2. Web-First (90% Zero-Install)
+
+Most users run entirely in browser via **PWA → GAS → Firebase**. Desktop app optional for power users.
+
+### 3. Partner Mode (P2P Compute)
+
+Users share idle resources → Earn credits → Spend in ecosystem. Circular economy.
+
+### 4. AI Treasury (PAT)
+
+Autonomous AI governs token economics following hardcoded rules (12 Articles Constitution).
+
+---
+
+## 🎯 Target Verticals
+
+| Vertical          | Google Alignment                           |
+| ----------------- | ------------------------------------------ |
+| **EdTech**        | Colab for learning, Gemini for tutoring    |
+| **SaaS for SMBs** | Sheets as backend, low-cost infrastructure |
+| **AI/ML**         | Gemini-first, Colab integration            |
 
 ---
 
 ## 🗺️ Roadmap
 
-| Phase             | Timeline     | Status | Description                                 |
-| ----------------- | ------------ | ------ | ------------------------------------------- |
-| **0. Foundation** | Jan 2026     | ✅ 95% | Shell, SDK, GAS Backend, MCP Manifest, Docs |
-| **1. Day One**    | Feb 2026     | 🚧 30% | Rust Agent, AI Cores, Partner Mode          |
-| **2. Scale**      | Mar-Apr 2026 | ⏳     | P2P Compute, GPU Pool, Multi-Window polish  |
-| **3. Expansion**  | Q2-Q3 2026   | ⏳     | EdTech (Panda Labs), Open Marketplace       |
-
----
-
-## 📈 Traction
-
-| Metric                  | Value                                  |
-| ----------------------- | -------------------------------------- |
-| Technical Documentation | 17 comprehensive docs (~200KB)         |
-| Core Integrations       | 5+ (Firebase, GAS, Gemini, Colab, MCP) |
-| Phase 0 Completion      | 95%                                    |
-
----
-
-## 🛠️ Tech Stack
-
-| Layer              | Technologies                                       |
-| ------------------ | -------------------------------------------------- |
-| **Frontend**       | Vanilla JS, React, TLDraw, Document PiP API        |
-| **Backend**        | Rust (Tauri), Google Apps Script, Firebase RTDB    |
-| **AI/ML**          | Gemini API, Google Colab, MCP Protocol             |
-| **Infrastructure** | Google Cloud (free tier), User-contributed compute |
+| Phase           | Focus      | Google Services                         |
+| --------------- | ---------- | --------------------------------------- |
+| **0** (Current) | Foundation | GAS, Firebase, Gemini                   |
+| **1** (Q1 2026) | Launch     | Scale Gemini usage, Colab templates     |
+| **2** (Q2 2026) | Growth     | Cloud Run (future), BigQuery analytics  |
+| **3** (Q3 2026) | Expansion  | Google Ads integration, Play Store apps |
 
 ---
 
 ## 📬 Contact
 
-**Lucas Valério** — Founder & Developer
+**Lucas Valério** — Founder
 
 - 🐙 GitHub: [@LucassVal](https://github.com/LucassVal)
-- 🌐 Website: [pandafactory.dev](https://pandafactory.dev) _(coming soon)_
+- 📧 Open to Google for Startups partnership discussions
 
 ---
 
 <p align="center">
   <strong>🐼 Panda Factory</strong><br>
-  <em>"Do PhD ao Favelado" — Breaking barriers, one line of code at a time.</em>
+  <em>Built on Google. Built for everyone.</em>
 </p>
