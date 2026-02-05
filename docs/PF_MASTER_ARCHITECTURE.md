@@ -123,12 +123,12 @@
 │  PARTE III: ECONOMIA           ├── §6 Infraestrutura        │
 │  ├── §8 Tokenomics             └── §7 Segurança             │
 │  ├── §9 P2P Compute 🌐                                       │
-│  └── §10 Bounty System                                       │
-│                                 PARTE IV: HUBS               │
-│  PARTE V: ESTRATÉGIA           ├── §12 Convenções           │
-│  ├── §18 Game Studio           ├── §13 Trading (cTrader)    │
-│  ├── §19 Roadmap               ├── §14 Social Media         │
-│  └── §20 Refs & Integrações    └── §23-24 (Extensões)       │
+│  └── §10 Bounty System         PARTE IV: HUBS               │
+│                                 ├── §11 Social Media         │
+│  PARTE V: ESTRATÉGIA           ├── §12 Gaming & Audio        │
+│  ├── §17 Google Partner        ├── §13 EdTech                │
+│  ├── §18 Game Studio           ├── §14 Creative Assets       │
+│  └── §19 Refs & Convenções     └── §15-16 (Dev Ecosystem)    │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -159,18 +159,16 @@
 ### PARTE IV: HUBS DE INTEGRAÇÃO
 
 11. [Social Media Hub](#11-social-hub)
-12. [Trading Hub (cTrader)](#12-trading-hub)
-13. [Gaming, Audio & Video](#13-gaming-audio-video)
-14. [EdTech & Infoprodutos](#14-edtech)
-15. [Creative Assets Marketplace](#15-assets-marketplace)
-16. [Dev Tools & VSX Store](#16-devtools-vsx)
+12. [Gaming, Audio & Video](#12-gaming-audio-video)
+13. [EdTech & Infoprodutos](#13-edtech)
+14. [Creative Assets Marketplace](#14-assets-marketplace)
+15. [Dev Tools & VSX Store](#15-devtools-vsx)
 
 ### PARTE V: ESTRATÉGIA & CRESCIMENTO
 
-17. [Google Partner Strategy](#17-google-partner)
-18. [Game Studio & Publisher](#18-game-studio)
-19. [Roadmap de Implementação](#19-roadmap)
-20. [Referências & Convenções](#20-referencias)
+16. [Google Partner Strategy](#16-google-partner)
+17. [Game Studio & Publisher](#17-game-studio)
+18. [Referências & Convenções](#18-referencias)
 
 ---
 
@@ -2256,7 +2254,7 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ---
 
-## 12. Referências & Convenções
+## 9. Referências & Convenções
 
 ### 12.1. Convenção de Nomes (PF)
 
@@ -2281,63 +2279,7 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ---
 
-## 13. Trading Hub (cTrader Integration)
-
-O Trading Hub conecta o Panda Factory ao mercado financeiro via cTrader Open API.
-
-### 13.1. Arquitetura
-
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         TRADING HUB                                     │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐   │
-│  │ pf.ctrader-api   │    │ pf.ctrader-oauth │    │  AI Signals      │   │
-│  │ (WebSocket)      │    │ (User Auth)      │    │  (Panda.Brain)   │   │
-│  └────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘   │
-│           │                       │                       │              │
-│           └───────────────────────┼───────────────────────┘              │
-│                                   ▼                                      │
-│                     ┌──────────────────────────┐                         │
-│                     │    cTrader Open API      │                         │
-│                     │  (Port 5036 - JSON/WS)   │                         │
-│                     └──────────────────────────┘                         │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
-### 13.2. Módulos
-
-| Módulo            | Arquivo                                   | Descrição                    |
-| ----------------- | ----------------------------------------- | ---------------------------- |
-| **API Connector** | `js/trading/pf.ctrader-api.js`            | WebSocket, Orders, Positions |
-| **OAuth**         | `js/trading/pf.ctrader-oauth.js`          | User login flow              |
-| **UI**            | `components/trading/Comp_TradingHub.html` | Trading interface            |
-
-### 13.3. Credenciais (App: Antigravity)
-
-| Item             | Valor                                             |
-| ---------------- | ------------------------------------------------- |
-| **Client ID**    | `19151_S6shjal0uQ...`                             |
-| **Redirect URI** | `https://lucassval.github.io/panda-ctrader-auth/` |
-| **Scope**        | `trading`                                         |
-| **WS Port**      | `5036` (JSON)                                     |
-
-### 13.4. Monetização Trading
-
-| Feature     | Custo (PC)  |
-| ----------- | ----------- |
-| Conexão API | GRÁTIS      |
-| AI Signal   | 50 PC/sinal |
-| AI Analysis | 30 PC       |
-| Backtesting | 100 PC/run  |
-
-> 📖 **Referência detalhada:** [PF_PLUGIN_AND_MODULAR_REFERENCE.md](PF_PLUGIN_AND_MODULAR_REFERENCE.md)
-
----
-
-## 14. Social Media Hub (Plugin Ecosystem)
+## 11. Social Media Hub (Plugin Ecosystem)
 
 Sistema modular de plugins para gestão de redes sociais.
 
@@ -2389,7 +2331,7 @@ Venda de Plugin (100 PC):
 
 ---
 
-## 16. Google Partner Strategy
+## 12. Google Partner Strategy
 
 > **Visão:** Panda Factory = Showcase completo de integração Google
 
@@ -2428,7 +2370,7 @@ Não reinventar a roda. Integrar fontes existentes:
 
 ---
 
-## 17. EdTech & Multi-Market Expansion
+## 13. EdTech & Multi-Market Expansion
 
 > **Objetivo:** Hooks para Kiwify, Hotmart, Eduzz e outras plataformas
 
@@ -2461,7 +2403,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 18. Gaming, Audio & Video Tentacles
+## 14. Gaming, Audio & Video Tentacles
 
 > **Objetivo:** Integrações criativas para devs, artistas e produtores
 
@@ -2505,7 +2447,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 19. Multi-Market Expansion (A "Amazon" de Serviços Digitais)
+## 15. Multi-Market Expansion (A "Amazon" de Serviços Digitais)
 
 > **Filosofia:** O Panda não vende apenas cursos ou jogos. É o hub de distribuição para qualquer ativo digital.
 
@@ -2539,7 +2481,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 18. Game Studio & Publisher
+## 16. Game Studio & Publisher
 
 > **Modelo:** Agregador de Engines + Cross-Commerce
 
@@ -2565,7 +2507,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 10. Bounty System & Comunidade
+## 17. Bounty System & Comunidade
 
 > **Filosofia:** Use a "Vibe Dev" e a comunidade Open Source. Não escreva integrações chatas.
 
@@ -2620,7 +2562,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 23. App Factory - Democratização de Tecnologia
+## 18. App Factory - Democratização de Tecnologia
 
 > **"O celular é o único computador que bilhões de pessoas possuem. Quem ignora mobile ignora a maioria da humanidade."**
 
@@ -2780,7 +2722,7 @@ DEPOIS do Panda App Factory:
 
 ---
 
-## 24. Dual Cloud Strategy (GitHub + Google)
+## 19. Dual Cloud Strategy (GitHub + Google)
 
 > **Filosofia:** Panda senta em cima de dois gigantes ao mesmo tempo.
 > Custo zero no beta. Zero lock-in. Máxima redundância.
@@ -2933,7 +2875,7 @@ await Panda.Data.save("users", data); // Funciona igual
 
 ---
 
-## 25. Developer Ecosystem
+## 20. Developer Ecosystem
 
 ### 25.1. Visão Geral - Dois Modos de Desenvolvimento
 
@@ -3096,7 +3038,7 @@ Panda.Google.Drive.search(query); // Busca
 
 ---
 
-## 26. Pipeline de Publicação & Economia
+## 21. Pipeline de Publicação & Economia
 
 > **Atualizado:** 2026-01-27 | **Status:** Aprovado
 
@@ -3865,7 +3807,7 @@ my-plugin/
 
 ---
 
-## 9. P2P Compute Network {#9-p2p-compute}
+## 22. P2P Compute Network
 
 > 📚 **Referência:** [PF_P2P_REFERENCE.md](./PF_P2P_REFERENCE.md)
 
