@@ -1,84 +1,44 @@
-# 🔒 Panda Factory Public - Exclusões
+# Panda Factory Showcase Repo
+# Only keep essential files for evaluation
 
-# ========================================
-# SENSÍVEL - NÃO ENVIAR PARA REPO PÚBLICO
-# ========================================
-
-# Backend (contém lógica de negócio)
-backend/
-
-# Agente Rust (privado)
-rust-agent/
-
-# PAT e AI Core (segredos)
-js/core/
-js/pat/
-
-# Arquivos de ambiente
-.env
-.env.*
-*.env
-
-# Chaves e configs sensíveis
-.clasp.json
-*.key
-*.pem
-secrets/
-_archive/legacy/secrets.js
-LOGIN_DEV.md
-
-# Scripts internos
-scripts/
-
-# Dados locais
-dados/
-data/
-
-# Sistema interno
-_system/
-
-# Configuração do agent
+# Ignore all development files
 .agent/
+.antigravityignore
+_archive/
+_config.yml
+assets/
+backend/
+community/
+components/
+css/
+dist/
+docs/
+exports/
+icons/
+jam/
+js/
+modules/
+moltbook/
+rust-agent/
+test/
+tools/
 
-# ========================================
-# MANTÉM NO REPO PÚBLICO
-# ========================================
-# !jam/            → UI Pública
-# !docs/           → Docs públicos
-# !README.md       → Página inicial
-# !LOGO/           → Assets visuais
-# !community/      → Templates comunidade
-# !index.html      → Landing page
-# !_config.yml     → GitHub Pages
+# Ignore development files
+*.code-workspace
+PandaFactory.html
+founder-dashboard.html
+index.html
+jsconfig.json
+manifest.json
+package*.json
+sw.js
+panda-sdk
+NPM_INSTALL_LIST.md
+README_PANDA_OFICIAL.md
+.env*
 
-# ========================================
-# PADRÃO
-# ========================================
-
-# Node
-node_modules/
-package-lock.json
-npm-debug.log*
-
-# Build (keep dist/jam for GitHub Pages)
-# dist/  <- REMOVED: dist/jam needs to be in GitHub Pages
-build/
-.cache/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-logs/
-
-# Backups
-*_BACKUP.*
-*.bak
+# Keep only:
+# - README.md
+# - pitch-deck.html
+# - logo.png
+# - LOGO/
