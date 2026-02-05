@@ -715,6 +715,79 @@ console.log(summary.tentacles); // { total: 6, active: 5, errors: 1 }
 | **google**       | `Panda.Google`  | Drive, Sheets, Colab, Calendar, Docs, Gmail, YouTube |
 | **distribution** | `Panda.Dist`    | itch.io, PWA, Panda Arcade                           |
 
+### 📊 Status Mock vs Real (37 arquivos) - Censo Fev/2026
+
+> **Legenda:** Mock = usa `_delay()` simulado | Real = usa `callGAS()` backend
+
+#### 🟢 Backend Real (callGAS) - 7 arquivos
+
+| Arquivo                       | Status  | Descrição           |
+| ----------------------------- | ------- | ------------------- |
+| `google/children/calendar.js` | ✅ REAL | Google Calendar API |
+| `google/children/colab.js`    | ✅ REAL | Google Colab API    |
+| `google/children/docs.js`     | ✅ REAL | Google Docs API     |
+| `google/children/drive.js`    | ✅ REAL | Google Drive API    |
+| `google/children/gmail.js`    | ✅ REAL | Gmail API           |
+| `google/children/sheets.js`   | ✅ REAL | Google Sheets API   |
+| `google/children/youtube.js`  | ✅ REAL | YouTube Data API v3 |
+
+#### 🟡 Mock Local (\_delay) - 14 arquivos
+
+| Arquivo                                | Status  | Descrição                    |
+| -------------------------------------- | ------- | ---------------------------- |
+| `social/children/meta.js`              | 🔶 MOCK | Meta (FB+IG) simulado        |
+| `social/children/twitter.js`           | 🔶 MOCK | Twitter/X simulado           |
+| `social/children/whatsapp.js`          | 🔶 MOCK | WhatsApp simulado            |
+| `social/children/youtube.js`           | 🔶 MOCK | YouTube (com custos PC mock) |
+| `trading/children/ctrader.js`          | 🔶 MOCK | cTrader simulado             |
+| `github/children/actions.js`           | 🔶 MOCK | GitHub Actions simulado      |
+| `distribution/children/google-play.js` | 🔶 MOCK | Play Store simulado          |
+| `distribution/children/itch.js`        | 🔶 MOCK | itch.io simulado             |
+| `distribution/children/npm.js`         | 🔶 MOCK | NPM publish simulado         |
+| `distribution/children/pwa.js`         | 🔶 MOCK | PWA deploy simulado          |
+| `distribution/children/steam.js`       | 🔶 MOCK | Steam simulado               |
+| `distribution/children/vscode.js`      | 🔶 MOCK | VSCode ext simulado          |
+| `brain/children/local-llm.js`          | 🔶 MOCK | LocalLLM (Ollama) simulado   |
+
+#### ⚪ Não Implementados - 16 arquivos
+
+| Arquivo                                  | Status | Notas                     |
+| ---------------------------------------- | ------ | ------------------------- |
+| `brain/pf.brain-parent.js`               | ⬜ N/A | Orchestrator (sem lógica) |
+| `brain/children/gemini.js`               | ⬜ N/A | Pendente callGAS          |
+| `brain/children/gpu.js`                  | ⬜ N/A | Pendente Rust bridge      |
+| `distribution/pf.distribution-parent.js` | ⬜ N/A | Orchestrator              |
+| `distribution/children/arcade.js`        | ⬜ N/A | Pendente implementação    |
+| `education/pf.education-parent.js`       | ⬜ N/A | Orchestrator              |
+| `education/children/eduzz.js`            | ⬜ N/A | Webhook pendente          |
+| `education/children/hotmart.js`          | ⬜ N/A | Webhook pendente          |
+| `education/children/kiwify.js`           | ⬜ N/A | Webhook pendente          |
+| `github/pf.github-parent.js`             | ⬜ N/A | Orchestrator              |
+| `github/children/database.js`            | ⬜ N/A | Pendente implementação    |
+| `github/children/pages.js`               | ⬜ N/A | Pendente implementação    |
+| `google/pf.google-parent.js`             | ⬜ N/A | Orchestrator              |
+| `monitor/pf.tentacle-monitor.js`         | ⬜ N/A | Logger (sem mock/real)    |
+| `p2p/pf.p2p-parent.js`                   | ⬜ N/A | Pendente GAS P2P          |
+| `social/pf.social-parent.js`             | ⬜ N/A | Orchestrator              |
+| `trading/pf.trading-parent.js`           | ⬜ N/A | Orchestrator              |
+
+### 🔄 Padrão Mock → Real (Migração)
+
+```javascript
+// ❌ ANTES (Mock - usa _delay)
+async function sendMessage(to, text) {
+  await _delay(500); // Simula latência
+  return { success: true, mock: true, messageId: `mock_${Date.now()}` };
+}
+
+// ✅ DEPOIS (Real - usa callGAS)
+async function sendMessage(to, text) {
+  return await window.Panda.callGAS("whatsapp_send", { to, text });
+}
+```
+
+> 📌 **Próximos passos:** Migrar os 14 mocks para `callGAS()` quando GAS endpoints estiverem prontos.
+
 ### Tentacles Planejados
 
 | Tentáculo     | Parent            | Children Planejados                      |
