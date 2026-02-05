@@ -426,13 +426,13 @@ const P2P_SPLIT = {
 
 | Arquivo                                  | Tipo | Descrição           |
 | ---------------------------------------- | ---- | ------------------- |
-| `rust-agent/src/node.rs`                 | Rust | Node manager        |
-| `rust-agent/src/mining.rs`               | Rust | Mining/heartbeat    |
-| `rust-agent/src/task.rs`                 | Rust | Task fractionation  |
-| `backend/domains/compute/PF_Nodes.gs`    | GAS  | Node registry       |
-| `backend/domains/compute/PF_Mining.gs`   | GAS  | Reward distribution |
-| `backend/domains/compute/PF_Tasks.gs`    | GAS  | Task scheduler      |
-| `js/tentacles/compute/pf.node-parent.js` | JS   | Node SDK            |
+| `7.rust-agent/src/node.rs`                 | Rust | Node manager        |
+| `7.rust-agent/src/mining.rs`               | Rust | Mining/heartbeat    |
+| `7.rust-agent/src/task.rs`                 | Rust | Task fractionation  |
+| `1.core/domains/compute/PF_Nodes.gs`    | GAS  | Node registry       |
+| `1.core/domains/compute/PF_Mining.gs`   | GAS  | Reward distribution |
+| `1.core/domains/compute/PF_Tasks.gs`    | GAS  | Task scheduler      |
+| `5.tentacles/compute/pf.node-parent.js` | JS   | Node SDK            |
 
 ### API Endpoints
 
@@ -464,3 +464,5 @@ GET  /task/status/:id  → Status de task
 
 > 📖 **Versão:** 1.0.0 | **Status:** Planejado
 > **Mantido por:** Panda Council (PAT)
+
+

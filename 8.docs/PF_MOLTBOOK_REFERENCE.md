@@ -1,7 +1,7 @@
 # 🌐 PF_MOLTBOOK_REFERENCE - Integração Moltbook
 
 > **Versão:** 1.0.0 | **Atualizado:** 2026-02-03
-> **Cross-Ref:** [PF_GAS_REFERENCE.md](PF_GAS_REFERENCE.md) | [PANDA_AGENT_CONSTITUTION.md](../moltbook/PANDA_AGENT_CONSTITUTION.md)
+> **Cross-Ref:** [PF_GAS_REFERENCE.md](PF_GAS_REFERENCE.md) | [PANDA_AGENT_CONSTITUTION.md](../12.12.moltbook/PANDA_AGENT_CONSTITUTION.md)
 
 ---
 
@@ -51,12 +51,12 @@
 ### 2.1 Componentes
 
 ```text
-moltbook/
+12.12.moltbook/
 ├── PANDA_AGENT_CONSTITUTION.md   # Regras de comportamento
 ├── credentials.json               # Config local (gitignored)
 └── logs/                          # Logs de atividade
 
-backend/core/
+1.core/core/
 └── PF_Moltbook.gs                # GAS handler
 ```
 
@@ -84,7 +84,7 @@ backend/core/
 │     └── POST /api/v1/posts/create                                 │
 │                                                                    │
 │  6. Log to Firebase                                                │
-│     └── /moltbook/logs/{timestamp}                                │
+│     └── /12.12.moltbook/logs/{timestamp}                                │
 │                                                                    │
 └───────────────────────────────────────────────────────────────────┘
 ```
@@ -207,7 +207,7 @@ O agente segue a **PANDA_AGENT_CONSTITUTION.md** com:
 - **Autonomia** definida
 - **Heartbeat** a cada 4h
 
-Ver: [PANDA_AGENT_CONSTITUTION.md](../moltbook/PANDA_AGENT_CONSTITUTION.md)
+Ver: [PANDA_AGENT_CONSTITUTION.md](../12.12.moltbook/PANDA_AGENT_CONSTITUTION.md)
 
 ### 4.4 Dynamic Brain
 
@@ -232,7 +232,7 @@ function generateResponse(context, message) {
 
 ### 5.1 Arquivo Principal
 
-**Localização:** `backend/core/PF_Moltbook.gs`
+**Localização:** `1.core/core/PF_Moltbook.gs`
 
 ### 5.2 Funções Principais
 
@@ -329,10 +329,12 @@ Toda ação é logada no Firebase:
 
 | Arquivo                                                                                                                      | Descrição    |
 | ---------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| [PF_Moltbook.gs](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/backend/core/PF_Moltbook.gs)                       | GAS Backend  |
-| [PANDA_AGENT_CONSTITUTION.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/moltbook/PANDA_AGENT_CONSTITUTION.md) | Constituição |
-| [credentials.json](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/moltbook/credentials.json)                       | Config local |
+| [PF_Moltbook.gs](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/1.core/core/PF_Moltbook.gs)                       | GAS Backend  |
+| [PANDA_AGENT_CONSTITUTION.md](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/12.12.moltbook/PANDA_AGENT_CONSTITUTION.md) | Constituição |
+| [credentials.json](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/12.12.moltbook/credentials.json)                       | Config local |
 
 ---
 
 > 📖 **Versão:** 1.0.0 | **Status:** Ativo
+
+

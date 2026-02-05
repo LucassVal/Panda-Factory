@@ -454,7 +454,7 @@ response.usageMetadata = {
 ### 10.2. Cálculo de Custo PC
 
 ```javascript
-// js/core/pf.meter.js
+// 3.sdk/pf.meter.js
 const RATES = {
   "gemini-3-flash-preview": { in: 0, out: 0 }, // GRÁTIS
   "gemini-3-pro-preview": { in: 0.015, out: 0.06 }, // 15/60 PC per 1k
@@ -484,7 +484,7 @@ const calculateCost = (model, usage) => {
 ### 11.1. Estrutura de Arquivos
 
 ```text
-jam/src/
+11.jam/src/
 ├── services/
 │   └── gemini.js           # Cliente Gemini @google/genai
 ├── components/
@@ -496,7 +496,7 @@ jam/src/
 ### 11.2. Cliente Gemini (gemini.js)
 
 ```javascript
-// jam/src/services/gemini.js
+// 11.jam/src/services/gemini.js
 import { GoogleGenAI, mcpToTool } from "@google/genai";
 
 class GeminiService {
@@ -628,3 +628,4 @@ const image = await gemini.generateImage("Logo minimalista de um panda", {
 
 > **Documento mantido pelo Panda Factory**  
 > Versão: 3.0 | SDK: `@google/genai` | Data: Janeiro 2026
+

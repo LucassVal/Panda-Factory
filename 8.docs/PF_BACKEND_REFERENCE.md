@@ -437,18 +437,18 @@ function MyComponent() {
 
 ### Rust Agent
 
-- [rust-agent/](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/rust-agent/)
+- [7.rust-agent/](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/7.rust-agent/)
 
 ### React Hooks
 
-- [useAuth.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/hooks/useAuth.jsx)
-- [useHealthStatus.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/hooks/useHealthStatus.js)
-- [useFirebase.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/hooks/useFirebase.js)
+- [useAuth.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/hooks/useAuth.jsx)
+- [useHealthStatus.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/hooks/useHealthStatus.js)
+- [useFirebase.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/hooks/useFirebase.js)
 
 ### Components
 
-- [StatusBar.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/components/StatusBar.jsx)
-- [LoginModal.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/jam/src/components/LoginModal.jsx)
+- [StatusBar.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/components/StatusBar.jsx)
+- [LoginModal.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/components/LoginModal.jsx)
 
 ---
 
@@ -622,3 +622,4 @@ pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response>
 ---
 
 > 📖 **Versão:** 2.0.0 | **Consolidado:** BACKEND + Módulos Avançados MASTER
+

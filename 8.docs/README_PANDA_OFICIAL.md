@@ -175,3 +175,4 @@ MIT License © 2026 Panda Factory
   <strong>Feito com 🐼 por Lucas Valério</strong>
   <br><em>"Democratizando IA para todos"</em>
 </p>
+

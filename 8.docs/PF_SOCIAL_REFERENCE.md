@@ -50,7 +50,7 @@ O **Social Media Hub** integra múltiplas plataformas sociais via SDK.
 ### 2.1 Estrutura de Arquivos
 
 ```text
-js/tentacles/social/
+5.tentacles/social/
 ├── pf.social-parent.js      # Parent API
 └── children/
     ├── whatsapp.js          # WhatsApp Business
@@ -279,10 +279,12 @@ await Panda.Social.Meta.postStory({
 
 | Arquivo                                    | Descrição                |
 | ------------------------------------------ | ------------------------ |
-| `js/tentacles/social/pf.social-parent.js`  | Parent API               |
-| `js/tentacles/social/children/*.js`        | Platform implementations |
+| `5.tentacles/social/pf.social-parent.js`  | Parent API               |
+| `5.tentacles/social/children/*.js`        | Platform implementations |
 | [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md) | SDK completo             |
 
 ---
 
 > 📖 **Versão:** 1.0.0 | **Status:** Planejado
+
+

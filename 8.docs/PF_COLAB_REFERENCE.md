@@ -315,3 +315,4 @@ Tarefas administrativas que o Founder pode executar no SEU Colab pessoal:
 ---
 
 > 📖 **Versão:** 1.0.0 | **Status:** Ativo
+

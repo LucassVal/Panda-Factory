@@ -1,7 +1,7 @@
 # 📐 PF_UI_REFERENCE - Panda Fabrics UI Layout System
 
 > **Versão:** 1.0.0 | **Atualizado:** 2026-02-02
-> **Referência:** `jam/src/styles/jam.css` (1933 linhas)
+> **Referência:** `11.jam/src/styles/jam.css` (1933 linhas)
 > **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md §3](PF_MASTER_ARCHITECTURE.md#3-camada-frontend)
 
 ---
@@ -491,7 +491,7 @@ const isLight = document.body.classList.contains("light-mode");
 
 - CSS Design System (consolidado abaixo - PARTE B)
 - Jam React Components (consolidado abaixo - PARTE D)
-- [jam.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/jam/src/styles/jam.css)
+- [jam.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/11.jam/src/styles/jam.css)
 - [PANDA.md](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/.agent/PANDA.md)
 
 ---
@@ -741,7 +741,7 @@ body.dark-mode {
 ## D.1 Estrutura de Arquivos
 
 ```text
-jam/src/
+11.jam/src/
 ├── App.jsx                      # Main app v5.2
 ├── components/
 │   ├── JamCanvas.jsx            # TLDraw canvas
@@ -865,7 +865,7 @@ jam/src/
 ```
 
 **Componente:** `components/Comp_AppDock.html`
-**Lógica:** `js/ui/pf.devtools.js` → `toggleDevMode()`
+**Lógica:** `4.ui/pf.devtools.js` → `toggleDevMode()`
 
 ## E.2 DevTools v2.0 - Ferramentas Disponíveis
 
@@ -931,3 +931,4 @@ Panda.UI.closePopout("console");
 ---
 
 > 📖 **Versão:** 2.1.0 | **Consolidado:** UI + CSS + HTML + DevTools + Multi-Window
+

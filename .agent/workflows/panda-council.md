@@ -188,7 +188,7 @@ FOUNDER ORDER: [ORDEM DIRETA DO USUÁRIO]
 
 ```text
 IF (nova tecnologia OR novo padrão) THEN
-  1. CRIAR docs/PF_[NOME]_REFERENCE.md
+  1. CRIAR 8.docs/PF_[NOME]_REFERENCE.md
   2. ADICIONAR link ao README_PANDA_OFICIAL.md
   3. IMPLEMENTAR código
 ELSE
@@ -282,3 +282,4 @@ END
 
 _Panda Council v3.1 | Enterprise AI Governance | 2026-02-05_
 _Aligned with: README_PANDA_OFICIAL.md | PF_MASTER_ARCHITECTURE.md_
+

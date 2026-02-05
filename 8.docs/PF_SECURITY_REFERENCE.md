@@ -769,3 +769,4 @@ my-plugin/
 | **Max storage permitido**     | 100MB       |
 
 ---
+

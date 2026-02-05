@@ -1,6 +1,6 @@
 # 🐼 Panda OS - Arquitetura Completa
 
-![Panda Logo](../assets/panda_logo_original.jpg)
+![Panda Logo](../10.assets/panda_logo_original.jpg)
 
 > **Documento Mestre de Arquitetura**
 > Consolidação unificada seguindo o Mapa Visual do Projeto.
@@ -51,7 +51,7 @@
 │  ├── 📁 .agent/                    # Workflows IA (PANDA.md)               │
 │  ├── 📁 .github/workflows/         # CI/CD (Pages, Android, Steam)         │
 │  │                                                                          │
-│  ├── 📁 backend/                   # ☁️ Google Apps Script (17 arquivos)    │
+│  ├── 📁 1.core/                   # ☁️ Google Apps Script (17 arquivos)    │
 │  │   ├── core/                     # 9 core modules                        │
 │  │   │   ├── PF_Dispatcher.gs      # Router principal (Tri-Mode)           │
 │  │   │   ├── PF_Config.gs          # Configurações                         │
@@ -65,7 +65,7 @@
 │  │       ├── automation/           # Bots                                  │
 │  │       └── p2p/                  # 🌐 P2P Compute Network                │
 │  │                                                                          │
-│  ├── 📁 jam/                       # 🍇 React Frontend (Vite + TLDraw)     │
+│  ├── 📁 11.jam/                       # 🍇 React Frontend (Vite + TLDraw)     │
 │  │   ├── src/components/           # 22 componentes React                  │
 │  │   ├── src/hooks/                # 8 custom hooks                        │
 │  │   ├── src/styles/               # jam.css (Design System)               │
@@ -86,18 +86,18 @@
 │  │       ├── p2p/                  # 🌐 P2P Compute Network                │
 │  │       └── monitor/              # Health/Telemetry                      │
 │  │                                                                          │
-│  ├── 📁 rust-agent/                # 🦀 Local Agent (Tauri/MCP)            │
+│  ├── 📁 7.7.rust-agent/                # 🦀 Local Agent (Tauri/MCP)            │
 │  │   ├── Cargo.toml                # Dependencies                          │
 │  │   └── src/                      # 8 modules (GPU, MCP, Node, Mining)    │
 │  │                                                                          │
 │  ├── 📁 panda-sdk/                 # 📦 SDK público (npm package)          │
-│  ├── 📁 docs/                      # 📚 18 reference documents             │
+│  ├── 📁 8.docs/                      # 📚 18 reference documents             │
 │  ├── 📁 components/                # 🧩 HTML Components (legacy)           │
 │  ├── 📁 css/                       # 🎨 pf.theme.css                       │
 │  ├── 📁 data/                      # 💾 JSON Database local                │
 │  ├── 📁 dist/                      # 📤 Build output (GitHub Pages)        │
-│  ├── 📁 assets/                    # 🖼️ Images, logos                      │
-│  ├── 📁 tools/                     # 🔧 Dev utilities                      │
+│  ├── 📁 10.assets/                    # 🖼️ Images, logos                      │
+│  ├── 📁 9.tools/                     # 🔧 Dev utilities                      │
 │  │                                                                          │
 │  ├── .env                          # 🔐 SECRETS (gitignored)               │
 │  ├── index.html                    # 🏠 Entry point                        │
@@ -725,7 +725,7 @@ A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a apl
 O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores, inspirado no Google Antigravity.
 
 **Componente:** `components/Comp_AppDock.html`
-**Lógica:** `js/ui/pf.devtools.js` → `toggleDevMode()`
+**Lógica:** `4.ui/pf.devtools.js` → `toggleDevMode()`
 
 #### B. DevTools v2.0 - Ferramentas Disponíveis
 
@@ -821,7 +821,7 @@ window.PandaDevTools = {
 | ----------------------------------- | ----------------------------------- |
 | `components/Comp_AppDock.html`      | Botão Dev Mode Toggle               |
 | `components/Comp_DevToolsDock.html` | Dock lateral com ícones             |
-| `js/ui/pf.devtools.js`              | Lógica DevTools v2.0                |
+| `4.ui/pf.devtools.js`              | Lógica DevTools v2.0                |
 | `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout` |
 | `css/pf.theme.css`                  | Estilos modal/popout                |
 
@@ -888,7 +888,7 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 | 🦀    | Rust Agent       | `#f97316`     |
 | 🔥    | Firebase         | `#f59e0b`     |
 
-#### E. Ícones de Backend/Arquitetura
+#### E. Ícones de 1.core/Arquitetura
 
 | Ícone | Conceito       | Contexto           |
 | ----- | -------------- | ------------------ |
@@ -925,7 +925,7 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 | Arquivo                  | Tamanho | Uso           |
 | ------------------------ | ------- | ------------- |
-| `assets/panda_logo.png`  | Full    | Canvas, About |
+| `10.assets/panda_logo.png`  | Full    | Canvas, About |
 | `icons/icon-192x192.png` | 192px   | PWA           |
 | `icons/icon-512x512.png` | 512px   | PWA HD        |
 | `icons/favicon.ico`      | 64px    | Browser tab   |
@@ -943,7 +943,7 @@ O **Panda Jam** é o frontend moderno construído com React + Vite, oferecendo u
 │                         PANDA JAM ARCHITECTURE                       │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│  jam/                        COMPONENTES (22)                       │
+│  11.jam/                        COMPONENTES (22)                       │
 │  ├── src/                                                           │
 │  │   ├── components/         ┌─────────────────────────────────┐   │
 │  │   │   ├── JamStatusBar    │ Header com status de agentes    │   │
@@ -1049,7 +1049,7 @@ body.light-mode {
 #### E. Deploy
 
 - **Build:** `npm run build` (Vite)
-- **Output:** `/dist/jam/` → copiado para `/dist/jam/` na raiz
+- **Output:** `/dist/11.jam/` → copiado para `/dist/11.jam/` na raiz
 - **Serve:** GitHub Pages em `https://lucassval.github.io/Panda-Factory/`
 
 ---
@@ -1087,7 +1087,7 @@ window.Panda = {
 ### Tentacle Architecture (8 Módulos de Integração)
 
 ```text
-js/tentacles/
+5.tentacles/
 ├── brain/      ← AI/ML (Gemini, LocalLLM)
 ├── social/     ← WhatsApp, Twitter, Meta
 ├── trading/    ← cTrader Open API
@@ -1187,7 +1187,7 @@ O Rust Agent usa download progressivo para minimizar atrito inicial:
 │  3. RUST INICIA E BAIXA DEPENDÊNCIAS (Primeira Execução)               │
 │     ├── runtime/                                                       │
 │     │   └── onnxruntime.dll ........... 50MB                           │
-│     ├── tools/                                                         │
+│     ├── 9.tools/                                                         │
 │     │   ├── rg.exe (ripgrep) .......... 6MB                            │
 │     │   ├── fd.exe (find) ............. 3MB                            │
 │     │   ├── bat.exe (cat) ............. 5MB                            │
@@ -2697,10 +2697,10 @@ USUÁRIO                  PANDA                    NUVEM
 
 | Arquivo                            | Função            | Status      |
 | ---------------------------------- | ----------------- | ----------- |
-| `js/core/pf.app-factory.js`        | Core da geração   | 🔴 Pendente |
+| `3.sdk/pf.app-factory.js`        | Core da geração   | 🔴 Pendente |
 | `templates/android/`               | Templates de apps | 🔴 Pendente |
 | `.github/workflows/bubblewrap.yml` | Build action      | 🔴 Pendente |
-| `backend/PF_AppFactory.gs`         | Coordenação       | 🔴 Pendente |
+| `1.core/PF_AppFactory.gs`         | Coordenação       | 🔴 Pendente |
 
 ### 23.8. Impacto Social
 
@@ -2788,7 +2788,7 @@ DEPOIS do Panda App Factory:
 ### 24.4. Arquivos do GitHub Tentacle
 
 ```
-js/tentacles/github/
+5.tentacles/github/
 ├── pf.github-parent.js       (295 lines) - API Core
 └── children/
     ├── database.js           (313 lines) - JSON as DB
@@ -3326,10 +3326,10 @@ Panda.Google.Drive.search(query); // Busca
 
 | Layer    | File                                | Description                            |
 | -------- | ----------------------------------- | -------------------------------------- |
-| **GAS**  | `backend/domains/p2p/PF_P2P.gs`     | P2PService (register, heartbeat, task) |
-| **SDK**  | `js/tentacles/p2p/pf.p2p-parent.js` | pf.p2p.\* API                          |
-| **Rust** | `rust-agent/src/node.rs`            | NodeManager, tier detection            |
-| **Rust** | `rust-agent/src/mining.rs`          | Mining integration                     |
+| **GAS**  | `1.core/domains/p2p/PF_P2P.gs`     | P2PService (register, heartbeat, task) |
+| **SDK**  | `5.tentacles/p2p/pf.p2p-parent.js` | pf.p2p.\* API                          |
+| **Rust** | `7.7.rust-agent/src/node.rs`            | NodeManager, tier detection            |
+| **Rust** | `7.7.rust-agent/src/mining.rs`          | Mining integration                     |
 
 ### 9.5. API Summary
 
@@ -3358,3 +3358,5 @@ P2P_STATS        → Get node stats
 ```
 
 ```
+
+

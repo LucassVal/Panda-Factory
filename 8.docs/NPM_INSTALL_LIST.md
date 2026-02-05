@@ -119,3 +119,4 @@ npm run dev
 ---
 
 **Atualizado:** 2026-01-26 02:00
+

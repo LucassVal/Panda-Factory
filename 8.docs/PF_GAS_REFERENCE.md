@@ -1,6 +1,6 @@
 # 🐼 Panda GAS Backend - Referência
 
-> **Versão:** 1.1.0 | **Runtime:** Google Apps Script | **Pasta:** `backend/`
+> **Versão:** 1.1.0 | **Runtime:** Google Apps Script | **Pasta:** `1.core/`
 
 ---
 
@@ -18,7 +18,7 @@
 ## 1. Estrutura de Arquivos
 
 ```text
-backend/
+1.core/
 ├── .clasp.json           # Config CLASP
 ├── appsscript.json       # Manifesto GAS
 ├── core/
@@ -560,3 +560,5 @@ const balance = await callGAS("wallet.balance", { userId: "user123" });
 ---
 
 > 📖 **Arquitetura Completa:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md)
+
+

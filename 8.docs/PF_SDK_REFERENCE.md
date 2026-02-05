@@ -893,7 +893,7 @@ Upload e gerenciamento de vídeos.
 | `getChannel()`            | `Promise<Channel>` | Info do canal   |
 | `listVideos(channelId?)`  | `Promise<Video[]>` | Lista vídeos    |
 
-> 📍 **Localização:** `js/tentacles/google/` (parent + 7 children)
+> 📍 **Localização:** `5.tentacles/google/` (parent + 7 children)
 
 ---
 
@@ -1018,7 +1018,7 @@ A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de int
 ### Estrutura de Arquivos
 
 ```text
-js/tentacles/                         # 8 Integration Modules
+5.tentacles/                         # 8 Integration Modules
 ├── brain/                            ← AI/ML
 │   ├── pf.brain-parent.js
 │   └── children/
@@ -1091,3 +1091,5 @@ js/tentacles/                         # 8 Integration Modules
 ---
 
 > 📖 **Versão:** 0.9.6 | **Consolidado:** SDK + Tentacle Architecture
+
+

@@ -149,7 +149,7 @@ github.com/dev/panda-plugin-xyz/
 ├── src/
 │   ├── main.gs             # Plugin GAS
 │   └── main.rs             # Plugin Rust
-├── assets/
+├── 10.assets/
 │   └── icon.png            # 128x128
 └── .github/
     └── workflows/
@@ -307,3 +307,4 @@ Além de devs individuais, empresas podem plugar infraestrutura no SDK:
 ---
 
 > 📖 **Versão:** 1.1.0 | **Status:** Planejado
+

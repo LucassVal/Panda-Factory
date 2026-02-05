@@ -227,3 +227,4 @@ npx create-medusa-app@latest ./panda-store
 
 > 📝 **Atualizado por:** AI Assistant  
 > 📅 **Data:** 2026-01-25
+

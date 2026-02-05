@@ -360,3 +360,4 @@ Mínimo para publicar: 70/100
 ---
 
 > 📖 **PF_MCP_REFERENCE v2.0** | Consolidado: MCP Tools + Manifest Spec
+

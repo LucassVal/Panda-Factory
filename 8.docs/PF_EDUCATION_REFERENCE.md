@@ -13,7 +13,7 @@ Tentacle para integração com plataformas de infoprodutos e cursos.
 ## 2. Estrutura
 
 ```text
-js/tentacles/education/
+5.tentacles/education/
 ├── pf.education-parent.js    # Parent API
 └── children/
     ├── kiwify.js             # Kiwify hook
@@ -121,8 +121,10 @@ const { certificate } = await Panda.Education.generateCertificate(
 
 ## 7. Links
 
-- [pf.education-parent.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/js/tentacles/education/pf.education-parent.js)
-- [kiwify.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/js/tentacles/education/children/kiwify.js)
-- [hotmart.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/js/tentacles/education/children/hotmart.js)
-- [eduzz.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/js/tentacles/education/children/eduzz.js)
+- [pf.education-parent.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/5.tentacles/education/pf.education-parent.js)
+- [kiwify.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/5.tentacles/education/children/kiwify.js)
+- [hotmart.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/5.tentacles/education/children/hotmart.js)
+- [eduzz.js](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/5.tentacles/education/children/eduzz.js)
 - [PF_MASTER_ARCHITECTURE.md §17](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/docs/PF_MASTER_ARCHITECTURE.md)
+
+

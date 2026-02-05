@@ -26,38 +26,38 @@
 
 | Arquivo               | Caminho         | Descrição                                  |
 | --------------------- | --------------- | ------------------------------------------ |
-| `PF_Dispatcher.gs`    | `backend/core/` | Router principal (doGet/doPost) - Tri-Mode |
-| `PF_Config.gs`        | `backend/core/` | Configurações globais                      |
-| `PF_App_Init.gs`      | `backend/core/` | Inicialização do app                       |
-| `PF_Core_AI.gs`       | `backend/core/` | Dispatcher AI multimodal                   |
-| `PF_Core_Oracle.gs`   | `backend/core/` | Cotação USD/BRL                            |
-| `PF_Core_Webhooks.gs` | `backend/core/` | Webhooks B2B (Kiwify, Hotmart, etc.)       |
-| `PF_Brain_Core.gs`    | `backend/core/` | Core do Brain AI                           |
-| `PF_Moltbook.gs`      | `backend/core/` | Integração Moltbook                        |
-| `PF_PAT_Core.gs`      | `backend/core/` | Panda Council (Governança)                 |
+| `PF_Dispatcher.gs`    | `1.core/core/` | Router principal (doGet/doPost) - Tri-Mode |
+| `PF_Config.gs`        | `1.core/core/` | Configurações globais                      |
+| `PF_App_Init.gs`      | `1.core/core/` | Inicialização do app                       |
+| `PF_Core_AI.gs`       | `1.core/core/` | Dispatcher AI multimodal                   |
+| `PF_Core_Oracle.gs`   | `1.core/core/` | Cotação USD/BRL                            |
+| `PF_Core_Webhooks.gs` | `1.core/core/` | Webhooks B2B (Kiwify, Hotmart, etc.)       |
+| `PF_Brain_Core.gs`    | `1.core/core/` | Core do Brain AI                           |
+| `PF_Moltbook.gs`      | `1.core/core/` | Integração Moltbook                        |
+| `PF_PAT_Core.gs`      | `1.core/core/` | Panda Council (Governança)                 |
 
 ### Finance
 
 | Arquivo        | Caminho                    | Descrição                    |
 | -------------- | -------------------------- | ---------------------------- |
-| `PF_Wallet.gs` | `backend/domains/finance/` | Carteira Panda Coin          |
-| `PF_Crypto.gs` | `backend/domains/finance/` | Pagamentos crypto (USDC/SOL) |
-| `PF_Fiat.gs`   | `backend/domains/finance/` | Pagamentos fiat (Stripe/PIX) |
+| `PF_Wallet.gs` | `1.core/domains/finance/` | Carteira Panda Coin          |
+| `PF_Crypto.gs` | `1.core/domains/finance/` | Pagamentos crypto (USDC/SOL) |
+| `PF_Fiat.gs`   | `1.core/domains/finance/` | Pagamentos fiat (Stripe/PIX) |
 
 ### Store
 
 | Arquivo             | Caminho                  | Descrição                     |
 | ------------------- | ------------------------ | ----------------------------- |
-| `PF_Sales.gs`       | `backend/domains/store/` | Vendas e Split (52/25/15/5/3) |
-| `PF_Registry.gs`    | `backend/domains/store/` | Registro de módulos           |
-| `PF_Marketplace.gs` | `backend/domains/store/` | Medusa Store backend          |
+| `PF_Sales.gs`       | `1.core/domains/store/` | Vendas e Split (52/25/15/5/3) |
+| `PF_Registry.gs`    | `1.core/domains/store/` | Registro de módulos           |
+| `PF_Marketplace.gs` | `1.core/domains/store/` | Medusa Store backend          |
 
 ### Automation & P2P
 
 | Arquivo      | Caminho                       | Descrição                        |
 | ------------ | ----------------------------- | -------------------------------- |
-| `PF_Bots.gs` | `backend/domains/automation/` | Automação de tarefas             |
-| `PF_P2P.gs`  | `backend/domains/p2p/`        | 🌐 Node registry, tasks, rewards |
+| `PF_Bots.gs` | `1.core/domains/automation/` | Automação de tarefas             |
+| `PF_P2P.gs`  | `1.core/domains/p2p/`        | 🌐 Node registry, tasks, rewards |
 
 ---
 
@@ -65,19 +65,19 @@
 
 | Arquivo       | Caminho           | Descrição                   |
 | ------------- | ----------------- | --------------------------- |
-| `main.rs`     | `rust-agent/src/` | Entry point, CLI dispatcher |
-| `mcp.rs`      | `rust-agent/src/` | MCP Server (4 tools)        |
-| `crypto.rs`   | `rust-agent/src/` | Ed25519 Founder Auth        |
-| `gpu.rs`      | `rust-agent/src/` | NVIDIA/CUDA detection       |
-| `health.rs`   | `rust-agent/src/` | Health monitoring           |
-| `moltbook.rs` | `rust-agent/src/` | Moltbook client             |
-| `node.rs`     | `rust-agent/src/` | 🌐 P2P Node Manager         |
-| `mining.rs`   | `rust-agent/src/` | ⛏️ Mining & Partner Mode    |
-| `Cargo.toml`  | `rust-agent/`     | Dependências Rust           |
+| `main.rs`     | `7.7.rust-agent/src/` | Entry point, CLI dispatcher |
+| `mcp.rs`      | `7.7.rust-agent/src/` | MCP Server (4 tools)        |
+| `crypto.rs`   | `7.7.rust-agent/src/` | Ed25519 Founder Auth        |
+| `gpu.rs`      | `7.7.rust-agent/src/` | NVIDIA/CUDA detection       |
+| `health.rs`   | `7.7.rust-agent/src/` | Health monitoring           |
+| `moltbook.rs` | `7.7.rust-agent/src/` | Moltbook client             |
+| `node.rs`     | `7.7.rust-agent/src/` | 🌐 P2P Node Manager         |
+| `mining.rs`   | `7.7.rust-agent/src/` | ⛏️ Mining & Partner Mode    |
+| `Cargo.toml`  | `7.7.rust-agent/`     | Dependências Rust           |
 
 ---
 
-## 📚 Documentação (19+ arquivos em docs/)
+## 📚 Documentação (19+ arquivos em 8.docs/)
 
 | Arquivo                              | Descrição                        |
 | ------------------------------------ | -------------------------------- |
@@ -123,7 +123,7 @@
 | `pf.loader.js`     | 🟢 REAL | Module loader      |
 | `pf.components.js` | 🟢 REAL | Component registry |
 
-### Core Modules (js/core/)
+### Core Modules (3.sdk/)
 
 | Arquivo                  | Status    | Descrição             |
 | ------------------------ | --------- | --------------------- |
@@ -136,7 +136,7 @@
 | `pf.agent-telemetry.js`  | 🟢 REAL   | Agent metrics         |
 | `plugin-loader.js`       | 🟢 REAL   | Plugin system         |
 
-### UI Modules (js/ui/)
+### UI Modules (4.ui/)
 
 | Arquivo           | Status    | Descrição       |
 | ----------------- | --------- | --------------- |
@@ -148,7 +148,7 @@
 | `pf.omnibar.js`   | 🟡 MOCK   | Omnibar/Command |
 | `pf.settings.js`  | ⚪ STATIC | Settings panel  |
 
-### Integrations (js/integrations/)
+### Integrations (6.integrations/)
 
 | Arquivo          | Status  | Descrição         |
 | ---------------- | ------- | ----------------- |
@@ -179,7 +179,7 @@
 
 ---
 
-## 🐙 Tentacles (js/tentacles/) - COMPLETO
+## 🐙 Tentacles (5.tentacles/) - COMPLETO
 
 > **Arquitetura DDD Panda:** Cada Tentacle é um **HUB isolado**. Se um falhar, não afeta os outros.
 >
@@ -319,7 +319,7 @@
 | `reports/index.html` | Módulo Reports |
 | `store/index.html`   | Módulo Store   |
 
-### Jam (jam/)
+### Jam (11.jam/)
 
 | Arquivo      | Descrição     |
 | ------------ | ------------- |
@@ -354,7 +354,7 @@
 
 ---
 
-## 🐼 Moltbook Integration (moltbook/)
+## 🐼 Moltbook Integration (12.moltbook/)
 
 | Arquivo                        | Descrição            |
 | ------------------------------ | -------------------- |
@@ -363,10 +363,10 @@
 | `MOLTBOOK_PROTOCOL.md`         | Protocolo            |
 | `README_PF_MOLTBOOK.md`        | README               |
 | `temp_post.json`               | Post temporário      |
-| `skills/moltbook/SKILL.md`     | Skill definition     |
-| `skills/moltbook/HEARTBEAT.md` | Heartbeat skill      |
-| `skills/moltbook/MESSAGING.md` | Messaging skill      |
-| `skills/moltbook/package.json` | Skill package        |
+| `skills/12.moltbook/SKILL.md`     | Skill definition     |
+| `skills/12.moltbook/HEARTBEAT.md` | Heartbeat skill      |
+| `skills/12.moltbook/MESSAGING.md` | Messaging skill      |
+| `skills/12.moltbook/package.json` | Skill package        |
 
 ---
 
@@ -415,7 +415,7 @@
 
 ---
 
-## 🔧 Tools (tools/)
+## 🔧 Tools (9.tools/)
 
 | Arquivo                 | Descrição           |
 | ----------------------- | ------------------- |
@@ -445,10 +445,12 @@
 | Pasta                | Conteúdo      | Regenerar         |
 | -------------------- | ------------- | ----------------- |
 | `node_modules/`      | ~50k NPM deps | `npm install`     |
-| `jam/node_modules/`  | Jam deps      | `cd jam && npm i` |
-| `rust-agent/target/` | Build cache   | `cargo build`     |
+| `11.jam/node_modules/`  | Jam deps      | `cd jam && npm i` |
+| `7.7.rust-agent/target/` | Build cache   | `cargo build`     |
 
 ---
 
 > 📖 **Mantido por:** Panda Council (PAT)
 > **Última atualização:** 2026-02-05 v2.0.0
+
+

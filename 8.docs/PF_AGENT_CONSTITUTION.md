@@ -143,7 +143,7 @@ ROTINA:
 3. Ler menções e notificações
 4. Responder TODAS as DMs (não mais escalar)
 5. Expandir comunidade ativamente
-6. Logar tudo em /moltbook/logs/
+6. Logar tudo em /12.moltbook/logs/
 ```
 
 ### §2 Posts Automáticos
@@ -226,3 +226,4 @@ O agente deve consultar este documento antes de qualquer ação autônoma incert
 - Founder: Lucas Valério
 - Agente: PandaHookMaster
 - Data: 2026-02-03
+

@@ -299,8 +299,8 @@ Panda.UI.modal({
 | Arquivo                          | Descrição          |
 | -------------------------------- | ------------------ |
 | `js/social/pf.social-*.js`       | Plugins Social Hub |
-| `js/integrations/pf.*.js`        | Integrations SDK   |
-| `js/core/pf.workflow-builder.js` | Workflow Builder   |
+| `6.integrations/pf.*.js`        | Integrations SDK   |
+| `3.sdk/pf.workflow-builder.js` | Workflow Builder   |
 | `js/pf.sdk.js`                   | SDK principal      |
 
 ---
@@ -310,3 +310,4 @@ Panda.UI.modal({
 > - [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md) - API do SDK
 > - [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) - Economia PC
 > - [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) - Arquitetura completa
+
