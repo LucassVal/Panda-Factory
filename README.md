@@ -298,18 +298,24 @@ All plugins MUST have `panda.mcp.json`:
 ```
 Panda (Global)
 ├── Auth         → Firebase Auth wrapper
-├── Data         → Sheets CRUD
-├── Storage      → Drive files
-├── Wallet       → PC balance (read-only)
+├── Data         → Google Sheets CRUD
+├── Storage      → Google Drive files
+├── Wallet       → Internal credits (read-only)
 ├── Brain        → AI module
-│   ├── Gemini   → 6 specialized GEMs
-│   ├── GPU      → WebGPU detection
-│   └── LocalLLM → Ollama/LM Studio
-├── Bridge       → Rust Agent communication
-├── UI           → Toast, Modal, Popout
-├── Polyglot     → Translation (requires Rust)
-├── Governance   → Constitution reader
-└── PAT          → Treasury status
+│   ├── Gemini   → 6 specialized GEMs (Writer, Analyst, Coder, Designer, Planner, Researcher)
+│   ├── GPU      → WebGPU/WebGL detection + benchmarking
+│   └── LocalLLM → Ollama/LM Studio integration
+├── Bridge       → Rust Agent communication (MCP native)
+├── UI           → Toast, Modal, Popout (Document PiP API)
+├── Polyglot     → NLLB Translation (200 languages, requires Rust)
+└── Google       → Workspace integration tentacle
+    ├── Drive    → File operations
+    ├── Sheets   → Database operations
+    ├── Colab    → GPU compute tasks
+    ├── Calendar → Event management
+    ├── Docs     → Document creation
+    ├── Gmail    → Email automation
+    └── YouTube  → Video upload/management
 ```
 
 ### Usage Example
@@ -336,16 +342,64 @@ const isPartner = await Panda.Bridge.isConnected();
 
 ## 🐙 Tentacle System
 
-Modular integration architecture:
+Modular integration architecture with parent-child hierarchy:
 
-| Tentacle         | Children                                             | Status         |
-| ---------------- | ---------------------------------------------------- | -------------- |
-| **Brain**        | Gemini, GPU, LocalLLM                                | ✅ Implemented |
-| **Google**       | Drive, Sheets, Colab, Calendar, Docs, Gmail, YouTube | ✅ Implemented |
-| **Social**       | WhatsApp, Twitter, YouTube, Meta, Telegram, TikTok   | ✅ Implemented |
-| **Distribution** | PWA, itch.io, Panda Arcade                           | ✅ Implemented |
-| **Education**    | Kiwify, Hotmart, Eduzz                               | 🚧 Planned     |
-| **Gaming**       | Godot, Bevy, ThreeJS, PixiJS                         | 🚧 Planned     |
+### Core Tentacles
+
+| Tentacle         | Children                                             | Google Integration | Status         |
+| ---------------- | ---------------------------------------------------- | ------------------ | -------------- |
+| **Brain**        | Gemini (6 GEMs), GPU, LocalLLM                       | Gemini API, Colab  | ✅ Implemented |
+| **Google**       | Drive, Sheets, Colab, Calendar, Docs, Gmail, YouTube | Full Workspace     | ✅ Implemented |
+| **Social**       | WhatsApp, Twitter, YouTube, Meta, Telegram, TikTok   | YouTube Data API   | ✅ Implemented |
+| **Distribution** | PWA, itch.io, Panda Arcade, Google Play              | Play Console       | ✅ Implemented |
+| **Education**    | Kiwify, Hotmart, Eduzz                               | Classroom API      | 🚧 Planned     |
+| **Gaming**       | Godot, Bevy, ThreeJS, PixiJS                         | Play Games         | 🚧 Planned     |
+
+### Hooks Architecture (Revenue Distribution)
+
+Every tentacle can hook into e-commerce and monetization:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  HOOKS & E-COMMERCE INTEGRATION                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  Plugin/Tool Execution                                                       │
+│         ↓                                                                    │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  HOOK LAYER (Automatic Revenue Tracking)                             │    │
+│  │  ├── Usage Hook: Track API calls, tokens, compute time              │    │
+│  │  ├── Billing Hook: Debit credits, log transaction                   │    │
+│  │  ├── Analytics Hook: Google Analytics 4 events                      │    │
+│  │  └── Affiliate Hook: Track referrals, distribute commissions        │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│         ↓                                                                    │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  E-COMMERCE LAYER                                                    │    │
+│  │  ├── Plugin Store (Medusa): Buy/sell plugins                        │    │
+│  │  ├── Subscription: Pro tiers, enterprise                            │    │
+│  │  ├── Marketplace: User-generated templates, assets                  │    │
+│  │  └── Affiliate Program: 10% referral commission                     │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Google Workspace Deep Integration
+
+| Google Service    | Panda Module            | Use Case                          |
+| ----------------- | ----------------------- | --------------------------------- |
+| **Sheets**        | `Panda.Data`            | Database for CRM, inventory, logs |
+| **Drive**         | `Panda.Storage`         | File uploads, exports, backups    |
+| **Gemini**        | `Panda.Brain.Gemini`    | AI chat, analysis, code gen       |
+| **Colab**         | `Panda.Google.Colab`    | Heavy ML, free GPU (T4)           |
+| **Firebase Auth** | `Panda.Auth`            | Google Sign-In, magic links       |
+| **Firebase RTDB** | `Panda.Bridge`          | P2P signaling, presence           |
+| **Calendar**      | `Panda.Google.Calendar` | Scheduling, reminders             |
+| **Gmail**         | `Panda.Google.Gmail`    | Automated emails                  |
+| **YouTube**       | `Panda.Google.YouTube`  | Video content management          |
+| **Analytics**     | Hooks                   | Usage tracking, conversion        |
+| **Ads**           | Planned                 | Monetization, user acquisition    |
 
 ---
 
@@ -361,31 +415,27 @@ Modular integration architecture:
 ### Current Status (Phase 0 - 95% Complete)
 
 - ✅ 17 Technical Documents (~200KB total)
-- ✅ SDK with 10+ modules
-- ✅ GAS backend fully functional
+- ✅ SDK with 10+ modules fully integrated with Google
+- ✅ GAS backend fully functional (Brain.gs, Wallet.gs, Dispatcher.gs)
 - ✅ Firebase Auth + RTDB integration
-- ✅ Constitution codified (12 Articles)
+- ✅ Google Tentacle with 7 children (Drive, Sheets, Colab, etc)
 - 🚧 Rust Agent (in development)
 - 🚧 Partner Mode (planned)
 
 ---
 
-## 📂 Repository Structure
+## 📂 This Repository
 
 ```
-Panda-Factory/ (This Showcase Repo)
-├── README.md       ← You are here
-├── pitch-deck.html ← 8-slide presentation
+Panda-Factory/
+├── README.md       ← Architecture & Concepts (you are here)
+├── pitch-deck.html ← Interactive 8-slide presentation
 ├── logo.png        ← Main logo
-└── LOGO/           ← High-res logos
-
-SAAS/ (Private Development Repo)
-├── docs/           ← 17 technical documents
-├── js/             ← SDK source code
-├── jam/            ← React UI components
-├── backend/        ← GAS scripts
-└── rust-agent/     ← Desktop agent
+└── LOGO/           ← High-resolution variants
 ```
+
+> **Note:** This is a showcase repository for concept documentation and pitch materials.  
+> The full implementation is developed privately following Google-First best practices.
 
 ---
 
