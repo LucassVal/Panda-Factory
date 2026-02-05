@@ -9,11 +9,12 @@
 
 1. [Tech Stack](#tech-stack)
 2. [Instalação](#instalação)
-3. [Módulos Públicos](#módulos-públicos)
-4. [Tentacle Architecture](#tentacle-architecture)
-5. [Event Bus](#event-bus)
-6. [Classificação de Segurança](#classificação-de-segurança)
-7. [Changelog](#changelog)
+3. [**⚠️ REGRAS OBRIGATÓRIAS**](#️-regras-obrigatórias-leia-antes-de-tudo)
+4. [Módulos Públicos](#módulos-públicos)
+5. [Tentacle Architecture](#tentacle-architecture)
+6. [Event Bus](#event-bus)
+7. [Classificação de Segurança](#classificação-de-segurança)
+8. [Changelog](#changelog)
 
 ---
 
@@ -77,6 +78,100 @@
   console.log(Panda.version()); // "0.5.1"
 </script>
 ```
+
+---
+
+## ⚠️ REGRAS OBRIGATÓRIAS (Leia Antes de Tudo)
+
+> **Estas regras são invioláveis. Plugins que não seguirem serão rejeitados.**
+
+### 1. MCP OBRIGATÓRIO
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│  🔌 TODO PLUGIN DEVE TER panda.mcp.json                                 │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ✅ OBRIGATÓRIO:                                                        │
+│  ├── Arquivo panda.mcp.json na raiz do plugin                           │
+│  ├── Declarar todas tools expostas                                      │
+│  ├── Descrições claras para IA entender                                 │
+│  └── Passar validação Panda Defend (Score ≥70)                          │
+│                                                                          │
+│  ❌ SEM MCP = NÃO PUBLICA NA STORE                                      │
+│                                                                          │
+│  Ver: PF_MCP_REFERENCE.md (PARTE B) para especificação completa          │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Por que MCP é obrigatório:**
+
+- IA entende seu plugin automaticamente (zero documentação)
+- Integração "plug and play" entre plugins
+- **É o diferencial do Panda Factory**
+
+### 2. PROTEÇÃO DE RECEITA (Anti-Bypass)
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│  🛡️ REGRAS ANTI-BYPASS (Hardcoded - Inviolável)                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  🔴 PROIBIDO (Rejeição Imediata):                                       │
+│                                                                          │
+│  1. IA EXTERNA NÃO AUTORIZADA                                           │
+│     ├── Chamadas diretas a OpenAI, Anthropic, etc                       │
+│     ├── Bypass do Panda.Brain                                           │
+│     └── Use: Panda.Brain.chat() que roteia via billing                  │
+│                                                                          │
+│  2. BYPASS DE BILLING                                                   │
+│     ├── Chamar APIs pagas sem debitar PC                                │
+│     ├── Hardcode de API keys no código                                  │
+│     └── Use: Panda.Wallet.charge() para todas transações                │
+│                                                                          │
+│  3. COLETA NÃO AUTORIZADA                                               │
+│     ├── Tracking de usuários sem consentimento                          │
+│     ├── Envio de dados para servidores externos                         │
+│     └── Use: Panda.Storage apenas                                       │
+│                                                                          │
+│  4. TOOLS RESERVADAS                                                    │
+│     ├── auth_*, wallet_*, admin_*, system_*                             │
+│     └── Estes nomes são PROIBIDOS para plugins                          │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Detecção Automática (Panda Defend):**
+
+| Violação                | Detecção          | Consequência        |
+| ----------------------- | ----------------- | ------------------- |
+| IA externa direta       | Static Analysis   | Score = 0, Rejeição |
+| API key hardcoded       | Regex scan        | Score = 0, Rejeição |
+| fetch() para APIs pagas | Behavior monitor  | Auto-suspend        |
+| Sem panda.mcp.json      | Pre-publish check | Não publica         |
+
+### 3. CAMINHO CORRETO
+
+```javascript
+// ❌ ERRADO - Bypass (será bloqueado)
+const response = await fetch("https://api.openai.com/v1/chat", {
+  headers: { Authorization: "Bearer sk-..." },
+});
+
+// ✅ CORRETO - Via Panda (billing automático)
+const response = await Panda.Brain.chat("Olá!", {
+  model: "gemini-3-flash-preview", // Free tier
+});
+
+// ✅ CORRETO - BYOL autorizado (usa chave do USUÁRIO, não do plugin)
+const response = await Panda.Brain.chat("Olá!", {
+  provider: "openai",
+  byol: true, // User fornece a key nas configs
+});
+```
+
+> **BYOL é permitido**, mas a KEY vem do USUÁRIO, nunca hardcoded no plugin.
 
 ---
 
@@ -276,7 +371,19 @@ Panda.Bridge._mockConnect(true); // Simula Agent online
 const result = await Panda.Bridge.execute("gpu_check");
 ```
 
----
+> ⚠️ **Modo Web-First (Sem Rust Agent):**
+> A maioria dos módulos SDK funciona 100% no browser via GAS/Firebase:
+>
+> | Módulo              | Web-Only   | Requer Rust |
+> | ------------------- | ---------- | ----------- |
+> | Auth, Data, Storage | ✅ 100%    | -           |
+> | Brain.Gemini        | ✅ Via GAS | -           |
+> | Wallet, UI, Events  | ✅ 100%    | -           |
+> | Bridge (MCP)        | ⚠️ Parcial | ✅ Full     |
+> | GPU, LocalLLM       | ❌         | ✅          |
+> | Polyglot            | ❌         | ✅          |
+>
+> Ver: [PF_MASTER §1.4 Web-First](PF_MASTER_ARCHITECTURE.md#14-arquitetura-web-first-zero-install)
 
 ### 🎨 Panda.UI
 
@@ -750,3 +857,88 @@ Upload e gerenciamento de vídeos.
 ---
 
 > 📖 **Arquitetura Completa:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md)
+
+---
+
+## Tentacle Architecture
+
+> **Consolidado de:** PF_MASTER_ARCHITECTURE.md §4.3
+
+A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de integração.
+
+### Estrutura de Arquivos
+
+```text
+js/tentacles/                         # 8 Integration Modules
+├── brain/                            ← AI/ML
+│   ├── pf.brain-parent.js
+│   └── children/
+│       ├── gemini.js                 ← Gemini API
+│       ├── local-llm.js              ← Ollama/LM Studio
+│       ├── gpu.js                    ← WebGPU detection
+│       └── vision.js                 ← Image analysis
+├── social/                           ← Social Media
+│   ├── pf.social-parent.js
+│   └── children/
+│       ├── whatsapp.js               ← Evolution API/Baileys
+│       ├── twitter.js
+│       ├── youtube.js
+│       ├── meta.js
+│       └── telegram.js
+├── trading/                          ← Financial Markets
+│   ├── pf.trading-parent.js
+│   └── children/ctrader.js           ← cTrader Open API
+├── google/                           ← Google Services
+│   ├── pf.google-parent.js
+│   └── children/
+│       ├── drive.js
+│       ├── sheets.js
+│       ├── colab.js
+│       ├── calendar.js
+│       ├── docs.js
+│       ├── gmail.js
+│       └── youtube.js
+├── distribution/                     ← App Publishing
+│   ├── pf.distribution-parent.js
+│   └── children/
+│       ├── pwa.js
+│       ├── itch.js
+│       ├── steam.js
+│       ├── android.js
+│       ├── ios.js
+│       └── arcade.js
+├── education/                        ← EdTech Platforms
+│   ├── pf.education-parent.js
+│   └── children/
+│       ├── kiwify.js
+│       ├── hotmart.js
+│       └── eduzz.js
+├── github/                           ← GitHub Integration
+│   ├── pf.github-parent.js
+│   └── children/
+│       ├── pages.js                  ← GitHub Pages deploy
+│       ├── jsondb.js                 ← JSON as database
+│       └── actions.js                ← CI/CD workflows
+└── monitor/                          ← System Health
+    └── pf.tentacle-monitor.js        ← Real-time logging
+```
+
+### TentacleMonitor API
+
+| Método                                | Descrição                  |
+| ------------------------------------- | -------------------------- |
+| `TM.registerTentacle(name)`           | Registra tentáculo         |
+| `TM.registerChild(tentacle, childId)` | Registra filho             |
+| `TM.log(level, source, msg)`          | Log com nível              |
+| `TM.getTree()`                        | Retorna árvore hierárquica |
+| `TM.getLogs(filter)`                  | Logs filtrados             |
+
+### Benefícios
+
+- **Isolamento:** Se um child falha, o resto continua
+- **Hot-Swap:** Atualizar módulo sem reload
+- **Observabilidade:** DevTools UI (F12) visualiza tudo
+
+---
+
+> 📖 **Versão:** 0.9.6 | **Consolidado:** SDK + Tentacle Architecture
