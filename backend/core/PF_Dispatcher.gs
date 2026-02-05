@@ -56,11 +56,28 @@ function doGet(e) {
   switch(action) {
     case 'ping':
       return ContentService.createTextOutput('pong');
+    
+    // 🔌 MCP MODE: Expose tools for AI agents
+    case 'mcp':
+      return jsonResponse({
+        name: "panda-gas-backend",
+        version: CONFIG.VERSION,
+        description: "Panda Factory GAS Backend - AI Gateway",
+        tools: [
+          { name: "get_balance", description: "Get user Panda Coin balance" },
+          { name: "text_gen", description: "Generate text using Gemini AI" },
+          { name: "drive_read", description: "Read file from Google Drive" },
+          { name: "sheet_create", description: "Create Google Sheets spreadsheet" }
+        ],
+        modes: ["JSON", "WEB", "MCP"]
+      });
+    
     case 'status':
       return jsonResponse({
         status: 'ONLINE',
         app: CONFIG.APP_NAME,
         version: CONFIG.VERSION,
+        modes: ["JSON", "WEB", "MCP"],
         usdRate: getUsdRate()
       });
     case 'setup':
