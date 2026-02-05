@@ -2254,7 +2254,7 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ---
 
-## 9. Referências & Convenções
+## 18. Referências & Convenções
 
 ### 12.1. Convenção de Nomes (PF)
 
@@ -2331,7 +2331,7 @@ Venda de Plugin (100 PC):
 
 ---
 
-## 12. Google Partner Strategy
+## 16. Google Partner Strategy
 
 > **Visão:** Panda Factory = Showcase completo de integração Google
 
@@ -2403,7 +2403,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 14. Gaming, Audio & Video Tentacles
+## 12. Gaming, Audio & Video Tentacles
 
 > **Objetivo:** Integrações criativas para devs, artistas e produtores
 
@@ -2447,7 +2447,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 15. Multi-Market Expansion (A "Amazon" de Serviços Digitais)
+## 14. Multi-Market Expansion (A "Amazon" de Serviços Digitais)
 
 > **Filosofia:** O Panda não vende apenas cursos ou jogos. É o hub de distribuição para qualquer ativo digital.
 
@@ -2481,7 +2481,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 16. Game Studio & Publisher
+## 17. Game Studio & Publisher
 
 > **Modelo:** Agregador de Engines + Cross-Commerce
 
@@ -2507,7 +2507,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 17. Bounty System & Comunidade
+## 10. Bounty System & Comunidade
 
 > **Filosofia:** Use a "Vibe Dev" e a comunidade Open Source. Não escreva integrações chatas.
 
@@ -2562,7 +2562,7 @@ async function checkAccess(contentId) {
 
 ---
 
-## 18. App Factory - Democratização de Tecnologia
+## 15. App Factory - Democratização de Tecnologia
 
 > **"O celular é o único computador que bilhões de pessoas possuem. Quem ignora mobile ignora a maioria da humanidade."**
 
@@ -3807,7 +3807,7 @@ my-plugin/
 
 ---
 
-## 22. P2P Compute Network
+## 9. P2P Compute Network
 
 > 📚 **Referência:** [PF_P2P_REFERENCE.md](./PF_P2P_REFERENCE.md)
 
