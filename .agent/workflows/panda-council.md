@@ -15,9 +15,9 @@ O Panda Council é um **sistema de governança autônoma** para desenvolvimento 
 
 | Capability                 | Implementation             | Reference                        |
 | -------------------------- | -------------------------- | -------------------------------- |
-| **Single Source of Truth** | README_PANDA_OFICIAL.md    | Índice master de 16 docs         |
+| **Single Source of Truth** | README_PANDA_OFICIAL.md    | Índice master de 19 docs         |
 | **Layered Architecture**   | 5 camadas de abstração     | PF_MASTER_ARCHITECTURE.md        |
-| **Security Gates**         | Ed25519 + PAT Constitution | PF_ECONOMY_REFERENCE.md          |
+| **Security Gates**         | Ed25519 + PAT Constitution | PF_SECURITY_REFERENCE.md         |
 | **Auto-Documentation**     | DDD (Doc-Driven Dev)       | Criação obrigatória de PF\_\*.md |
 
 ---
@@ -28,14 +28,15 @@ O Panda Council é um **sistema de governança autônoma** para desenvolvimento 
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DOCUMENT HIERARCHY (16 DOCS)                      │
+│                    DOCUMENT HIERARCHY (19 DOCS)                      │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
 │  L0: MASTER INDEX                                                   │
-│  └── README_PANDA_OFICIAL.md (16 docs indexados)                   │
+│  ├── README_PANDA_OFICIAL.md (19 docs indexados)                   │
+│  └── PF_FILE_REGISTRY.md (catálogo de arquivos)                    │
 │                                                                      │
 │  L1: ARCHITECTURE LAYER                                             │
-│  └── PF_MASTER_ARCHITECTURE.md (~208KB, 3200+ lines)               │
+│  └── PF_MASTER_ARCHITECTURE.md (~192KB, 3360 lines)                │
 │                                                                      │
 │  L2: FRONTEND LAYER                                                 │
 │  ├── PF_SDK_REFERENCE.md (Tentacles, Event Bus)                    │
@@ -43,6 +44,7 @@ O Panda Council é um **sistema de governança autônoma** para desenvolvimento 
 │                                                                      │
 │  L3: BACKEND LAYER                                                  │
 │  ├── PF_BACKEND_REFERENCE.md (Backend geral + Firebase + Rust)     │
+│  ├── PF_P2P_REFERENCE.md (P2P Network + Partner + Nodes)           │
 │  ├── PF_GAS_REFERENCE.md (Google Apps Script)                      │
 │  └── PF_MCP_REFERENCE.md (Model Context Protocol)                  │
 │                                                                      │
@@ -52,8 +54,9 @@ O Panda Council é um **sistema de governança autônoma** para desenvolvimento 
 │  ├── PF_COLAB_REFERENCE.md (GPU/ML)                                │
 │  └── PF_AGENT_CONSTITUTION.md (Persona IA)                         │
 │                                                                      │
-│  L5: ECONOMY LAYER                                                  │
+│  L5: ECONOMY & SECURITY LAYER                                       │
 │  ├── PF_ECONOMY_REFERENCE.md (Tokenomics + Governance + PAT)       │
+│  ├── PF_SECURITY_REFERENCE.md (Pipeline + Panda Defend) ⭐ NEW     │
 │  ├── PF_SOCIAL_REFERENCE.md (Social Hub)                           │
 │  └── PF_EDUCATION_REFERENCE.md (EdTech)                            │
 │                                                                      │
@@ -75,16 +78,22 @@ const CONTEXT_PRIORITY = {
   ALWAYS_LOAD: [
     "README_PANDA_OFICIAL.md", // Master index
     "PF_MASTER_ARCHITECTURE.md", // System map
+    "PF_FILE_REGISTRY.md", // File catalog
   ],
   LOAD_ON_CONTEXT: {
     frontend: ["PF_SDK_REFERENCE", "PF_UI_REFERENCE"],
-    backend: ["PF_BACKEND_REFERENCE", "PF_GAS_REFERENCE", "PF_MCP_REFERENCE"],
+    backend: [
+      "PF_BACKEND_REFERENCE",
+      "PF_P2P_REFERENCE",
+      "PF_GAS_REFERENCE",
+      "PF_MCP_REFERENCE",
+    ],
     ai: [
       "PF_GEMINI_REFERENCE",
       "PF_AGENT_CONSTITUTION",
       "PF_MOLTBOOK_REFERENCE",
     ],
-    economy: ["PF_ECONOMY_REFERENCE"],
+    economy: ["PF_ECONOMY_REFERENCE", "PF_SECURITY_REFERENCE"],
     plugins: ["PF_PLUGIN_AND_MODULAR_REFERENCE", "PF_MEDUSA_REFERENCE"],
   },
 };
@@ -110,7 +119,7 @@ FOUNDER ORDER: [ORDEM DIRETA DO USUÁRIO]
 │                                                                      │
 │  🔐 SECURITY (Auth/Governance)                                      │
 │  ├── Trigger: auth, Ed25519, PAT, constitution, secrets             │
-│  ├── Docs: PF_ECONOMY_REFERENCE (§10-12)                           │
+│  ├── Docs: PF_SECURITY_REFERENCE.md, PF_ECONOMY_REFERENCE          │
 │  └── Auto-approve: ❌ (require Founder confirmation)                │
 │                                                                      │
 │  💰 PAT/TREASURY (Economic)                                         │
@@ -271,5 +280,5 @@ END
 
 ---
 
-_Panda Council v3.0 | Enterprise AI Governance | 2026-02-04_
+_Panda Council v3.1 | Enterprise AI Governance | 2026-02-05_
 _Aligned with: README_PANDA_OFICIAL.md | PF_MASTER_ARCHITECTURE.md_
