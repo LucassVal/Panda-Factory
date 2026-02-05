@@ -1,0 +1,245 @@
+<!-- ============================================= -->
+<!-- DEVTOOLS DOCK v3.0 (Glassmorphism Edition)  -->
+<!-- Right Side, Vertical, DevMode Tools         -->
+<!-- ============================================= -->
+<style>
+  /* DevDock Glassmorphism Styles */
+  .right-dock {
+    position: fixed;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: none; /* Hidden by default, shown when Dev Mode ON */
+  }
+
+  .right-dock.active {
+    display: block;
+  }
+
+  .right-dock .dock-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(102, 126, 234, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Light mode */
+  .right-dock .dock-items {
+    background: rgba(255, 255, 255, 0.75);
+  }
+
+  /* Dark mode */
+  .dark-mode .right-dock .dock-items {
+    background: rgba(20, 20, 30, 0.85);
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+
+  .right-dock .dock-item {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+  }
+
+  .right-dock .dock-item:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: scale(1.1);
+  }
+
+  .right-dock .dock-item:active {
+    transform: scale(0.95);
+  }
+
+  .dock-section-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #667eea;
+    text-align: center;
+    margin: 8px 0 4px 0;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  .dock-separator {
+    width: 100%;
+    height: 1px;
+    background: rgba(102, 126, 234, 0.2);
+    margin: 4px 0;
+  }
+</style>
+
+<div id="devDock" class="modular-dock right-dock">
+  <div class="dock-items">
+    <!-- CORE TOOLS -->
+    <div class="dock-section-label">Core</div>
+
+    <div class="dock-item" onclick="openDevTool('console')" title="💻 Console">
+      💻
+    </div>
+    <div class="dock-item" onclick="openDevTool('mcp')" title="🧰 MCP Browser">
+      🧰
+    </div>
+    <div class="dock-item" onclick="openDevTool('api')" title="🔌 API Tester">
+      🔌
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <!-- GOVERNANCE -->
+    <div class="dock-section-label">PAT</div>
+
+    <div
+      class="dock-item"
+      onclick="openDevTool('treasury')"
+      title="🏦 PAT Treasury"
+    >
+      🏦
+    </div>
+    <div
+      class="dock-item"
+      onclick="openDevTool('constitution')"
+      title="⚖️ Constitution"
+    >
+      ⚖️
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <!-- DATA & EXTENSIONS -->
+    <div class="dock-section-label">Data</div>
+
+    <div
+      class="dock-item"
+      onclick="openDevTool('database')"
+      title="🗄️ Database"
+    >
+      🗄️
+    </div>
+    <div
+      class="dock-item"
+      onclick="openDevTool('extensions')"
+      title="🧩 Extensions"
+    >
+      🧩
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <!-- FUTURE TOOLS -->
+    <div class="dock-section-label">More</div>
+
+    <div
+      class="dock-item"
+      onclick="openDevTool('editor')"
+      title="📝 Code Editor"
+    >
+      📝
+    </div>
+    <div class="dock-item" onclick="openDevTool('rig')" title="🦀 RIG Config">
+      🦀
+    </div>
+
+    <div class="dock-separator"></div>
+
+    <!-- AI ASSISTANT -->
+    <div class="dock-item" onclick="openDevTool('ai')" title="🐼 AI Assistant">
+      🐼
+    </div>
+  </div>
+</div>
+
+<script>
+  /**
+   * DevTools Controller v3.0
+   */
+  window.openDevTool = function (toolId) {
+    const tools = {
+      console: { title: "💻 Console", icon: "💻" },
+      mcp: { title: "🧰 MCP Browser", icon: "🧰" },
+      api: { title: "🔌 API Tester", icon: "🔌" },
+      treasury: { title: "🏦 PAT Treasury", icon: "🏦" },
+      constitution: { title: "⚖️ Constitution", icon: "⚖️" },
+      database: { title: "🗄️ Database", icon: "🗄️" },
+      extensions: { title: "🧩 Extensions", icon: "🧩" },
+      editor: { title: "📝 Code Editor", icon: "📝" },
+      rig: { title: "🦀 RIG Config", icon: "🦀" },
+      ai: { title: "🐼 AI Assistant", icon: "🐼" },
+    };
+
+    const tool = tools[toolId];
+    if (!tool) {
+      console.warn("Unknown tool:", toolId);
+      return;
+    }
+
+    // Try pop-out first
+    if (typeof Panda !== "undefined" && Panda.UI?.popout) {
+      Panda.UI.popout(toolId).catch(() => {
+        // Fallback to toast
+        Panda.UI.toast?.(`${tool.title} coming soon!`, "info");
+      });
+    } else {
+      // Simple fallback
+      console.log(`🐼 Opening ${tool.title}...`);
+      alert(`${tool.title}\n\nEsta ferramenta será implementada em breve!`);
+    }
+  };
+
+  /**
+   * Toggle Dev Mode
+   */
+  window.toggleDevMode = function () {
+    const devDock = document.getElementById("devDock");
+    const toggleBtn = document.getElementById("devModeToggle");
+    const isActive = devDock?.classList.toggle("active");
+
+    // Update toggle button icon
+    if (toggleBtn) {
+      toggleBtn.innerHTML = isActive ? "🔧" : "🛠️";
+      toggleBtn.classList.toggle("active", isActive);
+    }
+
+    // Persist
+    localStorage.setItem("panda_dev_mode", isActive ? "true" : "false");
+
+    // Toast
+    if (typeof Panda !== "undefined" && Panda.UI?.toast) {
+      Panda.UI.toast(
+        isActive ? "Dev Mode ON 🔧" : "Dev Mode OFF",
+        isActive ? "success" : "info",
+      );
+    }
+
+    console.log(`🐼 Dev Mode: ${isActive ? "ON" : "OFF"}`);
+  };
+
+  // Auto-restore Dev Mode on load
+  document.addEventListener("DOMContentLoaded", () => {
+    const savedDevMode = localStorage.getItem("panda_dev_mode") === "true";
+    if (savedDevMode) {
+      const devDock = document.getElementById("devDock");
+      const toggleBtn = document.getElementById("devModeToggle");
+      if (devDock) devDock.classList.add("active");
+      if (toggleBtn) {
+        toggleBtn.innerHTML = "🔧";
+        toggleBtn.classList.add("active");
+      }
+    }
+  });
+
+  console.log("🐼 DevTools Dock v3.0 loaded");
+</script>
