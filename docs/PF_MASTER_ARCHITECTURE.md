@@ -13,14 +13,15 @@
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
-│                    DOCUMENTAÇÃO PANDA FACTORY (17 arquivos)                 │
+│                    DOCUMENTAÇÃO PANDA FACTORY (18 arquivos)                 │
 ├────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ARQUITETURA & BACKEND                 SDK & INTEGRAÇÕES                   │
 │  ├── PF_MASTER_ARCHITECTURE.md ★       ├── PF_SDK_REFERENCE.md             │
 │  ├── PF_BACKEND_REFERENCE.md           ├── PF_PLUGIN_AND_MODULAR.md        │
 │  ├── PF_GAS_REFERENCE.md               ├── PF_MCP_REFERENCE.md             │
-│  └── PF_COLAB_REFERENCE.md             └── PF_GEMINI_REFERENCE.md          │
+│  ├── PF_P2P_REFERENCE.md ▸             └── PF_GEMINI_REFERENCE.md          │
+│  └── PF_COLAB_REFERENCE.md             (P2P + Partner + Nodes + Mining)    │
 │                                                                             │
 │  FRONTEND & UI (Consolidado)           ECONOMIA (Consolidado)              │
 │  └── PF_UI_REFERENCE.md ▸              └── PF_ECONOMY_REFERENCE.md ▸       │

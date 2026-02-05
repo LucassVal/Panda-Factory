@@ -1,6 +1,6 @@
 //! 🐼 Panda Agent - Main Entry Point
 //! ==================================
-//! MCP Server + GPU Detection + Ed25519 Crypto + Health System + Moltbook
+//! MCP Server + GPU Detection + Ed25519 Crypto + Health System + Moltbook + P2P
 //!
 //! Features:
 //! - MCP Tools for Antigravity/Brain
@@ -9,6 +9,7 @@
 //! - Health monitoring endpoint
 //! - Bridge to JavaScript SDK
 //! - 🦞 Moltbook Social Network Integration
+//! - 🌐 P2P Compute Network (Node + Mining)
 
 use anyhow::Result;
 use tracing::{info, Level};
@@ -19,7 +20,9 @@ mod crypto;
 mod gpu;
 mod health;
 mod mcp;
+mod mining;
 mod moltbook;
+mod node;
 
 #[tokio::main]
 async fn main() -> Result<()> {

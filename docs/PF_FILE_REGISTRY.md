@@ -10,7 +10,7 @@
 | Extensão | Quantidade | Domínio Principal |
 | -------- | ---------- | ----------------- |
 | `.gs`    | 16         | Backend GAS       |
-| `.rs`    | 6          | Rust Agent        |
+| `.rs`    | 8          | Rust Agent        |
 | `.md`    | 18         | Documentação      |
 | `.js`    | 73+        | Frontend/SDK      |
 | `.html`  | 35         | UI/Components     |
@@ -59,7 +59,7 @@
 
 ---
 
-## 🦀 Rust Agent (6 arquivos)
+## 🦀 Rust Agent (8 arquivos)
 
 | Arquivo       | Caminho           | Descrição                   |
 | ------------- | ----------------- | --------------------------- |
@@ -69,6 +69,8 @@
 | `gpu.rs`      | `rust-agent/src/` | NVIDIA/CUDA detection       |
 | `health.rs`   | `rust-agent/src/` | Health monitoring           |
 | `moltbook.rs` | `rust-agent/src/` | Moltbook client             |
+| `node.rs`     | `rust-agent/src/` | 🌐 P2P Node Manager         |
+| `mining.rs`   | `rust-agent/src/` | ⛏️ Mining & Partner Mode    |
 
 ---
 
@@ -90,12 +92,12 @@
 
 ### Backend
 
-| Arquivo                   | Descrição                       |
-| ------------------------- | ------------------------------- |
-| `PF_BACKEND_REFERENCE.md` | Backend geral + Firebase + Rust |
-| `PF_PARTNER_REFERENCE.md` | Partner Mode + Mining + Phantom |
-| `PF_GAS_REFERENCE.md`     | Google Apps Script (Tri-Mode)   |
-| `PF_MCP_REFERENCE.md`     | Model Context Protocol          |
+| Arquivo                   | Descrição                          |
+| ------------------------- | ---------------------------------- |
+| `PF_BACKEND_REFERENCE.md` | Backend geral + Firebase + Rust    |
+| `PF_P2P_REFERENCE.md`     | **P2P + Partner + Nodes + Mining** |
+| `PF_GAS_REFERENCE.md`     | Google Apps Script (Tri-Mode)      |
+| `PF_MCP_REFERENCE.md`     | Model Context Protocol             |
 
 ### AI & Integrations
 
