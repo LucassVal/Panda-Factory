@@ -107,159 +107,172 @@
 
 ### Core SDK (js/)
 
-| Arquivo           | Descrição               |
-| ----------------- | ----------------------- |
-| `pf.sdk.js`       | 🌟 SDK principal (50KB) |
-| `pf.bootstrap.js` | Bootstrap loader        |
-| `pf.app-init.js`  | App initialization      |
-| `dock-utils.js`   | Dock utilities          |
+> 🏷️ **Status:** 🟢 REAL (callGAS) | 🟡 MOCK (\_delay) | 🔵 HYBRID | ⚪ STATIC
+
+| Arquivo           | Status    | Descrição               |
+| ----------------- | --------- | ----------------------- |
+| `pf.sdk.js`       | 🔵 HYBRID | 🌟 SDK principal (50KB) |
+| `pf.bootstrap.js` | 🟡 MOCK   | Bootstrap loader        |
+| `pf.app-init.js`  | 🟡 MOCK   | App initialization      |
+| `dock-utils.js`   | ⚪ STATIC | Dock utilities          |
 
 ### Kernel (js/kernel/)
 
-| Arquivo            | Descrição          |
-| ------------------ | ------------------ |
-| `pf.loader.js`     | Module loader      |
-| `pf.components.js` | Component registry |
+| Arquivo            | Status  | Descrição          |
+| ------------------ | ------- | ------------------ |
+| `pf.loader.js`     | 🟢 REAL | Module loader      |
+| `pf.components.js` | 🟢 REAL | Component registry |
 
 ### Core Modules (js/core/)
 
-| Arquivo                  | Descrição             |
-| ------------------------ | --------------------- |
-| `pf.ai-core.js`          | AI orchestrator       |
-| `pf.drm.js`              | Plugin DRM            |
-| `pf.firebase-bridge.js`  | Firebase integration  |
-| `pf.i18n.js`             | Internationalization  |
-| `pf.kill-switch.js`      | Emergency kill switch |
-| `pf.workflow-builder.js` | Workflow automation   |
-| `pf.agent-telemetry.js`  | Agent metrics         |
-| `plugin-loader.js`       | Plugin system         |
+| Arquivo                  | Status    | Descrição             |
+| ------------------------ | --------- | --------------------- |
+| `pf.ai-core.js`          | 🟢 REAL   | AI orchestrator       |
+| `pf.drm.js`              | 🔵 HYBRID | Plugin DRM            |
+| `pf.firebase-bridge.js`  | 🟢 REAL   | Firebase integration  |
+| `pf.i18n.js`             | 🟢 REAL   | Internationalization  |
+| `pf.kill-switch.js`      | 🟢 REAL   | Emergency kill switch |
+| `pf.workflow-builder.js` | 🟢 REAL   | Workflow automation   |
+| `pf.agent-telemetry.js`  | 🟢 REAL   | Agent metrics         |
+| `plugin-loader.js`       | 🟢 REAL   | Plugin system         |
 
 ### UI Modules (js/ui/)
 
-| Arquivo           | Descrição       |
-| ----------------- | --------------- |
-| `pf.devtools.js`  | DevTools panel  |
-| `pf.dock-drag.js` | Dock drag       |
-| `pf.dock.js`      | Dock manager    |
-| `pf.drag.js`      | Drag utilities  |
-| `pf.modal-pin.js` | Modal pin       |
-| `pf.omnibar.js`   | Omnibar/Command |
-| `pf.settings.js`  | Settings panel  |
+| Arquivo           | Status    | Descrição       |
+| ----------------- | --------- | --------------- |
+| `pf.devtools.js`  | 🟢 REAL   | DevTools panel  |
+| `pf.dock-drag.js` | 🟡 MOCK   | Dock drag       |
+| `pf.dock.js`      | ⚪ STATIC | Dock manager    |
+| `pf.drag.js`      | ⚪ STATIC | Drag utilities  |
+| `pf.modal-pin.js` | ⚪ STATIC | Modal pin       |
+| `pf.omnibar.js`   | 🟡 MOCK   | Omnibar/Command |
+| `pf.settings.js`  | ⚪ STATIC | Settings panel  |
 
 ### Integrations (js/integrations/)
 
-| Arquivo          | Descrição         |
-| ---------------- | ----------------- |
-| `pf.ctrader.js`  | cTrader API       |
-| `pf.youtube.js`  | YouTube Data API  |
-| `pf.twitter.js`  | Twitter/X API     |
-| `pf.whatsapp.js` | WhatsApp Business |
-| `pf.meta.js`     | Meta (FB + IG)    |
+| Arquivo          | Status  | Descrição         |
+| ---------------- | ------- | ----------------- |
+| `pf.ctrader.js`  | 🟡 MOCK | cTrader API       |
+| `pf.youtube.js`  | 🟡 MOCK | YouTube Data API  |
+| `pf.twitter.js`  | 🟡 MOCK | Twitter/X API     |
+| `pf.whatsapp.js` | 🟡 MOCK | WhatsApp Business |
+| `pf.meta.js`     | 🟡 MOCK | Meta (FB + IG)    |
 
 ### Trading (js/trading/)
 
-| Arquivo               | Descrição     |
-| --------------------- | ------------- |
-| `pf.ctrader-api.js`   | cTrader API   |
-| `pf.ctrader-oauth.js` | cTrader OAuth |
+| Arquivo               | Status    | Descrição     |
+| --------------------- | --------- | ------------- |
+| `pf.ctrader-api.js`   | ⚪ STATIC | cTrader API   |
+| `pf.ctrader-oauth.js` | 🟢 REAL   | cTrader OAuth |
 
 ### Social (js/social/)
 
-| Arquivo                 | Descrição      |
-| ----------------------- | -------------- |
-| `pf.social-core.js`     | Social parent  |
-| `pf.social-youtube.js`  | YouTube child  |
-| `pf.social-twitter.js`  | Twitter child  |
-| `pf.social-whatsapp.js` | WhatsApp child |
-| `pf.social-meta.js`     | Meta child     |
-| `pf.social-telegram.js` | Telegram child |
-| `pf.social-tiktok.js`   | TikTok child   |
+| Arquivo                 | Status    | Descrição      |
+| ----------------------- | --------- | -------------- |
+| `pf.social-core.js`     | 🟡 MOCK   | Social parent  |
+| `pf.social-youtube.js`  | ⚪ STATIC | YouTube child  |
+| `pf.social-twitter.js`  | ⚪ STATIC | Twitter child  |
+| `pf.social-whatsapp.js` | ⚪ STATIC | WhatsApp child |
+| `pf.social-meta.js`     | ⚪ STATIC | Meta child     |
+| `pf.social-telegram.js` | 🔵 HYBRID | Telegram child |
+| `pf.social-tiktok.js`   | ⚪ STATIC | TikTok child   |
 
 ---
 
 ## 🐙 Tentacles (js/tentacles/) - COMPLETO
 
+> **Arquitetura DDD Panda:** Cada Tentacle é um **HUB isolado**. Se um falhar, não afeta os outros.
+>
+> ```text
+> 🐼 PANDA CORE
+>     ├── 🧷 social/        (HUB 1) → Se WhatsApp falhar, Twitter continua
+>     ├── 🧷 google/        (HUB 2) → Se Drive falhar, Sheets continua
+>     ├── 🧷 trading/       (HUB 3) → Isolado dos demais
+>     ├── 🧷 distribution/  (HUB 4) → Steam independente de PWA
+>     └── 🧷 brain/         (HUB 5) → Gemini falhar não afeta LocalLLM
+> ```
+
 ### Brain Tentacle
 
-| Arquivo              | Caminho           | Descrição          |
-| -------------------- | ----------------- | ------------------ |
-| `pf.brain-parent.js` | `brain/`          | Brain orchestrator |
-| `gemini.js`          | `brain/children/` | Gemini AI          |
-| `gpu.js`             | `brain/children/` | GPU compute        |
-| `local-llm.js`       | `brain/children/` | Local LLM (Ollama) |
+| Arquivo              | Caminho           | Status    | Descrição          |
+| -------------------- | ----------------- | --------- | ------------------ |
+| `pf.brain-parent.js` | `brain/`          | ⚪ STATIC | Brain orchestrator |
+| `gemini.js`          | `brain/children/` | 🔵 HYBRID | Gemini AI          |
+| `gpu.js`             | `brain/children/` | 🟡 MOCK   | GPU compute        |
+| `local-llm.js`       | `brain/children/` | 🔵 HYBRID | Local LLM (Ollama) |
 
 ### P2P Tentacle
 
-| Arquivo            | Caminho | Descrição           |
-| ------------------ | ------- | ------------------- |
-| `pf.p2p-parent.js` | `p2p/`  | 🌐 P2P orchestrator |
+| Arquivo            | Caminho | Status    | Descrição           |
+| ------------------ | ------- | --------- | ------------------- |
+| `pf.p2p-parent.js` | `p2p/`  | ⚪ STATIC | 🌐 P2P orchestrator |
 
 ### Distribution Tentacle
 
-| Arquivo                     | Caminho                  | Descrição    |
-| --------------------------- | ------------------------ | ------------ |
-| `pf.distribution-parent.js` | `distribution/`          | Orchestrator |
-| `google-play.js`            | `distribution/children/` | Play Store   |
-| `steam.js`                  | `distribution/children/` | Steam        |
-| `pwa.js`                    | `distribution/children/` | PWA deploy   |
-| `vscode.js`                 | `distribution/children/` | VSCode ext   |
-| `npm.js`                    | `distribution/children/` | NPM publish  |
-| `arcade.js`                 | `distribution/children/` | Arcade       |
-| `itch.js`                   | `distribution/children/` | Itch.io      |
+| Arquivo                     | Caminho                  | Status    | Descrição    |
+| --------------------------- | ------------------------ | --------- | ------------ |
+| `pf.distribution-parent.js` | `distribution/`          | 🟢 REAL   | Orchestrator |
+| `google-play.js`            | `distribution/children/` | 🔵 HYBRID | Play Store   |
+| `steam.js`                  | `distribution/children/` | 🟡 MOCK   | Steam        |
+| `pwa.js`                    | `distribution/children/` | 🔵 HYBRID | PWA deploy   |
+| `vscode.js`                 | `distribution/children/` | 🟡 MOCK   | VSCode ext   |
+| `npm.js`                    | `distribution/children/` | 🟡 MOCK   | NPM publish  |
+| `arcade.js`                 | `distribution/children/` | 🟡 MOCK   | Arcade       |
+| `itch.js`                   | `distribution/children/` | 🟡 MOCK   | Itch.io      |
 
 ### Education Tentacle
 
-| Arquivo                  | Caminho               | Descrição        |
-| ------------------------ | --------------------- | ---------------- |
-| `pf.education-parent.js` | `education/`          | Orchestrator     |
-| `kiwify.js`              | `education/children/` | Kiwify webhooks  |
-| `hotmart.js`             | `education/children/` | Hotmart webhooks |
-| `eduzz.js`               | `education/children/` | Eduzz webhooks   |
+| Arquivo                  | Caminho               | Status    | Descrição        |
+| ------------------------ | --------------------- | --------- | ---------------- |
+| `pf.education-parent.js` | `education/`          | ⚪ STATIC | Orchestrator     |
+| `kiwify.js`              | `education/children/` | 🟡 MOCK   | Kiwify webhooks  |
+| `hotmart.js`             | `education/children/` | 🟡 MOCK   | Hotmart webhooks |
+| `eduzz.js`               | `education/children/` | 🟡 MOCK   | Eduzz webhooks   |
 
 ### GitHub Tentacle
 
-| Arquivo               | Caminho            | Descrição      |
-| --------------------- | ------------------ | -------------- |
-| `pf.github-parent.js` | `github/`          | Orchestrator   |
-| `actions.js`          | `github/children/` | GitHub Actions |
-| `database.js`         | `github/children/` | GitHub DB      |
-| `pages.js`            | `github/children/` | GitHub Pages   |
+| Arquivo               | Caminho            | Status    | Descrição      |
+| --------------------- | ------------------ | --------- | -------------- |
+| `pf.github-parent.js` | `github/`          | 🟢 REAL   | Orchestrator   |
+| `actions.js`          | `github/children/` | 🔵 HYBRID | GitHub Actions |
+| `database.js`         | `github/children/` | 🟡 MOCK   | GitHub DB      |
+| `pages.js`            | `github/children/` | 🟡 MOCK   | GitHub Pages   |
 
 ### Google Tentacle
 
-| Arquivo               | Caminho            | Descrição           |
-| --------------------- | ------------------ | ------------------- |
-| `pf.google-parent.js` | `google/`          | Orchestrator        |
-| `calendar.js`         | `google/children/` | Google Calendar     |
-| `colab.js`            | `google/children/` | Google Colab        |
-| `docs.js`             | `google/children/` | Google Docs         |
-| `drive.js`            | `google/children/` | Google Drive        |
-| `gmail.js`            | `google/children/` | Gmail               |
-| `sheets.js`           | `google/children/` | Google Sheets       |
-| `youtube.js`          | `google/children/` | YouTube Data API v3 |
+| Arquivo               | Caminho            | Status  | Descrição           |
+| --------------------- | ------------------ | ------- | ------------------- |
+| `pf.google-parent.js` | `google/`          | 🟢 REAL | Orchestrator        |
+| `calendar.js`         | `google/children/` | 🟢 REAL | Google Calendar     |
+| `colab.js`            | `google/children/` | 🟢 REAL | Google Colab        |
+| `docs.js`             | `google/children/` | 🟢 REAL | Google Docs         |
+| `drive.js`            | `google/children/` | 🟢 REAL | Google Drive        |
+| `gmail.js`            | `google/children/` | 🟢 REAL | Gmail               |
+| `sheets.js`           | `google/children/` | 🟢 REAL | Google Sheets       |
+| `youtube.js`          | `google/children/` | 🟢 REAL | YouTube Data API v3 |
 
 ### Social Tentacle
 
-| Arquivo               | Caminho            | Descrição         |
-| --------------------- | ------------------ | ----------------- |
-| `pf.social-parent.js` | `social/`          | Orchestrator      |
-| `meta.js`             | `social/children/` | Meta (FB+IG)      |
-| `twitter.js`          | `social/children/` | Twitter/X         |
-| `whatsapp.js`         | `social/children/` | WhatsApp          |
-| `youtube.js`          | `social/children/` | YouTube (mock+PC) |
+| Arquivo               | Caminho            | Status    | Descrição         |
+| --------------------- | ------------------ | --------- | ----------------- |
+| `pf.social-parent.js` | `social/`          | ⚪ STATIC | Orchestrator      |
+| `meta.js`             | `social/children/` | 🟡 MOCK   | Meta (FB+IG)      |
+| `twitter.js`          | `social/children/` | 🟡 MOCK   | Twitter/X         |
+| `whatsapp.js`         | `social/children/` | 🔵 HYBRID | WhatsApp          |
+| `youtube.js`          | `social/children/` | 🟡 MOCK   | YouTube (mock+PC) |
 
 ### Trading Tentacle
 
-| Arquivo                | Caminho             | Descrição    |
-| ---------------------- | ------------------- | ------------ |
-| `pf.trading-parent.js` | `trading/`          | Orchestrator |
-| `ctrader.js`           | `trading/children/` | cTrader      |
+| Arquivo                | Caminho             | Status    | Descrição    |
+| ---------------------- | ------------------- | --------- | ------------ |
+| `pf.trading-parent.js` | `trading/`          | ⚪ STATIC | Orchestrator |
+| `ctrader.js`           | `trading/children/` | 🟡 MOCK   | cTrader      |
 
 ### Monitor
 
-| Arquivo                  | Caminho    | Descrição        |
-| ------------------------ | ---------- | ---------------- |
-| `pf.tentacle-monitor.js` | `monitor/` | Tentacle Monitor |
+| Arquivo                  | Caminho    | Status    | Descrição        |
+| ------------------------ | ---------- | --------- | ---------------- |
+| `pf.tentacle-monitor.js` | `monitor/` | ⚪ STATIC | Tentacle Monitor |
 
 ---
 
