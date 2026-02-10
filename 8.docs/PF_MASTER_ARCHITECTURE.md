@@ -1,3 +1,10 @@
+---
+tool_context: panda/master
+description: Panda OS Complete Architecture - Frontend, SDK, Backend 3-Pillar Stack
+version: 5.1.0
+updated: 2026-02-10
+---
+
 # 🐼 Panda OS - Arquitetura Completa
 
 ![Panda Logo](../10.assets/panda_logo_original.jpg)
@@ -5,7 +12,7 @@
 > **Documento Mestre de Arquitetura**
 > Consolidação unificada seguindo o Mapa Visual do Projeto.
 > Frontend → SDK → Backend Distribuído (3 Pilares).
-> **Atualizado:** 2026-02-05
+> **Atualizado:** 2026-02-10 | JAM UI v6.4 | Vite Deploy Ready
 
 ---
 
@@ -13,27 +20,25 @@
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
-│                    DOCUMENTAÇÃO PANDA FACTORY (18 arquivos)                 │
+│                  DOCUMENTAÇÃO PANDA FACTORY (16 arquivos)                │
 ├────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ARQUITETURA & BACKEND                 SDK & INTEGRAÇÕES                   │
-│  ├── PF_MASTER_ARCHITECTURE.md ★       ├── PF_SDK_REFERENCE.md             │
-│  ├── PF_BACKEND_REFERENCE.md           ├── PF_PLUGIN_AND_MODULAR.md        │
-│  ├── PF_GAS_REFERENCE.md               ├── PF_MCP_REFERENCE.md             │
-│  ├── PF_P2P_REFERENCE.md ▸             └── PF_GEMINI_REFERENCE.md          │
-│  └── PF_COLAB_REFERENCE.md             (P2P + Partner + Nodes + Mining)    │
-│                                                                             │
+│                                                                            │
+│  ARQUITETURA & BACKEND                 SDK & INTEGRAÇÕES                  │
+│  ├── PF_MASTER_ARCHITECTURE.md ★       ├── PF_SDK_REFERENCE.md ▸           │
+│  ├── PF_BACKEND_REFERENCE.md           ├── PF_MCP_REFERENCE.md             │
+│  ├── PF_GAS_REFERENCE.md               └── PF_GEMINI_REFERENCE.md          │
+│  ├── PF_P2P_REFERENCE.md ▸                                                 │
+│  └── PF_COLAB_REFERENCE.md                                                 │
+│                                                                            │
 │  FRONTEND & UI (Consolidado)           ECONOMIA (Consolidado)              │
-│  └── PF_UI_REFERENCE.md ▸              └── PF_ECONOMY_REFERENCE.md ▸       │
-│      (CSS + HTML + JAM)                    (TOKENOMICS + PAT + GOVERNANCE) │
-│                                        └── PF_MEDUSA_REFERENCE.md          │
-│                                                                             │
-│  COMUNIDADE & SOCIAL                   CATÁLOGO                            │
-│  ├── PF_SOCIAL_REFERENCE.md            └── PF_OPENSOURCE_CATALOG.md        │
-│  ├── PF_MOLTBOOK_REFERENCE.md                                              │
-│  ├── PF_AGENT_CONSTITUTION.md                                              │
-│  └── PF_EDUCATION_REFERENCE.md                                             │
-│                                                                             │
+│  └── PF_UI_REFERENCE.md ▸              ├── PF_ECONOMY_REFERENCE.md ▸       │
+│      (CSS + HTML + JAM)                └── PF_MEDUSA_REFERENCE.md          │
+│                                                                            │
+│  GOVERNANÇA & SEGURANÇA                CATÁLOGO                            │
+│  ├── PF_AGENT_CONSTITUTION.md          ├── PF_OPENSOURCE_CATALOG.md        │
+│  ├── PF_PAT_FOUNDER_CONSTITUTION.md    └── PF_FILE_REGISTRY.md             │
+│  └── PF_SECURITY_REFERENCE.md                                              │
+│                                                                            │
 │  ★ = DOCUMENTO MESTRE    ▸ = MEGA-DOC CONSOLIDADO                          │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -45,64 +50,85 @@
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
 │                         PANDA FACTORY - FOLDER MAP                          │
+│                      📂 Estrutura Numerada (Padrão)                         │
 ├────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  📁 PandaFactory/                                                          │
 │  ├── 📁 .agent/                    # Workflows IA (PANDA.md)               │
 │  ├── 📁 .github/workflows/         # CI/CD (Pages, Android, Steam)         │
 │  │                                                                          │
-│  ├── 📁 1.core/                   # ☁️ Google Apps Script (17 arquivos)    │
-│  │   ├── core/                     # 9 core modules                        │
+│  ├── 📁 1.core/                    # ☁️ Google Apps Script (17 arquivos)   │
+│  │   ├── 1.1.gas/                  # 9 core modules (.gs)                 │
 │  │   │   ├── PF_Dispatcher.gs      # Router principal (Tri-Mode)           │
 │  │   │   ├── PF_Config.gs          # Configurações                         │
 │  │   │   ├── PF_Core_AI.gs         # AI Service                            │
 │  │   │   ├── PF_Brain_Core.gs      # Brain orchestration                   │
-│  │   │   ├── PF_Moltbook.gs        # Social agent integration              │
 │  │   │   └── PF_PAT_Core.gs        # Panda Council (Governance)            │
-│  │   └── domains/                  # 4 domain modules                      │
-│  │       ├── finance/              # Wallet, Crypto, Fiat                  │
-│  │       ├── store/                # Medusa Store, Registry, Sales         │
-│  │       ├── automation/           # Bots                                  │
-│  │       └── p2p/                  # 🌐 P2P Compute Network                │
+│  │   ├── 1.2.domains/              # 4 domain modules                      │
+│  │   │   ├── finance/              # Wallet, Crypto, Fiat                  │
+│  │   │   ├── store/                # Medusa Store, Registry, Sales         │
+│  │   │   ├── automation/           # Bots                                  │
+│  │   │   └── p2p/                  # 🌐 P2P Compute Network                │
+│  │   └── 1.3.sdks/                 # SDKs pagamento (Stripe, PagSeguro)    │
 │  │                                                                          │
-│  ├── 📁 11.jam/                       # 🍇 React Frontend (Vite + TLDraw)     │
-│  │   ├── src/components/           # 22 componentes React                  │
+│  ├── 📁 2.system/                  # 🔧 System-level utilities             │
+│  │   ├── core/                     # kernel.js + loader.js + verification  │
+│  │   └── sdk/                      # (vazio — placeholder para futuro)     │
+│  │                                                                          │
+│  ├── 📁 3.sdk/                     # 🐼 Panda SDK Core (12 arquivos, 17 ns) │
+│  │   ├── pf.sdk.js                 # SDK principal (entry point)           │
+│  │   ├── pf.ai-core.js             # AI/Gemini                            │
+│  │   ├── pf.firebase-bridge.js     # Firebase Bridge                      │
+│  │   ├── pf.i18n.js                # Internacionalização                   │
+│  │   ├── pf.workflow-builder.js    # Workflow Builder                      │
+│  │   ├── pf.drm.js                 # DRM / Kill-switch                     │
+│  │   └── ...                       # +4 outros módulos                     │
+│  │                                                                          │
+│  ├── 📁 4.ui/                      # 🎨 UI Components & Pages              │
+│  │   ├── 4.1.trading/              # Trading tools                         │
+│  │   ├── 4.2.components/           # Reusable components                   │
+│  │   └── 4.3.modules/              # View modules (Analytics, Store, etc)  │
+│  │                                                                          │
+│  ├── 📁 5.tentacles/               # 🔌 9 Integration Modules              │
+│  │   ├── 5.1.brain/                # AI/ML (Gemini, LocalLLM)              │
+│  │   ├── 5.2.google/               # Drive, Sheets, Colab                  │
+│  │   ├── 5.3.social/               # WhatsApp, Twitter, Meta               │
+│  │   ├── 5.4.trading/              # cTrader Open API                      │
+│  │   ├── 5.5.distribution/         # PWA, Steam, itch.io                   │
+│  │   ├── 5.6.education/            # Kiwify, Hotmart, Eduzz                │
+│  │   ├── 5.7.github/               # Pages, JSON DB, Actions               │
+│  │   ├── 5.8.p2p/                  # 🌐 P2P Compute Network                │
+│  │   └── 5.9.monitor/              # Health/Telemetry                      │
+│  │                                                                          │
+│  ├── 📁 6.integrations/            # 🔗 (vazio — placeholder para clients)   │
+│  │                                                                          │
+│  ├── 📁 7.rust-agent/              # 🦀 Local Agent (Tauri/MCP)            │
+│  │   ├── src/                      # 8 modules (GPU, MCP, Node, Mining)    │
+│  │   └── Cargo.toml                # Dependencies                          │
+│  │                                                                          │
+│  ├── 📁 8.docs/                    # 📚 16 reference documents             │
+│  │   ├── PF_MASTER_ARCHITECTURE.md # 🏛️ Este documento                    │
+│  │   ├── PF_SDK_REFERENCE.md       # 📖 SDK API                            │
+│  │   └── README_PANDA_OFICIAL.md   # 📋 Quick Start                        │
+│  │                                                                          │
+│  ├── 📁 9.tools/                   # 🔧 Dev utilities & scripts            │
+│  │   └── (39 scripts Python/PS1/Bat)                                        │
+│  │                                                                          │
+│  ├── 📁 10.assets/                 # 🖼️ Images, logos, media               │
+│  │   ├── css/                      # pf.css (legado)                       │
+│  │   ├── icons/                    # PWA icons                              │
+│  │   └── pages/                    # Landing pages                          │
+│  │                                                                          │
+│  ├── 📁 11.jam/                    # 🍇 React Frontend (Vite + TLDraw)     │
+│  │   ├── src/components/           # 23 componentes React                  │
 │  │   ├── src/hooks/                # 8 custom hooks                        │
-│  │   ├── src/styles/               # jam.css (Design System)               │
+|  │   ├── src/styles/               # pf.css (Design System, 1961 linhas)   │
 │  │   └── dist/                     # Build de produção                     │
-│  │                                                                          │
-│  ├── 📁 js/                        # 🐼 SDK & Tentacles                     │
-│  │   ├── pf.sdk.js                 # SDK principal (50KB)                  │
-│  │   ├── pf.bootstrap.js           # Zero-config init                      │
-│  │   ├── core/                     # Módulos core                          │
-│  │   └── tentacles/                # 9 Integration Modules                 │
-│  │       ├── brain/                # AI/ML (Gemini, LocalLLM)              │
-│  │       ├── social/               # WhatsApp, Twitter, Meta               │
-│  │       ├── trading/              # cTrader Open API                      │
-│  │       ├── google/               # Drive, Sheets, Colab                  │
-│  │       ├── distribution/         # PWA, Steam, itch.io                   │
-│  │       ├── education/            # Kiwify, Hotmart, Eduzz                │
-│  │       ├── github/               # Pages, JSON DB, Actions               │
-│  │       ├── p2p/                  # 🌐 P2P Compute Network                │
-│  │       └── monitor/              # Health/Telemetry                      │
-│  │                                                                          │
-│  ├── 📁 7.7.rust-agent/                # 🦀 Local Agent (Tauri/MCP)            │
-│  │   ├── Cargo.toml                # Dependencies                          │
-│  │   └── src/                      # 8 modules (GPU, MCP, Node, Mining)    │
-│  │                                                                          │
-│  ├── 📁 panda-sdk/                 # 📦 SDK público (npm package)          │
-│  ├── 📁 8.docs/                      # 📚 18 reference documents             │
-│  ├── 📁 components/                # 🧩 HTML Components (legacy)           │
-│  ├── 📁 css/                       # 🎨 pf.theme.css                       │
-│  ├── 📁 data/                      # 💾 JSON Database local                │
-│  ├── 📁 dist/                      # 📤 Build output (GitHub Pages)        │
-│  ├── 📁 10.assets/                    # 🖼️ Images, logos                      │
-│  ├── 📁 9.tools/                     # 🔧 Dev utilities                      │
 │  │                                                                          │
 │  ├── .env                          # 🔐 SECRETS (gitignored)               │
 │  ├── index.html                    # 🏠 Entry point                        │
 │  ├── manifest.json                 # 📱 PWA config                         │
-│  └── PANDA_MASTER_REFERENCE.md     # 📋 Quick Reference                    │
+│  └── README.md                     # 📋 Quick Reference                    │
 │                                                                             │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -209,7 +235,7 @@
 │ • MCP Server        │  │ • Telemetria        │  │ • Dispatcher Core   │
 │ • Local AI (LLama)  │  │                     │  │                     │
 │ • WebView (Tauri)   │  │                     │  │                     │
-│ • Antigravity UI    │  │                     │  │                     │
+│ • Dev Mode         │  │                     │  │                     │
 │ • Polyglot (NLLB)   │  │                     │  │                     │
 │ • Whisper (STT)     │  │                     │  │                     │
 └─────────────────────┘  └─────────────────────┘  └─────────────────────┘
@@ -435,31 +461,32 @@ O Panda Factory utiliza **dois repositórios** separados para desenvolvimento e 
 - **App Principal:** `https://lucassval.github.io/Panda-Factory/`
 - **cTrader OAuth:** `https://lucassval.github.io/panda-ctrader-auth/`
 
-### 1.9. Filosofia Core Minimalista + Plugin-First
+### 1.9. Filosofia Core Minimalista + Module-First
 
-> **Decisão Arquitetural:** 2026-02-04
-> O Panda Factory é um **runtime minimalista** onde plugins MCP-first rodam.
+> **Decisão Arquitetural:** 2026-02-04 (Atualizado: 2026-02-07)
+> O Panda Factory é um **runtime minimalista** onde módulos e tentáculos MCP-first rodam.
+> **Taxonomia:** Ver [PF_MEDUSA_REFERENCE.md](PF_MEDUSA_REFERENCE.md) §2 para definições oficiais.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    CORE MINIMALISTA + PLUGIN-FIRST                       │
+│                    CORE MINIMALISTA + MODULE-FIRST                       │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
-│  ANTES (Monolítico):              DEPOIS (Plugin-First):                │
+│  ANTES (Monolítico):              DEPOIS (Module-First):                │
 │  ┌──────────────────────┐         ┌──────────────────────┐              │
 │  │ Core (tudo embutido) │         │ Shell (mínimo)       │              │
-│  │ ├── TLDraw Canvas    │   ───▶  │ ├── Plugin Slot      │              │
+│  │ ├── TLDraw Canvas    │   ───▶  │ ├── Module Slot     │              │
 │  │ ├── DevTools         │         │ ├── Event Bus        │              │
 │  │ ├── Draw Tools       │         │ └── MCP Runtime      │              │
 │  │ └── Components       │         └──────────┬───────────┘              │
 │  └──────────────────────┘                    │                          │
 │                                              ▼                          │
 │                                 ┌────────────────────────┐              │
-│                                 │ Plugins (Medusa Store) │              │
-│                                 │ ├── @panda/draw-tools  │ ← Gratuito  │
-│                                 │ ├── @panda/ai-chat     │              │
-│                                 │ ├── @dev/fashion-agent │              │
-│                                 │ └── @dev/finance-tool  │              │
+│                                 │ Medusa Store         │              │
+│                                 │ ├── @panda/draw-tools  │ ← Módulo    │
+│                                 │ ├── @panda/ai-chat     │ ← Módulo    │
+│                                 │ ├── @dev/fashion-agent │ ← Módulo    │
+│                                 │ └── @dev/steam-hook   │ ← Tentáculo  │
 │                                 └────────────────────────┘              │
 │                                                                          │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -475,17 +502,56 @@ O Panda Factory utiliza **dois repositórios** separados para desenvolvimento e 
 **Benefícios:**
 
 - 🐼 **Core enxuto:** Shell carrega em <100ms, sem peso desnecessário
-- 🔌 **100% extensível:** Tudo que não é essencial vai para plugin
+- 🔌 **100% extensível:** Tudo que não é essencial vai para módulo/tentáculo
 - 🤖 **IA entende tudo:** MCP obrigatório = toda tool é AI-native
-- 💰 **Monetização clara:** Plugins pagos na Medusa Store
+- 💰 **Monetização clara:** Módulos e tentáculos pagos na Medusa Store
 
-**Plugins Gratuitos do Founder:**
+**Módulos Gratuitos do Founder:**
 
-| Plugin                | Descrição               | MCP Tools                     |
+| Módulo                | Descrição               | MCP Tools                     |
 | --------------------- | ----------------------- | ----------------------------- |
 | `@panda/draw-tools`   | Canvas TLDraw completo  | `draw_shape`, `export_canvas` |
 | `@panda/ai-chat`      | Chat com Brain IA       | `send_message`, `get_history` |
 | `@panda/file-manager` | Gerenciador de arquivos | `upload`, `download`, `list`  |
+
+---
+
+### 1.10. MCP Central + Dual-Mode (Roadmap)
+
+> **Status:** 🔴 Planejado | **Referência:** [PF_MCP_REFERENCE.md](PF_MCP_REFERENCE.md) §C
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                 📡 MCP REGISTRY CENTRAL (Firebase)                       │
+│  Firestore: /mcp_registry/{pluginId}                                    │
+│  - manifests[], capabilities[], versions[]                              │
+└─────────────────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┴───────────────────┐
+        ▼                                       ▼
+┌───────────────────────┐             ┌───────────────────────┐
+│   🌐 WEB MCP SERVER   │             │   🦀 RUST MCP SERVER  │
+│   (GAS + Firebase)    │             │   (panda-agent)       │
+├───────────────────────┤             ├───────────────────────┤
+│ Transport: HTTPS      │             │ Transport: stdio      │
+│ Cache: IndexedDB      │             │ Cache: SQLite         │
+│ Offline: SW + IDB     │             │ Offline: 100% local   │
+└───────────────────────┘             └───────────────────────┘
+```
+
+| Primitivo     | Web (GAS)    | Rust Agent | Status   |
+| ------------- | ------------ | ---------- | -------- |
+| **Tools**     | ✅ Planejado | ✅ 4 tools | Parcial  |
+| **Resources** | 🔴 A fazer   | 🔴 A fazer | Pendente |
+| **Prompts**   | 🔴 A fazer   | 🔴 A fazer | Pendente |
+
+**Estratégia Offline-First:**
+
+1. **IndexedDB** → Cache de manifests MCP (instantâneo)
+2. **Firebase** → Sync quando online
+3. **SQLite (Rust)** → Fallback desktop
+
+> 📖 **Detalhes completos:** [PF_MCP_REFERENCE.md](PF_MCP_REFERENCE.md) PARTE C
 
 ---
 
@@ -712,7 +778,6 @@ A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a apl
 | 🧰 MCP Browser  | Rust Agent tools   |
 | 🔌 API Tester   | GAS endpoints      |
 | 🏦 PAT Treasury | Banco Central IA   |
-| 🐼 Antigravity  | Coding Assistant   |
 
 > 📖 **Detalhes completos:** [PF_UI_REFERENCE.md](PF_UI_REFERENCE.md)
 
@@ -722,28 +787,22 @@ A interface do Panda OS é composta por "Docks" flutuantes que vivem sobre a apl
 
 ### 3.3. Dev Mode (Modo Desenvolvedor) 🛠️
 
-O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores, inspirado no Google Antigravity.
+O Dev Mode é um ambiente de ferramentas avançadas para desenvolvedores.
 
 **Componente:** `components/Comp_AppDock.html`
 **Lógica:** `4.ui/pf.devtools.js` → `toggleDevMode()`
 
 #### B. DevTools v2.0 - Ferramentas Disponíveis
 
-| Tool                         | Ícone | Modal | Pop-out    | Descrição                          |
-| ---------------------------- | ----- | ----- | ---------- | ---------------------------------- |
-| **Console**                  | 💻    | ✅    | ✅         | Execução JavaScript em sandbox     |
-| **MCP Browser**              | 🧰    | ✅    | ✅         | Lista de MCP Tools do Rust Agent   |
-| **API Tester**               | 🔌    | ✅    | ✅         | Testar endpoints GAS               |
-| **PAT Treasury**             | 🏦    | ✅    | ✅         | Controles do Banco Central IA      |
-| **Constitution Validator**   | ⚖️    | ✅    | ✅         | Validar ações contra os 12 Artigos |
-| **Antigravity** ⭐           | 🐼    | ❌    | ✅ WebView | Coding Assistant (BYOL Gemini)     |
-| **RIG Config** _(futuro)_    | 🦀    | ✅    | ✅         | Configurar providers IA            |
-| **DB Explorer** _(futuro)_   | 🗄️    | ✅    | ✅         | Explorar Sheets/Firebase           |
-| **Monaco Editor** _(futuro)_ | 📝    | ✅    | ✅         | Editor de código integrado         |
-
-> **Antigravity** abre em **WebView nativo** no Rust Agent (não no browser).
-> Usa BYOL (Bring Your Own License) - dev conecta sua API key Google.
-> Auto-update: detecta novas versões e oferece atualização in-app.
+| Tool                       | Ícone | Modal | Pop-out | Descrição                          |
+| -------------------------- | ----- | ----- | ------- | ---------------------------------- |
+| **Console**                | 💻    | ✅    | ✅      | Execução JavaScript em sandbox     |
+| **MCP Browser**            | 🧰    | ✅    | ✅      | Lista de MCP Tools do Rust Agent   |
+| **API Tester**             | 🔌    | ✅    | ✅      | Testar endpoints GAS               |
+| **PAT Treasury**           | 🏦    | ✅    | ✅      | Controles do Banco Central IA      |
+| **Constitution Validator** | ⚖️    | ✅    | ✅      | Validar ações contra os 12 Artigos |
+| **RIG Config** _(futuro)_  | 🦀    | ✅    | ✅      | Configurar providers IA            |
+| **DB Explorer** _(futuro)_ | 🗄️    | ✅    | ✅      | Explorar Sheets/Firebase           |
 
 #### C. Arquitetura Multi-Window (Document PiP)
 
@@ -817,13 +876,13 @@ window.PandaDevTools = {
 
 #### E. Referência de Arquivos
 
-| Arquivo                             | Responsabilidade                    |
-| ----------------------------------- | ----------------------------------- |
-| `components/Comp_AppDock.html`      | Botão Dev Mode Toggle               |
-| `components/Comp_DevToolsDock.html` | Dock lateral com ícones             |
-| `4.ui/pf.devtools.js`              | Lógica DevTools v2.0                |
-| `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout` |
-| `css/pf.theme.css`                  | Estilos modal/popout                |
+| Arquivo                             | Responsabilidade                      |
+| ----------------------------------- | ------------------------------------- |
+| `components/Comp_AppDock.html`      | Botão Dev Mode Toggle                 |
+| `components/Comp_DevToolsDock.html` | Dock lateral com ícones               |
+| `4.ui/pf.devtools.js`               | Lógica DevTools v2.0                  |
+| `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout`   |
+| `11.jam/src/styles/pf.css`          | Design System principal (1961 linhas) |
 
 ### 3.4. Sistema de Ícones (Logo Kit) 🎨
 
@@ -860,20 +919,20 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 #### C. Ícones de DevTools
 
-| Ícone | Tool          | Descrição          |
-| ----- | ------------- | ------------------ |
-| 💻    | Console       | JavaScript REPL    |
-| 🧰    | MCP Browser   | Lista de Tools     |
-| 🔌    | API Tester    | Testar endpoints   |
-| 🏦    | PAT Treasury  | Banco Central IA   |
-| ⚖️    | Constitution  | Validar 12 Artigos |
-| 🧩    | Extensions    | Marketplace        |
-| 📝    | Code Editor   | Monaco (futuro)    |
-| 🦀    | RIG Config    | Providers IA       |
-| 🗄️    | DB Explorer   | Sheets/Firebase    |
-| 🌐    | Browser       | Embedded (futuro)  |
-| 📄    | Artifacts     | Viewer artefatos   |
-| 💬    | Conversations | Histórico chat     |
+| Ícone | Tool         | Descrição          |
+| ----- | ------------ | ------------------ |
+| 💻    | Console      | JavaScript REPL    |
+| 🧰    | MCP Browser  | Lista de Tools     |
+| 🔌    | API Tester   | Testar endpoints   |
+| 🏦    | PAT Treasury | Banco Central IA   |
+| ⚖️    | Constitution | Validar 12 Artigos |
+| 🧩    | Extensions   | Marketplace        |
+
+| 🦀 | RIG Config | Providers IA |
+| 🗄️ | DB Explorer | Sheets/Firebase |
+| 🌐 | Browser | Embedded (futuro) |
+| 📄 | Artifacts | Viewer artefatos |
+| 💬 | Conversations | Histórico chat |
 
 #### D. Ícones de Status
 
@@ -923,12 +982,12 @@ O Panda Factory utiliza emojis como ícones para garantir consistência cross-pl
 
 #### H. Assets de Logo
 
-| Arquivo                  | Tamanho | Uso           |
-| ------------------------ | ------- | ------------- |
-| `10.assets/panda_logo.png`  | Full    | Canvas, About |
-| `icons/icon-192x192.png` | 192px   | PWA           |
-| `icons/icon-512x512.png` | 512px   | PWA HD        |
-| `icons/favicon.ico`      | 64px    | Browser tab   |
+| Arquivo                    | Tamanho | Uso           |
+| -------------------------- | ------- | ------------- |
+| `10.assets/panda_logo.png` | Full    | Canvas, About |
+| `icons/icon-192x192.png`   | 192px   | PWA           |
+| `icons/icon-512x512.png`   | 512px   | PWA HD        |
+| `icons/favicon.ico`        | 64px    | Browser tab   |
 
 > **📝 Para Kit de Logos:** Substituir emojis por SVGs customizados mantendo significado e cores associadas.
 
@@ -952,9 +1011,9 @@ O **Panda Jam** é o frontend moderno construído com React + Vite, oferecendo u
 │  │   │   ├── JamCanvas       │ TLDraw canvas infinito          │   │
 │  │   │   ├── LoginGate       │ Autenticação                    │   │
 │  │   │   └── ...             └─────────────────────────────────┘   │
-│  │   ├── hooks/              7 custom React hooks                   │
+│  │   ├── hooks/              8 custom React hooks                   │
 │  │   ├── services/           uiContext, outros                      │
-│  │   └── styles/             jam.css (Design System)                │
+│  │   └── styles/             pf.css (Design System, 1961 linhas)      │
 │  ├── public/                                                        │
 │  │   ├── panda-logo.png                                             │
 │  │   └── panda-chat-logo.png                                        │
@@ -969,8 +1028,8 @@ O **Panda Jam** é o frontend moderno construído com React + Vite, oferecendo u
 | :------------------- | :------------------------------------- | :------------------- |
 | **JamStatusBar**     | Header com status Firebase/GAS/Rust/AI | `Panda.Monitor`      |
 | **JamChat**          | Chat AI com 5 modelos e 6 GEMs         | `Panda.Brain.Gemini` |
-| **JamDock**          | Dock lateral de apps                   | `Panda.UI`           |
-| **JamCanvas**        | TLDraw canvas infinito                 | `Panda.Data`         |
+| **JamDock**          | Dock lateral de apps                   | `Panda.Dock`         |
+| **JamCanvas**        | TLDraw canvas infinito                 | `Panda.Canvas`       |
 | **LoginGate**        | Autenticação (email/senha, Google)     | `Panda.Auth`         |
 | **FounderDashboard** | Painel administrativo                  | `Panda.PAT`          |
 
@@ -1024,25 +1083,36 @@ const GEMS = [
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-#### D. CSS Variables (jam.css)
+#### D. CSS Variables (pf.css)
 
 ```css
 :root {
-  --jam-bg: #1a1a2e;
-  --jam-surface: #16213e;
-  --jam-accent: #e94560;
-  --jam-text: #eaeaea;
-  --jam-text-muted: #8a8a9a;
-  --jam-text-secondary: #c0c0d0; /* Para labels de gems */
-  --jam-border: #2a2a4e;
-  --jam-dock-bg: rgba(22, 33, 62, 0.95);
+  /* Core */
+  --pf-bg: #1a1a2e;
+  --pf-surface: #16213e;
+  --pf-accent: #e94560;
+  --pf-text: #eaeaea;
+  --pf-text-muted: #8a8a9a;
+  --pf-text-secondary: #c0c0d0;
+  --pf-border: #2a2a4e;
+  --pf-dock-bg: rgba(22, 33, 62, 0.95);
+
+  /* Design System Tokens (B.1-B.8) */
+  --pf-success/warning/error/info;   /* Status colors */
+  --pf-elevation-0..3;               /* IBM Carbon layers */
+  --pf-space-xs..xl;                 /* Spacing */
+  --pf-radius-sm..full;              /* Border radius */
+  --pf-shadow-sm..glow;              /* Shadow elevation */
+  --pf-duration-instant..slow;       /* Motion duration */
+  --pf-ease-default..bounce;         /* Easing curves */
+  --pf-transition-fast..slow;        /* Composite transitions */
 }
 
 body.light-mode {
-  --jam-bg: #f5f5f7;
-  --jam-surface: #ffffff;
-  --jam-text: #1a1a2e;
-  --jam-text-secondary: #4a4a5a;
+  --pf-bg: #f5f5f7;
+  --pf-surface: #ffffff;
+  --pf-text: #1a1a2e;
+  --pf-elevation-0..3;               /* Light elevation overrides */
 }
 ```
 
@@ -1084,7 +1154,7 @@ window.Panda = {
 | Bridge | Rust Agent              | GRÁTIS  |
 | GPU    | Aceleração local        | GRÁTIS  |
 
-### Tentacle Architecture (8 Módulos de Integração)
+### Tentacle Architecture (9 Módulos de Integração)
 
 ```text
 5.tentacles/
@@ -1095,6 +1165,7 @@ window.Panda = {
 ├── distribution/ ← PWA, Steam, itch.io
 ├── education/  ← Kiwify, Hotmart, Eduzz
 ├── github/     ← Pages, JSON DB, Actions
+├── p2p/        ← 🌐 P2P Compute Network
 └── monitor/    ← System Health
 ```
 
@@ -2267,243 +2338,100 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 
 ### 12.2. Mapa da Documentação
 
-| Documento                            | Descrição                                 |
-| ------------------------------------ | ----------------------------------------- |
-| `PF_MASTER_ARCHITECTURE.md`          | Este arquivo (A Bíblia completa)          |
-| `PF_SDK_REFERENCE.md`                | API Reference da biblioteca Panda SDK     |
-| `PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Plugins e sistema modular (incl. cTrader) |
-| `PF_GAS_REFERENCE.md`                | Backend Google Apps Script                |
-| `PF_UI_REFERENCE.md`                 | Design System (CSS + HTML + JAM)          |
-| `.agent/PANDA.md`                    | Codex Central (ler primeiro)              |
-| `README.md`                          | Entry point para devs novatos             |
+| Documento                   | Descrição                            |
+| --------------------------- | ------------------------------------ |
+| `PF_MASTER_ARCHITECTURE.md` | Este arquivo (A Bíblia completa)     |
+| `PF_SDK_REFERENCE.md`       | API Reference (inc. Social + Plugin) |
+| `PF_GAS_REFERENCE.md`       | Backend Google Apps Script           |
+| `PF_UI_REFERENCE.md`        | Design System (CSS + HTML + JAM)     |
+| `PF_SECURITY_REFERENCE.md`  | Regras Semgrep + Defend              |
+| `PF_ECONOMY_REFERENCE.md`   | Tokenomics + PAT + Governance        |
+| `README_PANDA_OFICIAL.md`   | Entry point MCP para IAs             |
 
 ---
 
-## 11. Social Media Hub (Plugin Ecosystem)
+## 11. Tentacle Ecosystem (Extensibility)
 
-Sistema modular de plugins para gestão de redes sociais.
+> **Filosofia:** O Core é enxuto. Toda funcionalidade de domínio específico vive em tentáculos independentes. O Panda não é um produto — é uma plataforma que recebe tentáculos.
 
-### 14.1. Arquitetura
+### 11.1. O que é um Tentáculo
+
+Um tentáculo é um módulo independente que se conecta ao Panda via `TentacleRegistry` (kernel §7). Cada tentáculo:
+
+- Tem seu próprio **MCP Manifest** (validado pelo `SecurityAgent` §8)
+- Consome o **SDK** (`Panda.Auth`, `Panda.Data`, `Panda.Wallet`, etc.)
+- É **isolado** — falha de um tentáculo não derruba o sistema
+- Segue o **revenue split** constitucional (Art. 6: 5% Founder, Art. 7: 90-95% Host)
+
+### 11.2. Governança de Criação
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                       SOCIAL MEDIA HUB                                  │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │                    pf.social-core.js (GRÁTIS)                      │ │
-│  │  • CRM Integrado  • Agenda  • Generator Base  • Plugin Loader      │ │
-│  └────────────────────────────────────────────────────────────────────┘ │
-│                                   │                                      │
-│      ┌──────────┬──────────┬──────┴──────┬──────────┬──────────┐        │
-│      ▼          ▼          ▼             ▼          ▼          ▼        │
-│  ┌────────┐ ┌────────┐ ┌────────┐   ┌────────┐ ┌────────┐ ┌────────┐   │
-│  │YouTube │ │TikTok  │ │ Meta   │   │Twitter │ │WhatsApp│ │ ...    │   │
-│  │ 499 PC │ │ 399 PC │ │ 599 PC │   │ 299 PC │ │ 799 PC │ │ Future │   │
-│  └────────┘ └────────┘ └────────┘   └────────┘ └────────┘ └────────┘   │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                  QUEM CRIA TENTÁCULOS?                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  🔒 FOUNDER (Lucas)                                         │
+│  ├── Cria e publica tentáculos oficiais                     │
+│  ├── Concede permissão a membros da comunidade              │
+│  └── Aprova publicação na Medusa Store                      │
+│                                                              │
+│  👥 COMUNIDADE (com permissão)                               │
+│  ├── Desenvolve tentáculos em sandbox                        │
+│  ├── Submete para review (SecurityAgent + Code Review)       │
+│  └── Após aprovação, publica via Medusa                     │
+│                                                              │
+│  🚫 PROIBIDO                                                 │
+│  ├── Publicar sem validação SecurityAgent                   │
+│  ├── Modificar kernel ou SDK via tentáculo                  │
+│  └── Violar Art. 1-12 da Constituição                       │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 14.2. Plugins Disponíveis
-
-| Plugin        | Arquivo                 | Preço  | Features                    |
-| ------------- | ----------------------- | ------ | --------------------------- |
-| **Core**      | `pf.social-core.js`     | GRÁTIS | CRM, Agenda, Generators     |
-| **YouTube**   | `pf.social-youtube.js`  | 499 PC | SEO, Thumbnails AI, Scripts |
-| **TikTok**    | `pf.social-tiktok.js`   | 399 PC | Trends, Viral, Hashtags     |
-| **Meta**      | `pf.social-meta.js`     | 599 PC | Posts, Stories, Reels, Ads  |
-| **Twitter/X** | `pf.social-twitter.js`  | 299 PC | Threads, Hooks, Spaces      |
-| **WhatsApp**  | `pf.social-whatsapp.js` | 799 PC | Broadcast, Leads, Flows     |
-
-### 14.3. Revenue Split
+### 11.3. Estrutura de um Tentáculo
 
 ```text
-Venda de Plugin (100 PC):
-├── Dev (Criador)     → 52 PC (52%)
-├── Panda Educação    → 25 PC (25%)
-├── Panda Operacional → 15 PC (15%)
-├── Founder           →  5 PC (5%)
-└── Gateway/GAS       →  3 PC (3%)
+5.tentacles/
+└── {nome}/
+    ├── manifest.json          ← MCP Manifest (validado pelo SecurityAgent)
+    ├── {nome}-parent.js       ← Entry point (registra no TentacleRegistry)
+    ├── children/              ← Sub-módulos opcionais
+    │   ├── child-a.js
+    │   └── child-b.js
+    ├── ui/                    ← Componentes visuais (se houver)
+    │   └── Mod_{Nome}_View.html
+    └── docs/                  ← Documentação do tentáculo
+        └── README.md
 ```
 
-> 📖 **Referência detalhada:** [PF_PLUGIN_AND_MODULAR_REFERENCE.md](PF_PLUGIN_AND_MODULAR_REFERENCE.md)
+### 11.4. Ciclo de Vida
 
----
-
-## 16. Google Partner Strategy
-
-> **Visão:** Panda Factory = Showcase completo de integração Google
-
-### 16.1. Por que Google Partner?
-
-| Argumento               | Benefício para Google                                        |
-| ----------------------- | ------------------------------------------------------------ |
-| **Showcase completo**   | Prova que dá para construir plataforma inteira só com Google |
-| **Zero vendor lock-in** | Usuário usa conta Google dele (mais usuários Google)         |
-| **Educação**            | Ensina devs a usar serviços Google                           |
-| **Custo ~R$0**          | Free Tier generoso = mais adoção                             |
-
-### 16.2. Serviços Google Integrados
-
-| Serviço           | Uso no Panda          | Tentáculo              |
-| ----------------- | --------------------- | ---------------------- |
-| **Google Drive**  | Storage base          | google/drive.js        |
-| **Google Sheets** | DB gratuito           | google/sheets.js       |
-| **Google Colab**  | GPU/Compile universal | google/colab.js        |
-| **Firebase**      | Auth + Realtime       | google/firebase.js     |
-| **Gemini**        | IA principal          | brain/gemini.js        |
-| **YouTube Data**  | Analytics, Upload     | google/youtube-data.js |
-| **Calendar**      | Agendamento           | google/calendar.js     |
-
-### 16.3. VSX Store Universal
-
-Não reinventar a roda. Integrar fontes existentes:
-
-| Fonte                   | Tipo      | Prioridade |
-| ----------------------- | --------- | ---------- |
-| **GitHub**              | Microsoft | 🔴 Alta    |
-| **Google Cloud Source** | Google    | 🔴 Alta    |
-| GitLab                  | Open      | 🟡 Média   |
-
-> 📖 **Referência estratégica:** [ROADMAP_ESTRATEGICO.md](ROADMAP_ESTRATEGICO.md)
-
----
-
-## 13. EdTech & Multi-Market Expansion
-
-> **Objetivo:** Hooks para Kiwify, Hotmart, Eduzz e outras plataformas
-
-### 17.1. DRM Tokenizado
-
-Sistema de acesso condicional usando `Panda.Wallet`:
-
-```javascript
-// Verificar acesso a conteúdo pago
-async function checkAccess(contentId) {
-  const balance = await Panda.Wallet.getBalance();
-  const required = await Panda.Data.get("content_prices", contentId);
-  return balance >= required.price;
-}
+```text
+[Manifest.json]
+      │
+      ├──▶ 1. SecurityAgent.validateManifest() — Verifica campos, permissões, assinatura
+      │
+      ├──▶ 2. TentacleRegistry.register(id, manifest, hooks) — Registra no kernel
+      │
+      ├──▶ 3. onLoad() hook — Tentáculo inicializa
+      │
+      ├──▶ 4. Runtime — Tentáculo opera consumindo SDK
+      │
+      └──▶ 5. onUnload() hook — Cleanup ao desregistrar
 ```
 
-### 17.2. Webhooks de Pagamento
+### 11.5. Categorias (exemplos genéricos)
 
-| Plataforma | Status          | Arquivo               |
-| ---------- | --------------- | --------------------- |
-| Kiwify     | ✅ Implementado | `PF_Core_Webhooks.gs` |
-| Hotmart    | 🔴 Pendente     | Clone Kiwify          |
-| Eduzz      | 🔴 Pendente     | Clone Kiwify          |
+| Categoria         | Tipo de tentáculo           | Exemplos                        |
+| ----------------- | --------------------------- | ------------------------------- |
+| **Produtividade** | CRM, automação, agenda      | Qualquer ferramenta de trabalho |
+| **Criativo**      | Gaming, áudio, vídeo, 3D    | Engines, editores, geradores    |
+| **Educação**      | Cursos, certificados, DRM   | Webhooks de infoprodutos        |
+| **Social**        | Redes sociais, marketing    | Plugins por plataforma          |
+| **Finance**       | Trading, crypto, pagamentos | Integrações de gateway          |
 
-### 17.3. White-Label Cursos
-
-- Estrutura: Tentacle `education/`
-- Parent: `pf.education-parent.js`
-- Children: `kiwify.js`, `hotmart.js`, `eduzz.js`
-
----
-
-## 12. Gaming, Audio & Video Tentacles
-
-> **Objetivo:** Integrações criativas para devs, artistas e produtores
-
-### 18.1. Gaming Tentacle
-
-| Ferramenta     | Tipo        | Integração  |
-| -------------- | ----------- | ----------- |
-| **Godot**      | Engine      | Wasm nativo |
-| **Bevy**       | Engine Rust | Wasm        |
-| **Three.js**   | 3D Web      | JS direto   |
-| **PixiJS**     | 2D Web      | JS direto   |
-| **PlayCanvas** | Web Engine  | JS          |
-
-### 18.2. Audio Tentacle
-
-| Ferramenta     | Uso             | Custo            |
-| -------------- | --------------- | ---------------- |
-| **Tone.js**    | Synth web       | Grátis           |
-| **ElevenLabs** | TTS/Voice clone | PC/char          |
-| **Whisper**    | Transcrição     | Local:0 / API:PC |
-| **Suno AI**    | Geração música  | PC/track         |
-
-### 18.3. Video Tentacle
-
-| Ferramenta          | Uso                | Custo  |
-| ------------------- | ------------------ | ------ |
-| **FFmpeg (Wasm)**   | Codec universal    | Grátis |
-| **Remotion**        | Video programático | Grátis |
-| **Veo (Google)**    | IA Video           | PC/min |
-| **Pexels/Unsplash** | Stock              | Grátis |
-
-### 18.4. Google Colab - Casos de Uso Universal
-
-| Área           | Uso                                    |
-| -------------- | -------------------------------------- |
-| **Dev**        | Compilar apps Rust, Godot, Android     |
-| **Jornalismo** | Processar vídeos, transcrição em massa |
-| **Acadêmico**  | TCC, análise de dados, ML              |
-| **Criativo**   | Render 3D, processamento de áudio      |
-| **IA**         | Fine-tuning, inference                 |
-
----
-
-## 14. Multi-Market Expansion (A "Amazon" de Serviços Digitais)
-
-> **Filosofia:** O Panda não vende apenas cursos ou jogos. É o hub de distribuição para qualquer ativo digital.
-
-### 19.1. EdTech & Info (Kiwify/Hotmart Hook)
-
-| Conceito           | Descrição                                                 |
-| ------------------ | --------------------------------------------------------- |
-| **White-Label**    | Cursos vendidos fora, rodando na infraestrutura Panda     |
-| **DRM Tokenizado** | Acesso ao conteúdo depende de validação da carteira Panda |
-
-### 19.2. Gaming & Entertainment (Steam/Epic/Mobile)
-
-| Conceito          | Descrição                                                          |
-| ----------------- | ------------------------------------------------------------------ |
-| **Panda Publish** | CI/CD que compila e publica na Steam, Google Play, Apple App Store |
-| **Panda Arcade**  | Loja própria para jogos WebGPU "Click-to-Play" (sem download)      |
-
-### 19.3. Creative Assets (Sketchfab/ArtStation Model)
-
-| Conceito               | Descrição                                                   |
-| ---------------------- | ----------------------------------------------------------- |
-| **Marketplace 3D/2D**  | Venda de modelos, texturas e sons (IA ou artistas)          |
-| **Interoperabilidade** | Asset comprado abre direto no Blender/Godot dentro do Panda |
-
-### 19.4. Dev Tools & Plugins (VSX Store)
-
-| Conceito          | Descrição                                          |
-| ----------------- | -------------------------------------------------- |
-| **Extensões VSX** | Devs portam extensões VS Code para vender no Panda |
-| **Módulos SaaS**  | Venda de microsserviços (ex: API WhatsApp) via MCP |
-
----
-
-## 17. Game Studio & Publisher
-
-> **Modelo:** Agregador de Engines + Cross-Commerce
-
-### 18.1. Engines Suportadas
-
-| Engine     | Modo                    | Categoria         |
-| ---------- | ----------------------- | ----------------- |
-| **Godot**  | Nativo (Wasm/WebGPU)    | Open Source       |
-| **Bevy**   | Nativo (Rust/Wasm)      | Open Source       |
-| **Unreal** | Pixel Streaming (Nuvem) | Big Tech (Bridge) |
-| **Unity**  | Pixel Streaming (Nuvem) | Big Tech (Bridge) |
-
-### 18.2. Funcionalidades
-
-| Feature             | Descrição                                                               |
-| ------------------- | ----------------------------------------------------------------------- |
-| **Panda Team Link** | Plugin para colaboração em tempo real (Google Docs para código de jogo) |
-| **Cross-Commerce**  | Venda de "Founder Packs" via Kiwify que liberam chaves na Steam/Panda   |
-
-### 18.3. Validação Simplificada
-
-> ⚠️ **Foque primeiro:** Valide apenas o **itch.io** (aberto e fácil) ou o **Panda Arcade** próprio.
+> 📖 **Cada tentáculo mantém sua própria documentação em `5.tentacles/{nome}/docs/`**
+> O Core não documenta módulos específicos — apenas a interface genérica.
 
 ---
 
@@ -2579,7 +2507,7 @@ O Panda Factory não é apenas uma ferramenta para desenvolvedores. É uma **fá
 │  └── Zero barreiras: Funciona no navegador, funciona no celular        │
 │                                                                          │
 │  2. CONHECIMENTO                                                         │
-│  └── IA que ensina: Antigravity, Brain, tutoriais contextuais          │
+│  └── IA que ensina: Dev Tools, Brain, tutoriais contextuais          │
 │                                                                          │
 │  3. FERRAMENTAS                                                          │
 │  └── Mesmas que grandes: IA, compute, automação, distribuição          │
@@ -2697,10 +2625,10 @@ USUÁRIO                  PANDA                    NUVEM
 
 | Arquivo                            | Função            | Status      |
 | ---------------------------------- | ----------------- | ----------- |
-| `3.sdk/pf.app-factory.js`        | Core da geração   | 🔴 Pendente |
+| `3.sdk/pf.app-factory.js`          | Core da geração   | 🔴 Pendente |
 | `templates/android/`               | Templates de apps | 🔴 Pendente |
 | `.github/workflows/bubblewrap.yml` | Build action      | 🔴 Pendente |
-| `1.core/PF_AppFactory.gs`         | Coordenação       | 🔴 Pendente |
+| `1.core/PF_AppFactory.gs`          | Coordenação       | 🔴 Pendente |
 
 ### 23.8. Impacto Social
 
@@ -2905,7 +2833,7 @@ await Panda.Data.save("users", data); // Funciona igual
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  👨‍💻 PC DO DEV                                                           │
-│  ├── IDE própria (VS Code, Antigravity, qualquer)                       │
+│  ├── IDE própria (VS Code, Cursor, qualquer)                       │
 │  ├── npm install @panda/sdk  (GitHub/NPM)                              │
 │  ├── Terminal local / PowerShell ✅                                     │
 │  └── git push origin → GitHub                                          │
@@ -3324,12 +3252,12 @@ Panda.Google.Drive.search(query); // Busca
 
 ### 9.4. Implementação
 
-| Layer    | File                                | Description                            |
-| -------- | ----------------------------------- | -------------------------------------- |
+| Layer    | File                               | Description                            |
+| -------- | ---------------------------------- | -------------------------------------- |
 | **GAS**  | `1.core/domains/p2p/PF_P2P.gs`     | P2PService (register, heartbeat, task) |
 | **SDK**  | `5.tentacles/p2p/pf.p2p-parent.js` | pf.p2p.\* API                          |
-| **Rust** | `7.7.rust-agent/src/node.rs`            | NodeManager, tier detection            |
-| **Rust** | `7.7.rust-agent/src/mining.rs`          | Mining integration                     |
+| **Rust** | `7.7.rust-agent/src/node.rs`       | NodeManager, tier detection            |
+| **Rust** | `7.7.rust-agent/src/mining.rs`     | Mining integration                     |
 
 ### 9.5. API Summary
 
@@ -3349,14 +3277,111 @@ P2P_STATS        → Get node stats
 
 ---
 
+## 10. System Design Principles (P2)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P2
+
+### 10.1 12-Factor App Checklist
+
+O Panda Factory adere aos 12 fatores para aplicações cloud-native:
+
+| #   | Fator                   | Status | Implementação PF                        |
+| --- | ----------------------- | ------ | --------------------------------------- |
+| 1   | **Codebase**            | ✅     | Monorepo GitHub, multi-deploy           |
+| 2   | **Dependencies**        | ✅     | `package.json`, `Cargo.toml` explícitos |
+| 3   | **Config**              | ✅     | `PF_Config.gs` + `.env` local           |
+| 4   | **Backing Services**    | ✅     | Firebase, GAS via URLs configuráveis    |
+| 5   | **Build, Release, Run** | ✅     | GitHub Actions → Dist → GH Pages        |
+| 6   | **Processes**           | ✅     | Stateless (estado no Firebase)          |
+| 7   | **Port Binding**        | ✅     | Rust Agent exports HTTP/WS              |
+| 8   | **Concurrency**         | ✅     | Task fractionation P2P                  |
+| 9   | **Disposability**       | ✅     | Fast startup, graceful shutdown         |
+| 10  | **Dev/Prod Parity**     | 🟡     | Mock SDK para dev local                 |
+| 11  | **Logs**                | ✅     | Event stream (console + Firebase)       |
+| 12  | **Admin Processes**     | ✅     | GAS Admin actions one-off               |
+
+### 10.2 CAP Theorem Trade-offs
+
+O Panda Factory é um sistema **AP (Availability + Partition Tolerance)**:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    CAP THEOREM - PANDA FACTORY                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│                         C (Consistency)                                  │
+│                              ▲                                           │
+│                             /│\                                          │
+│                            / │ \                                         │
+│                           /  │  \                                        │
+│                          /   │   \                                       │
+│                         / CA │ CP \                                      │
+│                        /     │     \                                     │
+│                       /      │      \                                    │
+│                      /   ★ AP│       \                                   │
+│                     ▼────────┴────────▼                                  │
+│               A (Availability)    P (Partition)                          │
+│                                                                          │
+│  ★ PANDA FACTORY = AP (Eventualmente Consistente)                       │
+│                                                                          │
+│  MOTIVO: Preferimos que usuário continue trabalhando offline            │
+│          do que falhar por falta de consistência imediata               │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Trade-offs adotados:**
+
+| Cenário           | Escolha           | Justificativa          |
+| ----------------- | ----------------- | ---------------------- |
+| Wallet offline    | Aceitar operações | Sync quando reconectar |
+| Conflito de dados | Last-Write-Wins   | Simplicidade           |
+| P2P task failure  | Retry em outro nó | Disponibilidade        |
+| Brain offline     | Local AI fallback | UX contínua            |
+
+### 10.3 Observability Stack
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    OBSERVABILITY STACK                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  📊 METRICS        📝 LOGS           🔗 TRACES                           │
+│  ┌───────────┐    ┌───────────┐    ┌───────────┐                        │
+│  │ Health    │    │ Console   │    │ Request   │                        │
+│  │ Latency   │───►│ Firebase  │───►│ ID        │                        │
+│  │ Errors    │    │ Stackdrv  │    │ Span      │                        │
+│  └───────────┘    └───────────┘    └───────────┘                        │
+│        │                │                │                               │
+│        └────────────────┼────────────────┘                               │
+│                         ▼                                                │
+│              ┌─────────────────────┐                                     │
+│              │  PANDA DASHBOARD    │                                     │
+│              │  (Health Monitor)   │                                     │
+│              └─────────────────────┘                                     │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Métricas coletadas:**
+
+```javascript
+// SDK telemetry
+Panda.Telemetry.track({
+  name: "api.latency",
+  value: 245,
+  tags: { endpoint: "wallet.balance", status: "success" },
+});
+
+// Automatic collection
+Panda.Telemetry.enable({
+  metrics: true, // Performance metrics
+  logs: true, // Console forwarding
+  traces: true, // Request tracing
+  sampleRate: 0.1, // 10% sampling
+});
+```
+
+---
+
 > _Panda Fabrics - Arquitetura Refatorada & Econômica 2026_
-
-```
-
-```
-
-```
-
-```
-
-

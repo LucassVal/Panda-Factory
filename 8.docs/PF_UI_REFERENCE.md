@@ -1,7 +1,14 @@
+---
+tool_context: panda/ui
+description: UI Layout System - Panda Fabrics, CSS Variables, Components
+version: 2.7.0
+updated: 2026-02-09
+---
+
 # 📐 PF_UI_REFERENCE - Panda Fabrics UI Layout System
 
-> **Versão:** 1.0.0 | **Atualizado:** 2026-02-02
-> **Referência:** `11.jam/src/styles/jam.css` (1933 linhas)
+> **Versão:** 2.7.0 | **Atualizado:** 2026-02-09
+> **Referência:** `11.jam/src/styles/pf.css` (~2560 linhas)
 > **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md §3](PF_MASTER_ARCHITECTURE.md#3-camada-frontend)
 
 ---
@@ -27,19 +34,18 @@
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    STATUS BAR (56px, fixed top)                     │
-│  [Logo][Brand] │ [v5.0][Pills][🌙] │ [90%][92%][User][btns][🕐]    │
-├───────┬─────────────────────────────────────────────────────┬───────┤
-│       │                                                     │       │
-│ LEFT  │               CANVAS AREA                           │ RIGHT │
-│ DOCK  │               (TLDraw)                              │ TOOLS │
-│       │                                                     │       │
-│ 68px  │            flex: 1, margin-top: 56px                │ 260px │
-│       │                                                     │ (when │
-│       │                                                     │ open) │
-│       │                                                     │       │
-├───────┴─────────────────────────────────────────────────────┴───────┤
-│                    CHAT FAB (bottom-right floating)                 │
+│         STATUS BAR (56px, document flow, NO position:fixed)         │
+│  [Logo][Brand] │ [v6.3][Pills][☀/🌙] │ [90%][🏦92%][User][⚙✕🕐📌]│
+├───────┬─────────────────────────────────────────────────────────────┤
+│       │         CANVAS / FLEXLAYOUT TABS                           │
+│ DOCK  │  ┌────────┐┌────────────┐┌────────────┐                   │
+│ ~50px │  │ CANVAS ││ APP TAB ✕  ││ APP TAB ✕  │ ← tabs            │
+│       │  └────────┘└────────────┘└────────────┘                   │
+│       │         ACTIVE TAB CONTENT (flex: 1)                       │
+│       │                                                            │
+├───────┴─────────────────────────────────────────────────────────────┤
+│              CHAT FAB (bottom-right floating)                      │
+│              FOOTER (watermark)                                    │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -54,12 +60,19 @@ body,
   overflow: hidden;
 }
 
-.jam-container {
+.pf-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
   position: relative;
+}
+
+/* ⚠️ .pf-main NÃO TEM margin-top (StatusBar está no document flow) */
+.pf-main {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
 }
 ```
 
@@ -69,17 +82,18 @@ body,
 
 > **REGRA:** Nunca ultrapassar a camada superior sem necessidade crítica.
 
-| Layer        | Z-Index | Component           | Classe CSS                         |
-| ------------ | ------- | ------------------- | ---------------------------------- |
-| **Base**     | 0       | Canvas/TLDraw       | `.jam-canvas-wrapper`              |
-| **Grid**     | 999     | Canvas grid overlay | `::after` pseudoelement            |
-| **Docks**    | 1000    | Left/Right Sidebars | `.jam-left-dock`                   |
-| **Header**   | 2000    | Status Bar          | `.jam-status-bar`                  |
-| **Chat**     | 3000    | Floating Chat       | `.jam-chat-fab`, `.jam-chat-panel` |
-| **Store**    | 2000    | Store overlay       | `.jam-store-overlay`               |
-| **Settings** | 5000    | Settings modal      | `.jam-settings-overlay`            |
-| **Login**    | 10000   | Auth gate           | `.login-gate`                      |
-| **Panic**    | 9999    | Kill Switch         | `.login-logout-btn` (deprecated)   |
+| Layer           | Z-Index | Component                | Classe CSS                       |
+| --------------- | ------- | ------------------------ | -------------------------------- |
+| **Base**        | 0       | Canvas/TLDraw            | `.pf-canvas-wrapper`             |
+| **Welcome**     | 100     | Welcome Overlay          | `.pf-welcome-overlay`            |
+| **Grid**        | 999     | Canvas grid overlay      | `::after` pseudoelement          |
+| **Docks**       | 1000    | Left/Right Sidebars      | `.pf-left-dock`                  |
+| **Header**      | 2000    | Status Bar (PFStatusBar) | `.pf-status-bar`                 |
+| **Chat**        | 3000    | Floating Chat            | `.pf-chat-fab`, `.pf-chat-panel` |
+| **Store**       | 2000    | Store overlay            | `.pf-store-overlay`              |
+| **Hover Strip** | 5001    | Collapsed bar trigger    | inline style (fixed top)         |
+| **Settings**    | 5000    | Settings modal           | `.pf-settings-overlay`           |
+| **Login**       | 10000   | Auth gate                | `.login-gate`                    |
 
 ### Conflict Prevention
 
@@ -131,20 +145,26 @@ body,
 
 ---
 
-## 4. Header/Status Bar
+## 4. Header/Status Bar (PFStatusBar v6.3)
+
+> **Arquivo:** `11.jam/src/components/PFStatusBar.jsx` (320 linhas)
+> **CSS:** `pf.css` linhas 580-665
 
 ### Dimensions
 
 ```css
-.jam-status-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 56px; /* ⚠️ FIXED HEIGHT */
+.pf-status-bar {
+  /* ⚠️ NO position:fixed — está no document flow */
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 0 20px;
-  z-index: 2000;
+  background: var(--pf-dock-bg);
   backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--pf-border);
+  z-index: 2000;
+  flex-shrink: 0; /* ← não encolhe */
 }
 ```
 
@@ -152,92 +172,148 @@ body,
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                           STATUS BAR (56px)                              │
+│                     PFStatusBar v6.3 (56px, document flow)               │
 ├────────────────┬──────────────────────────┬──────────────────────────────┤
 │    BRAND       │        STATUS GROUP      │      HEADER CONTROLS         │
 │  (flex-start)  │       (flex-center)      │       (flex-end)             │
 ├────────────────┼──────────────────────────┼──────────────────────────────┤
-│ [Logo 50px]    │ [v5.0]                   │ [Energy 40px]                │
-│ [Text 22px]    │ [FB●][GA●][RU●][AI●][GP●]│ [Treasury 92%]               │
-│                │ [🌙 Theme Toggle 32px]   │ [User Status]                │
-│                │                          │ [🔳][🪟][⚙️] 32x32px each     │
-│                │                          │ [Clock]                      │
+│ [Logo 50px]    │ [v6.3]                   │ [Energy 40px arc]            │
+│ [Text 22px]    │ [FB●][GA●][RU●][AI●][GP●]│ [🏦 Treasury X%] (live)      │
+│ "PANDA FABRICS"│ [☀/🌙 Theme Toggle]      │ [👤 User + Session] (dynamic)│
+│  (click=Store) │                          │ [🏭 Founder] (if founder)    │
+│                │                          │ [⚙️ Settings]                │
+│                │                          │ [✕ SAIR] (red, logout)       │
+│                │                          │ [🕐 Clock]                   │
+│                │                          │ [📌 PIN] (far right, small)  │
 └────────────────┴──────────────────────────┴──────────────────────────────┘
 ```
 
 ### Component Specs
 
-| Component     | Width     | Height | Class                         |
-| ------------- | --------- | ------ | ----------------------------- |
-| Brand Logo    | auto      | 50px   | `.jam-brand-logo`             |
-| Brand Text    | auto      | -      | `.jam-brand-text` (22px font) |
-| Version Badge | auto      | -      | `.jam-version` (12px font)    |
-| Status Pill   | auto      | -      | `.jam-status-pill`            |
-| Status Dot    | 12px      | 12px   | `.jam-status-dot`             |
-| Theme Toggle  | 32px      | 32px   | `.jam-theme-toggle`           |
-| Header Button | 32x32px\* | 32px   | `.jam-header-btn`             |
-| Energy Arc    | 40px      | 40px   | `.jam-arc-energy`             |
+| Component     | Size  | Class              | Notas                                          |
+| ------------- | ----- | ------------------ | ---------------------------------------------- |
+| Brand Logo    | 32×32 | `.pf-brand-logo`   | `panda-logo.png` (cropped, `object-fit:cover`) |
+| Brand Text    | 22px  | `.pf-brand-text`   | Aurora gradient animado                        |
+| Version Badge | 12px  | `.pf-version`      | Hardcoded "v6.3"                               |
+| Status Pill   | auto  | `.pf-status-pill`  | FB, GA, RU, AI(=mcp), GP                       |
+| Theme Toggle  | 32px  | `.pf-theme-toggle` | ☀️/🌙 + `.pf-header-btn`                       |
+| Energy Arc    | 40px  | `.pf-arc-energy`   | SVG gradient (degrada sessão)                  |
+| Treasury      | auto  | `.pf-treasury`     | 🏦 + live health % dos svc                     |
+| User Status   | auto  | `.pf-user-status`  | 👤 + name(localStorage) + time                 |
+| Founder Btn   | auto  | `.founder-btn`     | 🏭 (only if isFounder)                         |
+| Settings Btn  | auto  | `.pf-header-btn`   | ⚙️                                             |
+| Exit Btn      | auto  | `.pf-header-btn`   | ✕ red — clears ALL auth tokens                 |
+| Clock         | auto  | `.pf-clock`        | HH:MM format                                   |
+| PIN           | 12px  | `.pf-pin-btn`      | 📌 — toggle auto-hide                          |
 
-### Header Controls Container
+### PIN Behavior
 
-```css
-.jam-header-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* ⚠️ SPACING BETWEEN ITEMS */
-}
+| State    | Bar Visible | Hover Strip | localStorage key         |
+| -------- | ----------- | ----------- | ------------------------ |
+| Pinned   | ✅ always   | hidden      | `panda_statusbar_pinned` |
+| Unpinned | ❌ hidden   | 6px fixed   | `panda_statusbar_pinned` |
+| Hovered  | ✅ temp     | hidden      | (transient)              |
+
+### Exit Button (SAIR) — Logout Logic
+
+```javascript
+// Clears ALL auth tokens and reloads:
+sessionStorage.removeItem("panda_auth");
+sessionStorage.removeItem("panda_auth_token");
+localStorage.removeItem("panda_user");
+localStorage.removeItem("panda_token");
+localStorage.removeItem("panda_founder_mode");
+window.location.reload();
 ```
 
-**⚠️ CRITICAL:** All header buttons should be in flex flow. Do NOT use `position: fixed` for buttons inside header.
+> [!WARNING]
+> **NÃO** há botão Fullscreen (🔳) — removido. Usuário usa F11.
+> **NÃO** existe StatusBar.jsx separada — DELETADA (era redundante).
+> **NÃO** existe login-logout-btn (🚪) no LoginGate — REMOVIDO.
+
+**⚠️ CRITICAL:** All header buttons in flex flow. Do NOT use `position: fixed` for elements inside header.
 
 ---
 
-## 5. Dock System
+## 5. Dock System (PFDock v6.2)
+
+> **Arquivo:** `11.jam/src/components/PFDock.jsx` (~333 linhas)
+> **CSS:** `pf.css` linhas 260-395
+> **Atualizado:** 2026-02-10 — Dock expandido de 6 → 7 itens com 🔔 Notificações
 
 ### Left Dock
 
 ```css
-.jam-left-dock {
-  position: fixed; /* Assumed - actual positioning in component */
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1000;
-}
-
-.jam-dock-items {
-  padding: 10px;
-  border-radius: 18px;
+/* ⚠️ VALORES AUDITADOS 2026-02-09 contra pf.css */
+.pf-dock-items {
+  padding: 6px;
+  border-radius: 14px;
   backdrop-filter: blur(20px);
+  gap: 4px;
 }
 
-.jam-dock-item {
-  width: 46px;
-  height: 46px;
-  font-size: 22px;
-  border-radius: 13px;
+.pf-dock-item {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  border-radius: 10px;
 }
 
-.jam-dock-separator {
+.pf-dock-item.tool {
+  width: 32px; /* sub-items menores */
+  height: 32px;
+  font-size: 15px;
+}
+
+.pf-dock-separator {
   height: 1px;
   margin: 4px 0;
 }
 ```
 
+### Dock Items (7 total)
+
+```text
+┌────────────────────────────────────────────────────┐
+│           LEFT DOCK (PFDock v6.2)                   │
+├────────────────────────────────────────────────────┤
+│  CORE TOOLS:                                        │
+│  ├── 🎨 Ferramentas → onToolsClick (Right Toolbar)  │
+│  ├── 🐼 Catálogo    → onCatalogClick (modal)         │
+│  ─── separator ─────────────────────────────────      │
+│  QUICK ACCESS:                                       │
+│  ├── 🏪 Panda Store → onStoreClick (modal)           │
+│  ├── 💬 Panda AI    → onChatClick (toggle panel)     │
+│  ─── separator ─────────────────────────────────      │
+│  SYSTEM:                                             │
+│  ├── ⚙️ Settings    → onSettingsClick (modal)        │
+│  └── 🛠️ Dev Mode    → onDevModeToggle (panel)       │
+└────────────────────────────────────────────────────┘
+```
+
+| #   | Ícone | Label         | Prop Handler      | Ação                         |
+| --- | ----- | ------------- | ----------------- | ---------------------------- |
+| 1   | 🎨    | Ferramentas   | `onToolsClick`    | Abre Right Toolbar (TLDraw)  |
+| 2   | 🐼    | Catálogo      | `onCatalogClick`  | Abre modal catálogo          |
+| 3   | 🏪    | Panda Store   | `onStoreClick`    | Abre modal loja              |
+| 4   | 💬    | Panda AI Chat | `onChatClick`     | Toggle chat (evento interno) |
+| 5   | ⚙️    | Configurações | `onSettingsClick` | Abre modal settings          |
+| 6   | 🛠️    | Dev Mode      | `onDevModeToggle` | Toggle JamDevPanel           |
+
 ### Dock Total Width Calculation
 
 ```text
-Dock item: 46px
-Padding: 10px × 2 = 20px
+Dock item: 36px
+Padding: 6px × 2 = 12px
 Border: 1px × 2 = 2px
 ─────────────────
-Total: ~68px
+Total: ~50px
 ```
 
 ### Right Toolbar (Tools Panel)
 
 ```css
-.jam-right-toolbar {
+.pf-right-toolbar {
   position: fixed;
   top: 56px; /* Below header */
   right: 0;
@@ -248,60 +324,78 @@ Total: ~68px
 }
 ```
 
-### 5.1 Role-Based Dock Items
+### 5.1 Role-Based Dock Visibility
 
-> **Decisão:** UI varia conforme `Panda.Auth.getRole()`
+> **Decisão:** Todos os 6 itens base são visíveis para todos os roles.
+> Itens avançados (Dev Mode) podem ser ocultados conforme role futuramente.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    DOCK POR ROLE                                        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  TODOS (Role 1, 2, 3):                                                  │
-│  ├── 🎨 Ferramentas → abre Right Toolbar (TLDraw)                       │
-│  ├── 📁 Catálogo → abre modal de catálogo                               │
-│  └── 🧩 Plugins → plugins instalados do usuário                         │
-│                                                                          │
-│  DEV (Role ≤ 2):                                                        │
-│  └── 🔧 Dev Mode → abre JamDevPanel                                     │
-│       ├── 🧰 MCP Browser (ver tools disponíveis)                        │
-│       ├── 🦀 RIG Status (Rust Agent + GPU)                              │
-│       └── 📊 Plugin Status (validação panda.mcp.json)                   │
-│                                                                          │
-│  FOUNDER (Role = 1):                                                    │
-│  └── 👑 Admin → abre JamAdminPanel                                      │
-│       ├── 📊 Dashboard (stats do ecossistema)                           │
-│       ├── 🏦 Treasury (wallet + mint/burn)                              │
-│       ├── ⚖️ Constitution (regras da IA)                                │
-│       ├── 🛡️ Panda Defend (review + kill switch)                        │
-│       ├── 🦀 RIG Control (GPU pool)                                     │
-│       └── 📈 Analytics (custos, projeções)                              │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+| Role        | Valor | Vê no Dock                                |
+| ----------- | :---: | ----------------------------------------- |
+| **Founder** |   1   | 6 itens base + DevMode completo           |
+| **Dev**     |   2   | 6 itens base + DevMode                    |
+| **User**    |   3   | 6 itens base (DevMode oculto futuramente) |
 
-| Role        | Valor | Vê no Dock     |
-| ----------- | :---: | -------------- |
-| **Founder** |   1   | Tudo + 🔧 + 👑 |
-| **Dev**     |   2   | Tudo + 🔧      |
-| **User**    |   3   | Apenas base    |
-
-#### Implementação
+#### Implementação Atual
 
 ```jsx
-// JamDock.jsx
-const role = Panda.Auth.getRole();
+// PFDock.jsx — 5 dock items (v6.2)
+function PFDock({
+  onCatalogClick,
+  onToolsClick,
+  onStoreClick,
+  onChatClick,
+  onSettingsClick,
+  onDevModeToggle,
+  devMode,
+  plugins,
+  onPluginOpen,
+  onPluginClose,
+  onPluginUninstall,
+}) {
+  return (
+    <nav className="pf-left-dock">
+      {/* CORE TOOLS */}
+      <button onClick={onToolsClick} title="FERRAMENTAS">
+        🎨
+      </button>
+      <button onClick={onCatalogClick} title="CATÁLOGO">
+        🐼
+      </button>
+      <div className="pf-dock-separator" />
+      {/* QUICK ACCESS */}
+      <button onClick={onStoreClick} title="PANDA STORE">
+        🏪
+      </button>
+      <button onClick={onChatClick} title="PANDA AI CHAT">
+        💬
+      </button>
+      <div className="pf-dock-separator" />
+      {/* SYSTEM */}
+      <button onClick={onSettingsClick} title="CONFIGURAÇÕES">
+        ⚙️
+      </button>
+      <button onClick={() => onDevModeToggle(!devMode)} title="DEV MODE">
+        🛠️
+      </button>
+    </nav>
+  );
+}
+```
 
-return (
-  <>
-    <DockItem icon="🎨" onClick={onToolsClick} />
-    <DockItem icon="📁" onClick={onCatalogClick} />
-    <DockItem icon="🧩" onClick={onPluginsClick} />
+### 5.2 Event Wiring (App.jsx)
 
-    {role <= 2 && <DockItem icon="🔧" onClick={onDevModeClick} />}
-    {role === 1 && <DockItem icon="👑" onClick={onAdminClick} />}
-  </>
-);
+```jsx
+// App.jsx — Connecting dock to state
+<PFDock
+  onToolsClick={() => setShowRightToolbar(!showRightToolbar)}
+  onCatalogClick={() => setShowCatalog(true)}
+  onStoreClick={() => setShowStore(true)}
+  onChatClick={() =>
+    window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal"))
+  }
+  onSettingsClick={() => setShowSettings(true)}
+  onDevModeToggle={setDevMode}
+/>
 ```
 
 ---
@@ -311,7 +405,7 @@ return (
 ### Standard Modal Structure
 
 ```css
-.jam-settings-overlay {
+.pf-settings-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -319,7 +413,7 @@ return (
   z-index: 5000;
 }
 
-.jam-settings-modal {
+.pf-settings-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -359,7 +453,7 @@ return (
 ### Floating Action Button (FAB)
 
 ```css
-.jam-chat-fab {
+.pf-chat-fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -373,7 +467,7 @@ return (
 ### Chat Panel (Expanded)
 
 ```css
-.jam-chat-panel {
+.pf-chat-panel {
   position: fixed;
   bottom: 90px; /* Above FAB */
   right: 24px;
@@ -382,6 +476,24 @@ return (
   border-radius: 16px;
   z-index: 3000;
 }
+```
+
+### External Toggle (v6.0)
+
+> **Novo:** O chat pode ser aberto/fechado externamente via Custom Event.
+> Usado pelo Dock (💬) e pelo Welcome Overlay.
+
+```javascript
+// Abrir/fechar chat de qualquer componente:
+window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal"));
+
+// PFChat.jsx escuta:
+useEffect(() => {
+  const handleToggle = () => setIsOpen((prev) => !prev);
+  window.addEventListener("panda:chat-toggle-internal", handleToggle);
+  return () =>
+    window.removeEventListener("panda:chat-toggle-internal", handleToggle);
+}, []);
 ```
 
 ### Chat Layout
@@ -407,14 +519,14 @@ return (
 ### Layout
 
 ```css
-.jam-main {
+.pf-main {
   flex: 1;
   position: relative;
   overflow: hidden;
-  margin-top: 56px; /* ⚠️ HEADER HEIGHT */
+  /* ⚠️ SEM margin-top — StatusBar está no document flow */
 }
 
-.jam-canvas-wrapper {
+.pf-canvas-wrapper {
   width: 100%;
   height: 100%;
   position: relative;
@@ -422,16 +534,58 @@ return (
 }
 ```
 
+### 8.1 Welcome Overlay (v6.0)
+
+> **Arquivo:** `PFCanvas.jsx` (componente `WelcomeOverlay` inline)
+> **CSS:** `pf.css` — seção `.pf-welcome-overlay`
+> **Z-Index:** 100 (acima do canvas, abaixo de tudo)
+
+Aparece **somente** quando o canvas está vazio E não foi descartado na sessão.
+
+```text
+┌──────────────────────────────────────────────┐
+│            WELCOME OVERLAY (z:100)            │
+│                                               │
+│   🐼 Logo (animação bounce)                   │
+│   "Bem vindo ao Panda Fabrics!"               │
+│                                               │
+│   ┌──────┐  ┌──────────┐  ┌──────────┐       │
+│   │DESENHAR│  │PANDA STORE│  │ PANDA AI │      │
+│   │  🎨   │  │    🏪     │  │   💬     │      │
+│   └──────┘  └──────────┘  └──────────┘       │
+│                                               │
+│   [Skip] (dismiss, salva em sessionStorage)   │
+└──────────────────────────────────────────────┘
+```
+
+**Ações dos cards:**
+| Card | Ação |
+| ------------ | ------------------------------------------- |
+| DESENHAR | Seleciona tool "draw" no TLDraw editor |
+| PANDA STORE | `dispatch('panda:open-store')` → abre Store |
+| PANDA AI | `dispatch('panda:toggle-chat')` → toggle AI |
+
+**Persistência:** `sessionStorage.setItem('panda_welcome_dismissed', 'true')`
+
 ### Grid Overlay
 
 ```css
-.jam-canvas-wrapper.show-grid::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
+/* Dark mode grid */
+.pf-canvas-wrapper.dark.show-grid::after {
+  background-image:
+    linear-gradient(rgba(102, 126, 234, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102, 126, 234, 0.25) 1px, transparent 1px);
   background-size: 40px 40px;
+  z-index: 999;
+}
+
+/* Light mode grid */
+.pf-canvas-wrapper.light.show-grid::after {
+  background-image:
+    linear-gradient(rgba(180, 180, 190, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 180, 190, 0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 999;
 }
 ```
 
@@ -441,14 +595,14 @@ return (
 
 ### CSS Variables
 
-| Variable           | Dark Mode           | Light Mode             |
-| ------------------ | ------------------- | ---------------------- |
-| `--jam-bg`         | #1a1a2e             | #f5f5f7                |
-| `--jam-surface`    | #16213e             | #ffffff                |
-| `--jam-text`       | #eaeaea             | #1a1a2e                |
-| `--jam-text-muted` | #8a8a9a             | #6a6a7a                |
-| `--jam-border`     | #2a2a4e             | #e0e0e5                |
-| `--jam-dock-bg`    | rgba(22,33,62,0.95) | rgba(255,255,255,0.95) |
+| Variable          | Dark Mode           | Light Mode             |
+| ----------------- | ------------------- | ---------------------- |
+| `--pf-bg`         | #1a1a2e             | #f5f5f7                |
+| `--pf-surface`    | #16213e             | #ffffff                |
+| `--pf-text`       | #eaeaea             | #1a1a2e                |
+| `--pf-text-muted` | #8a8a9a             | #6a6a7a                |
+| `--pf-border`     | #2a2a4e             | #e0e0e5                |
+| `--pf-dock-bg`    | rgba(22,33,62,0.95) | rgba(255,255,255,0.95) |
 
 ### Toggle Method
 
@@ -466,23 +620,30 @@ const isLight = document.body.classList.contains("light-mode");
 
 ### Common Issues
 
-| Problema                 | Causa                    | Solução                       |
-| ------------------------ | ------------------------ | ----------------------------- |
-| Elementos sobrepondo     | z-index incorreto        | Verificar tabela de layers    |
-| Header cortando conteúdo | margin-top ausente       | Adicionar `margin-top: 56px`  |
-| Dock atrás do header     | z-index < 2000           | Dock deve ser z-index: 1000   |
-| Modal atrás de outros    | z-index baixo            | Modal deve ser z-index: 5000+ |
-| Botão fora do fluxo      | position: fixed indevido | Usar flex dentro do container |
+| Problema                 | Causa                    | Solução                               |
+| ------------------------ | ------------------------ | ------------------------------------- |
+| Elementos sobrepondo     | z-index incorreto        | Verificar tabela de layers            |
+| Header cortando conteúdo | StatusBar não no flow    | StatusBar DEVE estar no document flow |
+| Dock atrás do header     | z-index < 2000           | Dock deve ser z-index: 1000           |
+| Modal atrás de outros    | z-index baixo            | Modal deve ser z-index: 5000+         |
+| Botão fora do fluxo      | position: fixed indevido | Usar flex dentro do container         |
+| Duas barras de status    | StatusBar.jsx duplicada  | DELETADA — só PFStatusBar existe      |
+| Botão 🚪 top-left        | LoginGate logout btn     | REMOVIDO — logout está no ✕ da bar    |
+| Founder tab não abre     | activeTabset null        | Fallback p/ tabset 'main' (v6.2.1)    |
 
 ### Debug Checklist
 
 ```text
-□ Header height = 56px
-□ Canvas margin-top = 56px
+□ Header height = 56px (pf-status-bar)
+□ Canvas SEM margin-top (StatusBar no document flow)
+□ Dock items = 36x36px, padding 6px, radius 14px (7 itens)
 □ Left dock z-index = 1000
 □ Modals z-index = 5000
 □ Chat z-index = 3000
 □ Login gate z-index = 10000
+□ NÃO existe StatusBar.jsx (deletada)
+□ NÃO existe login-logout-btn (removido do LoginGate)
+□ NÃO existe botão fullscreen (removido)
 ```
 
 ---
@@ -491,54 +652,56 @@ const isLight = document.body.classList.contains("light-mode");
 
 - CSS Design System (consolidado abaixo - PARTE B)
 - Jam React Components (consolidado abaixo - PARTE D)
-- [jam.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/11.jam/src/styles/jam.css)
+- [pf.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/11.jam/src/styles/pf.css)
 - [PANDA.md](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/.agent/PANDA.md)
 
 ---
 
 # PARTE B: CSS Design System
 
-> **Consolidado de:** `PF_CSS_REFERENCE.md` | **Fonte:** `css/pf.theme.css`
+> **Status:** ✅ Totalmente implementado em `pf.css` — namespace `--pf-*`
+> **Consolidado de:** `PF_CSS_REFERENCE.md` | **Fonte:** `11.jam/src/styles/pf.css`
+>
+> Tokens B.1–B.8 todos implementados: cores, spacing, radius, shadows, elevation, motion, skeleton, focus, animations, components.
 
 ## B.1 Cores Base
 
 ```css
 /* Cores Primárias */
---accent-primary: #3b82f6; /* Azul principal */
---accent-primary-hover: #2563eb;
---accent-primary-light: rgba(59, 130, 246, 0.1);
+--accent-primary: #0f172a; /* Navy (light mode) */
+--accent-primary-hover: #1e293b; /* Navy lighter */
+--accent-primary-light: rgba(15, 23, 42, 0.1);
 
 /* Status */
---accent-success: #22c55e; /* Verde */
+--accent-success: #10b981; /* Verde */
 --accent-warning: #f59e0b; /* Amarelo */
 --accent-error: #ef4444; /* Vermelho */
 --accent-info: #3b82f6; /* Azul info */
+--accent-glow: 0 0 15px rgba(102, 126, 234, 0.3);
 ```
 
 ## B.2 Fundos
 
 ```css
 /* Light Mode */
---bg-app: #f0f4f8; /* Fundo principal */
+--bg-app: #f0f2f5; /* Fundo principal */
 --bg-card: #ffffff; /* Cards */
---bg-panel: rgba(255, 255, 255, 0.8); /* Glassmorphism */
---bg-input: #f8fafc; /* Inputs */
---bg-hover: rgba(0, 0, 0, 0.04); /* Hover */
---bg-selected: rgba(59, 130, 246, 0.1); /* Selecionado */
+--bg-panel: rgba(255, 255, 255, 0.7); /* Glassmorphism */
+--bg-input: #ffffff; /* Inputs */
+--bg-secondary: #f9fafb; /* Secundário */
+--bg-card-hover: var(--gray-100); /* Hover */
 
 /* Header */
---header-bg: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
---header-height: 48px;
+--header-bg: rgba(240, 242, 245, 0.85); /* Glassmorphism */
+--header-height: 56px; /* ⚠️ FIXED - NÃO MUDAR */
 ```
 
 ## B.3 Texto
 
 ```css
---text-primary: #1e293b; /* Texto principal */
---text-secondary: #64748b; /* Texto secundário */
---text-muted: #94a3b8; /* Texto desabilitado */
+--text-primary: #111827; /* Texto principal */
+--text-secondary: #4b5563; /* Texto secundário */
 --text-inverted: #ffffff; /* Texto em fundo escuro */
---text-link: #3b82f6; /* Links */
 ```
 
 ## B.4 Bordas e Sombras
@@ -550,39 +713,39 @@ const isLight = document.body.classList.contains("light-mode");
 --border-focus: #3b82f6;
 --border-error: #ef4444;
 
-/* Sombras */
---shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
---shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
---shadow-dock: 0 8px 25px rgba(0, 0, 0, 0.15);
---shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
---shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+/* Sombras (dark mode defaults — light mode overrides abaixo) */
+--pf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+--pf-shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+--pf-shadow-dock: 0 8px 25px rgba(0, 0, 0, 0.4);
+--pf-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+--pf-shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
 ```
 
 ## B.5 Sizing & Spacing
 
 ```css
 /* Border Radius */
---radius-sm: 6px;
---radius-btn: 8px;
---radius-card: 12px;
---radius-modal: 16px;
---radius-full: 9999px;
+--pf-radius-sm: 6px;
+--pf-radius-btn: 8px;
+--pf-radius-card: 12px;
+--pf-radius-modal: 16px;
+--pf-radius-full: 9999px;
 
 /* Spacing */
---space-xs: 4px;
---space-sm: 8px;
---space-md: 16px;
---space-lg: 24px;
---space-xl: 32px;
+--pf-space-xs: 4px;
+--pf-space-sm: 8px;
+--pf-space-md: 16px;
+--pf-space-lg: 24px;
+--pf-space-xl: 32px;
 ```
 
 ## B.6 Animações
 
 ```css
-/* Transitions */
---transition-fast: 0.15s ease;
---transition-normal: 0.2s ease;
---transition-slow: 0.3s ease;
+/* Composite Transitions (--pf- namespace) */
+--pf-transition-fast: var(--pf-duration-fast) var(--pf-ease-default);
+--pf-transition-base: var(--pf-duration-base) var(--pf-ease-default);
+--pf-transition-slow: var(--pf-duration-slow) var(--pf-ease-out);
 
 /* Keyframes */
 @keyframes fadeIn {
@@ -616,38 +779,367 @@ const isLight = document.body.classList.contains("light-mode");
 
 ## B.7 Dark Mode
 
+> **ATENÇÃO:** O JAM React usa `body.light-mode` (padrão escuro). As vars abaixo são do HTML legacy.
+
 ```css
 body.dark-mode {
-  --bg-app: #0f172a;
-  --bg-card: #1e293b;
-  --bg-panel: rgba(30, 41, 59, 0.9);
-  --bg-input: #1e293b;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-default: rgba(255, 255, 255, 0.12);
+  /* HTML legacy — JAM usa body.light-mode */
+  --bg-app: #0a0a0a;
+  --bg-card: #111111;
+  --bg-panel: rgba(20, 20, 20, 0.7);
+  --bg-input: #000000;
+  --bg-secondary: #111111;
+  --text-primary: #ededed;
+  --text-secondary: #888888;
+  --text-inverted: #000000;
+  --border-subtle: #333333;
+  --border-focus: #555555;
+  --border-color: #333333;
+  --header-bg: rgba(10, 10, 10, 0.8);
+  --accent-primary: #ededed;
+  --bg-card-hover: #1a1a1a;
 }
 ```
+
+### B.7.1 Elevation Tokens (P1 - Design System)
+
+> **Inspiração:** IBM Carbon Design System
+> **Filosofia:** No dark mode, usar **cores** para indicar elevação, NÃO sombras.
+
+```css
+/* ANTES (tradicional - não usar em dark mode) */
+.modal-old {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* DEPOIS (elevation by color - IBM Carbon style) */
+body.light-mode {
+  /* Light Mode - Sombras OK */
+  --pf-elevation-0: #ffffff;
+  --pf-elevation-1: #f6f8fa;
+  --pf-elevation-2: #ffffff;
+  --pf-elevation-3: #ffffff;
+}
+
+:root {
+  /* Dark Mode (default) - Cores progressivas (mais claras = mais alto) */
+  --pf-elevation-0: #1a1a2e; /* Base */
+  --pf-elevation-1: #16213e; /* Cards */
+  --pf-elevation-2: #1e2a4a; /* Modals, Dropdowns */
+  --pf-elevation-3: #2a3a5e; /* Tooltips, Popovers */
+}
+
+/* Uso */
+.card {
+  background: var(--pf-elevation-1);
+  border: 1px solid var(--pf-border);
+}
+
+.modal {
+  background: var(--pf-elevation-2);
+  border: 1px solid var(--pf-border);
+}
+
+.tooltip {
+  background: var(--pf-elevation-3);
+}
+```
+
+| Nível | Componente         | Cor Light | Cor Dark  |
+| ----- | ------------------ | --------- | --------- |
+| **0** | App background     | `#ffffff` | `#1a1a2e` |
+| **1** | Cards, Panels      | `#f6f8fa` | `#16213e` |
+| **2** | Modals, Dropdowns  | `#ffffff` | `#1e2a4a` |
+| **3** | Tooltips, Popovers | `#ffffff` | `#2a3a5e` |
+
+> **Regra:** Em dark mode, NUNCA usar `box-shadow` para indicar elevação. Usar apenas `--pf-elevation-N` tokens.
+
+### B.7.2 Transition Tokens (Motion System)
+
+> **Inspiração:** Material Design 3 + Vercel Geist
+> **Filosofia:** Animações sutis e performáticas. Usar `cubic-bezier` para naturalidade.
+
+```css
+:root {
+  /* Duration Tokens */
+  --pf-duration-instant: 50ms; /* Micro-feedback (hover states) */
+  --pf-duration-fast: 150ms; /* Botões, toggles */
+  --pf-duration-base: 250ms; /* Cards, modals appearing */
+  --pf-duration-slow: 350ms; /* Page transitions */
+
+  /* Easing Tokens */
+  --pf-ease-default: cubic-bezier(0.4, 0, 0.2, 1); /* Standard */
+  --pf-ease-in: cubic-bezier(0.4, 0, 1, 1); /* Entering */
+  --pf-ease-out: cubic-bezier(0, 0, 0.2, 1); /* Exiting */
+  --pf-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* Playful */
+
+  /* Composite Tokens (recomendado) */
+  --pf-transition-fast: var(--pf-duration-fast) var(--pf-ease-default);
+  --pf-transition-base: var(--pf-duration-base) var(--pf-ease-default);
+  --pf-transition-slow: var(--pf-duration-slow) var(--pf-ease-out);
+}
+
+/* Uso Padrão */
+.btn {
+  transition:
+    background-color var(--pf-transition-fast),
+    transform var(--pf-transition-fast),
+    box-shadow var(--pf-transition-fast);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.card {
+  transition:
+    transform var(--pf-transition-base),
+    box-shadow var(--pf-transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+```
+
+| Token                | Duração | Uso                  |
+| -------------------- | ------- | -------------------- |
+| `--duration-instant` | 50ms    | Micro-feedback       |
+| `--duration-fast`    | 150ms   | Botões, inputs       |
+| `--duration-base`    | 250ms   | Cards, modals        |
+| `--duration-slow`    | 350ms   | Transições de página |
+
+### B.7.3 Skeleton Loaders (Loading States)
+
+> **Filosofia:** Enquanto carrega, mostrar placeholder animado. Melhora percepção de velocidade.
+
+```css
+/* Skeleton Base */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--pf-elevation-1) 25%,
+    var(--pf-elevation-2) 50%,
+    var(--pf-elevation-1) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite ease-in-out;
+  border-radius: var(--pf-radius-btn);
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Variants */
+.skeleton-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+}
+
+.skeleton-title {
+  height: 1.5em;
+  width: 60%;
+  margin-bottom: 1em;
+}
+
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.skeleton-card {
+  height: 200px;
+  border-radius: var(--pf-radius-card);
+}
+```
+
+**Uso em HTML:**
+
+```html
+<!-- Skeleton Card Example -->
+<div class="card">
+  <div class="skeleton skeleton-avatar"></div>
+  <div class="skeleton skeleton-title"></div>
+  <div class="skeleton skeleton-text" style="width: 80%"></div>
+  <div class="skeleton skeleton-text" style="width: 60%"></div>
+</div>
+```
+
+### B.7.4 Focus States (Acessibilidade)
+
+> **Obrigatório:** Todo elemento interativo DEVE ter `:focus-visible` visível.
+> **WCAG 2.1 AA:** Contraste mínimo 3:1 para indicadores de foco.
+
+```css
+/* Focus Ring Global */
+:focus-visible {
+  outline: 2px solid var(--accent-info);
+  outline-offset: 2px;
+}
+
+/* Remove outline padrão do browser */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus específico por componente */
+.btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+.form-input:focus-visible {
+  border-color: var(--accent-info);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent-info);
+  outline-offset: 2px;
+}
+
+/* Skip Link (acessibilidade) */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-primary);
+  color: var(--text-inverted);
+  padding: 8px 16px;
+  z-index: 10000;
+  transition: top var(--pf-transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+```
+
+| Componente | Focus Ring | Offset |
+| ---------- | ---------- | ------ |
+| Botões     | 2px solid  | 2px    |
+| Inputs     | 3px shadow | 0      |
+| Cards      | 2px solid  | 2px    |
+| Links      | underline  | -      |
+
+### B.7.5 Micro-animations (Polish)
+
+> **Filosofia:** Animações sutis que dão feedback e tornam a UI viva.
+
+```css
+/* Hover animations para interativos */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pf-shadow-modal);
+}
+
+/* Button press feedback */
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Icon spin (loading) */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icon-loading {
+  animation: spin 1s linear infinite;
+}
+
+/* Fade in on mount */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in var(--pf-duration-base) var(--pf-ease-out);
+}
+
+/* Pulse for attention */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Scale in (modals) */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal {
+  animation: scale-in var(--pf-duration-base) var(--pf-ease-out);
+}
+```
+
+| Animação | Uso                  | Classe             |
+| -------- | -------------------- | ------------------ |
+| Fade In  | Elementos aparecendo | `.animate-fade-in` |
+| Pulse    | Chamar atenção       | `.animate-pulse`   |
+| Spin     | Loading icons        | `.icon-loading`    |
+| Scale In | Modals               | Automático         |
+
+---
 
 ## B.8 Componentes Padrão
 
 ```css
 /* Card */
 .card {
-  background: var(--bg-card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--border-subtle);
-  padding: var(--space-md);
+  background: var(--pf-elevation-1);
+  border-radius: var(--pf-radius-card);
+  box-shadow: var(--pf-shadow-card);
+  border: 1px solid var(--pf-border);
+  padding: var(--pf-space-md);
 }
 
 /* Botão Primário */
 .btn-primary {
   background: var(--accent-primary);
   color: var(--text-inverted);
-  border-radius: var(--radius-btn);
-  padding: var(--space-sm) var(--space-md);
-  transition: var(--transition-fast);
+  border-radius: var(--pf-radius-btn);
+  padding: var(--pf-space-sm) var(--pf-space-md);
+  transition: var(--pf-transition-fast);
 }
 .btn-primary:hover {
   background: var(--accent-primary-hover);
@@ -657,8 +1149,8 @@ body.dark-mode {
 .input {
   background: var(--bg-input);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-btn);
-  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--pf-radius-btn);
+  padding: var(--pf-space-sm) var(--pf-space-md);
 }
 .input:focus {
   border-color: var(--border-focus);
@@ -696,13 +1188,16 @@ body.dark-mode {
 
 ## C.2 Catálogo de Componentes
 
-| Componente   | Arquivo                       | Descrição           |
-| ------------ | ----------------------------- | ------------------- |
-| **Header**   | `Comp_HeaderStatus.html`      | Status pills, logo  |
-| **AppDock**  | `Comp_AppDock.html`           | Dock inferior       |
-| **Settings** | `Comp_SettingsModal.html`     | Modal 11 seções     |
-| **Treasury** | `Comp_TreasuryDashboard.html` | Dashboard PAXG/USDC |
-| **DevTools** | `Comp_DevToolsDock.html`      | Ferramentas dev     |
+| Componente          | Arquivo                       | Descrição              |
+| ------------------- | ----------------------------- | ---------------------- |
+| **Header**          | `Comp_HeaderStatus.html`      | Status pills, logo     |
+| **AppDock**         | `Comp_AppDock.html`           | Dock lateral esquerda  |
+| **Sidebar**         | `Comp_Sidebar.html`           | Sidebar navegação      |
+| **Settings**        | `Comp_SettingsModal.html`     | Modal 11 seções        |
+| **Treasury**        | `Comp_TreasuryDashboard.html` | Dashboard PAXG/USDC    |
+| **DevTools**        | `Comp_DevToolsDock.html`      | Ferramentas dev        |
+| **LoginOverlay**    | `Comp_LoginOverlay.html`      | Auth gate overlay      |
+| **TentacleMonitor** | `Comp_TentacleMonitor.html`   | Monitor de integrações |
 
 ## C.3 Ordem de Carregamento
 
@@ -742,102 +1237,137 @@ body.dark-mode {
 
 ```text
 11.jam/src/
-├── App.jsx                      # Main app v5.2
+├── main.jsx                     # Entry point React
+├── App.jsx                      # Main app v6.4
 ├── components/
-│   ├── JamCanvas.jsx            # TLDraw canvas
-│   ├── JamDock.jsx              # Left dock
-│   ├── JamStatusBar.jsx         # Top status bar
-│   ├── JamChat.jsx              # AI chat floating
-│   ├── JamSettings.jsx          # Settings modal
-│   ├── JamStore.jsx             # Store modal
-│   ├── JamCatalog.jsx           # Catalog modal
-│   ├── JamRightToolbar.jsx      # Drawing tools
-│   ├── StatusBar.jsx            # Health status bar
-│   ├── FounderDashboard.jsx     # Founder dashboard
-│   ├── FinancePanel.jsx         # Treasury/finance
-│   ├── LoginModal.jsx           # Auth modal
-│   └── LoginGate.jsx            # Auth gate
+│   ├── PFCanvas.jsx            # TLDraw canvas
+│   ├── PFDock.jsx              # Left dock v6.2 (5 itens)
+│   ├── PFStatusBar.jsx         # Top status bar v6.3
+│   ├── PFNotifications.jsx     # Notification center v1.0
+│   ├── PFChat.jsx              # AI chat floating v1.2 (trail bubble)
+│   ├── PFSettings.jsx          # Settings modal
+│   ├── PFStore.jsx             # Store modal
+│   ├── PFCatalog.jsx           # Catalog modal
+│   ├── PFRightToolbar.jsx      # Drawing tools
+│   ├── PFHeader.jsx            # (legacy header)
+│   ├── FloatingAppWindow.jsx   # FlexLayout multi-window
+│   ├── FounderDashboard.jsx    # Founder dashboard
+│   ├── FounderDashboardModal.jsx # Founder modal
+│   ├── FounderDashboardPopout.jsx # Popout variant
+│   ├── FinancePanel.jsx        # Treasury/finance
+│   ├── DevModePanel.jsx        # Dev mode panel
+│   ├── PATCouncilPanel.jsx     # PAT Council
+│   ├── PandaDefendDashboard.jsx # Security dashboard
+│   ├── BundleCreator.jsx       # Bundle creation
+│   ├── CheckoutModal.jsx       # Checkout v2.0 (Medusa badges)
+│   ├── PluginManifestEditor.jsx # Plugin editor
+│   ├── PanicButton.jsx         # Kill switch
+│   ├── LoginModal.jsx          # Auth modal
+│   └── LoginGate.jsx           # Auth gate
 └── hooks/
-    ├── useAuth.jsx              # Auth provider
-    ├── useFirebase.js           # Firebase connection
-    ├── useGAS.js                # GAS endpoints
-    ├── useHealthStatus.js       # Health polling
-    ├── useFounderMetrics.js     # Dashboard metrics
-    └── useMarketplace.js        # Marketplace hooks
+    ├── useAuth.jsx             # Auth provider
+    ├── useFirebase.js          # Firebase connection
+    ├── useGAS.js               # GAS endpoints
+    ├── useHealthStatus.js      # Health polling
+    ├── useFounderMetrics.js    # Dashboard metrics
+    ├── useMarketplace.js       # Marketplace hooks
+    ├── useCheckout.js          # Checkout hooks
+    └── useLandingPage.js       # Landing page hooks
 ```
+
+> [!IMPORTANT]
+> `StatusBar.jsx` e `StatusBar.css` foram **DELETADOS** 2026-02-08.
+> As status pills já existem no `PFStatusBar.jsx`.
 
 ## D.2 Componentes por Categoria
 
 ### Core Layout
 
-| Componente         | Função                   |
-| ------------------ | ------------------------ |
-| `App.jsx`          | Container principal v5.2 |
-| `JamCanvas.jsx`    | TLDraw canvas            |
-| `JamDock.jsx`      | Dock esquerda            |
-| `JamStatusBar.jsx` | Status bar topo          |
+| Componente              | Função                       |
+| ----------------------- | ---------------------------- |
+| `App.jsx`               | Container principal v6.4     |
+| `PFCanvas.jsx`          | Canvas tldraw wrapper        |
+| `PFDock.jsx`            | Dock esquerda v6.2 (5 itens) |
+| `PFStatusBar.jsx`       | Status bar topo v6.3         |
+| `PFNotifications.jsx`   | Centro de notificações v1.0  |
+| `FloatingAppWindow.jsx` | Multi-window (flexlayout)    |
 
 ### Modals
 
-| Componente                  | Função              |
-| --------------------------- | ------------------- |
-| `JamSettings.jsx`           | Configurações       |
-| `JamStore.jsx`              | Loja de plugins     |
-| `JamCatalog.jsx`            | Catálogo instalados |
-| `FounderDashboardModal.jsx` | Dashboard founder   |
-| `LoginModal.jsx`            | Login Google/Email  |
+| Componente                  | Função                                       |
+| --------------------------- | -------------------------------------------- |
+| `PFSettings.jsx`            | Configurações                                |
+| `PFStore.jsx`               | Loja Medusa v3.1 (9 extensões, sem taxonomy) |
+| `PFCatalog.jsx`             | Catálogo instalados                          |
+| `FounderDashboardModal.jsx` | Dashboard founder                            |
+| `LoginModal.jsx`            | Login Google/Email                           |
 
 ### Hooks
 
-| Hook                   | Versão | Função                          |
-| ---------------------- | ------ | ------------------------------- |
-| `useAuth.jsx`          | v1.1   | Autenticação                    |
-| `useFirebase.js`       | v1.0   | Firebase RTDB + Auth            |
-| `useGAS.js`            | v1.1   | GAS endpoints + Fault Isolation |
-| `useHealthStatus.js`   | v1.0   | Health polling                  |
-| `useFounderMetrics.js` | v1.1   | Dashboard + Telemetry           |
+| Hook                   | Versão | Função                             |
+| ---------------------- | ------ | ---------------------------------- |
+| `useAuth.jsx`          | v1.1   | Autenticação                       |
+| `useFirebase.js`       | v1.0   | Firebase RTDB + Auth               |
+| `useGAS.js`            | v1.1   | GAS endpoints + Fault Isolation    |
+| `useHealthStatus.js`   | v1.1   | Health polling (live no StatusBar) |
+| `useFounderMetrics.js` | v1.1   | Dashboard + Telemetry              |
+| `useMarketplace.js`    | v1.0   | Marketplace hooks                  |
+| `useCheckout.js`       | v1.0   | Checkout flow                      |
+| `useLandingPage.js`    | v1.0   | Landing page state                 |
 
-## D.3 App.jsx v5.2 Structure
+## D.3 App.jsx v6.4 Structure
 
 ```jsx
 <AuthProvider>
   <LoginGate>
     <AppContent>
-      <JamStatusBar /> {/* Top */}
-      <JamCanvas /> {/* Center */}
-      <JamDock /> {/* Left */}
-      <JamRightToolbar />
-      {/* Right */}
-      <JamChat /> {/* Floating */}
-      <JamSettings /> {/* Modal */}
-      <JamCatalog /> {/* Modal */}
-      <JamStore /> {/* Modal */}
-      <FounderDashboardModal /> {/* Modal */}
-      <StatusBar /> {/* Bottom */}
+      <PFStatusBar /> {/* Top */}
+      <PFWindowManager>
+        {" "}
+        {/* FlexLayout tabs */}
+        <PFCanvas /> {/* Default tab */}
+      </PFWindowManager>
+      <PFDock /> {/* Left */}
+      <PFRightToolbar /> {/* Right (when open) */}
+      <PFChat /> {/* Floating */}
+      <PFSettings /> {/* Modal */}
+      <PFCatalog /> {/* Modal */}
+      <PFStore /> {/* Modal */}
+      <FounderDashboard /> {/* Modal (if founder) */}
+      <DevModePanel /> {/* Floating (if dev) */}
+      <PATCouncilPanel /> {/* Floating (if dev) */}
+      <footer /> {/* Watermark */}
     </AppContent>
   </LoginGate>
 </AuthProvider>
 ```
 
-## D.4 LoginGate v1.2
+> [!WARNING]
+> **`<StatusBar />`** foi removido. Não re-adicionar.
 
-| Token              | Storage        | Fonte                |
-| ------------------ | -------------- | -------------------- |
-| `panda_auth`       | sessionStorage | Login direto no Jam  |
-| `panda_auth_token` | sessionStorage | Login via index.html |
-| `panda_user`       | localStorage   | useAuth + index.html |
+## D.4 LoginGate v1.3
+
+> **v1.3:** LoginGate agora seta `panda_user` no login (bridge p/ `useAuth`).
+
+| Token              | Storage        | Fonte                          |
+| ------------------ | -------------- | ------------------------------ |
+| `panda_auth`       | sessionStorage | Login direto no Jam            |
+| `panda_auth_token` | sessionStorage | Login via index.html           |
+| `panda_user`       | localStorage   | **LoginGate (v1.3)** + useAuth |
 
 ## D.5 Build Info
 
 ```text
-✓ 925 modules transformed
-✓ 1.18MB JS (356KB gzip)
-✓ Built in 28.91s (Vite 5.4.21)
+✓ 933 modules transformed
+✓ 1.34MB JS (399KB gzip)
+✓ Built in 8.49s (Vite 5.4.21)
 ```
+
+> **v2.1.0 changes:** TLDraw colorScheme API, Founder tab fallback, live health pills, PIN connected.
 
 ---
 
-> 📖 **PF_UI_REFERENCE v2.0** | Consolidado: UI Layout + CSS Design System + HTML Components + Jam React
+> 📖 **PF_UI_REFERENCE v2.5** | Consolidado: UI Layout + CSS Design System + HTML Components + Jam React
 
 ---
 
@@ -869,16 +1399,13 @@ body.dark-mode {
 
 ## E.2 DevTools v2.0 - Ferramentas Disponíveis
 
-| Tool                       | Ícone | Modal | Pop-out    | Descrição                          |
-| -------------------------- | ----- | ----- | ---------- | ---------------------------------- |
-| **Console**                | 💻    | ✅    | ✅         | Execução JavaScript em sandbox     |
-| **MCP Browser**            | 🧰    | ✅    | ✅         | Lista de MCP Tools do Rust Agent   |
-| **API Tester**             | 🔌    | ✅    | ✅         | Testar endpoints GAS               |
-| **PAT Treasury**           | 🏦    | ✅    | ✅         | Controles do Banco Central IA      |
-| **Constitution Validator** | ⚖️    | ✅    | ✅         | Validar ações contra os 12 Artigos |
-| **Antigravity** ⭐         | 🐼    | ❌    | ✅ WebView | Coding Assistant (BYOL Gemini)     |
-
-> **Antigravity** abre em **WebView nativo** no Rust Agent (não no browser).
+| Tool                       | Ícone | Modal | Pop-out | Descrição                          |
+| -------------------------- | ----- | ----- | ------- | ---------------------------------- |
+| **Console**                | 💻    | ✅    | ✅      | Execução JavaScript em sandbox     |
+| **MCP Browser**            | 🧰    | ✅    | ✅      | Lista de MCP Tools do Rust Agent   |
+| **API Tester**             | 🔌    | ✅    | ✅      | Testar endpoints GAS               |
+| **PAT Treasury**           | 🏦    | ✅    | ✅      | Controles do Banco Central IA      |
+| **Constitution Validator** | ⚖️    | ✅    | ✅      | Validar ações contra os 12 Artigos |
 
 ## E.3 Multi-Window (Document PiP)
 
@@ -930,5 +1457,141 @@ Panda.UI.closePopout("console");
 
 ---
 
-> 📖 **Versão:** 2.1.0 | **Consolidado:** UI + CSS + HTML + DevTools + Multi-Window
+## E.4 FlexLayout-React — Multi-Window Docking (v6.0)
 
+> **Implementado em:** 2026-02-08 | **Lib:** `flexlayout-react@0.8.18` (MIT)
+
+O sistema multi-janela utiliza `flexlayout-react` para abrir apps **DENTRO** do canvas como abas dockáveis.
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                         STATUS BAR (v6.3)                           │
+├──────┬──────────────────────────────────────────────────────────────┤
+│      │  ┌──────────┐ ┌──────────────┐ ┌──────────────┐             │
+│ DOCK │  │ 🎨 CANVAS│ │ 🏭 FOUNDER  ✕│ │ 📁 DRIVE   ✕│  ← TABS    │
+│      │  ├──────────┴─┴──────────────┴─┴──────────────┘             │
+│  🎨  │  │                                                          │
+│  📁  │  │              ACTIVE TAB CONTENT                          │
+│  🛠️  │  │              (Canvas / App / Plugin)                     │
+│      │  │                                                          │
+│ [+]  │  │                                                          │
+├──────┴──┴──────────────────────────────────────────────────────────┤
+│              FOOTER (watermark)                                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Componentes
+
+| Arquivo                 | Componente        | Função                                     |
+| ----------------------- | ----------------- | ------------------------------------------ |
+| `FloatingAppWindow.jsx` | `PFWindowManager` | Layout docking (flexlayout-react)          |
+| `App.jsx`               | `AppContent`      | Wiring factory + handlers                  |
+| `PFCatalog.jsx`         | `PFCatalog`       | Lista apps instalados (vazio por padrão)   |
+| `PFDock.jsx`            | `PFDock`          | Context menu: ABRIR / FECHAR / DESINSTALAR |
+
+### SDK API (v6.0)
+
+```javascript
+import { openAppWindow, closeAppWindow } from "./components/FloatingAppWindow";
+
+// Abrir app como aba no canvas
+openAppWindow("google-drive");
+openAppWindow("founder-dashboard");
+openAppWindow("meu-plugin", { name: "Meu Plugin", icon: "🧩" });
+
+// Fechar aba (sem desinstalar)
+closeAppWindow("google-drive");
+```
+
+### Regras
+
+1. **Catálogo inicia VAZIO** — Tudo vem da Store
+2. **Google-First** — Apenas Google Drive + Canva (sem Dropbox)
+3. **Pop-out ≠ Multi-janela** — Pop-out é Document PiP (monitor separado), multi-janela são tabs dentro do canvas
+4. **Dock/Chat ficam apenas na janela principal** — Não aparecem em pop-outs
+
+---
+
+## F. PADRÃO DE TEXTO
+
+> **Regra:** Todo texto visível segue hierarquia de capitalização.
+
+| Nível      | Formato      | Exemplo                  | Uso                          |
+| ---------- | ------------ | ------------------------ | ---------------------------- |
+| **TÍTULO** | `UPPERCASE`  | `PANDA FABRICS`          | Brand, headers, tabs, botões |
+| **Sub**    | `Title Case` | `Founder Dashboard`      | Subtítulos, nomes de apps    |
+| **Texto**  | `Normal`     | `Seus arquivos na nuvem` | Descrições, tooltips         |
+
+### Implementação CSS
+
+```css
+/* Títulos e botões */
+.pf-brand-text,
+.pf-dock-item[title],
+.pf-catalog-name {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+```
+
+---
+
+## 10. Footer (v6.3)
+
+> **CSS:** `pf.css` — seção `.pf-footer`
+> **JSX:** `App.jsx` — watermark + TLDraw + Medusa attribution
+
+```css
+.pf-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(10, 10, 26, 0.6) 100%
+  );
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  pointer-events: none;
+}
+```
+
+**Conteúdo:** `• 🐼 PANDA FABRICS • POWERED BY TLDRAW • v6.4`
+
+| Classe               | Função                             |
+| -------------------- | ---------------------------------- |
+| `.pf-footer-accent`  | Dot decorativo (4px, gradient)     |
+| `.pf-footer-version` | Badge de versão (fundo azul sutil) |
+
+---
+
+## 11. Status Indicator States (v6.3)
+
+> **CSS:** `pf.css` — seção `.pf-status-dot`
+> **Hook:** `useHealthStatus.js` → mapeia status → classe CSS
+
+| Estado          | Classe CSS     | Cor       | Glow            | Uso                       |
+| --------------- | -------------- | --------- | --------------- | ------------------------- |
+| **Online**      | `.online`      | `#10b981` | green glow 8px  | Serviço conectado         |
+| **Warning**     | `.warning`     | `#f59e0b` | amber glow 8px  | Latência alta / degraded  |
+| **Offline**     | `.offline`     | `#ef4444` | red glow 8px    | Serviço caiu / erro       |
+| **Unavailable** | `.unavailable` | `#6b7280` | grey subtle 4px | Recurso não presente (GP) |
+
+```css
+/* GP "unavailable" — grey pulsing dot, distinct from red "offline" */
+.pf-status-dot.unavailable {
+  background: #6b7280;
+  animation: pf-pulse-grey 3s ease-in-out infinite;
+}
+```
+
+---
+
+> 📖 **Versão:** 2.10.0 | **Atualizado:** 2026-02-10 | **Auditado contra:** `pf.css` (~3030 linhas), `PFStatusBar.jsx` (v6.3 +🔔), `PFDock.jsx` (v6.2, 5 itens), `App.jsx` (v6.4)
