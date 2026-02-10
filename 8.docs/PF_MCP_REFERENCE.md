@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
+> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
 ---
 tool_context: panda/mcp
 description: Model Context Protocol - Rust Agent Tools, 3 Tiers de acesso

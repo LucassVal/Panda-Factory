@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
+> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
 # 📦 PANDA FACTORY - LISTA COMPLETA DE DEPENDÊNCIAS
 
 > **Fonte:** `docs/PF_OPENSOURCE_CATALOG.md`  

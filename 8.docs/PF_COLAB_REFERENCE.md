@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
+> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
 ---
 tool_context: panda/colab
 description: Google Colab Integration - Templates GPU/ML, BYOC model, notebooks
