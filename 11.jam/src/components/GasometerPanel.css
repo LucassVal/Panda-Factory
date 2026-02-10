@@ -1,0 +1,454 @@
+/**
+ * ⛽ GasometerPanel.css — GAS Usage Dashboard Styles
+ * Uses Panda Factory design tokens (--pf-*)
+ *
+ * @see GasometerPanel.jsx
+ */
+
+.gasometer-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 580px;
+  max-width: 95vw;
+  max-height: 85vh;
+  background: linear-gradient(160deg, rgba(15, 20, 40, 0.98), rgba(8, 12, 28, 0.99));
+  border: 1px solid rgba(76, 201, 240, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(76, 201, 240, 0.08);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: gasometerIn 0.3s ease-out;
+  backdrop-filter: blur(20px);
+}
+
+@keyframes gasometerIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Header */
+.gasometer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(76, 201, 240, 0.12);
+}
+
+.gasometer-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gasometer-title h3 {
+  margin: 0;
+  color: #e0e8ff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.gasometer-badge {
+  background: rgba(76, 201, 240, 0.15);
+  color: #4cc9f0;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gasometer-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.gasometer-refresh,
+.gasometer-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #8891b0;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.gasometer-refresh:hover,
+.gasometer-close:hover {
+  background: rgba(76, 201, 240, 0.15);
+  color: #4cc9f0;
+  border-color: rgba(76, 201, 240, 0.3);
+}
+
+/* Alerts */
+.gasometer-alerts {
+  padding: 8px 16px;
+}
+
+.gasometer-alert {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.gasometer-alert-critical {
+  background: rgba(255, 68, 68, 0.12);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+.gasometer-alert-warning {
+  background: rgba(255, 170, 0, 0.12);
+  color: #ffcc4d;
+  border: 1px solid rgba(255, 170, 0, 0.2);
+}
+
+/* Tabs */
+.gasometer-tabs {
+  display: flex;
+  padding: 0 16px;
+  gap: 4px;
+  border-bottom: 1px solid rgba(76, 201, 240, 0.08);
+}
+
+.gasometer-tab {
+  background: none;
+  border: none;
+  color: #5a6380;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.gasometer-tab:hover {
+  color: #8891b0;
+}
+
+.gasometer-tab.active {
+  color: #4cc9f0;
+  border-bottom-color: #4cc9f0;
+}
+
+/* Content */
+.gasometer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.gasometer-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.gasometer-content::-webkit-scrollbar-thumb {
+  background: rgba(76, 201, 240, 0.2);
+  border-radius: 4px;
+}
+
+/* Gauge Card */
+.gasometer-gauge-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(76, 201, 240, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.gasometer-gauge-label {
+  color: #8891b0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.gasometer-gauge-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.gasometer-gauge-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.8s ease, background 0.5s ease;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.gasometer-gauge-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #5a6380;
+}
+
+.gasometer-gauge-pct {
+  color: #e0e8ff;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Stats Grid */
+.gasometer-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.gasometer-stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.gasometer-stat-icon {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.gasometer-stat-value {
+  color: #e0e8ff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.gasometer-stat-label {
+  color: #5a6380;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Top Operations */
+.gasometer-top-ops h4 {
+  color: #8891b0;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.gasometer-ops-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gasometer-op-row {
+  display: grid;
+  grid-template-columns: 24px 1fr 40px 50px 80px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.gasometer-op-rank {
+  color: #4cc9f0;
+  font-weight: 700;
+}
+
+.gasometer-op-name {
+  color: #c0c8e8;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+}
+
+.gasometer-op-count {
+  color: #5a6380;
+  text-align: right;
+}
+
+.gasometer-op-cost {
+  color: #ffaa00;
+  text-align: right;
+  font-weight: 600;
+}
+
+.gasometer-op-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.gasometer-op-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4cc9f0, #7b2ff7);
+  border-radius: 2px;
+}
+
+/* History */
+.gasometer-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #8891b0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gasometer-history-count {
+  color: #5a6380;
+  font-size: 10px;
+}
+
+.gasometer-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.gasometer-history-row {
+  display: grid;
+  grid-template-columns: 20px 1fr 50px 60px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+
+.gasometer-history-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.gasometer-history-row.error {
+  background: rgba(255, 68, 68, 0.05);
+}
+
+.gasometer-history-status {
+  font-size: 10px;
+}
+
+.gasometer-history-op {
+  color: #c0c8e8;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+}
+
+.gasometer-history-cost {
+  color: #ffaa00;
+  text-align: right;
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.gasometer-history-time {
+  color: #5a6380;
+  text-align: right;
+  font-size: 10px;
+}
+
+/* AI Tips */
+.gasometer-ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #e0e8ff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.gasometer-ai-badge {
+  background: linear-gradient(135deg, rgba(123, 47, 247, 0.2), rgba(76, 201, 240, 0.2));
+  color: #b4a0ff;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.gasometer-ai-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gasometer-ai-tip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(123, 47, 247, 0.12);
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: all 0.2s;
+}
+
+.gasometer-ai-tip:hover {
+  background: rgba(123, 47, 247, 0.06);
+  border-color: rgba(123, 47, 247, 0.25);
+}
+
+.gasometer-ai-tip-text {
+  color: #c0c8e8;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.gasometer-ai-footer {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(76, 201, 240, 0.05);
+  border-radius: 8px;
+}
+
+.gasometer-ai-footer p {
+  color: #5a6380;
+  font-size: 11px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Loading */
+.gasometer-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #5a6380;
+}
+
+.gasometer-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(76, 201, 240, 0.2);
+  border-top-color: #4cc9f0;
+  border-radius: 50%;
+  animation: gasometerSpin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes gasometerSpin {
+  to { transform: rotate(360deg); }
+}

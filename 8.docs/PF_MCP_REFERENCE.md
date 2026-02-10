@@ -1,3 +1,10 @@
+---
+tool_context: panda/mcp
+description: Model Context Protocol - Rust Agent Tools, 3 Tiers de acesso
+version: 1.0.0
+updated: 2026-02-06
+---
+
 # 🦀 Panda MCP Tools - Referência
 
 > **Versão:** 1.0.0 | **Runtime:** Rust Agent (Tauri) | **Protocolo:** MCP
@@ -23,7 +30,7 @@
 │                                                                         │
 │  JAM UI (Browser)          Rust Agent (Desktop)        GAS (Cloud)     │
 │  ┌──────────────┐          ┌──────────────────┐       ┌───────────┐    │
-│  │ JamChat.jsx  │◀──MCP───▶│  panda-agent     │──────▶│ Brain.gs  │    │
+│  │ PFChat.jsx   │◀──MCP───▶│  panda-agent     │──────▶│ Brain.gs  │    │
 │  │ uiContext.js │          │  (Tauri + Rust)  │       │ PAT.gs    │    │
 │  └──────────────┘          └──────────────────┘       └───────────┘    │
 │         │                           │                                   │
@@ -65,7 +72,7 @@
 ### Legenda
 
 - **User (3)**: Usuário final, só interage
-- **Dev (2)**: Desenvolvedor, pode codar via Antigravity
+- **Dev (2)**: Desenvolvedor, pode usar Dev Mode (code assistance)
 - **Founder (1)**: Acesso total + governança
 
 ---
@@ -206,11 +213,11 @@ Reduzir tokens enviados ao Gemini mantendo informação útil.
 
 ---
 
-## 6. Integração Antigravity
+## 6. Dev Mode (Code Assistance)
 
 ### Quando Ativar
 
-O modo Antigravity (code_edit, terminal, git) é ativado automaticamente quando:
+O modo Dev (code assistance) é ativado automaticamente quando:
 
 1. Usuário tem `role === 2` (Dev) ou `role === 1` (Founder)
 2. Rust Agent está conectado
@@ -225,7 +232,7 @@ Brain responde com sugestão
     ↓
 User confirma "Pode fazer"
     ↓
-[ANTIGRAVITY MODE ATIVADO]
+[DEV MODE ATIVADO]
     ↓
 Brain usa code_edit, terminal, etc.
 ```
@@ -334,7 +341,6 @@ Todo plugin **DEVE** ter um `panda.mcp.json` na raiz:
 | **CRM**      | `panda-crm`      |   99 PC    | Gestão de leads      |
 | **Agenda**   | `panda-agenda`   |   49 PC    | Calendário integrado |
 | **WhatsApp** | `panda-whatsapp` |   149 PC   | Automação WhatsApp   |
-| **Trading**  | `panda-trading`  |   299 PC   | Integração cTrader   |
 
 ## B.4. Validação (Panda Defend)
 
@@ -359,5 +365,197 @@ Mínimo para publicar: 70/100
 
 ---
 
-> 📖 **PF_MCP_REFERENCE v2.0** | Consolidado: MCP Tools + Manifest Spec
+# PARTE C: MCP Central + Dual-Mode Architecture (Roadmap)
 
+> **Status:** 🔴 Planejado | **Prioridade:** Alta | **ETA:** Q2 2026
+
+## C.1. Visão Geral
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                 📡 MCP REGISTRY CENTRAL (Firebase)                       │
+│  Firestore: /mcp_registry/{pluginId}                                    │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │  - manifests[]     (todos os plugins registrados)               │    │
+│  │  - capabilities[]  (tools/resources/prompts de cada plugin)     │    │
+│  │  - versions[]      (versionamento de schemas)                   │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+│                           ↓ sync                                         │
+│            Medusa Store / Plugins consultam aqui                         │
+└─────────────────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┴───────────────────┐
+        ▼                                       ▼
+┌───────────────────────┐             ┌───────────────────────┐
+│   🌐 WEB MCP SERVER   │             │   🦀 RUST MCP SERVER  │
+│   (GAS + Firebase)    │             │   (panda-agent)       │
+├───────────────────────┤             ├───────────────────────┤
+│ Transport: HTTPS      │             │ Transport: stdio      │
+│ Auth: Firebase Auth   │             │ Auth: Ed25519 local   │
+│ Cache: IndexedDB      │             │ Cache: SQLite         │
+│ Offline: SW + IDB     │             │ Offline: 100% local   │
+└───────────────────────┘             └───────────────────────┘
+```
+
+## C.2. Primitivos MCP Suportados
+
+| Primitivo     | Web (GAS)    | Rust Agent          | Descrição               |
+| ------------- | ------------ | ------------------- | ----------------------- |
+| **Tools**     | ✅ Planejado | ✅ Implementado (4) | Funções executáveis     |
+| **Resources** | 🔴 A fazer   | 🔴 A fazer          | Dados/arquivos expostos |
+| **Prompts**   | 🔴 A fazer   | 🔴 A fazer          | Templates reusáveis     |
+
+### Tools Atuais (Rust Agent)
+
+| Tool               | Descrição            | Parâmetros                       |
+| ------------------ | -------------------- | -------------------------------- |
+| `gpu_info`         | Info GPU NVIDIA      | -                                |
+| `sign_message`     | Assinar com Ed25519  | `message`                        |
+| `verify_signature` | Verificar assinatura | `message`, `signature`, `pubkey` |
+| `get_public_key`   | Obter chave pública  | -                                |
+
+## C.3. Estratégia Offline-First
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                 📡 CLOUD LAYER (Online)                                  │
+│  Firebase Firestore → GAS Backend → Google Drive Sync                   │
+└─────────────────────────────────────────────────────────────────────────┘
+                            ↓ sync quando online
+┌─────────────────────────────────────────────────────────────────────────┐
+│                 💾 CACHE LAYER (Offline - PWA)                           │
+│  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐                 │
+│  │ IndexedDB   │  │ LocalStorage │  │ Service Worker  │                 │
+│  │ (MCP Data)  │  │ (Settings)   │  │ (Assets+HTML)   │                 │
+│  └─────────────┘  └──────────────┘  └─────────────────┘                 │
+│                                                                          │
+│  Cache Hierarchy:                                                        │
+│  1. IndexedDB: manifests, user data, tentacle states                    │
+│  2. LocalStorage: auth tokens, preferences                               │
+│  3. SW Cache: pf.sdk.js, components, static assets                      │
+└─────────────────────────────────────────────────────────────────────────┘
+                            ↓ fallback
+┌─────────────────────────────────────────────────────────────────────────┐
+│                 🦀 LOCAL LAYER (Rust Desktop)                            │
+│  SQLite + MCP Protocol + P2P Sync                                       │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Lógica de Resolução
+
+```javascript
+async function getMCPManifest(pluginId) {
+  // 1. Tenta IndexedDB (instantâneo)
+  let manifest = await idb.get("mcp_manifests", pluginId);
+  if (manifest && !isStale(manifest)) return manifest;
+
+  // 2. Se online, busca Firebase e atualiza cache
+  if (navigator.onLine) {
+    manifest = await firebase.get(`/mcp_registry/${pluginId}`);
+    await idb.put("mcp_manifests", manifest);
+    return manifest;
+  }
+
+  // 3. Se offline, retorna cache mesmo stale
+  return manifest || FALLBACK_MANIFEST;
+}
+```
+
+## C.4. Implementação Pendente
+
+### Fase 1: Firebase Registry (Prioridade Alta)
+
+| Tarefa           | Arquivo   | Descrição                       |
+| ---------------- | --------- | ------------------------------- |
+| Criar collection | Firestore | `/mcp_registry/{pluginId}`      |
+| Schema manifest  | Firestore | tools[], resources[], prompts[] |
+| API de consulta  | GAS       | `getMCPManifest(pluginId)`      |
+
+### Fase 2: Rust Resources/Prompts
+
+| Tarefa           | Arquivo | Descrição                    |
+| ---------------- | ------- | ---------------------------- |
+| `resources/list` | mcp.rs  | Listar resources disponíveis |
+| `resources/read` | mcp.rs  | Ler conteúdo de resource     |
+| `prompts/list`   | mcp.rs  | Listar prompts templates     |
+| `prompts/get`    | mcp.rs  | Obter prompt específico      |
+
+### Fase 3: SDK Abstraction
+
+| Tarefa           | Arquivo   | Descrição                    |
+| ---------------- | --------- | ---------------------------- |
+| Runtime detector | pf.sdk.js | Detectar Web vs Rust         |
+| Unified API      | pf.sdk.js | `Panda.MCP.call(tool, args)` |
+| Cache layer      | pf.sdk.js | IndexedDB para Web           |
+
+---
+
+## D. Local MCP Offline Mode (P1)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P1
+
+### D.1 Filosofia Offline-First
+
+O MCP DEVE funcionar mesmo sem conexão à internet:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MCP OFFLINE FALLBACK CHAIN                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  REQUEST ──► GAS (Cloud) ──► FAIL                                       │
+│                               │                                          │
+│                               ▼                                          │
+│                          RUST AGENT (Local) ──► FAIL                    │
+│                                                  │                       │
+│                                                  ▼                       │
+│                                          INDEXED_DB (Cache)             │
+│                                                  │                       │
+│                                                  ▼                       │
+│                                          GRACEFUL DEGRADATION           │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### D.2 Cache de Tools
+
+```javascript
+// Cachear resultado de tool para uso offline
+Panda.MCP.cacheResult("oracle.usd", result, {
+  ttl: 3600, // 1 hora
+  staleWhileRevalidate: 86400, // Permite stale por 24h
+});
+
+// Verificar se tool está disponível offline
+const available = await Panda.MCP.isAvailableOffline("wallet.balance");
+// true se tem cache válido ou local implementation
+```
+
+### D.3 Modo Degradado
+
+| Funcionalidade   | Online       | Offline      | Fallback                    |
+| ---------------- | ------------ | ------------ | --------------------------- |
+| `oracle.usd`     | ✅ Real-time | ⚠️ Cached    | Última cotação conhecida    |
+| `brain.chat`     | ✅ Cloud AI  | ⚠️ Local     | Ollama local (se instalado) |
+| `wallet.balance` | ✅ Real-time | ⚠️ Cached    | Último saldo conhecido      |
+| `fs_read`        | ✅ Via Agent | ✅ Via Agent | Funciona 100% local         |
+
+### D.4 Sync on Reconnect
+
+```javascript
+// Quando conexão restaurar, sincroniza automaticamente
+Panda.MCP.onReconnect(async () => {
+  // 1. Flush pending operations
+  await Panda.MCP.flushQueue();
+
+  // 2. Invalidate stale caches
+  await Panda.MCP.invalidateStaleCache();
+
+  // 3. Refresh critical data
+  await Panda.MCP.refresh(["wallet.balance", "oracle.usd"]);
+});
+```
+
+---
+
+> 📖 **PF_MCP_REFERENCE v2.2** | Consolidado: MCP Tools + Manifest Spec + Central Architecture + Offline Mode

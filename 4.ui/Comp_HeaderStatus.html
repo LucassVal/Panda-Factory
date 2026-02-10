@@ -1,10 +1,10 @@
 <!-- ============================================= -->
-<!-- HEADER STATUS v4.0 (Treasury Edition)       -->
+<!-- HEADER STATUS v4.1 (pf- prefix standard)    -->
 <!-- Health Score + Arc Energy + Status Pills    -->
 <!-- ============================================= -->
 <style>
   /* Header Base */
-  .header {
+  .pf-header {
     position: fixed;
     top: 0;
     left: 0;
@@ -21,19 +21,19 @@
     border-bottom: 1px solid rgba(102, 126, 234, 0.1);
   }
 
-  .dark-mode .header {
+  .dark-mode .pf-header {
     background: rgba(15, 15, 20, 0.9);
     border-bottom-color: rgba(102, 126, 234, 0.15);
   }
 
   /* Brand */
-  .header-brand {
+  .pf-header-brand {
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
-  .header-brand h1 {
+  .pf-header-brand h1 {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -43,17 +43,17 @@
     color: var(--text-primary, #1a1a2e);
   }
 
-  .dark-mode .header-brand h1 {
+  .dark-mode .pf-header-brand h1 {
     color: #fff;
   }
 
-  .header-brand .logo-icon {
+  .pf-header-brand .pf-logo-icon {
     width: 32px;
     height: 32px;
     border-radius: 8px;
   }
 
-  .version-badge {
+  .pf-version-badge {
     font-size: 10px;
     padding: 2px 6px;
     border-radius: 4px;
@@ -63,7 +63,7 @@
   }
 
   /* Status Monitor Bar */
-  .status-monitor-bar {
+  .pf-status-bar {
     display: flex;
     gap: 8px;
     padding: 6px 12px;
@@ -71,7 +71,7 @@
     border-radius: 20px;
   }
 
-  .status-pill {
+  .pf-status-pill {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -81,38 +81,38 @@
     transition: all 0.2s ease;
   }
 
-  .status-pill:hover {
+  .pf-status-pill:hover {
     background: rgba(102, 126, 234, 0.1);
   }
 
-  .status-label {
+  .pf-status-label {
     font-size: 10px;
     font-weight: 600;
     color: var(--text-secondary, #64748b);
     text-transform: uppercase;
   }
 
-  .status-dot {
+  .pf-status-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
   }
 
-  .status-dot.online {
+  .pf-status-dot.online {
     background: #10b981;
     box-shadow: 0 0 6px #10b981;
   }
-  .status-dot.warning {
+  .pf-status-dot.warning {
     background: #f59e0b;
     box-shadow: 0 0 6px #f59e0b;
   }
-  .status-dot.offline {
+  .pf-status-dot.offline {
     background: #ef4444;
     box-shadow: 0 0 6px #ef4444;
   }
 
   /* Arc Energy Bar */
-  .arc-energy {
+  .pf-arc-energy {
     position: relative;
     width: 48px;
     height: 48px;
@@ -122,18 +122,18 @@
     cursor: pointer;
   }
 
-  .arc-energy svg {
+  .pf-arc-energy svg {
     position: absolute;
     transform: rotate(-90deg);
   }
 
-  .arc-energy-bg {
+  .pf-arc-energy-bg {
     fill: none;
     stroke: rgba(102, 126, 234, 0.15);
     stroke-width: 3;
   }
 
-  .arc-energy-fill {
+  .pf-arc-energy-fill {
     fill: none;
     stroke: url(#energyGradient);
     stroke-width: 3;
@@ -141,18 +141,18 @@
     transition: stroke-dashoffset 0.5s ease;
   }
 
-  .arc-energy-text {
+  .pf-arc-energy-text {
     font-size: 11px;
     font-weight: 700;
     color: var(--text-primary, #1a1a2e);
   }
 
-  .dark-mode .arc-energy-text {
+  .dark-mode .pf-arc-energy-text {
     color: #fff;
   }
 
   /* Treasury Widget */
-  .treasury-widget {
+  .pf-treasury-widget {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -163,28 +163,28 @@
     background: rgba(16, 185, 129, 0.1);
   }
 
-  .treasury-widget:hover {
+  .pf-treasury-widget:hover {
     background: rgba(16, 185, 129, 0.2);
   }
 
-  .treasury-icon {
+  .pf-treasury-icon {
     font-size: 16px;
   }
 
-  .treasury-score {
+  .pf-treasury-score {
     font-size: 13px;
     font-weight: 700;
     color: #10b981;
   }
 
   /* Header Controls */
-  .header-controls {
+  .pf-header-controls {
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
-  .header-btn {
+  .pf-header-btn {
     width: 36px;
     height: 36px;
     border-radius: 10px;
@@ -198,12 +198,12 @@
     transition: all 0.2s ease;
   }
 
-  .header-btn:hover {
+  .pf-header-btn:hover {
     background: rgba(102, 126, 234, 0.15);
     transform: scale(1.05);
   }
 
-  .header-user {
+  .pf-header-user {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -212,23 +212,23 @@
     background: rgba(102, 126, 234, 0.06);
   }
 
-  .header-user-name {
+  .pf-header-user-name {
     font-size: 13px;
     font-weight: 600;
     color: var(--text-primary, #1a1a2e);
   }
 
-  .dark-mode .header-user-name {
+  .dark-mode .pf-header-user-name {
     color: #fff;
   }
 
-  .header-time {
+  .pf-header-time {
     font-size: 12px;
     color: var(--text-secondary, #64748b);
     font-family: monospace;
   }
 
-  .header-logout {
+  .pf-header-logout {
     padding: 6px 12px;
     border-radius: 8px;
     border: none;
@@ -240,75 +240,75 @@
     transition: all 0.2s ease;
   }
 
-  .header-logout:hover {
+  .pf-header-logout:hover {
     background: rgba(239, 68, 68, 0.2);
   }
 </style>
 
-<div class="header">
+<div class="pf-header">
   <!-- LEFT: Brand -->
-  <div class="header-brand">
+  <div class="pf-header-brand">
     <h1>
       <img
         src="assets/panda_logo.jpg"
         alt="🐼"
-        class="logo-icon"
+        class="pf-logo-icon"
         onerror="this.outerHTML = '🐼'"
       />
       <span>Panda Fabrics</span>
     </h1>
-    <span class="version-badge">v5.0</span>
+    <span class="pf-version-badge">v5.0</span>
   </div>
 
   <!-- CENTER: Status Pills -->
-  <div class="status-monitor-bar">
+  <div class="pf-status-bar">
     <div
-      class="status-pill"
+      class="pf-status-pill"
       title="Firebase Realtime"
       onclick="PandaStatus.showDetails('firebase')"
     >
-      <span class="status-label">FB</span>
-      <div class="status-dot" id="statusFirebase"></div>
+      <span class="pf-status-label">FB</span>
+      <div class="pf-status-dot" id="statusFirebase"></div>
     </div>
     <div
-      class="status-pill"
+      class="pf-status-pill"
       title="Google Apps Script"
       onclick="PandaStatus.showDetails('gas')"
     >
-      <span class="status-label">GA</span>
-      <div class="status-dot" id="statusGAS"></div>
+      <span class="pf-status-label">GA</span>
+      <div class="pf-status-dot" id="statusGAS"></div>
     </div>
     <div
-      class="status-pill"
+      class="pf-status-pill"
       title="Rust Agent"
       onclick="PandaStatus.showDetails('rust')"
     >
-      <span class="status-label">RU</span>
-      <div class="status-dot" id="statusRust"></div>
+      <span class="pf-status-label">RU</span>
+      <div class="pf-status-dot" id="statusRust"></div>
     </div>
     <div
-      class="status-pill"
+      class="pf-status-pill"
       title="AI (Gemini)"
       onclick="PandaStatus.showDetails('ai')"
     >
-      <span class="status-label">AI</span>
-      <div class="status-dot" id="statusAI"></div>
+      <span class="pf-status-label">AI</span>
+      <div class="pf-status-dot" id="statusAI"></div>
     </div>
     <div
-      class="status-pill"
+      class="pf-status-pill"
       title="Local GPU"
       onclick="PandaStatus.showDetails('gpu')"
     >
-      <span class="status-label">GP</span>
-      <div class="status-dot" id="statusGPU"></div>
+      <span class="pf-status-label">GP</span>
+      <div class="pf-status-dot" id="statusGPU"></div>
     </div>
   </div>
 
   <!-- RIGHT: Controls -->
-  <div class="header-controls">
+  <div class="pf-header-controls">
     <!-- Arc Energy Bar -->
     <div
-      class="arc-energy"
+      class="pf-arc-energy"
       title="Panda Coins Balance"
       onclick="PandaSettings.showSection('wallet')"
     >
@@ -320,9 +320,9 @@
             <stop offset="100%" style="stop-color: #ef4444" />
           </linearGradient>
         </defs>
-        <circle class="arc-energy-bg" cx="24" cy="24" r="20" />
+        <circle class="pf-arc-energy-bg" cx="24" cy="24" r="20" />
         <circle
-          class="arc-energy-fill"
+          class="pf-arc-energy-fill"
           id="energyArc"
           cx="24"
           cy="24"
@@ -331,32 +331,36 @@
           stroke-dashoffset="12.56"
         />
       </svg>
-      <span class="arc-energy-text" id="energyPercent">90%</span>
+      <span class="pf-arc-energy-text" id="energyPercent">90%</span>
     </div>
 
     <!-- Treasury Health Score -->
     <div
-      class="treasury-widget"
+      class="pf-treasury-widget"
       onclick="PandaTreasury.open()"
       title="Treasury Health Score"
     >
-      <span class="treasury-icon">🏦</span>
-      <span class="treasury-score" id="healthScore">92%</span>
+      <span class="pf-treasury-icon">🏦</span>
+      <span class="pf-treasury-score" id="healthScore">92%</span>
     </div>
 
     <!-- Settings -->
-    <button class="header-btn" onclick="PandaSettings.open()" title="Settings">
+    <button
+      class="pf-header-btn"
+      onclick="PandaSettings.open()"
+      title="Settings"
+    >
       ⚙️
     </button>
 
     <!-- User Info -->
-    <div class="header-user">
-      <span class="header-user-name" id="headerUserName">👤 Admin</span>
-      <span class="header-time" id="headerClock">15:51</span>
+    <div class="pf-header-user">
+      <span class="pf-header-user-name" id="headerUserName">👤 Admin</span>
+      <span class="pf-header-time" id="headerClock">15:51</span>
     </div>
 
     <!-- Logout -->
-    <button class="header-logout" onclick="fazerLogout()" title="Sair">
+    <button class="pf-header-logout" onclick="fazerLogout()" title="Sair">
       🚪 Sair
     </button>
   </div>
@@ -364,7 +368,7 @@
 
 <script>
   /**
-   * PandaStatus Controller v4.0
+   * PandaStatus Controller v4.1
    */
   window.PandaStatus = {
     statuses: {
@@ -388,7 +392,7 @@
           "status" + key.charAt(0).toUpperCase() + key.slice(1),
         );
         if (el) {
-          el.className = "status-dot " + status;
+          el.className = "pf-status-dot " + status;
         }
       });
     },
@@ -525,5 +529,5 @@
     });
   }
 
-  console.log("🐼 Header v4.1 loaded (SDK integration)");
+  console.log("🐼 Header v4.1 loaded (pf- prefix standard)");
 </script>

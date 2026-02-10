@@ -1,0 +1,99 @@
+### Nível de pensamento
+Os modelos da série Gemini 3 usam o raciocínio dinâmico por padrão para analisar os comandos. Você pode usar o parâmetro thinking_level, que controla a profundidade máxima do processo de raciocínio interno do modelo antes de produzir uma resposta. O Gemini 3 trata esses níveis como permissões relativas para pensar, em vez de garantias estritas de token.
+
+```
+thinking_level
+```
+
+Se thinking_level não for especificado, o Gemini 3 vai usar high como padrão. Para respostas mais rápidas e com menor latência quando não é necessário um raciocínio complexo, você pode restringir o nível de pensamento do modelo a low.
+
+```
+thinking_level
+```
+
+
+```
+high
+```
+
+
+```
+low
+```
+
+Níveis de pensamento do Gemini 3 Pro e do Flash:
+Os seguintes níveis de raciocínio são compatíveis com o Gemini 3 Pro e o Flash:
+- low: minimiza a latência e o custo. Ideal para seguir instruções simples, conversar ou aplicativos de alta capacidade de processamento
+- high (padrão, dinâmico): maximiza a profundidade do raciocínio. O modelo pode levar muito mais tempo para alcançar um primeiro token, mas a saída será mais bem fundamentada.
+
+```
+low
+```
+
+
+```
+high
+```
+
+Níveis de raciocínio do Gemini 3 Flash
+Além dos níveis acima, o Gemini 3 Flash também é compatível com os seguintes níveis de pensamento que não são aceitos pelo Gemini 3 Pro:
+- minimal: corresponde à configuração "sem pensar" para a maioria das consultas. O modelo pode pensar de forma muito simples para tarefas de programação complexas. Minimiza a latência para aplicativos de chat ou de alta capacidade de processamento.
+Observação: a circulação de [assinaturas de pensamento](https://ai.google.dev/gemini-api/docs/gemini-3?hl=pt-br#thought_signatures) é necessária mesmo quando o nível de raciocínio está definido como minimal para o Gemini 3 Flash.
+- medium: pensamento equilibrado para a maioria das tarefas.
+minimal: corresponde à configuração "sem pensar" para a maioria das consultas. O modelo pode pensar de forma muito simples para tarefas de programação complexas. Minimiza a latência para aplicativos de chat ou de alta capacidade de processamento.
+
+```
+minimal
+```
+
+[assinaturas de pensamento](https://ai.google.dev/gemini-api/docs/gemini-3?hl=pt-br#thought_signatures)
+
+```
+minimal
+```
+
+medium: pensamento equilibrado para a maioria das tarefas.
+
+```
+medium
+```
+
+### Python
+```
+from google import genai from google.genai import types client = genai.Client() response = client.models.generate_content( model="gemini-3-pro-preview", contents="How does AI work?", config=types.GenerateContentConfig( thinking_config=types.ThinkingConfig(thinking_level="low") ), ) print(response.text)
+```
+
+
+```
+from google import genai from google.genai import types client = genai.Client() response = client.models.generate_content( model="gemini-3-pro-preview", contents="How does AI work?", config=types.GenerateContentConfig( thinking_config=types.ThinkingConfig(thinking_level="low") ), ) print(response.text)
+```
+
+### JavaScript
+```
+import { GoogleGenAI } from "@google/genai"; const ai = new GoogleGenAI({}); const response = await ai.models.generateContent({ model: "gemini-3-pro-preview", contents: "How does AI work?", config: { thinkingConfig: { thinkingLevel: "low", } }, }); console.log(response.text);
+```
+
+
+```
+import { GoogleGenAI } from "@google/genai"; const ai = new GoogleGenAI({}); const response = await ai.models.generateContent({ model: "gemini-3-pro-preview", contents: "How does AI work?", config: { thinkingConfig: { thinkingLevel: "low", } }, }); console.log(response.text);
+```
+
+### REST
+```
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent" \ -H "x-goog-api-key: $GEMINI_API_KEY" \ -H 'Content-Type: application/json' \ -X POST \ -d '{ "contents": [{ "parts": [{"text": "How does AI work?"}] }], "generationConfig": { "thinkingConfig": { "thinkingLevel": "low" } } }'
+```
+
+
+```
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent" \ -H "x-goog-api-key: $GEMINI_API_KEY" \ -H 'Content-Type: application/json' \ -X POST \ -d '{ "contents": [{ "parts": [{"text": "How does AI work?"}] }], "generationConfig": { "thinkingConfig": { "thinkingLevel": "low" } } }'
+```
+
+
+```
+thinking_level
+```
+
+
+```
+thinking_budget
+```

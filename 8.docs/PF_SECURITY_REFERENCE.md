@@ -1,6 +1,13 @@
+---
+tool_context: panda/security
+description: Security Pipeline & Panda Defend - Auth, DRM, Kill Switch
+version: 1.1.0
+updated: 2026-02-08
+---
+
 # 🛡️ PF_SECURITY_REFERENCE - Pipeline & Panda Defend
 
-> **Versão:** 1.0 | **Atualizado:** 2026-02-05
+> **Versão:** 1.0 | **Atualizado:** 2026-02-06
 > **Extraído de:** PF_MASTER_ARCHITECTURE.md §21
 
 ---
@@ -770,3 +777,91 @@ my-plugin/
 
 ---
 
+## H. Audit Trail & Transaction Safety (P0)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0 (Crítico)
+
+### H.1 Imutabilidade de Transações
+
+Toda transação econômica é registrada como evento imutável:
+
+```javascript
+// Estrutura de um Transaction Event
+{
+  eventId: "TRX-1707234567890-abc123",
+  timestamp: "2026-02-06T15:30:00Z",
+  type: "economy.transfer",
+  actor: "user-123",
+  payload: {
+    from: "user-123",
+    to: "user-456",
+    amount: 100,
+    reason: "plugin_purchase"
+  },
+  signature: "ed25519:...", // Se Founder
+  idempotencyKey: "TRX-user123-1707234567890-xyz"
+}
+```
+
+### H.2 Proteção contra Double-Spend
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DOUBLE-SPEND PROTECTION                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  1. CHECK IDEMPOTENCY                                                   │
+│     └── Key já existe? → Retorna resultado anterior                     │
+│                                                                          │
+│  2. LOCK WALLET                                                         │
+│     └── Firebase RTDB transaction lock                                  │
+│                                                                          │
+│  3. VALIDATE BALANCE                                                    │
+│     └── Saldo >= amount? → Continua                                     │
+│                                                                          │
+│  4. EXECUTE ATOMICALLY                                                  │
+│     └── Debit + Credit na mesma transaction                            │
+│                                                                          │
+│  5. LOG EVENT                                                           │
+│     └── Append-only event log                                           │
+│                                                                          │
+│  6. RELEASE LOCK                                                        │
+│     └── Unlock wallet                                                   │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### H.3 Audit Queries
+
+```javascript
+// Buscar todas as transações de um usuário
+const history = await Panda.Audit.query({
+  actor: 'user-123',
+  types: ['economy.*'],
+  since: '2026-01-01',
+  limit: 100
+});
+
+// Verificar integridade de uma transação
+const isValid = await Panda.Audit.verify('TRX-1707234567890-abc123');
+// Compara hash com event log
+
+// Reconstruir saldo (para debug/reconciliação)
+const reconstructed = await Panda.Audit.reconstruct('user-123');
+// Soma todos os eventos economy.* do usuário
+```
+
+### H.4 Retenção de Logs
+
+| Tipo | Retenção | Storage |
+|------|----------|---------|
+| Transações PC | Permanente | Firebase RTDB |
+| Auth events | 90 dias | Sheets Archive |
+| API calls | 30 dias | BigQuery (se habilitado) |
+| Errors | 7 dias | Console + Sheets |
+
+---
+
+> 📖 **Versão:** 1.1.0 | **Consolidado:** Security + Panda Defend + Audit Trail
+
+````

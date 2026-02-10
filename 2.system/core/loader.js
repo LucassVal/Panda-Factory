@@ -16,7 +16,7 @@ Panda.Loader = {
   // Maps semantic names to filesystem/GAS names
   // GAS flattens folders, so everything is at root level with prefixes.
   REGISTRY: {
-    // Components (Core UI)
+    // Components (Core UI — always loaded)
     header: { file: "Comp_HeaderStatus.html", target: "#header-container" },
     appDock: { file: "Comp_AppDock.html", target: "#app-dock-container" },
     devDock: { file: "Comp_DevToolsDock.html", target: "#dev-dock-container" },
@@ -25,11 +25,23 @@ Panda.Loader = {
       target: "#settings-modal-container",
     },
     sidebar: { file: "Comp_Sidebar.html", target: "#sidebar-container" },
+    treasury: {
+      file: "Comp_TreasuryDashboard.html",
+      target: "#treasury-container",
+    },
+    login: {
+      file: "Comp_LoginOverlay.html",
+      target: "#login-overlay-container",
+    },
+    tentacleMonitor: {
+      file: "Comp_TentacleMonitor.html",
+      target: "#tentacle-monitor-container",
+    },
 
-    // Modules (Lazy Loaded) - Examples
-    crm: { file: "Mod_CRM_View.html" },
+    // Modules (Lazy Loaded via openModule)
     analytics: { file: "Mod_Analytics_View.html" },
     store: { file: "Mod_Store_View.html" },
+    founderDashboard: { file: "Mod_Founder_Dashboard.html" },
   },
 
   /**
@@ -72,6 +84,25 @@ Panda.Loader = {
       return console.warn(
         `⚠️ Target '${config.target}' not found for '${id}'.`,
       );
+
+    // Skip if already inline (prevents redundant fetch on file:// protocol)
+    if (container.innerHTML.trim().length > 50) {
+      console.log(`🔹 Component '${id}' already inline — skipping fetch.`);
+      // Still execute scripts that may not have run from innerHTML
+      const scripts = container.querySelectorAll("script:not([data-executed])");
+      scripts.forEach((oldScript) => {
+        const newScript = document.createElement("script");
+        Array.from(oldScript.attributes).forEach((attr) =>
+          newScript.setAttribute(attr.name, attr.value),
+        );
+        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+        newScript.setAttribute("data-executed", "true");
+        if (oldScript.parentNode) {
+          oldScript.parentNode.replaceChild(newScript, oldScript);
+        }
+      });
+      return;
+    }
 
     const html = await this._fetchHTML(config.file);
     if (html) {
@@ -126,14 +157,10 @@ Panda.Loader = {
       } else {
         // 🏠 Local Dev: Fetch from filesystem
         // Since folders exist locally but flattened in GAS, we need to map paths for local dev.
-        // Simple heuristic: if it starts with Comp_, look in components/
+        // Path mapping: Components in 4.ui/, Modules in 4.ui/4.3.modules/
         let path = filename;
-        if (filename.startsWith("Comp_")) path = `components/${filename}`;
-        if (filename.startsWith("Mod_"))
-          path = `modules/${filename.split("_")[1].toLowerCase()}/${filename}`; // Mod_CRM_View -> modules/crm/... (complex, simplify for now)
-
-        // Simplified Local Path Mapping for Components
-        if (filename.includes("Comp_")) path = `components/${filename}`;
+        if (filename.startsWith("Comp_")) path = `4.ui/${filename}`;
+        if (filename.startsWith("Mod_")) path = `4.ui/4.3.modules/${filename}`;
 
         const response = await fetch(path);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);

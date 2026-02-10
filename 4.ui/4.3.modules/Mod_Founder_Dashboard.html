@@ -1,0 +1,792 @@
+<!--
+  🐼 Founder Dashboard — Panda Factory
+  Exclusive Founder-level overview of the entire system.
+  Consumes PandaVerification.HealthReport for real-time status.
+  minRole: 1 (Founder ONLY)
+  Version: 1.0.0
+-->
+
+<div id="founderDashboard" class="founder-dashboard">
+  <!-- ═══ HEADER ═══ -->
+  <div class="fd-header">
+    <div class="fd-header-left">
+      <span class="fd-logo">🐼</span>
+      <div>
+        <h2 class="fd-title">Founder Dashboard</h2>
+        <span class="fd-subtitle" id="fdLastUpdate"
+          >Aguardando verificação...</span
+        >
+      </div>
+    </div>
+    <div class="fd-header-right">
+      <span class="fd-overall-badge" id="fdOverallBadge">⏳</span>
+      <button
+        class="fd-refresh-btn"
+        onclick="FounderDashboard.refresh()"
+        title="Atualizar agora"
+      >
+        🔄
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ ROW 1: Health + Boot ═══ -->
+  <div class="fd-grid fd-grid-2">
+    <!-- System Health -->
+    <div class="fd-card">
+      <div class="fd-card-header">
+        <span>🔍 System Health</span>
+        <span class="fd-badge" id="fdHealthCount">--</span>
+      </div>
+      <div class="fd-card-body" id="fdHealthList">
+        <div class="fd-loading">Carregando agentes...</div>
+      </div>
+    </div>
+
+    <!-- Boot Status -->
+    <div class="fd-card">
+      <div class="fd-card-header">
+        <span>🥾 Boot Order</span>
+        <span class="fd-badge" id="fdBootCount">--</span>
+      </div>
+      <div class="fd-card-body" id="fdBootList">
+        <div class="fd-loading">Carregando boot order...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ROW 2: Economy + Distribution ═══ -->
+  <div class="fd-grid fd-grid-2">
+    <!-- Economy -->
+    <div class="fd-card">
+      <div class="fd-card-header">
+        <span>💰 Economy</span>
+      </div>
+      <div class="fd-card-body">
+        <div class="fd-stat-row">
+          <span class="fd-stat-label">Balance</span>
+          <span class="fd-stat-value" id="fdBalance">-- PC</span>
+        </div>
+        <div class="fd-stat-row">
+          <span class="fd-stat-label">Energy</span>
+          <span class="fd-stat-value" id="fdEnergy">--/--</span>
+        </div>
+        <div class="fd-stat-row">
+          <span class="fd-stat-label">Coin</span>
+          <span class="fd-stat-value" id="fdCoinInfo">--</span>
+        </div>
+        <div class="fd-stat-row">
+          <span class="fd-stat-label">Network</span>
+          <span class="fd-stat-value" id="fdNetwork">--</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Distribution -->
+    <div class="fd-card">
+      <div class="fd-card-header">
+        <span>🔌 Distribution Hooks</span>
+      </div>
+      <div class="fd-card-body" id="fdDistribution">
+        <div class="fd-loading">Carregando hooks...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ROW 3: Core Modules (full width) ═══ -->
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <span>📦 Core Modules</span>
+      <span class="fd-badge" id="fdModuleCount">--</span>
+    </div>
+    <div class="fd-card-body fd-modules-grid" id="fdModulesList">
+      <div class="fd-loading">Carregando módulos...</div>
+    </div>
+  </div>
+
+  <!-- ═══ ROW 4: SDK Map + Security ═══ -->
+  <div class="fd-grid fd-grid-2">
+    <!-- SDK Map -->
+    <div class="fd-card">
+      <div class="fd-card-header">
+        <span>🗺️ SDK Map</span>
+        <span class="fd-badge" id="fdSdkCount">--</span>
+      </div>
+      <div class="fd-card-body" id="fdSdkMap">
+        <div class="fd-loading">Carregando SDK...</div>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="fd-card">
+      <div class="fd-card-header">
+        <span>🛡️ Security & Governance</span>
+      </div>
+      <div class="fd-card-body" id="fdSecurity">
+        <div class="fd-loading">Carregando segurança...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STYLES ═══ -->
+<style>
+  .founder-dashboard {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: var(
+      --font-primary,
+      "Inter",
+      "Segoe UI",
+      system-ui,
+      sans-serif
+    );
+    color: var(--text-primary, #e0e0e0);
+  }
+
+  /* Header */
+  .fd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.15) 0%,
+      rgba(6, 182, 212, 0.1) 100%
+    );
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+
+  .fd-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fd-logo {
+    font-size: 32px;
+  }
+
+  .fd-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary, #fff);
+  }
+
+  .fd-subtitle {
+    font-size: 12px;
+    opacity: 0.6;
+  }
+
+  .fd-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fd-overall-badge {
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+  }
+
+  .fd-refresh-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+
+  .fd-refresh-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: rotate(90deg);
+  }
+
+  /* Grid */
+  .fd-grid {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .fd-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 768px) {
+    .fd-grid-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Cards */
+  .fd-card {
+    background: var(--bg-panel, rgba(30, 30, 50, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .fd-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .fd-card-body {
+    padding: 12px 16px;
+  }
+
+  .fd-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: rgba(139, 92, 246, 0.2);
+    color: rgba(139, 92, 246, 0.9);
+    font-weight: 600;
+  }
+
+  .fd-loading {
+    text-align: center;
+    padding: 16px;
+    opacity: 0.4;
+    font-size: 13px;
+  }
+
+  /* Health list */
+  .fd-health-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 13px;
+  }
+
+  .fd-health-item:last-child {
+    border-bottom: none;
+  }
+
+  .fd-health-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fd-health-status {
+    font-size: 14px;
+  }
+
+  .fd-health-name {
+    font-weight: 500;
+  }
+
+  .fd-health-msg {
+    opacity: 0.5;
+    font-size: 11px;
+  }
+
+  .fd-health-latency {
+    font-size: 11px;
+    opacity: 0.4;
+    font-family: "Fira Code", monospace;
+  }
+
+  /* Stats */
+  .fd-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 13px;
+  }
+
+  .fd-stat-row:last-child {
+    border-bottom: none;
+  }
+
+  .fd-stat-label {
+    opacity: 0.6;
+  }
+
+  .fd-stat-value {
+    font-weight: 600;
+    font-family: "Fira Code", monospace;
+    font-size: 13px;
+  }
+
+  /* Modules grid */
+  .fd-modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+
+  .fd-module-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 12px;
+    transition: background 0.15s;
+  }
+
+  .fd-module-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .fd-module-id {
+    font-weight: 600;
+    font-size: 12px;
+    flex: 1;
+  }
+
+  .fd-module-lib {
+    opacity: 0.5;
+    font-size: 11px;
+  }
+
+  .fd-module-layer {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .fd-layer-ui {
+    background: rgba(6, 182, 212, 0.15);
+    color: rgba(6, 182, 212, 0.9);
+  }
+
+  .fd-layer-infra {
+    background: rgba(249, 115, 22, 0.15);
+    color: rgba(249, 115, 22, 0.9);
+  }
+
+  /* SDK items */
+  .fd-sdk-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 12px;
+  }
+
+  .fd-sdk-item:last-child {
+    border-bottom: none;
+  }
+
+  .fd-sdk-ns {
+    font-weight: 600;
+    font-family: "Fira Code", monospace;
+    color: rgba(139, 92, 246, 0.9);
+  }
+
+  .fd-sdk-lib {
+    opacity: 0.5;
+    font-size: 11px;
+  }
+
+  /* Boot steps */
+  .fd-boot-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .fd-boot-step:last-child {
+    border-bottom: none;
+  }
+
+  .fd-boot-num {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, 0.2);
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(139, 92, 246, 0.9);
+  }
+
+  /* Distribution hook */
+  .fd-hook-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 13px;
+  }
+
+  .fd-hook-item:last-child {
+    border-bottom: none;
+  }
+</style>
+
+<!-- ═══ SCRIPT ═══ -->
+<script>
+  (function () {
+    "use strict";
+
+    let refreshInterval = null;
+
+    // ── Render health agents ──
+    function renderHealth(report) {
+      if (!report) return;
+
+      // Overall badge
+      const badge = document.getElementById("fdOverallBadge");
+      if (badge) {
+        badge.textContent = `${report.overall.icon} ${report.overall.label}`;
+      }
+
+      // Last update
+      const lastUpdate = document.getElementById("fdLastUpdate");
+      if (lastUpdate) {
+        const now = new Date();
+        lastUpdate.textContent = `Atualizado: ${now.toLocaleTimeString("pt-BR")}`;
+      }
+
+      // Health count
+      const healthCount = document.getElementById("fdHealthCount");
+      const healthyCount = report.agents.filter(
+        (a) => a.status.code === 0,
+      ).length;
+      if (healthCount) {
+        healthCount.textContent = `${healthyCount}/${report.agents.length} OK`;
+      }
+
+      // Health list
+      const healthList = document.getElementById("fdHealthList");
+      if (healthList) {
+        healthList.innerHTML = report.agents
+          .map(
+            (a) => `
+          <div class="fd-health-item">
+            <div class="fd-health-left">
+              <span class="fd-health-status">${a.status.icon}</span>
+              <span class="fd-health-name">${a.icon} ${a.name}</span>
+              <span class="fd-health-msg">${a.message}</span>
+            </div>
+            <span class="fd-health-latency">${a.latencyMs}ms</span>
+          </div>
+        `,
+          )
+          .join("");
+      }
+    }
+
+    // ── Render boot order ──
+    function renderBootOrder() {
+      const bootOrder = window.PandaKernel?.BOOT_ORDER;
+      const container = document.getElementById("fdBootList");
+      const countBadge = document.getElementById("fdBootCount");
+
+      if (!bootOrder || !container) return;
+
+      if (countBadge) {
+        countBadge.textContent = `${bootOrder.length} steps`;
+      }
+
+      container.innerHTML = bootOrder
+        .map(
+          (step, i) => `
+        <div class="fd-boot-step">
+          <span class="fd-boot-num">${i + 1}</span>
+          <span>${step}</span>
+          <span style="margin-left:auto; opacity:0.3">✅</span>
+        </div>
+      `,
+        )
+        .join("");
+    }
+
+    // ── Render economy ──
+    function renderEconomy() {
+      const kernel = window.PandaKernel;
+      if (!kernel) return;
+
+      const balanceEl = document.getElementById("fdBalance");
+      const energyEl = document.getElementById("fdEnergy");
+      const coinEl = document.getElementById("fdCoinInfo");
+      const networkEl = document.getElementById("fdNetwork");
+
+      // Balance from DOM
+      const balDom = document.getElementById("pandaCoinBalance");
+      if (balanceEl) {
+        balanceEl.textContent = balDom ? balDom.textContent : "-- PC";
+      }
+
+      // Energy from DOM
+      const enDom = document.getElementById("energyCredits");
+      if (energyEl) {
+        energyEl.textContent = enDom ? enDom.textContent : "--/--";
+      }
+
+      // Crypto info
+      if (coinEl && kernel.CRYPTO) {
+        coinEl.textContent = `${kernel.CRYPTO.coin} (${kernel.CRYPTO.symbol})`;
+      }
+
+      if (networkEl && kernel.CRYPTO) {
+        networkEl.textContent = `${kernel.CRYPTO.network.current} → ${kernel.CRYPTO.network.future}`;
+      }
+    }
+
+    // ── Render core modules ──
+    function renderModules() {
+      const modules = window.PandaKernel?.CORE_MODULES;
+      const container = document.getElementById("fdModulesList");
+      const countBadge = document.getElementById("fdModuleCount");
+
+      if (!modules || !container) return;
+
+      const keys = Object.keys(modules);
+      if (countBadge) {
+        const ui = keys.filter((k) => modules[k].layer === "ui").length;
+        const infra = keys.filter((k) => modules[k].layer === "infra").length;
+        countBadge.textContent = `${ui} UI + ${infra} Infra`;
+      }
+
+      container.innerHTML = keys
+        .map((k) => {
+          const m = modules[k];
+          const layerClass =
+            m.layer === "ui" ? "fd-layer-ui" : "fd-layer-infra";
+          const libName = m.lib?.name || m.lib?.package || "—";
+          return `
+          <div class="fd-module-item">
+            <span class="fd-health-status">🟢</span>
+            <div style="flex:1">
+              <div class="fd-module-id">${m.id}</div>
+              <div class="fd-module-lib">${libName}</div>
+            </div>
+            <span class="fd-module-layer ${layerClass}">${m.layer}</span>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    // ── Render SDK Map ──
+    function renderSdkMap() {
+      const sdkMap = window.PandaKernel?.SDK_MAP;
+      const container = document.getElementById("fdSdkMap");
+      const countBadge = document.getElementById("fdSdkCount");
+
+      if (!sdkMap || !container) return;
+
+      const keys = Object.keys(sdkMap);
+      if (countBadge) {
+        countBadge.textContent = `${keys.length} wrappers`;
+      }
+
+      container.innerHTML = keys
+        .map(
+          (k) => `
+        <div class="fd-sdk-item">
+          <span class="fd-sdk-ns">${k}</span>
+          <span class="fd-sdk-lib">${sdkMap[k].lib} (${sdkMap[k].layer})</span>
+        </div>
+      `,
+        )
+        .join("");
+    }
+
+    // ── Render distribution hooks ──
+    function renderDistribution() {
+      const hooks = window.PandaKernel?.DISTRIBUTION_HOOKS;
+      const container = document.getElementById("fdDistribution");
+
+      if (!hooks || !container) return;
+
+      const items = [];
+
+      if (hooks.inbound?.github) {
+        items.push({
+          icon: "🐙",
+          name: "GitHub",
+          desc: hooks.inbound.github.audience,
+          status: "🟢",
+        });
+      }
+      if (hooks.inbound?.googleDrive) {
+        items.push({
+          icon: "📁",
+          name: "Google Drive",
+          desc: hooks.inbound.googleDrive.audience,
+          status: "🟢",
+        });
+      }
+      if (hooks.sdkHooks?.inbound) {
+        items.push({
+          icon: "📥",
+          name: "Inbound SDKs",
+          desc: hooks.sdkHooks.inbound.join(", "),
+          status: "🟢",
+        });
+      }
+      if (hooks.sdkHooks?.outbound) {
+        items.push({
+          icon: "📤",
+          name: "Outbound SDKs",
+          desc: hooks.sdkHooks.outbound.join(", "),
+          status: "🟢",
+        });
+      }
+
+      container.innerHTML = items
+        .map(
+          (h) => `
+        <div class="fd-hook-item">
+          <div class="fd-health-left">
+            <span>${h.status}</span>
+            <span class="fd-health-name">${h.icon} ${h.name}</span>
+            <span class="fd-health-msg">${h.desc}</span>
+          </div>
+        </div>
+      `,
+        )
+        .join("");
+    }
+
+    // ── Render security ──
+    function renderSecurity() {
+      const kernel = window.PandaKernel;
+      const container = document.getElementById("fdSecurity");
+
+      if (!kernel || !container) return;
+
+      const items = [
+        {
+          label: "SecurityAgent",
+          value: kernel.SecurityAgent ? "🟢 Active" : "🔴 Missing",
+        },
+        {
+          label: "PAT",
+          value: kernel.PAT?.capabilities
+            ? `🟢 ${kernel.PAT.capabilities.length} capabilities`
+            : "🔴 Missing",
+        },
+        {
+          label: "Constitution",
+          value: kernel.CONSTITUTION?.articles
+            ? `🟢 ${Object.keys(kernel.CONSTITUTION.articles).length} Articles`
+            : "🔴 Missing",
+        },
+        {
+          label: "Crypto",
+          value: kernel.CRYPTO?.algorithm
+            ? `🟢 ${kernel.CRYPTO.algorithm}`
+            : "🔴 Missing",
+        },
+        {
+          label: "Tentacles",
+          value: kernel.TentacleRegistry
+            ? `🟢 Registry ready (${kernel.TentacleRegistry.list().length})`
+            : "🔴 Missing",
+        },
+        {
+          label: "API Keys",
+          value: kernel.apiKeys
+            ? `🟢 ${Object.keys(kernel.apiKeys).length} configured`
+            : "🔴 Missing",
+        },
+      ];
+
+      container.innerHTML = items
+        .map(
+          (item) => `
+        <div class="fd-stat-row">
+          <span class="fd-stat-label">${item.label}</span>
+          <span class="fd-stat-value">${item.value}</span>
+        </div>
+      `,
+        )
+        .join("");
+    }
+
+    // ── Main refresh ──
+    async function refresh() {
+      // Run verification
+      let report = null;
+      if (window.PandaVerification?.HealthReport) {
+        report = await window.PandaVerification.HealthReport.runAll();
+      }
+
+      // Render all sections
+      renderHealth(report);
+      renderBootOrder();
+      renderEconomy();
+      renderModules();
+      renderSdkMap();
+      renderDistribution();
+      renderSecurity();
+    }
+
+    // ── Init ──
+    function init() {
+      // First render with static data
+      renderBootOrder();
+      renderEconomy();
+      renderModules();
+      renderSdkMap();
+      renderDistribution();
+      renderSecurity();
+
+      // Run health checks after a short delay (let verification system boot)
+      setTimeout(async () => {
+        await refresh();
+
+        // Auto-refresh every 30s
+        refreshInterval = setInterval(refresh, 30000);
+      }, 1000);
+    }
+
+    // ── Public API ──
+    window.FounderDashboard = {
+      refresh,
+      init,
+      destroy() {
+        if (refreshInterval) {
+          clearInterval(refreshInterval);
+          refreshInterval = null;
+        }
+      },
+    };
+
+    // Auto-init when DOM exists
+    if (document.getElementById("founderDashboard")) {
+      init();
+    }
+  })();
+</script>

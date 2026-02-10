@@ -1,7 +1,14 @@
+---
+tool_context: panda/sdk
+description: Panda SDK - Event Bus, Módulos, Tentáculos, i18n, Hooks, DRM
+version: 1.5.0
+updated: 2026-02-08
+---
+
 # 🐼 Panda SDK - Referência da Biblioteca
 
-> **Versão:** 0.9.5 | **Status:** Mock (Development) | **Atualizado:** 2026-01-27
-> **Arquivo:** `js/pf.sdk.js`
+> **Versão:** 1.0.0 | **Status:** Mock (Development) | **Atualizado:** 2026-02-08
+> **Arquivo:** `3.sdk/pf.sdk.js`
 
 ---
 
@@ -15,7 +22,9 @@
 6. [Tentacle Architecture](#tentacle-architecture)
 7. [Event Bus](#event-bus)
 8. [Classificação de Segurança](#classificação-de-segurança)
-9. [Changelog](#changelog)
+9. [**📱 Social Media Hub**](#-social-media-hub)
+10. [**🧩 Plugin Development**](#-plugin-development)
+11. [Changelog](#changelog)
 
 ---
 
@@ -72,7 +81,7 @@
 
 ```html
 <!-- No HTML principal -->
-<script src="js/pf.sdk.js"></script>
+<script src="3.sdk/pf.sdk.js"></script>
 
 <script>
   // SDK disponível globalmente
@@ -334,6 +343,37 @@ console.log(`Saldo: ${coins} PC`);
 
 ---
 
+### 💸 Panda.Economy
+
+Transferências e transações de PC. **Usa idempotency para segurança.**
+
+| Método                           | Retorno                            | Descrição                                 |
+| -------------------------------- | ---------------------------------- | ----------------------------------------- |
+| `transfer(to, amount, options?)` | `Promise<{success, txId, cached}>` | Transfere PC para outro usuário           |
+| `getEvents(filter?)`             | `Promise<Event[]>`                 | Lista eventos do usuário (Event Sourcing) |
+
+**Options do transfer():**
+
+| Opção            | Tipo     | Descrição                                                       |
+| ---------------- | -------- | --------------------------------------------------------------- |
+| `idempotencyKey` | `string` | Chave única para prevenir double-spend (auto-gerada se omitida) |
+| `memo`           | `string` | Nota opcional para o destinatário                               |
+
+```javascript
+// Transfer com idempotency (recomendado)
+const result = await Panda.Economy.transfer("user_xyz", 100, {
+  idempotencyKey: "purchase_order_1234", // Mesma key = mesma transação
+  memo: "Pagamento plugin XYZ",
+});
+
+// Se retry, mesma idempotencyKey retorna resultado cached
+console.log(result.cached); // true se já processado
+```
+
+> **Cross-reference:** Ver [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) §9.2 para detalhes de Idempotency e Event Sourcing.
+
+---
+
 ### 🧠 Panda.Brain
 
 Inteligência Artificial (Gemini/Claude/GPT + Local LLMs). **Tentacle com 3 children.**
@@ -508,6 +548,110 @@ Panda.UI.closePopout("console");
 
 ---
 
+### 🎨 Panda.Canvas
+
+**TLDraw Canvas Wrapper.** Superfície de desenho principal do Panda Factory.
+
+| Método              | Retorno                    | Descrição                             |
+| ------------------- | -------------------------- | ------------------------------------- |
+| `getEditor()`       | `Object\|null`             | Retorna instância TLDraw ativa        |
+| `setEditor(editor)` | `void`                     | Define instância (chamado pelo React) |
+| `exportAs(format?)` | `Promise<{success, data}>` | Exporta canvas (png/svg/json)         |
+| `isReady()`         | `boolean`                  | Verifica se editor está montado       |
+
+```javascript
+// Obter editor
+const editor = Panda.Canvas.getEditor();
+if (Panda.Canvas.isReady()) {
+  const { data } = await Panda.Canvas.exportAs("svg");
+}
+```
+
+> 🖌️ **Dependência:** TLDraw v2 (Apache-2.0). Renderiza no boot via `@panda/draw-tools`.
+
+---
+
+### 🪟 Panda.Dock
+
+**FlexLayout + Dockbar Wrapper.** Gerencia painéis da interface.
+
+| Método                 | Retorno  | Descrição                                  |
+| ---------------------- | -------- | ------------------------------------------ |
+| `register(id, config)` | `void`   | Registra painel `{title, icon, component}` |
+| `open(id)`             | `void`   | Abre painel (emite `dock:opened`)          |
+| `close(id)`            | `void`   | Fecha painel (emite `dock:closed`)         |
+| `getPanels()`          | `Object` | Retorna todos os painéis registrados       |
+
+```javascript
+// Registrar e abrir painel
+Panda.Dock.register("mcp-tools", {
+  title: "MCP Tools",
+  icon: "🔧",
+  component: "McpPanel",
+});
+Panda.Dock.open("mcp-tools");
+
+// Listar painéis
+const panels = Panda.Dock.getPanels();
+```
+
+> 📐 **Eventos:** `dock:registered`, `dock:opened`, `dock:closed`
+
+---
+
+### 🤝 Panda.Collab
+
+**Yjs CRDT Wrapper.** Colaboração multi-usuário em tempo real.
+
+| Método            | Retorno                             | Descrição                     |
+| ----------------- | ----------------------------------- | ----------------------------- |
+| `connect(roomId)` | `Promise<{success, roomId, peers}>` | Conecta à sala de colaboração |
+| `disconnect()`    | `Promise<void>`                     | Desconecta da sala            |
+| `isConnected()`   | `boolean`                           | Verifica status de conexão    |
+
+```javascript
+// Conectar a uma sala
+const { peers } = await Panda.Collab.connect("projeto-alpha");
+console.log(`Colaborando com ${peers} peers`);
+
+// Verificar
+if (Panda.Collab.isConnected()) {
+  await Panda.Collab.disconnect();
+}
+```
+
+> 🔄 **Eventos:** `collab:connected`, `collab:disconnected`
+> **Dependência:** Yjs + y-websocket + y-indexeddb (MIT)
+
+---
+
+### ✅ Panda.Validate
+
+**Zod Wrapper.** Validação de dados com schema declarativo.
+
+| Método                | Retorno             | Descrição                                                       |
+| --------------------- | ------------------- | --------------------------------------------------------------- |
+| `check(data, schema)` | `{valid, errors[]}` | Valida data contra schema `{field: {type, required, min, max}}` |
+| `isEmail(email)`      | `boolean`           | Validação rápida de e-mail                                      |
+
+```javascript
+// Validar dados
+const result = Panda.Validate.check(
+  { name: "Lucas", age: 17 },
+  {
+    name: { type: "string", required: true },
+    age: { type: "number", required: true, min: 18 },
+  },
+);
+console.log(result);
+// { valid: false, errors: ["age must be >= 18"] }
+
+// Validar e-mail
+Panda.Validate.isEmail("dev@panda.com"); // true
+```
+
+---
+
 ### 🌍 Panda.Polyglot
 
 **Tradução Global Offline (200 idiomas).** Executa via Rust Agent.
@@ -585,6 +729,86 @@ console.log(result); // { success: true, action: "Reinvestido", amount: 5000 }
 
 ---
 
+### ☁️ Panda.Google
+
+**Google Workspace Integration.** Tentacle com 3 children (Drive, Sheets, Colab).
+
+#### Google.Drive
+
+| Método                          | Retorno                    | Descrição           |
+| ------------------------------- | -------------------------- | ------------------- |
+| `upload(file, options?)`        | `Promise<{id, url, size}>` | Upload para Drive   |
+| `download(fileId)`              | `Promise<Blob>`            | Download de arquivo |
+| `list(folderId?, query?)`       | `Promise<File[]>`          | Lista arquivos      |
+| `share(fileId, email, role?)`   | `Promise<{success}>`       | Compartilha arquivo |
+| `createFolder(name, parentId?)` | `Promise<{id, url}>`       | Cria pasta          |
+| `delete(fileId)`                | `Promise<boolean>`         | Remove arquivo      |
+
+```javascript
+// Upload para pasta específica
+const { url } = await Panda.Google.Drive.upload(file, {
+  folderId: "1abc...",
+  public: true,
+});
+
+// Listar arquivos
+const files = await Panda.Google.Drive.list(null, "name contains 'report'");
+```
+
+#### Google.Sheets
+
+| Método                        | Retorno              | Descrição           |
+| ----------------------------- | -------------------- | ------------------- |
+| `read(sheetId, range)`        | `Promise<any[][]>`   | Lê range de células |
+| `write(sheetId, range, data)` | `Promise<{updated}>` | Escreve dados       |
+| `append(sheetId, data)`       | `Promise<{row}>`     | Adiciona linha      |
+| `clear(sheetId, range)`       | `Promise<boolean>`   | Limpa range         |
+| `create(title)`               | `Promise<{id, url}>` | Cria nova planilha  |
+
+```javascript
+// CRUD básico
+const data = await Panda.Google.Sheets.read("sheetId", "A1:D10");
+await Panda.Google.Sheets.append("sheetId", [["Nome", "Email", "Data"]]);
+```
+
+#### Google.Colab
+
+| Método                     | Retorno                  | Descrição          |
+| -------------------------- | ------------------------ | ------------------ |
+| `create(template?)`        | `Promise<{notebookUrl}>` | Cria notebook      |
+| `run(notebookId, params?)` | `Promise<{output}>`      | Executa notebook   |
+| `getTemplates()`           | `Template[]`             | Lista templates PF |
+
+> **Cross-reference:** Ver [PF_COLAB_REFERENCE.md](PF_COLAB_REFERENCE.md) para templates GPU/ML.
+
+---
+
+### ⚙️ Panda.Config
+
+**Configuração Global do SDK.** Inclui Mock Mode para desenvolvimento.
+
+| Propriedade      | Tipo      | Default | Descrição                            |
+| ---------------- | --------- | ------- | ------------------------------------ |
+| `useMock`        | `boolean` | `true`  | Usa dados mock (dev) ou backend real |
+| `gasUrl`         | `string`  | `null`  | URL do GAS deployment                |
+| `firebaseConfig` | `object`  | `null`  | Config do Firebase                   |
+| `debug`          | `boolean` | `false` | Logs detalhados                      |
+
+```javascript
+// DevTools: Toggle Mock Mode
+Panda.Config.useMock = false; // Conecta ao backend real
+Panda.Config.debug = true; // Habilita logs
+
+// Verificar modo atual
+if (Panda.Config.useMock) {
+  console.log("⚠️ Modo Mock ativo - dados simulados");
+}
+```
+
+> **DevTools Panel:** O toggle Mock Mode está disponível em `🔧 Config > Mock Mode` no DevTools Panel.
+
+---
+
 ## Event Bus
 
 Sistema de eventos para comunicação reativa.
@@ -634,9 +858,11 @@ Panda.on("wallet:change", ({ balance }) => {
 | Bridge  | ⚠️ Semi-público | Algumas tools são sensíveis       |
 | Config  | 🔒 Interno      | Não modificar em produção         |
 
-## 🐙 Tentacle Architecture (NEW)
+## 🐙 Tentacle Architecture
 
 > **Modelo:** SDK → Tentáculos → Pais → Filhos
+> **Taxonomia:** Tentáculos são hooks de sistema. Módulos são apps no canvas.
+> **Referência:** Ver [PF_MEDUSA_REFERENCE.md](PF_MEDUSA_REFERENCE.md) §2 para taxonomia completa.
 
 ### TentacleMonitor
 
@@ -731,7 +957,7 @@ console.log(summary.tentacles); // { total: 6, active: 5, errors: 1 }
 | `google/children/sheets.js`   | ✅ REAL | Google Sheets API   |
 | `google/children/youtube.js`  | ✅ REAL | YouTube Data API v3 |
 
-#### 🟡 Mock Local (\_delay) - 14 arquivos
+#### 🟡 Mock Local (\_delay) - 13 arquivos
 
 | Arquivo                                | Status  | Descrição                    |
 | -------------------------------------- | ------- | ---------------------------- |
@@ -749,7 +975,7 @@ console.log(summary.tentacles); // { total: 6, active: 5, errors: 1 }
 | `distribution/children/vscode.js`      | 🔶 MOCK | VSCode ext simulado          |
 | `brain/children/local-llm.js`          | 🔶 MOCK | LocalLLM (Ollama) simulado   |
 
-#### ⚪ Não Implementados - 16 arquivos
+#### ⚪ Não Implementados - 17 arquivos
 
 | Arquivo                                  | Status | Notas                     |
 | ---------------------------------------- | ------ | ------------------------- |
@@ -1018,22 +1244,20 @@ A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de int
 ### Estrutura de Arquivos
 
 ```text
-5.tentacles/                         # 8 Integration Modules
+5.tentacles/                         # 9 Integration Modules
 ├── brain/                            ← AI/ML
 │   ├── pf.brain-parent.js
 │   └── children/
 │       ├── gemini.js                 ← Gemini API
 │       ├── local-llm.js              ← Ollama/LM Studio
-│       ├── gpu.js                    ← WebGPU detection
-│       └── vision.js                 ← Image analysis
+│       └── gpu.js                    ← WebGPU detection
 ├── social/                           ← Social Media
 │   ├── pf.social-parent.js
 │   └── children/
 │       ├── whatsapp.js               ← Evolution API/Baileys
 │       ├── twitter.js
 │       ├── youtube.js
-│       ├── meta.js
-│       └── telegram.js
+│       └── meta.js
 ├── trading/                          ← Financial Markets
 │   ├── pf.trading-parent.js
 │   └── children/ctrader.js           ← cTrader Open API
@@ -1053,8 +1277,9 @@ A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de int
 │       ├── pwa.js
 │       ├── itch.js
 │       ├── steam.js
-│       ├── android.js
-│       ├── ios.js
+│       ├── google-play.js
+│       ├── npm.js
+│       ├── vscode.js
 │       └── arcade.js
 ├── education/                        ← EdTech Platforms
 │   ├── pf.education-parent.js
@@ -1066,8 +1291,10 @@ A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de int
 │   ├── pf.github-parent.js
 │   └── children/
 │       ├── pages.js                  ← GitHub Pages deploy
-│       ├── jsondb.js                 ← JSON as database
+│       ├── database.js               ← JSON as database
 │       └── actions.js                ← CI/CD workflows
+├── p2p/                              ← P2P Compute Network
+│   └── pf.p2p-parent.js
 └── monitor/                          ← System Health
     └── pf.tentacle-monitor.js        ← Real-time logging
 ```
@@ -1090,6 +1317,573 @@ A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de int
 
 ---
 
-> 📖 **Versão:** 0.9.6 | **Consolidado:** SDK + Tentacle Architecture
+## 💰 Panda.Economy (P0 - Transações Seguras)
 
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0 (Crítico)
 
+### Princípio de Idempotência
+
+Toda transação financeira DEVE incluir `idempotencyKey` para prevenir duplicações.
+
+```javascript
+// ⚠️ ERRADO - Pode duplicar se retry acontecer
+await Panda.Economy.transfer({
+  from: userId,
+  to: recipientId,
+  amount: 100,
+});
+
+// ✅ CORRETO - Idempotente
+await Panda.Economy.transfer({
+  from: userId,
+  to: recipientId,
+  amount: 100,
+  idempotencyKey: `TRX-${userId}-${Date.now()}-${crypto.randomUUID()}`,
+});
+```
+
+### API Completa
+
+| Método                    | Parâmetros                                    | Retorno                   | Descrição                      |
+| ------------------------- | --------------------------------------------- | ------------------------- | ------------------------------ |
+| `transfer(opts)`          | `{from, to, amount, reason?, idempotencyKey}` | `Promise<TransferResult>` | Transferência PC entre wallets |
+| `charge(opts)`            | `{user, amount, reason, idempotencyKey}`      | `Promise<ChargeResult>`   | Debita PC do usuário           |
+| `credit(opts)`            | `{user, amount, reason, idempotencyKey}`      | `Promise<CreditResult>`   | Credita PC ao usuário          |
+| `getBalance(user)`        | `string`                                      | `Promise<{pc, pat}>`      | Saldo atual                    |
+| `getHistory(user, opts?)` | `string, {limit?, since?}`                    | `Promise<Transaction[]>`  | Histórico                      |
+
+### TTL de Idempotência
+
+| Operação   | TTL | Motivo                  |
+| ---------- | --- | ----------------------- |
+| `transfer` | 24h | Retry em falhas de rede |
+| `charge`   | 1h  | Operação de checkout    |
+| `credit`   | 24h | Recompensas/refunds     |
+
+---
+
+## 📜 Panda.Events (P0 - Event Sourcing)
+
+> **Filosofia:** "Transações são eventos imutáveis. Estado é derivado."
+
+### API
+
+```javascript
+// Registrar evento
+await Panda.Events.emit("economy.transfer", {
+  from: "user-a",
+  to: "user-b",
+  amount: 100,
+  reason: "plugin_purchase",
+});
+
+// Reconstruir estado a partir de eventos
+const balance = await Panda.Events.replay("user-a", {
+  types: ["economy.*"],
+  since: "2026-01-01",
+});
+
+// Escutar eventos em tempo real
+Panda.Events.subscribe("economy.transfer", (event) => {
+  console.log("Transfer:", event.data);
+});
+```
+
+### Event Types (Padrão)
+
+| Namespace      | Eventos                          | Uso                    |
+| -------------- | -------------------------------- | ---------------------- |
+| `economy.*`    | `transfer`, `charge`, `credit`   | Transações financeiras |
+| `auth.*`       | `login`, `logout`, `role_change` | Autenticação           |
+| `store.*`      | `purchase`, `refund`, `install`  | Marketplace            |
+| `governance.*` | `proposal`, `vote`, `execute`    | PAT Council            |
+
+---
+
+## 🔄 Panda.Backend (P1 - Resiliência)
+
+> **Padrões:** Circuit Breaker, Retry, Fallback
+
+### Chamadas com Retry
+
+```javascript
+// Chamada básica (usa retry padrão)
+const result = await Panda.Backend.call("wallet.balance", { userId });
+
+// Chamada com opções de resiliência
+const result = await Panda.Backend.call(
+  "ai.chat",
+  {
+    message: "Olá!",
+  },
+  {
+    retries: 3,
+    backoff: "exponential", // linear | exponential | none
+    timeout: 5000,
+    fallback: () => ({ cached: true, response: "..." }),
+  },
+);
+```
+
+### Circuit Breaker States
+
+```text
+CLOSED ──(3 failures)──► OPEN ──(30s)──► HALF_OPEN
+   ▲                                         │
+   └──────────(success)──────────────────────┘
+```
+
+### Fallback Chain
+
+```javascript
+// Configurar cadeia de fallback
+Panda.Backend.setFallbackChain([
+  { name: "GAS", endpoint: "https://script.google.com/..." },
+  { name: "Rust", endpoint: "ws://localhost:3030" },
+  { name: "Cache", fn: () => IndexedDB.get("cache") },
+]);
+
+// Usa automaticamente
+await Panda.Backend.callWithFallback("data.get", { key: "config" });
+```
+
+### Status do Circuit
+
+```javascript
+const status = Panda.Backend.getCircuitStatus();
+// { state: 'CLOSED', failures: 0, lastFailure: null }
+```
+
+---
+
+## 🗃️ Panda.Cache (P1 - Thunder Herd Prevention)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P1
+> **Problema:** Quando cache de muitos usuários expira ao mesmo tempo, todos batem no servidor juntos (Thunder Herd)
+
+### API Completa
+
+```javascript
+// SET com TTL fixo (pode causar thunder herd)
+await Panda.Cache.set("key", value, { ttl: 3600 });
+
+// SET com TTL Jitter (RECOMENDADO - evita thunder herd)
+await Panda.Cache.set("key", value, {
+  ttl: 3600,
+  jitter: true, // Adiciona ±25% de variação
+  jitterRange: 0.25, // 25% = TTL entre 2700s e 4500s
+});
+
+// GET com stale-while-revalidate
+const data = await Panda.Cache.get("key", {
+  staleWhileRevalidate: true, // Retorna cache expirado enquanto busca novo
+  maxStale: 86400, // Máximo 24h de stale
+});
+
+// Invalidação
+await Panda.Cache.delete("key");
+await Panda.Cache.clear(); // Limpa tudo
+await Panda.Cache.clearPattern("user:*"); // Por padrão
+```
+
+### Estratégias de Cache
+
+| Estratégia   | Uso                              | TTL    | Jitter |
+| ------------ | -------------------------------- | ------ | ------ |
+| `aggressive` | Dados estáticos (assets, config) | 7 dias | ❌     |
+| `balanced`   | Dados semi-estáticos (profile)   | 1 hora | ✅ 25% |
+| `fresh`      | Dados dinâmicos (balance)        | 5 min  | ✅ 50% |
+| `realtime`   | Sem cache                        | 0      | N/A    |
+
+```javascript
+// Configurar estratégia padrão
+Panda.Cache.setStrategy("balanced");
+
+// Usar estratégia específica
+await Panda.Cache.set("balance", value, { strategy: "fresh" });
+```
+
+---
+
+## 🎮 Developer Playground (P1 - Developer-First)
+
+> **Filosofia:** "Docs são extensão do código" - GitHub Primer
+> **Objetivo:** Exemplos executáveis direto na documentação
+
+### Exemplos Interativos
+
+Todos os exemplos do SDK estão disponíveis no Playground:
+
+```text
+🔗 https://panda.factory/playground
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  PANDA PLAYGROUND                                          [Run] [Fork] │
+├─────────────────────────────────────────────────────────────────────────┤
+│  // Exemplo: Transferência com Idempotência                             │
+│  const result = await Panda.Economy.transfer({                          │
+│    from: 'user-a',                                                      │
+│    to: 'user-b',                                                        │
+│    amount: 100,                                                         │
+│    idempotencyKey: `TRX-${Date.now()}`                                  │
+│  });                                                                    │
+│  console.log(result);                                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│  OUTPUT:                                                                │
+│  { success: true, transactionId: "TRX-123", balance: { from: 900 } }   │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Categorias de Exemplos
+
+| Categoria   | Exemplos                  | Dificuldade      |
+| ----------- | ------------------------- | ---------------- |
+| **Auth**    | Login, Logout, Role check | 🟢 Básico        |
+| **Economy** | Transfer, Charge, Balance | 🟡 Intermediário |
+| **Events**  | Emit, Subscribe, Replay   | 🟡 Intermediário |
+| **Backend** | Circuit Breaker, Fallback | 🔴 Avançado      |
+| **Cache**   | TTL Jitter, Strategies    | 🟡 Intermediário |
+
+### Embed em Documentação
+
+```html
+<!-- Embed de exemplo no doc -->
+<iframe
+  src="https://panda.factory/playground/embed/economy-transfer"
+  width="100%"
+  height="300"
+  style="border: 1px solid var(--border-subtle); border-radius: 8px;"
+>
+</iframe>
+```
+
+### Quick Start Copy-Paste
+
+```javascript
+// 🚀 QUICK START - Cole isso e funciona!
+
+// 1. Autenticar
+await Panda.Auth.login({ email: "dev@test.com", password: "123" });
+
+// 2. Verificar saldo
+const balance = await Panda.Economy.getBalance();
+console.log(`Saldo: ${balance.pc} PC`);
+
+// 3. Fazer transferência segura
+const tx = await Panda.Economy.transfer({
+  to: "partner-id",
+  amount: 50,
+  reason: "test",
+  idempotencyKey: crypto.randomUUID(),
+});
+
+// 4. Escutar eventos
+Panda.Events.subscribe("economy.*", (e) => console.log(e));
+```
+
+---
+
+## 📊 Panda.Telemetry (P2 - Observability)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P2
+> **Padrão:** Metrics, Logs, Traces (MLT)
+
+### Configuração
+
+```javascript
+// Habilitar telemetria completa
+Panda.Telemetry.enable({
+  metrics: true, // Performance metrics
+  logs: true, // Console forwarding
+  traces: true, // Request tracing
+  sampleRate: 0.1, // 10% sampling (produção)
+  endpoint: "firebase", // ou 'console' para dev
+});
+```
+
+### Métricas Customizadas
+
+```javascript
+// Track evento com timing
+Panda.Telemetry.track({
+  name: "plugin.load",
+  value: 245,
+  unit: "ms",
+  tags: { pluginId: "xyz", source: "store" },
+});
+
+// Counter
+Panda.Telemetry.increment("economy.transfer.success");
+Panda.Telemetry.increment("economy.transfer.failed");
+
+// Gauge
+Panda.Telemetry.gauge("p2p.nodes.active", 42);
+```
+
+### Tracing
+
+```javascript
+// Iniciar trace de operação complexa
+const trace = Panda.Telemetry.startTrace("checkout.flow");
+
+await Panda.Economy.charge({ amount: 100 });
+trace.addEvent("payment.processed");
+
+await Panda.Store.deliverAsset(assetId);
+trace.addEvent("asset.delivered");
+
+trace.end(); // Fecha e envia trace
+
+// Resultado: trace com timeline completa da operação
+```
+
+### Logs Estruturados
+
+```javascript
+// Logs são automaticamente capturados
+Panda.Telemetry.log('info', 'User purchased plugin', {
+  userId: 'user-123',
+  pluginId: 'plugin-xyz',
+  amount: 50
+});
+
+// Shorthand
+Panda.log.info('Purchase complete', { ... });
+Panda.log.warn('Low balance', { ... });
+Panda.log.error('Payment failed', { ... });
+```
+
+### Health Dashboard Data
+
+```javascript
+// Dados para dashboard de health
+const health = await Panda.Telemetry.getHealth();
+// {
+//   uptime: 86400,
+//   requests: { total: 10000, errors: 5, p99: 250 },
+//   services: { gas: 'healthy', firebase: 'healthy', rust: 'degraded' }
+// }
+```
+
+---
+
+## 📱 Social Media Hub
+
+> **Integração com plataformas sociais via Tentacles**
+
+### Arquitetura
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                      SOCIAL MEDIA HUB                                │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 📱 WhatsApp  │  │ 🐦 Twitter   │  │ 📺 YouTube   │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 📘 Meta      │  │ ✈️ Telegram  │  │ 🎵 TikTok   │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│                            │                                        │
+│                   ┌──────────────────┐                             │
+│                   │  Panda.Social    │                             │
+│                   │  (SDK Parent)    │                             │
+│                   └──────────────────┘                             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Estrutura de Arquivos
+
+```text
+5.tentacles/5.3.social/
+├── pf.social-parent.js      # Parent API
+└── 5.3.1.children/
+    ├── whatsapp.js          # WhatsApp Business
+    ├── twitter.js           # Twitter/X
+    ├── youtube.js           # YouTube Data API
+    └── meta.js              # Meta (Facebook + Instagram)
+```
+
+### API
+
+```javascript
+// Configurar plataforma
+await Panda.Social.configure("youtube", {
+  apiKey: "YOUR_API_KEY",
+  channelId: "YOUR_CHANNEL_ID",
+});
+
+// WhatsApp - Enviar mensagem
+await Panda.Social.WhatsApp.send({
+  to: "+5511999999999",
+  message: "Olá! 🐼",
+  template: "welcome",
+});
+
+// YouTube - Otimizar vídeo
+const optimized = await Panda.Social.YouTube.optimize({
+  title: "Meu vídeo sobre...",
+  description: "Descrição atual...",
+  tags: ["tag1", "tag2"],
+});
+
+// Twitter - Gerar thread
+const thread = await Panda.Social.Twitter.generateThread({
+  topic: "AI no desenvolvimento",
+  tweets: 5,
+  includeHook: true,
+});
+
+// Meta - Cross-post
+await Panda.Social.Meta.crossPost({
+  platforms: ["facebook", "instagram"],
+  content: "Novidade! 🎉",
+  media: ["image1.jpg"],
+});
+```
+
+---
+
+## 🧩 Plugin Development
+
+> **Como criar e distribuir plugins no Panda Factory**
+
+### Arquitetura Modular
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                      PANDA FACTORY SHELL                            │
+│                   (PandaFactory.html + SDK)                         │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │  📱 Social   │  │  📈 Trading  │  │  🔧 Dev      │              │
+│  │     Hub      │  │     Hub      │  │    Tools     │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │  📋 CRM      │  │  🤖 Workflow │  │  🏪 Store    │              │
+│  │    Module    │  │   Builder    │  │  (Medusa)    │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Princípios
+
+| Princípio        | Descrição                            |
+| ---------------- | ------------------------------------ |
+| **Isolamento**   | Cada plugin opera em sandbox próprio |
+| **Lazy Loading** | Plugins carregam sob demanda         |
+| **SDK Hooks**    | Todos usam `Panda.*` para integração |
+
+### Template de Plugin
+
+```javascript
+/**
+ * 🐼 PANDA PLUGIN - Meu Plugin
+ * @version 1.0.0
+ */
+(function (window) {
+  "use strict";
+
+  // ============================================
+  // METADATA (obrigatório)
+  // ============================================
+  const PLUGIN_META = {
+    id: "meu-plugin",
+    name: "Meu Plugin Incrível",
+    version: "1.0.0",
+    author: "Seu Nome",
+    category: "productivity",
+    requires: ["pf.sdk"],
+    icon: "🚀",
+  };
+
+  // ============================================
+  // PLUGIN CORE
+  // ============================================
+  const MeuPlugin = {
+    meta: PLUGIN_META,
+
+    async init() {
+      console.log(`[${PLUGIN_META.name}] Inicializando...`);
+      const licensed = await this.checkLicense();
+      if (!licensed) {
+        Panda.UI.toast("Plugin não licenciado", "error");
+        return false;
+      }
+      return true;
+    },
+
+    async checkLicense() {
+      // Verificar via Panda.Data em produção
+      return true;
+    },
+
+    async minhaFeature(params) {
+      // Lógica da feature...
+      return { success: true };
+    },
+  };
+
+  // ============================================
+  // REGISTRO NO SDK
+  // ============================================
+  window.Panda = window.Panda || {};
+  window.Panda.Plugins = window.Panda.Plugins || {};
+  window.Panda.Plugins[PLUGIN_META.id] = MeuPlugin;
+
+  if (document.readyState === "complete") {
+    MeuPlugin.init();
+  } else {
+    window.addEventListener("load", () => MeuPlugin.init());
+  }
+})(window);
+```
+
+### Checklist de Plugin
+
+- [ ] Metadata completa (id, name, version)
+- [ ] Verificação de licença
+- [ ] Uso de `Panda.*` para todas operações
+- [ ] Tratamento de erros
+- [ ] JSDoc em todas funções públicas
+- [ ] Não usar CSS inline (usar classes)
+
+### Categorias do Marketplace
+
+| Categoria      | Exemplos                       |
+| -------------- | ------------------------------ |
+| `social`       | YouTube, TikTok, Meta, Twitter |
+| `trading`      | cTrader, MT4/5, Signals        |
+| `productivity` | CRM, Agenda, Docs              |
+| `automation`   | Workflows, Bots, Scrapers      |
+| `analytics`    | Dashboards, Reports            |
+| `ai`           | Models, Assistants, Generators |
+
+### Integração SDK
+
+```javascript
+// O SDK detecta automaticamente via:
+window.Panda.Plugins["meu-plugin"] = MeuPlugin;
+
+// Listar plugins instalados
+const plugins = Object.keys(Panda.Plugins);
+
+// Emitir evento do plugin
+Panda.emit("plugin:meu-plugin:acao", { data: "valor" });
+
+// Ouvir evento
+Panda.on("plugin:meu-plugin:acao", (data) => {
+  console.log("Ação recebida:", data);
+});
+
+// UI Integration
+Panda.UI.addToDock({
+  id: "meu-plugin",
+  icon: "🚀",
+  label: "Meu Plugin",
+  onClick: () => MeuPlugin.open(),
+});
+```
+
+---
+
+> 📖 **Versão:** 1.5.0 | **Consolidado:** SDK + System Design + DX + Observability + Social + Plugins + Canvas/Dock/Collab/Validate + Storage/Google

@@ -1,0 +1,37 @@
+<!-- 🐼 Mod_Store_View.html — Panda Store Module (pf- prefix v3.1) -->
+<!-- Loaded via Panda.Loader when user opens Store module -->
+<div class="pf-module-view pf-store-view" id="store-module">
+  <div class="pf-module-header">
+    <h2>🏪 Medusa Store</h2>
+    <span class="pf-module-badge">Módulo</span>
+  </div>
+
+  <div class="pf-module-content">
+    <div class="pf-store-search">
+      <input
+        type="text"
+        id="storeSearch"
+        placeholder="🔍 Buscar módulos, tentáculos, themes..."
+        class="pf-input"
+      />
+    </div>
+
+    <div class="pf-store-categories">
+      <button class="pf-category-chip active" data-cat="all">Todos</button>
+      <button class="pf-category-chip" data-cat="modules">📦 Módulos</button>
+      <button class="pf-category-chip" data-cat="tentacles">
+        🔌 Tentáculos
+      </button>
+      <button class="pf-category-chip" data-cat="themes">🎨 Themes</button>
+      <button class="pf-category-chip" data-cat="ai">🤖 AI Models</button>
+    </div>
+
+    <div id="storeGrid" class="pf-store-grid">
+      <p class="pf-placeholder-text">Carregando catálogo...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  console.log("🐼 Mod_Store_View loaded");
+</script>

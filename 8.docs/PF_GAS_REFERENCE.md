@@ -1,6 +1,13 @@
+---
+tool_context: panda/gas
+description: Google Apps Script Backend - Dispatcher Tri-Mode, Finance, Store, P2P
+version: 1.3.0
+updated: 2026-02-08
+---
+
 # 🐼 Panda GAS Backend - Referência
 
-> **Versão:** 1.1.0 | **Runtime:** Google Apps Script | **Pasta:** `1.core/`
+> **Versão:** 1.3.0 | **Runtime:** Google Apps Script | **Pasta:** `1.core/`
 
 ---
 
@@ -21,23 +28,24 @@
 1.core/
 ├── .clasp.json           # Config CLASP
 ├── appsscript.json       # Manifesto GAS
-├── core/
+├── 1.1.gas/
 │   ├── PF_Dispatcher.gs  # Router principal (doPost/doGet)
 │   ├── PF_Config.gs      # Configurações centrais
 │   ├── PF_App_Init.gs    # Inicialização
-│   ├── PF_Core_AI.gs     # Serviço de IA
+│   ├── PF_Core_AI.gs     # Serviço de IA (Gemini)
 │   ├── PF_Core_Oracle.gs # Cotação USD/BRL
+│   ├── PF_Brain_Core.gs  # Core do Brain AI
 │   ├── PF_Moltbook.gs    # Moltbook integration
 │   ├── PF_PAT_Core.gs    # Panda Council (Governance)
 │   └── PF_Core_Webhooks.gs # Webhooks externos
-├── domains/
-│   ├── finance/          # Wallet, Crypto, Fiat
-│   ├── store/            # Marketplace (Sales, Registry)
-│   ├── automation/       # Bots
-│   └── p2p/              # 🌐 P2P Compute Network
-│       └── PF_P2P.gs     # Node registry, tasks, rewards
-└── sdks/
-    └── gemini.gs         # SDK Gemini
+├── 1.2.domains/
+│   ├── finance/          # PF_Wallet.gs, PF_Crypto.gs, PF_Fiat.gs
+│   ├── store/            # PF_Sales.gs, PF_Registry.gs, PF_Marketplace.gs
+│   ├── automation/       # PF_Bots.gs
+│   └── p2p/              # PF_P2P.gs — Node registry, tasks, rewards
+└── 1.3.sdks/             # Payment SDKs (.js, não .gs)
+    ├── SDK_PagSeguro.js
+    └── SDK_Stripe.js
 ```
 
 ---
@@ -559,6 +567,207 @@ const balance = await callGAS("wallet.balance", { userId: "user123" });
 
 ---
 
+## 8. Padrões de Resiliência (P0)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0
+
+### 8.1 Idempotency Handler
+
+Todo action que modifica estado DEVE verificar idempotencyKey:
+
+```javascript
+// Em PF_Dispatcher.gs
+const IDEMPOTENT_ACTIONS = ["wallet.charge", "wallet.transfer", "data.save"];
+
+function doPost(e) {
+  const { action, payload, token, idempotencyKey } = JSON.parse(
+    e.postData.contents,
+  );
+
+  // Verificar idempotência para ações críticas
+  if (IDEMPOTENT_ACTIONS.includes(action) && idempotencyKey) {
+    const cached = checkIdempotency(idempotencyKey);
+    if (cached) {
+      return jsonResponse({
+        ...cached,
+        _idempotent: true,
+        _originalTimestamp: cached.timestamp,
+      });
+    }
+  }
+
+  // Executar action...
+  const result = executeAction(action, payload);
+
+  // Cachear resultado para idempotência
+  if (IDEMPOTENT_ACTIONS.includes(action) && idempotencyKey) {
+    cacheIdempotency(idempotencyKey, result);
+  }
+
+  return jsonResponse(result);
+}
+
+// Helpers de Idempotência
+function checkIdempotency(key) {
+  const cache = CacheService.getScriptCache();
+  const cached = cache.get(`IDEM:${key}`);
+  return cached ? JSON.parse(cached) : null;
+}
+
+function cacheIdempotency(key, result) {
+  const cache = CacheService.getScriptCache();
+  cache.put(
+    `IDEM:${key}`,
+    JSON.stringify({
+      ...result,
+      timestamp: new Date().toISOString(),
+    }),
+    86400,
+  ); // 24h TTL
+}
+```
+
+### 8.2 Health Check Endpoint
+
+```javascript
+// Em PF_Dispatcher.gs - doGet
+function doGet(e) {
+  const params = e?.parameter || {};
+
+  // Health check detalhado
+  if (params.health === "detailed") {
+    return jsonResponse({
+      status: "healthy",
+      version: "1.1.0",
+      timestamp: new Date().toISOString(),
+      services: {
+        sheets: checkSheetsHealth(),
+        cache: checkCacheHealth(),
+        firebase: checkFirebaseHealth(),
+      },
+      uptime: getUptime(),
+    });
+  }
+
+  // Health check simples (padrão)
+  return jsonResponse({
+    status: "online",
+    version: "1.1.0",
+    timestamp: new Date().toISOString(),
+  });
+}
+
+function checkSheetsHealth() {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    return { status: "ready", sheets: ss.getSheets().length };
+  } catch (e) {
+    return { status: "error", message: e.message };
+  }
+}
+
+function checkCacheHealth() {
+  try {
+    const cache = CacheService.getScriptCache();
+    cache.put("health_check", "ok", 10);
+    return { status: "ready" };
+  } catch (e) {
+    return { status: "error", message: e.message };
+  }
+}
+```
+
+### 8.3 Rate Limiting (Básico)
+
+```javascript
+// Proteção contra abuse
+function checkRateLimit(userId, action) {
+  const cache = CacheService.getScriptCache();
+  const key = `RATE:${userId}:${action}`;
+  const count = parseInt(cache.get(key) || "0");
+
+  const limits = {
+    "ai.chat": 60, // 60/min
+    "wallet.charge": 10, // 10/min
+    "data.save": 30, // 30/min
+  };
+
+  const limit = limits[action] || 100;
+
+  if (count >= limit) {
+    return { limited: true, retryAfter: 60 };
+  }
+
+  cache.put(key, (count + 1).toString(), 60);
+  return { limited: false };
+}
+```
+
+---
+
+## 9. GAS como API Gateway (P2)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P2
+> **Padrão:** API Gateway centraliza autenticação, rate limit e roteamento
+
+### 9.1 Arquitetura Gateway
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    GAS API GATEWAY                                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  CLIENT ──► doPost() ──► [Auth] ──► [Rate Limit] ──► [Route] ──► Service│
+│                              │           │              │                │
+│                              ▼           ▼              ▼                │
+│                         validateToken  checkRate    dispatcher          │
+│                                                                          │
+│  SERVICES:                                                               │
+│  ├── WalletService    (finance)                                         │
+│  ├── AIService        (brain)                                           │
+│  ├── P2PService       (compute)                                         │
+│  ├── StoreService     (marketplace)                                     │
+│  └── AdminService     (restricted)                                      │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 9.2 Naming Convention
+
+| Pattern          | Exemplo               | Descrição           |
+| ---------------- | --------------------- | ------------------- |
+| `domain.action`  | `wallet.balance`      | Leitura de recurso  |
+| `domain.verb`    | `wallet.transfer`     | Mutação de recurso  |
+| `domain.admin.*` | `wallet.admin.freeze` | Ação administrativa |
+| `system.*`       | `system.health`       | Infraestrutura      |
+
+### 9.3 Response Standard
+
+```javascript
+// Sucesso
+{
+  "success": true,
+  "data": { ... },
+  "meta": {
+    "requestId": "REQ-123",
+    "timestamp": "2026-02-06T15:30:00Z",
+    "latency": 145
+  }
+}
+
+// Erro
+{
+  "success": false,
+  "error": {
+    "code": "RATE_LIMITED",
+    "message": "Too many requests",
+    "retryAfter": 60
+  },
+  "meta": { ... }
+}
+```
+
+---
+
 > 📖 **Arquitetura Completa:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md)
-
-
+> 📖 **Versão:** 1.3.0 | **Consolidado:** GAS + Resiliência + API Gateway

@@ -1,38 +1,52 @@
 /**
- * Component Loader
- * Responsible for fetching and injecting fixed UI components (Header, Docks, Sidebar)
+ * 🐼 Component Loader v2.0
+ * Responsible for fetching and injecting fixed UI components (Header, Docks, Sidebar).
+ *
+ * Paths aligned with numbered folder structure:
+ *   4.ui/4.2.components/  → Fixed UI shell components
+ *
+ * Integration:
+ *   - Panda.emit("components:loaded") → Signals all components are ready
+ *   - DockController.init()           → Called after components inject
  */
 
 const COMPONENTS = [
   {
     id: "header-component",
-    url: "components/header-status.html",
+    url: "4.ui/4.2.components/Comp_HeaderStatus.html",
     target: "#header-container",
   },
   {
     id: "app-dock-component",
-    url: "components/app-dock.html",
+    url: "4.ui/4.2.components/Comp_AppDock.html",
     target: "#app-dock-container",
   },
   {
     id: "dev-dock-component",
-    url: "components/devtools-dock.html",
+    url: "4.ui/4.2.components/Comp_DevDock.html",
     target: "#dev-dock-container",
   },
   {
     id: "settings-modal-component",
-    url: "components/settings-modal.html",
+    url: "4.ui/Comp_SettingsModal.html",
     target: "#settings-modal-container",
   },
   {
     id: "sidebar-component",
-    url: "components/sidebar.html",
+    url: "4.ui/4.2.components/Comp_Sidebar.html",
     target: "#sidebar-container",
+  },
+  {
+    id: "login-overlay-component",
+    url: "4.ui/4.2.components/Comp_LoginOverlay.html",
+    target: "#login-overlay-container",
   },
 ];
 
 async function loadComponents() {
-  console.log("🔄 Loading components...");
+  console.log(`🔄 Loading ${COMPONENTS.length} components...`);
+  let loaded = 0;
+  let failed = 0;
 
   for (const comp of COMPONENTS) {
     try {
@@ -41,6 +55,7 @@ async function loadComponents() {
         console.warn(
           `Target container ${comp.target} not found for ${comp.id}`,
         );
+        failed++;
         continue;
       }
 
@@ -50,7 +65,7 @@ async function loadComponents() {
       const html = await response.text();
       container.innerHTML = html;
 
-      // Execute scripts inside the injected HTML (specifically for Sidebar)
+      // Execute scripts inside the injected HTML
       const scripts = container.querySelectorAll("script");
       scripts.forEach((oldScript) => {
         const newScript = document.createElement("script");
@@ -63,14 +78,27 @@ async function loadComponents() {
         }
       });
 
+      loaded++;
       console.log(`✅ Loaded ${comp.id}`);
     } catch (err) {
+      failed++;
       console.error(`❌ Failed to load ${comp.id}:`, err);
     }
   }
 
+  console.log(`🐼 Components: ${loaded} loaded, ${failed} failed`);
+
   // Initialize things that depend on components being loaded
   if (window.DockController) window.DockController.init();
+
+  // Signal ready
+  if (window.Panda) {
+    Panda.emit("components:loaded", {
+      loaded,
+      failed,
+      total: COMPONENTS.length,
+    });
+  }
 }
 
 // Auto-load on DOM Content Ready

@@ -1,17 +1,20 @@
-var CACHE_NAME = "titan-gestao-v2-cache-v1";
+var CACHE_NAME = "panda-factory-cache-v1";
 var urlsToCache = [
   "./",
-  "./CRM.html",
+  "./PandaFactory.html",
   "./manifest.json",
-  "./js/core/Repository.js",
+  "./2.system/sdk/repository.js",
+  "./2.system/sdk/api.js",
+  "./2.system/core/kernel.js",
+  "./2.system/core/loader.js",
+  "./10.assets/css/pf.theme.css",
   "https://cdn.jsdelivr.net/npm/chart.js",
 ];
 
 self.addEventListener("install", function (event) {
-  // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
-      console.log("Opened cache");
+      console.log("🐼 Panda Cache opened");
       return cache.addAll(urlsToCache);
     }),
   );

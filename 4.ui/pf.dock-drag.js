@@ -19,7 +19,7 @@
   // ==========================================
   function initDraggableDocks() {
     const docks = document.querySelectorAll(
-      ".modular-dock, .app-dock, #appDock, #devDock, .header",
+      ".modular-dock, .app-dock, #appDock, #devDock, .pf-header",
     );
 
     docks.forEach((dock) => {
@@ -51,7 +51,9 @@
   // ==========================================
   function startDrag(e) {
     // Ignore if clicking on a button/item (allow clicks to work)
-    if (e.target.closest(".dock-item, .nav-item, button, a, input, select"))
+    if (
+      e.target.closest(".pf-dock-item, .pf-nav-item, button, a, input, select")
+    )
       return;
 
     const dock = e.currentTarget;
@@ -69,7 +71,7 @@
     dock.style.transition = "none";
 
     // Special handling for header (convert sticky to fixed)
-    if (dock.classList.contains("header")) {
+    if (dock.classList.contains("pf-header")) {
       dock.style.position = "fixed";
       dock.style.width = "100%";
     }
@@ -134,7 +136,7 @@
 
   function restoreDockPositions() {
     const docks = document.querySelectorAll(
-      ".modular-dock, .app-dock, #appDock, #devDock, .header",
+      ".modular-dock, .app-dock, #appDock, #devDock, .pf-header",
     );
 
     docks.forEach((dock) => {
@@ -150,7 +152,7 @@
           dock.style.bottom = "auto";
           dock.style.transform = "none";
           // For header, ensure it stays fixed after restoration
-          if (dock.classList.contains("header")) {
+          if (dock.classList.contains("pf-header")) {
             dock.style.position = "fixed";
             dock.style.width = "100%";
           }
@@ -166,7 +168,7 @@
   // ==========================================
   function resetDockPositions() {
     const docks = document.querySelectorAll(
-      ".modular-dock, .app-dock, #appDock, #devDock, .header",
+      ".modular-dock, .app-dock, #appDock, #devDock, .pf-header",
     );
 
     docks.forEach((dock) => {
@@ -180,7 +182,7 @@
       dock.style.bottom = "";
       dock.style.transform = "";
       // Restore header to sticky
-      if (dock.classList.contains("header")) {
+      if (dock.classList.contains("pf-header")) {
         dock.style.position = "sticky";
         dock.style.width = "";
       }

@@ -1,49 +1,95 @@
-# 🐙 PF_MEDUSA_REFERENCE - Sistema de Plugins e Contribuição
+---
+tool_context: panda/store
+description: Medusa Store - Marketplace de Módulos, Tentáculos e Themes
+version: 2.0.0
+updated: 2026-02-07
+---
 
-> **Versão:** 1.1.0 | **Status:** Planejado | **Atualizado:** 2026-01-26
+# 🐙 PF_MEDUSA_REFERENCE - Sistema de Distribuição e Marketplace
+
+> **Versão:** 3.0.0 | **Status:** Implementado (UI) | **Atualizado:** 2026-02-10
 
 ---
 
 ## 📋 Índice
 
 1. [Visão Geral](#1-visão-geral)
-2. [Filosofia: IDE Externa + GitHub Hooks](#2-filosofia-ide-externa--github-hooks)
-3. [GitHub Hooks Integration](#3-github-hooks-integration)
-4. [Tipos de Material](#4-tipos-de-material)
-5. [Panda Store Registry](#5-panda-store-registry)
-6. [Diferenciais para Devs](#6-diferenciais-para-devs)
-7. [Roadmap](#7-roadmap)
+2. [Taxonomia oficial](#2-taxonomia-oficial)
+3. [Filosofia: IDE Externa + Canais de Distribuição](#3-filosofia-ide-externa--canais-de-distribuição)
+4. [GitHub Hooks Integration](#4-github-hooks-integration)
+5. [Google Drive Integration](#5-google-drive-integration)
+6. [Hosting Híbrido (Tiers)](#6-hosting-híbrido-tiers)
+7. [Segurança e Sandbox](#7-segurança-e-sandbox)
+8. [Manifest (`panda.manifest.json`)](#8-manifest-pandamanifestjson)
+9. [Esqueleto do Dev](#9-esqueleto-do-dev)
+10. [Panda Store Registry](#10-panda-store-registry)
+11. [Diferenciais para Devs](#11-diferenciais-para-devs)
+12. [Roadmap](#12-roadmap)
+13. [Referências](#13-referências)
 
 ---
 
 ## 1. Visão Geral
 
-**Medusa** é o sistema de distribuição de plugins e extensões do Panda Factory. Permite que a comunidade crie e distribua materiais via **GitHub**, usando **qualquer IDE**.
-
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    MEDUSA - FLUXO DE PRODUÇÃO                        │
+│                    MEDUSA DISTRIBUTION SYSTEM v2                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  DESENVOLVEDOR                   GITHUB                   MEDUSA    │
-│  ┌──────────────┐              ┌─────────┐            ┌──────────┐ │
-│  │ Qualquer IDE │              │ Repo    │  Webhook   │ Listener │ │
-│  │ (VS Code,    │──git push──▶│ público │──────────▶│ Valida   │ │
-│  │  Cursor,     │              │         │            │ Publica  │ │
-│  │  Antigravity)│              └─────────┘            └──────────┘ │
-│  └──────────────┘                                          │       │
-│                                                            ▼       │
-│                                                   ┌──────────────┐ │
-│                                                   │ PANDA STORE  │ │
-│                                                   │ (disponível  │ │
-│                                                   │ para users)  │ │
-│                                                   └──────────────┘ │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 🐙 GitHub    │  │ 📁 Drive     │  │ 🏪 Store     │              │
+│  │   Hooks      │  │ Integration  │  │  Registry    │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│                            │                                        │
+│                   ┌──────────────────┐                             │
+│                   │  🐼 Panda.Store  │                             │
+│                   │   SDK Parent     │                             │
+│                   └──────────────────┘                             │
+│                            │                                        │
+│         ┌──────────────────┼──────────────────┐                    │
+│         ▼                  ▼                  ▼                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 📦 Módulos   │  │ 🐙 Tentáculos│  │ 🎨 Themes    │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+**Medusa** é o sistema de distribuição do Panda Factory. Permite que a comunidade crie e distribua **módulos**, **tentáculos** e **themes** via **GitHub** ou **Google Drive**, usando **qualquer IDE**.
+
 ---
 
-## 2. Filosofia: IDE Externa + GitHub Hooks
+## 2. Taxonomia Oficial
+
+> **Decisão Arquitetural:** 2026-02-07 — Consolidada em debate Founder + Antigravity.
+
+### 2.1. Definições
+
+| Termo          | Quem cria         | O que é                          | Onde roda                     | Segurança                  |
+| -------------- | ----------------- | -------------------------------- | ----------------------------- | -------------------------- |
+| **Componente** | Panda Core        | Peça do shell — sempre visível   | Shell (trusted)               | Core — sem sandbox         |
+| **Módulo**     | Devs + Core       | App que roda no canvas container | Canvas container              | Sandbox leve               |
+| **Tentáculo**  | Core + Comunidade | Hook que estende APIs do sistema | iframe blindado via Proxy SDK | Sandbox forte + permissões |
+
+### 2.2. Exemplos
+
+| Tipo           | Exemplos nativos (Panda)                  | Exemplos comunidade            |
+| -------------- | ----------------------------------------- | ------------------------------ |
+| **Componente** | Header, Sidebar, App Dock, Dev Dock       | — (só Core)                    |
+| **Módulo**     | CRM, Analytics, Founder Dashboard         | Steam Library, Fashion Agent   |
+| **Tentáculo**  | WhatsApp bridge, cTrader API, GPU compute | Epic Games hook, Notion sync   |
+| **Theme**      | Dark theme (padrão)                       | Cyberpunk theme, Minimal light |
+
+### 2.3. Namespace
+
+| Origem        | Formato          | Exemplo                               |
+| ------------- | ---------------- | ------------------------------------- |
+| Panda oficial | `@panda/nome`    | `@panda/ai-chat`, `@panda/draw-tools` |
+| Comunidade    | `@username/nome` | `@fulano/steam-library`               |
+
+> ⚠️ **Módulos e tentáculos são publicáveis na Store. Componentes NÃO — são exclusivos do Core.**
+
+---
+
+## 3. Filosofia: IDE Externa + Canais de Distribuição
 
 > **Decisão de Arquitetura:** Desenvolvedor usa IDE externa de sua preferência. Sem extensões obrigatórias.
 
@@ -57,38 +103,41 @@
 | **Sem lock-in**      | Nenhuma dependência proprietária |
 | **Manutenção zero**  | Não precisamos manter extensão   |
 
-### IDEs Suportadas (qualquer uma!)
-
-| IDE         | Funciona? | Nota              |
-| ----------- | :-------: | ----------------- |
-| VS Code     |    ✅     | Popular           |
-| Cursor      |    ✅     | AI-first          |
-| Antigravity |    ✅     | Google            |
-| Zed         |    ✅     | Rápido            |
-| Vim/Neovim  |    ✅     | Hardcore          |
-| IntelliJ    |    ✅     | Java/Kotlin       |
-| **Notepad** |    ✅     | Sim, até notepad! |
-
 ### Workflow do Desenvolvedor
+
+O dev pode escolher **um dos dois canais** de distribuição:
+
+#### Opção A: GitHub (Devs Técnicos)
 
 ```text
 1. Dev coda localmente (qualquer IDE)
 2. Testa com SDK local / Rust Agent
-3. Cria panda.mcp.json (MCP OBRIGATÓRIO)
+3. Cria panda.manifest.json (OBRIGATÓRIO)
 4. git push → GitHub
 5. GitHub Action dispara webhook
-6. Medusa valida MCP + publica na Store
+6. Medusa valida manifest + publica na Store
 7. Users instalam e dev recebe 52% split
 ```
 
-> ⚠️ **MCP OBRIGATÓRIO:** Todo plugin DEVE ter `panda.mcp.json`. Sem MCP = não publica.
-> Ver [PF_MCP_REFERENCE.md (PARTE B)](PF_MCP_REFERENCE.md) para especificação completa.
+#### Opção B: Google Drive (Zero Barreira)
 
-### 2.1 Filosofia Zero Barreira
+```text
+1. Dev coda localmente (qualquer IDE)
+2. Testa com SDK local / Rust Agent
+3. Cria panda.manifest.json (OBRIGATÓRIO)
+4. Salva pasta em Google Drive (já autenticado via Panda)
+5. Agente Verificador detecta mudança
+6. Consolida no Firebase da Colmeia Panda
+7. Users instalam e dev recebe 52% split
+```
+
+> ⚠️ **MANIFEST OBRIGATÓRIO:** Todo módulo/tentáculo DEVE ter `panda.manifest.json`. Sem manifest = não publica.
+
+### Filosofia Zero Barreira
 
 | Quem        | Paga?  | Razão                                       |
-| ----------- | :----: | ------------------------------------------- |
-| **Dev**     | ❌ NÃO | Zero barreira para integrar plugins Founder |
+| ----------- | ------ | ------------------------------------------- |
+| **Dev**     | ❌ NÃO | Zero barreira para integrar                 |
 | **Usuário** | ✅ SIM | Preço módico atrai, depois consome serviços |
 
 ```text
@@ -97,9 +146,9 @@ FUNIL: Dev integra grátis → User compra barato → User consome energia (Gemi
 
 ---
 
-## 3. GitHub Hooks Integration
+## 4. GitHub Hooks Integration
 
-### 3.1 Webhooks Suportados
+### 4.1. Webhooks Suportados
 
 | Hook            | Quando          | Ação da Medusa    |
 | --------------- | --------------- | ----------------- |
@@ -108,7 +157,7 @@ FUNIL: Dev integra grátis → User compra barato → User consome energia (Gemi
 | `pull_request`  | PR opened       | Valida manifest   |
 | `issue_comment` | `/panda deploy` | Deploy manual     |
 
-### 3.2 GitHub Action Template
+### 4.2. GitHub Action Template
 
 ```yaml
 # .github/workflows/panda-publish.yml
@@ -140,82 +189,267 @@ jobs:
             https://script.google.com/macros/s/MEDUSA_ID/exec?action=publish
 ```
 
-### 3.3 Estrutura do Repo
+---
+
+## 5. Google Drive Integration
+
+> **Alternativa ao GitHub** para devs que preferem simplicidade ou não sabem usar git.
+
+### 5.1. Arquitetura
 
 ```text
-github.com/dev/panda-plugin-xyz/
-├── panda.manifest.json      # Obrigatório
-├── README.md                # Documentação
-├── src/
-│   ├── main.gs             # Plugin GAS
-│   └── main.rs             # Plugin Rust
-├── 10.assets/
-│   └── icon.png            # 128x128
-└── .github/
-    └── workflows/
-        └── panda-publish.yml
+┌─────────────────────────────────────────────────────────────────────┐
+│                 FLUXO GOOGLE DRIVE → FIREBASE                        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  DEV (já logado via Google Auth no Panda)                           │
+│  └── Salva módulo em Google Drive: /PandaStore/{moduleId}/         │
+│              │                                                       │
+│              ▼                                                       │
+│  AGENTE VERIFICADOR (GAS via Drive API Watch)                       │
+│  ├── Detecta mudança via webhook do Drive                          │
+│  ├── Valida panda.manifest.json                                     │
+│  ├── Executa sandbox test (30s)                                    │
+│  └── Se OK: consolida no Firebase                                  │
+│              │                                                       │
+│              ▼                                                       │
+│  COLMEIA FIREBASE (Panda controla)                                  │
+│  ├── Storage: /store/{id}/versions/                                │
+│  ├── Firestore: metadata + sales + analytics                       │
+│  └── Revenue: split 52% automático para dev                        │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
 ```
+
+### 5.2. Vantagens de Segurança
+
+| Aspecto         | Benefício                                        |
+| --------------- | ------------------------------------------------ |
+| **Controle**    | Panda é dona do Firebase, não depende GitHub     |
+| **Privacidade** | Código fica interno, não público                 |
+| **Auditoria**   | Logs completos no Firebase                       |
+| **Revogação**   | Pode desativar módulo/tentáculo instantaneamente |
 
 ---
 
-## 4. Tipos de Material
+## 6. Hosting Híbrido (Tiers)
 
-### 4.1 Categorias
+> **Decisão Arquitetural:** 2026-02-07 — Modelo de 2 tiers + cache.
 
-| Tipo             | Linguagem   | Runtime            | Exemplo          |
-| ---------------- | ----------- | ------------------ | ---------------- |
-| **Plugin GAS**   | JavaScript  | Google Apps Script | Automação Sheets |
-| **Plugin Rust**  | Rust        | Panda Agent        | GPU tools        |
-| **Template Web** | HTML/CSS/JS | Browser            | Landing pages    |
-| **MCP Tool**     | Rust        | Rust Agent         | Nova tool IA     |
-| **Widget Jam**   | React       | TLDraw/Jam         | Componentes      |
-| **Theme**        | CSS/JSON    | Panda UI           | Visual themes    |
+### 6.1. Tier 1: Panda Nativo (Firebase)
 
-### 4.2 Manifest Example
+```text
+Founder cria → Firebase Storage hospeda → CDN rápido → receita 100%
+```
+
+| Aspecto          | Detalhe                                |
+| ---------------- | -------------------------------------- |
+| **Quem cria**    | Founder / Panda Core team              |
+| **Onde hospeda** | Firebase Storage + CDN                 |
+| **Velocidade**   | Sempre rápida (mesmo servidor do Auth) |
+| **Receita**      | 100% para Panda                        |
+| **Badge**        | "Oficial Panda" na Store               |
+
+### 6.2. Tier 2: Comunidade (Dev hospeda + Cache)
+
+```text
+Dev cria → Assets no GitHub/Drive → Panda cacheia no 1º load → Offline
+
+1º acesso:  Medusa (manifest) → Dev hosting (assets) → Cache local (SW+IDB)
+2º acesso:  Cache local (instantâneo, offline)
+Fallback:   Se dev removeu → cache ainda funciona pra quem já baixou
+```
+
+| Aspecto          | Detalhe                                        |
+| ---------------- | ---------------------------------------------- |
+| **Quem cria**    | Comunidade                                     |
+| **Onde hospeda** | GitHub Pages, Google Drive, qualquer hosting   |
+| **Velocidade**   | 1º load variável, depois cache local (rápido)  |
+| **Receita**      | 52% dev / 48% Panda (via PAT split)            |
+| **Cache**        | Service Worker + IndexedDB (Master Arch §1.10) |
+
+### 6.3. Resumo
+
+| Quem criou         | Hosting        | Velocidade                      | Receita |
+| ------------------ | -------------- | ------------------------------- | ------- |
+| **Panda oficial**  | Firebase       | Sempre rápido                   | 100%    |
+| **Dev verificado** | Dev + cache SW | 1º load variável, depois rápido | 52% dev |
+| **Dev novo**       | Dev + cache SW | Igual acima                     | 52% dev |
+
+---
+
+## 7. Segurança e Sandbox
+
+> **Referência:** Master Architecture §2.2 (Blindagem SDK)
+
+### 7.1. Modelo de Execução
+
+```text
+┌─────────────── Panda Core ────────────────┐
+│  Kernel → SDK → Verification Agents       │
+│                                           │
+│  ┌───────── Sandbox (iframe) ──────────┐  │
+│  │  Módulo/Tentáculo do Dev            │  │
+│  │  ❌ Não acessa Panda.* direto       │  │
+│  │  ✅ Acessa PandaProxy.* (filtrado)  │  │
+│  └─────────────────────────────────────┘  │
+│                                           │
+│  SDK decide o que o Proxy expõe:          │
+│  • O que o manifest declara ✅            │
+│  • O que o manifest NÃO declara ❌       │
+└───────────────────────────────────────────┘
+```
+
+### 7.2. Regras da Blindagem (Master Arch §2.2)
+
+|     | Regra                                                |
+| --- | ---------------------------------------------------- |
+| ❌  | `window.Panda.Auth = malicious;` (Sobrescrever Core) |
+| ❌  | `window.Panda._internal = {};` (Acessar internos)    |
+| ❌  | `fetch()` sem `Panda.Bridge` (Bypass proxy)          |
+| ✅  | `TentacleMonitor.registerChild('epic', API);`        |
+| ✅  | `Panda.emit('community:epic:connected');`            |
+| ✅  | Usar qualquer API pública do SDK                     |
+
+### 7.3. Permissões no Manifest
 
 ```json
 {
-  "name": "panda-plugin-ctrader",
+  "permissions": ["panda.ui.toast", "panda.data.read", "panda.store.state"]
+}
+```
+
+**Níveis de risco:**
+
+| Nível    | Exemplo                                  | Aprovação                  |
+| -------- | ---------------------------------------- | -------------------------- |
+| 🟢 Baixo | `panda.ui.toast`, `panda.data.read`      | Auto-approve               |
+| 🟡 Médio | `panda.data.write`, `panda.store.state`  | Auto com auditoria         |
+| 🔴 Alto  | `panda.wallet.send`, `panda.auth.modify` | Founder review obrigatório |
+
+---
+
+## 8. Manifest (`panda.manifest.json`)
+
+> **OBRIGATÓRIO** para publicar na Medusa Store. Sem manifest = não publica.
+
+```json
+{
+  "name": "Steam Library",
+  "id": "@fulano/steam-library",
   "version": "1.0.0",
-  "type": "plugin-rust",
-  "description": "Ponte MT4/MT5 para Panda",
+  "type": "module",
   "author": {
-    "name": "Lucas Valério",
-    "github": "LucassVal"
+    "name": "Dev Fulano",
+    "email": "dev@email.com"
+  },
+  "entry": "index.html",
+  "icon": "assets/icon.png",
+  "description": "Veja sua biblioteca Steam dentro do Panda",
+  "permissions": ["panda.ui.toast", "panda.data.read"],
+  "hosting": {
+    "type": "github",
+    "url": "https://raw.githubusercontent.com/fulano/steam-mod/main/"
   },
   "pricing": {
-    "model": "premium",
-    "price_pc": 500
+    "model": "free",
+    "price_pc": 0
   },
-  "dependencies": {
-    "panda-agent": ">=1.0.0"
-  },
-  "permissions": ["dll.load", "fs.write", "network.external"],
-  "entry": {
-    "rust": "src/main.rs",
-    "gas": null
+  "panda": {
+    "minVersion": "1.0.0",
+    "category": "gaming"
   }
 }
 ```
 
+### 8.1. Campos obrigatórios
+
+| Campo              | Tipo     | Descrição                                    |
+| ------------------ | -------- | -------------------------------------------- |
+| `name`             | string   | Nome de exibição                             |
+| `id`               | string   | Namespace: `@panda/nome` ou `@username/nome` |
+| `version`          | semver   | Versão semântica                             |
+| `type`             | enum     | `"module"`, `"tentacle"`, ou `"theme"`       |
+| `entry`            | string   | Arquivo de entrada (ex: `index.html`)        |
+| `permissions`      | string[] | Capabilities necessárias                     |
+| `panda.minVersion` | semver   | Versão mínima do Panda SDK                   |
+
+### 8.2. Campo `type`
+
+| Valor      | Descrição                        | Entry point                 |
+| ---------- | -------------------------------- | --------------------------- |
+| `module`   | App que roda no canvas container | `index.html`                |
+| `tentacle` | Hook de sistema que estende APIs | `index.js`                  |
+| `theme`    | Tema visual (CSS + variáveis)    | `theme.css` ou `theme.json` |
+
 ---
 
-## 5. Panda Store Registry
+## 9. Esqueleto do Dev
 
-### 5.1 Estrutura
+### 9.1. Módulo (type: module)
 
 ```text
-PANDA STORE (hospedado em GAS/GitHub Pages)
+@fulano/meu-modulo/
+├── panda.manifest.json    ← Obrigatório
+├── index.html             ← Entry point
+├── style.css              ← Opcional
+├── script.js              ← Opcional
+└── assets/
+    └── icon.png           ← 128x128
+```
+
+### 9.2. Tentáculo (type: tentacle)
+
+```text
+@fulano/meu-tentaculo/
+├── panda.manifest.json    ← Obrigatório
+├── index.js               ← Entry point (registra no TentacleMonitor)
+├── README.md              ← Documentação
+└── assets/
+    └── icon.png           ← 128x128
+```
+
+### 9.3. Theme (type: theme)
+
+```text
+@fulano/meu-theme/
+├── panda.manifest.json    ← Obrigatório
+├── theme.css              ← Variáveis CSS
+└── assets/
+    ├── icon.png           ← 128x128
+    └── preview.png        ← Screenshot 1280x720
+```
+
+### 9.4. Fluxo completo do dev
+
+```text
+1. Dev cria pasta seguindo esqueleto acima
+2. Testa local (Panda tem modo dev que carrega de pasta local)
+3. Sobe assets no GitHub / Drive
+4. Publica na Medusa Store → envia manifest
+5. Medusa valida manifest (schema check)
+6. Agentes de verificação acessam URL e fazem scan
+7. Aparece na Store → users instalam
+```
+
+---
+
+## 10. Panda Store Registry
+
+### 10.1. Estrutura
+
+```text
+PANDA STORE (hospedado em GAS/Firebase)
 ├── registry/
-│   ├── plugins.json        # Lista de plugins
-│   └── templates.json      # Lista de templates
+│   ├── modules.json          # Lista de módulos
+│   ├── tentacles.json        # Lista de tentáculos
+│   └── themes.json           # Lista de themes
 ├── packages/
-│   └── {pkg-name}/
+│   └── {namespace}/{name}/
 │       ├── manifest.json
-│       ├── latest.zip
 │       └── versions/
-│           ├── 1.0.0.zip
-│           └── 1.1.0.zip
+│           ├── 1.0.0/
+│           └── 1.1.0/
 └── api/
     └── v1/
         ├── search
@@ -223,43 +457,39 @@ PANDA STORE (hospedado em GAS/GitHub Pages)
         └── publish
 ```
 
-### 5.2 API Endpoints
+### 10.2. API Endpoints
 
-| Endpoint                 | Método | Descrição             |
-| ------------------------ | ------ | --------------------- |
-| `/api/v1/search?q=`      | GET    | Busca plugins         |
-| `/api/v1/package/{name}` | GET    | Detalhes do package   |
-| `/api/v1/install/{name}` | POST   | Instala (debita PC)   |
-| `/api/v1/publish`        | POST   | Publica (via webhook) |
+| Endpoint                             | Método | Descrição                              |
+| ------------------------------------ | ------ | -------------------------------------- |
+| `/api/v1/search?q=&type=`            | GET    | Busca por tipo (module/tentacle/theme) |
+| `/api/v1/package/{namespace}/{name}` | GET    | Detalhes do package                    |
+| `/api/v1/install/{namespace}/{name}` | POST   | Instala (debita PC)                    |
+| `/api/v1/publish`                    | POST   | Publica (via webhook)                  |
 
 ---
 
-## 6. Diferenciais para Devs
+## 11. Diferenciais para Devs
 
-> O que faz devs escolherem Panda para publicar plugins?
+| Diferencial       | Descrição                      |
+| ----------------- | ------------------------------ |
+| **Split 52%**     | Dev fica com 52% das vendas    |
+| **GitHub nativo** | Sem plataforma proprietária    |
+| **SDK simples**   | `Panda.Brain.chat()`           |
+| **IA tutora**     | Tutorial automático para users |
+| **Multi-window**  | Modules podem usar docks       |
+| **Tokenomics**    | Monetização built-in com PC    |
+| **Zero config**   | User não configura API keys    |
 
-| Diferencial       | Descrição                           |
-| ----------------- | ----------------------------------- | --- |
-| **Split 52%**     | Dev fica com 52% das vendas (Store) |     |
-| **GitHub nativo** | Sem plataforma proprietária         |
-| **SDK simples**   | `Panda.Brain.chat()`                |
-| **IA tutora**     | Tutorial automático para users      |
-| **Multi-window**  | Plugins podem usar docks            |
-| **Tokenomics**    | Monetização built-in com PC         |
-| **Zero config**   | User não configura API keys         |
+### Comparação
 
-### Comparação com Outras Plataformas
+| Plataforma          | Split Dev | Barreira            | Monetização    |
+| ------------------- | --------- | ------------------- | -------------- |
+| **Panda**           | 52%       | 🟢 Baixa (git push) | ✅ PC built-in |
+| Apple Store         | 70-85%    | 🔴 Alta ($99/ano)   | ✅             |
+| Chrome Web Store    | 70%       | 🟡 Média (review)   | ⚠️ Manual      |
+| VS Code Marketplace | 0%        | 🟢 Baixa            | ❌ Sem         |
 
-| Plataforma          | Split Dev |  Barreira Entrada   |  Monetização   |
-| ------------------- | :-------: | :-----------------: | :------------: |
-| **Panda**           |    52%    | 🟢 Baixa (git push) | ✅ PC built-in |
-| Apple Store         |  70-85%   |  🔴 Alta ($99/ano)  |       ✅       |
-| Chrome Web Store    |    70%    |  🟡 Média (review)  |   ⚠️ Manual    |
-| VS Code Marketplace |    0%     |      🟢 Baixa       |     ❌ Sem     |
-
-### 6.2 VMs e Hosts Terceiros
-
-Além de devs individuais, empresas podem plugar infraestrutura no SDK:
+### VMs e Hosts Terceiros
 
 | Modelo                 | Descrição                       | Revenue     |
 | ---------------------- | ------------------------------- | ----------- |
@@ -267,44 +497,27 @@ Além de devs individuais, empresas podem plugar infraestrutura no SDK:
 | **Host Terceiro**      | Provedor externo plugado no SDK | 10-20% fee  |
 | **Compute Share**      | User cede recursos → recebe PC  | Split 50/50 |
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│            HOSTS TERCEIROS → PANDA SDK                               │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  TERCEIRO (própria infra)           PANDA SDK                       │
-│  ┌──────────────────────┐          ┌──────────────────────┐        │
-│  │ DigitalOcean         │   Hook   │ • Billing (PC)       │        │
-│  │ AWS                  │─────────▶│ • Auth (Firebase)    │        │
-│  │ Azure                │          │ • Monitoring         │        │
-│  │ Qualquer VPS         │          │ • User routing       │        │
-│  └──────────────────────┘          └──────────────────────┘        │
-│                                                                      │
-│  BENEFÍCIO TERCEIRO: Acesso à base de users Panda                   │
-│  BENEFÍCIO PANDA: Infra distribuída sem custo                       │
-└─────────────────────────────────────────────────────────────────────┘
-```
+---
+
+## 12. Roadmap
+
+| Fase   | Entregas                                               | Prazo    |
+| ------ | ------------------------------------------------------ | -------- |
+| **P1** | GitHub Webhook + Medusa API                            | Sprint 4 |
+| **P2** | ✅ Store UI v3.1 (9 extensões, BYOL+webview planejado) | Sprint 5 |
+| **P3** | Sandbox runtime + permissions                          | Sprint 6 |
+| **P4** | Featured modules + analytics                           | Sprint 7 |
 
 ---
 
-## 7. Roadmap
-
-| Fase   | Entregas                     | Prazo    |
-| ------ | ---------------------------- | -------- |
-| **P1** | GitHub Webhook + Medusa API  | Sprint 4 |
-| **P2** | Store UI + pagamentos PC     | Sprint 5 |
-| **P3** | Featured plugins + analytics | Sprint 6 |
-
----
-
-## 8. Referências
+## 13. Referências
 
 - [PF_BACKEND_REFERENCE.md](PF_BACKEND_REFERENCE.md) - Rust Agent + Backend
 - [PF_MCP_REFERENCE.md](PF_MCP_REFERENCE.md) - MCP Tools + Manifest
 - [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) - Economia PC/Splits
-- [GitHub Actions](https://docs.github.com/actions)
+- [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md) - SDK API + Tentacle Architecture
+- [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) - Blindagem SDK §2.2
 
 ---
 
-> 📖 **Versão:** 1.1.0 | **Status:** Planejado
-
+> 📖 **Versão:** 2.0.0 | **Status:** Planejado

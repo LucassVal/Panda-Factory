@@ -1,10 +1,10 @@
 <!-- ============================================= -->
-<!-- DEVTOOLS DOCK v3.0 (Glassmorphism Edition)  -->
+<!-- DEVTOOLS DOCK v3.1 (pf- prefix standard)    -->
 <!-- Right Side, Vertical, DevMode Tools         -->
 <!-- ============================================= -->
 <style>
   /* DevDock Glassmorphism Styles */
-  .right-dock {
+  .pf-devdock {
     position: fixed;
     right: 16px;
     top: 50%;
@@ -13,11 +13,11 @@
     display: none; /* Hidden by default, shown when Dev Mode ON */
   }
 
-  .right-dock.active {
+  .pf-devdock.active {
     display: block;
   }
 
-  .right-dock .dock-items {
+  .pf-devdock .pf-dock-items {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -31,17 +31,17 @@
   }
 
   /* Light mode */
-  .right-dock .dock-items {
+  .pf-devdock .pf-dock-items {
     background: rgba(255, 255, 255, 0.75);
   }
 
   /* Dark mode */
-  .dark-mode .right-dock .dock-items {
+  .dark-mode .pf-devdock .pf-dock-items {
     background: rgba(20, 20, 30, 0.85);
     border-color: rgba(102, 126, 234, 0.3);
   }
 
-  .right-dock .dock-item {
+  .pf-devdock .pf-dock-item {
     width: 44px;
     height: 44px;
     display: flex;
@@ -54,16 +54,16 @@
     background: transparent;
   }
 
-  .right-dock .dock-item:hover {
+  .pf-devdock .pf-dock-item:hover {
     background: rgba(102, 126, 234, 0.2);
     transform: scale(1.1);
   }
 
-  .right-dock .dock-item:active {
+  .pf-devdock .pf-dock-item:active {
     transform: scale(0.95);
   }
 
-  .dock-section-label {
+  .pf-dock-section-label {
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -74,7 +74,7 @@
     opacity: 0.8;
   }
 
-  .dock-separator {
+  .pf-dock-separator {
     width: 100%;
     height: 1px;
     background: rgba(102, 126, 234, 0.2);
@@ -82,81 +82,101 @@
   }
 </style>
 
-<div id="devDock" class="modular-dock right-dock">
-  <div class="dock-items">
+<div id="devDock" class="pf-devdock">
+  <div class="pf-dock-items">
     <!-- CORE TOOLS -->
-    <div class="dock-section-label">Core</div>
+    <div class="pf-dock-section-label">Core</div>
 
-    <div class="dock-item" onclick="openDevTool('console')" title="💻 Console">
+    <div
+      class="pf-dock-item"
+      onclick="openDevTool('console')"
+      title="💻 Console"
+    >
       💻
     </div>
-    <div class="dock-item" onclick="openDevTool('mcp')" title="🧰 MCP Browser">
+    <div
+      class="pf-dock-item"
+      onclick="openDevTool('mcp')"
+      title="🧰 MCP Browser"
+    >
       🧰
     </div>
-    <div class="dock-item" onclick="openDevTool('api')" title="🔌 API Tester">
+    <div
+      class="pf-dock-item"
+      onclick="openDevTool('api')"
+      title="🔌 API Tester"
+    >
       🔌
     </div>
 
-    <div class="dock-separator"></div>
+    <div class="pf-dock-separator"></div>
 
     <!-- GOVERNANCE -->
-    <div class="dock-section-label">PAT</div>
+    <div class="pf-dock-section-label">PAT</div>
 
     <div
-      class="dock-item"
+      class="pf-dock-item"
       onclick="openDevTool('treasury')"
       title="🏦 PAT Treasury"
     >
       🏦
     </div>
     <div
-      class="dock-item"
+      class="pf-dock-item"
       onclick="openDevTool('constitution')"
       title="⚖️ Constitution"
     >
       ⚖️
     </div>
 
-    <div class="dock-separator"></div>
+    <div class="pf-dock-separator"></div>
 
     <!-- DATA & EXTENSIONS -->
-    <div class="dock-section-label">Data</div>
+    <div class="pf-dock-section-label">Data</div>
 
     <div
-      class="dock-item"
+      class="pf-dock-item"
       onclick="openDevTool('database')"
       title="🗄️ Database"
     >
       🗄️
     </div>
     <div
-      class="dock-item"
+      class="pf-dock-item"
       onclick="openDevTool('extensions')"
       title="🧩 Extensions"
     >
       🧩
     </div>
 
-    <div class="dock-separator"></div>
+    <div class="pf-dock-separator"></div>
 
     <!-- FUTURE TOOLS -->
-    <div class="dock-section-label">More</div>
+    <div class="pf-dock-section-label">More</div>
 
     <div
-      class="dock-item"
+      class="pf-dock-item"
       onclick="openDevTool('editor')"
       title="📝 Code Editor"
     >
       📝
     </div>
-    <div class="dock-item" onclick="openDevTool('rig')" title="🦀 RIG Config">
+    <div
+      class="pf-dock-item"
+      onclick="openDevTool('rig')"
+      title="🦀 RIG Config"
+    >
       🦀
     </div>
 
-    <div class="dock-separator"></div>
+    <div class="pf-dock-separator"></div>
 
     <!-- AI ASSISTANT -->
-    <div class="dock-item" onclick="openDevTool('ai')" title="🐼 AI Assistant">
+    <div
+      class="pf-dock-item"
+      onclick="openDevTool('ai')"
+      title="🐼 AI Assistant"
+    >
       🐼
     </div>
   </div>
@@ -164,7 +184,7 @@
 
 <script>
   /**
-   * DevTools Controller v3.0
+   * DevTools Controller v3.1 (pf- prefix standard)
    */
   window.openDevTool = function (toolId) {
     const tools = {
@@ -200,32 +220,31 @@
   };
 
   /**
-   * Toggle Dev Mode
+   * Toggle Dev Mode (also defined in AppDock, this is a backup)
    */
-  window.toggleDevMode = function () {
-    const devDock = document.getElementById("devDock");
-    const toggleBtn = document.getElementById("devModeToggle");
-    const isActive = devDock?.classList.toggle("active");
+  if (!window.toggleDevMode) {
+    window.toggleDevMode = function () {
+      const devDock = document.getElementById("devDock");
+      const toggleBtn = document.getElementById("devModeToggle");
+      const isActive = devDock?.classList.toggle("active");
 
-    // Update toggle button icon
-    if (toggleBtn) {
-      toggleBtn.innerHTML = isActive ? "🔧" : "🛠️";
-      toggleBtn.classList.toggle("active", isActive);
-    }
+      if (toggleBtn) {
+        toggleBtn.innerHTML = isActive ? "🔧" : "🛠️";
+        toggleBtn.classList.toggle("active", isActive);
+      }
 
-    // Persist
-    localStorage.setItem("panda_dev_mode", isActive ? "true" : "false");
+      localStorage.setItem("panda_dev_mode", isActive ? "true" : "false");
 
-    // Toast
-    if (typeof Panda !== "undefined" && Panda.UI?.toast) {
-      Panda.UI.toast(
-        isActive ? "Dev Mode ON 🔧" : "Dev Mode OFF",
-        isActive ? "success" : "info",
-      );
-    }
+      if (typeof Panda !== "undefined" && Panda.UI?.toast) {
+        Panda.UI.toast(
+          isActive ? "Dev Mode ON 🔧" : "Dev Mode OFF",
+          isActive ? "success" : "info",
+        );
+      }
 
-    console.log(`🐼 Dev Mode: ${isActive ? "ON" : "OFF"}`);
-  };
+      console.log(`🐼 Dev Mode: ${isActive ? "ON" : "OFF"}`);
+    };
+  }
 
   // Auto-restore Dev Mode on load
   document.addEventListener("DOMContentLoaded", () => {
@@ -241,5 +260,5 @@
     }
   });
 
-  console.log("🐼 DevTools Dock v3.0 loaded");
+  console.log("🐼 DevTools Dock v3.1 loaded (pf- prefix standard)");
 </script>

@@ -1,7 +1,7 @@
 ---
 tool_context: panda/master
 description: Panda OS Complete Architecture - Frontend, SDK, Backend 3-Pillar Stack
-version: 5.1.0
+version: 5.2.0
 updated: 2026-02-10
 ---
 
@@ -12,7 +12,7 @@ updated: 2026-02-10
 > **Documento Mestre de Arquitetura**
 > Consolidação unificada seguindo o Mapa Visual do Projeto.
 > Frontend → SDK → Backend Distribuído (3 Pilares).
-> **Atualizado:** 2026-02-10 | JAM UI v6.4 | Vite Deploy Ready
+> **Atualizado:** 2026-02-10 | JAM UI v6.5 | Vite Deploy Ready
 
 ---
 

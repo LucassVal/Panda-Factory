@@ -1,3 +1,10 @@
+---
+tool_context: panda/gemini
+description: Google Gemini 3 Integration - SDK @google/genai, Function Calling, MCP
+version: 3.0.0
+updated: 2026-02-06
+---
+
 # 🧠 PF_GEMINI_REFERENCE v3.0
 
 > **Referência Completa da Integração Google Gemini 3 no Panda Factory**
@@ -23,6 +30,28 @@
 ---
 
 ## 1. Visão Geral
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                    GEMINI 3 INTEGRATION                              │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 🧠 Flash 2.0 │  │ ⚡ Flash Lite│  │ 💎 Pro 2.5   │              │
+│  │  (Standard)  │  │   (Budget)   │  │  (Advanced)  │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│                            │                                        │
+│                   ┌──────────────────┐                             │
+│                   │  🐼 Panda.Brain  │                             │
+│                   │  @google/genai   │                             │
+│                   └──────────────────┘                             │
+│                            │                                        │
+│         ┌──────────────────┼──────────────────┐                    │
+│         ▼                  ▼                  ▼                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 🔧 Functions │  │ 🖼️ Multimodal│  │ 🎨 ImageGen  │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 O Panda Factory usa a **biblioteca recomendada `@google/genai`** (não a legada `@google/generativeai`).
 
@@ -454,7 +483,7 @@ response.usageMetadata = {
 ### 10.2. Cálculo de Custo PC
 
 ```javascript
-// 3.sdk/pf.meter.js
+// TODO: 3.sdk/pf.meter.js (planejado — ainda não implementado)
 const RATES = {
   "gemini-3-flash-preview": { in: 0, out: 0 }, // GRÁTIS
   "gemini-3-pro-preview": { in: 0.015, out: 0.06 }, // 15/60 PC per 1k
@@ -486,12 +515,14 @@ const calculateCost = (model, usage) => {
 ```text
 11.jam/src/
 ├── services/
-│   └── gemini.js           # Cliente Gemini @google/genai
+│   └── uiContext.js        # Context manager (ativo)
 ├── components/
-│   └── JamChat.jsx         # Chat com seletor de modelo
+│   └── PFChat.jsx          # Chat com seletor de modelo
 └── styles/
-    └── jam.css             # Estilos do seletor
+    └── pf.css              # Design System principal
 ```
+
+> ⚠️ **Nota:** `gemini.js` (cliente dedicado) e `pf.meter.js` (billing) são código planejado — ainda não implementados.
 
 ### 11.2. Cliente Gemini (gemini.js)
 
@@ -628,4 +659,3 @@ const image = await gemini.generateImage("Logo minimalista de um panda", {
 
 > **Documento mantido pelo Panda Factory**  
 > Versão: 3.0 | SDK: `@google/genai` | Data: Janeiro 2026
-

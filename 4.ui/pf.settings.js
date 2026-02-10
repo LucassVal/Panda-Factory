@@ -12,7 +12,7 @@
   // ==========================================
   function mudarSecaoSettings(sectionId) {
     // Update sidebar active state
-    document.querySelectorAll(".settings-nav-item").forEach((item) => {
+    document.querySelectorAll(".pf-settings-nav-item").forEach((item) => {
       item.classList.remove("active");
       if (item.getAttribute("data-section") === sectionId) {
         item.classList.add("active");
@@ -20,7 +20,7 @@
     });
 
     // Hide all sections
-    document.querySelectorAll(".settings-section").forEach((sec) => {
+    document.querySelectorAll(".pf-settings-section").forEach((sec) => {
       sec.style.display = "none";
     });
 
@@ -51,10 +51,10 @@
     const badge = document.getElementById("gpuBadge");
     if (badge) {
       if (isActive) {
-        badge.className = "gpu-badge online";
+        badge.className = "pf-gpu-badge online";
         badge.innerHTML = "<span>⚡</span> RTX 3060 (Simulated)";
       } else {
-        badge.className = "gpu-badge offline";
+        badge.className = "pf-gpu-badge offline";
         badge.innerHTML = "<span>⚠️</span> Nenhuma GPU detectada";
       }
     }

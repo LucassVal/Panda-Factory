@@ -1,40 +1,67 @@
+---
+tool_context: panda/oss
+description: Catálogo de bibliotecas open source aprovadas - 32 libs MIT/Apache
+version: 1.1.0
+updated: 2026-02-08
+---
+
 # 🧩 Panda Factory - Catálogo Open Source
 
-> **Última Atualização:** 2026-01-25  
+> **Última Atualização:** 2026-02-08  
 > **Decisão:** TLDraw com watermark aprovado ✅
 
 ---
 
 ## 📊 Resumo por Categoria
 
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                    OPEN SOURCE CATALOG                               │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 🎨 Panda Jam │  │ 🦀 Rust Agent│  │ 🤖 AI Local  │              │
+│  │   (3 libs)   │  │   (5 libs)   │  │   (5 libs)   │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 🔌 MCP Server│  │ 🛒 E-Commerce│  │ 🔥 Firebase  │              │
+│  │   (6 libs)   │  │   (3 libs)   │  │   (3 libs)   │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│                            │                                        │
+│                   ┌──────────────────┐                             │
+│                   │  📦 32+ libs     │                             │
+│                   │  MIT/Apache 2.0  │                             │
+│                   └──────────────────┘                             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 | Categoria          | Quantidade | Status      |
 | ------------------ | ---------- | ----------- |
-| 🎨 Panda Jam (UI)  | 4          | ✅ Aprovado |
+| 🎨 Panda Jam (UI)  | 3          | ✅ Aprovado |
 | 🦀 Rust Agent      | 5          | ✅ Aprovado |
 | 🤖 AI Local        | 5          | ✅ Aprovado |
 | 🔌 MCP Servers     | 6          | ✅ Aprovado |
 | 🛒 E-Commerce      | 3          | ✅ Aprovado |
 | 🔥 Google/Firebase | 3          | ✅ Aprovado |
-| 📦 Utilitários     | 4          | ✅ Aprovado |
-| **TOTAL**          | **30**     | ✅          |
+| 📦 Utilitários     | 7          | ✅ Aprovado |
+| **TOTAL**          | **32**     | ✅          |
 
 ---
 
 ## 🎨 PANDA JAM (UI Canvas)
 
-| Biblioteca            | Versão | Licença      | Instalação                          | Uso                  |
-| --------------------- | ------ | ------------ | ----------------------------------- | -------------------- |
-| **TLDraw** ⭐         | v2     | Apache 2.0\* | `npm i @tldraw/tldraw`              | Canvas infinito      |
-| **FlexLayout-React**  | 0.8+   | MIT          | `npm i flexlayout-react`            | Multi-window docking |
-| **Yjs**               | 13+    | MIT          | `npm i yjs y-websocket y-indexeddb` | Colaboração CRDT     |
-| **CatsJuice/dockbar** | 1+     | MIT          | `npm i dockbar`                     | Dock macOS style     |
+| Biblioteca           | Versão | Licença      | Instalação                          | Uso                  |
+| -------------------- | ------ | ------------ | ----------------------------------- | -------------------- |
+| **TLDraw** ⭐        | v2     | Apache 2.0\* | `npm i @tldraw/tldraw`              | Canvas infinito      |
+| **FlexLayout-React** | 0.8+   | MIT          | `npm i flexlayout-react`            | Multi-window docking |
+| **Yjs**              | 13+    | MIT          | `npm i yjs y-websocket y-indexeddb` | Colaboração CRDT     |
 
-> ✅ **TLDraw:** Watermark integrado ao rodapé: "Panda Factory - TLDraw"
+> ✅ **TLDraw:** Watermark integrado ao rodapé: "Panda Factory - TLDraw"  
+> ⚠️ **dockbar** removido — dock customizado implementado em `PFDock.jsx`
 
 ### Instalação Completa
 
 ```bash
-npm i @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb dockbar
+npm i @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb
 ```
 
 ---
@@ -145,37 +172,39 @@ clasp login
 
 ## 📦 UTILITÁRIOS
 
-| Biblioteca      | Versão | Licença | Instalação                    | Uso               |
-| --------------- | ------ | ------- | ----------------------------- | ----------------- |
-| **Zod**         | 3+     | MIT     | `npm i zod`                   | Validação schemas |
-| **React Query** | 5+     | MIT     | `npm i @tanstack/react-query` | Fetch/cache       |
-| **Zustand**     | 5+     | MIT     | `npm i zustand`               | State management  |
-| **Vite**        | 6+     | MIT     | `npm create vite`             | Build tool        |
+| Biblioteca      | Versão | Licença | Instalação                    | Uso                             |
+| --------------- | ------ | ------- | ----------------------------- | ------------------------------- |
+| **React**       | 18+    | MIT     | `npm i react react-dom`       | Core UI framework               |
+| **Zod**         | 3+     | MIT     | `npm i zod`                   | Validação schemas               |
+| **React Query** | 5+     | MIT     | `npm i @tanstack/react-query` | Fetch/cache                     |
+| **Zustand**     | 5+     | MIT     | `npm i zustand`               | State management                |
+| **lz-string**   | 1.5+   | MIT     | `npm i lz-string`             | Compressão strings/localStorage |
+| **Vite**        | 5+     | MIT     | `npm create vite`             | Build tool (dev)                |
 
 ### Instalação
 
 ```bash
-npm i zod @tanstack/react-query zustand
+npm i zod @tanstack/react-query zustand lz-string
 ```
 
 ---
 
 ## ⚡ INSTALAÇÃO COMPLETA
 
-### Frontend (npm)
+### Frontend (npm) — executar em `11.jam/`
 
 ```bash
 # Core UI
-npm i @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb dockbar
+npm i react react-dom @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb
 
 # Firebase
 npm i firebase
 
 # Utilitários
-npm i zod @tanstack/react-query zustand
+npm i zod @tanstack/react-query zustand lz-string
 
 # Dev
-npm i -D @types/google-apps-script vite
+npm i -D @types/google-apps-script @vitejs/plugin-react vite
 ```
 
 ### Rust Agent (Cargo.toml)
@@ -226,5 +255,4 @@ npx create-medusa-app@latest ./panda-store
 ---
 
 > 📝 **Atualizado por:** AI Assistant  
-> 📅 **Data:** 2026-01-25
-
+> 📅 **Data:** 2026-02-08

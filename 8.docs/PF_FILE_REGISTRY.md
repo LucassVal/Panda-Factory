@@ -1,22 +1,49 @@
+---
+tool_context: panda/files
+description: Catálogo de arquivos - 220+ arquivos GAS, Rust, JS, HTML, CSS, MD
+version: 2.5.0
+updated: 2026-02-10
+---
+
 # 📁 PF_FILE_REGISTRY - Catálogo de Arquivos
 
-> **Versão:** 2.0.0 | **Atualizado:** 2026-02-05
+> **Versão:** 2.5.0 | **Atualizado:** 2026-02-10
 > **Propósito:** Inventário COMPLETO de todos os arquivos do Panda Factory
 
 ---
 
 ## 📊 Resumo Atualizado
 
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                    FILE REGISTRY - 220+ ARQUIVOS                     │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 📜 17 .gs    │  │ 🦀 8 .rs     │  │ 📄 25+ .md   │              │
+│  │  Backend GAS │  │  Rust Agent  │  │ Documentação │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │ 💻 98 .js/.jsx│  │ 🌐 18 .html  │  │ 🎨 15 .css   │              │
+│  │ SDK/Tentacles│  │  UI/Modules  │  │   Estilos    │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌──────────────┐  ┌──────────────┐                                │
+│  │ ⚙️ 15+ .json │  │ 🐍 25+ .py   │                                │
+│  │   Config     │  │   Scripts    │                                │
+│  └──────────────┘  └──────────────┘                                │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 | Extensão | Quantidade | Domínio Principal      |
 | -------- | ---------- | ---------------------- |
 | `.gs`    | 17         | Backend GAS            |
 | `.rs`    | 8          | Rust Agent             |
 | `.md`    | 25+        | Documentação           |
-| `.js`    | 85+        | Frontend/SDK/Tentacles |
-| `.html`  | 40+        | UI/Components/Modules  |
-| `.css`   | 10+        | Estilos                |
-| `.json`  | 15+        | Config                 |
-| `.py`    | 25+        | Scripts/Automação      |
+| `.js`    | 72         | Frontend/SDK/Tentacles |
+| `.jsx`   | 26         | React Components       |
+| `.html`  | 18         | UI/Components/Modules  |
+| `.css`   | 15         | Estilos                |
+| `.json`  | 10         | Config                 |
+| `.py`    | 28         | Scripts/Automação      |
 
 ---
 
@@ -24,117 +51,119 @@
 
 ### Core
 
-| Arquivo               | Caminho         | Descrição                                  |
-| --------------------- | --------------- | ------------------------------------------ |
-| `PF_Dispatcher.gs`    | `1.core/core/` | Router principal (doGet/doPost) - Tri-Mode |
-| `PF_Config.gs`        | `1.core/core/` | Configurações globais                      |
-| `PF_App_Init.gs`      | `1.core/core/` | Inicialização do app                       |
-| `PF_Core_AI.gs`       | `1.core/core/` | Dispatcher AI multimodal                   |
-| `PF_Core_Oracle.gs`   | `1.core/core/` | Cotação USD/BRL                            |
-| `PF_Core_Webhooks.gs` | `1.core/core/` | Webhooks B2B (Kiwify, Hotmart, etc.)       |
-| `PF_Brain_Core.gs`    | `1.core/core/` | Core do Brain AI                           |
-| `PF_Moltbook.gs`      | `1.core/core/` | Integração Moltbook                        |
-| `PF_PAT_Core.gs`      | `1.core/core/` | Panda Council (Governança)                 |
+| Arquivo               | Caminho           | Descrição                                  |
+| --------------------- | ----------------- | ------------------------------------------ |
+| `PF_Dispatcher.gs`    | `1.core/1.1.gas/` | Router principal (doGet/doPost) - Tri-Mode |
+| `PF_Config.gs`        | `1.core/1.1.gas/` | Configurações globais                      |
+| `PF_App_Init.gs`      | `1.core/1.1.gas/` | Inicialização do app                       |
+| `PF_Core_AI.gs`       | `1.core/1.1.gas/` | Dispatcher AI multimodal                   |
+| `PF_Core_Oracle.gs`   | `1.core/1.1.gas/` | Cotação USD/BRL                            |
+| `PF_Core_Webhooks.gs` | `1.core/1.1.gas/` | Webhooks B2B (Kiwify, Hotmart, etc.)       |
+| `PF_Brain_Core.gs`    | `1.core/1.1.gas/` | Core do Brain AI                           |
+| `PF_Moltbook.gs`      | `1.core/1.1.gas/` | Integração Moltbook                        |
+| `PF_PAT_Core.gs`      | `1.core/1.1.gas/` | Panda Council (Governança)                 |
 
 ### Finance
 
-| Arquivo        | Caminho                    | Descrição                    |
-| -------------- | -------------------------- | ---------------------------- |
+| Arquivo        | Caminho                   | Descrição                    |
+| -------------- | ------------------------- | ---------------------------- |
 | `PF_Wallet.gs` | `1.core/domains/finance/` | Carteira Panda Coin          |
 | `PF_Crypto.gs` | `1.core/domains/finance/` | Pagamentos crypto (USDC/SOL) |
 | `PF_Fiat.gs`   | `1.core/domains/finance/` | Pagamentos fiat (Stripe/PIX) |
 
 ### Store
 
-| Arquivo             | Caminho                  | Descrição                     |
-| ------------------- | ------------------------ | ----------------------------- |
+| Arquivo             | Caminho                 | Descrição                     |
+| ------------------- | ----------------------- | ----------------------------- |
 | `PF_Sales.gs`       | `1.core/domains/store/` | Vendas e Split (52/25/15/5/3) |
 | `PF_Registry.gs`    | `1.core/domains/store/` | Registro de módulos           |
 | `PF_Marketplace.gs` | `1.core/domains/store/` | Medusa Store backend          |
 
 ### Automation & P2P
 
-| Arquivo      | Caminho                       | Descrição                        |
-| ------------ | ----------------------------- | -------------------------------- |
+| Arquivo      | Caminho                      | Descrição                        |
+| ------------ | ---------------------------- | -------------------------------- |
 | `PF_Bots.gs` | `1.core/domains/automation/` | Automação de tarefas             |
 | `PF_P2P.gs`  | `1.core/domains/p2p/`        | 🌐 Node registry, tasks, rewards |
+
+### Payment SDKs (1.core/1.3.sdks/)
+
+| Arquivo            | Status  | Descrição             |
+| ------------------ | ------- | --------------------- |
+| `SDK_PagSeguro.js` | 🟡 MOCK | PagSeguro payment SDK |
+| `SDK_Stripe.js`    | 🟡 MOCK | Stripe payment SDK    |
 
 ---
 
 ## 🦀 Rust Agent (8 arquivos)
 
-| Arquivo       | Caminho           | Descrição                   |
-| ------------- | ----------------- | --------------------------- |
-| `main.rs`     | `7.7.rust-agent/src/` | Entry point, CLI dispatcher |
-| `mcp.rs`      | `7.7.rust-agent/src/` | MCP Server (4 tools)        |
-| `crypto.rs`   | `7.7.rust-agent/src/` | Ed25519 Founder Auth        |
-| `gpu.rs`      | `7.7.rust-agent/src/` | NVIDIA/CUDA detection       |
-| `health.rs`   | `7.7.rust-agent/src/` | Health monitoring           |
-| `moltbook.rs` | `7.7.rust-agent/src/` | Moltbook client             |
-| `node.rs`     | `7.7.rust-agent/src/` | 🌐 P2P Node Manager         |
-| `mining.rs`   | `7.7.rust-agent/src/` | ⛏️ Mining & Partner Mode    |
-| `Cargo.toml`  | `7.7.rust-agent/`     | Dependências Rust           |
+| Arquivo       | Caminho             | Descrição                   |
+| ------------- | ------------------- | --------------------------- |
+| `main.rs`     | `7.rust-agent/src/` | Entry point, CLI dispatcher |
+| `mcp.rs`      | `7.rust-agent/src/` | MCP Server (4 tools)        |
+| `crypto.rs`   | `7.rust-agent/src/` | Ed25519 Founder Auth        |
+| `gpu.rs`      | `7.rust-agent/src/` | NVIDIA/CUDA detection       |
+| `health.rs`   | `7.rust-agent/src/` | Health monitoring           |
+| `moltbook.rs` | `7.rust-agent/src/` | Moltbook client             |
+| `node.rs`     | `7.rust-agent/src/` | 🌐 P2P Node Manager         |
+| `mining.rs`   | `7.rust-agent/src/` | ⛏️ Mining & Partner Mode    |
+| `Cargo.toml`  | `7.rust-agent/`     | Dependências Rust           |
 
 ---
 
-## 📚 Documentação (19+ arquivos em 8.docs/)
+## 📚 Documentação (18 arquivos em 8.docs/)
 
-| Arquivo                              | Descrição                        |
-| ------------------------------------ | -------------------------------- |
-| `PF_MASTER_ARCHITECTURE.md`          | 🌟 Arquitetura completa (~192KB) |
-| `PF_FILE_REGISTRY.md`                | 📁 Este arquivo (catálogo)       |
-| `PF_SDK_REFERENCE.md`                | SDK, Tentacles, Event Bus        |
-| `PF_UI_REFERENCE.md`                 | Design System + Componentes      |
-| `PF_BACKEND_REFERENCE.md`            | Backend geral + Firebase + Rust  |
-| `PF_P2P_REFERENCE.md`                | P2P + Partner + Nodes + Mining   |
-| `PF_GAS_REFERENCE.md`                | Google Apps Script (Tri-Mode)    |
-| `PF_MCP_REFERENCE.md`                | Model Context Protocol           |
-| `PF_GEMINI_REFERENCE.md`             | Gemini 2.0/3.0 Flash             |
-| `PF_MOLTBOOK_REFERENCE.md`           | Rede social de agentes           |
-| `PF_COLAB_REFERENCE.md`              | Google Colab BYOC                |
-| `PF_AGENT_CONSTITUTION.md`           | Persona IA pública               |
-| `PF_ECONOMY_REFERENCE.md`            | Panda Coin + Tokenomics          |
-| `PF_SECURITY_REFERENCE.md`           | 🛡️ Pipeline + Panda Defend       |
-| `PF_SOCIAL_REFERENCE.md`             | Social Hub APIs                  |
-| `PF_EDUCATION_REFERENCE.md`          | EdTech integration               |
-| `PF_PLUGIN_AND_MODULAR_REFERENCE.md` | Sistema plugins + cTrader        |
-| `PF_MEDUSA_REFERENCE.md`             | Marketplace Store                |
-| `PF_OPENSOURCE_CATALOG.md`           | Catálogo OSS                     |
+| Arquivo                          | Descrição                        |
+| -------------------------------- | -------------------------------- |
+| `PF_MASTER_ARCHITECTURE.md`      | 🌟 Arquitetura completa (~192KB) |
+| `PF_FILE_REGISTRY.md`            | 📁 Este arquivo (catálogo)       |
+| `PF_SDK_REFERENCE.md`            | SDK, Tentacles, Social, Plugins  |
+| `PF_UI_REFERENCE.md`             | Design System + Componentes      |
+| `PF_BACKEND_REFERENCE.md`        | Backend geral + Firebase + Rust  |
+| `PF_P2P_REFERENCE.md`            | P2P + Partner + Nodes + Mining   |
+| `PF_GAS_REFERENCE.md`            | Google Apps Script (Tri-Mode)    |
+| `PF_MCP_REFERENCE.md`            | Model Context Protocol           |
+| `PF_GEMINI_REFERENCE.md`         | Gemini 2.0/3.0 Flash             |
+| `PF_COLAB_REFERENCE.md`          | Google Colab BYOC                |
+| `PF_AGENT_CONSTITUTION.md`       | Persona IA pública               |
+| `PF_ECONOMY_REFERENCE.md`        | Panda Coin + Tokenomics          |
+| `PF_SECURITY_REFERENCE.md`       | 🛡️ Pipeline + Panda Defend       |
+| `PF_MEDUSA_REFERENCE.md`         | Marketplace Store                |
+| `PF_OPENSOURCE_CATALOG.md`       | Catálogo OSS                     |
+| `PF_PAT_FOUNDER_CONSTITUTION.md` | Constituição PAT + Founder       |
+| `README_PANDA_OFICIAL.md`        | README principal do projeto      |
+| `NPM_INSTALL_LIST.md`            | Lista de dependências npm        |
 
 ---
 
-## 💻 Frontend SDK & JS (85+ arquivos)
+## 💻 Frontend SDK & JS
 
-### Core SDK (js/)
+### SDK (3.sdk/) — 12 arquivos, 17 namespaces
 
-> 🏷️ **Status:** 🟢 REAL (callGAS) | 🟡 MOCK (\_delay) | 🔵 HYBRID | ⚪ STATIC
+> 🏷️ **Status:** 🟢 REAL (callGAS/funcional) | 🟡 MOCK (setTimeout/placeholder) | 🔵 HYBRID (misto) | ⚪ STATIC (lógica local)
 
-| Arquivo           | Status    | Descrição               |
-| ----------------- | --------- | ----------------------- |
-| `pf.sdk.js`       | 🔵 HYBRID | 🌟 SDK principal (50KB) |
-| `pf.bootstrap.js` | 🟡 MOCK   | Bootstrap loader        |
-| `pf.app-init.js`  | 🟡 MOCK   | App initialization      |
-| `dock-utils.js`   | ⚪ STATIC | Dock utilities          |
+| Arquivo                  | Status    | Descrição                                 |
+| ------------------------ | --------- | ----------------------------------------- |
+| `pf.sdk.js`              | 🔵 HYBRID | 🌟 SDK principal — 17 namespaces (v1.0.0) |
+| `pf.app-init.js`         | 🟡 MOCK   | Boot orchestrator (setTimeout no init)    |
+| `pf.loader.js`           | 🟢 REAL   | Module Loader v2.0 (numbered paths)       |
+| `pf.components.js`       | 🟢 REAL   | Component Loader v2.0 (numbered paths)    |
+| `pf.module-loader.js`    | 🟢 REAL   | Module loader (Medusa Store install)      |
+| `pf.ai-core.js`          | ⚪ STATIC | PAT/Treasury logic (depende de Brain)     |
+| `pf.firebase-bridge.js`  | 🟡 MOCK   | Firebase bridge (setTimeout simula conn)  |
+| `pf.i18n.js`             | 🟢 REAL   | i18n funcional (PT/EN/ES, DOM binding)    |
+| `pf.drm.js`              | 🔵 HYBRID | DRM (callGAS + setTimeout fallback)       |
+| `pf.kill-switch.js`      | 🟢 REAL   | Kill switch (callGAS Founder auth)        |
+| `pf.agent-telemetry.js`  | 🟢 REAL   | Telemetria event-based (Founder-only)     |
+| `pf.workflow-builder.js` | 🟢 REAL   | Workflows (IndexedDB, AI learning)        |
 
-### Kernel (js/kernel/)
+### Kernel (2.system/core/)
 
-| Arquivo            | Status  | Descrição          |
-| ------------------ | ------- | ------------------ |
-| `pf.loader.js`     | 🟢 REAL | Module loader      |
-| `pf.components.js` | 🟢 REAL | Component registry |
-
-### Core Modules (3.sdk/)
-
-| Arquivo                  | Status    | Descrição             |
-| ------------------------ | --------- | --------------------- |
-| `pf.ai-core.js`          | 🟢 REAL   | AI orchestrator       |
-| `pf.drm.js`              | 🔵 HYBRID | Plugin DRM            |
-| `pf.firebase-bridge.js`  | 🟢 REAL   | Firebase integration  |
-| `pf.i18n.js`             | 🟢 REAL   | Internationalization  |
-| `pf.kill-switch.js`      | 🟢 REAL   | Emergency kill switch |
-| `pf.workflow-builder.js` | 🟢 REAL   | Workflow automation   |
-| `pf.agent-telemetry.js`  | 🟢 REAL   | Agent metrics         |
-| `plugin-loader.js`       | 🟢 REAL   | Plugin system         |
+| Arquivo              | Status  | Descrição                            |
+| -------------------- | ------- | ------------------------------------ |
+| `kernel.js`          | 🟢 REAL | Kernel v2.1.0 — Constitution + Boot  |
+| `loader.js`          | 🟢 REAL | Component Loader (REGISTRY)          |
+| `pf.verification.js` | 🟢 REAL | Verification Agents (3-state health) |
 
 ### UI Modules (4.ui/)
 
@@ -148,34 +177,22 @@
 | `pf.omnibar.js`   | 🟡 MOCK   | Omnibar/Command |
 | `pf.settings.js`  | ⚪ STATIC | Settings panel  |
 
-### Integrations (6.integrations/)
+### Lazy-Loaded Modules (4.ui/4.3.modules/)
 
-| Arquivo          | Status  | Descrição         |
-| ---------------- | ------- | ----------------- |
-| `pf.ctrader.js`  | 🟡 MOCK | cTrader API       |
-| `pf.youtube.js`  | 🟡 MOCK | YouTube Data API  |
-| `pf.twitter.js`  | 🟡 MOCK | Twitter/X API     |
-| `pf.whatsapp.js` | 🟡 MOCK | WhatsApp Business |
-| `pf.meta.js`     | 🟡 MOCK | Meta (FB + IG)    |
+| Arquivo                      | Status  | Descrição                          |
+| ---------------------------- | ------- | ---------------------------------- |
+| `Mod_Analytics_View.html`    | 🟡 MOCK | Analytics dashboard (4 charts)     |
+| `Mod_Store_View.html`        | 🟡 MOCK | Medusa Store (search + grid)       |
+| `Mod_Founder_Dashboard.html` | 🟢 REAL | Founder Dashboard (8-agent health) |
 
-### Trading (js/trading/)
+### Data Assets (10.assets/data/)
 
-| Arquivo               | Status    | Descrição     |
-| --------------------- | --------- | ------------- |
-| `pf.ctrader-api.js`   | ⚪ STATIC | cTrader API   |
-| `pf.ctrader-oauth.js` | 🟢 REAL   | cTrader OAuth |
+| Arquivo            | Status  | Descrição          |
+| ------------------ | ------- | ------------------ |
+| `seed_system.json` | 🟢 REAL | System seed config |
+| `auto_import.js`   | 🟢 REAL | Auto-import script |
 
-### Social (js/social/)
-
-| Arquivo                 | Status    | Descrição      |
-| ----------------------- | --------- | -------------- |
-| `pf.social-core.js`     | 🟡 MOCK   | Social parent  |
-| `pf.social-youtube.js`  | ⚪ STATIC | YouTube child  |
-| `pf.social-twitter.js`  | ⚪ STATIC | Twitter child  |
-| `pf.social-whatsapp.js` | ⚪ STATIC | WhatsApp child |
-| `pf.social-meta.js`     | ⚪ STATIC | Meta child     |
-| `pf.social-telegram.js` | 🔵 HYBRID | Telegram child |
-| `pf.social-tiktok.js`   | ⚪ STATIC | TikTok child   |
+> **Nota:** `6.integrations/` foi esvaziada após cleanup (2026-02-07). Todas as integrações estão em `5.tentacles/` com arquitetura parent/children.
 
 ---
 
@@ -276,16 +293,16 @@
 
 ---
 
-## 🌐 HTML (40+ arquivos)
+## 🌐 HTML (18 arquivos)
 
 ### Main
 
-| Arquivo                    | Descrição          |
-| -------------------------- | ------------------ |
-| `PandaFactory.html`        | App principal      |
-| `PandaFactory_BACKUP.html` | Backup             |
-| `index.html`               | Landing page       |
-| `founder-dashboard.html`   | Dashboard fundador |
+| Arquivo                  | Descrição          |
+| ------------------------ | ------------------ |
+| `PandaFactory.html`      | App principal      |
+| `index.html`             | Landing page       |
+| `11.jam/index.html`      | Vite entry point   |
+| `founder-dashboard.html` | Dashboard fundador |
 
 ### Pitch Decks
 
@@ -295,7 +312,7 @@
 | `pitch-deck-pt.html` | Pitch PT      |
 | `pitch-deck-en.html` | Pitch EN      |
 
-### Components (components/)
+### Components (4.ui/)
 
 | Arquivo                       | Descrição            |
 | ----------------------------- | -------------------- |
@@ -307,37 +324,102 @@
 | `Comp_LoginOverlay.html`      | Overlay de login     |
 | `Comp_TentacleMonitor.html`   | Monitor de tentacles |
 | `Comp_TreasuryDashboard.html` | Dashboard treasury   |
-| `Comp_TradingHub.html`        | Hub de trading       |
-| `Comp_AgendaDrawer.html`      | Drawer de agenda     |
 
-### Modules (modules/)
+### Modules (4.ui/4.3.modules/)
 
-| Arquivo              | Descrição      |
-| -------------------- | -------------- |
-| `agenda/index.html`  | Módulo Agenda  |
-| `crm/index.html`     | Módulo CRM     |
-| `reports/index.html` | Módulo Reports |
-| `store/index.html`   | Módulo Store   |
+| Arquivo                      | Descrição         |
+| ---------------------------- | ----------------- |
+| `Mod_Analytics_View.html`    | Módulo Analytics  |
+| `Mod_Store_View.html`        | Módulo Store      |
+| `Mod_Founder_Dashboard.html` | Founder Dashboard |
 
-### Jam (11.jam/)
+### React Frontend (11.jam/src/) — Padronizado PF\*
 
-| Arquivo      | Descrição     |
-| ------------ | ------------- |
-| `index.html` | TLDraw Editor |
+> **Build:** Vite 5.4.21 | 933 modules | 1.34MB JS + 153KB CSS
 
-### Test
+#### Core Layout
 
-| Arquivo             | Descrição    |
-| ------------------- | ------------ |
-| `ctrader-test.html` | cTrader Test |
+| Arquivo               | Descrição                                              |
+| --------------------- | ------------------------------------------------------ |
+| `App.jsx`             | Container principal v6.5 (+GasometerPanel, Store v3.2) |
+| `main.jsx`            | Entry point React                                      |
+| `PFCanvas.jsx`        | TLDraw canvas infinito + WelcomeOverlay                |
+| `PFDock.jsx`          | Dock esquerda v6.2 (🎨📁🐼⚙️🛠️ — 5 itens, lean dock)   |
+| `PFNotifications.jsx` | Centro de notificações v1.0 (slide-in panel, 4 tipos)  |
+| `PFStatusBar.jsx`     | Header: logo, status pills, energy, treasury           |
+| `PFHeader.jsx`        | Header alternativo                                     |
+| `PFRightToolbar.jsx`  | Ferramentas de desenho + DevTools                      |
+| `PFChat.jsx`          | Floating AI Chat + external toggle event               |
+
+#### Modals
+
+| Arquivo                      | Descrição                                                    |
+| ---------------------------- | ------------------------------------------------------------ |
+| `PFSettings.jsx`             | Configurações (10 seções)                                    |
+| `PFStore.jsx`                | Loja Medusa v3.2 (12 extensões, EN, +Kiwify/Hotmart/Landing) |
+| `PFCatalog.jsx`              | Catálogo de plugins instalados                               |
+| `FounderDashboard.jsx`       | Dashboard Founder (307 linhas)                               |
+| `FounderDashboardModal.jsx`  | Modal wrapper do Dashboard                                   |
+| `FounderDashboardPopout.jsx` | Pop-out Document PiP                                         |
+| `CheckoutModal.jsx`          | Checkout v2.0 (Medusa type badge, ratings, USD-FIRST)        |
+| `LoginGate.jsx`              | Gate de autenticação                                         |
+| `LoginModal.jsx`             | Modal de login                                               |
+| `DevModePanel.jsx`           | DevTools (Console, MCP, API Tester)                          |
+| `PATCouncilPanel.jsx`        | 🏛️ Panda Council (PAT Governance)                            |
+| `BundleCreator.jsx`          | Criador de bundles                                           |
+| `PluginManifestEditor.jsx`   | Editor de panda.mcp.json                                     |
+| `PandaDefendDashboard.jsx`   | Dashboard de segurança                                       |
+| `PanicButton.jsx`            | Botão de pânico                                              |
+| `FinancePanel.jsx`           | Painel financeiro                                            |
+| `GasometerPanel.jsx`         | ⛽ Gasômetro — GAS usage dashboard v1.0                      |
+| `FloatingAppWindow.jsx`      | Multi-window FlexLayout                                      |
+
+#### Hooks
+
+| Arquivo                | Descrição            |
+| ---------------------- | -------------------- |
+| `useAuth.jsx`          | Autenticação         |
+| `useFirebase.js`       | Firebase RTDB + Auth |
+| `useGAS.js`            | GAS endpoints        |
+| `useHealthStatus.js`   | Health polling       |
+| `useFounderMetrics.js` | Métricas Founder     |
+| `useMarketplace.js`    | Marketplace hooks    |
+| `useCheckout.js`       | Checkout hooks       |
+| `useLandingPage.js`    | Landing page hooks   |
+| `useGasometer.js`      | ⛽ GAS quota monitor |
+
+#### Services
+
+| Arquivo        | Descrição         |
+| -------------- | ----------------- |
+| `uiContext.js` | Context global UI |
+
+#### Styles
+
+| Arquivo                      | Descrição                              |
+| ---------------------------- | -------------------------------------- |
+| `pf.css`                     | Design system principal (~2560 linhas) |
+| `PFSettings.css`             | Estilos Settings modal                 |
+| `DevModePanel.css`           | Estilos DevTools                       |
+| `PATCouncilPanel.css`        | Estilos Panda Council panel            |
+| `FounderDashboard.css`       | Estilos Founder                        |
+| `FounderDashboardModal.css`  | Estilos modal Founder                  |
+| `FounderDashboardPopout.css` | Estilos popout                         |
+| `CheckoutModal.css`          | Estilos checkout                       |
+| `LoginModal.css`             | Estilos login                          |
+| `BundleCreator.css`          | Estilos bundle                         |
+| `PandaDefendDashboard.css`   | Estilos segurança                      |
+| `PanicButton.css`            | Estilos panic                          |
+| `FinancePanel.css`           | Estilos finance                        |
+| `PluginManifestEditor.css`   | Estilos manifest                       |
+| `GasometerPanel.css`         | Estilos Gasômetro                      |
 
 ---
 
 ## 🎨 CSS (css/)
 
-| Arquivo        | Descrição                  |
-| -------------- | -------------------------- |
-| `pf.theme.css` | 🌟 Design System principal |
+> ⚠️ **Nota:** O design system principal foi migrado de `css/pf.theme.css` para `11.jam/src/styles/pf.css` (1961 linhas, namespace `--pf-*`).
+> Os arquivos em `css/` são legados do Shell HTML.
 
 ---
 
@@ -351,18 +433,21 @@
 | `jsconfig.json`               | JS/TS config      |
 | `PandaFactory.code-workspace` | VS Code workspace |
 | `sw.js`                       | Service Worker    |
+| `vite.config.js`              | Vite build config |
 
 ---
 
-## 🐼 Moltbook Integration (12.moltbook/)
+## 🐼 Moltbook Integration (12.moltbook/) — ⚠️ ARQUIVADO
 
-| Arquivo                        | Descrição            |
-| ------------------------------ | -------------------- |
-| `credentials.json`             | Credenciais Moltbook |
-| `MOLTBOOK_library.md`          | Biblioteca           |
-| `MOLTBOOK_PROTOCOL.md`         | Protocolo            |
-| `README_PF_MOLTBOOK.md`        | README               |
-| `temp_post.json`               | Post temporário      |
+> **Status:** Diretório movido para `_backup_pre_numbered/moltbook/`. Os arquivos listados abaixo existem apenas no backup.
+
+| Arquivo                           | Descrição            |
+| --------------------------------- | -------------------- |
+| `credentials.json`                | Credenciais Moltbook |
+| `MOLTBOOK_library.md`             | Biblioteca           |
+| `MOLTBOOK_PROTOCOL.md`            | Protocolo            |
+| `README_PF_MOLTBOOK.md`           | README               |
+| `temp_post.json`                  | Post temporário      |
 | `skills/12.moltbook/SKILL.md`     | Skill definition     |
 | `skills/12.moltbook/HEARTBEAT.md` | Heartbeat skill      |
 | `skills/12.moltbook/MESSAGING.md` | Messaging skill      |
@@ -370,7 +455,7 @@
 
 ---
 
-## 🛠️ Scripts (scripts/) - 25+ arquivos
+## 🛠️ Scripts (9.tools/) - 39 arquivos
 
 ### Automação
 
@@ -442,15 +527,13 @@
 
 ## 📦 Dependências (Não listadas individualmente)
 
-| Pasta                | Conteúdo      | Regenerar         |
-| -------------------- | ------------- | ----------------- |
-| `node_modules/`      | ~50k NPM deps | `npm install`     |
-| `11.jam/node_modules/`  | Jam deps      | `cd jam && npm i` |
-| `7.7.rust-agent/target/` | Build cache   | `cargo build`     |
+| Pasta                    | Conteúdo      | Regenerar            |
+| ------------------------ | ------------- | -------------------- |
+| `node_modules/`          | ~50k NPM deps | `npm install`        |
+| `11.jam/node_modules/`   | Jam deps      | `cd 11.jam && npm i` |
+| `7.7.rust-agent/target/` | Build cache   | `cargo build`        |
 
 ---
 
 > 📖 **Mantido por:** Panda Council (PAT)
-> **Última atualização:** 2026-02-05 v2.0.0
-
-
+> **Última atualização:** 2026-02-09 v2.4.0

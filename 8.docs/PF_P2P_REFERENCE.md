@@ -1,6 +1,13 @@
+---
+tool_context: panda/p2p
+description: P2P Network & Partner Mode - Node Tiers, Mining, Rewards
+version: 2.1.0
+updated: 2026-02-08
+---
+
 # 🌐 PF_P2P_REFERENCE - Rede P2P & Partner Mode
 
-> **Versão:** 2.0.0 | **Atualizado:** 2026-02-05
+> **Versão:** 2.0.0 | **Atualizado:** 2026-02-06
 > **Cross-Ref:** [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) | [PF_BACKEND_REFERENCE.md](PF_BACKEND_REFERENCE.md)
 
 ---
@@ -424,11 +431,11 @@ const P2P_SPLIT = {
 
 ### Arquivos Necessários
 
-| Arquivo                                  | Tipo | Descrição           |
-| ---------------------------------------- | ---- | ------------------- |
-| `7.rust-agent/src/node.rs`                 | Rust | Node manager        |
-| `7.rust-agent/src/mining.rs`               | Rust | Mining/heartbeat    |
-| `7.rust-agent/src/task.rs`                 | Rust | Task fractionation  |
+| Arquivo                                 | Tipo | Descrição           |
+| --------------------------------------- | ---- | ------------------- |
+| `7.rust-agent/src/node.rs`              | Rust | Node manager        |
+| `7.rust-agent/src/mining.rs`            | Rust | Mining/heartbeat    |
+| `7.rust-agent/src/task.rs`              | Rust | Task fractionation  |
 | `1.core/domains/compute/PF_Nodes.gs`    | GAS  | Node registry       |
 | `1.core/domains/compute/PF_Mining.gs`   | GAS  | Reward distribution |
 | `1.core/domains/compute/PF_Tasks.gs`    | GAS  | Task scheduler      |
@@ -462,7 +469,96 @@ GET  /task/status/:id  → Status de task
 
 ---
 
-> 📖 **Versão:** 1.0.0 | **Status:** Planejado
+## 10. Event Synchronization (P1)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P1
+
+### 10.1 Problema
+
+Quando Partner Nodes processam tasks em paralelo, os resultados precisam ser sincronizados de forma consistente:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EVENT SYNC BETWEEN NODES                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  [Node A] ──task─result──►  ┌───────────────┐  ◄──result──[Node B]      │
+│  [Node C] ──task─result──►  │    GAS        │  ◄──result──[Node D]      │
+│                             │  AGGREGATOR   │                            │
+│                             └───────┬───────┘                            │
+│                                     │                                    │
+│                                     ▼                                    │
+│                             FINAL RESULT                                 │
+│                                     │                                    │
+│                                     ▼                                    │
+│                             CREDIT REWARDS                               │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 10.2 Vector Clocks
+
+Para garantir ordenação correta de eventos distribuídos:
+
+```typescript
+interface EventClock {
+  nodeId: string;
+  localTime: number;      // Timestamp local
+  vectorClock: {         // Relógio vetorial
+    [nodeId: string]: number;
+  };
+}
+
+// Exemplo de evento
+{
+  eventId: "EVT-123",
+  type: "task.completed",
+  clock: {
+    nodeId: "node-a",
+    localTime: 1707234567890,
+    vectorClock: {
+      "node-a": 5,
+      "node-b": 3,
+      "node-c": 7
+    }
+  }
+}
+```
+
+### 10.3 Conflict Resolution
+
+| Situação              | Estratégia         | Exemplo                      |
+| --------------------- | ------------------ | ---------------------------- |
+| Mesmo resultado       | Accept first       | Dois nós retornam hash igual |
+| Resultados diferentes | Majority vote      | 3/5 nós concordam            |
+| Timeout de nó         | Retry + Penalty    | Redistribuir chunk           |
+| Hash mismatch         | Disqualify + Audit | Verificar integridade        |
+
+### 10.4 Sync API
+
+```javascript
+// Publicar evento de task completada
+await Panda.P2P.publishEvent({
+  type: "task.completed",
+  taskId: "TASK-123",
+  chunkIndex: 5,
+  resultHash: "sha256:abc...",
+  proof: computeProof(result),
+});
+
+// Escutar eventos de outros nós
+Panda.P2P.subscribe("task.*", (event) => {
+  if (event.taskId === myCurrentTask) {
+    updateProgress(event);
+  }
+});
+
+// Verificar consenso
+const consensus = await Panda.P2P.checkConsensus("TASK-123");
+// { agreed: true, nodes: 4, threshold: 3 }
+```
+
+---
+
+> 📖 **Versão:** 2.1.0 | **Status:** Planejado
 > **Mantido por:** Panda Council (PAT)
-
-

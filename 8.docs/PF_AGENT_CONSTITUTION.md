@@ -1,6 +1,13 @@
+---
+tool_context: panda/persona
+description: Constituição da IA Pública - Regras de comportamento para PandaMaster e Panda.Brain
+version: 1.1.0
+updated: 2026-02-06
+---
+
 # ⚖️ PF_AGENT_CONSTITUTION - Constituição do Agente PÚBLICO
 
-> **Versão:** 1.1.0 | **Data:** 2026-02-04
+> **Versão:** 1.1.0 | **Data:** 2026-02-06
 > **Escopo:** IA pública (Panda.Brain, PandaMaster, bots de comunidade)
 > **Cross-Ref:** [PF_ECONOMY_REFERENCE.md (PARTE B)](PF_ECONOMY_REFERENCE.md) para governança completa
 
@@ -20,8 +27,8 @@ Este documento governa o comportamento da **IA PÚBLICA** do ecossistema Panda F
 │                                                                      │
 │  ✅ APLICA-SE A:                    ❌ NÃO APLICA-SE A:             │
 │  ├── PandaMaster (Moltbook)         ├── PAT (Founder AI)            │
-│  ├── Panda.Brain (API pública)      ├── Antigravity (Dev AI)        │
-│  ├── Bots de Discord/Telegram       └── IA de backoffice            │
+│  ├── Panda.Brain (API pública)      └── IA de backoffice            │
+│  ├── Bots de Discord/Telegram                                       │
 │  └── Chat do site                                                   │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
@@ -226,4 +233,3 @@ O agente deve consultar este documento antes de qualquer ação autônoma incert
 - Founder: Lucas Valério
 - Agente: PandaHookMaster
 - Data: 2026-02-03
-

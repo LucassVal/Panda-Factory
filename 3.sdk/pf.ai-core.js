@@ -567,7 +567,7 @@
       DOCUMENTATION: 30,
       BUG_REPORT: 10,
       COMMUNITY_HELP: 5,
-      PLUGIN_PUBLISHED: 100,
+      MODULE_PUBLISHED: 100,
       REFERRAL: 15,
     },
 
@@ -727,7 +727,7 @@
     },
 
     /**
-     * Add manual points (community help, plugins, referrals)
+     * Add manual points (community help, modules, referrals)
      */
     addManualPoints(username, githubId, type, description = "") {
       const points = this.scoring[type] || 0;

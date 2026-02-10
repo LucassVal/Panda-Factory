@@ -1,9 +1,9 @@
 <!-- ============================================= -->
-<!-- TREASURY DASHBOARD v1.0                     -->
-<!-- Financial Health Score + Reserve Breakdown  -->
+<!-- TREASURY DASHBOARD v1.1 (pf- prefix standard) -->
+<!-- Financial Health Score + Reserve Breakdown    -->
 <!-- ============================================= -->
 <style>
-  .treasury-overlay {
+  .pf-treasury-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -17,30 +17,30 @@
     justify-content: center;
   }
 
-  .treasury-overlay.active {
+  .pf-treasury-overlay.active {
     display: flex;
   }
 
-  .treasury-modal {
+  .pf-treasury-modal {
     width: 90%;
     max-width: 700px;
     max-height: 85vh;
     overflow-y: auto;
     border-radius: 24px;
     padding: 32px;
-    animation: modalSlideIn 0.3s ease;
+    animation: pf-modalSlideIn 0.3s ease;
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(102, 126, 234, 0.1);
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
   }
 
-  .dark-mode .treasury-modal {
+  .dark-mode .pf-treasury-modal {
     background: rgba(15, 15, 25, 0.95);
     border-color: rgba(102, 126, 234, 0.2);
   }
 
-  @keyframes modalSlideIn {
+  @keyframes pf-modalSlideIn {
     from {
       transform: scale(0.95) translateY(20px);
       opacity: 0;
@@ -51,31 +51,31 @@
     }
   }
 
-  .treasury-header {
+  .pf-treasury-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
   }
 
-  .treasury-title {
+  .pf-treasury-title {
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
-  .treasury-title h2 {
+  .pf-treasury-title h2 {
     margin: 0;
     font-size: 24px;
     font-weight: 700;
     color: var(--text-primary, #1a1a2e);
   }
 
-  .dark-mode .treasury-title h2 {
+  .dark-mode .pf-treasury-title h2 {
     color: #fff;
   }
 
-  .treasury-close {
+  .pf-treasury-close {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -86,7 +86,7 @@
   }
 
   /* Health Score Circle */
-  .health-score-container {
+  .pf-health-container {
     display: flex;
     align-items: center;
     gap: 32px;
@@ -100,23 +100,23 @@
     margin-bottom: 24px;
   }
 
-  .health-circle {
+  .pf-health-circle {
     position: relative;
     width: 120px;
     height: 120px;
   }
 
-  .health-circle svg {
+  .pf-health-circle svg {
     transform: rotate(-90deg);
   }
 
-  .health-circle-bg {
+  .pf-health-circle-bg {
     fill: none;
     stroke: rgba(102, 126, 234, 0.15);
     stroke-width: 8;
   }
 
-  .health-circle-fill {
+  .pf-health-circle-fill {
     fill: none;
     stroke: #10b981;
     stroke-width: 8;
@@ -124,7 +124,7 @@
     transition: stroke-dashoffset 1s ease;
   }
 
-  .health-circle-text {
+  .pf-health-circle-text {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -132,30 +132,30 @@
     text-align: center;
   }
 
-  .health-score-value {
+  .pf-health-value {
     font-size: 32px;
     font-weight: 800;
     color: #10b981;
   }
 
-  .health-score-label {
+  .pf-health-label {
     font-size: 11px;
     color: var(--text-secondary, #64748b);
     text-transform: uppercase;
   }
 
-  .health-breakdown {
+  .pf-health-breakdown {
     flex: 1;
   }
 
-  .health-metric {
+  .pf-health-metric {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
   }
 
-  .health-metric-bar {
+  .pf-health-metric-bar {
     flex: 1;
     height: 8px;
     background: rgba(102, 126, 234, 0.15);
@@ -163,19 +163,19 @@
     overflow: hidden;
   }
 
-  .health-metric-fill {
+  .pf-health-metric-fill {
     height: 100%;
     border-radius: 4px;
     transition: width 0.5s ease;
   }
 
-  .health-metric-label {
+  .pf-health-metric-label {
     width: 140px;
     font-size: 12px;
     color: var(--text-secondary, #64748b);
   }
 
-  .health-metric-value {
+  .pf-health-metric-value {
     width: 50px;
     font-size: 12px;
     font-weight: 600;
@@ -183,11 +183,11 @@
   }
 
   /* Reserve Breakdown */
-  .reserve-section {
+  .pf-reserve-section {
     margin-bottom: 24px;
   }
 
-  .section-title {
+  .pf-section-title {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-secondary, #64748b);
@@ -196,52 +196,52 @@
     margin-bottom: 16px;
   }
 
-  .reserve-grid {
+  .pf-reserve-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
-  .reserve-card {
+  .pf-reserve-card {
     padding: 16px;
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.6);
     border: 1px solid rgba(102, 126, 234, 0.1);
   }
 
-  .dark-mode .reserve-card {
+  .dark-mode .pf-reserve-card {
     background: rgba(30, 30, 45, 0.6);
   }
 
-  .reserve-card-icon {
+  .pf-reserve-card-icon {
     font-size: 24px;
     margin-bottom: 8px;
   }
 
-  .reserve-card-label {
+  .pf-reserve-card-label {
     font-size: 12px;
     color: var(--text-secondary, #64748b);
     margin-bottom: 4px;
   }
 
-  .reserve-card-value {
+  .pf-reserve-card-value {
     font-size: 20px;
     font-weight: 700;
     color: var(--text-primary, #1a1a2e);
   }
 
-  .dark-mode .reserve-card-value {
+  .dark-mode .pf-reserve-card-value {
     color: #fff;
   }
 
-  .reserve-card-percent {
+  .pf-reserve-card-percent {
     font-size: 12px;
     color: #10b981;
     font-weight: 600;
   }
 
   /* Total Reserve */
-  .total-reserve {
+  .pf-total-reserve {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -252,24 +252,24 @@
     margin-bottom: 24px;
   }
 
-  .total-label {
+  .pf-total-label {
     font-size: 14px;
     opacity: 0.9;
   }
 
-  .total-value {
+  .pf-total-value {
     font-size: 28px;
     font-weight: 800;
   }
 
   /* Audit Section */
-  .audit-section {
+  .pf-audit-section {
     padding: 16px;
     background: rgba(102, 126, 234, 0.06);
     border-radius: 12px;
   }
 
-  .audit-row {
+  .pf-audit-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -277,57 +277,59 @@
     border-bottom: 1px solid rgba(102, 126, 234, 0.1);
   }
 
-  .audit-row:last-child {
+  .pf-audit-row:last-child {
     border-bottom: none;
   }
 
-  .audit-label {
+  .pf-audit-label {
     font-size: 13px;
     color: var(--text-secondary, #64748b);
   }
 
-  .audit-value {
+  .pf-audit-value {
     font-size: 13px;
     font-weight: 600;
     color: var(--text-primary, #1a1a2e);
   }
 
-  .dark-mode .audit-value {
+  .dark-mode .pf-audit-value {
     color: #fff;
   }
 
-  .audit-link {
+  .pf-audit-link {
     color: #667eea;
     text-decoration: none;
     font-size: 12px;
   }
 
-  .audit-link:hover {
+  .pf-audit-link:hover {
     text-decoration: underline;
   }
 </style>
 
 <div
-  class="treasury-overlay"
+  class="pf-treasury-overlay"
   id="treasuryOverlay"
   onclick="if (event.target === this) PandaTreasury.close();"
 >
-  <div class="treasury-modal">
-    <div class="treasury-header">
-      <div class="treasury-title">
+  <div class="pf-treasury-modal">
+    <div class="pf-treasury-header">
+      <div class="pf-treasury-title">
         <span style="font-size: 32px">🏦</span>
         <h2>Panda Treasury</h2>
       </div>
-      <button class="treasury-close" onclick="PandaTreasury.close()">✕</button>
+      <button class="pf-treasury-close" onclick="PandaTreasury.close()">
+        ✕
+      </button>
     </div>
 
     <!-- Health Score -->
-    <div class="health-score-container">
-      <div class="health-circle">
+    <div class="pf-health-container">
+      <div class="pf-health-circle">
         <svg width="120" height="120" viewBox="0 0 120 120">
-          <circle class="health-circle-bg" cx="60" cy="60" r="52" />
+          <circle class="pf-health-circle-bg" cx="60" cy="60" r="52" />
           <circle
-            class="health-circle-fill"
+            class="pf-health-circle-fill"
             id="healthCircleFill"
             cx="60"
             cy="60"
@@ -336,117 +338,117 @@
             stroke-dashoffset="26.1"
           />
         </svg>
-        <div class="health-circle-text">
-          <div class="health-score-value" id="healthScoreDisplay">92%</div>
-          <div class="health-score-label">Health</div>
+        <div class="pf-health-circle-text">
+          <div class="pf-health-value" id="healthScoreDisplay">92%</div>
+          <div class="pf-health-label">Health</div>
         </div>
       </div>
 
-      <div class="health-breakdown">
-        <div class="health-metric">
-          <span class="health-metric-label">Reserva vs Circulante</span>
-          <div class="health-metric-bar">
+      <div class="pf-health-breakdown">
+        <div class="pf-health-metric">
+          <span class="pf-health-metric-label">Reserva vs Circulante</span>
+          <div class="pf-health-metric-bar">
             <div
-              class="health-metric-fill"
+              class="pf-health-metric-fill"
               style="width: 85%; background: #10b981"
             ></div>
           </div>
-          <span class="health-metric-value">85%</span>
+          <span class="pf-health-metric-value">85%</span>
         </div>
-        <div class="health-metric">
-          <span class="health-metric-label">Runway (dias)</span>
-          <div class="health-metric-bar">
+        <div class="pf-health-metric">
+          <span class="pf-health-metric-label">Runway (dias)</span>
+          <div class="pf-health-metric-bar">
             <div
-              class="health-metric-fill"
+              class="pf-health-metric-fill"
               style="width: 100%; background: #667eea"
             ></div>
           </div>
-          <span class="health-metric-value">120d</span>
+          <span class="pf-health-metric-value">120d</span>
         </div>
-        <div class="health-metric">
-          <span class="health-metric-label">Diversificação</span>
-          <div class="health-metric-bar">
+        <div class="pf-health-metric">
+          <span class="pf-health-metric-label">Diversificação</span>
+          <div class="pf-health-metric-bar">
             <div
-              class="health-metric-fill"
+              class="pf-health-metric-fill"
               style="width: 80%; background: #f59e0b"
             ></div>
           </div>
-          <span class="health-metric-value">80%</span>
+          <span class="pf-health-metric-value">80%</span>
         </div>
-        <div class="health-metric">
-          <span class="health-metric-label">Liquidez Imediata</span>
-          <div class="health-metric-bar">
+        <div class="pf-health-metric">
+          <span class="pf-health-metric-label">Liquidez Imediata</span>
+          <div class="pf-health-metric-bar">
             <div
-              class="health-metric-fill"
+              class="pf-health-metric-fill"
               style="width: 100%; background: #8b5cf6"
             ></div>
           </div>
-          <span class="health-metric-value">100%</span>
+          <span class="pf-health-metric-value">100%</span>
         </div>
       </div>
     </div>
 
     <!-- Reserve Breakdown -->
-    <div class="reserve-section">
-      <div class="section-title">💰 Composição da Reserva</div>
-      <div class="reserve-grid">
-        <div class="reserve-card">
-          <div class="reserve-card-icon">🥇</div>
-          <div class="reserve-card-label">PAXG (Ouro)</div>
-          <div class="reserve-card-value">$1,500,000</div>
-          <div class="reserve-card-percent">65%</div>
+    <div class="pf-reserve-section">
+      <div class="pf-section-title">💰 Composição da Reserva</div>
+      <div class="pf-reserve-grid">
+        <div class="pf-reserve-card">
+          <div class="pf-reserve-card-icon">🥇</div>
+          <div class="pf-reserve-card-label">PAXG (Ouro)</div>
+          <div class="pf-reserve-card-value">$1,500,000</div>
+          <div class="pf-reserve-card-percent">65%</div>
         </div>
-        <div class="reserve-card">
-          <div class="reserve-card-icon">💵</div>
-          <div class="reserve-card-label">USDC (Stablecoin)</div>
-          <div class="reserve-card-value">$700,000</div>
-          <div class="reserve-card-percent">30%</div>
+        <div class="pf-reserve-card">
+          <div class="pf-reserve-card-icon">💵</div>
+          <div class="pf-reserve-card-label">USDC (Stablecoin)</div>
+          <div class="pf-reserve-card-value">$700,000</div>
+          <div class="pf-reserve-card-percent">30%</div>
         </div>
-        <div class="reserve-card">
-          <div class="reserve-card-icon">⚡</div>
-          <div class="reserve-card-label">Liquidez Ops</div>
-          <div class="reserve-card-value">$100,000</div>
-          <div class="reserve-card-percent">5%</div>
+        <div class="pf-reserve-card">
+          <div class="pf-reserve-card-icon">⚡</div>
+          <div class="pf-reserve-card-label">Liquidez Ops</div>
+          <div class="pf-reserve-card-value">$100,000</div>
+          <div class="pf-reserve-card-percent">5%</div>
         </div>
-        <div class="reserve-card">
-          <div class="reserve-card-icon">🔒</div>
-          <div class="reserve-card-label">Em Staking</div>
-          <div class="reserve-card-value">$50,000</div>
-          <div class="reserve-card-percent">+2.1%</div>
+        <div class="pf-reserve-card">
+          <div class="pf-reserve-card-icon">🔒</div>
+          <div class="pf-reserve-card-label">Em Staking</div>
+          <div class="pf-reserve-card-value">$50,000</div>
+          <div class="pf-reserve-card-percent">+2.1%</div>
         </div>
       </div>
     </div>
 
     <!-- Total -->
-    <div class="total-reserve">
+    <div class="pf-total-reserve">
       <div>
-        <div class="total-label">Reserva Total</div>
-        <div class="total-value">$2,300,000</div>
+        <div class="pf-total-label">Reserva Total</div>
+        <div class="pf-total-value">$2,300,000</div>
       </div>
       <div style="text-align: right">
-        <div class="total-label">Circulante</div>
+        <div class="pf-total-label">Circulante</div>
         <div style="font-size: 20px; font-weight: 600">5.2M PC</div>
       </div>
     </div>
 
     <!-- Audit Info -->
-    <div class="audit-section">
-      <div class="section-title">🔐 Auditoria On-Chain</div>
-      <div class="audit-row">
-        <span class="audit-label">Último Snapshot</span>
-        <span class="audit-value" id="lastSnapshot">23/01/2026 15:00</span>
+    <div class="pf-audit-section">
+      <div class="pf-section-title">🔐 Auditoria On-Chain</div>
+      <div class="pf-audit-row">
+        <span class="pf-audit-label">Último Snapshot</span>
+        <span class="pf-audit-value" id="lastSnapshot">23/01/2026 15:00</span>
       </div>
-      <div class="audit-row">
-        <span class="audit-label">Frequência</span>
-        <span class="audit-value">Diária (~$0.30/mês)</span>
+      <div class="pf-audit-row">
+        <span class="pf-audit-label">Frequência</span>
+        <span class="pf-audit-value">Diária (~$0.30/mês)</span>
       </div>
-      <div class="audit-row">
-        <span class="audit-label">Blockchain</span>
-        <span class="audit-value">Solana (Ed25519)</span>
+      <div class="pf-audit-row">
+        <span class="pf-audit-label">Blockchain</span>
+        <span class="pf-audit-value">Solana (Ed25519)</span>
       </div>
-      <div class="audit-row">
-        <span class="audit-label">Hash Transação</span>
-        <a href="#" class="audit-link">4xK7...mN9p (ver Solscan)</a>
+      <div class="pf-audit-row">
+        <span class="pf-audit-label">Hash Transação</span>
+        <a href="#" class="pf-audit-link">4xK7...mN9p (ver Solscan)</a>
       </div>
     </div>
   </div>
@@ -454,7 +456,7 @@
 
 <script>
   /**
-   * PandaTreasury Controller v1.1 - SDK Integrated
+   * PandaTreasury Controller v1.2 - pf- prefix standard
    */
   window.PandaTreasury = {
     data: {
@@ -485,9 +487,6 @@
       }
     },
 
-    /**
-     * Sync with Panda SDK for live reserve data
-     */
     async syncWithSDK() {
       try {
         if (typeof Panda === "undefined" || !Panda.Treasury) {
@@ -495,7 +494,6 @@
           return;
         }
 
-        // Fetch live data from SDK
         const reserves = await Panda.Treasury.getReserves();
         const health = await Panda.Treasury.getHealthScore();
 
@@ -512,7 +510,6 @@
     },
 
     updateDisplay() {
-      // Update health score circle
       const circle = document.getElementById("healthCircleFill");
       const display = document.getElementById("healthScoreDisplay");
       const header = document.getElementById("healthScore");
@@ -527,7 +524,6 @@
       if (display) display.textContent = this.data.healthScore + "%";
       if (header) header.textContent = this.data.healthScore + "%";
 
-      // Update reserve cards dynamically
       this.updateReserveCards();
       this.updateTotalReserve();
       this.updateSnapshotTime();
@@ -538,7 +534,7 @@
         (a, b) => a + b,
         0,
       );
-      const cards = document.querySelectorAll(".reserve-card");
+      const cards = document.querySelectorAll(".pf-reserve-card");
 
       const values = [
         { key: "paxg", label: "PAXG" },
@@ -551,8 +547,8 @@
         if (values[i]) {
           const val = this.data.reserves[values[i].key] || 0;
           const pct = Math.round((val / total) * 100);
-          const valueEl = card.querySelector(".reserve-card-value");
-          const pctEl = card.querySelector(".reserve-card-percent");
+          const valueEl = card.querySelector(".pf-reserve-card-value");
+          const pctEl = card.querySelector(".pf-reserve-card-percent");
           if (valueEl) valueEl.textContent = "$" + val.toLocaleString("en-US");
           if (pctEl) pctEl.textContent = pct + "%";
         }
@@ -564,7 +560,7 @@
         (a, b) => a + b,
         0,
       );
-      const totalEl = document.querySelector(".total-value");
+      const totalEl = document.querySelector(".pf-total-value");
       if (totalEl) totalEl.textContent = "$" + total.toLocaleString("en-US");
     },
 
@@ -576,7 +572,6 @@
     },
 
     calculateHealth() {
-      // Formula: (reserve/circulating*40) + (runway*30) + (diversification*20) + (liquidity*10)
       const totalReserve = Object.values(this.data.reserves).reduce(
         (a, b) => a + b,
         0,
@@ -586,17 +581,13 @@
         (totalReserve / (this.data.circulatingPC * 0.01)) * 100,
       );
 
-      // Simplified calculation
       this.data.healthScore = Math.round(
-        reserveRatio * 0.4 +
-          100 * 0.3 + // runway score
-          80 * 0.2 + // diversification
-          100 * 0.1, // liquidity
+        reserveRatio * 0.4 + 100 * 0.3 + 80 * 0.2 + 100 * 0.1,
       );
 
       return this.data.healthScore;
     },
   };
 
-  console.log("🏦 PandaTreasury v1.1 loaded (SDK integrated)");
+  console.log("🏦 PandaTreasury v1.2 loaded (pf- prefix standard)");
 </script>

@@ -1,6 +1,13 @@
+---
+tool_context: panda/economy
+description: Panda Coin Tokenomics - Energy Credits, Revenue Split, PAT
+version: 3.2.0
+updated: 2026-02-08
+---
+
 # 💰 PF_ECONOMY_REFERENCE - Ecossistema Econômico Panda
 
-> **Versão:** 3.0.0 | **Atualizado:** 2026-02-04
+> **Versão:** 3.0.0 | **Atualizado:** 2026-02-06
 > **Consolidado de:** PF_TOKENOMICS_REFERENCE, PF_PAT_FOUNDER_CONSTITUTION
 
 ---
@@ -461,6 +468,172 @@ Panda._LICENSE_TIERS = {
 
 ---
 
+## 9.2 Segurança de Transações (P0)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0 (Crítico)
+
+### A. Idempotency Keys (Anti Double-Spend)
+
+Todo transfer de PC DEVE usar **Idempotency Key** para prevenir duplicação acidental ou maliciosa.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    IDEMPOTENCY - FLUXO DE TRANSAÇÃO                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  [Cliente SDK]                                                           │
+│       │                                                                  │
+│       │ 1. Gera idempotencyKey = hash(userId + timestamp + amount)       │
+│       │                                                                  │
+│       ▼                                                                  │
+│  [GAS Backend]                                                           │
+│       │                                                                  │
+│       ├─── 2. Verifica: idempotencyKey existe no Firestore?              │
+│       │         │                                                        │
+│       │     SIM │                                                        │
+│       │         ▼                                                        │
+│       │    Retorna resultado anterior (cached)                           │
+│       │                                                                  │
+│       │     NÃO                                                          │
+│       │         │                                                        │
+│       │         ▼                                                        │
+│       ├─── 3. Executa transação                                          │
+│       │                                                                  │
+│       └─── 4. Salva: { idempotencyKey, result, expiresAt: +24h }         │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Implementação SDK:**
+
+```javascript
+// Panda.Economy.transfer() com idempotency
+Panda.Economy.transfer = async (to, amount, options = {}) => {
+  const idempotencyKey =
+    options.idempotencyKey ||
+    Panda.Utils.hash(`${Panda.Auth.getUser().uid}_${Date.now()}_${amount}`);
+
+  return Panda.Backend.call(
+    "economy/transfer",
+    {
+      to,
+      amount,
+      idempotencyKey,
+    },
+    {
+      retries: 3,
+      backoff: "exponential",
+    },
+  );
+};
+
+// Uso obrigatório com retry
+const result = await Panda.Economy.transfer("user123", 100, {
+  idempotencyKey: "tx_abc123_retry1", // Mesma key = mesma transação
+});
+```
+
+**Implementação GAS:**
+
+```javascript
+// PF_Economy.gs - Handler com idempotency
+function handleTransfer(payload) {
+  const { from, to, amount, idempotencyKey } = payload;
+
+  // 1. Verificar cache de idempotency
+  const cached = getIdempotencyCache(idempotencyKey);
+  if (cached) {
+    return { success: true, cached: true, result: cached };
+  }
+
+  // 2. Executar transação
+  const result = executeTransfer(from, to, amount);
+
+  // 3. Salvar para idempotency (TTL 24h)
+  saveIdempotencyCache(idempotencyKey, result, 86400);
+
+  return { success: true, cached: false, result };
+}
+```
+
+| Campo            | Descrição               | TTL |
+| ---------------- | ----------------------- | --- |
+| `idempotencyKey` | Hash único da transação | 24h |
+| `result`         | Resultado cached        | 24h |
+| `createdAt`      | Timestamp original      | -   |
+
+### B. Event Sourcing (Audit Trail)
+
+Todas as transações são armazenadas como **eventos imutáveis** para auditoria e replay.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EVENT LOG - ESTRUTURA                                 │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  Firebase: /economy/events/{eventId}                                    │
+│                                                                          │
+│  {                                                                       │
+│    "eventId": "evt_2026020615301234",                                   │
+│    "type": "TRANSFER",                                                  │
+│    "timestamp": 1738857012345,                                          │
+│    "actor": "user_abc123",                                              │
+│    "data": {                                                            │
+│      "from": "user_abc123",                                             │
+│      "to": "user_xyz789",                                               │
+│      "amount": 100,                                                     │
+│      "idempotencyKey": "tx_abc123"                                      │
+│    },                                                                   │
+│    "result": {                                                          │
+│      "success": true,                                                   │
+│      "balanceAfter": { "from": 400, "to": 600 }                         │
+│    },                                                                   │
+│    "hash": "sha256(prevHash + eventData)"  // Chain integrity           │
+│  }                                                                       │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Tipos de Eventos:**
+
+| Tipo       | Descrição               | Dados                      |
+| ---------- | ----------------------- | -------------------------- |
+| `TRANSFER` | Envio de PC entre users | from, to, amount           |
+| `PURCHASE` | Compra de PC com fiat   | userId, package, paymentId |
+| `EARN`     | Receita de plugin/P2P   | userId, source, amount     |
+| `BURN`     | Queima pelo PAT         | amount, reason             |
+| `MINT`     | Emissão social          | amount, program            |
+
+**Replay para Reconstruir Estado:**
+
+```javascript
+// Reconstruir saldo a partir do event log
+Panda.Events.replayBalance = async (userId) => {
+  const events = await Panda.Firebase.query("/economy/events", {
+    where: [["actor", "==", userId]],
+    orderBy: ["timestamp", "asc"],
+  });
+
+  let balance = 0;
+  for (const event of events) {
+    if (event.type === "TRANSFER") {
+      if (event.data.from === userId) balance -= event.data.amount;
+      if (event.data.to === userId) balance += event.data.amount;
+    } else if (event.type === "PURCHASE" || event.type === "EARN") {
+      balance += event.data.amount;
+    } else if (event.type === "BURN" && event.data.from === userId) {
+      balance -= event.data.amount;
+    }
+  }
+
+  return balance;
+};
+```
+
+> **Cross-reference:** Ver [PF_BACKEND_REFERENCE.md](PF_BACKEND_REFERENCE.md) §8 para Circuit Breaker e Retry.
+
+---
+
 ## 10. Custos BASE por Módulo
 
 > ⚠️ **Valores são REFERÊNCIA**. PAT ajusta via `PAT_MULTIPLIER` (0.5-1.5).
@@ -539,7 +712,7 @@ Panda._LICENSE_TIERS = {
 │  RUST AGENT (opcional - 0% cloud)                                       │
 │  ┌──────────────────────────┐                                          │
 │  │ • GPU/ML local           │  ← Processamento 100% offline            │
-│  │ • Antigravity            │                                          │
+│  │ • Dev Tools              │                                          │
 │  │ • MCP Tools              │                                          │
 │  └──────────────────────────┘                                          │
 │                                                                         │
@@ -897,5 +1070,137 @@ async function activateKillSwitch(signature, pin) {
 
 ---
 
-> 📖 **Versão:** 3.1.0 | **Consolidado:** TOKENOMICS + PAT + GOVERNANCE
+## B.5 System Design Patterns (P0 - Crítico)
 
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0 (Implementar imediatamente)
+
+### B.5.1 Idempotência em Transações
+
+**Problema:** Pagamentos duplicados quando retries falham ou conexão cai.
+
+```javascript
+// ANTES (perigoso - pode duplicar transferência)
+async function transfer(from, to, amount) {
+  await debit(from, amount);
+  await credit(to, amount);
+  return { success: true };
+}
+
+// DEPOIS (seguro - idempotente)
+async function transfer(from, to, amount, idempotencyKey) {
+  // 1. Verificar se já executou
+  const existing = await checkIdempotency(idempotencyKey);
+  if (existing) return existing.result;
+
+  // 2. Executar transação
+  const result = await executeTransfer(from, to, amount);
+
+  // 3. Armazenar resultado com a chave
+  await storeIdempotency(idempotencyKey, result);
+
+  return result;
+}
+```
+
+**Regras Hardcoded:**
+
+| Operação      | Idempotency Required? | TTL da Chave |
+| ------------- | :-------------------: | :----------: |
+| PC Transfer   |        ✅ SIM         |     24h      |
+| PC Purchase   |        ✅ SIM         |    7 dias    |
+| P2P Payment   |        ✅ SIM         |     24h      |
+| Query Balance |        ❌ NÃO         |      -       |
+| Heartbeat     |        ❌ NÃO         |      -       |
+
+### B.5.2 Event Sourcing para Audit Trail
+
+**Conceito:** Persiste EVENTOS em vez de apenas o estado atual. Permite reconstruir qualquer momento no tempo.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EVENT SOURCING - TRANSAÇÕES PC                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  📦 EVENT STORE (Firebase RTDB)                                         │
+│  └── /events/{userId}/{timestamp}                                       │
+│      ├── type: "PC_TRANSFER"                                            │
+│      ├── from: "user_123"                                               │
+│      ├── to: "user_456"                                                 │
+│      ├── amount: 100                                                    │
+│      ├── idempotencyKey: "tx_abc123"                                    │
+│      ├── signature: "ed25519_..."                                       │
+│      └── metadata: { source: "web", version: "0.9.5" }                  │
+│                                                                          │
+│  🔄 RECONSTRUÇÃO DE ESTADO                                              │
+│  └── Balance = replay(events.filter(e => e.to === userId))              │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Benefícios:**
+
+| Benefício                | Impacto                                |
+| ------------------------ | -------------------------------------- |
+| **Audit Trail Completo** | Toda transação rastreável para sempre  |
+| **Replay Capability**    | Reconstruir estado de qualquer momento |
+| **Debug Simplificado**   | Ver exatamente o que aconteceu         |
+| **Compliance Ready**     | Requisito para regulação financeira    |
+
+### B.5.3 Transaction Safety
+
+**Padrão:** Todas as operações financeiras seguem o fluxo seguro:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    TRANSACTION SAFETY FLOW                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  1. VALIDATE                                                             │
+│     └── Verificar saldo, limites, idempotency key                       │
+│                                                                          │
+│  2. LOCK                                                                 │
+│     └── Travar saldo do remetente (pessimistic lock)                    │
+│                                                                          │
+│  3. EXECUTE                                                              │
+│     └── Debitar → Creditar (atomic)                                     │
+│                                                                          │
+│  4. LOG EVENT                                                            │
+│     └── Persistir no Event Store (imutável)                             │
+│                                                                          │
+│  5. UNLOCK                                                               │
+│     └── Liberar lock do remetente                                       │
+│                                                                          │
+│  6. NOTIFY                                                               │
+│     └── Webhook para partes interessadas                                │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### B.5.4 Retry com Exponential Backoff
+
+```javascript
+// Estratégia de retry para operações que podem falhar
+async function retryWithBackoff(fn, options = {}) {
+  const { maxRetries = 3, baseDelay = 1000, maxDelay = 10000 } = options;
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (attempt === maxRetries - 1) throw error;
+
+      // Exponential backoff com jitter
+      const delay = Math.min(
+        baseDelay * Math.pow(2, attempt) + Math.random() * 1000,
+        maxDelay,
+      );
+
+      await sleep(delay);
+    }
+  }
+}
+```
+
+---
+
+> 📖 **Versão:** 3.2.0 | **Consolidado:** TOKENOMICS + PAT + GOVERNANCE + SYSTEM DESIGN

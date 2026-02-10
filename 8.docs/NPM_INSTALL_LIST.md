@@ -1,7 +1,7 @@
 # 📦 PANDA FACTORY - LISTA COMPLETA DE DEPENDÊNCIAS
 
 > **Fonte:** `docs/PF_OPENSOURCE_CATALOG.md`  
-> **30 bibliotecas aprovadas** ✅
+> **32 bibliotecas aprovadas** ✅
 
 ---
 
@@ -10,7 +10,7 @@
 ### 1️⃣ JAM CANVAS (Principal)
 
 ```powershell
-cd "C:\Users\Lucas Valério\Desktop\Panda Factory\jam"
+cd "C:\Users\Lucas Valério\Desktop\Panda Factory\11.jam"
 npm install
 npm run dev
 ```
@@ -27,7 +27,7 @@ npm install
 ## 🎨 PANDA JAM (UI Canvas)
 
 ```bash
-npm i @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb dockbar
+npm i @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb
 ```
 
 | Pacote            | Uso                  |
@@ -35,7 +35,8 @@ npm i @tldraw/tldraw flexlayout-react yjs y-websocket y-indexeddb dockbar
 | @tldraw/tldraw    | Canvas infinito      |
 | flexlayout-react  | Multi-window docking |
 | yjs + y-websocket | Colaboração CRDT     |
-| dockbar           | Dock macOS style     |
+
+> ⚠️ **dockbar** removido — dock customizado em `PFDock.jsx`
 
 ---
 
@@ -52,14 +53,15 @@ npm i -g @google/clasp
 ## 📦 UTILITÁRIOS
 
 ```bash
-npm i zod @tanstack/react-query zustand
+npm i zod @tanstack/react-query zustand lz-string
 ```
 
-| Pacote                | Uso               |
-| :-------------------- | :---------------- |
-| zod                   | Validação schemas |
-| @tanstack/react-query | Fetch/cache       |
-| zustand               | State management  |
+| Pacote                | Uso                             |
+| :-------------------- | :------------------------------ |
+| zod                   | Validação schemas               |
+| @tanstack/react-query | Fetch/cache                     |
+| zustand               | State management                |
+| lz-string             | Compressão strings/localStorage |
 
 ---
 
@@ -102,11 +104,11 @@ ed25519-dalek = "2"
 
 ```powershell
 # 1. Jam Canvas
-cd "C:\Users\Lucas Valério\Desktop\Panda Factory\jam"
+cd "C:\Users\Lucas Valério\Desktop\Panda Factory\11.jam"
 npm install
 
 # 2. Extras (opcional, após jam funcionar)
-npm i firebase zod @tanstack/react-query zustand
+npm i firebase zod @tanstack/react-query zustand lz-string
 npm i -D @types/google-apps-script
 
 # 3. Clasp global (deploy GAS)
@@ -118,5 +120,4 @@ npm run dev
 
 ---
 
-**Atualizado:** 2026-01-26 02:00
-
+**Atualizado:** 2026-02-08

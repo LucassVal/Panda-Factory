@@ -1,11 +1,11 @@
 <!-- ============================================= -->
-<!-- APP DOCK v4.0 (Simplified)                  -->
+<!-- APP DOCK v4.1 (pf- prefix standard)         -->
 <!-- Only: Catalog, Store, Dev Mode              -->
 <!-- Dynamic apps from user catalog              -->
 <!-- ============================================= -->
 <style>
   /* Dock Base */
-  .left-dock {
+  .pf-dock {
     position: fixed;
     left: 16px;
     top: 50%;
@@ -14,12 +14,12 @@
     transition: all 0.3s ease;
   }
 
-  .left-dock.dragging {
+  .pf-dock.dragging {
     cursor: grabbing;
     opacity: 0.9;
   }
 
-  .dock-items {
+  .pf-dock-items {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -32,13 +32,13 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
-  .dark-mode .dock-items {
+  .dark-mode .pf-dock-items {
     background: rgba(20, 20, 30, 0.88);
     border-color: rgba(102, 126, 234, 0.2);
   }
 
   /* Dock Item */
-  .dock-item {
+  .pf-dock-item {
     width: 46px;
     height: 46px;
     display: flex;
@@ -52,26 +52,26 @@
     position: relative;
   }
 
-  .dock-item:hover {
+  .pf-dock-item:hover {
     background: rgba(102, 126, 234, 0.12);
     transform: scale(1.15);
   }
 
-  .dock-item:active {
+  .pf-dock-item:active {
     transform: scale(0.95);
   }
 
   /* Fixed items (Catalog, Store, Dev) */
-  .dock-item.fixed {
+  .pf-dock-item.fixed {
     opacity: 1;
   }
 
   /* Dynamic items (open apps) */
-  .dock-item.dynamic {
+  .pf-dock-item.dynamic {
     border-left: 3px solid #667eea;
   }
 
-  .dock-item.dynamic.pinned::after {
+  .pf-dock-item.dynamic.pinned::after {
     content: "⭐";
     position: absolute;
     top: -4px;
@@ -80,7 +80,7 @@
   }
 
   /* Dev Mode Toggle */
-  .dock-item.dev-mode-toggle.active {
+  .pf-dock-item.pf-dev-toggle.active {
     background: linear-gradient(
       135deg,
       rgba(16, 185, 129, 0.2),
@@ -90,7 +90,7 @@
   }
 
   /* Separator */
-  .dock-separator {
+  .pf-dock-separator {
     width: 100%;
     height: 1px;
     background: rgba(102, 126, 234, 0.15);
@@ -98,7 +98,7 @@
   }
 
   /* Dynamic Apps Section */
-  .dock-dynamic-section {
+  .pf-dock-dynamic {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -106,17 +106,17 @@
     overflow-y: auto;
   }
 
-  .dock-dynamic-section::-webkit-scrollbar {
+  .pf-dock-dynamic::-webkit-scrollbar {
     width: 3px;
   }
 
-  .dock-dynamic-section::-webkit-scrollbar-thumb {
+  .pf-dock-dynamic::-webkit-scrollbar-thumb {
     background: rgba(102, 126, 234, 0.3);
     border-radius: 2px;
   }
 
   /* Context Menu */
-  .dock-context-menu {
+  .pf-context-menu {
     position: fixed;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(16px);
@@ -129,15 +129,15 @@
     min-width: 160px;
   }
 
-  .dark-mode .dock-context-menu {
+  .dark-mode .pf-context-menu {
     background: rgba(25, 25, 35, 0.95);
   }
 
-  .dock-context-menu.visible {
+  .pf-context-menu.visible {
     display: block;
   }
 
-  .context-menu-item {
+  .pf-context-item {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -149,48 +149,52 @@
     transition: background 0.15s ease;
   }
 
-  .dark-mode .context-menu-item {
+  .dark-mode .pf-context-item {
     color: #fff;
   }
 
-  .context-menu-item:hover {
+  .pf-context-item:hover {
     background: rgba(102, 126, 234, 0.1);
   }
 
-  .context-menu-item.danger {
+  .pf-context-item.danger {
     color: #ef4444;
   }
 
-  .context-menu-item.danger:hover {
+  .pf-context-item.danger:hover {
     background: rgba(239, 68, 68, 0.1);
   }
 
-  .context-menu-separator {
+  .pf-context-separator {
     height: 1px;
     background: rgba(102, 126, 234, 0.1);
     margin: 4px 0;
   }
 </style>
 
-<div id="appDock" class="modular-dock left-dock">
-  <div class="dock-items">
+<div id="appDock" class="pf-dock">
+  <div class="pf-dock-items">
     <!-- FIXED ITEMS -->
     <div
-      class="dock-item fixed"
+      class="pf-dock-item fixed"
       onclick="PandaCatalog.open()"
       title="📁 Meu Catálogo"
     >
       📁
     </div>
-    <div class="dock-item fixed" onclick="PandaStore.open()" title="🏪 Store">
+    <div
+      class="pf-dock-item fixed"
+      onclick="PandaStore.open()"
+      title="🏪 Store"
+    >
       🏪
     </div>
 
-    <div class="dock-separator"></div>
+    <div class="pf-dock-separator"></div>
 
     <!-- DEV MODE TOGGLE -->
     <div
-      class="dock-item fixed dev-mode-toggle"
+      class="pf-dock-item fixed pf-dev-toggle"
       id="devModeToggle"
       onclick="toggleDevMode()"
       title="🛠️ Dev Mode"
@@ -199,42 +203,42 @@
     </div>
 
     <div
-      class="dock-separator"
+      class="pf-dock-separator"
       id="dynamicSeparator"
       style="display: none"
     ></div>
 
     <!-- DYNAMIC APPS (from catalog) -->
-    <div class="dock-dynamic-section" id="dynamicApps">
+    <div class="pf-dock-dynamic" id="dynamicApps">
       <!-- Apps appear here when opened from catalog -->
     </div>
   </div>
 </div>
 
 <!-- Context Menu (Right Click) -->
-<div class="dock-context-menu" id="dockContextMenu">
-  <div class="context-menu-item" onclick="DockContext.pinApp()">
+<div class="pf-context-menu" id="dockContextMenu">
+  <div class="pf-context-item" onclick="DockContext.pinApp()">
     <span>📌</span> Fixar no Dock
   </div>
-  <div class="context-menu-item" onclick="DockContext.closeApp()">
+  <div class="pf-context-item" onclick="DockContext.closeApp()">
     <span>❌</span> Fechar
   </div>
-  <div class="context-menu-separator"></div>
-  <div class="context-menu-item" onclick="DockContext.openSettings()">
+  <div class="pf-context-separator"></div>
+  <div class="pf-context-item" onclick="DockContext.openSettings()">
     <span>⚙️</span> Configurações
   </div>
-  <div class="context-menu-item" onclick="DockContext.sdkActions()">
+  <div class="pf-context-item" onclick="DockContext.sdkActions()">
     <span>🔧</span> Ações SDK
   </div>
-  <div class="context-menu-separator"></div>
-  <div class="context-menu-item danger" onclick="DockContext.uninstallApp()">
+  <div class="pf-context-separator"></div>
+  <div class="pf-context-item danger" onclick="DockContext.uninstallApp()">
     <span>🗑️</span> Desinstalar
   </div>
 </div>
 
 <script>
   /**
-   * PandaDock Controller v4.0
+   * PandaDock Controller v4.1
    */
   window.PandaDock = {
     openApps: new Map(), // Currently open apps
@@ -298,7 +302,7 @@
       allApps.forEach((app, id) => {
         const isPinned = this.pinnedApps.has(id);
         const div = document.createElement("div");
-        div.className = `dock-item dynamic${isPinned ? " pinned" : ""}`;
+        div.className = `pf-dock-item dynamic${isPinned ? " pinned" : ""}`;
         div.title = app.name || id;
         div.innerHTML = app.icon || "📱";
         div.onclick = () => this.focusApp(id);
@@ -446,5 +450,5 @@
     }
   });
 
-  console.log("🐼 AppDock v4.0 loaded");
+  console.log("🐼 AppDock v4.1 loaded (pf- prefix standard)");
 </script>

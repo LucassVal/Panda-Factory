@@ -22,8 +22,8 @@
     const isPinned = !!pinnedModals[modalId];
     pinnedModals[modalId] = !isPinned;
 
-    const btnFn = modal.querySelector(".pin-btn");
-    const content = modal.querySelector(".modal-content");
+    const btnFn = modal.querySelector(".pf-pin-btn");
+    const content = modal.querySelector(".pf-modal-content");
 
     if (pinnedModals[modalId]) {
       // ACTIVATE PIN
@@ -67,7 +67,7 @@
     const modal = document.getElementById(modalId);
     if (!modal) return;
 
-    const content = modal.querySelector(".modal-content");
+    const content = modal.querySelector(".pf-modal-content");
 
     if (!window.documentPictureInPicture) {
       alert(
@@ -127,7 +127,7 @@
   // ==========================================
   function setupClickOutside() {
     window.addEventListener("click", (e) => {
-      if (e.target.classList.contains("modal")) {
+      if (e.target.classList.contains("pf-modal")) {
         const modalId = e.target.id;
         if (pinnedModals[modalId]) return;
 

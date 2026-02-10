@@ -1,6 +1,13 @@
+---
+tool_context: panda/backend
+description: Backend Unificado - Rust Agent, MCP, Firebase, Auth, Health
+version: 2.1.0
+updated: 2026-02-08
+---
+
 # 🦀 PF_BACKEND_REFERENCE - Infraestrutura Backend Unificada
 
-> **Versão:** 1.0.0 | **Atualizado:** 2026-01-27
+> **Versão:** 2.1.0 | **Atualizado:** 2026-02-08
 > **Consolidado de:** PF_MCP, PF_RUST, PF_FIREBASE, PF_AUTH, PF_HEALTH
 
 ---
@@ -68,13 +75,13 @@ O **Rust Agent** é o "corpo físico" do Panda Factory no PC do usuário.
 
 ### 2.3 Extension Modules
 
-| Módulo           | Default Google  | Fallback Local  |
-| ---------------- | --------------- | --------------- |
-| **pf_stt**       | Cloud Speech    | `whisper-rs`    |
-| **pf_tts**       | Cloud TTS       | `tts-rs`        |
-| **pf_ocr**       | Cloud Vision    | `tesseract-rs`  |
-| **pf_translate** | Cloud Translate | NLLB via `ort`  |
-| **pf_gpu**       | Cloud GPU       | `cudarc`/`wgpu` |
+| Módulo          | Default Google  | Fallback Local  |
+| --------------- | --------------- | --------------- |
+| **pf_stt**      | Cloud Speech    | `whisper-rs`    |
+| **pf_tts**      | Cloud TTS       | `tts-rs`        |
+| **pf_ocr**      | Cloud Vision    | `tesseract-rs`  |
+| **pf_polyglot** | Cloud Translate | NLLB via `ort`  |
+| **pf_gpu**      | Cloud GPU       | `cudarc`/`wgpu` |
 
 ### 2.4 Hardware Modules
 
@@ -118,7 +125,7 @@ O **Rust Agent** é o "corpo físico" do Panda Factory no PC do usuário.
 **Legenda:**
 
 - **User (3)**: Usuário final, só interage
-- **Dev (2)**: Desenvolvedor, pode codar via Antigravity
+- **Dev (2)**: Desenvolvedor, pode usar Dev Mode (code assistance)
 - **Founder (1)**: Acesso total + governança
 
 ### 3.2 API de Tools
@@ -433,6 +440,207 @@ function MyComponent() {
 
 ---
 
+## 8. Padrões de Resiliência (P0 - Crítico)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0 (Implementar imediatamente)
+
+### 8.1 Circuit Breaker
+
+O Circuit Breaker previne cascading failures quando serviços externos (GAS, Firebase) falham.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    CIRCUIT BREAKER STATE MACHINE                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│                    ┌──────────────┐                                     │
+│           success  │   CLOSED     │  failure                            │
+│           ┌───────▶│  (Normal)    │────────┐                            │
+│           │        └──────────────┘        │                            │
+│           │               │                ▼                            │
+│           │        failures >= 3    ┌──────────────┐                    │
+│           │               │         │    OPEN      │                    │
+│           │               └────────▶│  (Fail Fast) │                    │
+│           │                         └──────────────┘                    │
+│           │                               │                              │
+│           │                        timeout (30s)                        │
+│           │                               │                              │
+│           │                               ▼                              │
+│           │                         ┌──────────────┐                    │
+│           └─────────────────────────│  HALF-OPEN   │                    │
+│                                     │  (Testing)   │                    │
+│                                     └──────────────┘                    │
+│                                           │                              │
+│                                      failure                             │
+│                                           │                              │
+│                                           └─────────▶ OPEN              │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Implementação (pf.firebase-bridge.js):**
+
+```javascript
+class CircuitBreaker {
+  constructor(options = {}) {
+    this.state = "CLOSED";
+    this.failures = 0;
+    this.threshold = options.threshold || 3;
+    this.timeout = options.timeout || 30000; // 30s
+    this.lastFailure = null;
+  }
+
+  async execute(fn) {
+    if (this.state === "OPEN") {
+      if (Date.now() - this.lastFailure > this.timeout) {
+        this.state = "HALF_OPEN";
+      } else {
+        throw new Error("Circuit is OPEN - fail fast");
+      }
+    }
+
+    try {
+      const result = await fn();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+
+  onSuccess() {
+    this.failures = 0;
+    this.state = "CLOSED";
+  }
+
+  onFailure() {
+    this.failures++;
+    this.lastFailure = Date.now();
+
+    if (this.failures >= this.threshold) {
+      this.state = "OPEN";
+      console.warn("[CircuitBreaker] OPEN - switching to fallback");
+    }
+  }
+}
+
+// Uso
+Panda.Backend._circuitBreaker = new CircuitBreaker({ threshold: 3 });
+```
+
+### 8.2 Retry com Exponential Backoff
+
+```javascript
+// Estratégia de retry com jitter para evitar thunder herd
+async function retryWithBackoff(fn, options = {}) {
+  const {
+    maxRetries = 3,
+    baseDelay = 1000,
+    maxDelay = 10000,
+    jitter = true,
+  } = options;
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (attempt === maxRetries - 1) throw error;
+
+      // Exponential backoff: 1s, 2s, 4s...
+      let delay = Math.min(baseDelay * Math.pow(2, attempt), maxDelay);
+
+      // Adiciona jitter (±25%) para evitar thunder herd
+      if (jitter) {
+        delay += delay * (Math.random() * 0.5 - 0.25);
+      }
+
+      console.log(
+        `[Retry] Attempt ${attempt + 1}/${maxRetries}, waiting ${delay}ms`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+}
+
+// Uso no SDK
+Panda.Backend.call = async (action, payload, options = {}) => {
+  const { retries = 3, backoff = "exponential" } = options;
+
+  return retryWithBackoff(() => executeBackendCall(action, payload), {
+    maxRetries: retries,
+  });
+};
+```
+
+### 8.3 Offline-First / Fallback Strategy
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    FALLBACK HIERARCHY                                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  TIER 1: GAS (Google Apps Script)                                       │
+│     │                                                                   │
+│     │ 3 failures / timeout                                              │
+│     ▼                                                                   │
+│  TIER 2: Firebase Functions (se habilitado)                             │
+│     │                                                                   │
+│     │ 3 failures / timeout                                              │
+│     ▼                                                                   │
+│  TIER 3: Rust Agent Local                                               │
+│     │                                                                   │
+│     │ não disponível                                                    │
+│     ▼                                                                   │
+│  TIER 4: IndexedDB Cache (stale data)                                   │
+│     │                                                                   │
+│     │ cache miss                                                        │
+│     ▼                                                                   │
+│  TIER 5: Graceful Degradation (UI indica offline)                       │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Implementação:**
+
+```javascript
+Panda.Backend._fallbackChain = [
+  { name: "GAS", fn: callGAS },
+  { name: "Rust", fn: callRustAgent },
+  { name: "Cache", fn: readFromCache },
+];
+
+Panda.Backend.callWithFallback = async (action, payload) => {
+  for (const tier of Panda.Backend._fallbackChain) {
+    try {
+      console.log(`[Fallback] Trying ${tier.name}...`);
+      return await Panda.Backend._circuitBreaker.execute(() =>
+        tier.fn(action, payload),
+      );
+    } catch (error) {
+      console.warn(`[Fallback] ${tier.name} failed:`, error.message);
+      continue;
+    }
+  }
+
+  // Graceful degradation
+  Panda.UI.showOfflineMode();
+  throw new Error("All backends unavailable");
+};
+```
+
+### 8.4 Configuração por Ambiente
+
+| Parâmetro          | Desenvolvimento | Produção |
+| ------------------ | --------------- | -------- |
+| `circuitThreshold` | 2               | 5        |
+| `circuitTimeout`   | 10s             | 60s      |
+| `maxRetries`       | 2               | 3        |
+| `baseDelay`        | 500ms           | 1000ms   |
+| `cacheStaleTime`   | 1min            | 5min     |
+
+---
+
 ## 📎 Links de Código
 
 ### Rust Agent
@@ -447,7 +655,7 @@ function MyComponent() {
 
 ### Components
 
-- [StatusBar.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/components/StatusBar.jsx)
+- [PFStatusBar.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/components/PFStatusBar.jsx)
 - [LoginModal.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.jam/src/components/LoginModal.jsx)
 
 ---
@@ -619,7 +827,63 @@ pub async fn handle_request(user_id: &str, command: McpTool) -> Result<Response>
 }
 ```
 
+## B.10 Cache Strategy (P1 - Thunder Herd Prevention)
+
+> **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P1
+> **Problema:** Quando cache de muitos usuários expira ao mesmo tempo, todos requisitam o servidor juntos
+
+### IndexedDB com TTL Jitter
+
+```rust
+// pf_cache.rs
+pub struct CacheConfig {
+    ttl: u64,           // segundos
+    jitter: bool,       // ±25% variação
+    stale_ok: bool,     // retornar expirado enquanto revalida
+}
+
+impl CacheConfig {
+    pub fn effective_ttl(&self) -> u64 {
+        if self.jitter {
+            let variance = (self.ttl as f64 * 0.25) as u64;
+            let offset = rand::thread_rng().gen_range(0..variance * 2);
+            self.ttl - variance + offset
+        } else {
+            self.ttl
+        }
+    }
+}
+
+pub async fn get_with_cache<T>(key: &str, fetcher: impl Fn() -> T) -> T {
+    if let Some(cached) = cache::get(key) {
+        if !cached.expired() {
+            return cached.value;
+        }
+        if cached.config.stale_ok {
+            // Retorna stale e atualiza em background
+            tokio::spawn(async move {
+                let fresh = fetcher();
+                cache::set(key, fresh, cached.config);
+            });
+            return cached.value;
+        }
+    }
+
+    let value = fetcher();
+    cache::set(key, value.clone(), default_config());
+    value
+}
+```
+
+### Estratégias por Tipo de Dado
+
+| Dado    | TTL    | Jitter | Stale OK | Exemplo           |
+| ------- | ------ | ------ | -------- | ----------------- |
+| Config  | 7 dias | ❌     | ❌       | Constantes do app |
+| Profile | 1 hora | ✅ 25% | ✅       | Dados de usuário  |
+| Balance | 5 min  | ✅ 50% | ❌       | Saldo PC          |
+| Prices  | 1 min  | ✅ 30% | ✅       | Cotação USD       |
+
 ---
 
-> 📖 **Versão:** 2.0.0 | **Consolidado:** BACKEND + Módulos Avançados MASTER
-
+> 📖 **Versão:** 2.1.0 | **Consolidado:** BACKEND + Módulos Avançados + Cache Jitter

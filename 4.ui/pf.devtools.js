@@ -41,12 +41,7 @@
       description: "Explorar Sheets/Firebase",
       minRole: 2, // Dev+
     },
-    editor: {
-      icon: "📝",
-      title: "Code Editor",
-      description: "Editor Monaco (futuro)",
-      minRole: 2, // Dev+
-    },
+
     ai: {
       icon: "🤖",
       title: "AI Agents",
@@ -70,6 +65,13 @@
       title: "PAT Treasury",
       description: "Controles do tesouro",
       minRole: 1, // Founder ONLY
+    },
+    founderDash: {
+      icon: "📊",
+      title: "Founder Dashboard",
+      description: "Health 3-state + visão total do sistema",
+      minRole: 1, // Founder ONLY
+      module: "Mod_Founder_Dashboard.html",
     },
     constitution: {
       icon: "⚖️",
