@@ -56,15 +56,65 @@ PandaFactory/
 
 ---
 
-## 🔌 Integrações
+## 🔌 Integrações (Medusa Tentacles)
 
-| Categoria         | Conexões                                       |
-| ----------------- | ---------------------------------------------- |
-| 💬 **Social**     | WhatsApp, Telegram, Twitter, Instagram, TikTok |
-| 📺 **Conteúdo**   | YouTube, Twitch, Spotify                       |
-| 💰 **Pagamentos** | Kiwify, Hotmart, Stripe, Pix                   |
-| 📈 **Trading**    | cTrader, Binance                               |
-| 🎮 **Games**      | Godot, Unity, Steam                            |
+| Categoria            | Conexões                                       | Status     |
+| -------------------- | ---------------------------------------------- | ---------- |
+| 💬 **Social**        | WhatsApp, Telegram, Twitter, Instagram, TikTok | 🚧 Q2 2026 |
+| 📺 **Conteúdo**      | YouTube, Twitch, Spotify                       | 🚧 Q3 2026 |
+| 💰 **Pagamentos**    | Kiwify, Hotmart, Stripe, Pix                   | 🚧 Q2 2026 |
+| 📈 **Trading**       | cTrader, Binance                               | 🚧 Q3 2026 |
+| 🎮 **Games**         | Godot, Unity, Steam                            | 🚧 Q3 2026 |
+| ☁️ **Google**        | Drive, Sheets, Colab, Ads, Analytics           | ✅ Active  |
+| 🐙 **GitHub**        | Pages, Actions, API                            | ✅ Active  |
+| 🌐 **Landing Pages** | Drag-and-drop builder via TLDraw               | 🚧 Q2 2026 |
+| ⛽ **Gasômetro**     | Dashboard de uso do GAS                        | 🚧 Q2 2026 |
+| 📱 **Google Play**   | App mobile distribution                        | 🚧 Q3 2026 |
+
+### 🥝 Kiwify & 🔥 Hotmart — Infoprodutos ($3.2B/ano)
+
+Conexão direta com as maiores plataformas de produtos digitais do Brasil:
+
+```
+AÇÃO DO USUÁRIO                       → O QUE ACONTECE                      → RECEITA
+─────────────────────────────────────────────────────────────────────────────────────
+Criador builda curso no Panda        → Gemini gera conteúdo + quizzes       → —
+Criador publica na Kiwify/Hotmart    → Medusa.tentacle("kiwify").publish()  → —
+Comprador compra o curso             → Webhook dispara Panda Hook           → 70/20/10 split
+Panda armazena assets do curso       → Salvo no Google Drive do criador     → Drive API
+Gasômetro monitora execuções GAS     → Dashboard analytics em tempo real     → GAS monitoring
+```
+
+### 🌐 Landing Page Builder
+
+Usuários criam landing pages profissionais dentro do Panda Factory:
+
+- Drag-and-drop no TLDraw canvas (sem código)
+- IA gera copy e imagens via Gemini
+- Publicação direta no GitHub Pages ou domínio próprio
+- Assets no Google Drive do usuário (não em servidores Panda)
+- Tracking via Google Analytics tentacle
+- Leads capturados no Google Sheets automaticamente
+
+### ⛽ Gasômetro — Monitor de Uso GAS
+
+- **Quotas diárias**: Visualiza execuções GAS restantes
+- **Cost mapping**: Quais operações consomem mais quota
+- **Alertas auto-scaling**: Notifica antes de atingir o free-tier
+- **Sugestões IA**: Gemini recomenda estratégias de batching
+
+### ☁️ Drive-First — O Usuário É Dono dos Dados
+
+> **Filosofia**: O Panda nunca retém dados do usuário. Todos os arquivos são salvos no Google Drive **do próprio usuário**. O Panda faz hook nos arquivos via SDK para editar, processar com IA e distribuir — mas o usuário sempre controla seus dados.
+
+```
+SAAS TRADICIONAL                    PANDA FACTORY
+─────────────────                   ─────────────
+Arquivos no servidor DELES  →       Arquivos no SEU Google Drive
+Exportar = pagar extra      →       Já está no seu Drive
+Plataforma morre = dados    →       Dados sobrevivem pra sempre
+Vendor lock-in              →       Zero lock-in
+```
 
 ---
 
@@ -73,8 +123,27 @@ PandaFactory/
 | Tier           | Benefício                              |
 | -------------- | -------------------------------------- |
 | 🆓 **Free**    | 500k tokens/mês grátis                 |
-| 💰 **Ganhe**   | Venda módulos/tentáculos, 52% pra você |
+| 💰 **Ganhe**   | Venda módulos/tentáculos, 70% pra você |
 | 🏆 **Top 100** | 30% desconto vitalício                 |
+
+### ⚡ Hooks — Motor de Riqueza
+
+Cada ação significativa dispara distribuição automática de receita:
+
+```
+TODA TRANSAÇÃO:
+├── 70% → Criador do Plugin (renda passiva 💰)
+├── 20% → Plataforma (crescimento sustentável)
+└── 10% → PAT Treasury (reserva IA autônoma)
+```
+
+| Participante              | Como Ganha                              | Passivo?    |
+| ------------------------- | --------------------------------------- | ----------- |
+| **Criadores de Plugin**   | 70% de cada transação                   | ✅ Sim      |
+| **Operadores P2P**        | Panda Coins por compartilhar GPU/CPU    | ✅ Sim      |
+| **Criadores de Conteúdo** | Medusa distribui → hooks de monetização | ✅ Sim      |
+| **Usuários Ativos**       | Ganham PC por tarefas e indicações      | ❌ Ativo    |
+| **PAT Treasury**          | 10% reserva, governada por IA           | ✅ Autônoma |
 
 ---
 
@@ -130,18 +199,22 @@ PandaFactory/
 - 🚧 Auth Ed25519 — crypto pronto, falta integração real
 - ✅ Medusa Store UI v3.1 — 9 extensões (CRM, 5 redes sociais, Google Ads, Meta, Analytics)
 
-**Fase 2 — Escala** ⏳ `Mar-Abr/2026`
+**Fase 2 — Escala + Monetização** ⏳ `Mar-Abr/2026`
 
 - ⏳ GAS Real Deploy (`useMock: false`)
 - ⏳ PWA + GitHub Pages otimizado
+- ⏳ Kiwify/Hotmart webhooks reais
+- ⏳ Landing Page Builder (TLDraw → HTML export)
+- ⏳ Gasômetro v1.0 (dashboard de quotas GAS)
 
 **Fase 3 — Expansão** ⏳ `Q2-Q3/2026`
 
-- ⏳ EdTech Hub (Kiwify, Hotmart webhooks reais)
+- ⏳ Google Play Store (PWA → TWA wrapper)
+- ⏳ EdTech Hub completo
 - ⏳ Plugin Marketplace (devs externos, revenue split)
-- ⏳ Mobile (PWA full + Tauri Desktop)
 - ⏳ Panda Coin economia real (fiat gateway)
 - ⏳ Internacionalização (i18n)
+- ⏳ Google One upsell integration
 
 ---
 
