@@ -1,4 +1,4 @@
-name: 🐼 GitHub Pages Deploy (JAM React)
+name: 🐼 GitHub Pages Deploy (PF App React)
 
 on:
   push:
@@ -28,13 +28,13 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: "11.jam/package-lock.json"
+          cache-dependency-path: "11.pf-app/package-lock.json"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: 📦 Install Dependencies
-        working-directory: 11.jam
+        working-directory: 11.pf-app
         run: npm ci
 
       - name: 🔨 Build JAM React App
@@ -44,8 +44,8 @@ jobs:
       - name: 📋 Copy Root Assets to Dist
         run: |
           # Copy manifest and PWA assets to dist
-          cp manifest.json 11.jam/../dist/jam/ 2>/dev/null || true
-          cp favicon.ico 11.jam/../dist/jam/ 2>/dev/null || true
+          cp manifest.json 11.pf-app/../dist/jam/ 2>/dev/null || true
+          cp favicon.ico 11.pf-app/../dist/jam/ 2>/dev/null || true
           echo "✅ Assets copied to dist/jam"
 
       - name: Upload artifact

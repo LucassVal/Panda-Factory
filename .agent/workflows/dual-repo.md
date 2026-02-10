@@ -14,16 +14,16 @@ LOCAL (Desktop/Panda Factory)
     │
     └── git push panda main    → Panda-Factory (PUBLIC) — filtered by .gitignore
                                  github.com/LucassVal/Panda-Factory
-                                 → GitHub Actions builds 11.jam/ → deploys dist/jam/
+                                 → GitHub Actions builds 11.pf-app/ → deploys dist/jam/
                                  → Site: lucassval.github.io/Panda-Factory/
 ```
 
 ## What Goes Where
 
-| Remote   | Repo          | Visibility | Contains                                                        |
-| -------- | ------------- | ---------- | --------------------------------------------------------------- |
-| `origin` | SAAS          | 🔒 Private | EVERYTHING — all source code, secrets, docs                     |
-| `panda`  | Panda-Factory | 🌐 Public  | Only what `.gitignore` ALLOWS (11.jam/, dist/, README.md, etc.) |
+| Remote   | Repo          | Visibility | Contains                                                           |
+| -------- | ------------- | ---------- | ------------------------------------------------------------------ |
+| `origin` | SAAS          | 🔒 Private | EVERYTHING — all source code, secrets, docs                        |
+| `panda`  | Panda-Factory | 🌐 Public  | Only what `.gitignore` ALLOWS (11.pf-app/, dist/, README.md, etc.) |
 
 ## ⚠️ RULES — READ BEFORE EVERY PUSH
 
@@ -54,7 +54,7 @@ _backup_pre_numbered/ — Old backups
 ## Public Files (GO to panda)
 
 ```
-11.jam/     — JAM React UI source (needed for Actions build)
+11.pf-app/     — JAM React UI source (needed for Actions build)
 dist/jam/   — Built output for GitHub Pages
 .github/    — CI/CD workflows
 README.md   — Public pitch page
@@ -78,6 +78,10 @@ git push origin main
 # 3. Push to PUBLIC (deploy)
 git push panda main
 ```
+
+> ⚠️ **NUNCA** use `git add -f` para arquivos em pastas sensíveis (8.docs/, .agent/, etc.)!
+> O `-f` força a adição mesmo com `.gitignore` e EXPÕE os arquivos no repo público.
+> Se precisar atualizar docs no SAAS, commits com esses arquivos só vão pro `origin`, NUNCA pro `panda`.
 
 ## Step-by-Step: After Adding New Folder
 
@@ -109,7 +113,7 @@ git push origin main
 
 ```
 Push to panda → GitHub Actions triggers →
-  npm ci (11.jam/) → npm run build →
+  npm ci (11.pf-app/) → npm run build →
   Upload dist/jam/ → Deploy to GitHub Pages →
   Live at lucassval.github.io/Panda-Factory/
 ```

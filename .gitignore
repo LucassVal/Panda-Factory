@@ -76,7 +76,7 @@ package.json
 # ========================================
 # MANTÉM NO REPO PÚBLICO (Panda-Factory)
 # ========================================
-# !11.jam/         → JAM React UI (source para build)
+# !11.pf-app/         → JAM React UI (source para build)
 # !dist/jam/       → Build output para GitHub Pages
 # !README.md       → Página pitch pública
 # !index.html      → Landing page
