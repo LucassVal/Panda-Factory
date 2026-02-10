@@ -168,27 +168,84 @@ The **Medusa Engine** is our proprietary multi-platform distribution system. Eac
 - **GitHub Repos** — source control, version management, collaboration
 - **GitHub API** — plugin publishing, marketplace distribution, issue tracking
 
-### ☁️ Google Drive Integration
+### ☁️ Google Drive Integration — User Owns Their Data
+
+> **Philosophy**: Panda Factory never holds user data hostage. All files are saved to the **user's own Google Drive**. Panda hooks into the files via SDK to provide editing, AI processing, and distribution — but the user always owns and controls their data.
 
 - **Asset Sync** — project files, images, and exports stored in user's own Drive
 - **Template Library** — shared templates distributed via Drive folders
 - **Backup & Restore** — automatic project snapshots to Drive
 - **Collaboration** — shared folders for team workspaces with real-time sync
+- **Zero Lock-in** — leave Panda anytime, your files stay in YOUR Google Drive
+
+```
+TRADITIONAL SAAS                    PANDA FACTORY
+─────────────────                   ─────────────
+Files on THEIR servers      →       Files on YOUR Google Drive
+Export = pay extra          →       Already in your Drive
+Platform dies = data lost   →       Data survives forever
+Vendor lock-in              →       Zero lock-in
+```
+
+> **For Google**: This means every Panda user becomes a **Google Drive power user** — increasing storage consumption, API calls, and potential Google One upgrades.
 
 ### Tentacle Status
 
-| Tentacle             | Platform            | Status     | Google Demand         |
-| -------------------- | ------------------- | ---------- | --------------------- |
-| 🐙 GitHub            | Deploy + CI/CD      | ✅ Active  | GitHub Pages, Actions |
-| ☁️ Google Drive      | File sync + backup  | ✅ Active  | Drive API             |
-| 🔍 Google Search     | SEO + discovery     | ✅ Active  | Search Console        |
-| 📊 Google Analytics  | User tracking       | ✅ Active  | GA4 events            |
-| 📈 Google Sheets     | Database layer      | ✅ Active  | Sheets API            |
-| 🧪 Google Colab      | GPU compute         | ✅ Active  | Colab sessions        |
-| 📢 Google Ads        | Marketing           | 🚧 Q2 2026 | Ads API               |
-| 💬 WhatsApp Business | CRM messaging       | 🚧 Q2 2026 | —                     |
-| 🐦 Twitter/X         | Social distribution | 🚧 Q3 2026 | —                     |
-| 📘 Meta Ads          | Ad management       | 🚧 Q3 2026 | —                     |
+| Tentacle                 | Platform                   | Status     | Google Demand          |
+| ------------------------ | -------------------------- | ---------- | ---------------------- |
+| 🐙 GitHub                | Deploy + CI/CD             | ✅ Active  | GitHub Pages, Actions  |
+| ☁️ Google Drive          | User-owned file storage    | ✅ Active  | Drive API + Google One |
+| 🔍 Google Search         | SEO + discovery            | ✅ Active  | Search Console         |
+| 📊 Google Analytics      | User tracking              | ✅ Active  | GA4 events             |
+| 📈 Google Sheets         | Database layer             | ✅ Active  | Sheets API             |
+| 🧪 Google Colab          | GPU compute                | ✅ Active  | Colab sessions         |
+| 📢 Google Ads            | Marketing automation       | 🚧 Q2 2026 | Ads API                |
+| 💬 WhatsApp Business     | CRM messaging              | 🚧 Q2 2026 | —                      |
+| 🥝 **Kiwify**            | Digital product sales      | 🚧 Q2 2026 | Sheets + Drive         |
+| 🔥 **Hotmart**           | Course & infoproduct sales | 🚧 Q2 2026 | Sheets + Drive         |
+| 🌐 **Landing Pages**     | Drag-and-drop page builder | 🚧 Q2 2026 | Drive (hosting assets) |
+| ⛽ **Gasômetro**         | GAS usage dashboard        | 🚧 Q2 2026 | Apps Script monitoring |
+| 🐦 Twitter/X             | Social distribution        | 🚧 Q3 2026 | —                      |
+| 📘 Meta Ads              | Ad management              | 🚧 Q3 2026 | —                      |
+| 📱 **Google Play Store** | Mobile app distribution    | 🚧 Q3 2026 | Play Console           |
+
+### 🥝 Kiwify & 🔥 Hotmart Integration
+
+Panda Factory connects directly to **Kiwify** and **Hotmart** — Brazil's largest digital product platforms — allowing users to:
+
+```
+USER ACTION                          → WHAT HAPPENS                        → REVENUE
+─────────────────────────────────────────────────────────────────────────────────────
+Creator builds course in Panda       → Gemini generates content + quizzes   → —
+Creator publishes to Kiwify/Hotmart  → Medusa.tentacle("kiwify").publish()  → —
+Buyer purchases the course           → Webhook triggers Panda Hook          → 70/20/10 split
+Panda stores course assets           → Saved in creator's Google Drive      → Drive API usage
+Gasômetro tracks GAS executions      → Real-time analytics dashboard        → GAS monitoring
+```
+
+> **Why this matters**: Brazil's infoproduct market is worth **$3.2B/year**. By connecting Panda to Kiwify/Hotmart, every digital product sale generates Google Drive storage, Gemini API usage, and Sheets transactions.
+
+### 🌐 Landing Page Builder
+
+Users create professional landing pages **inside Panda Factory** using the TLDraw canvas:
+
+- Drag-and-drop page builder (no code)
+- AI generates copy and images via Gemini
+- Published directly to **GitHub Pages** or user's own domain
+- Assets stored in **user's Google Drive** (not Panda servers)
+- Conversion tracking via **Google Analytics** tentacle
+- Leads captured to **Google Sheets** automatically
+
+> **Panda acts as mediator**: The platform orchestrates the workflow, but the user owns every asset. Landing page files go to their Drive, leads go to their Sheets, analytics go to their GA4.
+
+### ⛽ Gasômetro — GAS Usage Monitor
+
+A real-time dashboard that tracks Google Apps Script execution usage:
+
+- **Daily quotas**: Visualize remaining GAS executions
+- **Cost mapping**: See which operations consume the most quota
+- **Auto-scaling alerts**: Notify before hitting free-tier limits
+- **Optimization suggestions**: AI recommends batching strategies
 
 ### Revenue Distribution (Hooks Model)
 
@@ -399,23 +456,24 @@ An autonomous AI governs the token economy following **12 hardcoded constitution
 
 ### Timeline
 
-| Phase    | Timeline     | Focus           | Key Google Services        |
-| -------- | ------------ | --------------- | -------------------------- |
-| **0** ✅ | Jan 2026     | Foundation      | GAS, Firebase, Gemini      |
-| **1** 🚧 | Feb 2026     | Launch & Polish | Scale Gemini, GitHub Pages |
-| **2** ⏳ | Mar-Apr 2026 | Growth          | Cloud Run, BigQuery        |
-| **3** ⏳ | Q2-Q3 2026   | Expansion       | Google Ads, Play Store     |
+| Phase    | Timeline     | Focus                 | Key Google Services                            |
+| -------- | ------------ | --------------------- | ---------------------------------------------- |
+| **0** ✅ | Jan 2026     | Foundation            | GAS, Firebase, Gemini                          |
+| **1** 🚧 | Feb 2026     | Launch & Polish       | Scale Gemini, GitHub Pages                     |
+| **2** ⏳ | Mar-Apr 2026 | Growth + Monetization | Kiwify/Hotmart hooks, Landing Pages, Gasômetro |
+| **3** ⏳ | Q2-Q3 2026   | Expansion             | Google Ads, Play Store, Google One upsells     |
 
 ---
 
 ## 🎯 Target Markets
 
-| Vertical                   | TAM   | Google Alignment                           |
-| -------------------------- | ----- | ------------------------------------------ |
-| **EdTech** (Brazil, LATAM) | $5B   | Colab for learning, Gemini for AI tutoring |
-| **Micro-SaaS for SMBs**    | $12B  | Sheets as backend, near-zero cost          |
-| **Creator Economy**        | $100B | Plugin marketplace, social tools           |
-| **FinTech**                | $8B   | AI-powered analysis, trading APIs          |
+| Vertical                          | TAM   | Google Alignment        | Panda Differentiation                      |
+| --------------------------------- | ----- | ----------------------- | ------------------------------------------ |
+| **Infoproducts** (Kiwify/Hotmart) | $3.2B | Drive + Sheets + Gemini | AI course generation + auto-distribution   |
+| **EdTech** (Brazil, LATAM)        | $5B   | Colab + Gemini          | Interactive AI tutoring + P2P GPU          |
+| **Micro-SaaS for SMBs**           | $12B  | Sheets as backend       | Near-zero cost, user owns data on Drive    |
+| **Creator Economy**               | $100B | Drive + YouTube + Ads   | Landing pages + content distribution       |
+| **FinTech**                       | $8B   | Sheets + Gemini         | AI analysis bots with passive income hooks |
 
 ---
 
