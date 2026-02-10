@@ -1,2 +1,0 @@
-CD para scripts 
-Executando python scraper_guia_automatico.py 

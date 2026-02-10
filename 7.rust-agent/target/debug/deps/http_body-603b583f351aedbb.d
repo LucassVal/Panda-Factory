@@ -1,7 +1,0 @@
-C:\Users\Lucas Valério\Desktop\Panda Factory\7.rust-agent\target\debug\deps\http_body-603b583f351aedbb.d: C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\lib.rs C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\frame.rs C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\size_hint.rs
-
-C:\Users\Lucas Valério\Desktop\Panda Factory\7.rust-agent\target\debug\deps\libhttp_body-603b583f351aedbb.rmeta: C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\lib.rs C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\frame.rs C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\size_hint.rs
-
-C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\lib.rs:
-C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\frame.rs:
-C:\Users\Lucas\ Valério\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\http-body-1.0.1\src\size_hint.rs:

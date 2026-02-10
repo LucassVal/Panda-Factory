@@ -1,18 +1,55 @@
 # 🔒 Panda Factory Public - Exclusões
+# Atualizado: 2026-02-10 (Caminhos CORRETOS do projeto)
 
 # ========================================
 # SENSÍVEL - NÃO ENVIAR PARA REPO PÚBLICO
 # ========================================
 
-# Backend (contém lógica de negócio)
+# GAS Backend (contém lógica de negócio)
+1.core/
+1.gas/
 backend/
 
-# Agente Rust (privado)
-rust-agent/
-
-# PAT e AI Core (segredos)
+# System Core (PAT, Kill Switch, DRM, Governance)
+2.system/
 js/core/
 js/pat/
+
+# SDK Interno (lógica proprietária)
+3.sdk/
+
+# UI Legacy Components (privado)
+4.ui/
+
+# Tentacles (lógica interna)
+5.tentacles/
+5.design/
+
+# Social/Gamification
+6.social/
+
+# Agente Rust (Ed25519, chaves privadas)
+7.rust-agent/
+rust-agent/
+
+# Documentação Técnica Interna
+8.docs/
+
+# Pitch Decks
+9.pitchdeck/
+9.tools/
+
+# Assets/Data Internos
+10.assets/
+
+# Backups e arquivos antigos
+_backup_pre_numbered/
+_archive/
+_build_shell.ps1
+PandaFactory.html
+PandaFactory.code-workspace
+jsconfig.json
+docs/
 
 # Arquivos de ambiente
 .env
@@ -24,32 +61,29 @@ js/pat/
 *.key
 *.pem
 secrets/
-_archive/legacy/secrets.js
+data/secrets/
 LOGIN_DEV.md
 
 # Scripts internos
 scripts/
 
-# Dados locais
-dados/
-data/
-
-# Sistema interno
-_system/
-
 # Configuração do agent
 .agent/
 
+# Package raiz (não é necessário no público)
+package.json
+
 # ========================================
-# MANTÉM NO REPO PÚBLICO
+# MANTÉM NO REPO PÚBLICO (Panda-Factory)
 # ========================================
-# !jam/            → UI Pública
-# !docs/           → Docs públicos
-# !README.md       → Página inicial
-# !LOGO/           → Assets visuais
-# !community/      → Templates comunidade
+# !11.jam/         → JAM React UI (source para build)
+# !dist/jam/       → Build output para GitHub Pages
+# !README.md       → Página pitch pública
 # !index.html      → Landing page
-# !_config.yml     → GitHub Pages
+# !manifest.json   → PWA manifest
+# !sw.js           → Service Worker
+# !.github/        → Workflows CI/CD
+# !_config.yml     → GitHub Pages config
 
 # ========================================
 # PADRÃO
@@ -57,11 +91,9 @@ _system/
 
 # Node
 node_modules/
-package-lock.json
 npm-debug.log*
 
-# Build (keep dist/jam for GitHub Pages)
-# dist/  <- REMOVED: dist/jam needs to be in GitHub Pages
+# Build parcial
 build/
 .cache/
 
@@ -82,3 +114,10 @@ logs/
 # Backups
 *_BACKUP.*
 *.bak
+
+# Rust
+target/
+
+# Python
+__pycache__/
+*.pyc
