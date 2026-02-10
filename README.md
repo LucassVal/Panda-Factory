@@ -201,6 +201,129 @@ EVERY TRANSACTION:
 
 ---
 
+## 💰 Real-World Use Cases — SDK in Action
+
+The Panda SDK is not theoretical — it powers real workflows today. Here's what users can do:
+
+### Use Case 1: Freelance Designer
+
+> Maria is a freelance graphic designer in São Paulo. She uses Panda Factory to manage clients, generate AI designs, and distribute content.
+
+```
+USER ACTION                          → SDK CALL                           → RESULT
+─────────────────────────────────────────────────────────────────────────────────────
+Maria opens Panda Factory            → Panda.Auth.login()                 → Firebase Auth ✅
+She asks AI to design a logo         → Panda.Brain.Gemini.design()        → Gemini Imagen generates 4 options
+She picks one and saves to Drive     → Panda.Storage.cloud.drive.save()   → Google Drive stores asset
+She sends to client via WhatsApp     → Panda.Medusa.tentacle("whatsapp")  → Auto-formatted message sent
+Client pays via Panda Coin           → Panda.Wallet.receive()             → 50 PC credited instantly
+```
+
+**Google services consumed**: Gemini API (image gen), Drive API (storage), Firebase Auth (identity) — all in a single 5-minute workflow.
+
+### Use Case 2: Micro-SaaS for Real Estate
+
+> Carlos runs a small real estate agency. He installs a CRM plugin from the Medusa Store.
+
+```
+USER ACTION                          → SDK CALL                           → RESULT
+─────────────────────────────────────────────────────────────────────────────────────
+Carlos installs "PandaCRM" plugin    → Panda.Plugins.install("panda-crm") → Plugin loaded from Store
+He imports 200 leads from Sheets     → Panda.Storage.cloud.sheets.read()  → Google Sheets API (200 rows)
+AI scores each lead automatically    → Panda.Brain.Gemini.analyze()       → Gemini ranks leads 1-10
+He exports hot leads to Google Ads   → Panda.Medusa.tentacle("google-ads")→ Custom audience created
+4 leads convert → hook triggers      → Panda.Hooks.onRevenue()            → Revenue auto-split 70/20/10
+```
+
+**Wealth generated**: The CRM plugin creator earns 70% of every subscription. Carlos grows his business. Google gains Sheets + Gemini + Ads API usage.
+
+### Use Case 3: EdTech Course Platform
+
+> Professor Ana creates interactive AI-powered courses.
+
+```
+USER ACTION                          → WHAT HAPPENS                       → GOOGLE DEMAND
+─────────────────────────────────────────────────────────────────────────────────────
+Student enrolls                      → Firebase Auth + Wallet setup       → Auth API
+Student asks question                → Gemini 2.0 Flash answers           → ~2K tokens
+AI generates quiz from content       → Gemini Pro analyzes text           → ~5K tokens
+Heavy simulation runs on Colab       → P2P GPU fallback if no Colab      → Colab session
+Student earns Panda Coins            → Wallet.credit() + Hook fires      → Sheets write
+```
+
+### Use Case 4: Trading Bot Marketplace
+
+> Trader sells an automated analysis bot on the Medusa Store.
+
+```
+EVERY TIME SOMEONE BUYS THE BOT:
+├── Buyer pays 100 PC
+├── 70 PC → Bot creator (passive income 💰)
+├── 20 PC → Platform (funds operations)
+└── 10 PC → PAT Treasury (AI-governed reserve)
+```
+
+The creator keeps earning **while sleeping**. That's the Panda Factory wealth model.
+
+---
+
+## ⚡ Hooks: The Wealth Engine
+
+Hooks are the economic nervous system of Panda Factory. Every meaningful action triggers automatic revenue distribution:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     HOW HOOKS GENERATE WEALTH                       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  USER INSTALLS PLUGIN ──→ Hook: onInstall                          │
+│  │                                                                  │
+│  USER USES FEATURE ────→ Hook: onUsage (metered billing)           │
+│  │                                                                  │
+│  USER SHARES CONTENT ──→ Hook: onDistribute (Medusa tentacle)      │
+│  │                                                                  │
+│  AI COMPLETES TASK ────→ Hook: onAIComplete (Gemini tokens billed) │
+│  │                                                                  │
+│  P2P NODE PROCESSES ───→ Hook: onCompute (GPU credits earned)      │
+│  │                                                                  │
+│  EACH HOOK TRIGGERS ───→ Auto-split: 70% Creator / 20% Panda /    │
+│                          10% Treasury                               │
+│                                                                     │
+│  ═══════════════════════════════════════════════════════════════    │
+│                                                                     │
+│  RESULT: Everyone earns. No middlemen. No delays.                  │
+│  Creator earns while sleeping. User gets value. Platform grows.    │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Concrete Revenue Example
+
+A plugin creator builds a "Social Media Auto-Poster" tentacle:
+
+| Metric                  | Month 1    | Month 6      | Month 12      |
+| ----------------------- | ---------- | ------------ | ------------- |
+| Users                   | 50         | 500          | 2,000         |
+| Revenue (PC)            | 500        | 5,000        | 20,000        |
+| **Creator earns (70%)** | **350 PC** | **3,500 PC** | **14,000 PC** |
+| Platform earns (20%)    | 100 PC     | 1,000 PC     | 4,000 PC      |
+| Treasury reserve (10%)  | 50 PC      | 500 PC       | 2,000 PC      |
+
+> **This is not speculative.** The smart contract logic is hardcoded in the PAT Constitution — 12 immutable articles that no human can override.
+
+### Who Earns What
+
+| Participant            | How They Earn                                    | Passive?      |
+| ---------------------- | ------------------------------------------------ | ------------- |
+| **Plugin Creators**    | 70% of every transaction on their plugin         | ✅ Yes        |
+| **P2P Node Operators** | Panda Coins for sharing idle GPU/CPU             | ✅ Yes        |
+| **Content Creators**   | Medusa distributes content → monetization hooks  | ✅ Yes        |
+| **Active Users**       | Earn PC by completing tasks, referring users     | ❌ Active     |
+| **Platform**           | 20% of all transactions (sustainable growth)     | ✅ Yes        |
+| **PAT Treasury**       | 10% reserve, AI-governed for ecosystem stability | ✅ Autonomous |
+
+---
+
 ## 🧠 Core Innovation
 
 ### 1. Plugin-First Runtime
