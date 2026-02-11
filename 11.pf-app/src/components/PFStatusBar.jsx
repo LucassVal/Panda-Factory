@@ -172,10 +172,25 @@ function PFStatusBar({
 
         {/* CENTER: Status Pills */}
         <div className="pf-status-group">
-          <span className="pf-version">v6.4</span>
+          <span
+            className="pf-version"
+            style={{ cursor: "pointer" }}
+            onClick={() => window.dispatchEvent(new CustomEvent("panda:open-store"))}
+            title="VER NOVIDADES"
+          >v6.5</span>
           <div className="pf-status-pills">
             {statusPills.map((pill) => (
-              <div key={pill.id} className="pf-status-pill" title={pill.title}>
+              <div
+                key={pill.id}
+                className="pf-status-pill"
+                title={`${pill.title} — ${(statuses[pill.id] || "unknown").toUpperCase()}`}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  const s = statuses[pill.id] || "desconhecido";
+                  const emoji = s === "online" ? "🟢" : s === "warning" ? "🟡" : s === "offline" ? "🔴" : "⚪";
+                  alert(`${emoji} ${pill.title}\n\nStatus: ${s.toUpperCase()}`);
+                }}
+              >
                 <span className="pf-status-label">{pill.label}</span>
                 <span className={`pf-status-dot ${statuses[pill.id]}`} />
               </div>

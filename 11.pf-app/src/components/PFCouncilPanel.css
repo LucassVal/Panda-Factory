@@ -371,3 +371,55 @@
 .pat-audit-value { color: #e2e8f0; font-weight: 600; }
 .pat-audit-link { color: #667eea; text-decoration: none; font-size: 11px; }
 .pat-audit-link:hover { text-decoration: underline; }
+
+/* ── Light Mode Overrides ── */
+body.light-mode .pat-panel {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #1a1a2e;
+}
+
+body.light-mode .pat-panel h2,
+body.light-mode .pat-panel h3,
+body.light-mode .pat-panel h4,
+body.light-mode .pat-panel p,
+body.light-mode .pat-panel span,
+body.light-mode .pat-panel label {
+  color: #1a1a2e;
+}
+
+body.light-mode .pat-tabs button {
+  color: #374151;
+  background: transparent;
+}
+
+body.light-mode .pat-tabs button.active {
+  color: #667eea;
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.08);
+}
+
+body.light-mode .pat-reserve-card {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.15);
+  color: #1a1a2e;
+}
+
+body.light-mode .pat-article {
+  background: #f9fafb;
+  border-color: rgba(102, 126, 234, 0.12);
+  color: #1a1a2e;
+}
+
+body.light-mode .pat-metric-card {
+  background: #f0f4ff;
+  border-color: rgba(102, 126, 234, 0.15);
+  color: #1a1a2e;
+}
+
+body.light-mode .pat-audit-row {
+  background: rgba(102, 126, 234, 0.04);
+}
+
+body.light-mode .pat-audit-label { color: #64748b; }
+body.light-mode .pat-audit-value { color: #1a1a2e; }

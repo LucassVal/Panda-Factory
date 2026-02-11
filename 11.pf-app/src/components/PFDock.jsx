@@ -152,10 +152,14 @@ function PFDock({
     setContextMenu(null);
   };
 
-  // Dev mode toggle
+  // Dev mode toggle - if already active, re-fire to focus tab
   const handleDevMode = () => {
-    setDevModeActive(!devModeActive);
-    if (onDevModeToggle) onDevModeToggle(!devModeActive);
+    if (devModeActive) {
+      if (onDevModeToggle) onDevModeToggle(true);
+    } else {
+      setDevModeActive(true);
+      if (onDevModeToggle) onDevModeToggle(true);
+    }
   };
 
   // Plugin items

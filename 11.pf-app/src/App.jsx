@@ -172,7 +172,7 @@ function AppContent() {
       {/* STATUS BAR (Top) */}
       <PFStatusBar
         onStoreClick={() => setShowStore(true)}
-        onSettingsClick={() => setShowSettings(true)}
+        onSettingsClick={() => { setShowSettings(true); setShowRightToolbar(false); }}
         onNotificationsClick={() => setShowNotifications(true)}
         onFounderClick={
           isFounder
@@ -197,10 +197,10 @@ function AppContent() {
       {/* DOCK (Left Side) — Only in main window, NOT in pop-outs */}
       <PFDock
         onCatalogClick={() => setShowCatalog(true)}
-        onToolsClick={() => setShowRightToolbar(!showRightToolbar)}
+        onToolsClick={() => { const next = !showRightToolbar; setShowRightToolbar(next); if (next) setShowSettings(false); }}
         onStoreClick={() => setShowStore(true)}
         onSettingsClick={() => setShowSettings(true)}
-        onDevModeToggle={setDevMode}
+        onDevModeToggle={(isActive) => { setDevMode(isActive); if (isActive) openAppWindow("devtools"); }}
         onPluginOpen={handleOpenPlugin}
         onPluginClose={handleClosePlugin}
         onPluginUninstall={handleUninstallPlugin}

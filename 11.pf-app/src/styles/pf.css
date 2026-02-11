@@ -3157,4 +3157,200 @@ body.light-mode .pf-footer-version {
   }
 }
 
+/* ============================================================ */
+/* ── LIGHT MODE — FlexLayout, Store, Toolbar, Dock, Chat ──    */
+/* ============================================================ */
+
+/* FlexLayout */
+body.light-mode .flexlayout__layout {
+  --color-tabset-background: #f0f0f5;
+  --color-tabset-header-background: #e8e8ee;
+  --color-tab-selected-background: #ffffff;
+  --color-tab-unselected-background: #e8e8ee;
+  --color-tab-textcolor: #1a1a2e;
+  --color-tab-selected: #667eea;
+  --color-splitter: #d0d0d8;
+  --color-border-background: #f0f0f5;
+}
+
+body.light-mode .flexlayout__tab_button--selected {
+  background: #ffffff !important;
+  color: #1a1a2e !important;
+}
+
+body.light-mode .flexlayout__tab_button {
+  color: #64748b !important;
+}
+
+body.light-mode .flexlayout__tabset-header {
+  background: #e8e8ee !important;
+}
+
+body.light-mode .flexlayout__splitter {
+  background: #d0d0d8 !important;
+}
+
+/* Store overlay */
+body.light-mode .pf-store-overlay {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+body.light-mode .pf-store-header {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-store-title {
+  color: #1a1a2e;
+}
+
+body.light-mode .store-card {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.15);
+  color: #1a1a2e;
+}
+
+body.light-mode .store-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+body.light-mode .store-card-title {
+  color: #1a1a2e;
+}
+
+body.light-mode .store-card-desc {
+  color: #64748b;
+}
+
+body.light-mode .store-search-bar input {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #1a1a2e;
+}
+
+body.light-mode .store-filter-btn {
+  background: #f0f4ff;
+  color: #374151;
+  border-color: rgba(102, 126, 234, 0.15);
+}
+
+body.light-mode .store-filter-btn.active {
+  background: #667eea;
+  color: #ffffff;
+}
+
+/* Right Toolbar */
+body.light-mode .right-toolbar {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.15);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .right-toolbar-header {
+  color: #1a1a2e;
+  border-color: rgba(102, 126, 234, 0.12);
+}
+
+body.light-mode .right-toolbar-section {
+  color: #1a1a2e;
+}
+
+body.light-mode .right-toolbar-item {
+  background: #f8fafc;
+  color: #1a1a2e;
+  border-color: rgba(102, 126, 234, 0.1);
+}
+
+body.light-mode .right-toolbar-item:hover {
+  background: #eef2ff;
+}
+
+body.light-mode .right-toolbar-tab {
+  color: #64748b;
+}
+
+body.light-mode .right-toolbar-tab.active {
+  color: #667eea;
+  border-color: #667eea;
+}
+
+/* Dock */
+body.light-mode .pf-dock {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(102, 126, 234, 0.15);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .pf-dock-item {
+  color: #374151;
+}
+
+body.light-mode .pf-dock-item:hover {
+  background: rgba(102, 126, 234, 0.08);
+}
+
+body.light-mode .pf-dock-separator {
+  background: rgba(102, 126, 234, 0.12);
+}
+
+/* Catalog */
+body.light-mode .pf-catalog-overlay {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+body.light-mode .pf-catalog-panel {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.15);
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-catalog-header {
+  color: #1a1a2e;
+  border-color: rgba(102, 126, 234, 0.12);
+}
+
+body.light-mode .pf-catalog-app {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.1);
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-catalog-app:hover {
+  background: #eef2ff;
+}
+
+/* Chat */
+body.light-mode .pf-chat-bubble {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .pf-chat-bubble .chat-header {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-chat-bubble .chat-messages {
+  background: #fafbff;
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-chat-bubble .chat-input {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-chat-bubble .chat-msg.user {
+  background: #667eea;
+  color: #ffffff;
+}
+
+body.light-mode .pf-chat-bubble .chat-msg.ai {
+  background: #f0f4ff;
+  color: #1a1a2e;
+}
+
 
