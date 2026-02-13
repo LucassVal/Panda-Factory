@@ -1,25 +1,35 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** CONTEXT.md §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
 tool_context: panda/security
 description: Security Pipeline & Panda Defend - Auth, DRM, Kill Switch
 version: 1.1.0
 updated: 2026-02-08
+
 ---
 
 # 🛡️ PF_SECURITY_REFERENCE - Pipeline & Panda Defend
 
-> **Versão:** 1.0 | **Atualizado:** 2026-02-06
+> **Versão:** 1.1.0 | **Atualizado:** 2026-02-13
 > **Extraído de:** PF_MASTER_ARCHITECTURE.md §21
 
 ---
 
-## 21. Pipeline de Publicação & Economia
+## 📋 Índice
+
+1. [Pipeline de Publicação & Economia](#1-pipeline-de-publicação--economia)
+2. [Audit Trail & Transaction Safety](#2-audit-trail--transaction-safety-p0)
+
+---
+
+## 1. Pipeline de Publicação & Economia
 
 > **Atualizado:** 2026-01-27 | **Status:** Aprovado
 
-### 26.1. Princípio Fundamental
+### 1.1. Princípio Fundamental
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -41,7 +51,7 @@ updated: 2026-02-08
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 26.2. Pipeline Completo
+### 1.2. Pipeline Completo
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -71,7 +81,7 @@ updated: 2026-02-08
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 26.3. USD-FIRST Pricing (Anti-Especulação)
+### 1.3. USD-FIRST Pricing (Anti-Especulação)
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -108,7 +118,7 @@ updated: 2026-02-08
 | **Hodler PC**    | Precisa menos PC se valorizar |
 | **Novo usuário** | Mesmo poder de compra         |
 
-### 26.4. Founder Dashboard Pop-Out
+### 1.4. Founder Dashboard Pop-Out
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -133,7 +143,7 @@ updated: 2026-02-08
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 26.5. Decisões Econômicas (Jan 2026)
+### 1.5. Decisões Econômicas (Jan 2026)
 
 | Tópico                  | Decisão                        |
 | :---------------------- | :----------------------------- |
@@ -145,7 +155,7 @@ updated: 2026-02-08
 | **Free tier comprador** | 100 PC grátis/mês (newcomers)  |
 | **Preço mínimo**        | $0.50 por plugin               |
 
-### 26.6. Panda Defend - Sistema de Segurança
+### 1.6. Panda Defend - Sistema de Segurança
 
 > **Inspirado em:** Google Play Protect / App Defense Alliance
 > **Objetivo:** Regras mínimas automáticas para garantir segurança
@@ -780,7 +790,7 @@ my-plugin/
 
 ---
 
-## H. Audit Trail & Transaction Safety (P0)
+## 2. Audit Trail & Transaction Safety (P0)
 
 > **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P0 (Crítico)
 

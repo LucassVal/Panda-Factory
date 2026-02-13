@@ -29,9 +29,10 @@ updated: 2026-02-08
 7. [Task Fractionation Standard](#7-task-fractionation-standard)
 8. [Fundo de Incentivo](#8-fundo-de-incentivo)
 9. [Split de Receita](#9-split-de-receita)
-10. [Protocolo Fantasma](#10-protocolo-fantasma)
-11. [Segurança & Penalidades](#11-segurança--penalidades)
-12. [Implementação](#12-implementação)
+10. [Segurança & Penalidades](#10-segurança--penalidades)
+11. [Implementação](#11-implementação)
+12. [Arquivos Relacionados](#12-arquivos-relacionados)
+13. [Event Synchronization](#13-event-synchronization-p1)
 
 ---
 
@@ -178,7 +179,7 @@ O **Partner Mode** transforma hardware ocioso em **lastro financeiro**, criando 
 
 ---
 
-## 2. Node Tiers
+## 4. Node Tiers
 
 ### Tabela de Tiers
 
@@ -210,7 +211,7 @@ Titan   → AI training, rendering, +700% rewards
 
 ---
 
-## 3. Recursos Locáveis
+## 5. Recursos Locáveis
 
 ### Preços Base
 
@@ -233,7 +234,7 @@ Titan   → AI training, rendering, +700% rewards
 
 ---
 
-## 4. Mineração & Rewards
+## 6. Mineração & Rewards
 
 ### Como Funciona
 
@@ -263,7 +264,7 @@ reward = (0.5 × 8 × 24 × 2.5 × 1.01) = 242.4 PC/dia
 
 ---
 
-## 5. Task Fractionation Standard
+## 7. Task Fractionation Standard
 
 > ⚠️ **OBRIGATÓRIO:** Todas as tarefas DEVEM ser fracionadas conforme este padrão.
 
@@ -343,7 +344,7 @@ const task = {
 
 ---
 
-## 6. Fundo de Incentivo
+## 8. Fundo de Incentivo
 
 ### Propósito
 
@@ -374,7 +375,7 @@ O **Fundo de Incentivo (1%)** serve para:
 
 ---
 
-## 7. Split de Receita
+## 9. Split de Receita
 
 ### Tabela Oficial
 
@@ -411,7 +412,7 @@ const P2P_SPLIT = {
 
 ---
 
-## 8. Segurança & Penalidades
+## 10. Segurança & Penalidades
 
 ### Verificação de Nó
 
@@ -433,7 +434,7 @@ const P2P_SPLIT = {
 
 ---
 
-## 9. Implementação
+## 11. Implementação
 
 ### Arquivos Necessários
 
@@ -465,7 +466,7 @@ GET  /task/status/:id  → Status de task
 
 ---
 
-## 📎 Arquivos Relacionados
+## 12. Arquivos Relacionados
 
 | Arquivo                                            | Descrição           |
 | -------------------------------------------------- | ------------------- |
@@ -475,7 +476,7 @@ GET  /task/status/:id  → Status de task
 
 ---
 
-## 10. Event Synchronization (P1)
+## 13. Event Synchronization (P1)
 
 > **Fonte:** Research Ranking 2026-02-06 | **Prioridade:** P1
 

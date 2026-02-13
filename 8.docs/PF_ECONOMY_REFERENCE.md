@@ -22,6 +22,9 @@ updated: 2026-02-08
 
 > **Versão:** 3.0.0 | **Atualizado:** 2026-02-06
 > **Consolidado de:** PF_TOKENOMICS_REFERENCE, PF_PAT_FOUNDER_CONSTITUTION
+> [!NOTE]
+> **Numeração:** Seções começam em §9 por herança da consolidação do `PF_MASTER_ARCHITECTURE.md`.
+> Renumerar quebraria cross-refs de outros docs (P2P, Backend, PAT). Os blocos B.x são apêndices de Governança.
 
 ---
 

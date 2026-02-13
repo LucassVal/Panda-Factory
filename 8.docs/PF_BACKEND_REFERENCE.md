@@ -892,7 +892,7 @@ pub async fn get_with_cache<T>(key: &str, fetcher: impl Fn() -> T) -> T {
 
 ---
 
-## 8. Análise de Custos — Fallback de Infraestrutura
+## 9. Análise de Custos — Fallback de Infraestrutura
 
 > **Ref:** Auditoria Econômica §14.7 | Aprovado: 2026-02-13
 

@@ -1,11 +1,14 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
 tool_context: panda/ui
 description: UI Layout System - Panda Fabrics, CSS Variables, Components
-version: 2.7.0
-updated: 2026-02-09
+version: 6.5.0
+updated: 2026-02-12
+
 ---
 
 # 📐 PF_UI_REFERENCE - Panda Fabrics UI Layout System
@@ -28,6 +31,8 @@ updated: 2026-02-09
 8. [Canvas Area](#8-canvas-area)
 9. [Theme Modes](#9-theme-modes)
 10. [Troubleshooting](#10-troubleshooting)
+11. [Footer](#11-footer-v65)
+12. [Status Indicator States](#12-status-indicator-states-v63)
 
 ---
 
@@ -197,7 +202,7 @@ body,
 | ------------- | ----- | ------------------ | ---------------------------------------------- |
 | Brand Logo    | 32×32 | `.pf-brand-logo`   | `panda-logo.png` (cropped, `object-fit:cover`) |
 | Brand Text    | 22px  | `.pf-brand-text`   | Aurora gradient animado                        |
-| Version Badge | 12px  | `.pf-version`      | Hardcoded "v6.3"                               |
+| Version Badge | 12px  | `.pf-version`      | Hardcoded "v6.5"                               |
 | Status Pill   | auto  | `.pf-status-pill`  | FB, GA, RU, AI(=mcp), GP                       |
 | Theme Toggle  | 32px  | `.pf-theme-toggle` | ☀️/🌙 + `.pf-header-btn`                       |
 | Energy Arc    | 40px  | `.pf-arc-energy`   | SVG gradient (degrada sessão)                  |
@@ -274,34 +279,41 @@ window.location.reload();
 }
 ```
 
-### Dock Items (7 total)
+### Dock Items (5 core)
 
 ```text
 ┌────────────────────────────────────────────────────┐
-│           LEFT DOCK (PFDock v6.2)                   │
+│           LEFT DOCK (PFDock v6.5)                   │
+│           ⚠️ DRAGGABLE — position: fixed + drag     │
 ├────────────────────────────────────────────────────┤
+│  ⠿⠿ (drag handle)                                   │
 │  CORE TOOLS:                                        │
 │  ├── 🎨 Ferramentas → onToolsClick (Right Toolbar)  │
-│  ├── 🐼 Catálogo    → onCatalogClick (modal)         │
+│  ├── 📁 Catálogo    → onCatalogClick (modal)         │
 │  ─── separator ─────────────────────────────────      │
 │  QUICK ACCESS:                                       │
-│  ├── 🏪 Panda Store → onStoreClick (modal)           │
-│  ├── 💬 Panda AI    → onChatClick (toggle panel)     │
+│  ├── 🐼 Panda Store → onStoreClick (modal)           │
 │  ─── separator ─────────────────────────────────      │
 │  SYSTEM:                                             │
 │  ├── ⚙️ Settings    → onSettingsClick (modal)        │
 │  └── 🛠️ Dev Mode    → onDevModeToggle (panel)       │
+│  ─── separator (if plugins) ───────────────────      │
+│  PLUGINS (dynamic):                                  │
+│  └── [...] right-click: ABRIR/FECHAR/DESINSTALAR     │
 └────────────────────────────────────────────────────┘
 ```
 
-| #   | Ícone | Label         | Prop Handler      | Ação                         |
-| --- | ----- | ------------- | ----------------- | ---------------------------- |
-| 1   | 🎨    | Ferramentas   | `onToolsClick`    | Abre Right Toolbar (TLDraw)  |
-| 2   | 🐼    | Catálogo      | `onCatalogClick`  | Abre modal catálogo          |
-| 3   | 🏪    | Panda Store   | `onStoreClick`    | Abre modal loja              |
-| 4   | 💬    | Panda AI Chat | `onChatClick`     | Toggle chat (evento interno) |
-| 5   | ⚙️    | Configurações | `onSettingsClick` | Abre modal settings          |
-| 6   | 🛠️    | Dev Mode      | `onDevModeToggle` | Toggle JamDevPanel           |
+> [!NOTE]
+> 💬 **Chat NÃO está no Dock.** O chat é acessível via FAB (floating action button)
+> no canto inferior direito do footer. Veja §7 Chat System.
+
+| #   | Ícone | Label         | Prop Handler      | Ação                        |
+| --- | ----- | ------------- | ----------------- | --------------------------- |
+| 1   | 🎨    | Ferramentas   | `onToolsClick`    | Abre Right Toolbar (TLDraw) |
+| 2   | 📁    | Catálogo      | `onCatalogClick`  | Abre modal catálogo         |
+| 3   | 🐼    | Panda Store   | `onStoreClick`    | Abre modal loja             |
+| 4   | ⚙️    | Configurações | `onSettingsClick` | Abre modal settings         |
+| 5   | 🛠️    | Dev Mode      | `onDevModeToggle` | Toggle JamDevPanel          |
 
 ### Dock Total Width Calculation
 
@@ -329,24 +341,24 @@ Total: ~50px
 
 ### 5.1 Role-Based Dock Visibility
 
-> **Decisão:** Todos os 6 itens base são visíveis para todos os roles.
+> **Decisão:** Todos os 5 itens core são visíveis para todos os roles.
 > Itens avançados (Dev Mode) podem ser ocultados conforme role futuramente.
 
 | Role        | Valor | Vê no Dock                                |
 | ----------- | :---: | ----------------------------------------- |
-| **Founder** |   1   | 6 itens base + DevMode completo           |
-| **Dev**     |   2   | 6 itens base + DevMode                    |
-| **User**    |   3   | 6 itens base (DevMode oculto futuramente) |
+| **Founder** |   1   | 5 itens core + DevMode completo + plugins |
+| **Dev**     |   2   | 5 itens core + DevMode + plugins          |
+| **User**    |   3   | 5 itens core (DevMode oculto futuramente) |
 
 #### Implementação Atual
 
 ```jsx
-// PFDock.jsx — 5 dock items (v6.2)
+// PFDock.jsx — 5 core items (v6.5) — DRAGGABLE
 function PFDock({
   onCatalogClick,
   onToolsClick,
   onStoreClick,
-  onChatClick,
+  // ⚠️ NÃO tem onChatClick — Chat é via FAB (§7)
   onSettingsClick,
   onDevModeToggle,
   devMode,
@@ -355,22 +367,30 @@ function PFDock({
   onPluginClose,
   onPluginUninstall,
 }) {
+  // Posição persistida em localStorage.panda_dock_position
+  // Drag com threshold de 5px para evitar cliques acidentais
+  const dockStyle = {
+    position: "fixed",
+    left: `${position.x}px`,
+    top: position.y !== null ? `${position.y}px` : "50%",
+    transform: position.y !== null ? "none" : "translateY(-50%)",
+    cursor: isDragging ? "grabbing" : "grab",
+  };
+
   return (
-    <nav className="pf-left-dock">
+    <nav className="pf-left-dock" style={dockStyle}>
+      <div className="pf-dock-drag-handle">⠿⠿</div>
       {/* CORE TOOLS */}
       <button onClick={onToolsClick} title="FERRAMENTAS">
         🎨
       </button>
       <button onClick={onCatalogClick} title="CATÁLOGO">
-        🐼
+        📁
       </button>
       <div className="pf-dock-separator" />
-      {/* QUICK ACCESS */}
+      {/* STORE */}
       <button onClick={onStoreClick} title="PANDA STORE">
-        🏪
-      </button>
-      <button onClick={onChatClick} title="PANDA AI CHAT">
-        💬
+        🐼
       </button>
       <div className="pf-dock-separator" />
       {/* SYSTEM */}
@@ -378,26 +398,34 @@ function PFDock({
         ⚙️
       </button>
       <button onClick={() => onDevModeToggle(!devMode)} title="DEV MODE">
-        🛠️
+        {devMode ? "🔧" : "🛠️"}
       </button>
+      {/* PLUGINS (dynamic, right-click context menu) */}
     </nav>
   );
 }
 ```
 
-### 5.2 Event Wiring (App.jsx)
+### 5.2 Event Wiring (App.jsx v6.5)
 
 ```jsx
-// App.jsx — Connecting dock to state
+// App.jsx v6.5 — Connecting dock to state
+// ⚠️ NÃO passa onChatClick — Chat abre via FAB popup no footer
 <PFDock
-  onToolsClick={() => setShowRightToolbar(!showRightToolbar)}
+  onToolsClick={() => {
+    const next = !showRightToolbar;
+    setShowRightToolbar(next);
+    if (next) setShowSettings(false);
+  }}
   onCatalogClick={() => setShowCatalog(true)}
   onStoreClick={() => setShowStore(true)}
-  onChatClick={() =>
-    window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal"))
-  }
   onSettingsClick={() => setShowSettings(true)}
-  onDevModeToggle={setDevMode}
+  onDevModeToggle={(isActive) => {
+    setDevMode(isActive);
+    if (isActive) openAppWindow("devtools");
+  }}
+  plugins={installedPlugins}
+  devMode={devMode}
 />
 ```
 
@@ -434,6 +462,7 @@ function PFDock({
 | -------- | --------- | ---------- |
 | Settings | 900px     | 85vh       |
 | Store    | 900px     | 80vh       |
+| PDP      | 900px     | 80vh       |
 | Catalog  | 900px     | 80vh       |
 | Login    | 400px     | auto       |
 
@@ -1241,7 +1270,7 @@ body.light-mode {
 ```text
 11.pf-app/src/
 ├── main.jsx                     # Entry point React
-├── App.jsx                      # Main app v6.4
+├── App.jsx                      # Main app v6.5
 ├── components/
 │   ├── PFCanvas.jsx            # TLDraw canvas
 │   ├── PFDock.jsx              # Left dock v6.2 (5 itens)
@@ -1288,7 +1317,7 @@ body.light-mode {
 
 | Componente              | Função                       |
 | ----------------------- | ---------------------------- |
-| `App.jsx`               | Container principal v6.4     |
+| `App.jsx`               | Container principal v6.5     |
 | `PFCanvas.jsx`          | Canvas tldraw wrapper        |
 | `PFDock.jsx`            | Dock esquerda v6.2 (5 itens) |
 | `PFStatusBar.jsx`       | Status bar topo v6.3         |
@@ -1297,13 +1326,14 @@ body.light-mode {
 
 ### Modals
 
-| Componente                  | Função                                       |
-| --------------------------- | -------------------------------------------- |
-| `PFSettings.jsx`            | Configurações                                |
-| `PFStore.jsx`               | Loja Medusa v3.1 (9 extensões, sem taxonomy) |
-| `PFCatalog.jsx`             | Catálogo instalados                          |
-| `FounderDashboardModal.jsx` | Dashboard founder                            |
-| `LoginModal.jsx`            | Login Google/Email                           |
+| Componente                  | Função                                        |
+| --------------------------- | --------------------------------------------- |
+| `PFSettings.jsx`            | Configurações                                 |
+| `PFStore.jsx`               | Loja Medusa v4.0 (12 extensões, PDP + embeds) |
+| `PFProductDetail.jsx`       | Product Detail Page com embed links           |
+| `PFCatalog.jsx`             | Catálogo instalados                           |
+| `FounderDashboardModal.jsx` | Dashboard founder                             |
+| `LoginModal.jsx`            | Login Google/Email                            |
 
 ### Hooks
 
@@ -1318,7 +1348,7 @@ body.light-mode {
 | `useCheckout.js`       | v1.0   | Checkout flow                      |
 | `useLandingPage.js`    | v1.0   | Landing page state                 |
 
-## D.3 App.jsx v6.4 Structure
+## D.3 App.jsx v6.5 Structure
 
 ```jsx
 <AuthProvider>
@@ -1539,34 +1569,32 @@ closeAppWindow("google-drive");
 
 ---
 
-## 10. Footer (v6.3)
+## 11. Footer (v6.5)
 
 > **CSS:** `pf.css` — seção `.pf-footer`
 > **JSX:** `App.jsx` — watermark + TLDraw + Medusa attribution
+> **⚠️ Posicionamento:** Document flow (`flex-shrink: 0`), NÃO `position: fixed`
 
 ```css
+/* ⚠️ AUDITADO 2026-02-12 — footer está no document flow, NÃO é fixed */
 .pf-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 16px;
   font-size: 10px;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
+  color: var(--pf-text-muted);
+  opacity: 0.5;
+  background: var(--pf-elevation-0, #1a1a2e);
+  border-top: 1px solid var(--pf-border);
+  flex-shrink: 0;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(10, 10, 26, 0.6) 100%
-  );
-  backdrop-filter: blur(8px);
-  z-index: 50;
-  pointer-events: none;
 }
 ```
 
-**Conteúdo:** `• 🐼 PANDA FABRICS • POWERED BY TLDRAW • v6.4`
+**Conteúdo:** `• 🐼 PANDA FABRICS • POWERED BY TLDRAW • 🐙 MEDUSA • v6.5`
 
 | Classe               | Função                             |
 | -------------------- | ---------------------------------- |
@@ -1575,7 +1603,7 @@ closeAppWindow("google-drive");
 
 ---
 
-## 11. Status Indicator States (v6.3)
+## 12. Status Indicator States (v6.3)
 
 > **CSS:** `pf.css` — seção `.pf-status-dot`
 > **Hook:** `useHealthStatus.js` → mapeia status → classe CSS
