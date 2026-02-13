@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./PFSettings.css";
 
 /**
- * 🐼 Jam Settings Modal v5.1
+ * Jam Settings Modal v5.1
  * Panda Fabrics - White-Label System
  *
  * FIXES:
@@ -14,7 +14,7 @@ import "./PFSettings.css";
  */
 
 // Logo atual do Panda Fabrics
-const PANDA_LOGO = "🐼";
+const PANDA_LOGO = "/panda-icon.png";
 
 // Cores disponíveis para white-label
 const ACCENT_COLORS = [
@@ -50,9 +50,10 @@ function PFSettings({ isOpen, onClose }) {
   })();
 
   // Estados com localStorage
+  // ⚠️ Uses "panda_theme" key to stay in sync with PFStatusBar
   const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem("panda_dark_mode");
-    return saved !== null ? JSON.parse(saved) : true;
+    const saved = localStorage.getItem("panda_theme");
+    return saved !== "light"; // dark is default
   });
 
   const [accentColor, setAccentColor] = useState(() => {
@@ -75,16 +76,33 @@ function PFSettings({ isOpen, onClose }) {
         };
   });
 
-  // Aplicar dark mode ao carregar
+  // Mining / Partner Mode state
+  const [miningEnabled, setMiningEnabled] = useState(() => {
+    return localStorage.getItem("pandaMining") === "true";
+  });
+  const [gpuMining, setGpuMining] = useState(() => {
+    return localStorage.getItem("pandaGpuMining") === "true";
+  });
+  const [cpuLimit, setCpuLimit] = useState(() => {
+    return parseInt(localStorage.getItem("pandaCpuLimit") || "50");
+  });
+
+  // Apply theme — dark-first CSS, only toggle light-mode class
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-      document.body.classList.remove("light-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
-    }
+    document.body.classList.toggle("light-mode", !darkMode);
+    localStorage.setItem("panda_theme", darkMode ? "dark" : "light");
   }, [darkMode]);
+
+  // Sync when StatusBar (or another tab) changes theme
+  useEffect(() => {
+    const handleStorage = (e) => {
+      if (e.key === "panda_theme") {
+        setDarkMode(e.newValue !== "light");
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   // Aplicar cor de destaque
   useEffect(() => {
@@ -99,6 +117,7 @@ function PFSettings({ isOpen, onClose }) {
     { id: "notifications", icon: "🔔", label: "Notifications" },
     { id: "ai", icon: "🧠", label: "AI Settings" },
     { id: "wallet", icon: "💰", label: "Wallet" },
+    { id: "mining", icon: "⛏️", label: "Mining" },
     { id: "security", icon: "🔒", label: "Security" },
     { id: "integrations", icon: "🔌", label: "Integrations" },
     { id: "developer", icon: "🛠️", label: "Developer" },
@@ -108,7 +127,7 @@ function PFSettings({ isOpen, onClose }) {
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
-    localStorage.setItem("panda_dark_mode", JSON.stringify(newMode));
+    localStorage.setItem("panda_theme", newMode ? "dark" : "light");
   };
 
   const changeAccentColor = (color) => {
@@ -130,13 +149,37 @@ function PFSettings({ isOpen, onClose }) {
     );
   };
 
+  // Mining helpers
+  const toggleMining = () => {
+    const next = !miningEnabled;
+    setMiningEnabled(next);
+    localStorage.setItem("pandaMining", next);
+  };
+  const toggleGpu = () => {
+    const next = !gpuMining;
+    setGpuMining(next);
+    localStorage.setItem("pandaGpuMining", next);
+  };
+  const handleCpuLimit = (val) => {
+    const v = parseInt(val);
+    setCpuLimit(v);
+    localStorage.setItem("pandaCpuLimit", v);
+  };
+  const estimatedPc = (() => {
+    if (!miningEnabled) return 0;
+    const base = Math.round(30 * (cpuLimit / 25));
+    const gpuBonus = gpuMining ? Math.round(base * 0.8) : 0;
+    return base + gpuBonus;
+  })();
+  const miningTotal = parseInt(localStorage.getItem("pandaMiningTotal") || "0");
+
   return (
     <div className="pf-settings-overlay" onClick={onClose}>
       <div className="pf-settings-modal" onClick={(e) => e.stopPropagation()}>
         {/* Sidebar */}
         <div className="pf-settings-sidebar">
           <div className="pf-settings-user">
-            <div className="pf-settings-avatar">{PANDA_LOGO}</div>
+            <div className="pf-settings-avatar"><img src={PANDA_LOGO} alt="Panda" style={{width:"32px",height:"32px",borderRadius:"50%"}} /></div>
             <div className="pf-settings-user-info">
               <h4>{userData.displayName}</h4>
               <span>{userData.userType}</span>
@@ -192,11 +235,11 @@ function PFSettings({ isOpen, onClose }) {
             </div>
           )}
 
-          {/* Appearance Section */}
+          {/* Appearance Section - White Label */}
           {activeSection === "appearance" && (
             <div className="pf-settings-section">
               <h2>🎨 Appearance</h2>
-              <p>Personalize o visual (White-Label)</p>
+              <p>Personalize o visual da sua instância (White-Label)</p>
 
               <div className="pf-settings-card">
                 <div className="pf-settings-row">
@@ -216,7 +259,7 @@ function PFSettings({ isOpen, onClose }) {
               <div className="pf-settings-card">
                 <div className="pf-settings-label">Cor de Destaque</div>
                 <div className="pf-settings-sublabel">
-                  Escolha a cor principal do sistema
+                  Cor principal usada em botões, links e elementos de destaque
                 </div>
                 <div className="pf-color-picker">
                   {ACCENT_COLORS.map((c) => (
@@ -229,6 +272,126 @@ function PFSettings({ isOpen, onClose }) {
                     />
                   ))}
                 </div>
+                <div className="pf-settings-sublabel" style={{marginTop:"8px",fontSize:"11px",opacity:0.6}}>
+                  Selecionada: {ACCENT_COLORS.find(c => c.color === accentColor)?.name || accentColor}
+                </div>
+              </div>
+
+              <div className="pf-settings-card">
+                <div className="pf-settings-label">🏷️ Logo Personalizado</div>
+                <div className="pf-settings-sublabel">
+                  Substitua o logo padrão por um personalizado (canvas welcome, header)
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:"16px",marginTop:"12px"}}>
+                  <div style={{width:"64px",height:"64px",borderRadius:"12px",background:darkMode?"rgba(255,255,255,0.05)":"rgba(0,0,0,0.05)",display:"flex",alignItems:"center",justifyContent:"center",border:"2px dashed "+(darkMode?"rgba(255,255,255,0.15)":"rgba(0,0,0,0.15)")}}>
+                    <img src={localStorage.getItem("panda_custom_logo") || "/panda-icon.png"} alt="Logo" style={{width:"48px",height:"48px",borderRadius:"8px",objectFit:"contain"}} />
+                  </div>
+                  <div style={{flex:1}}>
+                    <input
+                      type="text"
+                      placeholder="URL do logo (ex: https://...)"
+                      defaultValue={localStorage.getItem("panda_custom_logo") || ""}
+                      onChange={(e) => {
+                        const url = e.target.value.trim();
+                        if (url) {
+                          localStorage.setItem("panda_custom_logo", url);
+                        } else {
+                          localStorage.removeItem("panda_custom_logo");
+                        }
+                      }}
+                      className="pf-wl-input"
+                      style={{
+                        width:"100%",
+                        padding:"8px 12px",
+                        borderRadius:"8px",
+                        border: darkMode ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
+                        background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+                        color: darkMode ? "#e0e0e0" : "#333",
+                        fontSize:"13px",
+                        outline:"none"
+                      }}
+                    />
+                    <div style={{marginTop:"6px",fontSize:"11px",opacity:0.5}}>
+                      Cole a URL de uma imagem ou faça upload abaixo
+                    </div>
+                  </div>
+                </div>
+                <div style={{marginTop:"12px",display:"flex",gap:"8px"}}>
+                  <label className="pf-btn-primary" style={{
+                    padding:"6px 14px",
+                    borderRadius:"6px",
+                    fontSize:"12px",
+                    cursor:"pointer",
+                    fontWeight:600,
+                    display:"inline-flex",
+                    alignItems:"center",
+                    gap:"6px"
+                  }}>
+                    📁 Upload Arquivo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{display:"none"}}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file && file.size < 500000) {
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            localStorage.setItem("panda_custom_logo", ev.target.result);
+                            window.location.reload();
+                          };
+                          reader.readAsDataURL(file);
+                        } else if (file) {
+                          alert("Arquivo muito grande. Máximo: 500KB");
+                        }
+                      }}
+                    />
+                  </label>
+                  <button
+                    className="pf-btn-secondary"
+                    onClick={() => {
+                      localStorage.removeItem("panda_custom_logo");
+                      window.location.reload();
+                    }}
+                    style={{fontSize:"12px"}}
+                  >Restaurar Padrão</button>
+                </div>
+              </div>
+
+              <div className="pf-settings-card">
+                <div className="pf-settings-label">📝 Nome da Instância</div>
+                <div className="pf-settings-sublabel">
+                  Nome exibido no header e welcome (white-label)
+                </div>
+                <input
+                  type="text"
+                  placeholder="Panda Fabrics"
+                  defaultValue={localStorage.getItem("panda_custom_name") || ""}
+                  onChange={(e) => {
+                    const name = e.target.value.trim();
+                    if (name) {
+                      localStorage.setItem("panda_custom_name", name);
+                    } else {
+                      localStorage.removeItem("panda_custom_name");
+                    }
+                  }}
+                  className="pf-wl-input"
+                  style={{
+                    width:"100%",
+                    padding:"8px 12px",
+                    marginTop:"10px",
+                    borderRadius:"8px",
+                    border: darkMode ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
+                    background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+                    color: darkMode ? "#e0e0e0" : "#333",
+                    fontSize:"13px",
+                    outline:"none"
+                  }}
+                />
+              </div>
+
+              <div className="pf-settings-info" style={{fontSize:"12px",marginTop:"8px"}}>
+                ℹ️ <strong>White-Label para devs:</strong> personalize cores, logo e nome. Configs persistem em <code>localStorage</code> (panda_accent_color, panda_custom_logo, panda_custom_name).
               </div>
             </div>
           )}
@@ -328,7 +491,7 @@ function PFSettings({ isOpen, onClose }) {
 
               <div className="pf-settings-card pf-wallet-hero">
                 <div className="pf-wallet-balance">
-                  <div className="pf-wallet-icon">🐼</div>
+                  <div className="pf-wallet-icon"><img src="/panda-icon.png" alt="Panda" style={{width:"24px",height:"24px"}} /></div>
                   <div className="pf-wallet-amount">500 PC</div>
                   <div className="pf-wallet-usd">≈ R$ 5,00 BRL</div>
                 </div>
@@ -357,6 +520,171 @@ function PFSettings({ isOpen, onClose }) {
                   </div>
                   <span className="pf-status-badge online">Disponível</span>
                 </div>
+                <div className="pf-settings-row">
+                  <div>
+                    <div className="pf-settings-label">⛏️ Mining Earned</div>
+                    <div className="pf-settings-sublabel">
+                      Total ganho via Partner Mode
+                    </div>
+                  </div>
+                  <span className="pf-status-badge" style={{background: miningEnabled ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.05)', color: miningEnabled ? '#10b981' : '#888'}}>
+                    {miningTotal} PC {miningEnabled ? '' : '(OFF)'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Mining / Partner Mode Section */}
+          {activeSection === "mining" && (
+            <div className="pf-settings-section">
+              <h2>⛏️ Partner Mode (Mining)</h2>
+              <p>Ganhe Panda Coins usando recursos ociosos do seu computador</p>
+
+              {/* ────── ALWAYS-VISIBLE: Standard Disclosure ────── */}
+              <div className="pf-settings-card" style={{background:'rgba(102,126,234,0.06)', border:'1px solid rgba(102,126,234,0.2)', borderRadius:'12px'}}>
+                <div style={{display:'flex',gap:'12px',alignItems:'flex-start'}}>
+                  <span style={{fontSize:'22px'}}>ℹ️</span>
+                  <div style={{lineHeight:'1.6',fontSize:'13px'}}>
+                    <div style={{fontWeight:700,marginBottom:'4px',color:'var(--accent-color, #667eea)'}}>Como funciona o Partner Mode</div>
+                    <div className="pf-settings-sublabel" style={{lineHeight:'1.6'}}>
+                      Quando ativado, o Panda Factory utiliza CPU/GPU ociosa do seu computador para minerar criptomoeda de forma nativa (via Rust Agent).
+                      Você recebe <strong>60%</strong> do valor minerado convertido em Panda Coins — os outros 40% cobrem impostos, conversão e infraestrutura.
+                      <br/><br/>
+                      <strong>Padrão:</strong> Sempre desligado. <strong>Opt-in</strong> — você ativa manualmente.
+                      <br/>
+                      <strong>Controle total:</strong> Desative a qualquer momento aqui no Settings.
+                      <br/>
+                      <strong>Sem surpresas:</strong> Consumo energético pode aumentar levemente com GPU ativada.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ────── INCENTIVE NOTICE (when OFF) ────── */}
+              {!miningEnabled && (
+                <div className="pf-settings-card" style={{background:'rgba(245,158,11,0.06)', border:'1px solid rgba(245,158,11,0.2)', borderRadius:'12px', textAlign:'center', padding:'24px 20px'}}>
+                  <div style={{fontSize:'32px',marginBottom:'8px'}}>⛏️</div>
+                  <div style={{fontWeight:700,fontSize:'15px',color:'#f59e0b',marginBottom:'6px'}}>Mineração Desligada</div>
+                  <div className="pf-settings-sublabel" style={{lineHeight:'1.6',maxWidth:'420px',margin:'0 auto',fontSize:'13px'}}>
+                    Ligue o Partner Mode e ganhe Panda Coins automaticamente enquanto seu computador está ocioso.
+                    Sem custos extras, desative quando quiser.
+                  </div>
+                </div>
+              )}
+
+              {/* ────── OPT-IN TOGGLE ────── */}
+              <div className="pf-settings-card">
+                <div className="pf-settings-row">
+                  <div>
+                    <div className="pf-settings-label">⛏️ Ativar Partner Mode</div>
+                    <div className="pf-settings-sublabel">
+                      Mineração passiva com recursos ociosos (opt-in, desligado por padrão)
+                    </div>
+                  </div>
+                  <div
+                    className={`pf-toggle ${miningEnabled ? 'active' : ''}`}
+                    onClick={toggleMining}
+                  />
+                </div>
+              </div>
+
+              {/* ────── RESOURCE CONTROLS ────── */}
+              <div className="pf-settings-card" style={{opacity: miningEnabled ? 1 : 0.45, pointerEvents: miningEnabled ? 'auto' : 'none'}}>
+                <div className="pf-settings-label">Limites de Recursos</div>
+                <div className="pf-settings-sublabel" style={{marginBottom:'12px'}}>Controle quanto do seu hardware é utilizado</div>
+
+                <div className="pf-settings-row">
+                  <div style={{flex:1}}>
+                    <div className="pf-settings-label">Limite CPU: {cpuLimit}%</div>
+                    <input
+                      type="range"
+                      min="25" max="75" step="5"
+                      value={cpuLimit}
+                      onChange={(e) => handleCpuLimit(e.target.value)}
+                      style={{width:'100%',marginTop:'8px',accentColor:'#f59e0b'}}
+                    />
+                    <div style={{display:'flex',justifyContent:'space-between',fontSize:'11px',opacity:0.5,marginTop:'4px'}}>
+                      <span>25% (Baixo)</span>
+                      <span>50% (Equilibrado)</span>
+                      <span>75% (Alto)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pf-settings-row" style={{marginTop:'8px'}}>
+                  <div>
+                    <div className="pf-settings-label">🖥️ Mineração GPU</div>
+                    <div className="pf-settings-sublabel">Ativar GPU para ganhos maiores</div>
+                  </div>
+                  <div
+                    className={`pf-toggle ${gpuMining ? 'active' : ''}`}
+                    onClick={toggleGpu}
+                  />
+                </div>
+              </div>
+
+              {/* ────── STATS PANEL (detailed when ON) ────── */}
+              <div className="pf-settings-card">
+                <div className="pf-settings-label" style={{marginBottom:'8px'}}>📊 Estatísticas de Mineração</div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Status</div></div>
+                  <span className={`pf-status-badge ${miningEnabled ? 'online' : 'offline'}`}>
+                    {miningEnabled ? `⛏️ Minerando${gpuMining ? ' (CPU+GPU)' : ' (CPU)'}` : '⏸️ Inativo'}
+                  </span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Perfil de Hardware</div></div>
+                  <span style={{fontWeight:600, fontSize:'12px', color: gpuMining ? '#10b981' : '#f59e0b'}}>
+                    {gpuMining
+                      ? (cpuLimit >= 75 ? '🌲 Forest' : cpuLimit >= 50 ? '🌳 Tree' : '🌿 Sprout')
+                      : (cpuLimit >= 50 ? '🌿 Sprout' : '🌱 Seed')
+                    }
+                  </span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Hashrate Estimado</div></div>
+                  <span style={{fontWeight:600, fontFamily:'monospace', fontSize:'13px'}}>
+                    {miningEnabled
+                      ? `~${gpuMining ? (cpuLimit >= 75 ? '4.2' : '2.8') : (cpuLimit >= 50 ? '1.1' : '0.6')} KH/s`
+                      : '— KH/s'
+                    }
+                  </span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Ganho Estimado</div></div>
+                  <span style={{fontWeight:600, color:'#f59e0b'}}>~{estimatedPc} PC/dia</span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Estimativa Mensal</div></div>
+                  <span style={{fontWeight:600, color:'#10b981'}}>~{estimatedPc * 30} PC/mês</span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Total Acumulado</div></div>
+                  <span style={{fontWeight:600}}>{miningTotal} PC</span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Ciclo de Pagamento</div></div>
+                  <span style={{fontWeight:500, fontSize:'12px'}}>End-of-Day (23:59 UTC)</span>
+                </div>
+
+                <div className="pf-settings-row">
+                  <div><div className="pf-settings-label">Uptime Hoje</div></div>
+                  <span style={{fontWeight:500, fontSize:'12px'}}>{miningEnabled ? '0h 0m (recém ativado)' : '—'}</span>
+                </div>
+              </div>
+
+              {/* ────── FATOR INFO ────── */}
+              <div className="pf-settings-info" style={{fontSize:'11px',marginTop:'4px',opacity:0.6}}>
+                💡 Fator de conversão: x0.60 flat (60% User / 40% Panda). Válido para todos os tiers.
+                Execução real requer <strong>Rust Agent</strong> (binário nativo) — a interface web é apenas o painel de controle.
               </div>
             </div>
           )}
@@ -496,7 +824,7 @@ function PFSettings({ isOpen, onClose }) {
               <h2>ℹ️ About</h2>
               <p>Panda Fabrics Information</p>
               <div className="pf-settings-card">
-                <div className="pf-about-logo">{PANDA_LOGO}</div>
+                <div className="pf-about-logo"><img src={PANDA_LOGO} alt="Panda Fabrics" style={{width:"80px",height:"80px"}} /></div>
                 <div className="pf-about-title">Panda Fabrics</div>
                 <div className="pf-about-version">v6.2 Founder Edition</div>
               </div>

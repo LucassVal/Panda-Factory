@@ -18,8 +18,7 @@ import PFProductDetail from "./PFProductDetail";
 // Exchange rate: 1 PC = $0.10 USD
 const PC_TO_USD = 0.1;
 
-// MINE-OK threshold: items with price ≤ this are earnable via ~30d Seed mining
-const MINE_OK_THRESHOLD = 100; // 100 PC ≈ 30 days mining at Seed tier
+
 
 // Tier badge config — §10.5 PF_MEDUSA_REFERENCE.md
 const TIER_CONFIG = {
@@ -386,18 +385,7 @@ function PFStore({
                             {TIER_CONFIG[item.tier].badge}
                           </span>
                         )}
-                        {item.price > 0 && item.price <= MINE_OK_THRESHOLD && (
-                          <span
-                            className="card-badge"
-                            style={{
-                              background: 'rgba(245,158,11,0.15)',
-                              color: '#f59e0b',
-                              borderColor: 'rgba(245,158,11,0.25)',
-                            }}
-                          >
-                            ⛏️ MINE-OK
-                          </span>
-                        )}
+
                       </div>
 
                       <div
