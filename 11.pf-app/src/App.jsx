@@ -23,6 +23,7 @@ import { BundleCreator } from "./components/PFBundleCreator";
 import { FinancePanel } from "./components/PFFinancePanel";
 import { GasometerPanel } from "./components/PFGasometerPanel";
 import { MiningPanel } from "./components/PFMiningPanel";
+import { PFDefendPanel } from "./components/PFDefendPanel";
 
 /**
  * PANDA FABRICS — MAIN APPLICATION v6.5
@@ -157,6 +158,9 @@ function AppContent() {
           if (componentType === "mining-panel") {
             return <MiningPanel embedded={true} />;
           }
+          if (componentType === "defend-panel") {
+            return <PFDefendPanel />;
+          }
           return (
             <div style={{ padding: 20, color: "#aaa" }}>
               📱 {config?.name || componentType} — COMING SOON
@@ -184,6 +188,7 @@ function AppContent() {
             : undefined
         }
         onMiningClick={() => openAppWindow("mining-panel")}
+        onDefendClick={() => openAppWindow("defend-panel")}
         onTreasuryClick={() =>
           openAppWindow("pat-council", { activeTool: "treasury" })
         }

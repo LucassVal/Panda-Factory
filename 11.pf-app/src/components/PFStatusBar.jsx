@@ -17,6 +17,7 @@ function PFStatusBar({
   onStoreClick,
   onFounderClick,
   onMiningClick,
+  onDefendClick,
   onTreasuryClick,
   onNotificationsClick,
   onPinChange,
@@ -273,6 +274,15 @@ function PFStatusBar({
             title="MEU MINING"
           >
             ⛏️
+          </button>
+
+          {/* Panda Defend — available to all users */}
+          <button
+            className="pf-header-btn"
+            onClick={onDefendClick}
+            title="PANDA DEFEND"
+          >
+            🛡️
           </button>
 
           {/* Founder Dashboard */}

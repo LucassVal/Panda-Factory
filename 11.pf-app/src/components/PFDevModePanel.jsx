@@ -1,26 +1,114 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./PFDevModePanel.css";
 
 /**
- * 🛠️ Dev Mode Panel
+ * 🛠️ Dev Mode Panel v3.0
  *
- * Developer tools panel with MCP toggle and console viewer.
- * Based on PF_MASTER_ARCHITECTURE.md §25.4
+ * Monitoring & verification tools for plugin developers.
+ * The Panda does NOT produce code — it HOSTS and TRANSMITS.
  *
- * Features:
- * - MCP Mode toggle (Internal/External)
- * - Console log viewer
- * - vscode.dev launcher
- * - Quick actions for developers
+ * Tools (from PF_UI_REFERENCE.md §E.2 + Comp_DevToolsDock.html):
+ * - 💻 Console — JS sandbox + system logs
+ * - 🧰 MCP Browser — Rust Agent MCP tools list
+ * - 🔌 API Tester — GAS endpoint testing
+ * - 🏦 PAT Treasury — Banco Central IA controls
+ * - ⚖️ Constitution — Validate against 12 Articles
+ * - 📦 Publish — Product registration form for Medusa Store
+ *
+ * MCP Toggle (§25.4): Internal (sandbox) vs External (PC access)
  */
 
-export function DevModePanel({ isOpen, onClose }) {
-  const [mcpMode, setMcpMode] = useState("internal");
-  const [logs, setLogs] = useState([]);
-  const [showConsole, setShowConsole] = useState(true);
-  const [filter, setFilter] = useState("all");
+// ── DevTools definitions (from Comp_DevToolsDock.html) ──
+const DEV_TOOLS = [
+  {
+    id: "console",
+    name: "CONSOLE",
+    icon: "💻",
+    desc: "Sandbox JS + logs do sistema",
+    status: "active",
+  },
+  {
+    id: "mcp",
+    name: "MCP BROWSER",
+    icon: "🧰",
+    desc: "Tools do Rust Agent",
+    status: "active",
+  },
+  {
+    id: "api",
+    name: "API TESTER",
+    icon: "🔌",
+    desc: "Endpoints GAS",
+    status: "active",
+  },
+  {
+    id: "treasury",
+    name: "PAT TREASURY",
+    icon: "🏦",
+    desc: "Banco Central IA",
+    status: "active",
+  },
+  {
+    id: "constitution",
+    name: "CONSTITUTION",
+    icon: "⚖️",
+    desc: "Validar 12 Artigos",
+    status: "active",
+  },
+  {
+    id: "publish",
+    name: "PUBLISH",
+    icon: "📦",
+    desc: "Publicar na Medusa Store",
+    status: "active",
+  },
+  {
+    id: "database",
+    name: "DATABASE",
+    icon: "🗄️",
+    desc: "Sheets / Firebase",
+    status: "future",
+  },
+  {
+    id: "rig",
+    name: "RIG CONFIG",
+    icon: "🦀",
+    desc: "Providers IA",
+    status: "future",
+  },
+];
 
-  // Capture console logs
+// ── Integration monitors ──
+const INTEGRATIONS = [
+  { id: "fb", name: "Firebase", icon: "🔥" },
+  { id: "ga", name: "GAS", icon: "📜" },
+  { id: "ru", name: "Rust Agent", icon: "🦀" },
+  { id: "gh", name: "GitHub", icon: "🐙" },
+  { id: "gd", name: "Google Drive", icon: "📁" },
+  { id: "ms", name: "Medusa Store", icon: "🛒" },
+];
+
+export function DevModePanel({ isOpen, onClose, embedded = false }) {
+  const [mcpMode, setMcpMode] = useState("internal");
+  const [activeTool, setActiveTool] = useState(null);
+  const [logs, setLogs] = useState([]);
+  const [logFilter, setLogFilter] = useState("all");
+  const [integrationStatus, setIntegrationStatus] = useState({});
+  const [publishForm, setPublishForm] = useState({
+    name: "",
+    namespace: "",
+    description: "",
+    fullDescription: "",
+    category: "module",
+    priceUSD: "0",
+    embedLinks: [],
+    outputHooks: [],
+  });
+  const [verificationRunning, setVerificationRunning] = useState(false);
+  const [verificationSteps, setVerificationSteps] = useState([]);
+  const [verificationDone, setVerificationDone] = useState(false);
+
+  // ── Capture console logs ──
   useEffect(() => {
     const originalLog = console.log;
     const originalWarn = console.warn;
@@ -28,34 +116,17 @@ export function DevModePanel({ isOpen, onClose }) {
 
     const addLog = (type, args) => {
       const message = args
-        .map((arg) =>
-          typeof arg === "object" ? JSON.stringify(arg) : String(arg),
-        )
+        .map((a) => (typeof a === "object" ? JSON.stringify(a) : String(a)))
         .join(" ");
-
       setLogs((prev) => [
-        ...prev.slice(-99),
-        {
-          id: Date.now(),
-          type,
-          message,
-          time: new Date(),
-        },
+        ...prev.slice(-149),
+        { id: Date.now() + Math.random(), type, message, time: new Date() },
       ]);
     };
 
-    console.log = (...args) => {
-      addLog("log", args);
-      originalLog.apply(console, args);
-    };
-    console.warn = (...args) => {
-      addLog("warn", args);
-      originalWarn.apply(console, args);
-    };
-    console.error = (...args) => {
-      addLog("error", args);
-      originalError.apply(console, args);
-    };
+    console.log = (...args) => { addLog("log", args); originalLog.apply(console, args); };
+    console.warn = (...args) => { addLog("warn", args); originalWarn.apply(console, args); };
+    console.error = (...args) => { addLog("error", args); originalError.apply(console, args); };
 
     return () => {
       console.log = originalLog;
@@ -64,167 +135,675 @@ export function DevModePanel({ isOpen, onClose }) {
     };
   }, []);
 
-  const handleMcpToggle = () => {
-    const newMode = mcpMode === "internal" ? "external" : "internal";
+  // ── Check integrations on open ──
+  useEffect(() => {
+    if (isOpen) checkIntegrations();
+  }, [isOpen]);
 
-    if (newMode === "external") {
-      if (
-        !confirm(
-          "⚠️ Modo EXTERNO permite acesso ao seu PC.\nO agente pedirá permissão 1x.\n\nContinuar?",
-        )
-      ) {
+  const checkIntegrations = useCallback(() => {
+    const s = {};
+    s.fb = import.meta.env.VITE_FIREBASE_API_KEY && import.meta.env.VITE_FIREBASE_API_KEY !== "YOUR_API_KEY" ? "on" : "mock";
+    s.ga = import.meta.env.VITE_GAS_URL && !import.meta.env.VITE_GAS_URL?.includes("YOUR_DEPLOYMENT") ? "on" : "mock";
+    s.ru = window.Panda?.Bridge?.isConnected?.() ? "on" : "mock";
+    s.gh = "on"; // public API
+    s.gd = "mock";
+    s.ms = "mock";
+    setIntegrationStatus(s);
+  }, []);
+
+  // ── MCP toggle ──
+  const handleMcpToggle = () => {
+    const next = mcpMode === "internal" ? "external" : "internal";
+    if (next === "external" && !confirm("⚠️ Modo EXTERNO dá acesso ao PC.\nAprovação única.\n\nContinuar?")) return;
+    setMcpMode(next);
+    console.log(`🔧 MCP Mode: ${next.toUpperCase()}`);
+  };
+
+  // ── Open tool ──
+  const handleOpenTool = (tool) => {
+    if (tool.status === "future") {
+      console.log(`🔒 ${tool.name}: Em desenvolvimento`);
+      return;
+    }
+    setActiveTool(activeTool?.id === tool.id ? null : tool);
+    console.log(`🛠️ ${tool.name} ${activeTool?.id === tool.id ? "fechado" : "aberto"}`);
+  };
+
+  // ── Render tool content ──
+  const renderToolContent = () => {
+    if (!activeTool) return null;
+
+    switch (activeTool.id) {
+      case "console":
+        return renderConsole();
+      case "mcp":
+        return renderMCPBrowser();
+      case "api":
+        return renderAPITester();
+      case "treasury":
+        return renderPATTreasury();
+      case "constitution":
+        return renderConstitution();
+      case "publish":
+        return renderPublish();
+      default:
+        return <div className="tool-placeholder">🔒 Em desenvolvimento</div>;
+    }
+  };
+
+  // ── Console Tool ──
+  const renderConsole = () => {
+    const filtered = logFilter === "all" ? logs : logs.filter((l) => l.type === logFilter);
+    return (
+      <div className="tool-content console-tool">
+        <div className="console-controls">
+          <select value={logFilter} onChange={(e) => setLogFilter(e.target.value)}>
+            <option value="all">Todos ({logs.length})</option>
+            <option value="log">Logs</option>
+            <option value="warn">Warnings</option>
+            <option value="error">Errors</option>
+          </select>
+          <button onClick={() => setLogs([])}>🗑️ LIMPAR</button>
+        </div>
+        <div className="console-output">
+          {filtered.length === 0 ? (
+            <div className="console-empty">Nenhum log capturado...</div>
+          ) : (
+            filtered.map((log) => (
+              <div key={log.id} className={`console-line ${log.type}`}>
+                <span className="log-time">
+                  {log.time.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                </span>
+                <span className="log-type">{log.type.toUpperCase()}</span>
+                <span className="log-msg">{log.message}</span>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ── MCP Browser Tool ──
+  const renderMCPBrowser = () => {
+    const mcpTools = [
+      { name: "execute_command", desc: "Executar comando no terminal (pwsh)", permission: "external" },
+      { name: "read_file", desc: "Ler arquivo do sistema", permission: "external" },
+      { name: "write_file", desc: "Escrever arquivo no sistema", permission: "external" },
+      { name: "list_directory", desc: "Listar conteúdo de diretório", permission: "external" },
+      { name: "health_check", desc: "Verificar saúde do sistema", permission: "internal" },
+      { name: "gpu_info", desc: "Informações de GPU disponível", permission: "internal" },
+      { name: "crypto_sign", desc: "Assinar com Ed25519", permission: "internal" },
+      { name: "mining_status", desc: "Status de mineração Panda Coin", permission: "internal" },
+    ];
+
+    return (
+      <div className="tool-content mcp-tool">
+        <div className="mcp-info">
+          Modo atual: <strong className={mcpMode}>{mcpMode.toUpperCase()}</strong>
+        </div>
+        <div className="mcp-tools-list">
+          {mcpTools.map((t) => (
+            <div key={t.name} className={`mcp-tool-item ${t.permission === "external" && mcpMode === "internal" ? "locked" : ""}`}>
+              <code>{t.name}</code>
+              <span>{t.desc}</span>
+              {t.permission === "external" && mcpMode === "internal" && (
+                <span className="lock-badge">🔒 EXTERNO</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // ── API Tester Tool ──
+  const renderAPITester = () => {
+    const endpoints = [
+      { action: "healthCheck", method: "GET", desc: "Status do backend" },
+      { action: "getMetrics", method: "GET", desc: "Métricas do Founder" },
+      { action: "getTreasury", method: "GET", desc: "Dados do tesouro" },
+      { action: "getUsers", method: "GET", desc: "Lista de usuários" },
+      { action: "getErrors", method: "GET", desc: "Erros recentes" },
+      { action: "getTransactions", method: "GET", desc: "Transações" },
+    ];
+
+    return (
+      <div className="tool-content api-tool">
+        <div className="api-url">
+          URL: <code>{import.meta.env.VITE_GAS_URL || "MOCK MODE"}</code>
+        </div>
+        <div className="api-endpoints">
+          {endpoints.map((ep) => (
+            <div key={ep.action} className="api-endpoint">
+              <span className="api-method">{ep.method}</span>
+              <code>{ep.action}</code>
+              <span className="api-desc">{ep.desc}</span>
+              <button
+                className="btn-test"
+                onClick={() => console.log(`🔌 Testing ${ep.action}... (mock response OK)`)}
+              >
+                ▶ TEST
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // ── PAT Treasury Tool ──
+  const renderPATTreasury = () => (
+    <div className="tool-content treasury-tool">
+      <div className="treasury-grid">
+        <div className="treasury-card">
+          <span className="treasury-label">CIRCULANTE</span>
+          <span className="treasury-value">500K PC</span>
+        </div>
+        <div className="treasury-card">
+          <span className="treasury-label">RESERVA</span>
+          <span className="treasury-value">85%</span>
+        </div>
+        <div className="treasury-card">
+          <span className="treasury-label">INFLAÇÃO</span>
+          <span className="treasury-value">2.1%</span>
+        </div>
+        <div className="treasury-card">
+          <span className="treasury-label">DEFLAÇÃO</span>
+          <span className="treasury-value">1.8%</span>
+        </div>
+      </div>
+      <div className="treasury-status">
+        <span>⚖️ Balanço: <strong style={{ color: "#4CAF50" }}>SAUDÁVEL</strong></span>
+        <span>📊 Score: 92/100</span>
+      </div>
+    </div>
+  );
+
+  // ── Constitution Validator Tool ──
+  const renderConstitution = () => {
+    const articles = [
+      "Art.1 — Distribuição justa de valor",
+      "Art.2 — Transparência total em transações",
+      "Art.3 — Privacidade do usuário",
+      "Art.4 — Código aberto para comunidade",
+      "Art.5 — Sem vendor lock-in",
+      "Art.6 — Founder tem voto de minerva",
+    ];
+
+    return (
+      <div className="tool-content constitution-tool">
+        <div className="constitution-header">
+          <h4>⚖️ VERIFICAÇÃO CONSTITUCIONAL</h4>
+          <button
+            className="btn-validate"
+            onClick={() => {
+              articles.forEach((a) => console.log(`  ✅ ${a}`));
+              console.log("⚖️ Todas as verificações passaram");
+            }}
+          >
+            ▶ VALIDAR
+          </button>
+        </div>
+        <ul className="articles-list">
+          {articles.map((a, i) => (
+            <li key={i}>{a}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  // ── Publish Tool ──
+  const renderPublish = () => {
+    const EMBED_TYPES = [
+      { value: "youtube", label: "▶️ YouTube" },
+      { value: "instagram", label: "📸 Instagram" },
+      { value: "tiktok", label: "🎵 TikTok" },
+      { value: "twitter", label: "🐦 Twitter/X" },
+      { value: "linkedin", label: "💼 LinkedIn" },
+      { value: "github", label: "🐙 GitHub" },
+      { value: "telegram", label: "📱 Telegram" },
+      { value: "whatsapp", label: "💬 WhatsApp" },
+    ];
+
+    const OUTPUT_HOOKS = [
+      { id: "panda-store", label: "🐼 Panda Store (nativo)", desc: "Split 52% via PagSeguro/Paddle" },
+      { id: "kiwify", label: "🥝 Kiwify", desc: "Hook de saída — config do dev" },
+      { id: "hotmart", label: "🔥 Hotmart", desc: "Hook de saída — config do dev" },
+      { id: "github-pages", label: "🌐 GitHub Pages", desc: "Deploy landing page" },
+      { id: "steam", label: "🎮 Steam", desc: "Link externo" },
+      { id: "playstore", label: "📱 Play Store", desc: "Link externo" },
+    ];
+
+    const updateField = (field, value) =>
+      setPublishForm((prev) => ({ ...prev, [field]: value }));
+
+    const addEmbed = () =>
+      setPublishForm((prev) => ({
+        ...prev,
+        embedLinks: [...prev.embedLinks, { type: "youtube", url: "" }],
+      }));
+
+    const removeEmbed = (index) =>
+      setPublishForm((prev) => ({
+        ...prev,
+        embedLinks: prev.embedLinks.filter((_, i) => i !== index),
+      }));
+
+    const updateEmbed = (index, field, value) =>
+      setPublishForm((prev) => ({
+        ...prev,
+        embedLinks: prev.embedLinks.map((e, i) =>
+          i === index ? { ...e, [field]: value } : e
+        ),
+      }));
+
+    const toggleHook = (hookId) =>
+      setPublishForm((prev) => ({
+        ...prev,
+        outputHooks: prev.outputHooks.includes(hookId)
+          ? prev.outputHooks.filter((h) => h !== hookId)
+          : [...prev.outputHooks, hookId],
+      }));
+
+    const handlePublish = async () => {
+      if (!publishForm.name.trim()) {
+        console.warn("📦 PUBLISH: Nome é obrigatório");
         return;
       }
-    }
+      if (!publishForm.namespace.trim()) {
+        console.warn("📦 PUBLISH: Namespace é obrigatório (ex: @username/nome)");
+        return;
+      }
 
-    setMcpMode(newMode);
-    console.log(`🔧 MCP Mode: ${newMode.toUpperCase()}`);
-  };
+      // Start verification pipeline
+      setVerificationRunning(true);
+      setVerificationDone(false);
+      setVerificationSteps([]);
 
-  const openVSCode = () => {
-    const repo = prompt("Digite o repositório GitHub (user/repo):");
-    if (repo) {
-      const url = `https://vscode.dev/github/${repo}`;
-      window.open(url, "_blank");
-      console.log(`🔵 Abrindo VS Code: ${url}`);
-    }
-  };
+      const isTentacle = publishForm.category === "tentacle";
+      const steps = [
+        { label: "Validando panda.manifest.json", duration: 800 },
+        { label: "Static Analysis (Semgrep rules)", duration: 1200 },
+        { label: "Dependency scan", duration: 900 },
+        { label: `Sandbox test (30s${isTentacle ? " + Proxy SDK check" : ""})`, duration: 1500 },
+        { label: "Calculando Defend Score", duration: 1000 },
+        { label: "Registrando na Medusa Store", duration: 700 },
+      ];
 
-  const clearLogs = () => {
-    setLogs([]);
-  };
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        setVerificationSteps(prev => [
+          ...prev,
+          { index: i + 1, total: steps.length, label: step.label, status: "running", time: null },
+        ]);
 
-  const filteredLogs =
-    filter === "all" ? logs : logs.filter((l) => l.type === filter);
+        await new Promise(r => setTimeout(r, step.duration));
 
-  const formatTime = (date) => {
-    return date.toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
+        // Mock: step 4 fails for tentacles with score < 50 (epic-hook scenario)
+        const passed = !(isTentacle && i === 3 && publishForm.namespace.includes("epic"));
+        const elapsed = `${(step.duration / 1000).toFixed(1)}s`;
+
+        setVerificationSteps(prev =>
+          prev.map((s, idx) =>
+            idx === i ? { ...s, status: passed ? "pass" : "fail", time: elapsed } : s
+          )
+        );
+
+        if (!passed) {
+          // Abort on failure
+          setVerificationSteps(prev => [
+            ...prev,
+            { index: 0, total: 0, label: "❌ PUBLICAÇÃO ABORTADA — Sandbox test falhou", status: "abort", time: null },
+          ]);
+          setVerificationRunning(false);
+          setVerificationDone(true);
+          console.error("📦 PUBLISH: ❌ Falha no sandbox test — publicação abortada");
+          return;
+        }
+      }
+
+      // Calculate mock score
+      const score = isTentacle ? 74 : 92;
+      setVerificationSteps(prev => [
+        ...prev,
+        {
+          index: 0, total: 0,
+          label: `\n✅ DEFEND SCORE: ${score}/100 — ${score >= 70 ? "APROVADO" : "REJEITADO"}`,
+          status: score >= 70 ? "final-pass" : "final-fail",
+          time: null,
+        },
+        {
+          index: 0, total: 0,
+          label: `📦 Módulo "${publishForm.name}" registrado na Medusa Store! (mock)`,
+          status: "info",
+          time: null,
+        },
+      ]);
+
+      setVerificationRunning(false);
+      setVerificationDone(true);
+      console.log(`📦 PUBLISH: ✅ Score ${score}/100 — Módulo registrado (mock)`);
+    };
+
+    return (
+      <div className="tool-content publish-tool">
+        <div className="publish-form">
+          {/* Basic Info */}
+          <div className="publish-section">
+            <div className="publish-section-title">📋 Informações Básicas</div>
+            <div className="publish-field">
+              <label>Nome do Módulo</label>
+              <input
+                type="text"
+                placeholder="Meu Módulo Incrível"
+                value={publishForm.name}
+                onChange={(e) => updateField("name", e.target.value)}
+              />
+            </div>
+            <div className="publish-field">
+              <label>Namespace</label>
+              <input
+                type="text"
+                placeholder="@username/meu-modulo"
+                value={publishForm.namespace}
+                onChange={(e) => updateField("namespace", e.target.value)}
+              />
+            </div>
+            <div className="publish-row">
+              <div className="publish-field">
+                <label>Tipo</label>
+                <select
+                  value={publishForm.category}
+                  onChange={(e) => updateField("category", e.target.value)}
+                >
+                  <option value="module">📦 Módulo</option>
+                  <option value="tentacle">🐙 Tentáculo</option>
+                  <option value="theme">🎨 Theme</option>
+                </select>
+              </div>
+              <div className="publish-field">
+                <label>Preço (USD)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={publishForm.priceUSD}
+                  onChange={(e) => updateField("priceUSD", e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* ── Tentáculo Warning ── */}
+          {publishForm.category === "tentacle" && (
+            <div className="publish-section" style={{
+              background: "rgba(245,158,11,0.06)",
+              border: "1px solid rgba(245,158,11,0.25)",
+              borderRadius: 8,
+            }}>
+              <div className="publish-section-title" style={{ color: "#f59e0b" }}>
+                ⚠️ AVISO: TENTÁCULO — Nível de Blindagem Alto
+              </div>
+              <div style={{ fontSize: 13, lineHeight: 1.7, color: "#e2e8f0", padding: "0 8px" }}>
+                <p style={{ margin: "0 0 10px" }}>
+                  Tentáculos acessam APIs do sistema via <strong>Proxy SDK</strong> em
+                  <strong> iframe blindado</strong>. Requerem sandbox forte, permissões explícitas
+                  no manifest, e passam pelo <strong>Panda Defend Score ≥ 70</strong> para aprovação.
+                </p>
+                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
+                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Nível</th>
+                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Exemplo</th>
+                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Aprovação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td style={{ padding: "4px 8px" }}>🟢 Baixo</td><td style={{ padding: "4px 8px", fontFamily: "monospace", fontSize: 11 }}>panda.ui.toast, panda.data.read</td><td style={{ padding: "4px 8px" }}>Auto-approve</td></tr>
+                    <tr><td style={{ padding: "4px 8px" }}>🟡 Médio</td><td style={{ padding: "4px 8px", fontFamily: "monospace", fontSize: 11 }}>panda.data.write, panda.store.state</td><td style={{ padding: "4px 8px" }}>Auto + auditoria</td></tr>
+                    <tr><td style={{ padding: "4px 8px" }}>🔴 Alto</td><td style={{ padding: "4px 8px", fontFamily: "monospace", fontSize: 11 }}>panda.wallet.send, panda.auth.modify</td><td style={{ padding: "4px 8px" }}>Founder review</td></tr>
+                  </tbody>
+                </table>
+                <p style={{ margin: "10px 0 0", fontSize: 12, color: "#f59e0b" }}>
+                  🔒 Regras de Blindagem: <code>eval()</code>, <code>document.write()</code> e <code>fetch()</code>
+                  sem <code>Panda.Bridge</code> são <strong>bloqueados automaticamente</strong>.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Descriptions */}
+          <div className="publish-section">
+            <div className="publish-section-title">📝 Descrições</div>
+            <div className="publish-field">
+              <label>Descrição Breve (card)</label>
+              <input
+                type="text"
+                placeholder="Resumo curto para o card da Store"
+                value={publishForm.description}
+                onChange={(e) => updateField("description", e.target.value)}
+              />
+            </div>
+            <div className="publish-field">
+              <label>Descrição Completa (PDP)</label>
+              <textarea
+                rows={4}
+                placeholder="Descrição completa com features, detalhes e diferenciais..."
+                value={publishForm.fullDescription}
+                onChange={(e) => updateField("fullDescription", e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Embed Links */}
+          <div className="publish-section">
+            <div className="publish-section-title">
+              🔗 Embed Links
+              <button className="btn-add-embed" onClick={addEmbed}>+ Adicionar</button>
+            </div>
+            {publishForm.embedLinks.length === 0 ? (
+              <div className="publish-empty">Nenhum embed. Clique "+ Adicionar" para incluir links de mídia.</div>
+            ) : (
+              publishForm.embedLinks.map((embed, i) => (
+                <div key={i} className="embed-row">
+                  <select
+                    value={embed.type}
+                    onChange={(e) => updateEmbed(i, "type", e.target.value)}
+                  >
+                    {EMBED_TYPES.map((t) => (
+                      <option key={t.value} value={t.value}>{t.label}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="url"
+                    placeholder="https://..."
+                    value={embed.url}
+                    onChange={(e) => updateEmbed(i, "url", e.target.value)}
+                  />
+                  <button className="btn-remove" onClick={() => removeEmbed(i)}>✕</button>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Output Hooks */}
+          <div className="publish-section">
+            <div className="publish-section-title">🔌 Hooks de Saída (Distribuição)</div>
+            <div className="hooks-grid">
+              {OUTPUT_HOOKS.map((hook) => (
+                <label
+                  key={hook.id}
+                  className={`hook-option ${publishForm.outputHooks.includes(hook.id) ? "selected" : ""}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={publishForm.outputHooks.includes(hook.id)}
+                    onChange={() => toggleHook(hook.id)}
+                  />
+                  <span className="hook-label">{hook.label}</span>
+                  <span className="hook-desc">{hook.desc}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button
+            className="btn-publish"
+            onClick={handlePublish}
+            disabled={verificationRunning}
+            style={verificationRunning ? { opacity: 0.5, cursor: "not-allowed" } : {}}
+          >
+            {verificationRunning ? "⏳ VERIFICAÇÃO EM ANDAMENTO..." : "📦 PUBLICAR NA MEDUSA STORE"}
+          </button>
+
+          {/* ── Inline Verification Runner (PowerShell style) ── */}
+          {(verificationRunning || verificationDone) && (
+            <div style={{
+              marginTop: 12,
+              background: "#0c0c0c",
+              border: "1px solid #333",
+              borderRadius: 8,
+              padding: "14px 16px",
+              fontFamily: "'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace",
+              fontSize: 12,
+              lineHeight: 1.8,
+              maxHeight: 260,
+              overflowY: "auto",
+            }}>
+              <div style={{ color: "#6366f1", marginBottom: 8, fontWeight: 700 }}>
+                PS C:\PandaFactory\Medusa&gt; publish-verify --module "{publishForm.name || '...'}"
+              </div>
+              {verificationSteps.map((step, i) => (
+                <div key={i} style={{
+                  color:
+                    step.status === "running" ? "#fbbf24" :
+                    step.status === "pass" ? "#10b981" :
+                    step.status === "fail" || step.status === "abort" ? "#ef4444" :
+                    step.status === "final-pass" ? "#10b981" :
+                    step.status === "final-fail" ? "#ef4444" :
+                    "#94a3b8",
+                  whiteSpace: "pre-wrap",
+                }}>
+                  {step.index > 0 && (
+                    <span style={{ color: "#64748b" }}>[STEP {step.index}/{step.total}] </span>
+                  )}
+                  {step.status === "running" && "⏳ "}
+                  {step.status === "pass" && "✅ "}
+                  {step.status === "fail" && "❌ "}
+                  {step.label}
+                  {step.time && <span style={{ color: "#64748b" }}> ({step.time})</span>}
+                </div>
+              ))}
+              {verificationRunning && (
+                <div style={{ color: "#fbbf24", animation: "pulse 1s infinite" }}>▌</div>
+              )}
+            </div>
+          )}
+
+          {/* Reset after done */}
+          {verificationDone && (
+            <button
+              className="btn-add-embed"
+              style={{ marginTop: 8, width: "100%" }}
+              onClick={() => { setVerificationDone(false); setVerificationSteps([]); }}
+            >
+              🔄 Nova Publicação
+            </button>
+          )}
+        </div>
+      </div>
+    );
   };
 
   if (!isOpen) return null;
 
-  return (
-    <div className="devmode-overlay" onClick={onClose}>
-      <div className="devmode-panel" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
-        <header className="devmode-header">
-          <h2>🛠️ Dev Mode</h2>
-          <button className="btn-close" onClick={onClose}>
-            ×
+  // Inner content (shared between embedded and standalone modes)
+  const panelContent = (
+    <div className={`devmode-panel ${embedded ? "embedded" : ""}`} onClick={(e) => e.stopPropagation()}>
+      {/* Header + MCP Toggle */}
+      <header className="devmode-header">
+        <h2>🛠️ DEV MODE</h2>
+        <div className="mcp-toggle-compact">
+          <span className={mcpMode === "internal" ? "active" : ""}>🏠 INTERNO</span>
+          <button className="toggle-switch" onClick={handleMcpToggle}>
+            <span className={`switch-dot ${mcpMode}`} />
           </button>
-        </header>
+          <span className={mcpMode === "external" ? "active" : ""}>💻 EXTERNO</span>
+        </div>
+        {!embedded && <button className="btn-close" onClick={onClose}>×</button>}
+      </header>
 
-        {/* MCP Toggle */}
-        <section className="devmode-section">
-          <h3>🤖 MCP Mode (Agent Access)</h3>
-          <div className="mcp-toggle">
-            <div
-              className={`mcp-option ${mcpMode === "internal" ? "active" : ""}`}
-            >
-              <span className="option-icon">🏠</span>
-              <span className="option-name">INTERNO</span>
-              <span className="option-desc">Sandbox Panda</span>
-            </div>
-            <button className="toggle-btn" onClick={handleMcpToggle}>
-              {mcpMode === "internal" ? "→" : "←"}
-            </button>
-            <div
-              className={`mcp-option ${mcpMode === "external" ? "active" : ""}`}
-            >
-              <span className="option-icon">💻</span>
-              <span className="option-name">EXTERNO</span>
-              <span className="option-desc">Acesso PC</span>
-            </div>
-          </div>
-          <p className="mcp-status">
-            Status: <span className={mcpMode}>{mcpMode.toUpperCase()}</span>
-            {mcpMode === "external" && " (Aprovação única)"}
-          </p>
-        </section>
-
-        {/* Quick Actions */}
-        <section className="devmode-section">
-          <h3>⚡ Ações Rápidas</h3>
-          <div className="quick-actions">
-            <button className="action-btn" onClick={openVSCode}>
-              <span>🔵</span> Abrir VS Code
-            </button>
-            <button
-              className="action-btn"
-              onClick={() => window.open("https://github.com", "_blank")}
-            >
-              <span>🐙</span> GitHub
-            </button>
-            <button
-              className="action-btn"
-              onClick={() => console.log("🧪 Test log from Dev Panel")}
-            >
-              <span>🧪</span> Test Log
-            </button>
-            <button
-              className="action-btn"
-              onClick={() => {
-                localStorage.clear();
-                console.log("🗑️ LocalStorage cleared");
-              }}
-            >
-              <span>🗑️</span> Clear Storage
-            </button>
-          </div>
-        </section>
-
-        {/* Console */}
-        <section className="devmode-section console-section">
-          <div className="console-header">
-            <h3>📟 Console</h3>
-            <div className="console-controls">
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              >
-                <option value="all">Todos</option>
-                <option value="log">Logs</option>
-                <option value="warn">Warnings</option>
-                <option value="error">Errors</option>
-              </select>
-              <button className="btn-clear" onClick={clearLogs}>
-                🗑️ Limpar
-              </button>
+      <div className="devmode-body">
+        {/* Left: Tools Grid */}
+        <div className="devmode-tools">
+          <div className="section-label">FERRAMENTAS</div>
+          <div className="tools-grid">
+            {DEV_TOOLS.map((tool) => (
               <button
-                className={`btn-toggle ${showConsole ? "active" : ""}`}
-                onClick={() => setShowConsole(!showConsole)}
+                key={tool.id}
+                className={`tool-card ${activeTool?.id === tool.id ? "active" : ""} ${tool.status === "future" ? "future" : ""}`}
+                onClick={() => handleOpenTool(tool)}
+                title={tool.desc}
               >
-                {showConsole ? "▼" : "▶"}
+                <span className="tool-icon">{tool.icon}</span>
+                <span className="tool-name">{tool.name}</span>
+                {tool.status === "future" && <span className="future-badge">SOON</span>}
               </button>
-            </div>
+            ))}
           </div>
 
-          {showConsole && (
-            <div className="console-output">
-              {filteredLogs.length === 0 ? (
-                <div className="console-empty">Nenhum log ainda...</div>
-              ) : (
-                filteredLogs.map((log) => (
-                  <div key={log.id} className={`console-line ${log.type}`}>
-                    <span className="log-time">{formatTime(log.time)}</span>
-                    <span className="log-type">{log.type}</span>
-                    <span className="log-msg">{log.message}</span>
-                  </div>
-                ))
-              )}
+          {/* Integration Status */}
+          <div className="section-label">INTEGRAÇÕES</div>
+          <div className="integrations-row">
+            {INTEGRATIONS.map((int) => (
+              <div key={int.id} className={`int-chip ${integrationStatus[int.id] || "unknown"}`} title={int.name}>
+                <span>{int.icon}</span>
+                <span className="int-label">{int.id.toUpperCase()}</span>
+                <span className={`int-dot ${integrationStatus[int.id] || "unknown"}`} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Active Tool Content */}
+        <div className="devmode-tool-view">
+          {activeTool ? (
+            <>
+              <div className="tool-view-header">
+                <span>{activeTool.icon} {activeTool.name}</span>
+                <small>{activeTool.desc}</small>
+              </div>
+              {renderToolContent()}
+            </>
+          ) : (
+            <div className="tool-placeholder">
+              <span className="placeholder-icon">🛠️</span>
+              <p>Selecione uma ferramenta</p>
+              <small>Console, MCP Browser, API Tester...</small>
             </div>
           )}
-        </section>
-
-        {/* Footer */}
-        <footer className="devmode-footer">
-          <span>🐼 Panda Fabrics Dev Tools v1.0</span>
-        </footer>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="devmode-footer">
+        <span>Panda Dev Tools v3.0</span>
+        <span className="footer-mcp">MCP: {mcpMode.toUpperCase()}</span>
+      </footer>
+    </div>
+  );
+
+  // Embedded: render directly, no overlay
+  if (embedded) return panelContent;
+
+  // Standalone: wrap in overlay
+  return (
+    <div className="devmode-overlay" onClick={onClose}>
+      {panelContent}
     </div>
   );
 }

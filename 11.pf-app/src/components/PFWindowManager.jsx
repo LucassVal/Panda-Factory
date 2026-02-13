@@ -94,6 +94,11 @@ const APP_REGISTRY = {
     name: "Meu Mining",
     component: "mining-panel",
   },
+  "defend-panel": {
+    icon: "🛡️",
+    name: "Panda Defend",
+    component: "defend-panel",
+  },
 };
 
 export function PFWindowManager({

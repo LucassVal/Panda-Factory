@@ -1,0 +1,556 @@
+import React, { useState, useCallback } from "react";
+
+/**
+ * 🛡️ Panda Defend — User Security Panel v1.0
+ *
+ * User-facing security dashboard.
+ * Ref: PF_SECURITY_REFERENCE.md §1.6 (Panda Defend)
+ *
+ * Sections:
+ * - Global Defend Score
+ * - Installed Modules health + permission levels
+ * - Activity Monitor (security events)
+ * - Permissions Review (expandable)
+ *
+ * All data is mock — Rust Agent integration pending.
+ */
+
+// ── Mock Data — will be replaced by Rust Agent API ──
+const MOCK_MODULES = [
+  {
+    id: "@panda/ai-chat",
+    name: "Panda Brain Chat",
+    icon: "🧠",
+    score: 98,
+    risk: "low",
+    permissions: ["panda.ui.toast", "panda.data.read"],
+    lastScan: "2026-02-13 09:00",
+    status: "approved",
+    type: "module",
+  },
+  {
+    id: "@panda/draw-tools",
+    name: "Draw Tools",
+    icon: "🎨",
+    score: 95,
+    risk: "low",
+    permissions: ["panda.ui.canvas", "panda.data.write"],
+    lastScan: "2026-02-13 08:30",
+    status: "approved",
+    type: "module",
+  },
+  {
+    id: "@fulano/steam-library",
+    name: "Steam Library",
+    icon: "🎮",
+    score: 82,
+    risk: "medium",
+    permissions: ["panda.ui.toast", "panda.data.read", "panda.store.state"],
+    lastScan: "2026-02-12 22:15",
+    status: "approved",
+    type: "module",
+  },
+  {
+    id: "@dev/whatsapp-bridge",
+    name: "WhatsApp Bridge",
+    icon: "💬",
+    score: 71,
+    risk: "high",
+    permissions: [
+      "panda.ui.toast",
+      "panda.data.read",
+      "panda.data.write",
+      "panda.bridge.external",
+    ],
+    lastScan: "2026-02-12 18:00",
+    status: "review",
+    type: "tentacle",
+  },
+  {
+    id: "@carlo/epic-hook",
+    name: "Epic Games Hook",
+    icon: "🕹️",
+    score: 45,
+    risk: "high",
+    permissions: [
+      "panda.data.read",
+      "panda.data.write",
+      "panda.auth.modify",
+      "panda.wallet.send",
+    ],
+    lastScan: "2026-02-11 14:00",
+    status: "suspended",
+    type: "tentacle",
+  },
+];
+
+const MOCK_EVENTS = [
+  {
+    id: 1,
+    time: "12:34",
+    type: "block",
+    msg: "🔴 @carlo/epic-hook: fetch() não autorizado bloqueado — tentativa de bypass Proxy SDK",
+  },
+  {
+    id: 2,
+    time: "12:30",
+    type: "warning",
+    msg: "🟡 @dev/whatsapp-bridge: panda.bridge.external requer revisão — Score 71 (limítrofe)",
+  },
+  {
+    id: 3,
+    time: "11:15",
+    type: "scan",
+    msg: "🔍 Re-scan diário concluído: 4 módulos OK, 1 suspenso",
+  },
+  {
+    id: 4,
+    time: "10:00",
+    type: "info",
+    msg: "✅ @panda/ai-chat: Score atualizado 97→98 — nenhuma vulnerabilidade nova",
+  },
+  {
+    id: 5,
+    time: "09:45",
+    type: "block",
+    msg: "🔴 @carlo/epic-hook: eval() dinâmico detectado — Auto-suspend ativado (Score < 50)",
+  },
+  {
+    id: 6,
+    time: "08:30",
+    type: "info",
+    msg: "✅ @panda/draw-tools: Sandbox test 30s — OK",
+  },
+];
+
+// ── Risk helpers ──
+const RISK_COLORS = {
+  low: "#10b981",
+  medium: "#f59e0b",
+  high: "#ef4444",
+};
+const RISK_LABELS = {
+  low: "🟢 Baixo",
+  medium: "🟡 Médio",
+  high: "🔴 Alto",
+};
+const STATUS_LABELS = {
+  approved: "✅ Aprovado",
+  review: "🟡 Em Revisão",
+  suspended: "🔴 Suspenso",
+};
+
+// ── Styles ──
+const S = {
+  container: {
+    padding: "24px 32px",
+    maxWidth: 900,
+    margin: "0 auto",
+    fontFamily: "'Inter', -apple-system, sans-serif",
+    color: "#e2e8f0",
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 8,
+  },
+  title: { fontSize: 24, fontWeight: 700, margin: 0 },
+  subtitle: {
+    color: "#94a3b8",
+    fontSize: 14,
+    marginBottom: 24,
+  },
+  card: {
+    background: "rgba(30,41,59,0.7)",
+    border: "1px solid rgba(100,116,139,0.2)",
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: 700,
+    marginBottom: 14,
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+  },
+  scoreBox: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 24,
+    padding: "20px 0",
+  },
+  scoreBig: {
+    fontSize: 56,
+    fontWeight: 800,
+    lineHeight: 1,
+  },
+  moduleRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    padding: "10px 14px",
+    borderRadius: 8,
+    marginBottom: 6,
+    cursor: "pointer",
+    transition: "background .15s",
+  },
+  permTag: {
+    display: "inline-block",
+    padding: "2px 8px",
+    borderRadius: 4,
+    fontSize: 11,
+    fontFamily: "'JetBrains Mono', monospace",
+    marginRight: 4,
+    marginBottom: 4,
+  },
+  eventRow: {
+    padding: "8px 12px",
+    borderRadius: 6,
+    marginBottom: 4,
+    fontSize: 13,
+    lineHeight: 1.5,
+    display: "flex",
+    gap: 10,
+    alignItems: "flex-start",
+  },
+  eventTime: {
+    color: "#64748b",
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: 11,
+    minWidth: 44,
+    marginTop: 2,
+  },
+};
+
+function getPermRisk(perm) {
+  if (perm.includes("wallet") || perm.includes("auth.modify")) return "high";
+  if (perm.includes("write") || perm.includes("state") || perm.includes("bridge"))
+    return "medium";
+  return "low";
+}
+
+export function PFDefendPanel() {
+  const [expandedModule, setExpandedModule] = useState(null);
+  const [eventFilter, setEventFilter] = useState("all");
+
+  const globalScore = Math.round(
+    MOCK_MODULES.reduce((sum, m) => sum + m.score, 0) / MOCK_MODULES.length
+  );
+  const scoreColor =
+    globalScore >= 80
+      ? "#10b981"
+      : globalScore >= 60
+        ? "#f59e0b"
+        : "#ef4444";
+
+  const toggleModule = useCallback(
+    (id) => setExpandedModule((prev) => (prev === id ? null : id)),
+    []
+  );
+
+  const filteredEvents =
+    eventFilter === "all"
+      ? MOCK_EVENTS
+      : MOCK_EVENTS.filter((e) => e.type === eventFilter);
+
+  return (
+    <div style={S.container}>
+      {/* Header */}
+      <div style={S.header}>
+        <span style={{ fontSize: 28 }}>🛡️</span>
+        <h1 style={S.title}>Panda Defend</h1>
+      </div>
+      <p style={S.subtitle}>
+        Monitoramento de segurança — módulos instalados, permissões e atividade
+      </p>
+
+      {/* ────── Global Score ────── */}
+      <div style={S.card}>
+        <div style={S.scoreBox}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ ...S.scoreBig, color: scoreColor }}>
+              {globalScore}
+            </div>
+            <div style={{ color: "#94a3b8", fontSize: 13, marginTop: 4 }}>
+              DEFEND SCORE
+            </div>
+          </div>
+          <div style={{ fontSize: 13, lineHeight: 1.8 }}>
+            <div>
+              ✅ Aprovados:{" "}
+              <strong>
+                {MOCK_MODULES.filter((m) => m.status === "approved").length}
+              </strong>
+            </div>
+            <div>
+              🟡 Em revisão:{" "}
+              <strong>
+                {MOCK_MODULES.filter((m) => m.status === "review").length}
+              </strong>
+            </div>
+            <div>
+              🔴 Suspensos:{" "}
+              <strong>
+                {MOCK_MODULES.filter((m) => m.status === "suspended").length}
+              </strong>
+            </div>
+            <div style={{ color: "#64748b", marginTop: 4, fontSize: 11 }}>
+              Último scan: hoje 12:34
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ────── Installed Modules ────── */}
+      <div style={S.card}>
+        <div style={S.sectionTitle}>
+          <span>📦</span> Módulos Instalados ({MOCK_MODULES.length})
+        </div>
+        {MOCK_MODULES.map((mod) => (
+          <div key={mod.id}>
+            <div
+              style={{
+                ...S.moduleRow,
+                background:
+                  expandedModule === mod.id
+                    ? "rgba(100,116,139,0.15)"
+                    : "rgba(100,116,139,0.06)",
+              }}
+              onClick={() => toggleModule(mod.id)}
+            >
+              <span style={{ fontSize: 20 }}>{mod.icon}</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 600, fontSize: 14 }}>{mod.name}</div>
+                <div style={{ color: "#64748b", fontSize: 11 }}>
+                  {mod.id} •{" "}
+                  {mod.type === "tentacle" ? "🐙 Tentáculo" : "📦 Módulo"}
+                </div>
+              </div>
+              <div
+                style={{
+                  textAlign: "center",
+                  minWidth: 48,
+                }}
+              >
+                <div
+                  style={{
+                    fontWeight: 800,
+                    fontSize: 18,
+                    color:
+                      mod.score >= 80
+                        ? "#10b981"
+                        : mod.score >= 60
+                          ? "#f59e0b"
+                          : "#ef4444",
+                  }}
+                >
+                  {mod.score}
+                </div>
+                <div style={{ fontSize: 9, color: "#64748b" }}>SCORE</div>
+              </div>
+              <span
+                style={{
+                  fontSize: 11,
+                  padding: "3px 8px",
+                  borderRadius: 4,
+                  background: `${RISK_COLORS[mod.risk]}15`,
+                  color: RISK_COLORS[mod.risk],
+                  border: `1px solid ${RISK_COLORS[mod.risk]}30`,
+                }}
+              >
+                {RISK_LABELS[mod.risk]}
+              </span>
+              <span style={{ fontSize: 11, color: "#94a3b8" }}>
+                {STATUS_LABELS[mod.status]}
+              </span>
+              <span
+                style={{
+                  fontSize: 12,
+                  transform:
+                    expandedModule === mod.id
+                      ? "rotate(180deg)"
+                      : "rotate(0)",
+                  transition: "transform .2s",
+                }}
+              >
+                ▼
+              </span>
+            </div>
+
+            {/* Expanded permissions */}
+            {expandedModule === mod.id && (
+              <div
+                style={{
+                  padding: "12px 20px 16px 48px",
+                  borderBottom: "1px solid rgba(100,116,139,0.1)",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    marginBottom: 8,
+                    color: "#94a3b8",
+                  }}
+                >
+                  PERMISSÕES CONCEDIDAS:
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                  {mod.permissions.map((perm) => {
+                    const r = getPermRisk(perm);
+                    return (
+                      <span
+                        key={perm}
+                        style={{
+                          ...S.permTag,
+                          background: `${RISK_COLORS[r]}12`,
+                          color: RISK_COLORS[r],
+                          border: `1px solid ${RISK_COLORS[r]}25`,
+                        }}
+                      >
+                        {perm}
+                      </span>
+                    );
+                  })}
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "#64748b",
+                    marginTop: 8,
+                  }}
+                >
+                  Último scan: {mod.lastScan}
+                </div>
+                {mod.type === "tentacle" && (
+                  <div
+                    style={{
+                      marginTop: 8,
+                      padding: "8px 12px",
+                      borderRadius: 6,
+                      background: "rgba(245,158,11,0.08)",
+                      border: "1px solid rgba(245,158,11,0.2)",
+                      fontSize: 12,
+                      color: "#f59e0b",
+                    }}
+                  >
+                    ⚠️ <strong>Tentáculo</strong> — acessa APIs do sistema via
+                    Proxy SDK. Sandbox forte + permissões explícitas
+                    obrigatórias.
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* ────── Activity Monitor ────── */}
+      <div style={S.card}>
+        <div
+          style={{
+            ...S.sectionTitle,
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span>📊</span> Monitor de Atividade
+          </div>
+          <select
+            value={eventFilter}
+            onChange={(e) => setEventFilter(e.target.value)}
+            style={{
+              background: "rgba(100,116,139,0.15)",
+              border: "1px solid rgba(100,116,139,0.2)",
+              borderRadius: 6,
+              color: "#e2e8f0",
+              padding: "4px 8px",
+              fontSize: 11,
+            }}
+          >
+            <option value="all">Todos ({MOCK_EVENTS.length})</option>
+            <option value="block">🔴 Bloqueios</option>
+            <option value="warning">🟡 Alertas</option>
+            <option value="scan">🔍 Scans</option>
+            <option value="info">✅ Info</option>
+          </select>
+        </div>
+        <div
+          style={{
+            maxHeight: 260,
+            overflowY: "auto",
+            background: "rgba(0,0,0,0.2)",
+            borderRadius: 8,
+            padding: 8,
+          }}
+        >
+          {filteredEvents.map((evt) => (
+            <div
+              key={evt.id}
+              style={{
+                ...S.eventRow,
+                background:
+                  evt.type === "block"
+                    ? "rgba(239,68,68,0.06)"
+                    : evt.type === "warning"
+                      ? "rgba(245,158,11,0.06)"
+                      : "transparent",
+              }}
+            >
+              <span style={S.eventTime}>{evt.time}</span>
+              <span>{evt.msg}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ────── About ────── */}
+      <div
+        style={{
+          ...S.card,
+          background: "rgba(102,126,234,0.06)",
+          border: "1px solid rgba(102,126,234,0.2)",
+        }}
+      >
+        <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <span style={{ fontSize: 22 }}>ℹ️</span>
+          <div style={{ fontSize: 13, lineHeight: 1.6 }}>
+            <div
+              style={{
+                fontWeight: 700,
+                marginBottom: 4,
+                color: "var(--accent-color, #667eea)",
+              }}
+            >
+              Como funciona o Panda Defend
+            </div>
+            <div style={{ color: "#94a3b8" }}>
+              O Panda Defend monitora todos os módulos e tentáculos
+              instalados no seu ambiente. Cada extensão recebe um{" "}
+              <strong>Score de Segurança</strong> (0-100) baseado em
+              análise estática, permissões declaradas, e comportamento em
+              sandbox.
+              <br />
+              <br />
+              <strong>Score ≥ 70:</strong> Aprovado automaticamente.
+              <br />
+              <strong>Score 50-69:</strong> Requer revisão manual.
+              <br />
+              <strong>Score {"<"} 50:</strong> Suspenso automaticamente.
+              <br />
+              <br />
+              Extensões suspeitas são bloqueadas em tempo real. Você
+              sempre tem controle total para desinstalar qualquer módulo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default PFDefendPanel;
