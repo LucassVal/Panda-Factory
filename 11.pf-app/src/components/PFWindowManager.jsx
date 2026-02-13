@@ -89,6 +89,11 @@ const APP_REGISTRY = {
     name: "Catálogo",
     component: "catalog",
   },
+  "mining-panel": {
+    icon: "⛏️",
+    name: "Meu Mining",
+    component: "mining-panel",
+  },
 };
 
 export function PFWindowManager({

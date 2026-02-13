@@ -22,9 +22,10 @@ import {
 import { BundleCreator } from "./components/PFBundleCreator";
 import { FinancePanel } from "./components/PFFinancePanel";
 import { GasometerPanel } from "./components/PFGasometerPanel";
+import { MiningPanel } from "./components/PFMiningPanel";
 
 /**
- * 🐼 PANDA FABRICS — MAIN APPLICATION v6.5
+ * PANDA FABRICS — MAIN APPLICATION v6.5
  *
  * Multi-window via flexlayout-react (MIT).
  * Apps open INSIDE the canvas as dockable tabs.
@@ -153,6 +154,9 @@ function AppContent() {
           if (componentType === "gasometer") {
             return <GasometerPanel onClose={() => {}} embedded={true} />;
           }
+          if (componentType === "mining-panel") {
+            return <MiningPanel embedded={true} />;
+          }
           return (
             <div style={{ padding: 20, color: "#aaa" }}>
               📱 {config?.name || componentType} — COMING SOON
@@ -179,6 +183,7 @@ function AppContent() {
             ? () => openAppWindow("founder-dashboard")
             : undefined
         }
+        onMiningClick={() => openAppWindow("mining-panel")}
         onTreasuryClick={() =>
           openAppWindow("pat-council", { activeTool: "treasury" })
         }
@@ -264,7 +269,7 @@ function AppContent() {
       {/* WATERMARK — Panda Fabrics branding + Medusa */}
       <footer className="pf-footer">
         <span className="pf-footer-accent" />
-        🐼 PANDA FABRICS
+        PANDA FABRICS
         <span className="pf-footer-accent" />
         POWERED BY TLDRAW • 🐙 MEDUSA
         <span className="pf-footer-version">v6.5 • {new Date().getFullYear()}</span>

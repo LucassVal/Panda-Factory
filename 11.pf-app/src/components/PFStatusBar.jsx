@@ -16,6 +16,7 @@ function PFStatusBar({
   onSettingsClick,
   onStoreClick,
   onFounderClick,
+  onMiningClick,
   onTreasuryClick,
   onNotificationsClick,
   onPinChange,
@@ -263,6 +264,15 @@ function PFStatusBar({
             title="NOTIFICAÇÕES"
           >
             🔔
+          </button>
+
+          {/* Mining Dashboard — available to all users */}
+          <button
+            className="pf-header-btn"
+            onClick={onMiningClick}
+            title="MEU MINING"
+          >
+            ⛏️
           </button>
 
           {/* Founder Dashboard */}
