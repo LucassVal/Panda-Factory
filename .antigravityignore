@@ -20,6 +20,11 @@ target/
 .next/
 .nuxt/
 
+# Backup e Archive (conteúdo arquivado, não deletado)
+# Agentes devem focar apenas nas pastas numeradas 1-11
+_backup_pre_numbered/
+_archive/
+
 # Cache e temporários
 .cache/
 *.cache
@@ -70,3 +75,32 @@ target/
 
 # Artifacts do Antigravity (evita loop)
 .gemini/antigravity/brain/*/
+
+# ===========================================
+# PANDA FACTORY — Pastas pesadas que o agente não precisa indexar
+# ===========================================
+
+# Rust compilados (3000+ arquivos)
+7.rust-agent/target/
+
+# Docs consolidados (rascunhos, não SSoT)
+8.docs/_consolidated/
+
+# Dados importados (JSONs pesados)
+10.assets/data/
+
+# Legacy docs no root
+docs/
+
+# Fontes
+*.woff
+*.woff2
+*.ttf
+*.otf
+
+# Imagens (agente pode gerar, não precisa indexar)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
