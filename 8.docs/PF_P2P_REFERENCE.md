@@ -1,11 +1,14 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** CONTEXT.md §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
 tool_context: panda/p2p
 description: P2P Network & Partner Mode - Node Tiers, Mining, Rewards
 version: 2.1.0
 updated: 2026-02-08
+
 ---
 
 # 🌐 PF_P2P_REFERENCE - Rede P2P & Partner Mode
@@ -38,7 +41,7 @@ O **P2P Compute Network** + **Partner Mode** permite:
 
 - 🖥️ **Locar poder computacional** (CPU/GPU/RAM/Storage)
 - ⛏️ **Minerar Panda Coins** proporcionalmente à contribuição
-- 💰 **Receber 95%** da receita gerada pelo nó (P2P) ou **50%** (Mining)
+- 💰 **Receber 95%** da receita gerada pelo nó (P2P) ou **60%** (Mining, fator x0.60)
 - 🤝 **Partner Mode** — Zero taxas em troca de recursos ociosos
 
 ```text
@@ -99,8 +102,8 @@ O **P2P Compute Network** + **Partner Mode** permite:
    └─────┬─────┘             └──────┬─────┘            └──────┬─────┘
          │                          │                          │
     ┌────▼────┐                ┌────▼────┐                ┌────▼────┐
-    │  50%    │                │  95%    │                │  95%    │
-    │ + Email │                │ Host    │                │ Host    │
+    │  60%    │                │  95%    │                │  95%    │
+    │(x0.60) │                │ Host    │                │ Host    │
     └─────────┘                └─────────┘                └─────────┘
 
 Node Tiers:
@@ -160,8 +163,8 @@ O **Partner Mode** transforma hardware ocioso em **lastro financeiro**, criando 
 │                                       │                                  │
 │                        ┌──────────────┼──────────────┐                  │
 │                        ▼              ▼              ▼                  │
-│                     25%           50%+2%          23%                   │
-│                   Impostos    User+Founder       Ops                    │
+│                     17%            60%+1%        10%+7%+5%             │
+│                   Impostos     User+Founder    Ops+Hold+Treasury       │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -563,5 +566,21 @@ const consensus = await Panda.P2P.checkConsensus("TASK-123");
 
 ---
 
-> 📖 **Versão:** 2.1.0 | **Status:** Planejado
+## 📎 Cross-References (Auditoria Econômica)
+
+> **Ref:** Auditoria Econômica §14.1, §14.3, §14.8
+
+| Tópico                                              | SSoT                      | Seção  |
+| --------------------------------------------------- | ------------------------- | ------ |
+| **Mining Zero** (contingência se mining cai a zero) | `PF_ECONOMY_REFERENCE.md` | §17.18 |
+| **Inflation Monitor** (ratio emissão/queima)        | `PF_ECONOMY_REFERENCE.md` | §17.20 |
+| **SLA Bonus** (bônus uptime — EM REVISÃO)           | `PF_ECONOMY_REFERENCE.md` | §17.16 |
+| **Treasury Dashboard** (parceria comunidade)        | `PF_ECONOMY_REFERENCE.md` | §9.2   |
+
+> [!NOTE]
+> Se o cenário "Mining Zero" se materializar, o P2P Network continua operando normalmente para **Compute** (AI inference, rendering). Apenas a receita de mining para. O network não morre — muda de modelo de negócio.
+
+---
+
+> 📖 **Versão:** 2.2.0 | **Status:** Planejado | Cross-refs adicionados (Auditoria 2026-02-13)
 > **Mantido por:** Panda Council (PAT)

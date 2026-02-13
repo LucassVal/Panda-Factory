@@ -3354,3 +3354,92 @@ body.light-mode .pf-chat-bubble .chat-msg.ai {
 }
 
 
+
+/* ═══════════════════════════════════════════════════════════════
+   🌞 LIGHT MODE — STORE PANEL
+   ═══════════════════════════════════════════════════════════════ */
+body.light-mode .pf-store-overlay { background: rgba(0,0,0,0.3); }
+body.light-mode .pf-store { background: #f8f9fa; color: #1a1a2e; border: 1px solid rgba(102,126,234,0.15); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+body.light-mode .pf-store-header { background: linear-gradient(135deg, #667eea20, #764ba220); border-bottom: 1px solid rgba(102,126,234,0.15); }
+body.light-mode .pf-store-title { color: #1a1a2e; }
+body.light-mode .store-balance { color: #555; background: rgba(102,126,234,0.1); }
+body.light-mode .pf-store-close { color: #666; }
+body.light-mode .pf-store-close:hover { color: #e74c3c; background: rgba(231,76,60,0.1); }
+body.light-mode .store-search-input { background: #fff; color: #1a1a2e; border-color: rgba(102,126,234,0.2); }
+body.light-mode .store-search-input::placeholder { color: #999; }
+body.light-mode .store-search-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+body.light-mode .store-filter-btn { background: #fff; color: #555; border-color: rgba(102,126,234,0.15); }
+body.light-mode .store-filter-btn:hover { background: rgba(102,126,234,0.08); color: #1a1a2e; }
+body.light-mode .store-filter-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: transparent; }
+body.light-mode .filter-count { background: rgba(102,126,234,0.1); color: #667eea; }
+body.light-mode .store-filter-btn.active .filter-count { background: rgba(255,255,255,0.2); color: #fff; }
+body.light-mode .store-featured-title { color: #1a1a2e; }
+body.light-mode .store-featured-card { background: #fff; border: 1px solid rgba(102,126,234,0.12); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+body.light-mode .store-featured-card:hover { border-color: #667eea; box-shadow: 0 4px 16px rgba(102,126,234,0.15); }
+body.light-mode .featured-name { color: #1a1a2e; }
+body.light-mode .featured-desc { color: #666; }
+body.light-mode .featured-meta { color: #667eea; }
+body.light-mode .pf-store-card { background: #fff; border: 1px solid rgba(102,126,234,0.12); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+body.light-mode .pf-store-card:hover { border-color: #667eea; box-shadow: 0 4px 16px rgba(102,126,234,0.12); transform: translateY(-2px); }
+body.light-mode .pf-store-card-name { color: #1a1a2e; }
+body.light-mode .pf-store-card-desc { color: #666; }
+body.light-mode .pf-store-card-author { color: #999; }
+body.light-mode .pf-store-card-price .price-usd { color: #1a1a2e; }
+body.light-mode .pf-store-card-price .price-pc { color: #999; }
+body.light-mode .card-badge { background: linear-gradient(135deg, #f6d365, #fda085); color: #1a1a2e; }
+body.light-mode .pf-store-card-btn.free { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+body.light-mode .pf-store-card-btn.paid { background: #fff; color: #667eea; border: 1px solid #667eea; }
+body.light-mode .pf-store-card-btn.paid:hover { background: #667eea; color: #fff; }
+body.light-mode .pf-store-content { background: transparent; }
+body.light-mode .pf-store-footer { background: rgba(102,126,234,0.05); color: #888; border-top: 1px solid rgba(102,126,234,0.1); }
+body.light-mode .medusa-brand { color: #667eea; }
+body.light-mode .store-empty p { color: #888; }
+
+/* ═══════════════════════════════════════════════════════════════
+   🌞 LIGHT MODE — CHAT PANEL
+   ═══════════════════════════════════════════════════════════════ */
+body.light-mode .pf-chat-panel { background: #f8f9fa; border: 1px solid rgba(102,126,234,0.15); box-shadow: 0 10px 40px rgba(0,0,0,0.12); }
+body.light-mode .pf-chat-header { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+body.light-mode .pf-chat-title { color: #fff; }
+body.light-mode .pf-stats-pc { color: rgba(255,255,255,0.9); }
+body.light-mode .pf-stats-gas { color: rgba(255,255,255,0.7); }
+body.light-mode .pf-api-status { color: rgba(255,255,255,0.8); }
+body.light-mode .pf-chat-gems-toggle { color: #fff; background: rgba(255,255,255,0.15); }
+body.light-mode .pf-chat-gems-toggle:hover { background: rgba(255,255,255,0.25); }
+body.light-mode .pf-chat-gems-panel { background: #fff; border: 1px solid rgba(102,126,234,0.15); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+body.light-mode .pf-chat-gems-header { color: #1a1a2e; border-bottom: 1px solid rgba(102,126,234,0.1); }
+body.light-mode .pf-chat-gem { background: #f8f9fa; color: #555; border: 1px solid rgba(102,126,234,0.1); }
+body.light-mode .pf-chat-gem:hover { background: rgba(102,126,234,0.08); color: #1a1a2e; }
+body.light-mode .pf-chat-gem.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: transparent; }
+body.light-mode .pf-gem-clear { color: #e74c3c; }
+body.light-mode .pf-chat-models { background: #fff; border-bottom: 1px solid rgba(102,126,234,0.1); }
+body.light-mode .pf-chat-model { background: #f8f9fa; color: #555; border: 1px solid rgba(102,126,234,0.08); }
+body.light-mode .pf-chat-model:hover { background: rgba(102,126,234,0.08); color: #1a1a2e; }
+body.light-mode .pf-chat-model.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: transparent; }
+body.light-mode .pf-chat-model.premium .pf-model-name { color: inherit; }
+body.light-mode .pf-chat-gem-active { background: rgba(102,126,234,0.08); color: #667eea; }
+body.light-mode .pf-chat-messages { background: #f8f9fa; }
+body.light-mode .pf-chat-message.assistant { background: #fff; color: #1a1a2e; border: 1px solid rgba(102,126,234,0.08); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+body.light-mode .pf-chat-message.user { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+body.light-mode .pf-chat-message.loading .pf-typing { color: #667eea; }
+body.light-mode .pf-chat-input-wrapper { background: #fff; border-top: 1px solid rgba(102,126,234,0.1); }
+body.light-mode .pf-chat-input { background: #f8f9fa; color: #1a1a2e; border: 1px solid rgba(102,126,234,0.15); }
+body.light-mode .pf-chat-input::placeholder { color: #999; }
+body.light-mode .pf-chat-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+body.light-mode .pf-chat-send { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+body.light-mode .pf-chat-send:disabled { background: #ddd; color: #999; }
+body.light-mode .pf-chat-fab { box-shadow: 0 4px 16px rgba(102,126,234,0.3); }
+body.light-mode .pf-chat-trail-bubble { background: #fff; color: #1a1a2e; border: 1px solid rgba(102,126,234,0.15); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+/* ═══════════════════════════════════════════════════════════════
+   🌞 LIGHT MODE — HEADER CONTRAST POLISH
+   ═══════════════════════════════════════════════════════════════ */
+body.light-mode .pf-brand-text { color: #1a1a2e; text-shadow: none; }
+body.light-mode .pf-status-label { color: #555; font-weight: 600; }
+body.light-mode .pf-header-actions button,
+body.light-mode .pf-header-actions .pf-header-btn { color: #555; }
+body.light-mode .pf-header-actions button:hover,
+body.light-mode .pf-header-actions .pf-header-btn:hover { color: #1a1a2e; background: rgba(102,126,234,0.08); }
+body.light-mode .pf-user-name { color: #1a1a2e; }
+body.light-mode .pf-user-role { color: #667eea; }
+body.light-mode .pf-clock { color: #555; }

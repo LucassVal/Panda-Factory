@@ -172,12 +172,6 @@ function PFStatusBar({
 
         {/* CENTER: Status Pills */}
         <div className="pf-status-group">
-          <span
-            className="pf-version"
-            style={{ cursor: "pointer" }}
-            onClick={() => window.dispatchEvent(new CustomEvent("panda:open-store"))}
-            title="VER NOVIDADES"
-          >v6.5</span>
           <div className="pf-status-pills">
             {statusPills.map((pill) => (
               <div

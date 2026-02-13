@@ -1,11 +1,14 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** CONTEXT.md §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
 tool_context: panda/backend
 description: Backend Unificado - Rust Agent, MCP, Firebase, Auth, Health
 version: 2.1.0
 updated: 2026-02-08
+
 ---
 
 # 🦀 PF_BACKEND_REFERENCE - Infraestrutura Backend Unificada
@@ -889,4 +892,59 @@ pub async fn get_with_cache<T>(key: &str, fetcher: impl Fn() -> T) -> T {
 
 ---
 
-> 📖 **Versão:** 2.1.0 | **Consolidado:** BACKEND + Módulos Avançados + Cache Jitter
+## 8. Análise de Custos — Fallback de Infraestrutura
+
+> **Ref:** Auditoria Econômica §14.7 | Aprovado: 2026-02-13
+
+```text
+TIER 1: GOOGLE (atual) — $0/mês ← FOCO ATUAL
+├── GAS: 6min execution, 90s/call, 20k calls/day FREE
+├── Firebase RTDB: 1GB storage, 10GB/mês download, 100 concurrent
+├── GitHub Pages: 100GB/mês bandwidth FREE
+├── Deploy: zero (auto-deploy via commit)
+└── RISCO: Google descontinua Free Tier
+
+TIER 2: SUPABASE — $0-25/mês
+├── Free: 500MB DB, 1GB storage, 50k auth users, 500k edge invocations
+├── Pro ($25/mês): 8GB DB, 100GB storage, 2M edge invocations
+├── REST API compatível (substitui GAS endpoints)
+├── Tempo de migração: ~2 semanas (REST endpoints + auth)
+└── RISCO: Pricing changes (startup VC-funded)
+
+TIER 3: NEON / PLANETSCALE — $0-39/mês
+├── Neon Free: 0.5GB Postgres, 3GB storage
+├── Neon Pro ($19/mês): 10GB Postgres, 50GB storage
+├── PlanetScale ($39/mês): MySQL serverless, branching
+├── Tempo de migração: ~3 semanas (schema + ORM)
+└── RISCO: PlanetScale já cortou Free Tier uma vez
+
+TIER 4: SELF-HOST (VPS) — R$25-50/mês
+├── Hetzner CX22 (2vCPU, 4GB RAM): €4.49/mês
+├── Oracle Cloud Free (4 OCPU, 24GB RAM): $0/mês
+├── Deploy: Docker + PostgreSQL + Express.js
+├── Tempo de migração: ~4 semanas (infra + deploy pipeline)
+└── RISCO: Responsabilidade por uptime, segurança, backups
+
+TIER 5: INDEXEDDB (offline total) — $0/mês
+├── Já implementado como cache layer
+├── Funciona SEM internet (Offline-First architecture)
+├── Limitação: sem sync entre devices
+└── RISCO: orphaned data, conflito de merge
+```
+
+> [!IMPORTANT]
+> **Estratégia:** Foco 100% no Tier 1 (Google Free). Quando qualquer item individual deixar de ser gratuito, analisar se compensa PAGAR pelo item ou MIGRAR o serviço inteiro. Decisão caso a caso, sem migração preventiva.
+
+| Tier               | Custo   | Tempo Migração | Status             |
+| ------------------ | ------- | -------------- | ------------------ |
+| **1. Google**      | $0      | —              | ✅ ATIVO           |
+| **2. Supabase**    | $0-25   | ~2 semanas     | 📋 Plano B         |
+| **3. Neon/PScale** | $0-39   | ~3 semanas     | 📋 Alternativa     |
+| **4. VPS**         | R$25-50 | ~4 semanas     | 📋 Último recurso  |
+| **5. IndexedDB**   | $0      | —              | ✅ Já implementado |
+
+**Monitoramento:** Check trimestral de ToS changes do Google.
+
+---
+
+> 📖 **Versão:** 2.2.0 | **Consolidado:** BACKEND + Módulos Avançados + Cache Jitter + Fallback Cost Analysis

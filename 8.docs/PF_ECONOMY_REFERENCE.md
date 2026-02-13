@@ -1,11 +1,21 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
+tool_context: panda/economy
+description: Panda Coin Economy - Pricing, Splits, Tiers, PAT Monetary Policy, Governance
+version: 2.0.0
+updated: 2026-02-12
+
+---
+
 tool_context: panda/economy
 description: Panda Coin Tokenomics - Energy Credits, Revenue Split, PAT
 version: 3.2.0
 updated: 2026-02-08
+
 ---
 
 # 💰 PF_ECONOMY_REFERENCE - Ecossistema Econômico Panda
@@ -71,14 +81,18 @@ Exemplo: $0.0025/PC custo × 4.0 = $0.01/PC (1 centavo)
 #### E. Split de Receita (Transações)
 
 > **NOVO SPLIT (v1.1):** Mínimos hardcoded: Fundo ≥25%, Ops ≥15%
+> **Mining:** Modelo canônico x0.60 (ver §17 para detalhes completos)
 
-| Destino               | Store/Compute | P2P Off-chain (Pre) | P2P On-Chain |
-| --------------------- | ------------- | ------------------- | ------------ |
-| **Dev/Host**          | 52%           | 95%                 | 95%          |
-| **Panda Educação**    | 25%           | 1%                  | 1%           |
-| **Panda Operacional** | 15%           | 4%                  | 1%           |
-| **Founder (Lucas)**   | 5%            | 0%                  | 0%           |
-| **Gateway/GAS**       | 3%            | 0%                  | 3%           |
+| Destino               | Store/Compute | P2P Off-chain (Pre) | P2P On-Chain | Mining (§17)    |
+| --------------------- | ------------- | ------------------- | ------------ | --------------- |
+| **User (Minerador)**  | 52%           | 95%                 | 95%          | **60%** (x0.60) |
+| **Panda Educação**    | 25%           | 1%                  | 1%           | — (via Fundo)   |
+| **Panda Operacional** | 15%           | 4%                  | 1%           | 10%             |
+| **Founder (Lucas)**   | 5%            | 0%                  | 0%           | 1%              |
+| **Gateway/GAS**       | 3%            | 0%                  | 3%           | — (incluso Ops) |
+| **Impostos BR**       | —             | —                   | —            | 17%             |
+| **Hold Reserve**      | —             | —                   | —            | 7%              |
+| **Treasury**          | —             | —                   | —            | 5%              |
 
 > **Nota - Lógica de Distribuição P2P (Hardcoded):**
 > A taxa total flutua entre **5% (Base)** e **10% (Teto)**. O Host tem blindagem mínima de 90%.
@@ -237,7 +251,7 @@ CAMADA 1: HARDCODE (A Constituição Imutável)
 [Piso 4.0x] [Founder 5%] [Min Fundo 15%]
       │
       ▼
-CAMADA 2: DAO (O Congresso Político)
+CAMADA 2: COUNCIL + PAT (Governança Executiva)
 [Define Splits flutuantes] [Aprova Parcerias]
       │
       ▼
@@ -448,15 +462,15 @@ Panda._LICENSE_TIERS = {
   },
   BETA_FOUNDER: {
     prefix: "BETA_",
-    multiplier: 1.25,
+    multiplier: 2.8,
     maxLicenses: 100,
-    discount: 0.5,
+    discount: 0.3,
     lifetime: true,
     transferable: false,
     split: "standard",
   },
   STANDARD: {
-    multiplier: 2.5,
+    multiplier: 4.0,
     maxLicenses: Infinity,
     split: {
       dev: 0.52,
@@ -800,17 +814,59 @@ TOTAL SEM BYOL: ~400 pessoas/dia usando IA compartilhada
 
 ### 14.3 BYOL (Bring Your Own License)
 
-Usuários que querem mais tokens podem:
+> **Escopo:** BYOL aplica-se a **software/serviços que rodam via Panda** — NÃO a IA (que já roda localmente via Rust Agent + Ollama/LM Studio por padrão, $0). Na prática, poucos casos se aplicam pois a IDE é local-first.
 
-1. **Usar GPU local** (Rust Agent + Ollama/LM Studio) → 0 PC
-2. **Trazer sua API Key** (Gemini, OpenAI, Claude) → 0 PC
-3. **Comprar PC** para usar quota compartilhada → X PC/1k tokens
+| Categoria BYOL       | O que o User traz             | O que bypassa             | Benefício Plataforma      |
+| -------------------- | ----------------------------- | ------------------------- | ------------------------- |
+| **🖥️ GPU Local**     | Rust Agent + GPU              | PC para ML inference      | Nó de compute potencial   |
+| **💾 Storage**       | Disco local / S3 próprio      | PC para cloud storage     | Menos custo infra Panda   |
+| **📋 Produtividade** | Conta Canva/Google            | N/A (sempre free)         | Engajamento sticky        |
+| **⛏️ Compute**       | CPU/GPU ociosa (Partner Mode) | Taxas da Store (zero fee) | Receita mining para Panda |
 
-| Estratégia          | Custo para User    | Custo para Founder |
-| ------------------- | ------------------ | ------------------ |
-| GPU Local           | $0                 | $0                 |
-| BYOL API Key        | ~$0.075/1M tokens  | $0                 |
-| Quota Compartilhada | 30-50 PC/1k tokens | Absorvido          |
+> **Nota:** IA (Gemini, OpenAI, Claude) roda **localmente por padrão** via Rust Agent. Não é BYOL — é funcionalidade core da plataforma.
+
+#### Custos Comparativos
+
+| Estratégia          | Custo para User      | Custo para Founder |
+| ------------------- | -------------------- | ------------------ |
+| GPU Local (IA/ML)   | $0 (local)           | $0                 |
+| BYOL Software       | $0 (licença do user) | $0                 |
+| Partner Mode        | $0 (ganha PC)        | $0 (ganha mining)  |
+| Quota Compartilhada | 30-50 PC/1k tokens   | Absorvido          |
+
+#### Princípio: Aliado do Dev
+
+> **O Panda NÃO cobra mensalidade.** Receita vem exclusivamente do split 52/48 sobre trabalho realizado. Custos módicos. Foco em ser **aliado do dev**, nunca uma barreira.
+
+#### Flywheel (Ciclo Econômico Fechado)
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    PANDA FLYWHEEL                                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  User instala Rust Agent (IA local, $0)                                 │
+│       │                                                                  │
+│       ├──▶ Habilita GPU Local (ML/render local, $0)                    │
+│       │                                                                  │
+│       ├──▶ Opta pelo Partner Mode (mining ocioso)                       │
+│       │                                                                  │
+│       ├──▶ Ganha PC passivamente (30-200 PC/dia)                        │
+│       │                                                                  │
+│       ├──▶ Gasta PC em módulos na Store                                 │
+│       │                                                                  │
+│       ├──▶ Dev recebe 52% do PC gasto (SEMPRE)                          │
+│       │                                                                  │
+│       ├──▶ Panda recebe 48% (sem mensalidade, sem fees extras)          │
+│       │                                                                  │
+│       └──▶ Treasury cresce via transaction fees (3%)                    │
+│                                                                          │
+│  RESULTADO: Custos módicos, Panda = aliado do dev                       │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+> **Princípio Core:** O Panda ganha **apenas em cima do trabalho**, nunca por assinatura ou fees ocultos. O split 52/48 garante que o dev sempre ganha mais que a plataforma.
 
 ---
 
@@ -936,13 +992,13 @@ FOUNDER (Nível 1) pode:
 
 ### B.2.2 Decisões que Requerem Council
 
-| Decisão               | Quorum       | Veto Founder? |
-| --------------------- | ------------ | ------------- |
-| Mudar preço PC        | 2/3          | ✅ Sim        |
-| Novo split de revenue | 2/3          | ✅ Sim        |
-| Ban de usuário        | 2/3          | ✅ Sim        |
-| Alterar 12 Artigos    | Unânime      | ✅ Sim        |
-| Kill Switch           | Founder only | N/A           |
+| Decisão               | Quorum                            | Veto Founder? |
+| --------------------- | --------------------------------- | ------------- |
+| Mudar preço PC        | 2/3                               | ✅ Sim        |
+| Novo split de revenue | 2/3                               | ✅ Sim        |
+| Ban de usuário        | 2/3                               | ✅ Sim        |
+| Alterar 12 Artigos    | **Impossível** (Art.11: Imutável) | N/A           |
+| Kill Switch           | Founder only                      | N/A           |
 
 ### B.2.3 Workflow
 
@@ -971,7 +1027,7 @@ FOUNDER (Nível 1) pode:
 
 ---
 
-## B.3 Os 12 Artigos da Constituição
+## B.3 Os 12 Mandamentos do Agente (Código de Conduta)
 
 ### Artigo I - Identidade
 
@@ -1206,4 +1262,654 @@ async function retryWithBackoff(fn, options = {}) {
 
 ---
 
-> 📖 **Versão:** 3.2.0 | **Consolidado:** TOKENOMICS + PAT + GOVERNANCE + SYSTEM DESIGN
+## 16. Module Revenue Model (Taxonomia de Módulos)
+
+> **Adicionado:** 2026-02-12 | **Cross-Ref:** [PF_MEDUSA_REFERENCE.md §10](PF_MEDUSA_REFERENCE.md) | [PF_P2P_REFERENCE.md §3](PF_P2P_REFERENCE.md)
+
+### 16.1 Quatro Tiers de Módulo
+
+| Tier            | Badge   | Preço       | Custo PC               | Revenue Model                                       |
+| --------------- | ------- | ----------- | ---------------------- | --------------------------------------------------- |
+| 🟢 **Open**     | `OSS`   | Grátis      | 0 PC                   | Goodwill + reputation → pathway Beta Founder        |
+| 🔵 **Freemium** | `FREE+` | Core grátis | X PC features premium  | Core free, avançado atrás de paywall. Dev ganha 52% |
+| 🟡 **BYOL**     | `BYOL`  | Grátis      | 0 PC (licença do user) | User traz licença de software. Sem fee para Panda   |
+| 🟣 **Premium**  | `PRO`   | X PC        | One-time               | Módulo pago. Dev ganha 52%, split padrão            |
+
+> **Regra de ouro:** O Panda **nunca cobra mensalidade ou listing fees.** Receita vem apenas do split 52% dev / 48% Panda sobre módulos pagos. Custos módicos. Aliado do dev.
+
+### 16.2 Fluxo de Receita por Tier
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MODULE REVENUE FLOW                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  🟢 OSS → 0 PC → Dev ganha Reputação → Pathway Beta Founder            │
+│  🔵 FREE+ → Core: 0 PC │ Premium: X PC → Split padrão 52/48           │
+│  🟡 BYOL → 0 PC (user traz licença) → Sem fee Panda                   │
+│  🟣 PRO → Compra X PC → 52% Dev / 48% Panda split                     │
+│                                                                          │
+│  IA roda LOCAL por padrão (Rust Agent + Ollama) → $0                   │
+│  GPU render LOCAL → $0                                                  │
+│  Storage LOCAL → $0                                                      │
+│                                                                          │
+│  Panda ganha SOMENTE no split 52/48 sobre módulos PRO/FREE+            │
+│  Sem mensalidade. Sem listing fee. Custos módicos.                      │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 16.3 Badge ⛏️ MINE-OK
+
+Badge especial que indica módulos com preço alcançável em ≤30 dias de mining Seed-tier:
+
+| Badge        | Condição                  | Visual                         |
+| ------------ | ------------------------- | ------------------------------ |
+| `🟢 OSS`     | Open-source (MIT/Apache)  | Borda verde, link GitHub       |
+| `🔵 FREE+`   | Modelo freemium           | Borda azul, CTA "Upgrade"      |
+| `🟡 BYOL`    | Bring Your Own License    | Borda amarela, "Configure Key" |
+| `🟣 PRO`     | Premium pago              | Borda roxa, preço em PC        |
+| `⛏️ MINE-OK` | Ganho via mining ≤30 dias | Badge picareta, "Earn This"    |
+
+> O badge `⛏️ MINE-OK` torna módulos efetivamente **gratuitos** para Partner users que minam continuamente.
+
+### 16.4 Relação Mining → Store
+
+| Fonte Mining             | PC/dia (est.) | Poder de Compra na Store |
+| ------------------------ | ------------- | ------------------------ |
+| 🌱 Seed (i5, no GPU)     | ~15 PC        | 1 plugin básico/mês      |
+| 🌿 Sprout (i7, GTX 1660) | ~45 PC        | 2-3 plugins/mês          |
+| 🌳 Tree (i7, RTX 3060)   | ~120 PC       | 5+ plugins + IA          |
+| 🌲 Forest (i9, RTX 4080) | ~300 PC       | Premium tudo             |
+| 🏔️ Titan (multi-GPU)     | ~800+ PC      | Enterprise + revenda     |
+
+---
+
+## 17. Rust Mining Node (Partner Mode) — Economia x0.60
+
+> **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) §Desktop Mode, [PF_P2P_REFERENCE.md](PF_P2P_REFERENCE.md) §Partner Mode
+> **Versão:** 4.0.0 | **Fator:** x0.60 flat | **Filosofia:** Dev-first, parceria sem segregação
+
+### 17.1 Visão Geral
+
+O **Rust Agent** (binário nativo, Tauri) inclui capacidade de mineração via Partner Mode.
+Quando ativado, utiliza CPU/GPU ociosa para minerar criptomoeda (XMR via RandomX, ETH via Ethash).
+
+> **⚠️ Execução:** Mineração roda **EXCLUSIVAMENTE no Rust Agent** (binário nativo). A interface web (Settings → ⛏️ Mining) é apenas um **painel de controle / dashboard** — envia comandos ao Rust Agent e exibe stats, mas NÃO executa mining.
+
+> **⚠️ Princípio:** Partner Mode é **SEMPRE opt-in**. Nunca ativado por padrão. Avisos claros na instalação. Sem tiers/segregação — todos recebem o mesmo fator x0.60.
+
+### 17.2 Papel do Panda Factory
+
+Panda Factory atua como **intermediário + operador fiscal (PJ)** e é o **minerador legal**:
+
+| Responsabilidade       | Descrição                                                                |
+| ---------------------- | ------------------------------------------------------------------------ |
+| **Minerador legal**    | PJ Panda é a entidade mineiradora — user fornece hardware                |
+| **Dono da carteira**   | Cripto vai pro pool/carteira da PJ Panda                                 |
+| **Responsável fiscal** | Panda declara impostos BR (IR + ganho capital) — o share existe pra isso |
+| **Isolamento do User** | User recebe apenas Energy Credits (PC) — zero carga tributária           |
+| **Conversão**          | Oracle converte cripto → PC via spot price                               |
+| **Hold Strategy**      | Panda não liquida 100% — mantém reserva cripto (backing futuro)          |
+| **Fut. Rig/Pool**      | Estrutura já preparada para Panda operar próprias rigs e/ou pool         |
+
+> **Fiscal Sovereignty:** Panda Factory (PJ) é a entidade legal dona da liquidez interna. Users recebem apenas **Energy Credits** (PC), que são unidades de serviço — isolamento fiscal total.
+>
+> **Visão futuro:** A arquitetura já prevê que Panda possa operar rigs próprias e/ou criar pool dedicado — especialmente para o futuro do ecossistema cripto e aluguel de processamento.
+
+### 17.3 Arquitetura: Rust-Only Mining
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MINING ARCHITECTURE (x0.60)                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────┐    Comandos (start/stop/config)    ┌──────────────┐  │
+│  │  Web UI       │ ─────────────────────────────────▶ │  Rust Agent  │  │
+│  │  (Dashboard)  │ ◀───────────────────────────────── │  (Miner)     │  │
+│  │  Settings     │    Stats (hashrate, earned, temp)  │  XMRig/T-Rex │  │
+│  └──────────────┘                                     └──────┬───────┘  │
+│                                                               │          │
+│                    Mining Pool (Unmineable, etc.)  ◀──────────┘          │
+│                                │                                         │
+│                                ▼                                         │
+│                    ┌──────────────────────┐                              │
+│                    │  🔮 Panda Oracle     │                              │
+│                    │  (Monitoring Agent)  │                              │
+│                    │  • Spot price cripto │                              │
+│                    │  • Aplica fator x0.60│                              │
+│                    │  • Converte → PC     │                              │
+│                    │  • Hold strategy     │                              │
+│                    │  • Payout schedule   │                              │
+│                    └──────────────────────┘                              │
+│                                │                                         │
+│              ┌─────────────────┼─────────────────┐                      │
+│              ▼                                   ▼                      │
+│     60% → User Wallet (PC)              40% → Panda (retido)           │
+│     Gastável em Store/AI/Compute        ├── ~18% Impostos BR           │
+│                                         ├── ~10% Ops/Infra             │
+│                                         ├── ~7% Hold Reserve           │
+│                                         └── ~5% Treasury               │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 17.4 Fator de Conversão x0.60
+
+O user recebe **60% do valor bruto minerado** convertido em PC. Os 40% retidos cobrem:
+
+```text
+Cripto minerada (bruto): 100%
+│
+├── 60%  → USER (em Panda Coins, via Oracle)
+│         Creditado no Wallet, gastável em Store/AI/Compute
+│
+└── 40%  → PANDA (retido pela PJ)
+    ├── ~18%  Impostos BR (IR mineração até 27.5% + ganho capital 17.5%)
+    ├── ~10%  Ops (Oracle API, pool fees 1-2%, infra Firebase/GAS)
+    ├──  ~7%  Hold Reserve (cripto não liquidada — reserva estratégica)
+    └──  ~5%  Treasury (crescimento, fundo incentivo, emergência)
+```
+
+**Fórmula:**
+
+```text
+PC_payout = (crypto_mined × spot_price_usd) × 0.60 × pc_exchange_rate
+
+Onde:
+  crypto_mined     = quantidade bruta minerada pelo Rust Agent
+  spot_price_usd   = preço da moeda consultado pela Panda Oracle
+  0.60             = fator de conversão flat (IMUTÁVEL)
+  pc_exchange_rate  = 1 PC = $0.01 USD
+```
+
+> **Transparência:** O fator x0.60 é flat e igual pra todos. Cobre impostos brasileiros, conversão, infraestrutura e manutenção do ecossistema. Sem tiers, sem segregação — parceria.
+
+### 17.5 Panda Oracle (Agente de Monitoramento)
+
+O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de mining:
+
+| Responsabilidade             | Descrição                                                     |
+| ---------------------------- | ------------------------------------------------------------- |
+| **Spot Price Monitoring**    | Consulta preço XMR/ETH em tempo real (CoinGecko, Binance API) |
+| **Aplicação do Fator x0.60** | Calcula PC payout = bruto × spot × 0.60                       |
+| **Hold Decision**            | Decide quanto da cripto liquidar vs manter em reserva         |
+| **Conversão Cripto → PC**    | Converte saldo via taxa do dia e credita no User Wallet       |
+| **Payout Scheduling**        | Executa pagamento no ciclo configurado                        |
+
+### 17.6 Ciclos de Pagamento (Payout)
+
+| Ciclo             | Quando                     | Descrição                                    |
+| ----------------- | -------------------------- | -------------------------------------------- |
+| **End-of-Day**    | 23:59 UTC (default)        | Payout diário com preço médio do dia         |
+| **Every X hours** | Configurável: 6h, 12h, 24h | Payout mais frequente, preço spot no momento |
+| **Manual Claim**  | A qualquer momento         | User solicita payout antecipado (mín. 5 PC)  |
+
+### 17.7 Fluxo de Consentimento
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                 RUST AGENT INSTALL — CONSENT FLOW                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  1. User baixa e instala Rust Agent (binário nativo)                    │
+│       │                                                                  │
+│  2. Tela de instalação exibe aviso:                                     │
+│     ┌──────────────────────────────────────────────────────────┐        │
+│     │ ⚠️ AVISO: O Rust Agent inclui Partner Mode              │        │
+│     │                                                          │        │
+│     │ • Mineração roda NATIVAMENTE no seu PC (Rust Agent)      │        │
+│     │ • Utiliza CPU/GPU ociosa (não roda via browser)          │        │
+│     │ • Consumo energético pode aumentar levemente             │        │
+│     │ • Você recebe 60% do valor minerado em Panda Coins      │        │
+│     │ • 40% cobrem impostos, conversão e infraestrutura       │        │
+│     │ • Pagamento automático ao final do dia ou a cada X horas │        │
+│     │ • Você pode DESATIVAR a qualquer momento em Settings     │        │
+│     │                                                          │        │
+│     │ [ ] Aceito participar do Partner Mode                    │        │
+│     │ [Instalar sem Partner Mode] [Instalar com Partner Mode]  │        │
+│     └──────────────────────────────────────────────────────────┘        │
+│       │                                                                  │
+│  3. User escolhe ON ou OFF → salvo em Settings                          │
+│       │                                                                  │
+│  4. Web UI (Settings → ⛏️ Mining) = painel de controle remoto          │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 17.8 Configurações do User
+
+| Configuração | Default    | Range          | Descrição                         |
+| ------------ | ---------- | -------------- | --------------------------------- |
+| Partner Mode | OFF        | ON/OFF         | Ativa/desativa mineração          |
+| CPU Limit    | 50%        | 25%-75%        | Limite máximo de uso de CPU       |
+| GPU Mining   | OFF        | ON/OFF         | Usa GPU além de CPU (maior ganho) |
+| Payout Cycle | End-of-Day | 6h / 12h / 24h | Frequência de pagamento ao wallet |
+
+### 17.9 Ganhos Estimados por Hardware (Fator x0.60)
+
+> **Nota:** Valores calculados como 60% do bruto minerado. Fator flat para todos.
+
+| Perfil Hardware          | CPU Limit | GPU | Bruto/dia | **User recebe (x0.60)** | Equivalente Store |
+| ------------------------ | --------- | --- | --------- | ----------------------- | ----------------- |
+| 🌱 Seed (i5, no GPU)     | 50%       | OFF | ~42 PC    | **~25 PC**              | 1 módulo/mês      |
+| 🌿 Sprout (i7, GTX 1660) | 50%       | ON  | ~108 PC   | **~65 PC**              | 2-3 módulos/mês   |
+| 🌳 Tree (i7, RTX 3060)   | 75%       | ON  | ~217 PC   | **~130 PC**             | 5+ módulos/mês    |
+| 🌲 Forest (i9, RTX 4080) | 75%       | ON  | ~500 PC   | **~300 PC**             | Premium tudo      |
+
+### 17.10 Distribuição de Receita Mining
+
+```text
+Crypto Minerada pelo Rust Agent
+      │
+      ├──▶ Panda Oracle aplica fator x0.60
+      │
+      ├──▶ 60% valor → User Wallet (em Panda Coins)
+      │    Gastável em: Store, AI, P2P Compute, Premium features
+      │
+      └──▶ 40% → Panda Factory (PJ)
+           ├── ~18% Impostos BR (IR + ganho capital — Panda declara)
+           ├── ~10% Ops (Oracle, Firebase, GAS, pool fees)
+           ├──  ~7% Hold Reserve (cripto mantida, não liquidada)
+           └──  ~5% Treasury (crescimento + fundo incentivo)
+```
+
+### 17.11 Hooks Internos (PC como Salário)
+
+> **Princípio:** PC é a **moeda/salário do user**. Quando gasta, é uso legítimo — não "volta ao treasury". PC circula como qualquer moeda numa economia real.
+
+PC minerado **é gasto dentro do ecossistema** — essas são as formas de uso:
+
+```text
+USER minera ──▶ ganha PC (x0.60) ──▶ USA como SALÁRIO
+                                        │
+              ┌─────────────────────────┼─────────────────────────┐
+              ▼                         ▼                         ▼
+        🧠 AI Inference           🛒 Store                  🖥️ P2P Compute
+        (Gemini/Local)            (Plugins/Mods)              (Aluga de outro node)
+              │                         │                         │
+              ▼                         ▼                         ▼
+        PC → custo serviço        PC → dev + Panda          PC → host + Panda
+        (uso normal)              (Medusa Split)             (95/5 split)
+```
+
+| Hook                 | Trigger                          | PC Flow                  | Split aplicado           |
+| -------------------- | -------------------------------- | ------------------------ | ------------------------ |
+| **AI Inference**     | User pede IA (chat, image, code) | PC debita do Wallet      | Cloud cost × 4.0x markup |
+| **Store Purchase**   | User compra módulo/plugin        | PC debita → Medusa Split | 52% dev / 48% Panda      |
+| **P2P Compute**      | User submete task (render, ML)   | PC debita → paga Host    | 95% host / 5% Panda      |
+| **Premium Features** | BYOL tools, export, etc.         | PC debita → custo uso    | 100% Panda               |
+
+### 17.12 Gateways de Entrada
+
+> **Clarificação:** Mining não é foco de hooks externos. Mining existe para **fomentar o node** — Panda é um ecossistema SaaS. A mineração incentiva users a manter nodes ativos que beneficiam todo o ecossistema.
+
+#### Entrada (Cripto/Fiat → Ecossistema)
+
+| Gateway               | Descrição                                   | Fee                |
+| --------------------- | ------------------------------------------- | ------------------ |
+| **Pool → Panda**      | Unmineable (multi-coin) → carteira PJ Panda | Pool fee (1-2%)    |
+| **Oracle Conversion** | Cripto → PC via spot price e fator x0.60    | Embutido no x0.60  |
+| **Fiat → PC**         | User compra PC com PIX/cartão               | Gateway fee (3-5%) |
+
+> **Multi-Coin Rig:** Unmineable funciona como gateway multi-moeda — o Rust Agent minera o algoritmo mais rentável (RandomX, Ethash, etc.) e a pool converte automaticamente para a moeda escolhida. O user não precisa configurar nada.
+
+#### Saída (PC → Fora)
+
+| Gateway                      | Fase 1 (0-10k users) | Fase 2 (Token)      |
+| ---------------------------- | -------------------- | ------------------- |
+| **PC → Fiat (R$)**           | ❌ Closed-loop       | ✅ Via exchange     |
+| **PC → Cripto**              | ❌ Closed-loop       | ✅ PC = Token       |
+| **PC → Store/AI/Compute**    | ✅ Sempre            | ✅ Sempre           |
+| **PC → Marketplace externo** | ✅ Via Medusa hooks  | ✅ Via Medusa hooks |
+
+> **Visão de longo prazo:** PC é **closed-loop na Fase 1** — gasta só dentro do ecossistema. Na Fase 2, **PC se torna um token real** — esse é um dos motivos estratégicos da Hold Reserve: construir reserva monetária para backing do token futuro.
+
+### 17.13 Machine Rental (Aluguel via Rust Agent)
+
+O Rust Agent permite que users **aluguem hardware ocioso** para outros users. **Foco principal: integração Google.**
+
+> **Rigs Remotas:** Nada impede que rigs dedicadas entrem no Panda — principalmente pensando no futuro cripto e no aluguel de processamento. Rigs remotas são bem-vindas.
+
+```text
+USER A (tem GPU ociosa)              USER B (precisa de GPU)
+    │                                     │
+    ├── Rust Agent detecta ociosidade     ├── Submete task via SDK
+    ├── Marca recursos como disponíveis   ├── Panda seleciona melhor node
+    │                                     │
+    └──────────── MATCH ──────────────────┘
+                    │
+              Panda intermediá
+              ├── User B paga X PC
+              ├── 95% → User A (host)
+              └── 5% → Panda (ops)
+```
+
+**Pricing competitivo vs Google Cloud:**
+
+| Recurso                    | Google Cloud | Panda P2P        | Saving user |
+| -------------------------- | ------------ | ---------------- | ----------- |
+| GPU hora (RTX 3060 equiv.) | ~$0.50/h     | ~$0.30/h (30 PC) | ~40%        |
+| CPU vCore/hora             | ~$0.04/h     | ~$0.02/h (2 PC)  | ~50%        |
+| Storage GB/mês             | ~$0.02       | ~$0.01 (1 PC)    | ~50%        |
+
+> **Dev-first:** P2P Compute é mais barato que Google Cloud porque roda em hardware ocioso. O host ganha 95% e o consumidor paga menos. Panda é **Google-only** — sem AWS/Azure.
+
+### 17.14 Hold Strategy (Reserva Cripto → Token Futuro)
+
+Panda **não liquida 100%** da cripto minerada. A reserva tem **dupla função**:
+
+1. **Curto prazo:** Reserva monetária para estabilidade operacional
+2. **Longo prazo:** Backing para quando **PC se tornar um token real** (on-chain)
+
+| Fase          | Users  | Liquida | Hold | Lógica                                 |
+| ------------- | ------ | ------- | ---- | -------------------------------------- |
+| **Bootstrap** | 0-1k   | 70%     | 30%  | Cobrir custos iniciais                 |
+| **Growth**    | 1k-10k | 40%     | 60%  | Receitas orgânicas crescem             |
+| **Mature**    | 10k+   | 20%     | 80%  | Autossuficiente, reserva = backing     |
+| **Token**     | 100k+  | 10%     | 90%  | PC vira token, reserva = garantia real |
+
+> **Visão:** O user não recebe cripto hoje — recebe PC. Quando a base crescer e o PC virar token on-chain, a reserva de cripto acumulada vira o **backing real** do token. Quem minerou desde o início terá PCs que valem mais.
+
+### 17.15 Modelo Uber & Compliance
+
+> **Filosofia:** Modelo Uber — Panda é a plataforma, user fornece o ativo (hardware). User ganha para participar. Quanto mais nodes, mais Panda lucra. **Sem limites de farms.**
+
+| Regra                      | Descrição                                                          |
+| -------------------------- | ------------------------------------------------------------------ |
+| **Sem limite de hardware** | Processamento é adaptativo — qualquer máquina pode participar      |
+| **Nível adaptativo**       | Rust Agent ajusta carga conforme capacidade do hardware            |
+| **User controla**          | Nível de processamento pode ser ajustado ou desligado pelo user    |
+| **Sem limite de nodes**    | User pode conectar quantas máquinas quiser — Panda lucra em volume |
+| **Rigs remotas**           | Rigs dedicadas são bem-vindas (futuro cripto + aluguel)            |
+| **Benchmark automático**   | Tier assignment real via benchmark (Seed→Titan)                    |
+| **SLA Uptime Rewards**     | Bônus por manter node ligado 24/7 (ver §17.16)                     |
+| **LGPD**                   | Dados coletados sempre explícitos via warning na 1ª utilização     |
+| **Energy cost**            | User-side (modelo Uber) — estimativa visível no dashboard          |
+| **Sem garantia hardware**  | User assume risco do próprio hardware (modelo Uber)                |
+| **Phantom Protocol**       | 15% recursos sempre livres, suspensão <100ms em atividade          |
+| **Escalabilidade**         | PAT regula inflação automaticamente (Art. 1, teto 5%)              |
+
+### 17.16 SLA & Uptime Rewards
+
+Nodes com uptime consistente ganham **bônus progressivo** no fator de conversão:
+
+| Uptime (30 dias) | Bônus fator | Fator efetivo | Descrição             |
+| ---------------- | ----------- | ------------- | --------------------- |
+| < 50%            | 0%          | x0.60         | Fator base            |
+| 50-75%           | +2%         | x0.62         | Parceiro regular      |
+| 75-90%           | +5%         | x0.65         | Parceiro dedicado     |
+| 90-99%           | +8%         | x0.68         | Parceiro confiável    |
+| 99%+             | +10%        | x0.70         | Parceiro elite (24/7) |
+
+> **Incentivo:** Quanto mais tempo online, maior o fator. Isso incentiva nodes estáveis e beneficia users que mantêm máquinas dedicadas. O custo extra é absorvido pela maior produtividade do network.
+
+### 17.17 Segurança
+
+- 🖥️ **Rust-only**: Mineração executa APENAS no Rust Agent (nativo), nunca no browser
+- ⚠️ **Consentimento explícito** na instalação do Rust Agent
+- ⚠️ **Desativável a qualquer momento** via Settings → ⛏️ Mining
+- 📊 **Transparência total**: stats de ganho visíveis no painel Mining (web dashboard)
+- 🔒 **CPU Limit**: User controla quanto recurso destina (25-75%)
+- 💰 **Fator x0.60**: flat, transparente, sem tiers — parceria igualitária
+- 🔮 **Panda Oracle**: Agente monitora preços e processa pagamentos automaticamente
+- 📋 **Sem mineração oculta**: processo aparece claramente no SO (task manager)
+- 🏛️ **Isolamento fiscal**: User recebe PC (Energy Credits), Panda declara impostos
+
+---
+
+### 17.18 Contingência "Mining Zero"
+
+> **Ref:** Auditoria Econômica §14.1 | Aprovado: 2026-02-13
+
+Se a receita de mining **cair a zero**, o projeto sobrevive:
+
+```text
+CENÁRIO "MINING ZERO":
+
+RECEITA REMANESCENTE (sem mining):
+├── Store (módulos/themes): ~R$3.000/mês
+├── AI Compute (inference): ~R$2.500/mês
+├── P2P (comissões):        ~R$1.500/mês
+└── Licenças Enterprise:    ~R$500/mês
+    TOTAL SEM MINING:       ~R$7.500/mês
+
+CUSTOS OPERACIONAIS:
+├── Firebase (free tier):   R$0
+├── GAS (free tier):        R$0
+├── Domínio:                ~R$50/mês
+├── Misc:                   ~R$100/mês
+└── TOTAL CUSTOS:           ~R$150/mês
+
+CONCLUSÃO: Projeto SOBREVIVE sem mining.
+├── Backing on-chain atrasado em ~3-4× (R$840 vs R$4.890/mês)
+├── Timeline on-chain: 24 meses → ~72 meses
+└── MITIGAÇÃO: Compensar com crescimento agressivo da Store/AI
+```
+
+| Métrica                     | Valor                                  |
+| --------------------------- | -------------------------------------- |
+| **Receita mínima survival** | R$7.500/mês                            |
+| **Trigger de alerta**       | Mining < 30% da receita total          |
+| **Ação automática**         | PAT ativa "Plan B" (prioriza Store/AI) |
+
+---
+
+### 17.19 Compliance Fiscal (IN RFB nº 1.888/2019)
+
+> **Ref:** Auditoria Econômica §14.2
+
+> [!NOTE]
+> **Esta seção é um mapeamento inicial informativo.** O CNAE, regime tributário e obrigações específicas serão aprofundados com contador e advogado tributarista na hora certa. O conteúdo abaixo serve como base de partida pra essa conversa futura — não como decisão final.
+
+```text
+IN 1888/2019 — MAPEAMENTO PRELIMINAR:
+
+1. DECLARAÇÃO MENSAL à Receita Federal:
+   ├── Obrigatória se operações > R$30.000/mês via exchange estrangeira/P2P
+   ├── Prazo: último dia útil do mês subsequente
+   └── Exchange BR declara automaticamente (pra operações via exchange nacional)
+
+2. IMPOSTOS INCIDENTES (sobre receita de mining):
+   ├── IRPJ — Imposto sobre Renda PJ
+   ├── CSLL — Contribuição Social s/ Lucro Líquido
+   ├── PIS — Programa de Integração Social
+   └── COFINS — Financiamento da Seguridade Social
+
+3. CNAE — NÃO existe código específico pra mining de cripto
+   ├── Opções: "Prestação de Serviços de TI" ou "Atividades de Tecnologia"
+   ├── NOTA: CNAE 6311-9/00 (Tratamento de dados) é candidato inicial
+   ├── Existem mais CNAEs aplicáveis — será aprofundado na hora certa
+   └── Decisão final requer análise contábil completa
+
+4. REGIME TRIBUTÁRIO (mapeamento):
+   ├── Faturamento < R$4.8M/ano → SIMPLES NACIONAL
+   │   └── Anexo V (Serviços de TI): 15.50% a 30.50% alíquota efetiva
+   ├── Faturamento R$4.8M-R$78M → LUCRO PRESUMIDO
+   │   └── Base: 32% × Receita Bruta | IRPJ 15% + CSLL 9% + PIS 0.65% + COFINS 3%
+   └── Faturamento > R$78M → LUCRO REAL (obrigatório)
+
+5. USER NÃO DECLARA DARF:
+   ├── User recebe PC (Energy Credits), NÃO cripto
+   ├── PC off-chain = ponto digital, não ativo financeiro
+   ├── Isolamento fiscal via modelo PJ (Panda minera, user recebe PC)
+   └── ⚠️ VALIDAR com advogado tributarista se PC pode ser reclassificado
+```
+
+> [!NOTE]
+> **Consultoria tributária:** Será necessária na hora certa (estimar R$2-5k). Esta seção é uma nota inicial pra informar essa conversa futura. Não é urgente pra MVP.
+
+---
+
+### 17.20 Monitor de Inflação & Regulação PAT
+
+> **Ref:** Auditoria Econômica §14.3 | Art.1 (teto 5% inflação)
+
+```text
+MODELO DE BREAK-EVEN — QUEIMA vs EMISSÃO:
+
+EMISSÃO (Mining → PC):
+├── 100 users mining × 30 PC/dia × 30 dias = 90.000 PC/mês
+├── 500 users = 450.000 PC/mês
+├── 1000 users = 900.000 PC/mês
+└── Emissão escala LINEAR com users minerando
+
+QUEIMA (Store + AI → Burn PC):
+├── Store: avg 50 PC/compra × 3 compras/mês/user = 150 PC/user/mês
+├── AI Inference: avg 5 PC/dia × 30 dias = 150 PC/user/mês
+├── TOTAL por user ativo: ~300 PC/mês (se usa Store E AI)
+└── Queima escala com users ATIVOS (não mineradores)
+
+BREAK-EVEN P/ 1000 MINERADORES:
+├── Emissão: 900.000 PC/mês
+├── Queima necessária: ≥ 900.000 PC/mês
+├── Users ativos necessários: 900.000 ÷ 300 = 3.000 users
+├── RATIO MÍNIMO: 3 users ativos : 1 minerador
+└── Se ratio < 3:1, inflação > 0 → PAT intervém (Art.1)
+
+PAT INTERVENTION (Art.1 teto 5%):
+├── Se inflação > 5%, PAT ativa Burn automático da reserva
+├── Redução do fator mining (x0.60 → x0.55 → x0.50)
+├── Nuclear: pausar onboarding de novos mineradores
+│
+├── 🔧 AJUSTE DECIMAL (mecanismo PAT adicional):
+│   ├── PAT pode AUMENTAR ou REDUZIR casas decimais do PC
+│   ├── Inflação alta → PC ganha casas (1.00 PC → 1.0000 PC)
+│   │   └── Efeito: granularidade maior, preços menores por unidade
+│   ├── Deflação excessiva → PC perde casas (1.0000 → 1.00)
+│   │   └── Efeito: simplifica UX, preços maiores por unidade
+│   └── Regulador suave: não muda supply, muda PERCEPÇÃO do valor
+│
+└── SLA BONUS (x0.60→x0.70) — MANTIDO COM CONTROLES:
+    ├── Mecanismo: bônus progressivo por uptime (ver §17.16)
+    ├── Controle 1: PAT pode suspender bônus se inflação > 5%
+    ├── Controle 2: cap máximo do bônus = +10% (x0.70 absoluto)
+    ├── Controle 3: GAS cron monitora impacto do SLA no supply
+    └── Controle 4: dashboard público mostra custo real do SLA
+```
+
+| Ferramenta            | Trigger                       | Efeito                         |
+| --------------------- | ----------------------------- | ------------------------------ |
+| **Inflation Monitor** | GAS cron job semanal          | Calcula ratio emissão/queima   |
+| **Auto-throttle**     | Ratio < 3:1 por 30 dias       | Reduz fator mining em 5%       |
+| **Decimal shift**     | Inflação/deflação persistente | Ajusta casas decimais do PC    |
+| **SLA suspend**       | Inflação > 5%                 | Suspende bônus, todos em x0.60 |
+| **Dashboard público** | Sempre ativo                  | "Emissão vs Queima" no Header  |
+
+---
+
+### 17.21 Estratégia de Market Making (DEX)
+
+> **Ref:** Auditoria Econômica §14.4 | Aplicável mês 24 (on-chain)
+
+```text
+FASE 1: LAUNCH (mês 24 — on-chain)
+├── Plataforma: Raydium (Solana AMM) — melhor ecossistema pra SPL tokens
+├── Par: PC/USDC (USDC > DAI no Solana)
+├── Fee tier: 1% (recomendado pra small-cap volátil)
+├── Liquidez inicial: 20% da reserva stablecoin (~R$29k USDC + PC equivalente)
+├── Concentrated range: PC $0.008 - $0.015 (±50% do peg $0.01)
+└── Custo de setup: ~$50 em SOL (gas Solana é barato)
+
+FASE 2: GROWTH (mês 25-30)
+├── Rebalanceamento automático via Kamino Finance (Solana ALM)
+├── Amplia range pra $0.005 - $0.025 conforme volume cresce
+├── Meta: slippage < 1% em trades < $500
+└── Custo mensal: ~$10 em gas + Kamino fee ~0.1%
+
+MM ALGORÍTMICO (PAT como Market Maker):
+├── PAT atua como MM via smart contract
+│   ├── Compra PC quando preço < $0.009 (suporte)
+│   ├── Vende PC da reserva quando preço > $0.012 (resistência)
+│   └── Budget mensal: 10% da receita de queima em BRL
+└── Escalar pra MM profissional quando volume > $100k/dia
+```
+
+---
+
+### 17.22 Vesting Schedule (Supply Panda)
+
+> **Ref:** Auditoria Econômica §14.5 | Framework adaptável
+
+```text
+4M PC DO PANDA NO LAUNCH — DISTRIBUIÇÃO:
+
+┌─────────────────────────────────────────────────────────────┐
+│  30% QUEIMA IMEDIATA (1.2M PC) — Day 1 on-chain            │
+│  ├── Burned via smart contract público e verificável        │
+│  ├── Supply circulante reduz permanentemente                │
+│  └── Sinal de confiança pro mercado                         │
+├─────────────────────────────────────────────────────────────┤
+│  40% LOCK 2 ANOS (1.6M PC) — Timelock smart contract        │
+│  ├── Transfer bloqueado por contrato on-chain               │
+│  ├── Verificável por qualquer pessoa (Solana Explorer)      │
+│  ├── Desbloqueio linear: 5% a cada trimestre após 2 anos   │
+│  └── Uso: backing buffer, emergência, expansão              │
+├─────────────────────────────────────────────────────────────┤
+│  30% GOVERNANÇA/REWARDS (1.2M PC) — Liberação gradual      │
+│  ├── 50% pra pool DEX (liquidez)                            │
+│  ├── 30% pra rewards (educação, bounties, early adopters)   │
+│  └── 20% pra PAT Burns (anti-inflação)                     │
+└─────────────────────────────────────────────────────────────┘
+
+RESULTADO PÓS-LAUNCH:
+├── Supply circulante: 10M - 1.2M (burned) = 8.8M PC
+├── Panda unlocked: 1.2M (governança) = 13.6% do supply
+├── Panda locked: 1.6M (timelock 2y) = 18.2% (não vendável)
+└── Percepção: Panda "controla" apenas 13.6% → aceitável
+```
+
+> [!NOTE]
+> O mercado pode expandir absurdamente — nesse cenário, os números absolutos mudam mas as proporções se mantêm. No momento o cenário é tranquilo. O interesse real e a dinâmica de mercado serão avaliados conforme o projeto escala. Este vesting é um framework, não regra final.
+
+**Implementação:** Smart contract Anchor (Solana) com Timelock público.
+
+---
+
+### 17.23 Migração Off-Chain → On-Chain
+
+> **Ref:** Auditoria Econômica §14.6
+
+```text
+PROCESSO DE 4 ETAPAS:
+
+ETAPA 1: SNAPSHOT (D-30 antes do launch)
+├── Firebase RTDB exporta todos os saldos PC
+├── Formato JSON: { wallet: Ed25519_pubkey, balance: PC_amount }
+├── Snapshot publicado no IPFS/Arweave (imutável)
+├── Hash SHA-256 do snapshot publicado no Solana (registro permanente)
+└── Users podem verificar seu saldo no dashboard antes do launch
+
+ETAPA 2: MINT SPL TOKEN (D-7)
+├── Deploy PC-Token como SPL Token no Solana Mainnet
+├── Mint authority: Founder Ed25519 (vira wallet Solana)
+├── Total mint: exatamente o total de PC no snapshot
+├── Mint authority revocada após distribuição completa
+└── Metadata: Nome "Panda Coin", Symbol "PC", decimals 6
+
+ETAPA 3: CLAIM PERIOD (D-Day → D+180)
+├── Claim site dedicado (pandafactory.io/claim)
+├── User conecta wallet (Phantom/Backpack)
+├── Verifica eligibilidade via Merkle Tree (ZK compressed)
+├── Claim gera ATA (Associated Token Account) + transfer
+├── Custo pra Panda: ~$0.001/claim via ZK compression (Helius)
+└── Pra 100k users: ~$100 total (vs ~$50k sem compression)
+
+ETAPA 4: DEADLINE + UNCLAIMED (D+180)
+├── Após 180 dias: claim encerra
+├── PC não-migrado → queimado da mint (supply permanentemente reduzido)
+├── Efeito: deflacionário — unclaimed vira queima involuntária
+├── Estimativa: 10-20% dos users não migram → burns ~1-2M PC
+└── Alternativa: grace period de +90 dias via governança DAO
+```
+
+| Etapa    | Timeline      | Ação                                    |
+| -------- | ------------- | --------------------------------------- |
+| Snapshot | D-30          | Exportar Firebase → IPFS/Arweave        |
+| Mint SPL | D-7           | Deploy token Solana + publicar metadata |
+| Claim    | D-Day → D+180 | Site de claim com ZK compression        |
+| Deadline | D+180         | Queima de PC não-migrado                |
+
+---
+
+> 📖 **Versão:** 4.2.0 | **Consolidado:** TOKENOMICS + PAT + GOVERNANCE + SYSTEM DESIGN + MODULE REVENUE + MINING + COMPLIANCE FISCAL + INFLATION MONITOR + MARKET MAKING + VESTING + MIGRAÇÃO | **Auditoria:** 2026-02-13

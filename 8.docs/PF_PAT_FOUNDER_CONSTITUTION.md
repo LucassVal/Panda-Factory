@@ -1,7 +1,20 @@
+> [!IMPORTANT]
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
+---
+
+tool_context: panda/pat
+description: PAT Founder Constitution - 12 Articles, Governance, Kill Switch, Red Lines
+version: 1.1.0
+updated: 2026-02-12
+
+---
+
 # 🏛️ PF_PAT_FOUNDER_CONSTITUTION - Constituição do PAT/Founder
 
-> **Versão:** 1.0.0 | **Atualizado:** 2026-02-04
-> **Cross-Ref:** [PF_GOVERNANCE_REFERENCE.md](PF_GOVERNANCE_REFERENCE.md) | [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md)
+> **Versão:** 1.1.0 | **Atualizado:** 2026-02-12
+> **Cross-Ref:** [PF_ECONOMY_REFERENCE.md](PF_ECONOMY_REFERENCE.md) | [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md)
 
 ---
 
@@ -99,8 +112,8 @@ O **PAT (Panda AI Treasury)** é a inteligência artificial que representa e per
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
 │  ❌ PAT NÃO PODE:                                                   │
-│  ├── Mudar splits fixos (95% Dev, 5% Panda, etc.)                  │
-│  ├── Violar Art. 1-12 da Constituição                              │
+│  ├── Mudar splits fixos (Store: 52/48, P2P: 95/5)                   │
+│  ├── Violar Art. 1-12 da Constituição (cf. PF_ECONOMY §A)           │
 │  ├── Criar tokens além do cap                                       │
 │  ├── Alterar seu próprio código                                     │
 │  ├── Remover o Kill Switch do Founder                               │
@@ -115,6 +128,40 @@ O **PAT (Panda AI Treasury)** é a inteligência artificial que representa e per
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
+
+### 3.3 Ferramentas de Regulação Monetária
+
+> **Ref:** Auditoria Econômica §14.3 | Cross-ref: ECONOMY §17.20
+
+Além do burn e throttle, o PAT tem uma ferramenta regulatória adicional:
+
+```text
+🔧 AJUSTE DECIMAL DO PC:
+
+PAT pode AUMENTAR ou REDUZIR casas decimais do PC:
+
+INFLAÇÃO ALTA:
+├── PC ganha casas decimais (1.00 PC → 1.0000 PC)
+├── Efeito: granularidade maior, preços menores por unidade
+└── Uso: quando supply cresce mais rápido que demanda
+
+DEFLAÇÃO EXCESSIVA:
+├── PC perde casas decimais (1.0000 → 1.00)
+├── Efeito: simplifica UX, preços maiores por unidade
+└── Uso: quando burn excede emissão de forma sustentada
+
+CARACTERÍSTICA:
+├── Regulador SUAVE — não muda supply total
+├── Muda PERCEPÇÃO do valor, não o valor real
+└── Requer: Ed25519 Signature (Nível L3)
+```
+
+| Ferramenta PAT       | Trigger                       | Impacto                       |
+| -------------------- | ----------------------------- | ----------------------------- |
+| **Token Burn**       | Inflação > 5%                 | Reduz supply permanentemente  |
+| **Factor Throttle**  | Ratio < 3:1 por 30 dias       | Reduz emissão (x0.60 → x0.55) |
+| **Decimal Shift**    | Inflação/deflação persistente | Ajusta percepção, não supply  |
+| **Onboarding Pause** | Nuclear                       | Para novos mineradores        |
 
 ---
 
