@@ -1125,7 +1125,7 @@ Upload e gerenciamento de vídeos.
 | `getChannel()`            | `Promise<Channel>` | Info do canal   |
 | `listVideos(channelId?)`  | `Promise<Video[]>` | Lista vídeos    |
 
-> 📍 **Localização:** `5.tentacles/google/` (parent + 7 children)
+> 📍 **Localização:** `5.tentacles/5.2.google/` (parent + 7 children)
 
 ---
 
@@ -1245,25 +1245,15 @@ Upload e gerenciamento de vídeos.
 
 ```text
 5.tentacles/                         # 9 Integration Modules
-├── brain/                            ← AI/ML
+├── 5.1.brain/                        ← AI/ML
 │   ├── pf.brain-parent.js
-│   └── children/
+│   └── 5.1.1.children/
 │       ├── gemini.js                 ← Gemini API
 │       ├── local-llm.js              ← Ollama/LM Studio
 │       └── gpu.js                    ← WebGPU detection
-├── social/                           ← Social Media
-│   ├── pf.social-parent.js
-│   └── children/
-│       ├── whatsapp.js               ← Evolution API/Baileys
-│       ├── twitter.js
-│       ├── youtube.js
-│       └── meta.js
-├── trading/                          ← Financial Markets
-│   ├── pf.trading-parent.js
-│   └── children/ctrader.js           ← cTrader Open API
-├── google/                           ← Google Services
+├── 5.2.google/                       ← Google Services
 │   ├── pf.google-parent.js
-│   └── children/
+│   └── 5.2.1.children/
 │       ├── drive.js
 │       ├── sheets.js
 │       ├── colab.js
@@ -1271,9 +1261,19 @@ Upload e gerenciamento de vídeos.
 │       ├── docs.js
 │       ├── gmail.js
 │       └── youtube.js
-├── distribution/                     ← App Publishing
+├── 5.3.social/                       ← Social Media
+│   ├── pf.social-parent.js
+│   └── 5.3.1.children/
+│       ├── whatsapp.js               ← Evolution API/Baileys
+│       ├── twitter.js
+│       ├── youtube.js
+│       └── meta.js
+├── 5.4.trading/                      ← Financial Markets
+│   ├── pf.trading-parent.js
+│   └── 5.4.1.children/ctrader.js     ← cTrader Open API
+├── 5.5.distribution/                 ← App Publishing
 │   ├── pf.distribution-parent.js
-│   └── children/
+│   └── 5.5.1.children/
 │       ├── pwa.js
 │       ├── itch.js
 │       ├── steam.js
@@ -1281,21 +1281,21 @@ Upload e gerenciamento de vídeos.
 │       ├── npm.js
 │       ├── vscode.js
 │       └── arcade.js
-├── education/                        ← EdTech Platforms
+├── 5.6.education/                    ← EdTech Platforms
 │   ├── pf.education-parent.js
-│   └── children/
+│   └── 5.6.1.children/
 │       ├── kiwify.js
 │       ├── hotmart.js
 │       └── eduzz.js
-├── github/                           ← GitHub Integration
+├── 5.7.github/                       ← GitHub Integration
 │   ├── pf.github-parent.js
-│   └── children/
+│   └── 5.7.1.children/
 │       ├── pages.js                  ← GitHub Pages deploy
 │       ├── database.js               ← JSON as database
 │       └── actions.js                ← CI/CD workflows
-├── p2p/                              ← P2P Compute Network
+├── 5.8.p2p/                          ← P2P Compute Network
 │   └── pf.p2p-parent.js
-└── monitor/                          ← System Health
+└── 5.9.monitor/                      ← System Health
     └── pf.tentacle-monitor.js        ← Real-time logging
 ```
 

@@ -1,11 +1,14 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** CONTEXT.md §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
 tool_context: panda/files
 description: Catálogo de arquivos - 220+ arquivos GAS, Rust, JS, HTML, CSS, MD
 version: 2.5.0
 updated: 2026-02-10
+
 ---
 
 # 📁 PF_FILE_REGISTRY - Catálogo de Arquivos
@@ -114,7 +117,7 @@ updated: 2026-02-10
 
 ---
 
-## 📚 Documentação (18 arquivos em 8.docs/)
+## 📚 Documentação (16 arquivos em 8.docs/)
 
 | Arquivo                          | Descrição                        |
 | -------------------------------- | -------------------------------- |
@@ -134,8 +137,6 @@ updated: 2026-02-10
 | `PF_MEDUSA_REFERENCE.md`         | Marketplace Store                |
 | `PF_OPENSOURCE_CATALOG.md`       | Catálogo OSS                     |
 | `PF_PAT_FOUNDER_CONSTITUTION.md` | Constituição PAT + Founder       |
-| `README_PANDA_OFICIAL.md`        | README principal do projeto      |
-| `NPM_INSTALL_LIST.md`            | Lista de dependências npm        |
 
 ---
 
@@ -304,7 +305,7 @@ updated: 2026-02-10
 | ------------------------ | ------------------ |
 | `PandaFactory.html`      | App principal      |
 | `index.html`             | Landing page       |
-| `11.pf-app/index.html`      | Vite entry point   |
+| `11.pf-app/index.html`   | Vite entry point   |
 | `founder-dashboard.html` | Dashboard fundador |
 
 ### Pitch Decks
@@ -366,7 +367,7 @@ updated: 2026-02-10
 | `FounderDashboardPopout.jsx` | Pop-out Document PiP                                         |
 | `CheckoutModal.jsx`          | Checkout v2.0 (Medusa type badge, ratings, USD-FIRST)        |
 | `LoginGate.jsx`              | Gate de autenticação                                         |
-| `LoginModal.jsx`             | Modal de login                                               |
+| `PFLoginModal.jsx`           | Modal de login                                               |
 | `DevModePanel.jsx`           | DevTools (Console, MCP, API Tester)                          |
 | `PATCouncilPanel.jsx`        | 🏛️ Panda Council (PAT Governance)                            |
 | `BundleCreator.jsx`          | Criador de bundles                                           |
@@ -530,11 +531,11 @@ updated: 2026-02-10
 
 ## 📦 Dependências (Não listadas individualmente)
 
-| Pasta                    | Conteúdo      | Regenerar            |
-| ------------------------ | ------------- | -------------------- |
-| `node_modules/`          | ~50k NPM deps | `npm install`        |
-| `11.pf-app/node_modules/`   | Jam deps      | `cd 11.pf-app && npm i` |
-| `7.7.rust-agent/target/` | Build cache   | `cargo build`        |
+| Pasta                     | Conteúdo      | Regenerar               |
+| ------------------------- | ------------- | ----------------------- |
+| `node_modules/`           | ~50k NPM deps | `npm install`           |
+| `11.pf-app/node_modules/` | Jam deps      | `cd 11.pf-app && npm i` |
+| `7.7.rust-agent/target/`  | Build cache   | `cargo build`           |
 
 ---
 

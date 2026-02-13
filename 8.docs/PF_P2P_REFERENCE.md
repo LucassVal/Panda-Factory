@@ -438,15 +438,15 @@ const P2P_SPLIT = {
 
 ### Arquivos Necessários
 
-| Arquivo                                 | Tipo | Descrição           |
-| --------------------------------------- | ---- | ------------------- |
-| `7.rust-agent/src/node.rs`              | Rust | Node manager        |
-| `7.rust-agent/src/mining.rs`            | Rust | Mining/heartbeat    |
-| `7.rust-agent/src/task.rs`              | Rust | Task fractionation  |
-| `1.core/domains/compute/PF_Nodes.gs`    | GAS  | Node registry       |
-| `1.core/domains/compute/PF_Mining.gs`   | GAS  | Reward distribution |
-| `1.core/domains/compute/PF_Tasks.gs`    | GAS  | Task scheduler      |
-| `5.tentacles/compute/pf.node-parent.js` | JS   | Node SDK            |
+| Arquivo                                | Tipo | Descrição           |
+| -------------------------------------- | ---- | ------------------- |
+| `7.rust-agent/src/node.rs`             | Rust | Node manager        |
+| `7.rust-agent/src/mining.rs`           | Rust | Mining/heartbeat    |
+| `7.rust-agent/src/task.rs`             | Rust | Task fractionation  |
+| `1.core/domains/compute/PF_Nodes.gs`   | GAS  | Node registry       |
+| `1.core/domains/compute/PF_Mining.gs`  | GAS  | Reward distribution |
+| `1.core/domains/compute/PF_Tasks.gs`   | GAS  | Task scheduler      |
+| `5.tentacles/5.8.p2p/pf.p2p-parent.js` | JS   | Node SDK            |
 
 ### API Endpoints
 

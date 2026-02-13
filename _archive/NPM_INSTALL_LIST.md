@@ -1,6 +1,16 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
+---
+
+tool_context: panda/npm
+description: NPM Dependencies - Complete install list for all Panda Factory modules
+version: 1.0.0
+updated: 2026-02-12
+
+---
+
 # 📦 PANDA FACTORY - LISTA COMPLETA DE DEPENDÊNCIAS
 
 > **Fonte:** `docs/PF_OPENSOURCE_CATALOG.md`  

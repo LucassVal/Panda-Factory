@@ -1,11 +1,21 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
+tool_context: panda/architecture
+description: Master Architecture - Full system design, hubs, infrastructure, and technical specifications
+version: 3.0.0
+updated: 2026-02-12
+
+---
+
 tool_context: panda/master
 description: Panda OS Complete Architecture - Frontend, SDK, Backend 3-Pillar Stack
-version: 5.2.0
-updated: 2026-02-10
+version: 6.5.0
+updated: 2026-02-12
+
 ---
 
 # 🐼 Panda OS - Arquitetura Completa
@@ -112,7 +122,7 @@ updated: 2026-02-10
 │  ├── 📁 8.docs/                    # 📚 16 reference documents             │
 │  │   ├── PF_MASTER_ARCHITECTURE.md # 🏛️ Este documento                    │
 │  │   ├── PF_SDK_REFERENCE.md       # 📖 SDK API                            │
-│  │   └── README_PANDA_OFICIAL.md   # 📋 Quick Start                        │
+│  │   └── PF_OPENSOURCE_CATALOG.md  # 📋 Deps & Quick Install              │
 │  │                                                                          │
 │  ├── 📁 9.tools/                   # 🔧 Dev utilities & scripts            │
 │  │   └── (39 scripts Python/PS1/Bat)                                        │
@@ -323,36 +333,45 @@ O Panda Factory opera em **DOIS MODOS** completamente funcionais:
 │  ┌──────────────────────────┐                                          │
 │  │ • MCP Server nativo      │                                          │
 │  │ • GPU/CUDA local         │                                          │
-│  │ • Mining / Partner Mode  │                                          │
+│  │ • Mining / Partner Mode  │ ← RUST-ONLY (nunca browser)             │
 │  │ • AI Offline (Whisper)   │                                          │
 │  │ • RPA / Automação        │                                          │
 │  │ • Multi-Window (PiP API) │                                          │
+│  │ • Panda Oracle (preços)  │ ← Monitora crypto, calcula PC líquido   │
 │  └──────────────────────────┘                                          │
 │                                                                         │
 │  🔓 FUNCIONALIDADES EXCLUSIVAS DESKTOP:                                │
 │  ├── GPU Local (CUDA, Vulkan, WebGPU)                                  │
-│  ├── Mining / Partner Mode (ganhar Panda Credits)                      │
+│  ├── Mining / Partner Mode (Rust-only, fator x0.60)                    │
+│  │   ├── Executa APENAS via Rust Agent (binário nativo)                │
+│  │   ├── Web UI = painel de controle remoto (não executa mining)       │
+│  │   ├── Panda Oracle aplica fator x0.60 → 60% user (PC), 40% Panda   │
+│  │   ├── 40% cobre: impostos BR + ops + hold reserve + treasury        │
+│  │   ├── Hold Strategy: Panda não liquida 100% (reserva valoriza)      │
+│  │   └── Payout: end-of-day ou a cada X horas, manual claim            │
 │  ├── RPA / Automação Desktop (click, screen_capture)                   │
 │  ├── AI Local Offline (Whisper, NLLB - 140MB + 600MB)                  │
 │  ├── MCP Tools nativos (fs_read, fs_write, terminal)                   │
 │  └── Multi-Window Pop-out (Document Picture-in-Picture API)            │
+│                                                                         │
+│  📖 Mining detalhado: PF_ECONOMY_REFERENCE.md §17                      │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Comparativo Web vs Desktop
 
-| Aspecto           | 🌐 Modo Web              | 🦀 Modo Desktop               |
-| ----------------- | ------------------------ | ----------------------------- |
-| **Instalação**    | Zero (PWA)               | ~30MB + downloads             |
-| **AI**            | Gemini Cloud (via GAS)   | Cloud + Local (Whisper, NLLB) |
-| **MCP**           | Via panda.mcp.json + GAS | Nativo Rust (mais tools)      |
-| **GPU**           | Apenas detecção          | CUDA, Mining, AI local        |
-| **Partner Mode**  | ❌                       | ✅ Ganhar Panda Credits       |
-| **RPA/Automação** | ❌                       | ✅ click, fs, terminal        |
-| **Multi-Window**  | ❌                       | ✅ Document PiP               |
-| **Custo infra**   | $0/mês                   | $0/mês                        |
-| **Offline**       | Parcial (PWA)            | 100% (modelos locais)         |
+| Aspecto           | 🌐 Modo Web              | 🦀 Modo Desktop                 |
+| ----------------- | ------------------------ | ------------------------------- |
+| **Instalação**    | Zero (PWA)               | ~30MB + downloads               |
+| **AI**            | Gemini Cloud (via GAS)   | Cloud + Local (Whisper, NLLB)   |
+| **MCP**           | Via panda.mcp.json + GAS | Nativo Rust (mais tools)        |
+| **GPU**           | Apenas detecção          | CUDA, Mining, AI local          |
+| **Partner Mode**  | ❌ (Rust-only)           | ✅ Mining x0.60 → 60% user (PC) |
+| **RPA/Automação** | ❌                       | ✅ click, fs, terminal          |
+| **Multi-Window**  | ❌                       | ✅ Document PiP                 |
+| **Custo infra**   | $0/mês                   | $0/mês                          |
+| **Offline**       | Parcial (PWA)            | 100% (modelos locais)           |
 
 > **📌 Importante:** O fluxo `manifest.json → PWA → GAS → Firebase` é a base do ecossistema.
 > A maioria dos plugins funcionam perfeitamente no Modo Web.
@@ -953,7 +972,7 @@ window.PandaDevTools = {
 | `components/Comp_DevToolsDock.html` | Dock lateral com ícones               |
 | `4.ui/pf.devtools.js`               | Lógica DevTools v2.0                  |
 | `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout`   |
-| `11.pf-app/src/styles/pf.css`          | Design System principal (1961 linhas) |
+| `11.pf-app/src/styles/pf.css`       | Design System principal (1961 linhas) |
 
 ### 3.4. Sistema de Ícones (Logo Kit) 🎨
 
@@ -1229,15 +1248,15 @@ window.Panda = {
 
 ```text
 5.tentacles/
-├── brain/      ← AI/ML (Gemini, LocalLLM)
-├── social/     ← WhatsApp, Twitter, Meta
-├── trading/    ← cTrader Open API
-├── google/     ← Drive, Sheets, Colab
-├── distribution/ ← PWA, Steam, itch.io
-├── education/  ← Kiwify, Hotmart, Eduzz
-├── github/     ← Pages, JSON DB, Actions
-├── p2p/        ← 🌐 P2P Compute Network
-└── monitor/    ← System Health
+├── 5.1.brain/      ← AI/ML (Gemini, LocalLLM)
+├── 5.2.google/     ← Drive, Sheets, Colab
+├── 5.3.social/     ← WhatsApp, Twitter, Meta
+├── 5.4.trading/    ← cTrader Open API
+├── 5.5.distribution/ ← PWA, Steam, itch.io
+├── 5.6.education/  ← Kiwify, Hotmart, Eduzz
+├── 5.7.github/     ← Pages, JSON DB, Actions
+├── 5.8.p2p/        ← 🌐 P2P Compute Network
+└── 5.9.monitor/    ← System Health
 ```
 
 > 📖 **Detalhes completos:** [PF_SDK_REFERENCE.md](PF_SDK_REFERENCE.md)
@@ -2180,6 +2199,8 @@ Exemplo: $0.0025/PC custo × 4.0 = $0.01/PC (1 centavo)
 | **Founder (Lucas)**   | 5%            | 0%                  | 0%           |
 | **Gateway/GAS**       | 3%            | 0%                  | 3%           |
 
+> **Mining Split:** Para o split de receita de Mining, ver `PF_ECONOMY_REFERENCE.md §17` — modelo canônico x0.60 (60% User + 17% Impostos + 10% Ops + 7% Hold + 5% Treasury + 1% Founder).
+
 > **Nota - Lógica de Distribuição P2P (Hardcoded):**
 > A taxa total flutua entre **5% (Base)** e **10% (Teto)**. O Host tem blindagem mínima de 90%.
 >
@@ -2417,7 +2438,7 @@ Um único mercado para todos, com descontos automáticos por volume histórico.
 | `PF_UI_REFERENCE.md`        | Design System (CSS + HTML + JAM)     |
 | `PF_SECURITY_REFERENCE.md`  | Regras Semgrep + Defend              |
 | `PF_ECONOMY_REFERENCE.md`   | Tokenomics + PAT + Governance        |
-| `README_PANDA_OFICIAL.md`   | Entry point MCP para IAs             |
+| `.agent/CONTEXT.md`         | Entry point MCP para IAs             |
 
 ---
 
@@ -2463,15 +2484,15 @@ Um tentáculo é um módulo independente que se conecta ao Panda via `TentacleRe
 
 ```text
 5.tentacles/
-└── {nome}/
-    ├── manifest.json          ← MCP Manifest (validado pelo SecurityAgent)
-    ├── {nome}-parent.js       ← Entry point (registra no TentacleRegistry)
-    ├── children/              ← Sub-módulos opcionais
+└── 5.N.{nome}/
+    ├── manifest.json              ← MCP Manifest (validado pelo SecurityAgent)
+    ├── pf.{nome}-parent.js        ← Entry point (registra no TentacleRegistry)
+    ├── 5.N.1.children/            ← Sub-módulos opcionais
     │   ├── child-a.js
     │   └── child-b.js
-    ├── ui/                    ← Componentes visuais (se houver)
+    ├── ui/                        ← Componentes visuais (se houver)
     │   └── Mod_{Nome}_View.html
-    └── docs/                  ← Documentação do tentáculo
+    └── docs/                      ← Documentação do tentáculo
         └── README.md
 ```
 
@@ -2501,7 +2522,7 @@ Um tentáculo é um módulo independente que se conecta ao Panda via `TentacleRe
 | **Social**        | Redes sociais, marketing    | Plugins por plataforma          |
 | **Finance**       | Trading, crypto, pagamentos | Integrações de gateway          |
 
-> 📖 **Cada tentáculo mantém sua própria documentação em `5.tentacles/{nome}/docs/`**
+> 📖 **Cada tentáculo mantém sua própria documentação em `5.tentacles/5.N.{nome}/docs/`**
 > O Core não documenta módulos específicos — apenas a interface genérica.
 
 ---
@@ -2787,9 +2808,9 @@ DEPOIS do Panda App Factory:
 ### 24.4. Arquivos do GitHub Tentacle
 
 ```
-5.tentacles/github/
+5.tentacles/5.7.github/
 ├── pf.github-parent.js       (295 lines) - API Core
-└── children/
+└── 5.7.1.children/
     ├── database.js           (313 lines) - JSON as DB
     ├── pages.js              (216 lines) - Static Hosting
     └── actions.js            (263 lines) - Serverless
@@ -3323,12 +3344,12 @@ Panda.Google.Drive.search(query); // Busca
 
 ### 9.4. Implementação
 
-| Layer    | File                               | Description                            |
-| -------- | ---------------------------------- | -------------------------------------- |
-| **GAS**  | `1.core/domains/p2p/PF_P2P.gs`     | P2PService (register, heartbeat, task) |
-| **SDK**  | `5.tentacles/p2p/pf.p2p-parent.js` | pf.p2p.\* API                          |
-| **Rust** | `7.7.rust-agent/src/node.rs`       | NodeManager, tier detection            |
-| **Rust** | `7.7.rust-agent/src/mining.rs`     | Mining integration                     |
+| Layer    | File                                   | Description                            |
+| -------- | -------------------------------------- | -------------------------------------- |
+| **GAS**  | `1.core/domains/p2p/PF_P2P.gs`         | P2PService (register, heartbeat, task) |
+| **SDK**  | `5.tentacles/5.8.p2p/pf.p2p-parent.js` | pf.p2p.\* API                          |
+| **Rust** | `7.7.rust-agent/src/node.rs`           | NodeManager, tier detection            |
+| **Rust** | `7.7.rust-agent/src/mining.rs`         | Mining integration                     |
 
 ### 9.5. API Summary
 

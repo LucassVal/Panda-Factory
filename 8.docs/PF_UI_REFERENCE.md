@@ -678,7 +678,6 @@ const isLight = document.body.classList.contains("light-mode");
 □ NÃO existe botão fullscreen (removido)
 ```
 
-
 ## 11. Footer (v6.5)
 
 > **CSS:** `pf.css` — seção `.pf-footer`
@@ -734,6 +733,7 @@ const isLight = document.body.classList.contains("light-mode");
 ```
 
 ---
+
 ---
 
 ## Links Relacionados
@@ -1350,7 +1350,7 @@ body.light-mode {
 │   ├── CheckoutModal.jsx       # Checkout v2.0 (Medusa badges)
 │   ├── PluginManifestEditor.jsx # Plugin editor
 │   ├── PanicButton.jsx         # Kill switch
-│   ├── LoginModal.jsx          # Auth modal
+│   ├── PFLoginModal.jsx        # Auth modal
 │   └── LoginGate.jsx           # Auth gate
 └── hooks/
     ├── useAuth.jsx             # Auth provider
@@ -1389,7 +1389,7 @@ body.light-mode {
 | `PFProductDetail.jsx`       | Product Detail Page com embed links           |
 | `PFCatalog.jsx`             | Catálogo instalados                           |
 | `FounderDashboardModal.jsx` | Dashboard founder                             |
-| `LoginModal.jsx`            | Login Google/Email                            |
+| `PFLoginModal.jsx`          | Login Google/Email                            |
 
 ### Hooks
 

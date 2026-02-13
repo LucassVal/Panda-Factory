@@ -703,6 +703,7 @@ TIER 5: INDEXEDDB (offline total) — $0/mês
 ---
 
 > 📖 **Versão:** 2.2.0 | **Consolidado:** BACKEND + Módulos Avançados + Cache Jitter + Fallback Cost Analysis
+
 ---
 
 ## 📎 Links de Código
@@ -720,7 +721,7 @@ TIER 5: INDEXEDDB (offline total) — $0/mês
 ### Components
 
 - [PFStatusBar.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.pf-app/src/components/PFStatusBar.jsx)
-- [LoginModal.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.pf-app/src/components/LoginModal.jsx)
+- [PFLoginModal.jsx](file:///c:/Users/Lucas%20Valério/Desktop/Panda%20Factory/11.pf-app/src/components/PFLoginModal.jsx)
 
 ---
 
@@ -947,5 +948,3 @@ pub async fn get_with_cache<T>(key: &str, fetcher: impl Fn() -> T) -> T {
 | Profile | 1 hora | ✅ 25% | ✅       | Dados de usuário  |
 | Balance | 5 min  | ✅ 50% | ❌       | Saldo PC          |
 | Prices  | 1 min  | ✅ 30% | ✅       | Cotação USD       |
-
-
