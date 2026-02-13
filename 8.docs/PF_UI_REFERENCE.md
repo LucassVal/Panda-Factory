@@ -1,4 +1,4 @@
-> [!IMPORTANT]
+﻿> [!IMPORTANT]
 > **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
 > **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
 
@@ -678,6 +678,62 @@ const isLight = document.body.classList.contains("light-mode");
 □ NÃO existe botão fullscreen (removido)
 ```
 
+
+## 11. Footer (v6.5)
+
+> **CSS:** `pf.css` — seção `.pf-footer`
+> **JSX:** `App.jsx` — watermark + TLDraw + Medusa attribution
+> **⚠️ Posicionamento:** Document flow (`flex-shrink: 0`), NÃO `position: fixed`
+
+```css
+/* ⚠️ AUDITADO 2026-02-12 — footer está no document flow, NÃO é fixed */
+.pf-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 16px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--pf-text-muted);
+  opacity: 0.5;
+  background: var(--pf-elevation-0, #1a1a2e);
+  border-top: 1px solid var(--pf-border);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+```
+
+**Conteúdo:** `• 🐼 PANDA FABRICS • POWERED BY TLDRAW • 🐙 MEDUSA • v6.5`
+
+| Classe               | Função                             |
+| -------------------- | ---------------------------------- |
+| `.pf-footer-accent`  | Dot decorativo (4px, gradient)     |
+| `.pf-footer-version` | Badge de versão (fundo azul sutil) |
+
+---
+
+## 12. Status Indicator States (v6.3)
+
+> **CSS:** `pf.css` — seção `.pf-status-dot`
+> **Hook:** `useHealthStatus.js` → mapeia status → classe CSS
+
+| Estado          | Classe CSS     | Cor       | Glow            | Uso                       |
+| --------------- | -------------- | --------- | --------------- | ------------------------- |
+| **Online**      | `.online`      | `#10b981` | green glow 8px  | Serviço conectado         |
+| **Warning**     | `.warning`     | `#f59e0b` | amber glow 8px  | Latência alta / degraded  |
+| **Offline**     | `.offline`     | `#ef4444` | red glow 8px    | Serviço caiu / erro       |
+| **Unavailable** | `.unavailable` | `#6b7280` | grey subtle 4px | Recurso não presente (GP) |
+
+```css
+/* GP "unavailable" — grey pulsing dot, distinct from red "offline" */
+.pf-status-dot.unavailable {
+  background: #6b7280;
+  animation: pf-pulse-grey 3s ease-in-out infinite;
+}
+```
+
+---
 ---
 
 ## Links Relacionados
@@ -1564,62 +1620,6 @@ closeAppWindow("google-drive");
 .pf-catalog-name {
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-```
-
----
-
-## 11. Footer (v6.5)
-
-> **CSS:** `pf.css` — seção `.pf-footer`
-> **JSX:** `App.jsx` — watermark + TLDraw + Medusa attribution
-> **⚠️ Posicionamento:** Document flow (`flex-shrink: 0`), NÃO `position: fixed`
-
-```css
-/* ⚠️ AUDITADO 2026-02-12 — footer está no document flow, NÃO é fixed */
-.pf-footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 6px 16px;
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: var(--pf-text-muted);
-  opacity: 0.5;
-  background: var(--pf-elevation-0, #1a1a2e);
-  border-top: 1px solid var(--pf-border);
-  flex-shrink: 0;
-  text-transform: uppercase;
-}
-```
-
-**Conteúdo:** `• 🐼 PANDA FABRICS • POWERED BY TLDRAW • 🐙 MEDUSA • v6.5`
-
-| Classe               | Função                             |
-| -------------------- | ---------------------------------- |
-| `.pf-footer-accent`  | Dot decorativo (4px, gradient)     |
-| `.pf-footer-version` | Badge de versão (fundo azul sutil) |
-
----
-
-## 12. Status Indicator States (v6.3)
-
-> **CSS:** `pf.css` — seção `.pf-status-dot`
-> **Hook:** `useHealthStatus.js` → mapeia status → classe CSS
-
-| Estado          | Classe CSS     | Cor       | Glow            | Uso                       |
-| --------------- | -------------- | --------- | --------------- | ------------------------- |
-| **Online**      | `.online`      | `#10b981` | green glow 8px  | Serviço conectado         |
-| **Warning**     | `.warning`     | `#f59e0b` | amber glow 8px  | Latência alta / degraded  |
-| **Offline**     | `.offline`     | `#ef4444` | red glow 8px    | Serviço caiu / erro       |
-| **Unavailable** | `.unavailable` | `#6b7280` | grey subtle 4px | Recurso não presente (GP) |
-
-```css
-/* GP "unavailable" — grey pulsing dot, distinct from red "offline" */
-.pf-status-dot.unavailable {
-  background: #6b7280;
-  animation: pf-pulse-grey 3s ease-in-out infinite;
 }
 ```
 

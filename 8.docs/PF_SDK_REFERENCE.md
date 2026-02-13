@@ -1,11 +1,14 @@
 > [!IMPORTANT]
-> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e Panda Council.
-> **Ativação:** /panda-council | **SSoT:** README_PANDA_OFICIAL.md | **Salve o que fez em Council Report.**
+> **🐼 ANTES DE QUALQUER AÇÃO:** Leia .agent/CONTEXT.md — contém estrutura, regras, nomenclatura e governança.
+> **SSoT Master:** CONTEXT.md §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
+
 ---
+
 tool_context: panda/sdk
 description: Panda SDK - Event Bus, Módulos, Tentáculos, i18n, Hooks, DRM
 version: 1.5.0
 updated: 2026-02-08
+
 ---
 
 # 🐼 Panda SDK - Referência da Biblioteca
@@ -1237,12 +1240,6 @@ Upload e gerenciamento de vídeos.
 > 📖 **Arquitetura Completa:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md)
 
 ---
-
-## Tentacle Architecture
-
-> **Consolidado de:** PF_MASTER_ARCHITECTURE.md §4.3
-
-A arquitetura de extensões do SDK é baseada em "Tentáculos" - módulos de integração.
 
 ### Estrutura de Arquivos
 

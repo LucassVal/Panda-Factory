@@ -1,4 +1,4 @@
-> [!IMPORTANT]
+﻿> [!IMPORTANT]
 > **🐼 ANTES DE QUALQUER AÇÃO:** Leia `.agent/CONTEXT.md` — contém estrutura, regras, nomenclatura e governança.
 > **SSoT Master:** `CONTEXT.md` §5 (Sistema Montesquieu) | Cada doc tem jurisdição única.
 
@@ -711,7 +711,7 @@ Panda.Events.replayBalance = async (userId) => {
 
 ---
 
-## 12. Arquitetura Client-Side First
+## 11. Arquitetura Client-Side First
 
 > **Filosofia:** "O Browser faz 90% do trabalho. Cloud só para sync e billing."
 
@@ -750,9 +750,9 @@ Panda.Events.replayBalance = async (userId) => {
 
 ---
 
-## 13. Capacidade de Infraestrutura
+## 12. Capacidade de Infraestrutura
 
-### 13.1 Limites Free Tier
+### 12.1 Limites Free Tier
 
 | Serviço                | Limite Gratuito         | Uso Real no Panda        |
 | ---------------------- | ----------------------- | ------------------------ |
@@ -761,7 +761,7 @@ Panda.Events.replayBalance = async (userId) => {
 | **Google Apps Script** | 90min/dia exec          | Billing, PAT (ocasional) |
 | **Sheets como DB**     | 10M células             | Transações, usuários     |
 
-### 13.2 Capacidade Estimada
+### 12.2 Capacidade Estimada
 
 ```text
 📊 FREE TIER (Custo $0)
@@ -778,7 +778,7 @@ COM RUST AGENT (Processamento Local):
 └── Custo: $0 (P2P compute se monetiza sozinho)
 ```
 
-### 13.3 Gargalos Reais
+### 12.3 Gargalos Reais
 
 | Gargalo                   | Limite           | Solução                 |
 | ------------------------- | ---------------- | ----------------------- |
@@ -788,11 +788,11 @@ COM RUST AGENT (Processamento Local):
 
 ---
 
-## 14. Modelo de Compartilhamento Gemini API
+## 13. Modelo de Compartilhamento Gemini API
 
 > **Filosofia:** "Founder fornece a base (IA), Devs produzem o meio, Users consomem o fim."
 
-### 14.1 Tiers de Acesso à IA
+### 13.1 Tiers de Acesso à IA
 
 | Nível                 | Quem            | Modelo      | Quota Diária | Fonte            |
 | --------------------- | --------------- | ----------- | ------------ | ---------------- |
@@ -801,7 +801,7 @@ COM RUST AGENT (Processamento Local):
 | **Nível 1 (Founder)** | Lucas Valério   | Todos       | ∞            | Própria          |
 | **BYOL**              | Qualquer        | Qualquer    | ∞            | Própria API Key  |
 
-### 14.2 Estimativa de Usuários por Quota
+### 13.2 Estimativa de Usuários por Quota
 
 ```text
 Flash 3.0: 300,000 tokens/dia (conta Founder)
@@ -815,7 +815,7 @@ Pro (para devs): +100,000 tokens/dia
 TOTAL SEM BYOL: ~400 pessoas/dia usando IA compartilhada
 ```
 
-### 14.3 BYOL (Bring Your Own License)
+### 13.3 BYOL (Bring Your Own License)
 
 > **Escopo:** BYOL aplica-se a **software/serviços que rodam via Panda** — NÃO a IA (que já roda localmente via Rust Agent + Ollama/LM Studio por padrão, $0). Na prática, poucos casos se aplicam pois a IDE é local-first.
 
@@ -873,11 +873,11 @@ TOTAL SEM BYOL: ~400 pessoas/dia usando IA compartilhada
 
 ---
 
-## 15. Founder Dashboard (Monitors)
+## 14. Founder Dashboard (Monitors)
 
 > **Objetivo:** Visibilidade total do ecossistema para o Founder (Camada 1).
 
-### 15.1 Painéis Sugeridos
+### 14.1 Painéis Sugeridos
 
 | Painel                | Métricas                                   | Prioridade |
 | --------------------- | ------------------------------------------ | :--------: |
@@ -890,7 +890,7 @@ TOTAL SEM BYOL: ~400 pessoas/dia usando IA compartilhada
 | **User Funnel**       | Signups, Activation, Retention, Churn      |  🟢 Baixa  |
 | **Revenue Dashboard** | PC Sales, Subscriptions, P2P Fees          |  🟢 Baixa  |
 
-### 15.2 Mockup do Dashboard
+### 14.2 Mockup do Dashboard
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -1265,11 +1265,11 @@ async function retryWithBackoff(fn, options = {}) {
 
 ---
 
-## 16. Module Revenue Model (Taxonomia de Módulos)
+## 15. Module Revenue Model (Taxonomia de Módulos)
 
 > **Adicionado:** 2026-02-12 | **Cross-Ref:** [PF_MEDUSA_REFERENCE.md §10](PF_MEDUSA_REFERENCE.md) | [PF_P2P_REFERENCE.md §3](PF_P2P_REFERENCE.md)
 
-### 16.1 Quatro Tiers de Módulo
+### 15.1 Quatro Tiers de Módulo
 
 | Tier            | Badge   | Preço       | Custo PC               | Revenue Model                                       |
 | --------------- | ------- | ----------- | ---------------------- | --------------------------------------------------- |
@@ -1280,7 +1280,7 @@ async function retryWithBackoff(fn, options = {}) {
 
 > **Regra de ouro:** O Panda **nunca cobra mensalidade ou listing fees.** Receita vem apenas do split 52% dev / 48% Panda sobre módulos pagos. Custos módicos. Aliado do dev.
 
-### 16.2 Fluxo de Receita por Tier
+### 15.2 Fluxo de Receita por Tier
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -1302,7 +1302,7 @@ async function retryWithBackoff(fn, options = {}) {
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 16.3 Badge ⛏️ MINE-OK
+### 15.3 Badge ⛏️ MINE-OK
 
 Badge especial que indica módulos com preço alcançável em ≤30 dias de mining Seed-tier:
 
@@ -1316,7 +1316,7 @@ Badge especial que indica módulos com preço alcançável em ≤30 dias de mini
 
 > O badge `⛏️ MINE-OK` torna módulos efetivamente **gratuitos** para Partner users que minam continuamente.
 
-### 16.4 Relação Mining → Store
+### 15.4 Relação Mining → Store
 
 | Fonte Mining             | PC/dia (est.) | Poder de Compra na Store |
 | ------------------------ | ------------- | ------------------------ |
@@ -1328,12 +1328,12 @@ Badge especial que indica módulos com preço alcançável em ≤30 dias de mini
 
 ---
 
-## 17. Rust Mining Node (Partner Mode) — Economia x0.60
+## 16. Rust Mining Node (Partner Mode) — Economia x0.60
 
 > **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md](PF_MASTER_ARCHITECTURE.md) §Desktop Mode, [PF_P2P_REFERENCE.md](PF_P2P_REFERENCE.md) §Partner Mode
 > **Versão:** 4.0.0 | **Fator:** x0.60 flat | **Filosofia:** Dev-first, parceria sem segregação
 
-### 17.1 Visão Geral
+### 15.1 Visão Geral
 
 O **Rust Agent** (binário nativo, Tauri) inclui capacidade de mineração via Partner Mode.
 Quando ativado, utiliza CPU/GPU ociosa para minerar criptomoeda (XMR via RandomX, ETH via Ethash).
@@ -1342,7 +1342,7 @@ Quando ativado, utiliza CPU/GPU ociosa para minerar criptomoeda (XMR via RandomX
 
 > **⚠️ Princípio:** Partner Mode é **SEMPRE opt-in**. Nunca ativado por padrão. Avisos claros na instalação. Sem tiers/segregação — todos recebem o mesmo fator x0.60.
 
-### 17.2 Papel do Panda Factory
+### 16.2 Papel do Panda Factory
 
 Panda Factory atua como **intermediário + operador fiscal (PJ)** e é o **minerador legal**:
 
@@ -1360,7 +1360,7 @@ Panda Factory atua como **intermediário + operador fiscal (PJ)** e é o **miner
 >
 > **Visão futuro:** A arquitetura já prevê que Panda possa operar rigs próprias e/ou criar pool dedicado — especialmente para o futuro do ecossistema cripto e aluguel de processamento.
 
-### 17.3 Arquitetura: Rust-Only Mining
+### 16.3 Arquitetura: Rust-Only Mining
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -1397,7 +1397,7 @@ Panda Factory atua como **intermediário + operador fiscal (PJ)** e é o **miner
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 17.4 Fator de Conversão x0.60
+### 16.4 Fator de Conversão x0.60
 
 O user recebe **60% do valor bruto minerado** convertido em PC. Os 40% retidos cobrem:
 
@@ -1428,7 +1428,7 @@ Onde:
 
 > **Transparência:** O fator x0.60 é flat e igual pra todos. Cobre impostos brasileiros, conversão, infraestrutura e manutenção do ecossistema. Sem tiers, sem segregação — parceria.
 
-### 17.5 Panda Oracle (Agente de Monitoramento)
+### 16.5 Panda Oracle (Agente de Monitoramento)
 
 O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de mining:
 
@@ -1440,7 +1440,7 @@ O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de m
 | **Conversão Cripto → PC**    | Converte saldo via taxa do dia e credita no User Wallet       |
 | **Payout Scheduling**        | Executa pagamento no ciclo configurado                        |
 
-### 17.6 Ciclos de Pagamento (Payout)
+### 16.6 Ciclos de Pagamento (Payout)
 
 | Ciclo             | Quando                     | Descrição                                    |
 | ----------------- | -------------------------- | -------------------------------------------- |
@@ -1448,7 +1448,7 @@ O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de m
 | **Every X hours** | Configurável: 6h, 12h, 24h | Payout mais frequente, preço spot no momento |
 | **Manual Claim**  | A qualquer momento         | User solicita payout antecipado (mín. 5 PC)  |
 
-### 17.7 Fluxo de Consentimento
+### 16.7 Fluxo de Consentimento
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -1480,7 +1480,7 @@ O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de m
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 17.8 Configurações do User
+### 16.8 Configurações do User
 
 | Configuração | Default    | Range          | Descrição                         |
 | ------------ | ---------- | -------------- | --------------------------------- |
@@ -1489,7 +1489,7 @@ O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de m
 | GPU Mining   | OFF        | ON/OFF         | Usa GPU além de CPU (maior ganho) |
 | Payout Cycle | End-of-Day | 6h / 12h / 24h | Frequência de pagamento ao wallet |
 
-### 17.9 Ganhos Estimados por Hardware (Fator x0.60)
+### 16.9 Ganhos Estimados por Hardware (Fator x0.60)
 
 > **Nota:** Valores calculados como 60% do bruto minerado. Fator flat para todos.
 
@@ -1500,7 +1500,7 @@ O **Panda Oracle** é um agente autônomo que monitora e processa os ganhos de m
 | 🌳 Tree (i7, RTX 3060)   | 75%       | ON  | ~217 PC   | **~130 PC**             | 5+ módulos/mês    |
 | 🌲 Forest (i9, RTX 4080) | 75%       | ON  | ~500 PC   | **~300 PC**             | Premium tudo      |
 
-### 17.10 Distribuição de Receita Mining
+### 16.10 Distribuição de Receita Mining
 
 ```text
 Crypto Minerada pelo Rust Agent
@@ -1517,7 +1517,7 @@ Crypto Minerada pelo Rust Agent
            └──  ~5% Treasury (crescimento + fundo incentivo)
 ```
 
-### 17.11 Hooks Internos (PC como Salário)
+### 16.11 Hooks Internos (PC como Salário)
 
 > **Princípio:** PC é a **moeda/salário do user**. Quando gasta, é uso legítimo — não "volta ao treasury". PC circula como qualquer moeda numa economia real.
 
@@ -1543,7 +1543,7 @@ USER minera ──▶ ganha PC (x0.60) ──▶ USA como SALÁRIO
 | **P2P Compute**      | User submete task (render, ML)   | PC debita → paga Host    | 95% host / 5% Panda      |
 | **Premium Features** | BYOL tools, export, etc.         | PC debita → custo uso    | 100% Panda               |
 
-### 17.12 Gateways de Entrada
+### 16.12 Gateways de Entrada
 
 > **Clarificação:** Mining não é foco de hooks externos. Mining existe para **fomentar o node** — Panda é um ecossistema SaaS. A mineração incentiva users a manter nodes ativos que beneficiam todo o ecossistema.
 
@@ -1568,7 +1568,7 @@ USER minera ──▶ ganha PC (x0.60) ──▶ USA como SALÁRIO
 
 > **Visão de longo prazo:** PC é **closed-loop na Fase 1** — gasta só dentro do ecossistema. Na Fase 2, **PC se torna um token real** — esse é um dos motivos estratégicos da Hold Reserve: construir reserva monetária para backing do token futuro.
 
-### 17.13 Machine Rental (Aluguel via Rust Agent)
+### 16.13 Machine Rental (Aluguel via Rust Agent)
 
 O Rust Agent permite que users **aluguem hardware ocioso** para outros users. **Foco principal: integração Google.**
 
@@ -1598,7 +1598,7 @@ USER A (tem GPU ociosa)              USER B (precisa de GPU)
 
 > **Dev-first:** P2P Compute é mais barato que Google Cloud porque roda em hardware ocioso. O host ganha 95% e o consumidor paga menos. Panda é **Google-only** — sem AWS/Azure.
 
-### 17.14 Hold Strategy (Reserva Cripto → Token Futuro)
+### 16.14 Hold Strategy (Reserva Cripto → Token Futuro)
 
 Panda **não liquida 100%** da cripto minerada. A reserva tem **dupla função**:
 
@@ -1614,7 +1614,7 @@ Panda **não liquida 100%** da cripto minerada. A reserva tem **dupla função**
 
 > **Visão:** O user não recebe cripto hoje — recebe PC. Quando a base crescer e o PC virar token on-chain, a reserva de cripto acumulada vira o **backing real** do token. Quem minerou desde o início terá PCs que valem mais.
 
-### 17.15 Modelo Uber & Compliance
+### 16.15 Modelo Uber & Compliance
 
 > **Filosofia:** Modelo Uber — Panda é a plataforma, user fornece o ativo (hardware). User ganha para participar. Quanto mais nodes, mais Panda lucra. **Sem limites de farms.**
 
@@ -1633,7 +1633,7 @@ Panda **não liquida 100%** da cripto minerada. A reserva tem **dupla função**
 | **Phantom Protocol**       | 15% recursos sempre livres, suspensão <100ms em atividade          |
 | **Escalabilidade**         | PAT regula inflação automaticamente (Art. 1, teto 5%)              |
 
-### 17.16 SLA & Uptime Rewards
+### 16.16 SLA & Uptime Rewards
 
 Nodes com uptime consistente ganham **bônus progressivo** no fator de conversão:
 
@@ -1647,7 +1647,7 @@ Nodes com uptime consistente ganham **bônus progressivo** no fator de conversã
 
 > **Incentivo:** Quanto mais tempo online, maior o fator. Isso incentiva nodes estáveis e beneficia users que mantêm máquinas dedicadas. O custo extra é absorvido pela maior produtividade do network.
 
-### 17.17 Segurança
+### 16.17 Segurança
 
 - 🖥️ **Rust-only**: Mineração executa APENAS no Rust Agent (nativo), nunca no browser
 - ⚠️ **Consentimento explícito** na instalação do Rust Agent
@@ -1661,7 +1661,7 @@ Nodes com uptime consistente ganham **bônus progressivo** no fator de conversã
 
 ---
 
-### 17.18 Contingência "Mining Zero"
+### 16.18 Contingência "Mining Zero"
 
 > **Ref:** Auditoria Econômica §14.1 | Aprovado: 2026-02-13
 
@@ -1698,7 +1698,7 @@ CONCLUSÃO: Projeto SOBREVIVE sem mining.
 
 ---
 
-### 17.19 Compliance Fiscal (IN RFB nº 1.888/2019)
+### 16.19 Compliance Fiscal (IN RFB nº 1.888/2019)
 
 > **Ref:** Auditoria Econômica §14.2
 
@@ -1744,7 +1744,7 @@ IN 1888/2019 — MAPEAMENTO PRELIMINAR:
 
 ---
 
-### 17.20 Monitor de Inflação & Regulação PAT
+### 16.20 Monitor de Inflação & Regulação PAT
 
 > **Ref:** Auditoria Econômica §14.3 | Art.1 (teto 5% inflação)
 
@@ -1801,7 +1801,7 @@ PAT INTERVENTION (Art.1 teto 5%):
 
 ---
 
-### 17.21 Estratégia de Market Making (DEX)
+### 16.21 Estratégia de Market Making (DEX)
 
 > **Ref:** Auditoria Econômica §14.4 | Aplicável mês 24 (on-chain)
 
@@ -1830,7 +1830,7 @@ MM ALGORÍTMICO (PAT como Market Maker):
 
 ---
 
-### 17.22 Vesting Schedule (Supply Panda)
+### 16.22 Vesting Schedule (Supply Panda)
 
 > **Ref:** Auditoria Econômica §14.5 | Framework adaptável
 
@@ -1869,7 +1869,7 @@ RESULTADO PÓS-LAUNCH:
 
 ---
 
-### 17.23 Migração Off-Chain → On-Chain
+### 16.23 Migração Off-Chain → On-Chain
 
 > **Ref:** Auditoria Econômica §14.6
 
