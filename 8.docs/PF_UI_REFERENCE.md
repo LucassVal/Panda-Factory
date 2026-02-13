@@ -1328,39 +1328,42 @@ body.light-mode {
 ├── main.jsx                     # Entry point React
 ├── App.jsx                      # Main app v6.5
 ├── components/
-│   ├── PFCanvas.jsx            # TLDraw canvas
-│   ├── PFDock.jsx              # Left dock v6.2 (5 itens)
-│   ├── PFStatusBar.jsx         # Top status bar v6.3
-│   ├── PFNotifications.jsx     # Notification center v1.0
-│   ├── PFChat.jsx              # AI chat floating v1.2 (trail bubble)
-│   ├── PFSettings.jsx          # Settings modal
-│   ├── PFStore.jsx             # Store modal
-│   ├── PFCatalog.jsx           # Catalog modal
-│   ├── PFRightToolbar.jsx      # Drawing tools
-│   ├── PFHeader.jsx            # (legacy header)
-│   ├── FloatingAppWindow.jsx   # FlexLayout multi-window
-│   ├── FounderDashboard.jsx    # Founder dashboard
-│   ├── FounderDashboardModal.jsx # Founder modal
-│   ├── FounderDashboardPopout.jsx # Popout variant
-│   ├── FinancePanel.jsx        # Treasury/finance
-│   ├── DevModePanel.jsx        # Dev mode panel
-│   ├── PATCouncilPanel.jsx     # PAT Council
-│   ├── PandaDefendDashboard.jsx # Security dashboard
-│   ├── BundleCreator.jsx       # Bundle creation
-│   ├── CheckoutModal.jsx       # Checkout v2.0 (Medusa badges)
-│   ├── PluginManifestEditor.jsx # Plugin editor
-│   ├── PanicButton.jsx         # Kill switch
-│   ├── PFLoginModal.jsx        # Auth modal
-│   └── LoginGate.jsx           # Auth gate
+│   ├── PFCanvas.jsx              # tldraw wrapper
+│   ├── PFDock.jsx                # 5 itens v6.2
+│   ├── PFStatusBar.jsx           # Top bar v6.3
+│   ├── PFStore.jsx               # Medusa Store v4.0
+│   ├── PFSettings.jsx + .css     # Configurações
+│   ├── PFChat.jsx                # AI Chat (Gemini)
+│   ├── PFCatalog.jsx             # Apps instalados
+│   ├── PFRightToolbar.jsx        # Toolbar direita (drawing tools)
+│   ├── PFNotifications.jsx + .css # Centro de notificações
+│   ├── PFWindowManager.jsx       # FlexLayout multi-window
+│   ├── PFHeader.jsx              # (legacy header)
+│   ├── PFFounderDashboard.jsx + .css # Founder dashboard
+│   ├── PFFounderModal.jsx + .css  # Founder modal
+│   ├── PFFounderPopout.jsx + .css # Popout variant
+│   ├── PFFinancePanel.jsx + .css  # Treasury/finance
+│   ├── PFGasometerPanel.jsx + .css # GAS usage monitor
+│   ├── PFDevModePanel.jsx + .css  # Dev mode panel
+│   ├── PFCouncilPanel.jsx + .css  # PAT Council
+│   ├── PFDefendDashboard.jsx + .css # Security dashboard
+│   ├── PFBundleCreator.jsx + .css # Bundle creation
+│   ├── PFCheckoutModal.jsx + .css # Checkout v2.0 (Medusa badges)
+│   ├── PFProductDetail.jsx + .css # Product Detail Page
+│   ├── PFPluginEditor.jsx + .css  # Plugin manifest editor
+│   ├── PFPanicButton.jsx + .css   # Kill switch
+│   ├── PFLoginModal.jsx + .css    # Auth modal
+│   └── PFLoginGate.jsx            # Auth gate
 └── hooks/
-    ├── useAuth.jsx             # Auth provider
-    ├── useFirebase.js          # Firebase connection
-    ├── useGAS.js               # GAS endpoints
-    ├── useHealthStatus.js      # Health polling
-    ├── useFounderMetrics.js    # Dashboard metrics
-    ├── useMarketplace.js       # Marketplace hooks
-    ├── useCheckout.js          # Checkout hooks
-    └── useLandingPage.js       # Landing page hooks
+    ├── useAuth.jsx               # Auth provider
+    ├── useFirebase.js            # Firebase connection
+    ├── useGAS.js                 # GAS endpoints
+    ├── useHealthStatus.js        # Health polling
+    ├── useFounderMetrics.js      # Dashboard metrics
+    ├── useMarketplace.js         # Marketplace hooks
+    ├── useCheckout.js            # Checkout hooks
+    ├── useGasometer.js           # GAS usage hooks
+    └── useLandingPage.js         # Landing page hooks
 ```
 
 > [!IMPORTANT]
@@ -1371,25 +1374,34 @@ body.light-mode {
 
 ### Core Layout
 
-| Componente              | Função                       |
-| ----------------------- | ---------------------------- |
-| `App.jsx`               | Container principal v6.5     |
-| `PFCanvas.jsx`          | Canvas tldraw wrapper        |
-| `PFDock.jsx`            | Dock esquerda v6.2 (5 itens) |
-| `PFStatusBar.jsx`       | Status bar topo v6.3         |
-| `PFNotifications.jsx`   | Centro de notificações v1.0  |
-| `FloatingAppWindow.jsx` | Multi-window (flexlayout)    |
+| Componente            | Função                       |
+| --------------------- | ---------------------------- |
+| `App.jsx`             | Container principal v6.5     |
+| `PFCanvas.jsx`        | Canvas tldraw wrapper        |
+| `PFDock.jsx`          | Dock esquerda v6.2 (5 itens) |
+| `PFStatusBar.jsx`     | Status bar topo v6.3         |
+| `PFRightToolbar.jsx`  | Toolbar direita (draw tools) |
+| `PFNotifications.jsx` | Centro de notificações v1.0  |
+| `PFWindowManager.jsx` | Multi-window (flexlayout)    |
 
 ### Modals
 
-| Componente                  | Função                                        |
-| --------------------------- | --------------------------------------------- |
-| `PFSettings.jsx`            | Configurações                                 |
-| `PFStore.jsx`               | Loja Medusa v4.0 (12 extensões, PDP + embeds) |
-| `PFProductDetail.jsx`       | Product Detail Page com embed links           |
-| `PFCatalog.jsx`             | Catálogo instalados                           |
-| `FounderDashboardModal.jsx` | Dashboard founder                             |
-| `PFLoginModal.jsx`          | Login Google/Email                            |
+| Componente               | Função                                        |
+| ------------------------ | --------------------------------------------- |
+| `PFSettings.jsx`         | Configurações                                 |
+| `PFStore.jsx`            | Loja Medusa v4.0 (12 extensões, PDP + embeds) |
+| `PFProductDetail.jsx`    | Product Detail Page com embed links           |
+| `PFCatalog.jsx`          | Catálogo instalados                           |
+| `PFCheckoutModal.jsx`    | Checkout v2.0 (Medusa badges)                 |
+| `PFFounderDashboard.jsx` | Dashboard founder                             |
+| `PFFounderModal.jsx`     | Founder modal wrapper                         |
+| `PFFounderPopout.jsx`    | Document PiP pop-out                          |
+| `PFLoginModal.jsx`       | Login Google/Email                            |
+| `PFGasometerPanel.jsx`   | Monitor de uso GAS                            |
+| `PFFinancePanel.jsx`     | Treasury/finance panel                        |
+| `PFBundleCreator.jsx`    | Criador de bundles                            |
+| `PFPanicButton.jsx`      | Kill switch (emergência)                      |
+| `PFPluginEditor.jsx`     | Editor de manifest de plugins                 |
 
 ### Hooks
 
@@ -1402,6 +1414,7 @@ body.light-mode {
 | `useFounderMetrics.js` | v1.1   | Dashboard + Telemetry              |
 | `useMarketplace.js`    | v1.0   | Marketplace hooks                  |
 | `useCheckout.js`       | v1.0   | Checkout flow                      |
+| `useGasometer.js`      | v1.0   | GAS usage monitor hooks            |
 | `useLandingPage.js`    | v1.0   | Landing page state                 |
 
 ## D.3 App.jsx v6.5 Structure
@@ -1418,18 +1431,20 @@ body.light-mode {
       </PFWindowManager>
       <PFDock /> {/* Left */}
       <PFRightToolbar /> {/* Right (when open) */}
-      <PFChat /> {/* Floating */}
+      <PFChat /> {/* Floating FAB */}
       <PFSettings /> {/* Modal */}
       <PFCatalog /> {/* Modal */}
-      <PFStore /> {/* Modal */}
-      <FounderDashboard /> {/* Modal (if founder) */}
-      <DevModePanel /> {/* Floating (if dev) */}
-      <PATCouncilPanel /> {/* Floating (if dev) */}
+      <PFStore /> {/* Modal (conditional) */}
+      <PFNotifications /> {/* Panel */}
+      <GasometerPanel /> {/* Modal (conditional) */}
       <footer /> {/* Watermark */}
     </AppContent>
   </LoginGate>
 </AuthProvider>
 ```
+
+> [!NOTE]
+> `FounderDashboard`, `DevModePanel`, `PATCouncilPanel` abrem como **tabs no canvas** via `openAppWindow()`, não como componentes diretos no JSX.
 
 > [!WARNING]
 > **`<StatusBar />`** foi removido. Não re-adicionar.
@@ -1571,17 +1586,17 @@ O sistema multi-janela utiliza `flexlayout-react` para abrir apps **DENTRO** do 
 
 ### Componentes
 
-| Arquivo                 | Componente        | Função                                     |
-| ----------------------- | ----------------- | ------------------------------------------ |
-| `FloatingAppWindow.jsx` | `PFWindowManager` | Layout docking (flexlayout-react)          |
-| `App.jsx`               | `AppContent`      | Wiring factory + handlers                  |
-| `PFCatalog.jsx`         | `PFCatalog`       | Lista apps instalados (vazio por padrão)   |
-| `PFDock.jsx`            | `PFDock`          | Context menu: ABRIR / FECHAR / DESINSTALAR |
+| Arquivo               | Componente        | Função                                     |
+| --------------------- | ----------------- | ------------------------------------------ |
+| `PFWindowManager.jsx` | `PFWindowManager` | Layout docking (flexlayout-react)          |
+| `App.jsx`             | `AppContent`      | Wiring factory + handlers                  |
+| `PFCatalog.jsx`       | `PFCatalog`       | Lista apps instalados (vazio por padrão)   |
+| `PFDock.jsx`          | `PFDock`          | Context menu: ABRIR / FECHAR / DESINSTALAR |
 
 ### SDK API (v6.0)
 
 ```javascript
-import { openAppWindow, closeAppWindow } from "./components/FloatingAppWindow";
+import { openAppWindow, closeAppWindow } from "./components/PFWindowManager";
 
 // Abrir app como aba no canvas
 openAppWindow("google-drive");
@@ -1625,4 +1640,4 @@ closeAppWindow("google-drive");
 
 ---
 
-> 📖 **Versão:** 2.10.0 | **Atualizado:** 2026-02-10 | **Auditado contra:** `pf.css` (~3030 linhas), `PFStatusBar.jsx` (v6.3 +🔔), `PFDock.jsx` (v6.2, 5 itens), `App.jsx` (v6.4)
+> 📖 **Versão:** 2.11.0 | **Atualizado:** 2026-02-13 | **Auditado contra:** `pf.css` (~3030 linhas), `PFStatusBar.jsx` (v6.3 +🔔), `PFDock.jsx` (v6.2, 5 itens), `App.jsx` (v6.5), 42 componentes, 9 hooks
