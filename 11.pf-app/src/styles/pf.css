@@ -406,7 +406,7 @@ body {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: 999;
+  z-index: 50;
   background-image:
     linear-gradient(rgba(102, 126, 234, 0.25) 1px, transparent 1px),
     linear-gradient(90deg, rgba(102, 126, 234, 0.25) 1px, transparent 1px);
@@ -422,7 +422,7 @@ body {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: 999;
+  z-index: 50;
   background-image:
     linear-gradient(rgba(180, 180, 190, 0.4) 1px, transparent 1px),
     linear-gradient(90deg, rgba(180, 180, 190, 0.4) 1px, transparent 1px);
@@ -688,6 +688,15 @@ body {
 .pf-store-card:hover {
   border-color: var(--pf-accent);
   transform: translateY(-4px);
+}
+
+.pf-store-card-clickable {
+  cursor: pointer;
+  flex: 1;
+}
+
+.pf-store-card-clickable:hover .pf-store-card-name {
+  color: var(--pf-accent);
 }
 
 .pf-store-card-icon {
@@ -2922,11 +2931,20 @@ body.light-mode .pf-footer-version {
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2), 0 0 16px rgba(255, 214, 0, 0.06);
 }
 
-/* Popular Badge */
-.card-badge {
+/* Badge Container — stacks badges vertically at top-right */
+.card-badges {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  z-index: 2;
+}
+
+/* Individual Badge */
+.card-badge {
   font-size: 10px;
   padding: 2px 8px;
   background: rgba(255, 214, 0, 0.12);
@@ -2934,6 +2952,7 @@ body.light-mode .pf-footer-version {
   border-radius: 10px;
   font-weight: 600;
   border: 1px solid rgba(255, 214, 0, 0.15);
+  white-space: nowrap;
 }
 
 /* Type Badge */
@@ -3443,3 +3462,284 @@ body.light-mode .pf-header-actions .pf-header-btn:hover { color: #1a1a2e; backgr
 body.light-mode .pf-user-name { color: #1a1a2e; }
 body.light-mode .pf-user-role { color: #667eea; }
 body.light-mode .pf-clock { color: #555; }
+
+/* ============================================= */
+/* CHAT SYSTEM — Base Styles (Dark Mode Default) */
+/* PF_UI_REFERENCE §7                           */
+/* ============================================= */
+
+/* Chat FAB */
+.pf-chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  z-index: 3000;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pf-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(102, 126, 234, 0.5); }
+.pf-chat-fab.active { background: var(--pf-accent, #e94560); box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); }
+.pf-chat-fab-logo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+/* Chat Panel */
+.pf-chat-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 380px;
+  max-height: 500px;
+  border-radius: 16px;
+  z-index: 3000;
+  background: var(--pf-elevation-1, #16213e);
+  border: 1px solid var(--pf-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: pf-scale-in var(--pf-duration-base, 250ms) var(--pf-ease-out, ease);
+}
+
+/* Chat Header */
+.pf-chat-header { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); border-bottom: 1px solid var(--pf-border); flex-shrink: 0; }
+.pf-chat-header-logo { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.pf-chat-title { font-size: 14px; font-weight: 700; letter-spacing: 1px; flex: 1; color: var(--pf-text); }
+
+/* Session Stats */
+.pf-session-stats { display: flex; align-items: center; gap: 8px; font-size: 11px; cursor: help; }
+.pf-stats-pc { color: var(--pf-text-muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.pf-stats-gas { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+.pf-stats-gas.active { color: var(--pf-success, #10b981); background: rgba(16, 185, 129, 0.15); }
+.pf-stats-gas.inactive { color: var(--pf-text-muted); background: rgba(255, 255, 255, 0.05); }
+
+/* API Status */
+.pf-api-status { font-size: 10px; margin-left: 4px; }
+.pf-api-status.ready { color: var(--pf-success, #10b981); }
+.pf-api-status.offline { color: var(--pf-error, #ef4444); }
+
+/* GEMs Toggle & Panel */
+.pf-chat-gems-toggle { background: rgba(255, 255, 255, 0.1); border: none; border-radius: 8px; padding: 4px 8px; font-size: 16px; cursor: pointer; color: var(--pf-text); transition: background 0.2s ease; }
+.pf-chat-gems-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+.pf-chat-gems-panel { padding: 12px; background: var(--pf-elevation-2, #1e2a4a); border-bottom: 1px solid var(--pf-border); }
+.pf-chat-gems-header { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; color: var(--pf-text-muted); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--pf-border); }
+.pf-gem-clear { background: none; border: none; color: var(--pf-error, #ef4444); font-size: 11px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+.pf-gem-clear:hover { background: rgba(239, 68, 68, 0.15); }
+.pf-chat-gems-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.pf-chat-gem { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid transparent; cursor: pointer; font-size: 10px; color: var(--pf-text-muted); transition: all 0.15s ease; }
+.pf-chat-gem:hover { background: rgba(102, 126, 234, 0.15); color: var(--pf-text); }
+.pf-chat-gem.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: transparent; }
+.pf-gem-icon { font-size: 18px; }
+.pf-gem-name { font-weight: 600; }
+
+/* Model Selector */
+.pf-chat-models { display: flex; gap: 4px; padding: 8px 12px; background: var(--pf-elevation-2, #1e2a4a); border-bottom: 1px solid var(--pf-border); overflow-x: auto; flex-shrink: 0; }
+.pf-chat-model { display: flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--pf-radius-full, 9999px); background: rgba(255, 255, 255, 0.05); border: 1px solid transparent; cursor: pointer; font-size: 11px; color: var(--pf-text-muted); white-space: nowrap; transition: all 0.15s ease; }
+.pf-chat-model:hover { background: rgba(102, 126, 234, 0.15); color: var(--pf-text); }
+.pf-chat-model.active { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-color: transparent; }
+.pf-chat-model.premium .pf-model-name::after { content: "★"; margin-left: 2px; font-size: 8px; color: #f59e0b; }
+.pf-model-icon { font-size: 12px; }
+.pf-model-name { font-weight: 600; }
+
+/* Active GEM Indicator */
+.pf-chat-gem-active { padding: 4px 12px; background: rgba(102, 126, 234, 0.1); font-size: 11px; color: #667eea; border-bottom: 1px solid var(--pf-border); flex-shrink: 0; }
+.pf-gem-badge { font-weight: 600; }
+
+/* Messages Area */
+.pf-chat-messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 100px; }
+.pf-chat-messages::-webkit-scrollbar { width: 4px; }
+.pf-chat-messages::-webkit-scrollbar-track { background: transparent; }
+.pf-chat-messages::-webkit-scrollbar-thumb { background: rgba(102, 126, 234, 0.3); border-radius: 2px; }
+.pf-chat-message { padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 1.5; max-width: 85%; word-wrap: break-word; white-space: pre-wrap; }
+.pf-chat-message.user { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.pf-chat-message.assistant { background: var(--pf-elevation-2, #1e2a4a); color: var(--pf-text); align-self: flex-start; border-bottom-left-radius: 4px; }
+.pf-chat-message.loading .pf-typing { color: var(--pf-text-muted); animation: pf-pulse 1.2s ease-in-out infinite; letter-spacing: 3px; }
+
+/* Input Area */
+.pf-chat-input-wrapper { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--pf-border); background: var(--pf-elevation-1, #16213e); align-items: flex-end; flex-shrink: 0; }
+.pf-chat-input { flex: 1; background: var(--pf-surface, #16213e); color: var(--pf-text); border: 1px solid var(--pf-border); border-radius: 12px; padding: 10px 14px; font-size: 13px; resize: none; outline: none; min-height: 40px; max-height: 120px; font-family: inherit; transition: border-color 0.2s ease; }
+.pf-chat-input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15); }
+.pf-chat-input::placeholder { color: var(--pf-text-muted); }
+.pf-chat-send { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.15s ease, opacity 0.15s ease; }
+.pf-chat-send:hover:not(:disabled) { transform: scale(1.05); }
+.pf-chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Trail Bubble */
+.pf-chat-trail-bubble { position: fixed; bottom: 90px; right: 24px; max-width: 240px; padding: 12px 16px; border-radius: 12px; background: var(--pf-elevation-2, #1e2a4a); color: var(--pf-text); font-size: 13px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3); z-index: 2999; cursor: pointer; animation: pf-fade-in 0.3s ease; }
+.pf-trail-arrow { position: absolute; bottom: -6px; right: 24px; width: 12px; height: 12px; background: var(--pf-elevation-2, #1e2a4a); transform: rotate(45deg); }
+
+/* ============================================= */
+/* FOOTER — Bottom Watermark                     */
+/* ============================================= */
+.pf-footer { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 16px; font-size: 10px; letter-spacing: 1px; color: var(--pf-text-muted); opacity: 0.5; background: var(--pf-elevation-0, #1a1a2e); border-top: 1px solid var(--pf-border); flex-shrink: 0; text-transform: uppercase; }
+.pf-footer-accent { width: 6px; height: 6px; border-radius: 50%; background: var(--pf-accent, #e94560); opacity: 0.6; }
+.pf-footer-version { margin-left: 12px; font-variant-numeric: tabular-nums; }
+
+/* ============================================= */
+/* §6 — SETTINGS MODAL & OVERLAY                */
+/* PF_UI_REFERENCE §6                           */
+/* ============================================= */
+.pf-settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pf-fade-in var(--pf-duration-fast, 150ms) var(--pf-ease-out, ease);
+}
+
+.pf-settings-modal {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  max-height: 85vh;
+  background: var(--pf-elevation-2, #1e2a4a);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius-modal, 16px);
+  box-shadow: var(--pf-shadow-modal);
+  overflow: hidden;
+  display: flex;
+  animation: pf-slide-up var(--pf-duration-base, 250ms) var(--pf-ease-out, ease);
+}
+
+.pf-settings-sidebar {
+  width: 200px;
+  background: var(--pf-elevation-1, #16213e);
+  border-right: 1px solid var(--pf-border);
+  padding: var(--pf-space-md, 16px) 0;
+  overflow-y: auto;
+}
+
+.pf-settings-content {
+  flex: 1;
+  padding: var(--pf-space-lg, 24px);
+  overflow-y: auto;
+}
+
+/* Light mode */
+body.light-mode .pf-settings-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+body.light-mode .pf-settings-modal {
+  background: #ffffff;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+body.light-mode .pf-settings-sidebar {
+  background: #f6f8fa;
+}
+
+/* ============================================= */
+/* §4.2 — HOVER STRIP (PIN auto-hide trigger)   */
+/* PF_UI_REFERENCE §4 PIN Behavior              */
+/* ============================================= */
+.pf-hover-strip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  z-index: 5001;
+  cursor: pointer;
+  background: transparent;
+}
+
+.pf-hover-strip:hover {
+  background: linear-gradient(180deg, rgba(102, 126, 234, 0.15) 0%, transparent 100%);
+}
+
+/* ============================================= */
+/* slideUp — Modal entry animation               */
+/* ============================================= */
+@keyframes pf-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================= */
+/* Canvas Wrapper + Grid Overlay                 */
+/* Persistent grid on background layer,          */
+/* responsive to dark/light mode                 */
+/* ============================================= */
+.pf-canvas-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Dot grid overlay — always on top of TLDraw bg, below UI */
+.pf-canvas-wrapper.show-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* above TLDraw canvas bg, below dock/modals */
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    var(--pf-grid-dot, rgba(255, 255, 255, 0.08)) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/* Light mode grid — darker dots */
+body.light-mode .pf-canvas-wrapper.show-grid::after {
+  --pf-grid-dot: rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================= */
+/* Footer                                        */
+/* Document flow (flex-shrink: 0), NOT fixed      */
+/* ============================================= */
+.pf-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 16px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--pf-text-muted, rgba(255, 255, 255, 0.35));
+  opacity: 0.5;
+  background: var(--pf-elevation-0, #1a1a2e);
+  border-top: 1px solid var(--pf-border, rgba(255, 255, 255, 0.06));
+  flex-shrink: 0;
+  text-transform: uppercase;
+  transition: color 0.3s, background 0.3s, border-color 0.3s;
+}
+
+body.light-mode .pf-footer {
+  color: var(--pf-text-muted, rgba(0, 0, 0, 0.35));
+  background: var(--pf-elevation-0, #f0f0f5);
+  border-top: 1px solid var(--pf-border, rgba(0, 0, 0, 0.08));
+}
+
+.pf-footer .pf-chat-fab {
+  position: relative;
+  cursor: pointer;
+  pointer-events: all;
+  opacity: 1;
+}
