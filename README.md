@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="10.assets/panda_logo.png" alt="Panda Fabrics" width="160">
+  <img src="assets/panda_logo.png" alt="Panda Fabrics" width="160">
 </p>
 
 <h1 align="center">🐼 Panda Fabrics</h1>
@@ -41,9 +41,7 @@
 >
 > _Founder and Admin credentials are restricted._
 
-<p align="center">
-  <img src="docs/screenshots/ui_overview.png" alt="Panda Fabrics — Main UI" width="900">
-</p>
+<!-- Screenshots will be added in Phase 2 -->
 
 ---
 
@@ -125,9 +123,7 @@ Panda Fabrics doesn't just "have AI" — **AI is the core of everything**. Every
 
 ### AI Chat Experience
 
-<p align="center">
-  <img src="docs/screenshots/ai_chat_onboarding.png" alt="AI Chat Onboarding" width="900">
-</p>
+<!-- AI Chat screenshots will be added in Phase 2 -->
 
 > 6 AI personas (Assistente, Professor, Ninja, Conselheiro, Pesquisador, Criativo) • Context-aware responses • Auto-open welcome on first login • Smart panda mascot
 
@@ -299,7 +295,7 @@ USER (Browser)
     │
     ├── Opens Panda Fabrics (GitHub Pages, zero-install)
     │
-    ├── Logs in → Firebase Auth (supports 4.97B accounts)
+    ├── Logs in → Firebase Auth (Google, Email/Password)
     │
     ├── Works on canvas → All files save to USER's Google Drive
     │
@@ -487,5 +483,5 @@ Panda Fabrics is not just _built on_ Google — it **is** Google infrastructure,
 <p align="center">
   <strong>🐼 Panda Fabrics</strong><br>
   <em>Your browser is your OS. Your Drive is your server. AI is your co-pilot.</em><br>
-  <code>v7.1 — February 2026</code>
+  <code>v7.2 — February 2026</code>
 </p>

@@ -5,6 +5,10 @@
 # SENSÍVEL - NÃO ENVIAR PARA REPO PÚBLICO
 # ========================================
 
+# Variáveis de ambiente (NUNCA commitar)
+.env
+.env.*
+
 # GAS Backend (contém lógica de negócio)
 1.core/
 1.gas/
@@ -51,10 +55,9 @@ PandaFactory.code-workspace
 jsconfig.json
 docs/
 
-# Arquivos de ambiente
-.env
-.env.*
-*.env
+# Workflows internos (não são para o público)
+.github/workflows/android-build.yml
+.github/workflows/steam-build.yml
 
 # Chaves e configs sensíveis
 .clasp.json
@@ -70,6 +73,9 @@ scripts/
 # Configuração do agent
 .agent/
 
+# Credenciais e secrets (Firebase, GAS, Ed25519)
+00.credentials/
+
 # Package raiz (não é necessário no público)
 package.json
 
@@ -82,8 +88,9 @@ package.json
 # !index.html      → Landing page
 # !manifest.json   → PWA manifest
 # !sw.js           → Service Worker
-# !.github/        → Workflows CI/CD
+# !.github/        → Workflows CI/CD (apenas pages.yml)
 # !_config.yml     → GitHub Pages config
+# !assets/         → Imagens públicas (logo, screenshots para README)
 
 # ========================================
 # PADRÃO

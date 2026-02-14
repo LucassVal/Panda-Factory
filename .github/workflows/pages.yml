@@ -38,7 +38,7 @@ jobs:
         run: npm ci
 
       - name: 🔨 Build JAM React App
-        working-directory: 11.jam
+        working-directory: 11.pf-app
         run: npm run build
 
       - name: 📋 Copy Root Assets to Dist
@@ -66,5 +66,5 @@ jobs:
 
       - name: 🎉 Deployment Complete
         run: |
-          echo "🐼 Panda Factory JAM UI v6.4 is LIVE!"
+          echo "🐼 Panda Fabrics UI v7.2 is LIVE!"
           echo "URL: ${{ steps.deployment.outputs.page_url }}"
