@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="10.assets/panda_logo.png" alt="Panda Factory" width="160">
+  <img src="10.assets/panda_logo.png" alt="Panda Fabrics" width="160">
 </p>
 
 <h1 align="center">🐼 Panda Fabrics</h1>
 
 <p align="center">
-  <strong>AI-Powered Micro-SaaS Runtime — Built Entirely on Google Infrastructure</strong><br>
-  <em>"From PhD to Favela" — Democratizing software for the next 3.8 billion internet users</em>
+  <strong>AI-Powered Micro-SaaS Platform — Your Browser Is the Operating System</strong><br>
+  <em>Professional tools at near-zero cost. No install. No lock-in. All your data stays in your Google Drive.</em>
 </p>
 
 <p align="center">
@@ -15,21 +15,18 @@
   <img src="https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase&style=for-the-badge" alt="Firebase">
   <img src="https://img.shields.io/badge/Backend-Apps_Script-0F9D58?logo=google&style=for-the-badge" alt="GAS">
   <img src="https://img.shields.io/badge/Desktop-Rust/Tauri-DEA584?logo=rust&style=for-the-badge" alt="Rust">
-  <img src="https://img.shields.io/badge/P2P-Compute_Network-FF6B35?style=for-the-badge" alt="P2P">
   <img src="https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge" alt="License">
 </p>
 
 <p align="center">
-  <a href="#-live-demo">▶ Live Demo</a> •
-  <a href="#-why-panda-fabrics-exists">Vision</a> •
-  <a href="#-what-makes-us-different">Innovation</a> •
-  <a href="#-the-google-first-stack">Architecture</a> •
-  <a href="#-medusa-distribution-engine">Medusa</a> •
-  <a href="#-the-wealth-engine-hooks">Economy</a> •
-  <a href="#-sdk-in-action">SDK</a> •
-  <a href="#-security--governance">Security</a> •
+  <a href="#-live-demo">▶ Try Now</a> •
+  <a href="#-what-panda-fabrics-does">Features</a> •
+  <a href="#-5-ai-models-built-in">AI</a> •
+  <a href="#-the-plugin-marketplace-medusa-store">Store</a> •
+  <a href="#-how-creators-earn">Earn</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-ui-showcase">Screenshots</a> •
   <a href="#-roadmap">Roadmap</a> •
-  <a href="#-why-google-for-startups">Google Partnership</a> •
   <a href="#-contact">Contact</a>
 </p>
 
@@ -39,7 +36,7 @@
 
 > **🚀 [Launch Panda Fabrics →](https://lucassval.github.io/Panda-Factory/)**
 >
-> 🔑 Demo Login: `dev` / `dev` (Developer mode — SDK + DevTools enabled)
+> 🔑 Demo Login: `dev` / `dev` (Developer mode — full access to SDK + DevTools)
 >
 > _Founder and Admin credentials are restricted._
 
@@ -47,406 +44,323 @@
   <img src="docs/screenshots/ui_overview.png" alt="Panda Fabrics — Main UI" width="900">
 </p>
 
-> **TLDraw infinite canvas** • **AI-powered dock** • **Real-time monitoring** • **Glassmorphism dark theme** • **30 React components**
-
 ---
 
-## 🎯 Why Panda Fabrics Exists
+## 🎯 What Panda Fabrics Does
 
-### The Problem
+Panda Fabrics is a **browser-based workspace** where you can run professional software tools — design, CRM, analytics, AI chat, course creation, trading bots — all from a single interface. Think of it as a **desktop OS inside your browser**.
 
-**3.8 billion people** have internet access but lack affordable software tools. Small businesses in emerging markets pay $50–200/month for CRM, design, analytics, and EdTech tools they barely use. The barrier isn't technology — it's **cost** and **complexity**.
-
-### Our Solution
-
-**Panda Fabrics** is a browser-based micro-SaaS runtime that delivers professional software tools at **near-zero cost** by leveraging:
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                   THE PANDA FABRICS FORMULA                         │
-│                                                                     │
-│   Google Free Tiers     Your browser does 90% of computation       │
-│   as infrastructure  +  P2P Network shares idle resources     +    │
-│   Plugin marketplace    Community-driven extension ecosystem       │
-│                         ─────────────────────────                  │
-│                     =   PROFESSIONAL SOFTWARE AT ≈$0/month         │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
-> **Key Insight**: Every Panda user generates direct demand for Google services — Gemini tokens, Firebase connections, Drive storage, Colab sessions — creating natural alignment with the Google ecosystem.
-
----
-
-## 💡 What Makes Us Different
+### Core Capabilities
 
 <table>
 <tr>
 <td width="50%">
 
-### 🧩 1. Plugin-First Runtime
+#### 🎨 Infinite Canvas Workspace
 
-Minimal core shell — **all features are plugins**. Every plugin is AI-native via Model Context Protocol (MCP), meaning AI understands and can interact with every extension from day one.
+A TLDraw-based infinite whiteboard where you drag, drop, draw, and organize your work visually. Create mind maps, wireframes, mood boards, or use it as your daily planner.
 
-- 30 React components
-- 17 SDK namespaces
-- 9 Tentacle parent modules + 28 children
+#### 🤖 5 AI Models Built-In
+
+Gemini Flash for instant chat, Pro for deep analysis, Think for complex reasoning, Research for grounded answers, and Imagen for AI image generation — all accessible from the same sidebar.
+
+#### 🛒 Plugin Marketplace
+
+Install tools from the Medusa Store: CRM, landing page builder, analytics dashboards, educational modules, trading bots, and more. Each plugin is AI-native from day one.
 
 </td>
 <td width="50%">
 
-### 🤝 2. P2P Compute Network
+#### ☁️ Your Data = Your Google Drive
 
-Users donate idle CPU/GPU → earn **Panda Coins (PC)** → spend credits in the ecosystem. This creates a **circular economy** that keeps costs near-zero while scaling infinitely.
+Every file you create lives in **your own Google Drive** — not our servers. Leave anytime, your data stays. Zero vendor lock-in.
 
-- Dual-purpose nodes (mine + process tasks)
-- 5-tier node hierarchy (Seed → Titan)
-- Smart Throttle with CPU limiter
+#### 💰 Earn While You Create
 
-</td>
-</tr>
-<tr>
-<td>
+Build plugins and sell them in the marketplace. Create courses and distribute them via Kiwify/Hotmart integration. Every sale auto-splits revenue to you — **passive income at scale**.
 
-### 🏛️ 3. PAT Council — AI Treasury
+#### 🛡️ Security Built-In
 
-An autonomous AI governs the token economy following **12 hardcoded constitutional articles**:
-
-- No human can override the economic rules
-- Founder has a fixed, immutable commission (1.03x)
-- Supply/demand algorithmically balanced
-- Full transparency via public audit trail
-
-</td>
-<td>
-
-### 🌐 4. Zero-Install, Zero Lock-in
-
-90% runs in the browser via **PWA → GAS → Firebase**. All user data lives in **their own Google Drive** — not our servers. Leave anytime, your data stays.
-
-```
-TRADITIONAL SAAS         PANDA FABRICS
-─────────────────       ─────────────
-Files on THEIR servers → Files on YOUR Drive
-Export = pay extra     → Already yours
-Platform dies = lost   → Data survives forever
-Vendor lock-in         → Zero lock-in
-```
+Panda Defend scans code with 14 automated security rules. Ed25519 cryptographic signatures for license verification. Kill switch for emergencies. Your workspace, your control.
 
 </td>
 </tr>
 </table>
 
----
-
-## 🔷 The Google-First Stack
-
-Every layer of our stack is **intentionally built on Google services**:
-
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                 PANDA FABRICS — GOOGLE-FIRST ARCHITECTURE            │
-├─────────────────────────────────────────────────────────────────────┤
+│              WHAT YOU CAN DO WITH PANDA FABRICS                     │
 │                                                                     │
-│  🧠 AI LAYER                        ☁️ BACKEND LAYER                │
-│  ├── Gemini 2.0 Flash (chat)        ├── Google Apps Script (logic)  │
-│  ├── Gemini 2.0 Pro (deep analysis) ├── Google Sheets (database)    │
-│  ├── Gemini 3.0 Think (reasoning)   ├── Google Drive (file storage) │
-│  ├── Gemini Research (grounding)    └── Google Workspace (docs)     │
-│  └── Google Colab (heavy GPU)                                       │
+│  🎨  Design logos, banners, and social media content (AI-powered)  │
+│  📊  Manage clients and leads with CRM tools                       │
+│  📚  Create and sell online courses (Kiwify/Hotmart integration)   │
+│  📈  Run trading analysis bots with real-time data                 │
+│  📝  Build landing pages with drag-and-drop                        │
+│  💬  Chat with 5 AI models for any task                            │
+│  🔧  Develop your own plugins and sell them in the marketplace     │
+│  📦  Bundle multiple tools into "Casulos" for package deals        │
+│  ⛏️  Earn Panda Coins by sharing idle CPU in the P2P network       │
+│  📱  Access everything from your phone (PWA-ready)                 │
 │                                                                     │
-│  🔐 AUTH & SECURITY                 🐙 DISTRIBUTION                 │
-│  ├── Firebase Auth (4.97B users)    ├── Medusa Engine (15 tentacles)│
-│  ├── Firebase RTDB (signaling)      ├── GitHub (deploy + CI/CD)     │
-│  ├── Ed25519 Cryptography           ├── Google Drive (asset sync)   │
-│  └── Panda Defend (14 rules)        └── Kiwify + Hotmart hooks     │
-│                                                                     │
-│  🦀 DESKTOP AGENT (Rust/Tauri)      🔌 PROTOCOL LAYER              │
-│  ├── Ed25519 license signing        ├── MCP (Model Context Proto)   │
-│  ├── GPU detection & monitoring     ├── Plugin-first architecture   │
-│  ├── XMRig mining integration       ├── AI-native from day one      │
-│  └── Native OS controls             └── Offline-first capability    │
-│                                                                     │
-│  💰 ECONOMIC ENGINE                 📊 MONITORING                   │
-│  ├── Panda Coin (PC) token          ├── Gasômetro (GAS usage)       │
-│  ├── Revenue splits (52/25/15/5/3)  ├── Health heartbeat system     │
-│  ├── Casulos (bundle pricing)       ├── TentacleMonitor (tree view) │
-│  └── PAT Treasury (AI-governed)     └── Circuit Breaker failover   │
-│                                                                     │
+│  All of this runs in your browser. No install needed.              │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### Google Services Demand Matrix
-
-| Google Service         | Usage in Panda Fabrics                       | Demand Per User/Month |
-| ---------------------- | -------------------------------------------- | --------------------- |
-| **Gemini API**         | Core AI: chat, code gen, images, reasoning   | ~500K tokens          |
-| **Google Apps Script** | Backend logic, billing, data processing      | ~2,000 executions     |
-| **Google Sheets**      | Database: users, transactions, catalog       | ~500 rows written     |
-| **Firebase Auth**      | Identity and session (4.97B user base)       | 1 active user         |
-| **Firebase RTDB**      | Real-time P2P signaling, live collaboration  | ~10K reads            |
-| **Google Colab**       | Heavy AI tasks (BYOC — Bring Your Own Colab) | ~4 GPU sessions       |
-| **Google Drive**       | File storage, assets, Medusa sync            | ~100MB                |
-
-> **Projected Impact (Y1)**: 10,000 users → **5 billion Gemini tokens/month**, 1,000 concurrent Firebase connections, 500 weekly Colab sessions.
-
 ---
 
-## 🐙 Medusa Distribution Engine
+## 🧠 5 AI Models Built-In
 
-The **Medusa Engine** is our proprietary multi-platform distribution system. Each "tentacle" connects to an external service, enabling automatic content distribution, data sync, and cross-platform operations.
+Panda Fabrics doesn't just "have AI" — **AI is the core of everything**. Every tool, every plugin, every interaction can leverage one of 5 Gemini models:
 
-```
-                              ┌───────────────┐
-                              │    MEDUSA      │
-                              │    ENGINE      │
-                              │  (9P + 28C)    │
-                              └───────┬────────┘
-           ┌──────────┬───────────────┼───────────────┬──────────┐
-           │          │               │               │          │
-     ┌─────┴────┐ ┌───┴────┐ ┌───────┴───────┐ ┌────┴───┐ ┌───┴────┐
-     │  GitHub  │ │ Google │ │  Google Ads   │ │  P2P   │ │Whats   │
-     │  Deploy  │ │ Drive  │ │ + Analytics   │ │Compute │ │  App   │
-     │  CI/CD   │ │ Sync   │ │ + Search      │ │Network │ │Business│
-     └─────┬────┘ └───┬────┘ └───────┬───────┘ └────┬───┘ └───┬────┘
-           │          │               │              │         │
-     ┌─────┴────┐ ┌───┴────┐ ┌───────┴───────┐ ┌────┴───┐ ┌───┴────┐
-     │Firebase  │ │ Sheets │ │  Colab GPU    │ │Trading │ │ Meta   │
-     │Hosting   │ │Database│ │ (BYOC Node)   │ │cTrader │ │Facebook│
-     └──────────┘ └────────┘ └───────────────┘ └────────┘ └────────┘
-```
+| Model                | Best For                          | Speed   | Example Use                         |
+| -------------------- | --------------------------------- | ------- | ----------------------------------- |
+| **Gemini 2.0 Flash** | Instant answers, quick tasks      | ⚡ Fast | "Summarize this document"           |
+| **Gemini 2.0 Pro**   | Deep analysis, complex reasoning  | 🔬 Med  | "Analyze my sales data and suggest" |
+| **Gemini 3.0 Think** | Multi-step reasoning, strategy    | 🧠 Deep | "Plan a marketing campaign for..."  |
+| **Gemini Research**  | Web-grounded answers with sources | 🌐 Med  | "What are the latest trends in..."  |
+| **Gemini Imagen**    | AI image generation               | 🎨 Med  | "Create a logo for my bakery"       |
 
-### Tentacle Status (15 Integrations)
+> **Every plugin you install automatically speaks to AI.** The Model Context Protocol (MCP) makes every extension AI-native by default — plugin creators don't need to write AI code.
 
-| Tentacle             | Platform                   | Status     | Google Demand          |
-| -------------------- | -------------------------- | ---------- | ---------------------- |
-| 🐙 GitHub            | Deploy + CI/CD             | ✅ Active  | GitHub Pages, Actions  |
-| ☁️ Google Drive      | User-owned file storage    | ✅ Active  | Drive API + Google One |
-| 🔍 Google Search     | SEO + discovery            | ✅ Active  | Search Console         |
-| 📊 Google Analytics  | User tracking              | ✅ Active  | GA4 events             |
-| 📈 Google Sheets     | Database layer             | ✅ Active  | Sheets API             |
-| 🧪 Google Colab      | GPU compute (BYOC)         | ✅ Active  | Colab sessions         |
-| 📢 Google Ads        | Marketing automation       | 🚧 Q2 2026 | Ads API                |
-| 💬 WhatsApp Business | CRM messaging              | 🚧 Q2 2026 | —                      |
-| 🥝 Kiwify            | Digital product sales      | 🚧 Q2 2026 | Sheets + Drive         |
-| 🔥 Hotmart           | Course & infoproduct sales | 🚧 Q2 2026 | Sheets + Drive         |
-| 🌐 Landing Pages     | Drag-and-drop page builder | 🚧 Q2 2026 | Drive (hosting assets) |
-| ⛽ Gasômetro         | GAS usage dashboard        | ✅ Active  | Apps Script monitoring |
-| 🐦 Twitter/X         | Social distribution        | 🚧 Q3 2026 | —                      |
-| 📘 Meta Ads          | Ad management              | 🚧 Q3 2026 | —                      |
-| 📱 Google Play Store | Mobile app distribution    | 🚧 Q3 2026 | Play Console           |
-
-<details>
-<summary><strong>🥝 Kiwify & 🔥 Hotmart Integration Details</strong></summary>
-
-Panda Fabrics connects directly to Brazil's largest digital product platforms:
-
-```
-USER ACTION                          → WHAT HAPPENS                        → REVENUE
-─────────────────────────────────────────────────────────────────────────────────────
-Creator builds course in Panda       → Gemini generates content + quizzes   → —
-Creator publishes to Kiwify/Hotmart  → Medusa.tentacle("kiwify").publish()  → —
-Buyer purchases the course           → Webhook triggers Panda Hook          → Split auto
-Panda stores course assets           → Saved in creator's Google Drive      → Drive API
-Gasômetro tracks GAS executions      → Real-time analytics dashboard        → Monitoring
-```
-
-> Brazil's infoproduct market = **$3.2B/year**. Every sale generates Google Drive storage, Gemini API usage, and Sheets transactions.
-
-</details>
-
-<details>
-<summary><strong>☁️ Google Drive Integration — User Owns Their Data</strong></summary>
-
-> **Philosophy**: Panda Fabrics never holds user data hostage. All files are saved to the **user's own Google Drive**.
-
-- **Asset Sync** — project files, images, and exports in user's Drive
-- **Template Library** — shared templates via Drive folders
-- **Backup & Restore** — automatic project snapshots
-- **Collaboration** — shared folders with real-time sync
-- **Zero Lock-in** — leave anytime, your files stay in YOUR Google Drive
-
-> **For Google**: Every Panda user becomes a **Google Drive power user** — increasing storage consumption, API calls, and potential Google One upgrades.
-
-</details>
-
----
-
-## ⚡ The Wealth Engine (Hooks)
-
-Hooks are the economic nervous system. Every meaningful action triggers **automatic revenue distribution**:
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    PANDA FABRICS REVENUE FLOW                        │
-│                                                                     │
-│  USER INSTALLS PLUGIN ──→ Hook: onInstall                          │
-│  USER USES FEATURE ────→ Hook: onUsage (metered billing)           │
-│  USER SHARES CONTENT ──→ Hook: onDistribute (Medusa tentacle)      │
-│  AI COMPLETES TASK ────→ Hook: onAIComplete (Gemini tokens billed) │
-│  P2P NODE PROCESSES ───→ Hook: onCompute (GPU credits earned)      │
-│                                                                     │
-│  EACH HOOK TRIGGERS ───→ Auto-split:                               │
-│                                                                     │
-│     ┌──────────────────────────────────────────────────┐            │
-│     │  52% → Plugin Creator (incentivizes development) │            │
-│     │  25% → Platform (sustainable growth)             │            │
-│     │  15% → PAT Treasury (AI-governed reserve)        │            │
-│     │   5% → Founder (constitutional cap, immutable)   │            │
-│     │   3% → Panda Coin Burn (deflationary pressure)   │            │
-│     └──────────────────────────────────────────────────┘            │
-│                                                                     │
-│  Everyone earns. No middlemen. No delays.                          │
-│  Creator earns while sleeping. Platform grows autonomously.        │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
-### Who Earns What
-
-| Participant            | How They Earn                                    | Passive?      |
-| ---------------------- | ------------------------------------------------ | ------------- |
-| **Plugin Creators**    | 52% of every transaction on their plugin         | ✅ Yes        |
-| **P2P Node Operators** | Panda Coins for sharing idle GPU/CPU             | ✅ Yes        |
-| **Content Creators**   | Medusa distributes content → monetization hooks  | ✅ Yes        |
-| **Active Users**       | Earn PC by completing tasks, referring users     | ❌ Active     |
-| **Platform**           | 25% of all transactions (sustainable growth)     | ✅ Yes        |
-| **Founder**            | 5% cap — constitutional, immutable (1.03x)       | ✅ Yes        |
-| **PAT Treasury**       | 15% reserve, AI-governed for ecosystem stability | ✅ Autonomous |
-
-> **This is not speculative.** The smart contract logic is hardcoded in the **PAT Constitution** — 12 immutable articles that no human can override (protected by Ed25519 signatures).
-
----
-
-## 💰 SDK in Action — Real-World Use Cases
-
-The Panda SDK is not theoretical — it powers real workflows today:
-
-<details>
-<summary><strong>🎨 Use Case 1: Freelance Designer (Maria, São Paulo)</strong></summary>
-
-```
-USER ACTION                          → SDK CALL                           → RESULT
-─────────────────────────────────────────────────────────────────────────────────────
-Maria opens Panda Fabrics            → Panda.Auth.login()                 → Firebase Auth ✅
-She asks AI to design a logo         → Panda.Brain.Gemini.design()        → Gemini Imagen generates 4 options
-She picks one and saves to Drive     → Panda.Storage.cloud.drive.save()   → Google Drive stores asset
-She sends to client via WhatsApp     → Panda.Medusa.tentacle("whatsapp")  → Auto-formatted message sent
-Client pays via Panda Coin           → Panda.Wallet.receive()             → 50 PC credited instantly
-```
-
-**Google services consumed**: Gemini API (image gen), Drive API (storage), Firebase Auth (identity).
-
-</details>
-
-<details>
-<summary><strong>🏠 Use Case 2: Real Estate Micro-CRM (Carlos, Curitiba)</strong></summary>
-
-```
-USER ACTION                          → SDK CALL                           → RESULT
-─────────────────────────────────────────────────────────────────────────────────────
-Carlos installs "PandaCRM" plugin    → Panda.Plugins.install("panda-crm") → Plugin loaded from Store
-He imports 200 leads from Sheets     → Panda.Storage.cloud.sheets.read()  → Google Sheets API (200 rows)
-AI scores each lead automatically    → Panda.Brain.Gemini.analyze()       → Gemini ranks leads 1-10
-He exports hot leads to Google Ads   → Panda.Medusa.tentacle("google-ads")→ Custom audience created
-4 leads convert → hook triggers      → Panda.Hooks.onRevenue()            → Revenue auto-split
-```
-
-</details>
-
-<details>
-<summary><strong>📚 Use Case 3: EdTech AI Courses (Prof. Ana, Recife)</strong></summary>
-
-```
-USER ACTION                          → WHAT HAPPENS                       → GOOGLE DEMAND
-─────────────────────────────────────────────────────────────────────────────────────
-Student enrolls                      → Firebase Auth + Wallet setup       → Auth API
-Student asks question                → Gemini 2.0 Flash answers           → ~2K tokens
-AI generates quiz from content       → Gemini Pro analyzes text           → ~5K tokens
-Heavy simulation runs on Colab       → P2P GPU fallback if no Colab      → Colab session
-Student earns Panda Coins            → Wallet.credit() + Hook fires      → Sheets write
-```
-
-</details>
-
-<details>
-<summary><strong>📈 Use Case 4: Trading Bot Marketplace (Trader, Global)</strong></summary>
-
-```
-EVERY TIME SOMEONE BUYS THE BOT:
-├── Buyer pays 100 PC
-├── 52 PC → Bot creator (passive income 💰)
-├── 25 PC → Platform (funds operations)
-├── 15 PC → PAT Treasury (AI-governed)
-├──  5 PC → Founder (constitutional cap)
-└──  3 PC → Burn (deflationary)
-```
-
-The creator keeps earning **while sleeping**. That's the Panda Fabrics wealth model.
-
-</details>
-
----
-
-## 📸 UI Showcase
-
-### Main Canvas — Infinite Workspace
-
-<p align="center">
-  <img src="docs/screenshots/ui_overview.png" alt="Panda Fabrics — Main UI" width="900">
-</p>
-
-> TLDraw infinite canvas • AI-powered tools dock • Real-time status monitoring • Glassmorphism dark theme
-
-### AI Chat — Onboarding Experience
+### AI Chat Experience
 
 <p align="center">
   <img src="docs/screenshots/ai_chat_onboarding.png" alt="AI Chat Onboarding" width="900">
 </p>
 
-> Auto-open welcome on first login • 5 AI models (Flash, Pro, Think, Research, Imagen) • Intelligent panda mascot with contextual greetings
+> 6 AI personas (Assistente, Professor, Ninja, Conselheiro, Pesquisador, Criativo) • Context-aware responses • Auto-open welcome on first login • Smart panda mascot
 
-### Component Architecture (30 React UI Components)
+---
+
+## 🛒 The Plugin Marketplace (Medusa Store)
+
+The **Medusa Store** is where the Panda Fabrics ecosystem comes alive. Creators build plugins, users install them, everyone earns.
+
+### Available Plugin Categories
+
+| Category          | What It Does                                     | Examples                           |
+| ----------------- | ------------------------------------------------ | ---------------------------------- |
+| **CRM Tools**     | Manage clients, leads, sales pipeline            | PandaCRM, LeadScorer               |
+| **Design Tools**  | Create graphics, logos, social media posts       | LogoMaker, BannerGen, PostDesigner |
+| **EdTech**        | Build and sell courses with AI-generated content | QuizMaster, CourseBuilder          |
+| **Analytics**     | Dashboards, reports, data visualization          | SalesTracker, CohortAnalysis       |
+| **Trading**       | Analysis bots, signals, portfolio tracking       | GoldBot, CryptoScanner             |
+| **Landing Pages** | Drag-and-drop page builder with templates        | PageForge, FunnelBuilder           |
+| **Automation**    | Workflow automation, scheduled tasks             | AutoMailer, TaskScheduler          |
+| **Communication** | WhatsApp templates, email campaigns              | WhatsBlaster, MailCampaign         |
+
+> Every plugin is **AI-native** through MCP integration. Install a CRM → AI already knows how to search clients, score leads, and draft follow-up messages.
+
+---
+
+## 💰 How Creators Earn
+
+Panda Fabrics isn't just a product — it's a **wealth engine for creators**:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    HOW YOU EARN ON PANDA FABRICS                     │
+│                                                                     │
+│  📦 BUILD a plugin (CRM, design tool, course, bot...)              │
+│  📤 PUBLISH it to the Medusa Store                                 │
+│  💵 Every time someone buys or uses it → YOU EARN 52%              │
+│                                                                     │
+│  📚 CREATE a course → AI generates quizzes + content               │
+│  🥝 DISTRIBUTE via Kiwify or Hotmart automatically                 │
+│  💵 Every sale → Revenue auto-splits to your wallet                │
+│                                                                     │
+│  ⛏️ SHARE idle CPU in the P2P network                              │
+│  💰 Earn Panda Coins passively while you work                      │
+│                                                                     │
+│  👥 REFER users → Earn commissions                                 │
+│  📦 BUNDLE tools into Casulos → Higher package margins             │
+│                                                                     │
+│  ─── THE SPLIT ────────────────────────────────────────            │
+│  │ 52% Creator │ 25% Platform │ 15% Reserve │ 5% Ops │ 3% Burn │  │
+│  ────────────────────────────────────────────────────────          │
+│                                                                     │
+│  Sleep. Wake up. Check wallet. Repeat. 🐼💤💰                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Real-World Scenarios
+
+<details>
+<summary><strong>🎨 Scenario 1: Freelance Designer (Maria, São Paulo)</strong></summary>
+
+```
+Maria opens Panda Fabrics in her browser
+→ Asks AI to design 4 logo options for a client           (Gemini Imagen)
+→ Picks one, saves to her Google Drive                     (Drive API)
+→ Sends final to client via WhatsApp integration           (Medusa tentacle)
+→ Client pays via integrated checkout                      (Revenue hook)
+→ Maria earns 52% instantly. Google Drive stores the asset.
+
+Total cost to Maria: $0/month. Professional output. Passive income from templates she publishes.
+```
+
+</details>
+
+<details>
+<summary><strong>🏠 Scenario 2: Real Estate Agent (Carlos, Curitiba)</strong></summary>
+
+```
+Carlos installs PandaCRM plugin from the Medusa Store
+→ Imports 200 leads from Google Sheets                     (Sheets API)
+→ AI auto-scores leads from 1-10 based on engagement       (Gemini Pro)
+→ Hot leads get auto-follow-up via WhatsApp templates       (Medusa tentacle)
+→ 4 closings this month → triggered by smart lead nurture
+
+Total cost to Carlos: the plugin price (one-time). No Salesforce. No HubSpot. No $200/month bill.
+```
+
+</details>
+
+<details>
+<summary><strong>📚 Scenario 3: Online Teacher (Prof. Ana, Recife)</strong></summary>
+
+```
+Prof. Ana uses Panda Fabrics to create a nutrition course
+→ AI generates 20 quiz questions from her content          (Gemini Think)
+→ AI creates summary flashcards for each module            (Gemini Flash)
+→ She publishes directly to Kiwify with one click          (Medusa tentacle)
+→ 50 students enroll at R$97 each. She earns 52% per sale.
+
+Every student who studies generates Gemini API calls.
+Every quiz generates Sheets writes. Every file goes to Drive.
+```
+
+</details>
+
+<details>
+<summary><strong>📈 Scenario 4: Trader (Global)</strong></summary>
+
+```
+Trader builds a XAUUSD analysis bot as a Panda plugin
+→ Bot uses Gemini for market sentiment analysis
+→ Published on Medusa Store for 200 PC (Panda Coins)
+→ 30 people buy it this month → 6,000 PC revenue
+→ Trader earns 52% = 3,120 PC while sleeping 💤
+
+Bot creators earn passive income. Users get AI-powered tools. Platform grows.
+```
+
+</details>
+
+---
+
+## 🏗️ Architecture
+
+### The Google-First Stack
+
+Every layer of Panda Fabrics runs on Google infrastructure:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                 PANDA FABRICS — ARCHITECTURE                        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  🖥️ FRONTEND (Browser)             ☁️ BACKEND (Serverless)         │
+│  ├── React 18 (30 components)      ├── Google Apps Script (logic)  │
+│  ├── TLDraw (infinite canvas)      ├── Google Sheets (database)    │
+│  ├── Glassmorphism dark theme      ├── Google Drive (file storage) │
+│  └── PWA-ready (install to home)   └── Google Workspace (docs)     │
+│                                                                     │
+│  🧠 AI LAYER                       🔐 AUTH & SECURITY              │
+│  ├── Gemini 2.0 Flash (chat)       ├── Firebase Auth               │
+│  ├── Gemini 2.0 Pro (analysis)     ├── Firebase RTDB (real-time)   │
+│  ├── Gemini 3.0 Think (reasoning)  ├── Ed25519 Cryptography        │
+│  ├── Gemini Research (grounded)    └── Panda Defend (14 rules)     │
+│  └── Gemini Imagen (images)                                        │
+│                                                                     │
+│  🐙 MEDUSA ENGINE                  🦀 DESKTOP AGENT (Optional)     │
+│  ├── 15 distribution tentacles     ├── Rust/Tauri native app       │
+│  ├── Cross-platform publishing     ├── GPU detection & monitoring  │
+│  ├── Kiwify + Hotmart hooks        ├── License management          │
+│  └── WhatsApp Business             └── P2P mining integration      │
+│                                                                     │
+│  🔌 SDK (17 Namespaces)            📊 MONITORING                   │
+│  ├── Panda.Auth      (login)       ├── Gasômetro (GAS usage)       │
+│  ├── Panda.Brain     (AI)          ├── TentacleMonitor (health)    │
+│  ├── Panda.Storage   (Drive/DB)    ├── Circuit Breaker (failover)  │
+│  ├── Panda.Wallet    (economy)     └── Real-time heartbeat         │
+│  ├── Panda.Plugins   (install)                                     │
+│  ├── Panda.Medusa    (distribute)                                  │
+│  └── Panda.Defend    (security)                                    │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### How It Flows
+
+```
+USER (Browser)
+    │
+    ├── Opens Panda Fabrics (GitHub Pages, zero-install)
+    │
+    ├── Logs in → Firebase Auth (supports 4.97B accounts)
+    │
+    ├── Works on canvas → All files save to USER's Google Drive
+    │
+    ├── Uses AI → Gemini API (5 models, contextual, MCP-native)
+    │
+    ├── Installs plugins → Medusa Store (marketplace)
+    │
+    ├── Creates content → Distributes via Medusa tentacles
+    │   ├── Kiwify (infoproducts)
+    │   ├── Hotmart (courses)
+    │   ├── WhatsApp (messaging)
+    │   ├── Google Ads (marketing)
+    │   └── Social media (distribution)
+    │
+    └── Earns → Revenue auto-split via hooks (52% to creator)
+```
+
+### Google Services Consumption Per User
+
+| Google Service         | What It Powers in Panda Fabrics              | Monthly Usage/User |
+| ---------------------- | -------------------------------------------- | ------------------ |
+| **Gemini API**         | AI chat, code gen, images, reasoning         | ~500K tokens       |
+| **Google Apps Script** | Backend logic, billing, data processing      | ~2,000 executions  |
+| **Google Sheets**      | Database: users, transactions, catalog       | ~500 rows          |
+| **Firebase Auth**      | Identity and sessions                        | 1 active user      |
+| **Firebase RTDB**      | Real-time signaling, live collaboration      | ~10K reads         |
+| **Google Colab**       | Heavy AI tasks (BYOC — Bring Your Own Colab) | ~4 GPU sessions    |
+| **Google Drive**       | File storage, assets, project sync           | ~100MB             |
+
+---
+
+## 📸 UI Showcase
+
+### 30 React Components — Full Desktop Experience in the Browser
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        PANDA FABRICS UI                              │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
-│  🎯 CORE SHELL                     💼 BUSINESS                      │
-│  ├── PFHeader          (top bar)   ├── PFStore          (Medusa)    │
-│  ├── PFDock            (left)      ├── PFCheckoutModal  (purchase)  │
-│  ├── PFRightToolbar    (right)     ├── PFCatalog        (browse)    │
-│  ├── PFStatusBar       (bottom)    ├── PFProductDetail  (detail)    │
-│  ├── PFCanvas          (center)    ├── PFFinancePanel   (wallet)    │
-│  ├── PFEmptyCanvas     (welcome)   ├── PFGasometerPanel (GAS)      │
-│  └── PFWindowManager   (windows)   └── PFBundleCreator  (casulos)  │
+│  🎯 CORE SHELL                     💼 BUSINESS TOOLS               │
+│  ├── PFHeader          (top bar)   ├── PFStore          (shop)     │
+│  ├── PFDock            (left)      ├── PFCheckoutModal  (buy)      │
+│  ├── PFRightToolbar    (right)     ├── PFCatalog        (browse)   │
+│  ├── PFStatusBar       (bottom)    ├── PFProductDetail  (detail)   │
+│  ├── PFCanvas          (center)    ├── PFFinancePanel   (wallet)   │
+│  ├── PFEmptyCanvas     (welcome)   ├── PFGasometerPanel (metrics)  │
+│  └── PFWindowManager   (windows)   └── PFBundleCreator  (bundles)  │
 │                                                                     │
-│  🧠 AI & TOOLS                     🔐 GOVERNANCE                    │
-│  ├── PFChat            (Gemini)    ├── PFCouncilPanel   (PAT)      │
-│  ├── PFSettings        (config)    ├── PFFounderDashboard          │
-│  ├── PFDevModePanel    (debug)     ├── PFFounderModal              │
-│  ├── PFPluginEditor    (create)    ├── PFFounderPopout             │
-│  ├── PFMiningPanel     (P2P)       ├── PFLoginGate      (auth)     │
-│  └── PFNotifications   (alerts)    ├── PFLoginModal     (email)    │
-│                                    ├── PFPanicButton    (kill)     │
-│  🛡️ SECURITY                       ├── PFDefendDashboard           │
-│  ├── PFDefendPanel     (audit)     └── PFWelcomeWizard  (onboard)  │
+│  🧠 AI & DEV TOOLS                 🔐 AUTH & SECURITY              │
+│  ├── PFChat            (AI chat)   ├── PFLoginGate      (login)    │
+│  ├── PFSettings        (config)    ├── PFLoginModal     (email)    │
+│  ├── PFDevModePanel    (debug)     ├── PFDefendDashboard (audit)   │
+│  ├── PFPluginEditor    (create)    ├── PFDefendPanel    (rules)    │
+│  ├── PFMiningPanel     (P2P)       ├── PFPanicButton    (kill sw)  │
+│  ├── PFNotifications   (alerts)    ├── PFCouncilPanel   (govern)   │
+│  └── PFWelcomeWizard   (onboard)   ├── PFFounderDashboard         │
+│                                    ├── PFFounderModal              │
+│                                    └── PFFounderPopout             │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
-
----
-
-## 🔐 Security & Governance
-
-| Layer                | Technology                   | Purpose                                 |
-| -------------------- | ---------------------------- | --------------------------------------- |
-| **Panda Defend**     | 14 Semgrep rules             | Automated code security auditing        |
-| **Ed25519**          | Asymmetric cryptography      | License signing, identity verification  |
-| **PAT Constitution** | 12 immutable articles        | Economic governance — no human override |
-| **Kill Switch**      | Ed25519-signed, Founder-only | Emergency circuit breaker               |
-| **Circuit Breaker**  | Auto-failover pattern        | Backend resilience                      |
-| **Idempotency**      | Transaction dedup            | Prevents duplicate payments             |
-| **DRM Layer**        | Client-side verification     | Plugin license protection               |
 
 ---
 
@@ -460,11 +374,10 @@ The creator keeps earning **while sleeping**. That's the Panda Fabrics wealth mo
 | React UI Components      | ✅ 100% | **30 JSX** + 18 CSS               |
 | Backend (GAS)            | ✅ 100% | 9 .gs files                       |
 | AI Integration (Gemini)  | ✅ 100% | 5 models configured               |
-| MCP Protocol             | ✅ 100% | Tri-Mode + Tentacle extensibility |
+| MCP Protocol             | ✅ 100% | Tri-Mode + extensibility          |
 | Security (Panda Defend)  | ✅ 100% | 14 Semgrep rules                  |
-| Documentation (SSoT)     | ✅ 100% | 16 reference docs (DDD-first)     |
+| Documentation (SSoT)     | ✅ 100% | 16 reference docs                 |
 | Rust Agent (Desktop)     | ✅ 100% | 8 .rs modules                     |
-| Tentacle System          | ✅ 100% | 9 parents + 28 children           |
 | Medusa Store             | ✅ 90%  | v3.2: 12 extensions (EN)          |
 | Auth Ed25519             | 🚧 50%  | Crypto ready, SDK pending         |
 | GAS Production Deploy    | ⏳ Next | `useMock: true` — flip to go live |
@@ -472,106 +385,44 @@ The creator keeps earning **while sleeping**. That's the Panda Fabrics wealth mo
 
 ### Timeline
 
-| Phase    | Timeline     | Focus                 | Key Google Services                      |
-| -------- | ------------ | --------------------- | ---------------------------------------- |
-| **0** ✅ | Jan 2026     | Foundation            | GAS, Firebase, Gemini                    |
-| **1** 🚧 | Feb 2026     | UI/UX + SDK Polish    | GitHub Pages, Gemini integration         |
-| **2** ⏳ | Mar-Apr 2026 | Growth + Monetization | Kiwify/Hotmart hooks, PWA, Firebase live |
-| **3** ⏳ | Q2-Q3 2026   | Expansion             | Google Ads, Play Store, P2P Network      |
+| Phase    | Timeline     | Focus                 | Key Milestones                            |
+| -------- | ------------ | --------------------- | ----------------------------------------- |
+| **0** ✅ | Jan 2026     | Foundation            | SDK, Backend, AI, Security                |
+| **1** 🚧 | Feb 2026     | UI/UX Polish          | 30 components, Medusa Store, DevTools     |
+| **2** ⏳ | Mar-Apr 2026 | Growth + Monetization | Kiwify/Hotmart live, PWA, Firebase deploy |
+| **3** ⏳ | Q2-Q3 2026   | Expansion             | Google Ads, Play Store, P2P Network       |
 
 ---
 
 ## 🎯 Target Markets
 
-| Vertical                          | TAM   | Google Alignment        | Panda Differentiation                      |
-| --------------------------------- | ----- | ----------------------- | ------------------------------------------ |
-| **Infoproducts** (Kiwify/Hotmart) | $3.2B | Drive + Sheets + Gemini | AI course generation + auto-distribution   |
-| **EdTech** (Brazil, LATAM)        | $5B   | Colab + Gemini          | Interactive AI tutoring + P2P GPU          |
-| **Micro-SaaS for SMBs**           | $12B  | Sheets as backend       | Near-zero cost, user owns data on Drive    |
-| **Creator Economy**               | $100B | Drive + YouTube + Ads   | Landing pages + content distribution       |
-| **FinTech / Trading**             | $8B   | Sheets + Gemini         | AI analysis bots with passive income hooks |
+| Vertical                          | TAM   | Why Panda Fabrics Wins                               |
+| --------------------------------- | ----- | ---------------------------------------------------- |
+| **Infoproducts** (Kiwify/Hotmart) | $3.2B | AI course generation + auto-distribution at $0/month |
+| **EdTech** (Brazil, LATAM)        | $5B   | Interactive AI tutoring + Colab GPU for simulations  |
+| **Micro-SaaS for SMBs**           | $12B  | Near-zero cost, user owns data, no vendor lock-in    |
+| **Creator Economy**               | $100B | Landing pages + Medusa multi-platform distribution   |
+| **FinTech / Trading**             | $8B   | AI analysis bots with passive income for creators    |
 
 ---
 
-## 🤝 Why Google for Startups?
-
-We're applying because Panda Fabrics is not just _built on_ Google — it **is** Google infrastructure, packaged for the next 3.8 billion internet users.
-
-<table>
-<tr>
-<td>
-
-### What We Bring to Alphabet
-
-| Value                     | How                                                                       |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Direct API Revenue**    | Every user → ~500K Gemini tokens/month + Firebase + Drive + Colab         |
-| **Emerging Market Reach** | Micro-businesses in Brazil & LATAM that don't yet use Google Cloud        |
-| **Gemini Showcase**       | AI powers our entire product (5 models, 6 personas) — not just a chatbot  |
-| **Workspace Adoption**    | Medusa integrates Drive, Sheets, Docs, Colab into daily workflows         |
-| **Developer Ecosystem**   | Plugin marketplace trains devs to build on Google APIs (MCP+GAS+Firebase) |
-
-</td>
-</tr>
-<tr>
-<td>
-
-### What We Need from Google
-
-| Support                        | Impact                                                         |
-| ------------------------------ | -------------------------------------------------------------- |
-| **Gemini API credits**         | Scale from 10K → 100K users without API cost bottleneck        |
-| **Firebase Blaze sponsorship** | Remove free-tier limits for real-time P2P signaling            |
-| **Google Cloud credits**       | Future Cloud Run + BigQuery for analytics at scale             |
-| **Technical mentorship**       | Architecture review for production-grade deployment            |
-| **Go-to-market support**       | Visibility in Google for Startups alumni network, LATAM events |
-
-</td>
-</tr>
-</table>
-
-### What We Build Together
-
-> **Vision**: Panda Fabrics becomes the **"Canva for emerging markets"** — a free, AI-powered workspace where every interaction deepens the user's relationship with Google services.
-
-- 📊 **Google Sheets as Database** → millions of new Sheets power users
-- 🧠 **Gemini as Core Brain** → demonstrating AI-native product design
-- 🧪 **Google Colab as GPU** → converting free-tier users to Colab Pro
-- ☁️ **Google Drive as Storage** → Drive adoption in markets where Dropbox dominates
-- 📢 **Google Ads integration** → SMBs managing ads directly from Panda
-
----
-
-## 📊 Project Numbers (Audited Feb 2026)
+## 📊 By The Numbers (Audited Feb 2026)
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                    PANDA FABRICS BY NUMBERS                    │
+│                    PANDA FABRICS                               │
 │                                                                │
-│  📦 30 React Components     📄 16 Reference Docs (SSoT)       │
+│  📦 30 React Components     📄 16 Reference Docs              │
 │  🎨 18 CSS Files             🔧 12 SDK Modules                 │
-│  🐙 37 Tentacle Modules     🔴 9 GAS Backend Files            │
+│  🐙 37 Tentacle Modules     🔴 9 Backend Files                │
 │  🦀 8 Rust Modules           🛡️ 14 Security Rules              │
-│  🧠 5 Gemini Models          🏛️ 12 PAT Articles                │
-│  💰 17 SDK Namespaces        📊 3,100+ CSS Lines               │
+│  🧠 5 Gemini Models          📊 3,100+ CSS Lines               │
+│  💰 17 SDK Namespaces        🌐 15 Platform Integrations       │
 │                                                                │
-│  📈 Phase 1: 90% Complete | Phase 2: Starting Mar 2026        │
+│  ⚡ Phase 1: 90% Complete                                      │
+│  🚀 Zero install. Browser-only. Your data stays yours.         │
 └──────────────────────────────────────────────────────────────┘
 ```
-
----
-
-## 💡 Technical Highlights
-
-| Feature                      | Implementation                         | Impact                                          |
-| ---------------------------- | -------------------------------------- | ----------------------------------------------- |
-| **Documentation-Driven Dev** | 16 SSoT docs with MCP headers          | AI reads docs → generates code → self-validates |
-| **Gasômetro**                | Real-time GAS quota monitor            | Users see exactly what costs what               |
-| **Casulos (Bundles)**        | Revenue-sharing bundles                | Creators combine plugins for higher revenue     |
-| **Polyglot Module**          | i18n, real-time chat translation       | Global reach from day one                       |
-| **Dual-Purpose Nodes**       | Mine + process tasks (70/20/10 split)  | Users earn while helping others                 |
-| **Phantom Protocol**         | Smart CPU limiter (25-75%)             | Mining never impacts user experience            |
-| **5-Tier Node Hierarchy**    | Seed → Sprout → Growth → Elder → Titan | Natural progression rewards loyalty             |
 
 ---
 
@@ -580,13 +431,13 @@ We're applying because Panda Fabrics is not just _built on_ Google — it **is**
 **Lucas Valério** — Founder & Solo Developer
 
 - 🐙 GitHub: [@LucassVal](https://github.com/LucassVal)
-- 📧 Open to Google for Startups partnership discussions
 - 📍 Brazil
+- 📧 Open to partnerships and collaboration
 
 ---
 
 <p align="center">
   <strong>🐼 Panda Fabrics</strong><br>
-  <em>Built on Google. Built for everyone.</em><br>
-  <code>v7.1 — February 2026 (Council Audit Synced)</code>
+  <em>Your browser is your OS. Your Drive is your server. AI is your co-pilot.</em><br>
+  <code>v7.1 — February 2026</code>
 </p>
