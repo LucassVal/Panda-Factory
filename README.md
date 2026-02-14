@@ -27,6 +27,7 @@
   <a href="#-architecture">Architecture</a> •
   <a href="#-ui-showcase">Screenshots</a> •
   <a href="#-roadmap">Roadmap</a> •
+  <a href="#-why-google-for-startups">Google Partnership</a> •
   <a href="#-contact">Contact</a>
 </p>
 
@@ -426,13 +427,60 @@ USER (Browser)
 
 ---
 
+## 🤝 Why Google for Startups?
+
+Panda Fabrics is not just _built on_ Google — it **is** Google infrastructure, packaged for the next 3.8 billion internet users.
+
+<table>
+<tr>
+<td>
+
+### What We Bring to Google
+
+| Value                     | How                                                                       |
+| ------------------------- | ------------------------------------------------------------------------- |
+| **Direct API Revenue**    | Every user → ~500K Gemini tokens/month + Firebase + Drive + Colab         |
+| **Emerging Market Reach** | Micro-businesses in Brazil & LATAM that don't yet use Google Cloud        |
+| **Gemini Showcase**       | AI powers our entire product (5 models, 6 personas) — not just a chatbot  |
+| **Workspace Adoption**    | Medusa integrates Drive, Sheets, Docs, Colab into daily workflows         |
+| **Developer Ecosystem**   | Plugin marketplace trains devs to build on Google APIs (MCP+GAS+Firebase) |
+
+</td>
+</tr>
+<tr>
+<td>
+
+### What We Need from Google
+
+| Support                        | Impact                                                         |
+| ------------------------------ | -------------------------------------------------------------- |
+| **Gemini API credits**         | Scale from 10K → 100K users without API cost bottleneck        |
+| **Firebase Blaze sponsorship** | Remove free-tier limits for real-time P2P signaling            |
+| **Google Cloud credits**       | Future Cloud Run + BigQuery for analytics at scale             |
+| **Technical mentorship**       | Architecture review for production-grade deployment            |
+| **Go-to-market support**       | Visibility in Google for Startups alumni network, LATAM events |
+
+</td>
+</tr>
+</table>
+
+> **Vision**: Panda Fabrics becomes the **"Canva for emerging markets"** — a free, AI-powered workspace where every interaction deepens the user's relationship with Google services.
+>
+> 📊 **Google Sheets as Database** → millions of new Sheets power users  
+> 🧠 **Gemini as Core Brain** → demonstrating AI-native product design  
+> 🧪 **Google Colab as GPU** → converting free-tier users to Colab Pro  
+> ☁️ **Google Drive as Storage** → Drive adoption in markets where Dropbox dominates  
+> 📢 **Google Ads integration** → SMBs managing ads directly from Panda
+
+---
+
 ## 📬 Contact
 
 **Lucas Valério** — Founder & Solo Developer
 
 - 🐙 GitHub: [@LucassVal](https://github.com/LucassVal)
 - 📍 Brazil
-- 📧 Open to partnerships and collaboration
+- 📧 Open to Google for Startups partnership discussions
 
 ---
 
