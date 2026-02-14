@@ -840,3 +840,160 @@ Toda mensagem ao Brain inclui contexto UI automaticamente (canvas shapes, panels
 - Documentation-First: ✅ **DDD com MCP headers é acelerador estratégico**
 
 > **O Panda Factory tem o planejamento certo. O alinhamento DDD→CNPJ→hooks→código é o caminho que transforma 16 docs em produto real sem dívida técnica.**
+
+---
+
+## §21. 🗺️ ROADMAP UNIFICADO PANDA FACTORY — 2026
+
+> **Migrado de:** CONTEXT.md §9 (2026-02-14)
+> **Tipo:** Append-only — cada revisão ADICIONA, nunca remove.
+
+### 21.1 Visão Macro — 4 Fases
+
+| Fase               | Status  | Período      | Foco Principal                       | KPIs                              |
+| ------------------ | ------- | ------------ | ------------------------------------ | --------------------------------- |
+| **0 — Foundation** | ✅ 100% | Jan/2026     | Shell, SDK, GAS Backend              | 12 SDK files, 9 GAS, 37 tentacles |
+| **1 — Dia 1**      | 🚧 90%  | Fev/2026     | Docs, System Design, UI/UX           | 16 docs, 30 JSX, 18 CSS, 8 Rust   |
+| **2 — Escala**     | ⏳ 10%  | Mar-Abr/2026 | PWA, Mobile, P2P, Store, Real Deploy | Firebase live, GAS published      |
+| **3 — Expansão**   | ⏳ 0%   | Q2-Q3/2026   | SDK Portal, Mining, Multi-Monitor    | P2P network, token launch         |
+
+### 21.2 Fase 1 — Status por Componente (Auditado 2026-02-14)
+
+| Componente                   | Status  | Real (Auditado)                                                      |
+| ---------------------------- | ------- | -------------------------------------------------------------------- |
+| SDK Mock v0.9.0              | ✅ 100% | 12 .js files, 17 namespaces confirmados                              |
+| Rust Agent                   | ✅ 100% | 8 .rs files (crypto, gpu, health, main, mcp, mining, moltbook, node) |
+| Documentação                 | ✅ 100% | 16 PF\_ docs + council_viability_report.md                           |
+| P2P Reference                | ✅ 100% | §6.5 Dual-Purpose Node adicionado (2026-02-14)                       |
+| MCP Protocol                 | ✅ 100% | Tri-Mode GAS integrado + Tentacle extensibility                      |
+| Panda Defend                 | ✅ 100% | 14 regras Semgrep documentadas                                       |
+| UI Components (Legacy HTML)  | ✅ 100% | 6 componentes + PandaFactory.html                                    |
+| JAM React UI v6.5            | ✅ 100% | 30 JSX + 18 CSS, Gasômetro, Store v3.2                               |
+| Auth Ed25519                 | 🚧 50%  | Crypto implementado, integração SDK **pendente**                     |
+| Medusa Store UI              | ✅ 90%  | v3.2: 12 extensões (EN), hooks Kiwify/Hotmart                        |
+| **GAS Real Deploy**          | ⏳ 0%   | Mock ativo, `useMock: true` (ou não configurado)                     |
+| **Firebase RTDB Activation** | ⏳ 0%   | Projeto existe, regras/schema **NÃO configurados**                   |
+| **Rust IPC Bridge**          | ⏳ 0%   | Tool registration existe, Tauri bridge **pendente**                  |
+
+### 21.3 Fase 1 — Sprint Imediato (Fev/2026) — Checklist Detalhado
+
+> **Prioridade definida pelo Founder (2026-02-14): FOCO UI/UX ↔ SDK primeiro, ligações depois.**
+
+#### 🎨 UI/UX (PRIORIDADE AGORA)
+
+- `[x]` Docs system design + UI audit v6.5
+- `[x]` JAM React UI — 30 componentes JSX + 18 CSS files
+- `[x]` Gasômetro — billing meter visual implementado
+- `[x]` Store v3.2 — 12 extensões, EN locale
+- `[x]` Settings panel — temas, dev mode, preferências
+- `[x]` Chat panel — auto-open, markdown render
+- `[ ]` **PWA** → `vite-plugin-pwa` (Workbox, offline-first)
+- `[ ]` **Selo Panda** → badge visual no SecurityAgent
+- `[ ]` **MCP Inspector** → painel visual de tools/resources no DevMode
+- `[ ]` **UI Polish** → micro-animações, hover states, loading skeletons
+- `[ ]` **Responsivo base** → garantir 1024px funcional (desktop-first)
+
+#### 🔌 SDK ↔ UI Ligações (APÓS UI/UX)
+
+- `[x]` SDK Mock 17 namespaces operacionais
+- `[ ]` **Panda.UI ↔ componentes React** → garantir que todos os 30 JSX usam SDK hooks
+- `[ ]` **Panda.Store ↔ PFMedusaStore** → checkout flow real (mock → PC debit)
+- `[ ]` **Panda.Auth ↔ useAuth** → login flow completo (mock → Firebase Auth)
+- `[ ]` **Panda.Brain ↔ PFChat** → Gemini integration real
+- `[ ]` **Panda.Economy ↔ PFGasometer** → wallet balance real-time
+- `[ ]` **TentacleMonitor ↔ DevTools** → visualização da árvore de tentacles
+
+#### 🔥 Firebase (FASE 2 — NÃO é prioridade agora)
+
+- `[ ]` Firebase Auth → ativar provider Email/Google no console
+- `[ ]` Firebase RTDB → definir regras de segurança
+- `[ ]` RTDB schema → nós base (`/users`, `/wallets`, `/licenses`, `/heartbeat`)
+- `[ ]` `pf.app-init.js` → conectar Firebase SDK real
+
+#### ⚡ GAS Backend (FASE 2 — NÃO é prioridade agora)
+
+- `[ ]` Deploy GAS como Web App
+- `[ ]` Endpoint `doPost()` roteamento
+- `[ ]` Wallet + License endpoints
+
+#### 🦀 Rust Agent (FASE 2 — NÃO é prioridade agora)
+
+- `[ ]` Ed25519 key pair generation
+- `[ ]` MCP tool registration
+- `[ ]` Tauri IPC bridge
+
+### 21.4 Fase 2 — Escala (Mar-Abr/2026)
+
+#### UI/UX
+
+- `[ ]` Responsivo completo → CSS breakpoints (1024/768/480)
+- `[ ]` Seções Mobile nos 7 Reference docs
+- `[ ]` Chat Bubbles → dicas contextuais
+
+#### Firebase → Real
+
+- `[ ]` RTDB Persistence → offline-first
+- `[ ]` Firebase Rules hardening → rate limiting
+- `[ ]` Real-time listeners → wallet balance, heartbeat
+
+#### GAS → Real
+
+- `[ ]` Heartbeat cron
+- `[ ]` Store purchase flow → PC debit + Medusa split
+- `[ ]` PAT inflation monitor
+- `[ ]` Casulos (BundleCreator)
+
+#### Rust → Real
+
+- `[ ]` Partner Mode → XMRig integration
+- `[ ]` Phantom Protocol → CPU limiter
+- `[ ]` MCP Tier 3 tools
+
+#### Mock → Real
+
+- `[ ]` PC Economy → RTDB wallet
+- `[ ]` Store purchases → real PC debit + license key
+- `[ ]` Web Mining → WASM Smart Throttle
+- `[ ]` SDK Auth → Firebase Auth token
+
+#### Security
+
+- `[ ]` CSP headers
+- `[ ]` SRI → Subresource Integrity
+- `[ ]` CORS → GAS origins
+
+### 21.5 Fase 3 — Expansão (Q2-Q3/2026)
+
+- `[ ]` SDK Dev Portal (manual, playground, exemplos)
+- `[ ]` PFMobileShell + touch gestures
+- `[ ]` Multi-Monitor MCP (PDV, totem, vitrine)
+- `[ ]` Cloud Functions (se necessário)
+- `[ ]` RTDB sharding (>10k users)
+- `[ ]` Oracle pricing (spot price XMR/ETH)
+- `[ ]` P2P compute marketplace
+- `[ ]` Rust Smart Throttle
+- `[ ]` Machine Rental (GPU/CPU sharing)
+- `[ ]` Multi-coin rig (auto-select)
+- `[ ]` P2P Network real (WebRTC/libp2p)
+- `[ ]` Panda Oracle (real spot price API)
+- `[ ]` Token pipeline (off-chain PC → on-chain SPL/Solana)
+
+### 21.6 Auditoria de Realidade (2026-02-14)
+
+> **Método:** Contagem real de arquivos no disco vs declarado no roadmap.
+
+| Métrica         | Declarado   | Real               | Delta | Veredicto                                |
+| --------------- | ----------- | ------------------ | ----- | ---------------------------------------- |
+| SDK .js files   | 12          | 12                 | 0     | ✅ Match                                 |
+| JSX Components  | 26          | **30**             | +4    | 🔼 Cresceu (novos componentes desde Jan) |
+| CSS files       | 19          | **18**             | -1    | ⚠️ Leve divergência                      |
+| Tentacle .js    | 28 children | **37** total       | —     | ✅ 37 = 9 parents + 28 children          |
+| Rust .rs        | 8           | 8                  | 0     | ✅ Match                                 |
+| GAS .gs         | 9           | 9                  | 0     | ✅ Match                                 |
+| PF\_ docs       | 16          | 16                 | 0     | ✅ Match                                 |
+| Firebase config | exists      | exists             | —     | ✅ Pasta `00.credentials/` presente      |
+| useMock         | true/off    | **Não encontrado** | —     | ⚠️ Config ausente ou inline              |
+
+**Resultado:** Roadmap está **95% alinhado** com a realidade. JSX cresceu para 30 (atualizado acima). CSS contagem levemente divergente (18 vs 19 declarado).
+
+> **Decisão Founder 2026-02-14:** Foco imediato = **UI/UX ↔ SDK**, ligações Backend/Firebase/Rust ficam para Fase 2.

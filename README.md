@@ -67,9 +67,11 @@ We are applying for the **Google for Startups** program because Panda Factory is
 
 ## 🚀 Live Demo
 
-> **[▶ Launch Panda Factory](https://lucassval.github.io/Panda-Factory/)**
+> **[▶ Launch Panda Fabrics](https://lucassval.github.io/Panda-Factory/)**
 >
-> Login: `admin` / `admin` (demo credentials)
+> 🔑 Demo Login: `dev` / `dev` (Developer/User mode — SDK + DevTools enabled)
+>
+> _Founder and Admin credentials are restricted._
 
 ---
 
@@ -438,30 +440,32 @@ An autonomous AI governs the token economy following **12 hardcoded constitution
 
 ## 🗺️ Roadmap
 
-### Current Status: Phase 1 — 95% Complete
+### Current Status: Phase 1 — 90% Complete (Audited Feb 14, 2026)
 
-| Component                        | Status    |
-| -------------------------------- | --------- |
-| SDK Core (17 namespaces)         | ✅ 100%   |
-| Backend (GAS + Firebase)         | ✅ 100%   |
-| AI Integration (Gemini)          | ✅ 100%   |
-| MCP Protocol                     | ✅ 100%   |
-| Security (Panda Defend)          | ✅ 100%   |
-| Design System (3,100+ CSS lines) | ✅ 100%   |
-| React UI (24 components)         | ✅ 100%   |
-| Medusa Store                     | ✅ 80%    |
-| GitHub + Drive Integration       | ✅ Active |
-| Auth Ed25519                     | 🚧 50%    |
-| GAS Production Deploy            | ⏳ Next   |
+| Component                | Status  | Audited Count                         |
+| ------------------------ | ------- | ------------------------------------- |
+| SDK Core (17 namespaces) | ✅ 100% | 12 .js files                          |
+| React UI Components      | ✅ 100% | **30 JSX** + 18 CSS                   |
+| Backend (GAS)            | ✅ 100% | 9 .gs files                           |
+| AI Integration (Gemini)  | ✅ 100% | 5 models configured                   |
+| MCP Protocol             | ✅ 100% | Tri-Mode + Tentacle extensibility     |
+| Security (Panda Defend)  | ✅ 100% | 14 Semgrep rules                      |
+| Documentation (SSoT)     | ✅ 100% | 16 PF\_ reference docs                |
+| Rust Agent (Desktop)     | ✅ 100% | 8 .rs modules                         |
+| Tentacle System          | ✅ 100% | 9 parents + 28 children               |
+| Medusa Store             | ✅ 90%  | v3.2: 12 extensions (EN)              |
+| Auth Ed25519             | 🚧 50%  | Crypto ready, SDK integration pending |
+| GAS Production Deploy    | ⏳ Next | `useMock: true` — flip to go live     |
+| Firebase RTDB Activation | ⏳ Next | Project exists, rules pending         |
 
 ### Timeline
 
-| Phase    | Timeline     | Focus                 | Key Google Services                            |
-| -------- | ------------ | --------------------- | ---------------------------------------------- |
-| **0** ✅ | Jan 2026     | Foundation            | GAS, Firebase, Gemini                          |
-| **1** 🚧 | Feb 2026     | Launch & Polish       | Scale Gemini, GitHub Pages                     |
-| **2** ⏳ | Mar-Apr 2026 | Growth + Monetization | Kiwify/Hotmart hooks, Landing Pages, Gasômetro |
-| **3** ⏳ | Q2-Q3 2026   | Expansion             | Google Ads, Play Store, Google One upsells     |
+| Phase    | Timeline     | Focus                 | Key Google Services                      |
+| -------- | ------------ | --------------------- | ---------------------------------------- |
+| **0** ✅ | Jan 2026     | Foundation            | GAS, Firebase, Gemini                    |
+| **1** 🚧 | Feb 2026     | UI/UX + SDK Polish    | GitHub Pages, Gemini integration         |
+| **2** ⏳ | Mar-Apr 2026 | Growth + Monetization | Kiwify/Hotmart hooks, PWA, Firebase live |
+| **3** ⏳ | Q2-Q3 2026   | Expansion             | Google Ads, Play Store, P2P Network      |
 
 ---
 
@@ -498,7 +502,7 @@ An autonomous AI governs the token economy following **12 hardcoded constitution
 ---
 
 <p align="center">
-  <strong>🐼 Panda Factory</strong><br>
+  <strong>🐼 Panda Fabrics</strong><br>
   <em>Built on Google. Built for everyone.</em><br>
-  <code>v6.4 — February 2026</code>
+  <code>v7.0 — February 2026 (Council Audit Synced)</code>
 </p>
