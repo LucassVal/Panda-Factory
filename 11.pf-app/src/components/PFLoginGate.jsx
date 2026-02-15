@@ -52,26 +52,51 @@ const CREDENTIALS = [
 // Feature highlights for the landing page
 const FEATURES = [
   {
-    icon: "🤖",
+    icon: "🧠",
     title: "6 Specialist AIs",
     desc: "Autonomous agents for design, code, and business",
   },
   {
-    icon: "🧩",
-    title: "Modular Platform",
-    desc: "Install only what you need from the Store",
+    icon: "🎨",
+    title: "Infinite Canvas",
+    desc: "Draw, design, and prototype without limits",
   },
   {
-    icon: "🚀",
-    title: "Instant Deploy",
-    desc: "GitHub Pages CI/CD — push and ship",
+    icon: "🏪",
+    title: "Medusa Store",
+    desc: "Install extensions or publish your own",
   },
+  {
+    icon: "⛏️",
+    title: "PAT Mining",
+    desc: "Earn tokens while you create and contribute",
+  },
+  {
+    icon: "🧩",
+    title: "Fully Modular",
+    desc: "Install only what you need — nothing extra",
+  },
+  {
+    icon: "⚡",
+    title: "Real-time Sync",
+    desc: "Collaborate live with GitHub Actions CI/CD",
+  },
+];
+
+// Social proof stats
+const STATS = [
+  { value: "Open Source", label: "MIT License" },
+  { value: "6", label: "AI Models" },
+  { value: "12+", label: "Extensions" },
+  { value: "∞", label: "Canvas" },
 ];
 
 // Tech stack badges
 const TECH_BADGES = [
   "React", "Gemini AI", "Firebase", "tldraw", "GitHub Actions", "Ed25519"
 ];
+
+const APP_VERSION = "v6.5 — MVP";
 
 function LoginGate({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -179,8 +204,23 @@ function LoginGate({ children }) {
             </div>
             <h1 className="login-title">Panda Factory</h1>
             <p className="login-tagline">
-              AI-powered tools to create, automate and monetize
+              Your AI-Powered Creative Studio
             </p>
+            <p className="login-description">
+              An open-source modular workspace where you design on an infinite canvas,
+              harness 6 AI models, and earn PAT tokens for every contribution.
+              Built for creators, developers, and entrepreneurs.
+            </p>
+
+            {/* Social Proof Stats */}
+            <div className="login-stats">
+              {STATS.map((s, i) => (
+                <div className="login-stat" key={i}>
+                  <span className="login-stat-value">{s.value}</span>
+                  <span className="login-stat-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
 
             {/* Feature Cards */}
             <div className="login-features">
@@ -188,7 +228,7 @@ function LoginGate({ children }) {
                 <div
                   className="login-feature-card"
                   key={i}
-                  style={{ animationDelay: `${0.1 + i * 0.15}s` }}
+                  style={{ animationDelay: `${0.1 + i * 0.1}s` }}
                 >
                   <span className="login-feature-icon">{f.icon}</span>
                   <div>
@@ -205,6 +245,9 @@ function LoginGate({ children }) {
                 <span className="login-tech-badge" key={i}>{badge}</span>
               ))}
             </div>
+
+            {/* Version badge */}
+            <div className="login-version-badge">{APP_VERSION}</div>
           </div>
         </div>
 
@@ -278,13 +321,29 @@ function LoginGate({ children }) {
                   "Sign in with Email"
                 )}
               </button>
+
+              <p className="login-free-hint">
+                🔓 Free to explore — no credit card required
+              </p>
             </form>
 
-            {/* Demo Hint */}
-            <div className="login-demo-hint">
-              <span className="login-demo-label">MVP Demo</span>
-              <code>user@panda.com</code> / <code>user</code>
-            </div>
+            {/* Forgot password */}
+            <button
+              className="login-forgot-btn"
+              onClick={() => alert("Password reset coming soon. For now, use the demo credentials below.")}
+            >
+              Forgot password?
+            </button>
+
+            {/* Demo Hint — collapsible */}
+            <details className="login-demo-details">
+              <summary className="login-demo-summary">
+                <span className="login-demo-label">MVP Demo Credentials</span>
+              </summary>
+              <div className="login-demo-content">
+                <code>user@panda.com</code> / <code>user</code>
+              </div>
+            </details>
 
             {/* Footer */}
             <div className="login-form-footer">

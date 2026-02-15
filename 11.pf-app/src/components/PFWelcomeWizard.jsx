@@ -144,6 +144,15 @@ function PFWelcomeWizard({ onComplete, onOpenStore }) {
       <div className="pf-wizard-backdrop" />
 
       <div className="pf-wizard-container">
+        {/* Close button — always visible */}
+        <button
+          className="pf-wizard-close-btn"
+          onClick={handleSkip}
+          aria-label="Close wizard"
+          title="Close"
+        >
+          ✕
+        </button>
         {/* Step content */}
         <div
           className={`pf-wizard-step ${direction}`}
@@ -257,9 +266,9 @@ function PFWelcomeWizard({ onComplete, onOpenStore }) {
           <button
             className="pf-wizard-skip-btn"
             onClick={handleSkip}
-            aria-label="Skip introduction"
+            aria-label={isLastStep ? "Close wizard" : "Skip introduction"}
           >
-            SKIP
+            {isLastStep ? "CLOSE" : "SKIP"}
           </button>
 
           <div className="pf-wizard-nav-right">
@@ -272,13 +281,21 @@ function PFWelcomeWizard({ onComplete, onOpenStore }) {
                 ← BACK
               </button>
             )}
-            {!isLastStep && (
+            {!isLastStep ? (
               <button
                 className="pf-wizard-next-btn"
                 onClick={handleNext}
                 aria-label="Next"
               >
                 NEXT →
+              </button>
+            ) : (
+              <button
+                className="pf-wizard-finish-btn"
+                onClick={() => handleComplete("finish")}
+                aria-label="Finish and close wizard"
+              >
+                FINISH ✓
               </button>
             )}
           </div>

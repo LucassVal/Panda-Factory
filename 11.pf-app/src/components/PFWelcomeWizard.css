@@ -52,6 +52,66 @@ body.light-mode .pf-wizard-container {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
+/* Close button — top-right */
+.pf-wizard-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--pf-border, #2a2a4e);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--pf-text-muted, #8a8a9a);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  z-index: 2;
+  line-height: 1;
+}
+
+.pf-wizard-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  transform: scale(1.1);
+}
+
+body.light-mode .pf-wizard-close-btn {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: #e0e0e5;
+  color: #888;
+}
+
+body.light-mode .pf-wizard-close-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Finish button — last step */
+.pf-wizard-finish-btn {
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: var(--pf-radius-btn, 8px);
+  transition: all 0.15s ease;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.pf-wizard-finish-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
 /* Step content area */
 .pf-wizard-step {
   text-align: center;
