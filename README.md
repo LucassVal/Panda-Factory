@@ -37,11 +37,7 @@
 
 > **🚀 [Launch Panda Fabrics →](https://lucassval.github.io/Panda-Factory/)**
 >
-> | Login     | Password  | Access Level                        |
-> | --------- | --------- | ----------------------------------- |
-> | `user`    | `user`    | **MVP Demo** — full user experience |
-> | `dev`     | `dev`     | Developer mode — SDK + DevTools     |
-> | `founder` | `founder` | Founder — full access + Dashboard   |
+> 🔑 Demo Login: `user` / `user` (full MVP experience)
 
 <!-- Screenshots will be added in Phase 2 -->
 
