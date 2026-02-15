@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 /**
- * 🔒 Login Gate - Proteção de Acesso
+ * Login Gate - Access Control
  *
- * CREDENTIALS (v6.3):
- *   1) admin / admin        → Admin (acesso completo, sem Founder)
- *   2) Lucassvalerio / U@g1232025 → Founder (acesso total + Dashboard)
+ * TEST CREDENTIALS (v7.2):
+ *   1) user / user        → User (regular user experience, MVP demo)
+ *   2) dev / dev          → Dev/User (DevTools available, SDK access)
+ *   3) founder / founder  → Founder (full access + Dashboard + PAT Council)
+ *
+ * REAL CREDENTIALS: stored securely, not listed here.
  */
 
 // Simple hash function (NOT for production security!)
@@ -21,6 +24,44 @@ const simpleHash = (str) => {
 
 // Credential sets (hashed for basic security)
 const CREDENTIALS = [
+  // === TEST CREDENTIALS ===
+  {
+    user: simpleHash("founder"),
+    pass: simpleHash("founder"),
+    profile: {
+      uid: "founder-test",
+      email: "founder@panda.com",
+      displayName: "Founder (Test)",
+      userType: "founder",
+      founderPercent: 5,
+      authMethod: "logingate",
+    },
+  },
+  {
+    user: simpleHash("dev"),
+    pass: simpleHash("dev"),
+    profile: {
+      uid: "dev-test",
+      email: "dev@test.com",
+      displayName: "Developer (Test)",
+      userType: "dev",
+      sdkAccess: true,
+      authMethod: "logingate",
+    },
+  },
+  {
+    user: simpleHash("user"),
+    pass: simpleHash("user"),
+    profile: {
+      uid: "user-demo",
+      email: "user@demo.com",
+      displayName: "Demo User",
+      userType: "user",
+      sdkAccess: false,
+      authMethod: "logingate",
+    },
+  },
+  // === REAL CREDENTIALS ===
   {
     user: simpleHash("Lucassvalerio"),
     pass: simpleHash("U@g1232025"),
@@ -127,7 +168,7 @@ function LoginGate({ children }) {
   if (isLoading) {
     return (
       <div className="login-gate-loading">
-        <div className="login-spinner">🐼</div>
+        <div className="login-spinner"><img src="/panda-icon.png" alt="Panda" style={{width:"48px",height:"48px"}} /></div>
         <p>Carregando...</p>
       </div>
     );
