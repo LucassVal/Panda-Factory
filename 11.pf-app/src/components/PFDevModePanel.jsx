@@ -407,6 +407,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
           : [...prev.outputHooks, hookId],
       }));
 
+    const priceNum = parseFloat(publishForm.priceUSD) || 0;
+    const isPriceInvalid = priceNum > 0 && priceNum < 0.50;
+
     const handlePublish = async () => {
       if (!publishForm.name.trim()) {
         console.warn("📦 PUBLISH: Nome é obrigatório");
@@ -414,6 +417,10 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
       }
       if (!publishForm.namespace.trim()) {
         console.warn("📦 PUBLISH: Namespace é obrigatório (ex: @username/nome)");
+        return;
+      }
+      if (isPriceInvalid) {
+        console.warn("📦 PUBLISH: Preço mínimo de venda é $0.50 (ou $0.00 para grátis)");
         return;
       }
 
@@ -424,7 +431,7 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
       const isTentacle = publishForm.category === "tentacle";
       const steps = [
-        { label: "Validando panda.manifest.json", duration: 800 },
+        { label: "Validando panda.mcp.json", duration: 800 },
         { label: "Static Analysis (Semgrep rules)", duration: 1200 },
         { label: "Dependency scan", duration: 900 },
         { label: `Sandbox test (30s${isTentacle ? " + Proxy SDK check" : ""})`, duration: 1500 },
@@ -534,8 +541,52 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
                   onChange={(e) => updateField("priceUSD", e.target.value)}
                 />
               </div>
+              {/* Min sale price warning */}
+              {isPriceInvalid && (
+                <div style={{
+                  marginTop: 6, padding: "6px 10px", borderRadius: 6,
+                  background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)",
+                  fontSize: 12, color: "#ef4444",
+                }}>
+                  ⚠️ Preço mínimo de venda: <strong>$0.50</strong> — Publicar é grátis, mas módulos pagos devem custar no mínimo $0.50. Use $0.00 para distribuição gratuita.
+                </div>
+              )}
             </div>
           </div>
+
+          {/* ── Revenue Split Info ── */}
+          {priceNum > 0 && !isPriceInvalid && (
+            <div className="publish-section" style={{
+              background: "rgba(16,185,129,0.06)",
+              border: "1px solid rgba(16,185,129,0.2)",
+              borderRadius: 8,
+            }}>
+              <div className="publish-section-title" style={{ color: "#10b981" }}>
+                💰 Revenue Split (USD-FIRST)
+              </div>
+              <div style={{ fontSize: 13, lineHeight: 1.7, color: "#e2e8f0", padding: "0 8px" }}>
+                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
+                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Destinatário</th>
+                      <th style={{ textAlign: "center", padding: "4px 8px", color: "#94a3b8" }}>%</th>
+                      <th style={{ textAlign: "right", padding: "4px 8px", color: "#94a3b8" }}>Valor/venda</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td style={{ padding: "4px 8px" }}>👤 Desenvolvedor</td><td style={{ padding: "4px 8px", textAlign: "center" }}>55%</td><td style={{ padding: "4px 8px", textAlign: "right", color: "#10b981", fontWeight: 700 }}>${(priceNum * 0.55).toFixed(2)}</td></tr>
+                    <tr><td style={{ padding: "4px 8px" }}>🎓 Educação</td><td style={{ padding: "4px 8px", textAlign: "center" }}>22%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.22).toFixed(2)}</td></tr>
+                    <tr><td style={{ padding: "4px 8px" }}>⚙️ Operações</td><td style={{ padding: "4px 8px", textAlign: "center" }}>15%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.15).toFixed(2)}</td></tr>
+                    <tr><td style={{ padding: "4px 8px" }}>🏭 Founder</td><td style={{ padding: "4px 8px", textAlign: "center" }}>5%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.05).toFixed(2)}</td></tr>
+                    <tr><td style={{ padding: "4px 8px" }}>💳 Taxas</td><td style={{ padding: "4px 8px", textAlign: "center" }}>3%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.03).toFixed(2)}</td></tr>
+                  </tbody>
+                </table>
+                <p style={{ margin: "8px 0 0", fontSize: 11, color: "#64748b" }}>
+                  Preço USD convertido para PC no momento da compra. Publicar é <strong>GRÁTIS</strong>.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* ── Tentáculo Warning ── */}
           {publishForm.category === "tentacle" && (

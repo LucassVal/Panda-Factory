@@ -28,8 +28,8 @@ function PFStatusBar({
   const [userName, setUserName] = useState(() => {
     try {
       const u = JSON.parse(localStorage.getItem("panda_user"));
-      return u?.displayName || "CONVIDADO";
-    } catch { return "CONVIDADO"; }
+      return u?.displayName || "GUEST";
+    } catch { return "GUEST"; }
   });
   const [sessionStart] = useState(() => new Date());
   const [sessionDuration, setSessionDuration] = useState("00:00");
@@ -97,7 +97,7 @@ function PFStatusBar({
     const updateClock = () => {
       const now = new Date();
       setTime(
-        now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+        now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
       );
       const diff = Math.floor((now - sessionStart) / 1000);
       const hours = Math.floor(diff / 3600);
@@ -154,6 +154,8 @@ function PFStatusBar({
         className={`pf-status-bar ${isDarkMode ? "dark" : "light"}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        role="banner"
+        aria-label="Panda Fabrics status bar"
         style={{
           display: isExpanded ? "flex" : "none",
         }}
@@ -162,7 +164,7 @@ function PFStatusBar({
         <div
           className="pf-brand-container"
           onClick={onStoreClick}
-          title="ABRIR STORE"
+          title="OPEN STORE"
         >
           <img
             src={brandLogo}
@@ -174,21 +176,22 @@ function PFStatusBar({
 
         {/* CENTER: Status Pills */}
         <div className="pf-status-group">
-          <div className="pf-status-pills">
+          <div className="pf-status-pills" role="status" aria-live="polite" aria-label="Service status">
             {statusPills.map((pill) => (
               <div
                 key={pill.id}
                 className="pf-status-pill"
                 title={`${pill.title} — ${(statuses[pill.id] || "unknown").toUpperCase()}`}
+                aria-label={`${pill.title}: ${(statuses[pill.id] || "unknown").toUpperCase()}`}
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  const s = statuses[pill.id] || "desconhecido";
+                  const s = statuses[pill.id] || "unknown";
                   const emoji = s === "online" ? "🟢" : s === "warning" ? "🟡" : s === "offline" ? "🔴" : "⚪";
                   alert(`${emoji} ${pill.title}\n\nStatus: ${s.toUpperCase()}`);
                 }}
               >
                 <span className="pf-status-label">{pill.label}</span>
-                <span className={`pf-status-dot ${statuses[pill.id]}`} />
+                <span className={`pf-status-dot ${statuses[pill.id]}`} aria-hidden="true" />
               </div>
             ))}
           </div>
@@ -196,7 +199,8 @@ function PFStatusBar({
           <button
             className="pf-theme-toggle pf-header-btn"
             onClick={toggleTheme}
-            title={isDarkMode ? "MODO CLARO" : "MODO ESCURO"}
+            title={isDarkMode ? "LIGHT MODE" : "DARK MODE"}
+            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {isDarkMode ? "☀️" : "🌙"}
           </button>
@@ -205,7 +209,7 @@ function PFStatusBar({
         {/* RIGHT: Controls — same order as original */}
         <div className="pf-header-controls">
           {/* Arc Energy */}
-          <div className="pf-arc-energy" title={`${energy}% ENERGY`}>
+          <div className="pf-arc-energy" title={`${energy}% ENERGY`} aria-label={`Session energy: ${energy}%`}>
             <svg width="40" height="40" viewBox="0 0 48 48">
               <defs>
                 <linearGradient
@@ -237,7 +241,7 @@ function PFStatusBar({
           {/* Treasury */}
           <div
             className="pf-treasury"
-            title="TREASURY — ABRIR PAT COUNCIL"
+            title="TREASURY — OPEN PAT COUNCIL"
             onClick={onTreasuryClick}
             style={{ cursor: onTreasuryClick ? "pointer" : "default" }}
           >
@@ -250,7 +254,7 @@ function PFStatusBar({
           </div>
 
           {/* User */}
-          <div className="pf-user-status" title={`SESSÃO: ${sessionDuration}`}>
+          <div className="pf-user-status" title={`SESSION: ${sessionDuration}`}>
             <span className="pf-user-avatar">👤</span>
             <div className="pf-user-info">
               <span className="pf-user-name">{userName}</span>
@@ -262,7 +266,8 @@ function PFStatusBar({
           <button
             className="pf-header-btn"
             onClick={onNotificationsClick}
-            title="NOTIFICAÇÕES"
+            title="NOTIFICATIONS"
+            aria-label="Open notifications"
           >
             🔔
           </button>
@@ -271,7 +276,8 @@ function PFStatusBar({
           <button
             className="pf-header-btn"
             onClick={onMiningClick}
-            title="MEU MINING"
+            title="MY MINING"
+            aria-label="Open mining panel"
           >
             ⛏️
           </button>
@@ -281,6 +287,7 @@ function PFStatusBar({
             className="pf-header-btn"
             onClick={onDefendClick}
             title="PANDA DEFEND"
+            aria-label="Open Panda Defend"
           >
             🛡️
           </button>
@@ -299,8 +306,9 @@ function PFStatusBar({
           {/* Settings */}
           <button
             className="pf-header-btn"
-            title="CONFIGURAÇÕES"
+            title="SETTINGS"
             onClick={onSettingsClick}
+            aria-label="Settings"
           >
             ⚙️
           </button>
@@ -308,14 +316,17 @@ function PFStatusBar({
           {/* Exit / Logout */}
           <button
             className="pf-header-btn"
-            title="SAIR"
+            title="LOGOUT"
+            aria-label="Log out of Panda Fabrics"
             onClick={() => {
-              if (window.confirm("Deseja sair do Panda Fabrics?")) {
+              if (window.confirm("Log out of Panda Fabrics?")) {
                 sessionStorage.removeItem("panda_auth");
                 sessionStorage.removeItem("panda_auth_token");
                 localStorage.removeItem("panda_user");
                 localStorage.removeItem("panda_token");
                 localStorage.removeItem("panda_founder_mode");
+                localStorage.removeItem("pf_chat_welcomed");
+                localStorage.removeItem("panda_onboarding_complete");
                 window.location.reload();
               }
             }}
@@ -331,7 +342,9 @@ function PFStatusBar({
           <button
             className="pf-header-btn pf-pin-btn"
             onClick={() => setIsPinned(!isPinned)}
-            title={isPinned ? "DESAFIXAR BARRA" : "FIXAR BARRA"}
+            title={isPinned ? "UNPIN BAR" : "PIN BAR"}
+            aria-label={isPinned ? "Unpin status bar" : "Pin status bar"}
+            aria-pressed={isPinned}
             style={{
               opacity: isPinned ? 1 : 0.4,
               fontSize: 12,

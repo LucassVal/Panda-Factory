@@ -576,3 +576,96 @@ body.light-mode .pf-code-block {
 body.light-mode .pf-code-block code {
   color: #059669;
 }
+
+/* Buttons — fix invisible white text on light bg */
+body.light-mode .pf-btn-secondary {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #1e293b;
+}
+
+body.light-mode .pf-btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* Close button */
+body.light-mode .pf-settings-close {
+  background: rgba(0, 0, 0, 0.06);
+  color: #475569;
+}
+
+body.light-mode .pf-settings-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Select dropdown */
+body.light-mode .pf-settings-select {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #1e293b;
+}
+
+body.light-mode .pf-settings-select option {
+  background: #ffffff;
+  color: #1e293b;
+}
+
+/* Row dividers */
+body.light-mode .pf-settings-row {
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+/* User profile divider */
+body.light-mode .pf-settings-user {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .pf-settings-user-info span {
+  color: #64748b;
+}
+
+/* Integration items */
+body.light-mode .pf-integration-item {
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #475569;
+}
+
+/* Info box */
+body.light-mode .pf-settings-info {
+  color: #475569;
+}
+
+/* Sidebar borders */
+body.light-mode .pf-settings-sidebar {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .pf-settings-modal {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Toggle — inactive state needs visible track */
+body.light-mode .pf-toggle {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* Color dot active border */
+body.light-mode .pf-color-dot.active {
+  border-color: #1e293b;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Wallet label */
+body.light-mode .pf-wallet-label {
+  color: #475569;
+}
+
+body.light-mode .pf-wallet-usd {
+  color: #475569;
+}
+
+/* About version */
+body.light-mode .pf-about-version {
+  color: #475569;
+}

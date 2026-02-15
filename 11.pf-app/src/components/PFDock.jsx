@@ -22,9 +22,11 @@ function PFDock({
   onPluginUninstall,
   onDevModeToggle,
   devMode,
+  isFounder = false,
 }) {
   const [devModeActive, setDevModeActive] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [dragPending, setDragPending] = useState(false);
   const [position, setPosition] = useState({ x: 16, y: null }); // null = centered
   const [contextMenu, setContextMenu] = useState(null); // { x, y, pluginId }
   const dockRef = useRef(null);
@@ -67,21 +69,20 @@ function PFDock({
       y: e.clientY - rect.top,
     };
     dragStart.current = { x: e.clientX, y: e.clientY };
-    // Don't set isDragging yet — wait for threshold in mouseMove
-    window.__pfDragPending = true;
+    setDragPending(true);
   }, []);
 
   const handleMouseMove = useCallback(
     (e) => {
-      if (!isDragging && !window.__pfDragPending) return;
+      if (!isDragging && !dragPending) return;
 
       // Check threshold before starting drag
-      if (!isDragging && window.__pfDragPending) {
+      if (!isDragging && dragPending) {
         const dx = Math.abs(e.clientX - dragStart.current.x);
         const dy = Math.abs(e.clientY - dragStart.current.y);
         if (dx < dragThreshold && dy < dragThreshold) return;
         setIsDragging(true);
-        window.__pfDragPending = false;
+        setDragPending(false);
       }
 
       const newX = e.clientX - dragOffset.current.x;
@@ -93,16 +94,16 @@ function PFDock({
         y: Math.max(0, Math.min(newY, maxY)),
       });
     },
-    [isDragging],
+    [isDragging, dragPending],
   );
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-    window.__pfDragPending = false;
+    setDragPending(false);
   }, []);
 
   useEffect(() => {
-    if (isDragging || window.__pfDragPending) {
+    if (isDragging || dragPending) {
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
       return () => {
@@ -110,7 +111,7 @@ function PFDock({
         window.removeEventListener("mouseup", handleMouseUp);
       };
     }
-  }, [isDragging, handleMouseMove, handleMouseUp]);
+  }, [isDragging, dragPending, handleMouseMove, handleMouseUp]);
 
   // Handle plugin click
   const handlePluginClick = (plugin) => {
@@ -186,6 +187,9 @@ function PFDock({
         ref={dockRef}
         style={dockStyle}
         onMouseDown={handleMouseDown}
+        role="toolbar"
+        aria-label="Barra de ferramentas principal"
+        aria-orientation="vertical"
       >
         {/* Drag Handle */}
         <div className="pf-dock-handle" title="ARRASTE PARA MOVER">
@@ -200,6 +204,7 @@ function PFDock({
             className="pf-dock-item section-toggle"
             onClick={onToolsClick}
             title="FERRAMENTAS"
+            aria-label="Ferramentas de desenho"
           >
             🎨
           </button>
@@ -209,6 +214,7 @@ function PFDock({
             className="pf-dock-item"
             onClick={onCatalogClick}
             title="MEU CATÁLOGO"
+            aria-label="Meu catálogo de apps"
           >
             📁
           </button>
@@ -221,9 +227,10 @@ function PFDock({
           <button
             className="pf-dock-item"
             onClick={onStoreClick}
-            title="PANDA STORE"
+            title="PANDA STORE (Ctrl+K)"
+            aria-label="Abrir Panda Store"
           >
-            <img src="./panda-logo.png" alt="Store" style={{ width: 24, height: 24 }} />
+            <img src="./panda-logo.png" alt="Panda Store" style={{ width: 28, height: 28 }} />
           </button>
 
           <div className="pf-dock-separator" />
@@ -234,16 +241,20 @@ function PFDock({
           <button
             className="pf-dock-item"
             onClick={onSettingsClick}
-            title="CONFIGURAÇÕES"
+            title="CONFIGURAÇÕES (Ctrl+,)"
+            aria-label="Configurações"
           >
             ⚙️
           </button>
 
-          {/* Dev Mode */}
+          {/* Dev Mode — Available to all users */}
           <button
             className={`pf-dock-item dev-toggle ${devModeActive ? "active" : ""}`}
             onClick={handleDevMode}
-            title="DEV MODE"
+            title="DEV MODE (Ctrl+D)"
+            aria-label={devModeActive ? "Fechar Dev Mode" : "Abrir Dev Mode"}
+            aria-expanded={devModeActive}
+            aria-pressed={devModeActive}
           >
             {devModeActive ? "🔧" : "🛠️"}
           </button>
@@ -274,6 +285,8 @@ function PFDock({
       {contextMenu && (
         <div
           className="pf-dock-context-menu"
+          role="menu"
+          aria-label={`Opções para ${contextMenu.plugin.name || 'plugin'}`}
           style={{
             position: "fixed",
             left: contextMenu.x,
@@ -314,6 +327,7 @@ function PFDock({
             onMouseEnter={(e) => (e.target.style.background = "rgba(102, 126, 234, 0.15)")}
             onMouseLeave={(e) => (e.target.style.background = "none")}
             onClick={() => handlePluginClick(contextMenu.plugin)}
+            role="menuitem"
           >
             📂 ABRIR
           </button>
@@ -332,6 +346,7 @@ function PFDock({
             onMouseEnter={(e) => (e.target.style.background = "rgba(251, 191, 36, 0.15)")}
             onMouseLeave={(e) => (e.target.style.background = "none")}
             onClick={handleCloseTab}
+            role="menuitem"
           >
             ✕ FECHAR
           </button>
@@ -350,6 +365,7 @@ function PFDock({
             onMouseEnter={(e) => (e.target.style.background = "rgba(239, 68, 68, 0.15)")}
             onMouseLeave={(e) => (e.target.style.background = "none")}
             onClick={handleUninstall}
+            role="menuitem"
           >
             🗑️ DESINSTALAR
           </button>

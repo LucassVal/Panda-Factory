@@ -24,9 +24,11 @@ import { FinancePanel } from "./components/PFFinancePanel";
 import { GasometerPanel } from "./components/PFGasometerPanel";
 import { MiningPanel } from "./components/PFMiningPanel";
 import { PFDefendPanel } from "./components/PFDefendPanel";
+import PFWelcomeWizard from "./components/PFWelcomeWizard";
+import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 
 /**
- * PANDA FABRICS — MAIN APPLICATION v6.5
+ * PANDA FABRICS — MAIN APPLICATION v6.6
  *
  * Multi-window via flexlayout-react (MIT).
  * Apps open INSIDE the canvas as dockable tabs.
@@ -48,8 +50,20 @@ function AppContent() {
   const [isPinned, setIsPinned] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGasometer, setShowGasometer] = useState(false);
+  const [showWizard, setShowWizard] = useState(() => {
+    return !localStorage.getItem("panda_onboarding_complete");
+  });
 
   const { isFounder } = useAuth();
+
+  // Wave 3 — Global keyboard shortcuts
+  useKeyboardShortcuts({
+    onToggleDevTools: () => { setDevMode((d) => { const next = !d; if (next) openAppWindow("devtools"); return next; }); },
+    onToggleChat: () => window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal")),
+    onOpenSettings: () => setShowSettings(true),
+    onOpenStore: () => setShowStore(true),
+    onEscape: () => { setShowSettings(false); setShowStore(false); setShowCatalog(false); setShowNotifications(false); setShowGasometer(false); },
+  });
 
   // Global event listeners for Welcome Overlay & Catalog actions
   useEffect(() => {
@@ -177,6 +191,25 @@ function AppContent() {
 
   return (
     <div className="pf-container">
+      {/* SKIP LINK (Accessibility — §B.7.4) */}
+      <a className="pf-skip-link" href="#pf-main-content">
+        Skip to main content
+      </a>
+
+      {/* WELCOME WIZARD (First-Time Only — Wave 2) */}
+      {showWizard && (
+        <PFWelcomeWizard
+          onComplete={(action) => {
+            setShowWizard(false);
+            if (action === "store") setShowStore(true);
+            if (action === "chat") {
+              window.dispatchEvent(new CustomEvent("panda:toggle-chat"));
+            }
+          }}
+          onOpenStore={() => setShowStore(true)}
+        />
+      )}
+
       {/* STATUS BAR (Top) */}
       <PFStatusBar
         onStoreClick={() => setShowStore(true)}
@@ -197,7 +230,7 @@ function AppContent() {
       />
 
       {/* MAIN CANVAS */}
-      <main className="pf-main">
+      <main className="pf-main" id="pf-main-content" role="main">
         <PFWindowManager
           canvasComponent={canvasComponent}
           componentFactory={componentFactory}
@@ -216,20 +249,13 @@ function AppContent() {
         onPluginUninstall={handleUninstallPlugin}
         plugins={installedPlugins}
         devMode={devMode}
+        isFounder={isFounder}
       />
 
       {/* RIGHT TOOLBAR (Drawing Tools) */}
       <PFRightToolbar
         isOpen={showRightToolbar}
         onClose={() => setShowRightToolbar(false)}
-        devMode={devMode}
-        onDevToolOpen={(toolId) => {
-          if (["treasury", "constitution", "rig"].includes(toolId)) {
-            openAppWindow("pat-council", { activeTool: toolId });
-          } else {
-            openAppWindow("devtools");
-          }
-        }}
       />
 
       {/* FLOATING AI CHAT (Bottom Right) — Only in main window */}
@@ -277,7 +303,7 @@ function AppContent() {
         PANDA FABRICS
         <span className="pf-footer-accent" />
         POWERED BY TLDRAW • 🐙 MEDUSA
-        <span className="pf-footer-version">v6.5 • {new Date().getFullYear()}</span>
+        <span className="pf-footer-version">v6.6 • {new Date().getFullYear()}</span>
       </footer>
     </div>
   );

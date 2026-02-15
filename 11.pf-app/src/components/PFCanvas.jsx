@@ -3,7 +3,7 @@ import { Tldraw } from "@tldraw/tldraw";
 import "@tldraw/tldraw/tldraw.css";
 
 /**
- * 🐼 Jam Canvas v6.3
+ * Jam Canvas v6.3
  * Infinite canvas using TLDraw v2
  * - Hidden native UI (tools moved to our dock)
  * - Theme-aware (follows body.light-mode)
@@ -29,22 +29,22 @@ function WelcomeOverlay({ onAction, onDismiss }) {
     {
       id: "draw",
       icon: "✏️",
-      title: "DESENHAR",
-      desc: "Comece a criar no canvas infinito",
+      title: "DRAW",
+      desc: "Start creating on the infinite canvas",
       gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     },
     {
       id: "store",
       icon: "🏪",
       title: "PANDA STORE",
-      desc: "Instale apps e ferramentas",
+      desc: "Install apps and tools",
       gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
     },
     {
       id: "chat",
       icon: "🧠",
       title: "PANDA AI",
-      desc: "Converse com 5 modelos de IA",
+      desc: "Chat with 5 AI models",
       gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
     },
   ];
@@ -52,10 +52,10 @@ function WelcomeOverlay({ onAction, onDismiss }) {
   return (
     <div className={`pf-welcome-overlay ${exiting ? "pf-welcome-exit" : ""}`}>
       <div className="pf-welcome-content">
-        <div className="pf-welcome-logo">🐼</div>
-        <h2 className="pf-welcome-title">BEM-VINDO AO PANDA FABRICS</h2>
+        <div className="pf-welcome-logo"><img src="/panda-icon.png" alt="Panda Fabrics" className="pf-logo-icon-lg" style={{width:"80px",height:"80px"}} /></div>
+        <h2 className="pf-welcome-title">WELCOME TO PANDA FABRICS</h2>
         <p className="pf-welcome-subtitle">
-          Seu workspace infinito. Escolha por onde começar:
+          Your infinite workspace. Choose where to begin:
         </p>
 
         <div className="pf-welcome-cards">
@@ -74,7 +74,7 @@ function WelcomeOverlay({ onAction, onDismiss }) {
         </div>
 
         <button className="pf-welcome-skip" onClick={() => handleAction("skip")}>
-          Pular e explorar livremente →
+          Skip and explore freely →
         </button>
       </div>
     </div>
@@ -87,7 +87,10 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
     const saved = localStorage.getItem("panda_theme");
     return saved !== "light";
   });
-  const [showGrid, setShowGrid] = useState(true);
+  const [showGrid, setShowGrid] = useState(() => {
+    const saved = localStorage.getItem("panda_grid_visible");
+    return saved !== "false"; // default true
+  });
   const [editor, setEditor] = useState(null);
   const [showWelcome, setShowWelcome] = useState(false);
 
@@ -156,7 +159,11 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
   // Expose grid toggle globally
   useEffect(() => {
     window.PandaCanvas = {
-      toggleGrid: () => setShowGrid((prev) => !prev),
+      toggleGrid: () => setShowGrid((prev) => {
+        const next = !prev;
+        localStorage.setItem("panda_grid_visible", String(next));
+        return next;
+      }),
       isGridVisible: () => showGrid,
       setDarkMode: (dark) => {
         setIsDarkMode(dark);
@@ -183,7 +190,7 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
   // Callback when editor is ready
   const handleMount = useCallback(
     (editorInstance) => {
-      console.log("🐼 TLDraw Editor mounted");
+      console.log("TLDraw Editor mounted");
       setEditor(editorInstance);
 
       const isLight = document.body.classList.contains("light-mode");
@@ -247,7 +254,7 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
       {/* Plugin overlay (future) */}
       {plugins && plugins.length > 0 && (
         <div className="pf-plugins-indicator">
-          {plugins.length} plugin(s) ativo(s)
+          {plugins.length} plugin(s) active
         </div>
       )}
     </div>

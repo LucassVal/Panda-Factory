@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { GeoShapeGeoStyle } from "@tldraw/tldraw";
 
 /**
- * 🐼 Jam Right Toolbar
+ * Jam Right Toolbar
  * Appears when clicking the drawing tools button on dock
  * Contains all TLDraw tools + DevTools
  *
@@ -11,9 +12,8 @@ import React, { useState, useEffect } from "react";
  * - Collapsible
  * - Position: Right side of screen
  */
-function PFRightToolbar({ isOpen, onClose, onToolSelect, onDevToolOpen, devMode = false }) {
+function PFRightToolbar({ isOpen, onClose, onToolSelect }) {
   const [activeTool, setActiveTool] = useState("select");
-  const [activeSection, setActiveSection] = useState("draw");
   const [gridEnabled, setGridEnabled] = useState(true);
 
   const toggleGrid = () => {
@@ -39,15 +39,6 @@ function PFRightToolbar({ isOpen, onClose, onToolSelect, onDevToolOpen, devMode 
     { id: "image", icon: "🏞️", label: "Imagem" },
   ];
 
-  const devTools = [
-    { id: "console", icon: "💻", label: "Console" },
-    { id: "mcp", icon: "🧰", label: "MCP Browser" },
-    { id: "api", icon: "🔌", label: "API Tester" },
-    { id: "treasury", icon: "🏦", label: "PAT Treasury" },
-    { id: "constitution", icon: "⚖️", label: "Constitution" },
-    { id: "rig", icon: "🦀", label: "RIG Config" },
-  ];
-
   const handleToolClick = (toolId) => {
     setActiveTool(toolId);
 
@@ -68,15 +59,14 @@ function PFRightToolbar({ isOpen, onClose, onToolSelect, onDevToolOpen, devMode 
 
       if (geoShapes[toolId]) {
         editor.setCurrentTool("geo");
-        // TLDraw v2: set geo style for next shapes
+        // TLDraw v2: set geo style for the specific shape type
         try {
           editor.setStyleForNextShapes(
-            editor.getStyleForNextShape("geo"),
+            GeoShapeGeoStyle,
             geoShapes[toolId],
           );
         } catch (styleErr) {
-          // Fallback: some TLDraw versions use different API
-          console.log("Geo style fallback:", styleErr.message);
+          console.warn("Geo style set error:", styleErr.message);
         }
       } else if (toolId === "image") {
         // Open file dialog for image upload
@@ -151,80 +141,48 @@ function PFRightToolbar({ isOpen, onClose, onToolSelect, onDevToolOpen, devMode 
         </button>
       </div>
 
-      {/* Section Tabs */}
+      {/* Section Header */}
       <div className="pf-toolbar-tabs">
-        <button
-          className={`pf-toolbar-tab ${activeSection === "draw" ? "active" : ""}`}
-          onClick={() => setActiveSection("draw")}
-        >
+        <button className="pf-toolbar-tab active">
           ✏️ Desenho
         </button>
-        {devMode && (
-          <button
-            className={`pf-toolbar-tab ${activeSection === "dev" ? "active" : ""}`}
-            onClick={() => setActiveSection("dev")}
-          >
-            🛠️ DevTools
-          </button>
-        )}
       </div>
 
       {/* Drawing Tools */}
-      {activeSection === "draw" && (
-        <div className="pf-toolbar-section">
-          <div className="pf-toolbar-grid">
-            {drawingTools.map((tool) => (
-              <button
-                key={tool.id}
-                className={`pf-toolbar-item ${activeTool === tool.id ? "active" : ""}`}
-                onClick={() => handleToolClick(tool.id)}
-                title={tool.label}
-              >
-                <span className="pf-toolbar-icon">{tool.icon}</span>
-                <span className="pf-toolbar-label">{tool.label}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Canvas Options */}
-          <div className="pf-toolbar-divider">
-            <span>Opções do Canvas</span>
-          </div>
-
-          <div className="pf-toolbar-options">
+      <div className="pf-toolbar-section">
+        <div className="pf-toolbar-grid">
+          {drawingTools.map((tool) => (
             <button
-              className={`pf-toolbar-option ${gridEnabled ? "active" : ""}`}
-              onClick={toggleGrid}
-              title="Mostrar/Ocultar Grid"
+              key={tool.id}
+              className={`pf-toolbar-item ${activeTool === tool.id ? "active" : ""}`}
+              onClick={() => handleToolClick(tool.id)}
+              title={tool.label}
             >
-              <span className="pf-toolbar-icon">📐</span>
-              <span className="pf-toolbar-label">Grid</span>
-              <span
-                className={`pf-toggle-mini ${gridEnabled ? "on" : ""}`}
-              ></span>
+              <span className="pf-toolbar-icon">{tool.icon}</span>
+              <span className="pf-toolbar-label">{tool.label}</span>
             </button>
-          </div>
+          ))}
         </div>
-      )}
 
-      {/* DevTools */}
-      {activeSection === "dev" && devMode && (
-        <div className="pf-toolbar-section">
-          <div className="pf-toolbar-grid">
-            {devTools.map((tool) => (
-              <button
-                key={tool.id}
-                className="pf-toolbar-item"
-                onClick={() => onDevToolOpen && onDevToolOpen(tool.id)}
-                title={tool.label}
-              >
-                <span className="pf-toolbar-icon">{tool.icon}</span>
-                <span className="pf-toolbar-label">{tool.label}</span>
-              </button>
-            ))}
-          </div>
+        {/* Canvas Options */}
+        <div className="pf-toolbar-divider">
+          <span>Opções do Canvas</span>
         </div>
-      )}
+
+        <div className="pf-toolbar-options">
+          <button
+            className={`pf-toolbar-option ${gridEnabled ? "active" : ""}`}
+            onClick={toggleGrid}
+            title="Mostrar/Ocultar Grid"
+          >
+            <span className="pf-toolbar-icon">📐</span>
+            <span className="pf-toolbar-label">Grid</span>
+            <span
+              className={`pf-toggle-mini ${gridEnabled ? "on" : ""}`}
+            ></span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { injectContext, getUIContext } from "../services/uiContext";
 
 /**
- * 🐼 Jam Chat v1.2 - Omnichannel AI Chat (Bottom Right)
+ * Jam Chat v1.2 - Omnichannel AI Chat (Bottom Right)
  *
  * v1.2: Trail bubble mascot greetings for returning users
  * v1.1: Auto-open on first login + welcome CTA
@@ -26,52 +26,52 @@ const AI_MODELS = [
     id: "flash",
     name: "Flash",
     icon: "⚡",
-    description: "Rápido e eficiente",
+    description: "Fast and efficient",
     free: true,
   },
   {
     id: "pro",
     name: "Pro",
     icon: "🧠",
-    description: "Análises complexas",
+    description: "Complex analysis",
     free: false,
   },
   {
     id: "thinking",
     name: "Think",
     icon: "🤔",
-    description: "Raciocínio profundo",
+    description: "Deep reasoning",
     free: true,
   },
   {
     id: "research",
     name: "Research",
     icon: "🔬",
-    description: "Pesquisa aprofundada",
+    description: "In-depth research",
     free: false,
   },
   {
     id: "imagen",
     name: "Imagen",
     icon: "🎨",
-    description: "Gerar imagens",
+    description: "Image generation",
     free: false,
   },
 ];
 
 // 6 GEMs for UI (mirrors backend GEMS)
 const GEMS = [
-  { id: "writer", name: "Writer", icon: "✍️", description: "Escrita criativa" },
+  { id: "writer", name: "Writer", icon: "✍️", description: "Creative writing" },
   {
     id: "analyst",
     name: "Analyst",
     icon: "📊",
-    description: "Análise de dados",
+    description: "Data analysis",
   },
-  { id: "coder", name: "Coder", icon: "💻", description: "Programação" },
+  { id: "coder", name: "Coder", icon: "💻", description: "Programming" },
   { id: "designer", name: "Designer", icon: "🎨", description: "UI/UX design" },
-  { id: "planner", name: "Planner", icon: "📋", description: "Planejamento" },
-  { id: "researcher", name: "Researcher", icon: "🔬", description: "Pesquisa" },
+  { id: "planner", name: "Planner", icon: "📋", description: "Planning" },
+  { id: "researcher", name: "Researcher", icon: "🔬", description: "Research" },
 ];
 
 /**
@@ -123,7 +123,7 @@ async function callBrain(action, payload) {
 
   if (!GAS_URL) {
     throw new Error(
-      "SDK não carregado. Configure GAS_URL ou carregue pf.sdk.js",
+      "SDK not loaded. Configure GAS_URL or load pf.sdk.js",
     );
   }
 
@@ -150,8 +150,8 @@ function PFChat() {
     {
       role: "assistant",
       content: isFirstVisit
-        ? "> 🐼 Bem-vindo ao Panda Fabrics!\n\nSou seu assistente IA. Posso te ajudar a:\n\n🎨 Criar e organizar seus projetos no canvas\n🛍️ Explorar extensões na Store\n💡 Responder qualquer dúvida sobre a plataforma\n\n**Converse comigo e aprenda a usar!** ✍️"
-        : "> Olá! Sistema online. Como posso ajudar?",
+        ? "> Welcome to Panda Fabrics!\n\nI'm your AI assistant. I can help you:\n\n🎨 Create and organize projects on the canvas\n🛍️ Explore extensions in the Store\n💡 Answer any questions about the platform\n\n**Chat with me to learn more!** ✍️"
+        : "> Hello! System online. How can I help?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -200,12 +200,12 @@ function PFChat() {
 
     const hour = new Date().getHours();
     const greetings = [
-      hour < 12 ? "☀️ Bom dia! Estou aqui se precisar." :
-      hour < 18 ? "🌤️ Boa tarde! Qualquer dúvida, me chame." :
-                  "🌙 Boa noite! Precisa de ajuda?",
-      "🐼 Oi! Quer explorar algo novo?",
-      "💡 Dica: tente abrir a Store!",
-      "✨ Estou aqui, se precisar!",
+      hour < 12 ? "☀️ Good morning! I'm here if you need me." :
+      hour < 18 ? "🌤️ Good afternoon! Any questions, just ask." :
+                  "🌙 Good evening! Need any help?",
+      "Hi! Want to explore something new?",
+      "💡 Tip: try opening the Store!",
+      "✨ I'm here if you need me!",
     ];
     const msg = greetings[Math.floor(Math.random() * greetings.length)];
 
@@ -309,7 +309,7 @@ function PFChat() {
         ...prev,
         {
           role: "assistant",
-          content: `> ERRO: ${error.message || "Falha na conexão. Tente novamente."}`,
+          content: `> ERROR: ${error.message || "Connection failed. Please try again."}`,
         },
       ]);
     } finally {
@@ -363,7 +363,7 @@ function PFChat() {
           "✕"
         ) : (
           <img
-            src="./panda-chat-logo.png"
+            src="./panda-icon.png"
             alt="Chat"
             className="pf-chat-fab-logo"
           />
@@ -386,15 +386,15 @@ function PFChat() {
             <div
               className="pf-session-stats"
               title={`
-📊 SESSÃO
+📊 SESSION
 ━━━━━━━━━━
-🪙 PC Usado: ${sessionStats.pcUsed.toFixed(2)} PC
-🪙 PC Disponível: ${sessionStats.pcAvailable.toFixed(0)} PC
+🪙 PC Used: ${sessionStats.pcUsed.toFixed(2)} PC
+🪙 PC Available: ${sessionStats.pcAvailable.toFixed(0)} PC
 ━━━━━━━━━━
-📝 Tokens Usados: ${sessionStats.tokensUsed.toLocaleString()}
-📝 Tokens Grátis: ${sessionStats.tokensAvailable.toLocaleString()}
+📝 Tokens Used: ${sessionStats.tokensUsed.toLocaleString()}
+📝 Free Tokens: ${sessionStats.tokensAvailable.toLocaleString()}
 ━━━━━━━━━━
-⛽ Gas: ${sessionStats.gasEnabled ? `ATIVO (${(sessionStats.gasRate * 100).toFixed(0)}%)` : "DESATIVADO"}
+⛽ Gas: ${sessionStats.gasEnabled ? `ACTIVE (${(sessionStats.gasRate * 100).toFixed(0)}%)` : "DISABLED"}
             `.trim()}
             >
               <span className="pf-stats-pc">
@@ -415,7 +415,7 @@ function PFChat() {
             <button
               className="pf-chat-gems-toggle"
               onClick={() => setShowGems(!showGems)}
-              title="GEMs - ESPECIALISTAS"
+              title="GEMs - SPECIALISTS"
             >
               {activeGem ? GEMS.find((g) => g.id === activeGem)?.icon : "💎"}
             </button>
@@ -425,10 +425,10 @@ function PFChat() {
           {showGems && (
             <div className="pf-chat-gems-panel">
               <div className="pf-chat-gems-header">
-                <span>💎 GEMs - ESPECIALISTAS</span>
+                <span>💎 GEMs - SPECIALISTS</span>
                 {activeGem && (
                   <button className="pf-gem-clear" onClick={clearGem}>
-                    ✕ Limpar
+                    ✕ Clear
                   </button>
                 )}
               </div>
@@ -468,7 +468,7 @@ function PFChat() {
             <div className="pf-chat-gem-active">
               <span className="pf-gem-badge">
                 {GEMS.find((g) => g.id === activeGem)?.icon}{" "}
-                {GEMS.find((g) => g.id === activeGem)?.name} ativo
+                {GEMS.find((g) => g.id === activeGem)?.name} active
               </span>
             </div>
           )}
@@ -497,8 +497,8 @@ function PFChat() {
               onKeyPress={handleKeyPress}
               placeholder={
                 activeGem
-                  ? `Pergunte ao ${GEMS.find((g) => g.id === activeGem)?.name}...`
-                  : "Digite sua mensagem..."
+                  ? `Ask ${GEMS.find((g) => g.id === activeGem)?.name}...`
+                  : "Type your message..."
               }
               rows={1}
             />

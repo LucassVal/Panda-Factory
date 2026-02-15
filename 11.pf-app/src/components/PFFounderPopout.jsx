@@ -310,7 +310,7 @@ export function FounderDashboardPopout() {
 
       {/* Footer */}
       <footer className="popout-footer">
-        <span>🐼 Panda Fabrics Founder Edition</span>
+        <span>Panda Fabrics Founder Edition</span>
         <span>Last update: {new Date().toLocaleTimeString()}</span>
       </footer>
     </div>

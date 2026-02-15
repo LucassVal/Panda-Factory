@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 /**
- * 🐼 JAM CATALOG v4.0
+ * JAM CATALOG v4.0
  *
  * Shows ONLY user-installed apps (from Store).
  * Catalog starts EMPTY — everything comes from the Store.

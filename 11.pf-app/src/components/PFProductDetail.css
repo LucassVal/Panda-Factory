@@ -1,0 +1,439 @@
+/* ============================================= */
+/* PFProductDetail.css — PDP Styling v1.0        */
+/* Dark-first + light mode overrides             */
+/* @see PF_MEDUSA_REFERENCE.md §10.3             */
+/* ============================================= */
+
+.pdp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+  animation: pdpSlideIn 0.3s ease;
+}
+
+@keyframes pdpSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Header ── */
+.pdp-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pdp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pdp-back:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+
+/* ── Hero Section ── */
+.pdp-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+}
+
+.pdp-hero-icon {
+  font-size: 56px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+.pdp-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pdp-hero-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pdp-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.pdp-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.pdp-badge.official {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.pdp-badge.community {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.pdp-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pdp-author {
+  color: #94a3b8;
+}
+
+.pdp-popular {
+  color: #fbbf24;
+}
+
+/* ── Description ── */
+.pdp-description {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.pdp-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pdp-desc-text {
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.pdp-desc-text p {
+  margin: 0 0 8px 0;
+}
+
+.pdp-desc-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Embed Section ── */
+.pdp-embeds {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.pdp-embeds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* ── Embed Card (iframe) ── */
+.pdp-embed-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+}
+
+.pdp-embed-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.pdp-embed-iframe iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
+}
+
+.pdp-embed-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #94a3b8;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.pdp-embed-icon {
+  font-size: 16px;
+}
+
+/* ── Embed Card (link) ── */
+.pdp-embed-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.pdp-embed-icon-large {
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.pdp-embed-link-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pdp-embed-arrow {
+  color: #64748b;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.pdp-embed-link:hover .pdp-embed-arrow {
+  transform: translate(2px, -2px);
+  color: var(--pf-accent, #a855f7);
+}
+
+/* ── Disclaimer ── */
+.pdp-disclaimer {
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ── Footer / CTA ── */
+.pdp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  margin-top: auto;
+}
+
+.pdp-price-area {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.pdp-price-main {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.pdp-price-pc {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pdp-install-btn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+
+.pdp-install-btn.free {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.pdp-install-btn.free:hover {
+  box-shadow: 0 6px 25px rgba(34, 197, 94, 0.5);
+  transform: translateY(-1px);
+}
+
+.pdp-install-btn.paid {
+  background: linear-gradient(135deg, var(--pf-accent, #a855f7), #7c3aed);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
+.pdp-install-btn.paid:hover {
+  box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5);
+  transform: translateY(-1px);
+}
+
+/* ============================================= */
+/* Light Mode Overrides                          */
+/* ============================================= */
+
+body.light-mode .pdp-back {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #475569;
+}
+
+body.light-mode .pdp-back:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #1e293b;
+}
+
+body.light-mode .pdp-hero {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .pdp-hero-icon {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.light-mode .pdp-title {
+  color: #0f172a;
+}
+
+body.light-mode .pdp-badge.official {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+body.light-mode .pdp-badge.community {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+body.light-mode .pdp-meta {
+  color: #64748b;
+}
+
+body.light-mode .pdp-author {
+  color: #475569;
+}
+
+body.light-mode .pdp-description {
+  background: rgba(0, 0, 0, 0.01);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .pdp-section-title {
+  color: #1e293b;
+}
+
+body.light-mode .pdp-desc-text {
+  color: #475569;
+}
+
+body.light-mode .pdp-embeds {
+  background: rgba(0, 0, 0, 0.01);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .pdp-embed-card {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+body.light-mode .pdp-embed-card:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .pdp-embed-label {
+  color: #64748b;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.light-mode .pdp-embed-link {
+  color: #1e293b;
+}
+
+body.light-mode .pdp-embed-icon-large {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.light-mode .pdp-embed-arrow {
+  color: #94a3b8;
+}
+
+body.light-mode .pdp-disclaimer {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.2);
+  color: #d97706;
+}
+
+body.light-mode .pdp-footer {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .pdp-price-main {
+  color: #0f172a;
+}
+
+body.light-mode .pdp-price-pc {
+  color: #64748b;
+}

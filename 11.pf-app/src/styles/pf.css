@@ -406,7 +406,7 @@ body {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: 50;
+  z-index: 90;
   background-image:
     linear-gradient(rgba(102, 126, 234, 0.25) 1px, transparent 1px),
     linear-gradient(90deg, rgba(102, 126, 234, 0.25) 1px, transparent 1px);
@@ -422,7 +422,7 @@ body {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: 50;
+  z-index: 90;
   background-image:
     linear-gradient(rgba(180, 180, 190, 0.4) 1px, transparent 1px),
     linear-gradient(90deg, rgba(180, 180, 190, 0.4) 1px, transparent 1px);
@@ -513,23 +513,23 @@ body {
 .pf-dock-items {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 6px;
+  gap: 5px;
+  padding: 8px;
   background: var(--pf-dock-bg);
   backdrop-filter: blur(20px);
-  border-radius: 14px;
+  border-radius: 16px;
   border: 1px solid var(--pf-border);
   box-shadow: var(--pf-shadow);
 }
 
 .pf-dock-item {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  border-radius: 10px;
+  font-size: 21px;
+  border-radius: 12px;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -619,9 +619,9 @@ body {
 }
 
 .pf-dock-item.tool {
-  width: 32px;
-  height: 32px;
-  font-size: 15px;
+  width: 36px;
+  height: 36px;
+  font-size: 17px;
 }
 .pf-store-overlay {
   position: fixed;
@@ -804,18 +804,7 @@ body {
   z-index: 100;
 }
 
-/* Footer Watermark */
-.pf-footer {
-  position: fixed;
-  bottom: 8px;
-  right: 16px;
-  font-size: 12px;
-  color: var(--pf-text-muted);
-  opacity: 0.8;
-  z-index: 999;
-  pointer-events: none;
-  font-weight: 500;
-}
+/* Footer Watermark — see consolidated rule at §FOOTER below (L3583+) */
 
 /* ========================================= */
 /* STATUS BAR (Top) */
@@ -1966,7 +1955,7 @@ body.light-mode .pf-right-toolbar {
 }
 
 /* =====================================================
-   LOGIN GATE STYLES
+   LOGIN GATE STYLES — Commercial SaaS Landing
    ===================================================== */
 
 .login-gate {
@@ -1975,8 +1964,43 @@ body.light-mode .pf-right-toolbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+  background: #0a0a1a;
   z-index: 10000;
+  overflow: hidden;
+}
+
+/* Animated Background Orbs */
+.login-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: login-orb-float 12s ease-in-out infinite;
+  pointer-events: none;
+}
+.login-bg-orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #667eea 0%, transparent 70%);
+  top: -10%; left: -5%;
+  animation-delay: 0s;
+}
+.login-bg-orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #764ba2 0%, transparent 70%);
+  bottom: -10%; right: -5%;
+  animation-delay: -4s;
+}
+.login-bg-orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -8s;
+}
+@keyframes login-orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
 }
 
 .login-gate-loading {
@@ -1986,8 +2010,8 @@ body.light-mode .pf-right-toolbar {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--pf-bg);
-  color: var(--pf-text);
+  background: #0a0a1a;
+  color: #e0e0e0;
   z-index: 10000;
 }
 
@@ -1997,52 +2021,256 @@ body.light-mode .pf-right-toolbar {
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.login-container {
-  background: rgba(22, 33, 62, 0.9);
-  border: 1px solid rgba(102, 126, 234, 0.3);
-  border-radius: 16px;
-  padding: 40px;
-  max-width: 400px;
-  width: 90%;
+/* Main Layout — Split Hero + Form */
+.login-page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 600px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(15, 15, 35, 0.8);
+  border: 1px solid rgba(102, 126, 234, 0.15);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(102, 126, 234, 0.2);
-  backdrop-filter: blur(10px);
-  text-align: center;
+    0 40px 100px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(102, 126, 234, 0.08);
+  backdrop-filter: blur(20px);
+  animation: login-page-in 0.6s ease-out;
+}
+
+@keyframes login-page-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* LEFT — Hero Section */
+.login-hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: linear-gradient(
+    160deg,
+    rgba(102, 126, 234, 0.08) 0%,
+    rgba(118, 75, 162, 0.06) 50%,
+    transparent 100%
+  );
+  border-right: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.login-hero-content {
+  max-width: 420px;
+}
+
+.login-logo {
+  margin-bottom: 16px;
 }
 
 .login-logo img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 16px;
-  filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
+  width: 72px;
+  height: 72px;
+  filter:
+    drop-shadow(0 0 24px rgba(102, 126, 234, 0.5))
+    drop-shadow(0 0 48px rgba(118, 75, 162, 0.3));
+  animation: login-logo-pulse 3s ease-in-out infinite;
+}
+
+@keyframes login-logo-pulse {
+  0%, 100% { filter: drop-shadow(0 0 24px rgba(102,126,234,0.5)) drop-shadow(0 0 48px rgba(118,75,162,0.3)); }
+  50% { filter: drop-shadow(0 0 32px rgba(102,126,234,0.7)) drop-shadow(0 0 64px rgba(118,75,162,0.5)); }
 }
 
 .login-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--pf-text);
+  font-size: 32px;
+  font-weight: 800;
   margin: 0 0 8px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #667eea 0%, #a78bfa 50%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.login-subtitle {
-  font-size: 14px;
-  color: var(--pf-text-muted);
-  margin: 0 0 24px;
+.login-tagline {
+  font-size: 16px;
+  color: rgba(255,255,255,0.55);
+  margin: 0 0 32px;
+  line-height: 1.5;
 }
 
+/* Feature Cards */
+.login-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.login-feature-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  animation: login-card-in 0.5s ease-out both;
+}
+
+@keyframes login-card-in {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.login-feature-card:hover {
+  background: rgba(102, 126, 234, 0.08);
+  border-color: rgba(102, 126, 234, 0.2);
+  transform: translateX(4px);
+}
+
+.login-feature-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 12px;
+}
+
+.login-feature-card strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 2px;
+}
+
+.login-feature-card span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.3;
+}
+
+/* Tech Badges */
+.login-tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.login-tech-badge {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+/* RIGHT — Form Section */
+.login-form-section {
+  flex: 0 0 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+}
+
+.login-form-container {
+  width: 100%;
+  max-width: 340px;
+}
+
+.login-form-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0 0 6px;
+}
+
+.login-form-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  margin: 0 0 28px;
+}
+
+/* Google Button */
+.login-google-btn {
+  width: 100%;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: #e0e0e0;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.login-google-btn:disabled {
+  opacity: 0.6;
+}
+
+.login-google-icon {
+  flex-shrink: 0;
+}
+
+.login-badge-soon {
+  position: absolute;
+  right: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #667eea;
+  background: rgba(102,126,234,0.12);
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Divider */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+.login-divider span {
+  padding: 0 16px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Form */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -2056,62 +2284,163 @@ body.light-mode .pf-right-toolbar {
 .login-field label {
   display: block;
   font-size: 12px;
-  color: var(--pf-text-muted);
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
   margin-bottom: 6px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .login-field input {
   width: 100%;
-  padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--pf-border);
-  border-radius: 8px;
-  color: var(--pf-text);
+  padding: 13px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  color: #e0e0e0;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   box-sizing: border-box;
 }
 
 .login-field input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  border-color: rgba(102,126,234,0.5);
+  box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+  background: rgba(0,0,0,0.4);
 }
 
+.login-field input::placeholder {
+  color: rgba(255,255,255,0.2);
+}
+
+/* Error */
 .login-error {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid #ef4444;
-  border-radius: 8px;
-  padding: 10px;
-  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #f87171;
   font-size: 13px;
+  animation: login-shake 0.4s ease;
 }
 
+@keyframes login-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Submit Button */
 .login-button {
+  width: 100%;
   padding: 14px 24px;
   background: linear-gradient(135deg, #667eea, #764ba2);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.login-button:hover::before {
+  transform: translateX(100%);
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    0 8px 24px rgba(102, 126, 234, 0.35),
+    0 0 40px rgba(118, 75, 162, 0.15);
 }
 
-.login-footer {
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.login-btn-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Demo Hint */
+.login-demo-hint {
+  margin-top: 20px;
+  padding: 12px 14px;
+  background: rgba(6, 182, 212, 0.06);
+  border: 1px solid rgba(6, 182, 212, 0.12);
+  border-radius: 10px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+
+.login-demo-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  color: #06b6d4;
+  background: rgba(6,182,212,0.1);
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.login-demo-hint code {
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Form Footer */
+.login-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
   font-size: 11px;
-  color: var(--pf-text-muted);
+  color: rgba(255,255,255,0.25);
 }
 
+.login-form-footer a {
+  color: rgba(102, 126, 234, 0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.login-form-footer a:hover {
+  color: #667eea;
+}
+
+/* Logout Button (StatusBar) */
 .login-logout-btn {
   width: 32px;
   height: 32px;
@@ -2132,6 +2461,39 @@ body.light-mode .pf-right-toolbar {
   opacity: 1;
   background: rgba(239, 68, 68, 0.2);
   border-color: #ef4444;
+}
+
+/* =====================================================
+   RESPONSIVE — Login Page Mobile
+   ===================================================== */
+
+@media (max-width: 860px) {
+  .login-page {
+    flex-direction: column;
+    max-width: 480px;
+    min-height: auto;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .login-hero {
+    border-right: none;
+    border-bottom: 1px solid rgba(102,126,234,0.1);
+    padding: 32px 28px;
+  }
+
+  .login-form-section {
+    flex: none;
+    padding: 32px 28px;
+  }
+
+  .login-features {
+    display: none;
+  }
+
+  .login-tech-badges {
+    display: none;
+  }
 }
 
 /* =====================================================
@@ -3209,7 +3571,67 @@ body.light-mode .flexlayout__splitter {
   background: #d0d0d8 !important;
 }
 
-/* Store overlay */
+body.light-mode .flexlayout__tabset {
+  background: #f0f0f5 !important;
+}
+
+body.light-mode .flexlayout__tabset_content {
+  background: #ffffff !important;
+}
+
+body.light-mode .flexlayout__tab_button_content {
+  color: #64748b !important;
+}
+
+body.light-mode .flexlayout__tab_button--selected .flexlayout__tab_button_content {
+  color: #1a1a2e !important;
+}
+
+body.light-mode .flexlayout__tab_button_trailing {
+  color: #94a3b8 !important;
+}
+
+body.light-mode .flexlayout__tab_button_trailing:hover {
+  color: #ef4444 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🌞 LIGHT MODE — STATUS BAR
+   ═══════════════════════════════════════════════════════════════ */
+body.light-mode .pf-status-bar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px);
+  border-bottom-color: rgba(102, 126, 234, 0.12);
+}
+
+body.light-mode .pf-status-bar .pf-status-label {
+  color: #555;
+}
+
+body.light-mode .pf-status-bar .pf-status-value {
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-pin-btn {
+  color: #555;
+}
+
+body.light-mode .pf-pin-btn:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.08);
+}
+
+body.light-mode .pf-status-pill {
+  background: rgba(102, 126, 234, 0.08);
+  color: #374151;
+  border-color: rgba(102, 126, 234, 0.12);
+}
+
+body.light-mode .pf-version-badge {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
 body.light-mode .pf-store-overlay {
   background: rgba(255, 255, 255, 0.95);
 }
@@ -3490,7 +3912,7 @@ body.light-mode .pf-clock { color: #555; }
 }
 .pf-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(102, 126, 234, 0.5); }
 .pf-chat-fab.active { background: var(--pf-accent, #e94560); box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); }
-.pf-chat-fab-logo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.pf-chat-fab-logo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
 
 /* Chat Panel */
 .pf-chat-panel {
@@ -3677,37 +4099,14 @@ body.light-mode .pf-settings-sidebar {
 }
 
 /* ============================================= */
-/* Canvas Wrapper + Grid Overlay                 */
-/* Persistent grid on background layer,          */
-/* responsive to dark/light mode                 */
+/* Canvas Wrapper — flex positioning             */
+/* Grid overlay is defined above (L401-430)      */
 /* ============================================= */
 .pf-canvas-wrapper {
   position: relative;
   flex: 1;
   min-height: 0;
   overflow: hidden;
-}
-
-/* Dot grid overlay — always on top of TLDraw bg, below UI */
-.pf-canvas-wrapper.show-grid::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1; /* above TLDraw canvas bg, below dock/modals */
-  pointer-events: none;
-  background-image: radial-gradient(
-    circle,
-    var(--pf-grid-dot, rgba(255, 255, 255, 0.08)) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-/* Light mode grid — darker dots */
-body.light-mode .pf-canvas-wrapper.show-grid::after {
-  --pf-grid-dot: rgba(0, 0, 0, 0.06);
 }
 
 /* ============================================= */
@@ -3742,4 +4141,72 @@ body.light-mode .pf-footer {
   cursor: pointer;
   pointer-events: all;
   opacity: 1;
+}
+
+/* ============================================= */
+/* UTILITY CLASSES — Wave 3/5 (§B.7.3, §B.7.5)  */
+/* Animation, Skeleton, Transition Tokens        */
+/* ============================================= */
+
+/* ── Transition Tokens ── */
+:root {
+  --pf-transition-fast: 0.15s;
+  --pf-transition-base: 0.3s;
+  --pf-transition-slow: 0.5s;
+}
+
+/* ── Fade-In Animation ── */
+.animate-fade-in {
+  animation: pf-fade-in var(--pf-transition-base, 0.3s) ease-out;
+}
+
+@keyframes pf-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Skeleton Loader ── */
+.pf-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: pf-shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.pf-skeleton--text {
+  height: 14px;
+  width: 80%;
+  margin-bottom: 8px;
+}
+
+.pf-skeleton--circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.pf-skeleton--card {
+  height: 120px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+@keyframes pf-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+body.light-mode .pf-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.04) 25%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.04) 75%
+  );
+  background-size: 200% 100%;
 }

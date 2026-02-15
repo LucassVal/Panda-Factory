@@ -26,6 +26,7 @@ export const AuthMethod = {
 
 /**
  * Mock user data for development
+ * 2-tier model: Founder + User (User can toggle Dev Mode in-app)
  */
 const MOCK_USERS = {
   "founder@panda.com": {
@@ -36,17 +37,10 @@ const MOCK_USERS = {
     founderPercent: 5,
     ed25519PublicKey: "mock_public_key_hex",
   },
-  "dev@test.com": {
-    uid: "dev-001",
-    email: "dev@test.com",
-    displayName: "Test Developer",
-    userType: UserType.DEV,
-    sdkAccess: true,
-  },
-  "user@test.com": {
-    uid: "user-001",
-    email: "user@test.com",
-    displayName: "Test User",
+  "user@panda.com": {
+    uid: "user-demo",
+    email: "user@panda.com",
+    displayName: "Demo User",
     userType: UserType.USER,
     pcBalance: 100,
   },

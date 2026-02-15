@@ -203,17 +203,78 @@
   letter-spacing: 1px;
 }
 
-/* Light mode overrides */
-.light-mode .pf-notifications-panel {
-  background: rgba(255, 255, 255, 0.97);
-  border-left-color: rgba(168, 85, 247, 0.15);
+/* ═══════════════════════════════════════════════════════════════
+   🌞 LIGHT MODE — NOTIFICATIONS
+   ═══════════════════════════════════════════════════════════════ */
+body.light-mode .pf-notifications-overlay {
+  background: rgba(0, 0, 0, 0.3);
 }
-.light-mode .notif-title {
+
+body.light-mode .pf-notifications-panel {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px);
+  border-left-color: rgba(102, 126, 234, 0.15);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .pf-notifications-header {
+  border-bottom-color: rgba(102, 126, 234, 0.12);
+}
+
+body.light-mode .pf-notifications-header h3 {
   color: #1a1a2e;
 }
-.light-mode .notif-message {
+
+body.light-mode .notif-badge {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+body.light-mode .notif-btn {
+  background: rgba(102, 126, 234, 0.08);
+  border-color: rgba(102, 126, 234, 0.15);
+  color: #555;
+}
+
+body.light-mode .notif-btn:hover {
+  background: rgba(102, 126, 234, 0.15);
+  color: #1a1a2e;
+}
+
+body.light-mode .notif-close {
+  color: #999;
+}
+
+body.light-mode .notif-item.unread {
+  background: rgba(102, 126, 234, 0.06);
+  border-left-color: #667eea;
+}
+
+body.light-mode .notif-item:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+body.light-mode .notif-title {
+  color: #1a1a2e;
+}
+
+body.light-mode .notif-message {
   color: #666;
 }
-.light-mode .pf-notifications-header h3 {
-  color: #1a1a2e;
+
+body.light-mode .notif-time {
+  color: #999;
 }
+
+body.light-mode .notif-empty {
+  color: #999;
+}
+
+body.light-mode .pf-notifications-footer {
+  border-top-color: rgba(102, 126, 234, 0.1);
+  color: #999;
+}
+
+body.light-mode .pf-notifications-list::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.2);
+}
+

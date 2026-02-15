@@ -120,7 +120,6 @@ function PFSettings({ isOpen, onClose }) {
     { id: "mining", icon: "⛏️", label: "Mining" },
     { id: "security", icon: "🔒", label: "Security" },
     { id: "integrations", icon: "🔌", label: "Integrations" },
-    { id: "developer", icon: "🛠️", label: "Developer" },
     { id: "about", icon: "ℹ️", label: "About" },
   ];
 
@@ -781,42 +780,7 @@ function PFSettings({ isOpen, onClose }) {
             </div>
           )}
 
-          {/* Developer Section */}
-          {activeSection === "developer" && (
-            <div className="pf-settings-section">
-              <h2>🛠️ Developer</h2>
-              <p>Ferramentas para desenvolvedores</p>
 
-              <div className="pf-settings-card">
-                <div className="pf-settings-row">
-                  <div>
-                    <div className="pf-settings-label">Dev Mode</div>
-                    <div className="pf-settings-sublabel">
-                      Ativar console e debug
-                    </div>
-                  </div>
-                  <div className="pf-toggle" />
-                </div>
-                <div className="pf-settings-row">
-                  <div>
-                    <div className="pf-settings-label">API Key</div>
-                    <div className="pf-settings-sublabel">
-                      pf_live_••••••••
-                    </div>
-                  </div>
-                  <button className="pf-btn-secondary">Copiar</button>
-                </div>
-              </div>
-
-              <div className="pf-settings-card">
-                <div className="pf-settings-label">📦 SDK & APIs</div>
-                <div className="pf-settings-sublabel">Panda SDK v5.0</div>
-                <div className="pf-code-block">
-                  <code>npm install @panda-factory/sdk</code>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* About Section */}
           {activeSection === "about" && (

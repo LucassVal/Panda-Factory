@@ -16,8 +16,8 @@ const MOCK_NOTIFICATIONS = [
     id: "n1",
     type: "system",
     icon: "🐼",
-    title: "BEM-VINDO AO PANDA FABRICS",
-    message: "Seu workspace está pronto. Explore o catálogo!",
+    title: "WELCOME TO PANDA FABRICS",
+    message: "Your workspace is ready. Explore the catalog!",
     time: new Date(Date.now() - 1000 * 60 * 2),
     read: false,
   },
@@ -25,8 +25,8 @@ const MOCK_NOTIFICATIONS = [
     id: "n2",
     type: "store",
     icon: "🛒",
-    title: "STORE ATUALIZADA",
-    message: "9 extensões disponíveis — incluindo Instagram, Google Ads e mais",
+    title: "STORE UPDATED",
+    message: "9 extensions available — including Instagram, Google Ads and more",
     time: new Date(Date.now() - 1000 * 60 * 15),
     read: false,
   },
@@ -34,8 +34,8 @@ const MOCK_NOTIFICATIONS = [
     id: "n3",
     type: "ai",
     icon: "🧠",
-    title: "BRAIN PRONTO",
-    message: "Panda Brain conectado via MCP. Diga 'olá' no chat!",
+    title: "BRAIN READY",
+    message: "Panda Brain connected via MCP. Say 'hello' in the chat!",
     time: new Date(Date.now() - 1000 * 60 * 60),
     read: true,
   },
@@ -43,8 +43,8 @@ const MOCK_NOTIFICATIONS = [
     id: "n4",
     type: "security",
     icon: "🛡️",
-    title: "PANDA DEFEND ATIVO",
-    message: "14 regras Semgrep monitorando. Sistema seguro.",
+    title: "PANDA DEFEND ACTIVE",
+    message: "14 Semgrep rules monitoring. System secure.",
     time: new Date(Date.now() - 1000 * 60 * 60 * 2),
     read: true,
   },
@@ -53,10 +53,10 @@ const MOCK_NOTIFICATIONS = [
 function formatTimeAgo(date) {
   const now = new Date();
   const diff = Math.floor((now - date) / 1000);
-  if (diff < 60) return "AGORA";
-  if (diff < 3600) return `${Math.floor(diff / 60)}M ATRÁS`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}H ATRÁS`;
-  return `${Math.floor(diff / 86400)}D ATRÁS`;
+  if (diff < 60) return "NOW";
+  if (diff < 3600) return `${Math.floor(diff / 60)}M AGO`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}H AGO`;
+  return `${Math.floor(diff / 86400)}D AGO`;
 }
 
 function PFNotifications({ isOpen, onClose }) {
@@ -88,7 +88,7 @@ function PFNotifications({ isOpen, onClose }) {
         {/* Header */}
         <div className="pf-notifications-header">
           <h3>
-            🔔 NOTIFICAÇÕES
+            🔔 NOTIFICATIONS
             {unreadCount > 0 && (
               <span className="notif-badge">{unreadCount}</span>
             )}
@@ -96,12 +96,12 @@ function PFNotifications({ isOpen, onClose }) {
           <div className="notif-actions">
             {unreadCount > 0 && (
               <button className="notif-btn" onClick={markAllRead}>
-                ✓ LER TODAS
+                ✓ READ ALL
               </button>
             )}
             {notifications.length > 0 && (
               <button className="notif-btn" onClick={clearAll}>
-                🗑️ LIMPAR
+                🗑️ CLEAR
               </button>
             )}
             <button className="notif-close" onClick={onClose}>
@@ -115,7 +115,7 @@ function PFNotifications({ isOpen, onClose }) {
           {notifications.length === 0 ? (
             <div className="notif-empty">
               <span style={{ fontSize: 32 }}>🔕</span>
-              <p>NENHUMA NOTIFICAÇÃO</p>
+              <p>NO NOTIFICATIONS</p>
             </div>
           ) : (
             notifications.map((notif) => (

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 /**
  * 🛡️ Panda Defend — User Security Panel v1.0
@@ -84,6 +84,47 @@ const MOCK_MODULES = [
   },
 ];
 
+// ── Mock score breakdowns ──
+const MOCK_SCORE_DETAILS = {
+  "@panda/ai-chat": {
+    bonus: ["CSP declarado (+5)", "TypeScript completo (+5)", "Testes > 50% (+5)", "README.md (+5)"],
+    penalty: [],
+  },
+  "@panda/draw-tools": {
+    bonus: ["strict mode (+5)", "README.md (+5)", "Changelog semântico (+5)"],
+    penalty: ["Web Workers não declarado (-10)"],
+  },
+  "@fulano/steam-library": {
+    bonus: ["README.md (+5)", "CSP declarado (+5)"],
+    penalty: ["fetch() externo não declarado (-10)", "IndexedDB > 50MB (-10)"],
+  },
+  "@dev/whatsapp-bridge": {
+    bonus: ["strict mode (+5)"],
+    penalty: ["fetch() externo não declarado (-10)", "WebRTC não declarado (-10)", "Notification API (-10)"],
+  },
+  "@carlo/epic-hook": {
+    bonus: [],
+    penalty: ["eval() dinâmico (Score=0)", "Obfuscação detectada (-∞)", "fetch() não declarado (-10)"],
+  },
+};
+
+const GOLDEN_RULES = [
+  { id: "R1", rule: "Dynamic eval", risk: "RCE" },
+  { id: "R2", rule: "document.write", risk: "XSS" },
+  { id: "R3", rule: "Unsafe innerHTML", risk: "XSS" },
+  { id: "R4", rule: "Cross-origin storage", risk: "Data theft" },
+  { id: "R5", rule: "Undeclared fetch", risk: "Exfiltration" },
+  { id: "R6", rule: "Frame access", risk: "Sandbox escape" },
+  { id: "R7", rule: "Crypto mining", risk: "Resource theft" },
+  { id: "R8", rule: "Obfuscation", risk: "Hidden malware" },
+  { id: "R9", rule: "Prototype Pollution", risk: "RCE" },
+  { id: "R10", rule: "Hardcoded Secrets", risk: "Credential leak" },
+  { id: "R11", rule: "Insecure Crypto", risk: "Weak security" },
+  { id: "R12", rule: "IA Externa (bypass)", risk: "Revenue theft" },
+  { id: "R13", rule: "Billing Bypass", risk: "Economic damage" },
+  { id: "R14", rule: "MCP Manifest ausente", risk: "No integration" },
+];
+
 const MOCK_EVENTS = [
   {
     id: 1,
@@ -147,7 +188,7 @@ const S = {
     maxWidth: 900,
     margin: "0 auto",
     fontFamily: "'Inter', -apple-system, sans-serif",
-    color: "#e2e8f0",
+    color: "var(--pf-text, #e2e8f0)",
   },
   header: {
     display: "flex",
@@ -157,13 +198,13 @@ const S = {
   },
   title: { fontSize: 24, fontWeight: 700, margin: 0 },
   subtitle: {
-    color: "#94a3b8",
+    color: "var(--pf-text-muted, #94a3b8)",
     fontSize: 14,
     marginBottom: 24,
   },
   card: {
-    background: "rgba(30,41,59,0.7)",
-    border: "1px solid rgba(100,116,139,0.2)",
+    background: "var(--pf-surface, rgba(30,41,59,0.7))",
+    border: "1px solid var(--pf-border, rgba(100,116,139,0.2))",
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
@@ -236,9 +277,12 @@ function getPermRisk(perm) {
 export function PFDefendPanel() {
   const [expandedModule, setExpandedModule] = useState(null);
   const [eventFilter, setEventFilter] = useState("all");
+  const [rulesExpanded, setRulesExpanded] = useState(false);
+  const [modules, setModules] = useState(MOCK_MODULES);
+  const [reportedModules, setReportedModules] = useState(new Set());
 
   const globalScore = Math.round(
-    MOCK_MODULES.reduce((sum, m) => sum + m.score, 0) / MOCK_MODULES.length
+    modules.reduce((sum, m) => sum + m.score, 0) / (modules.length || 1)
   );
   const scoreColor =
     globalScore >= 80
@@ -256,6 +300,17 @@ export function PFDefendPanel() {
     eventFilter === "all"
       ? MOCK_EVENTS
       : MOCK_EVENTS.filter((e) => e.type === eventFilter);
+
+  const handleReport = useCallback((modId) => {
+    setReportedModules(prev => new Set([...prev, modId]));
+    console.log(`🛡️ DEFEND: ⚠️ Módulo ${modId} reportado — denúncia registrada`);
+  }, []);
+
+  const handleUninstall = useCallback((modId) => {
+    setModules(prev => prev.filter(m => m.id !== modId));
+    setExpandedModule(null);
+    console.log(`🛡️ DEFEND: 🗑️ Módulo ${modId} desinstalado`);
+  }, []);
 
   return (
     <div style={S.container}>
@@ -283,19 +338,19 @@ export function PFDefendPanel() {
             <div>
               ✅ Aprovados:{" "}
               <strong>
-                {MOCK_MODULES.filter((m) => m.status === "approved").length}
+                {modules.filter((m) => m.status === "approved").length}
               </strong>
             </div>
             <div>
               🟡 Em revisão:{" "}
               <strong>
-                {MOCK_MODULES.filter((m) => m.status === "review").length}
+                {modules.filter((m) => m.status === "review").length}
               </strong>
             </div>
             <div>
               🔴 Suspensos:{" "}
               <strong>
-                {MOCK_MODULES.filter((m) => m.status === "suspended").length}
+                {modules.filter((m) => m.status === "suspended").length}
               </strong>
             </div>
             <div style={{ color: "#64748b", marginTop: 4, fontSize: 11 }}>
@@ -308,9 +363,9 @@ export function PFDefendPanel() {
       {/* ────── Installed Modules ────── */}
       <div style={S.card}>
         <div style={S.sectionTitle}>
-          <span>📦</span> Módulos Instalados ({MOCK_MODULES.length})
+          <span>📦</span> Módulos Instalados ({modules.length})
         </div>
-        {MOCK_MODULES.map((mod) => (
+        {modules.map((mod) => (
           <div key={mod.id}>
             <div
               style={{
@@ -443,6 +498,56 @@ export function PFDefendPanel() {
                     obrigatórias.
                   </div>
                 )}
+
+                {/* ── Score Breakdown ── */}
+                {MOCK_SCORE_DETAILS[mod.id] && (
+                  <div style={{ marginTop: 10 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 6 }}>
+                      📊 SCORE BREAKDOWN:
+                    </div>
+                    {MOCK_SCORE_DETAILS[mod.id].bonus.map((b, i) => (
+                      <div key={`b-${i}`} style={{ fontSize: 11, color: "#10b981", paddingLeft: 8 }}>+ {b}</div>
+                    ))}
+                    {MOCK_SCORE_DETAILS[mod.id].penalty.map((p, i) => (
+                      <div key={`p-${i}`} style={{ fontSize: 11, color: "#ef4444", paddingLeft: 8 }}>− {p}</div>
+                    ))}
+                    {MOCK_SCORE_DETAILS[mod.id].bonus.length === 0 && MOCK_SCORE_DETAILS[mod.id].penalty.length === 0 && (
+                      <div style={{ fontSize: 11, color: "#64748b", paddingLeft: 8 }}>Nenhum detalhe disponível</div>
+                    )}
+                  </div>
+                )}
+
+                {/* ── Module Actions ── */}
+                <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleReport(mod.id); }}
+                    disabled={reportedModules.has(mod.id)}
+                    style={{
+                      padding: "5px 12px", borderRadius: 6, fontSize: 11, fontWeight: 600,
+                      background: reportedModules.has(mod.id) ? "rgba(100,116,139,0.1)" : "rgba(245,158,11,0.1)",
+                      color: reportedModules.has(mod.id) ? "#64748b" : "#f59e0b",
+                      border: `1px solid ${reportedModules.has(mod.id) ? "rgba(100,116,139,0.2)" : "rgba(245,158,11,0.25)"}`,
+                      cursor: reportedModules.has(mod.id) ? "default" : "pointer",
+                    }}
+                  >
+                    {reportedModules.has(mod.id) ? "✅ Reportado" : "⚠️ Reportar"}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm(`Desinstalar ${mod.name}? Esta ação não pode ser desfeita.`)) {
+                        handleUninstall(mod.id);
+                      }
+                    }}
+                    style={{
+                      padding: "5px 12px", borderRadius: 6, fontSize: 11, fontWeight: 600,
+                      background: "rgba(239,68,68,0.1)", color: "#ef4444",
+                      border: "1px solid rgba(239,68,68,0.25)", cursor: "pointer",
+                    }}
+                  >
+                    🗑️ Desinstalar
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -467,7 +572,7 @@ export function PFDefendPanel() {
               background: "rgba(100,116,139,0.15)",
               border: "1px solid rgba(100,116,139,0.2)",
               borderRadius: 6,
-              color: "#e2e8f0",
+              color: "var(--pf-text, #e2e8f0)",
               padding: "4px 8px",
               fontSize: 11,
             }}
@@ -483,7 +588,7 @@ export function PFDefendPanel() {
           style={{
             maxHeight: 260,
             overflowY: "auto",
-            background: "rgba(0,0,0,0.2)",
+            background: "var(--pf-bg, rgba(0,0,0,0.2))",
             borderRadius: 8,
             padding: 8,
           }}
@@ -508,6 +613,44 @@ export function PFDefendPanel() {
         </div>
       </div>
 
+      {/* ────── 14 Golden Rules (Collapsed) ────── */}
+      <div style={S.card}>
+        <div
+          style={{ ...S.sectionTitle, cursor: "pointer", justifyContent: "space-between" }}
+          onClick={() => setRulesExpanded(prev => !prev)}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span>📋</span> 14 Regras de Ouro (Bloqueio Automático)
+          </div>
+          <span style={{ fontSize: 12, transform: rulesExpanded ? "rotate(180deg)" : "rotate(0)", transition: "transform .2s" }}>▼</span>
+        </div>
+        {rulesExpanded && (
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
+                  <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>ID</th>
+                  <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Regra</th>
+                  <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Risco</th>
+                </tr>
+              </thead>
+              <tbody>
+                {GOLDEN_RULES.map(r => (
+                  <tr key={r.id} style={{ borderBottom: "1px solid rgba(100,116,139,0.08)" }}>
+                    <td style={{ padding: "4px 8px", fontWeight: 700, color: "#ef4444", fontFamily: "monospace" }}>{r.id}</td>
+                    <td style={{ padding: "4px 8px" }}>{r.rule}</td>
+                    <td style={{ padding: "4px 8px", fontSize: 11, color: "#f59e0b" }}>{r.risk}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div style={{ fontSize: 11, color: "#64748b", marginTop: 8, padding: "0 8px" }}>
+              Ref: <code style={{ fontSize: 10, background: "rgba(100,116,139,0.15)", padding: "1px 4px", borderRadius: 3 }}>PF_SECURITY_REFERENCE.md §1.6.B</code>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* ────── About ────── */}
       <div
         style={{
@@ -528,7 +671,7 @@ export function PFDefendPanel() {
             >
               Como funciona o Panda Defend
             </div>
-            <div style={{ color: "#94a3b8" }}>
+            <div style={{ color: "var(--pf-text-muted, #94a3b8)" }}>
               O Panda Defend monitora todos os módulos e tentáculos
               instalados no seu ambiente. Cada extensão recebe um{" "}
               <strong>Score de Segurança</strong> (0-100) baseado em

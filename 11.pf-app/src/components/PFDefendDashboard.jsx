@@ -536,7 +536,7 @@ export function PandaDefendDashboard({ isPopout = false }) {
 
       {/* Footer */}
       <footer className="defend-footer">
-        <span>🐼 Panda Defend v1.0 - 11 Rules Active</span>
+        <span>Panda Defend v1.0 - 11 Rules Active</span>
         <span>Last scan: {new Date().toLocaleTimeString()}</span>
       </footer>
     </div>
