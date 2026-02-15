@@ -1,4 +1,4 @@
-name: 🐼 GitHub Pages Deploy (PF App React)
+name: GitHub Pages Deploy (PF App React)
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 🐼 Checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -60,11 +60,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: 🐼 Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: 🎉 Deployment Complete
         run: |
-          echo "🐼 Panda Fabrics UI v7.2 is LIVE!"
+          echo "Panda Fabrics UI v7.2 is LIVE!"
           echo "URL: ${{ steps.deployment.outputs.page_url }}"

@@ -2,7 +2,7 @@
   <img src="assets/panda_logo.png" alt="Panda Fabrics" width="160">
 </p>
 
-<h1 align="center">🐼 Panda Fabrics</h1>
+<h1 align="center">Panda Fabrics</h1>
 
 <p align="center">
   <strong>AI-Powered Micro-SaaS Platform — Your Browser Is the Operating System</strong><br>
@@ -11,7 +11,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Built_on-Google_Cloud-4285F4?logo=google-cloud&style=for-the-badge" alt="Google Cloud">
-  <img src="https://img.shields.io/badge/AI-Gemini_2.0/3.0-8E75B2?logo=google&style=for-the-badge" alt="Gemini">
+  <img src="https://img.shields.io/badge/AI-Gemini_3.0-8E75B2?logo=google&style=for-the-badge" alt="Gemini">
   <img src="https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase&style=for-the-badge" alt="Firebase">
   <img src="https://img.shields.io/badge/Backend-Apps_Script-0F9D58?logo=google&style=for-the-badge" alt="GAS">
   <img src="https://img.shields.io/badge/Desktop-Rust/Tauri-DEA584?logo=rust&style=for-the-badge" alt="Rust">
@@ -176,7 +176,7 @@ Panda Fabrics isn't just a product — it's a **wealth engine for creators**:
 │  │ 52% Creator │ 25% Platform │ 15% Reserve │ 5% Ops │ 3% Burn │  │
 │  ────────────────────────────────────────────────────────          │
 │                                                                     │
-│  Sleep. Wake up. Check wallet. Repeat. 🐼💤💰                      │
+│  Sleep. Wake up. Check wallet. Repeat. 💤💰                        │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -481,7 +481,7 @@ Panda Fabrics is not just _built on_ Google — it **is** Google infrastructure,
 ---
 
 <p align="center">
-  <strong>🐼 Panda Fabrics</strong><br>
+  <strong>Panda Fabrics</strong><br>
   <em>Your browser is your OS. Your Drive is your server. AI is your co-pilot.</em><br>
   <code>v7.2 — February 2026</code>
 </p>
