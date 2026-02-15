@@ -1,5 +1,5 @@
 # 🔒 Panda Factory Public - Exclusões
-# Atualizado: 2026-02-10 (Caminhos CORRETOS do projeto)
+# Atualizado: 2026-02-15 (Audit — fix rust-agent pattern mismatch)
 
 # ========================================
 # SENSÍVEL - NÃO ENVIAR PARA REPO PÚBLICO
@@ -34,6 +34,7 @@ js/pat/
 
 # Agente Rust (Ed25519, chaves privadas)
 7.rust-agent/
+7.7.rust-agent/
 rust-agent/
 
 # Documentação Técnica Interna
@@ -69,6 +70,9 @@ LOGIN_DEV.md
 
 # Scripts internos
 scripts/
+
+# Config interna do agente AI
+.antigravityignore
 
 # Configuração do agent
 .agent/
