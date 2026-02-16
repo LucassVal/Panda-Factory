@@ -234,6 +234,7 @@ function PFStore({
   onInstall,
   userPcBalance = 500,
   userTier = "user",
+  embedded = false,
 }) {
   const [filter, setFilter] = useState("all");
   const [checkoutItem, setCheckoutItem] = useState(null);
@@ -283,10 +284,9 @@ function PFStore({
     { id: "devtools", label: "🔧 DevTools", count: STORE_ITEMS.filter((i) => i.storeCategory === "devtools").length },
   ].filter(c => c.id === "all" || c.count > 0);
 
-  return (
+  const storeContent = (
     <>
-      <div className="pf-store-overlay" onClick={onClose}>
-        <div className="pf-store" onClick={(e) => e.stopPropagation()}>
+      <div className="pf-store" style={embedded ? { position: 'relative', width: '100%', height: '100%' } : {}} onClick={(e) => embedded ? null : e.stopPropagation()}>
           {/* Header */}
           <div className="pf-store-header">
             <div className="store-header-left">
@@ -295,9 +295,11 @@ function PFStore({
                 💰 {userPcBalance.toLocaleString()} PC
               </span>
             </div>
-            <button className="pf-store-close" onClick={onClose}>
-              ×
-            </button>
+            {!embedded && (
+              <button className="pf-store-close" onClick={onClose}>
+                ×
+              </button>
+            )}
           </div>
 
           {/* Search */}
@@ -436,7 +438,6 @@ function PFStore({
             )}
           </div>
         </div>
-      </div>
 
       {/* Checkout Modal */}
       <CheckoutModal
@@ -447,6 +448,18 @@ function PFStore({
         userTier={userTier}
       />
     </>
+  );
+
+  // Embedded: render content directly, no overlay
+  if (embedded) {
+    return storeContent;
+  }
+
+  // Standalone: wrap in overlay
+  return (
+    <div className="pf-store-overlay" onClick={onClose}>
+      {storeContent}
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHealthStatus } from "../hooks/useHealthStatus";
+import PFLanguageSelector from "./PFLanguageSelector";
 
 /**
  * PF Status Bar v6.3 — PIN + White Label
@@ -208,6 +209,9 @@ function PFStatusBar({
 
         {/* RIGHT: Controls — same order as original */}
         <div className="pf-header-controls">
+          {/* Language Selector */}
+          <PFLanguageSelector />
+
           {/* Arc Energy */}
           <div className="pf-arc-energy" title={`${energy}% ENERGY`} aria-label={`Session energy: ${energy}%`}>
             <svg width="40" height="40" viewBox="0 0 48 48">

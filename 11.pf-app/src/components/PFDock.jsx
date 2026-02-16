@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 
 /**
- * PF Dock v6.2 - Lean Dock (5 items)
+ * PF Dock v6.3 - Extended Dock (8 items)
  *
  * Features:
  * - DRAGGABLE position (anywhere on screen)
  * - Drawing tools (opens Right Toolbar)
- * - Fixed items: Catalog, Dev Mode
+ * - Fixed items: Catalog, Store, Settings, Dev Mode
+ * - NEW: Finance, Gasometer, Council panels
  * - Dynamic plugins with right-click: ABRIR / FECHAR / DESINSTALAR
  * - Position persisted to localStorage
  * - Text: UPPERCASE standard
@@ -16,6 +17,9 @@ function PFDock({
   onToolsClick,
   onStoreClick,
   onSettingsClick,
+  onFinanceClick,
+  onGasometerClick,
+  onCouncilClick,
   plugins = [],
   onPluginOpen,
   onPluginClose,
@@ -231,6 +235,40 @@ function PFDock({
             aria-label="Abrir Panda Store"
           >
             <img src="./panda-logo.png" alt="Panda Store" style={{ width: 28, height: 28 }} />
+          </button>
+
+          <div className="pf-dock-separator" />
+
+          {/* ── ECONOMY & GOVERNANCE ─── */}
+
+          {/* Finance */}
+          <button
+            className="pf-dock-item"
+            onClick={onFinanceClick}
+            title="FINANCE"
+            aria-label="Open finance panel"
+          >
+            💰
+          </button>
+
+          {/* Gasometer */}
+          <button
+            className="pf-dock-item"
+            onClick={onGasometerClick}
+            title="GASOMETER"
+            aria-label="Open gasometer panel"
+          >
+            ⛽
+          </button>
+
+          {/* Council */}
+          <button
+            className="pf-dock-item"
+            onClick={onCouncilClick}
+            title="PAT COUNCIL"
+            aria-label="Open PAT Council"
+          >
+            🏛️
           </button>
 
           <div className="pf-dock-separator" />

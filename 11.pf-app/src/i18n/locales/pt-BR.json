@@ -1,0 +1,81 @@
+{
+  "login": {
+    "tagline": "Sua Fábrica de Infoprodutos com IA",
+    "description": "Empacote produtos de IA para nichos específicos e venda via Hotmart e Kiwify com até 70% de comissão para afiliados. CRM, bots, automações — tudo pronto para monetizar. Onde BigTechs vendem serviços, você vende resultados.",
+    "welcomeBack": "Bem-vindo de volta",
+    "signInSubtitle": "Faça login para acessar seu workspace",
+    "signInGoogle": "Entrar com Google",
+    "soon": "Em breve",
+    "or": "ou",
+    "email": "Email",
+    "password": "Senha",
+    "signInEmail": "Entrar com Email",
+    "signingIn": "Entrando...",
+    "freeHint": "🔓 Acesso gratuito — explore sem cartão de crédito",
+    "forgotPassword": "Esqueceu a senha?",
+    "demoLabel": "Credenciais de demonstração MVP",
+    "invalidCredentials": "Email ou senha inválidos",
+    "loading": "Carregando...",
+    "features": [
+      {
+        "icon": "🚀",
+        "title": "Produtos IA Prontos",
+        "desc": "CRM, bots, automações — empacotados para vender"
+      },
+      {
+        "icon": "💰",
+        "title": "60-70% Comissão",
+        "desc": "O melhor programa de afiliados do mercado"
+      },
+      {
+        "icon": "🥝",
+        "title": "Hotmart + Kiwify",
+        "desc": "Integração nativa — webhook direto na plataforma"
+      },
+      {
+        "icon": "🧠",
+        "title": "6 IAs Integradas",
+        "desc": "Gemini Pro, Flash, Think — em cada módulo"
+      },
+      {
+        "icon": "🎯",
+        "title": "Nichos Lucrativos",
+        "desc": "Dentistas, corretores, coaches — produtos sob medida"
+      },
+      {
+        "icon": "🔒",
+        "title": "Seus Dados, Seu Controle",
+        "desc": "Client-side first — zero vendor lock-in"
+      }
+    ],
+    "stats": [
+      { "value": "R$30+", "label": "por venda" },
+      { "value": "6", "label": "IAs nativas" },
+      { "value": "8+", "label": "Módulos" },
+      { "value": "60-70%", "label": "p/ afiliados" }
+    ]
+  },
+  "statusBar": {
+    "openStore": "ABRIR LOJA",
+    "lightMode": "MODO CLARO",
+    "darkMode": "MODO ESCURO",
+    "notifications": "NOTIFICAÇÕES",
+    "mining": "MINERAÇÃO",
+    "defend": "PANDA DEFEND",
+    "founder": "PAINEL FOUNDER",
+    "settings": "CONFIGURAÇÕES",
+    "logout": "SAIR",
+    "logoutConfirm": "Sair do Panda Fabrics?",
+    "unpinBar": "DESAFIXAR BARRA",
+    "pinBar": "FIXAR BARRA",
+    "energy": "ENERGIA",
+    "treasury": "TESOURO — ABRIR CONSELHO PAT",
+    "session": "SESSÃO"
+  },
+  "common": {
+    "language": "Idioma",
+    "close": "Fechar",
+    "save": "Salvar",
+    "cancel": "Cancelar"
+  }
+}

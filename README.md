@@ -1,33 +1,34 @@
+# 🐼 Panda Factory
+
 <p align="center">
-  <img src="assets/panda_logo.png" alt="Panda Fabrics" width="160">
+  <img src="assets/panda_logo.png" alt="Panda Factory" width="160">
 </p>
 
-<h1 align="center">Panda Fabrics</h1>
+<h1 align="center">Panda Factory</h1>
 
 <p align="center">
-  <strong>AI-Powered Micro-SaaS Platform — Your Browser Is the Operating System</strong><br>
-  <em>Professional tools at near-zero cost. No install. No lock-in. All your data stays in your Google Drive.</em>
+  <strong>Your AI-Powered Infoproduct Factory — Package, Sell & Scale</strong><br>
+  <em>Where BigTechs sell services, you sell results. CRM, bots, automations — ready for specific niches, distributed via Hotmart and Kiwify.</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Built_on-Google_Cloud-4285F4?logo=google-cloud&style=for-the-badge" alt="Google Cloud">
+  <img src="https://img.shields.io/badge/Distribution-Hotmart_+_Kiwify-FF6B00?style=for-the-badge" alt="Hotmart + Kiwify">
   <img src="https://img.shields.io/badge/AI-Gemini_3.0-8E75B2?logo=google&style=for-the-badge" alt="Gemini">
-  <img src="https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase&style=for-the-badge" alt="Firebase">
-  <img src="https://img.shields.io/badge/Backend-Apps_Script-0F9D58?logo=google&style=for-the-badge" alt="GAS">
-  <img src="https://img.shields.io/badge/Desktop-Rust/Tauri-DEA584?logo=rust&style=for-the-badge" alt="Rust">
+  <img src="https://img.shields.io/badge/Payments-PIX_+_Stripe-635BFF?style=for-the-badge" alt="PIX + Stripe">
+  <img src="https://img.shields.io/badge/Affiliates-60--70%25-00C853?style=for-the-badge" alt="Affiliates">
+  <img src="https://img.shields.io/badge/Infra-Google_Cloud-4285F4?logo=google-cloud&style=for-the-badge" alt="Google Cloud">
   <img src="https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge" alt="License">
 </p>
 
 <p align="center">
   <a href="#-live-demo">▶ Try Now</a> •
-  <a href="#-what-panda-fabrics-does">Features</a> •
-  <a href="#-5-ai-models-built-in">AI</a> •
-  <a href="#-the-plugin-marketplace-medusa-store">Store</a> •
-  <a href="#-how-creators-earn">Earn</a> •
+  <a href="#-what-is-panda-factory">What Is It</a> •
+  <a href="#-why-bigtechs-cant-compete">BigTech Defense</a> •
+  <a href="#-how-you-make-money">Monetization</a> •
+  <a href="#-6-native-ais">AI</a> •
+  <a href="#-module-store">Store</a> •
   <a href="#-architecture">Architecture</a> •
-  <a href="#-ui-showcase">Screenshots</a> •
   <a href="#-roadmap">Roadmap</a> •
-  <a href="#-why-google-for-startups">Google Partnership</a> •
   <a href="#-contact">Contact</a>
 </p>
 
@@ -35,436 +36,313 @@
 
 ## ▶ Live Demo
 
-> **🚀 [Launch Panda Fabrics →](https://lucassval.github.io/Panda-Factory/)**
+> **🚀 [Access Panda Factory →](https://lucassval.github.io/Panda-Factory/)**
 >
-> 🔑 Demo Login: `user` / `user` (full MVP experience)
-
-<!-- Screenshots will be added in Phase 2 -->
+> 🔑 Demo: `user@panda.com` / `user` (full MVP experience)
 
 ---
 
-## 🎯 What Panda Fabrics Does
+## 🎯 What Is Panda Factory
 
-Panda Fabrics is a **browser-based workspace** where you can run professional software tools — design, CRM, analytics, AI chat, course creation, trading bots — all from a single interface. Think of it as a **desktop OS inside your browser**.
+Panda Factory is an **AI-powered infoproduct facilitation platform**. It packages Artificial Intelligence capabilities into **ready-to-sell products for specific niches** and distributes them via Hotmart and Kiwify — Brazil's two largest infoproduct marketplaces (34M+ buyers).
 
-### Core Capabilities
+### The Missing Layer
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│  AI VALUE CHAIN IN 2026                                                 │
+│                                                                         │
+│  LAYER 1: Infrastructure (GPUs, Cloud)      → Google, AWS, NVIDIA      │
+│  LAYER 2: Models & APIs (AI as a Service)   → OpenAI, Gemini, Claude   │
+│  LAYER 3: Tools (Generic SaaS)              → Copilot, Notion AI       │
+│                                                                         │
+│  ═══════════════════════════════════════════════════════════════════    │
+│  ★ LAYER 4: INFOPRODUCT FACILITATION → PANDA FACTORY ★                │
+│  ├── Packages AI into SELLABLE products for NICHES                      │
+│  ├── Distributes via Hotmart/Kiwify (34M+ buyers)                      │
+│  └── Affiliates earn 60-70% — an army of sellers at zero fixed cost    │
+│  ═══════════════════════════════════════════════════════════════════    │
+│                                                                         │
+│  LAYER 5: End Consumer → Dentist, realtor, coach, trader               │
+│  └── They DON'T want APIs — they want READY products, buyable via PIX  │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### What You Can Do
 
 <table>
 <tr>
 <td width="50%">
 
-#### 🎨 Infinite Canvas Workspace
+#### 🚀 Sell AI Products by Niche
 
-A TLDraw-based infinite whiteboard where you drag, drop, draw, and organize your work visually. Create mind maps, wireframes, mood boards, or use it as your daily planner.
+CRM for dentists, prospecting bots for realtors, Instagram automation for coaches — each module is packaged, priced and distributed via Hotmart/Kiwify with one click.
 
-#### 🤖 5 AI Models Built-In
+#### 💰 Aggressive Affiliate Program
 
-Gemini Flash for instant chat, Pro for deep analysis, Think for complex reasoning, Research for grounded answers, and Imagen for AI image generation — all accessible from the same sidebar.
+Offer **60-70% commission** to affiliates — far above the market's 30-50%. They promote, you earn. Zero fixed marketing cost.
 
-#### 🛒 Plugin Marketplace
+#### 🧠 6 Native AIs in Every Module
 
-Install tools from the Medusa Store: CRM, landing page builder, analytics dashboards, educational modules, trading bots, and more. Each plugin is AI-native from day one.
+Gemini Flash, Pro, Think, Research and Imagen — integrated in every product. The buyer gets AI ready to use, no setup needed.
 
 </td>
 <td width="50%">
 
-#### ☁️ Your Data = Your Google Drive
+#### 🥝 Native Hotmart + Kiwify Integration
 
-Every file you create lives in **your own Google Drive** — not our servers. Leave anytime, your data stays. Zero vendor lock-in.
+Bidirectional webhooks process purchases automatically. Bought on Kiwify → lands directly in Panda Factory → module activated.
 
-#### 💰 Earn While You Create
+#### 🎯 Niches BigTechs Can't Reach
 
-Build plugins and sell them in the marketplace. Create courses and distribute them via Kiwify/Hotmart integration. Every sale auto-splits revenue to you — **passive income at scale**.
+Social media automation, prospecting bots, trading — niches that violate BigTech compliance. Panda Factory operates where they **cannot enter**.
 
-#### 🛡️ Security Built-In
+#### 🔒 Client-Side First, Zero Lock-in
 
-Panda Defend scans code with 14 automated security rules. Ed25519 cryptographic signatures for license verification. Kill switch for emergencies. Your workspace, your control.
+Your data stays in **your Google Drive** — not on our servers. Leave whenever you want, take everything. Infra cost: **$0/month**.
 
 </td>
 </tr>
 </table>
 
-```
+---
+
+## 🛡️ Why BigTechs Can't Compete
+
+| Barrier         | Google / Microsoft / Anthropic | Panda Factory                      |
+| --------------- | ------------------------------ | ---------------------------------- |
+| **Sales DNA**   | B2B enterprise ($50k+/year)    | B2C infoproduct (R$47-297/unit)    |
+| **Channel**     | Sales reps, cloud marketplace  | **Hotmart + Kiwify** (34M+ buyers) |
+| **Compliance**  | Can't sell "Instagram bots"    | **Art. 9 — Zero censorship**       |
+| **Avg. Ticket** | $20-50/mo/user                 | R$97-297 one-shot                  |
+| **Affiliates**  | Non-existent                   | **60-70% commission**              |
+| **Niche**       | Generic product for everyone   | **Module per vertical**            |
+| **Speed**       | 6-12 months per product        | **4 weeks**                        |
+
+> **BigTechs build the ROAD. Panda Factory builds the VEHICLES that ride on it, customized for every neighborhood.**
+
+---
+
+## 💰 How You Make Money
+
+```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│              WHAT YOU CAN DO WITH PANDA FABRICS                     │
-│                                                                     │
-│  🎨  Design logos, banners, and social media content (AI-powered)  │
-│  📊  Manage clients and leads with CRM tools                       │
-│  📚  Create and sell online courses (Kiwify/Hotmart integration)   │
-│  📈  Run trading analysis bots with real-time data                 │
-│  📝  Build landing pages with drag-and-drop                        │
-│  💬  Chat with 5 AI models for any task                            │
-│  🔧  Develop your own plugins and sell them in the marketplace     │
-│  📦  Bundle multiple tools into "Casulos" for package deals        │
-│  ⛏️  Earn Panda Coins by sharing idle CPU in the P2P network       │
-│  📱  Access everything from your phone (PWA-ready)                 │
-│                                                                     │
-│  All of this runs in your browser. No install needed.              │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🧠 5 AI Models Built-In
-
-Panda Fabrics doesn't just "have AI" — **AI is the core of everything**. Every tool, every plugin, every interaction can leverage one of 5 Gemini models:
-
-| Model                | Best For                          | Speed   | Example Use                         |
-| -------------------- | --------------------------------- | ------- | ----------------------------------- |
-| **Gemini 2.0 Flash** | Instant answers, quick tasks      | ⚡ Fast | "Summarize this document"           |
-| **Gemini 2.0 Pro**   | Deep analysis, complex reasoning  | 🔬 Med  | "Analyze my sales data and suggest" |
-| **Gemini 3.0 Think** | Multi-step reasoning, strategy    | 🧠 Deep | "Plan a marketing campaign for..."  |
-| **Gemini Research**  | Web-grounded answers with sources | 🌐 Med  | "What are the latest trends in..."  |
-| **Gemini Imagen**    | AI image generation               | 🎨 Med  | "Create a logo for my bakery"       |
-
-> **Every plugin you install automatically speaks to AI.** The Model Context Protocol (MCP) makes every extension AI-native by default — plugin creators don't need to write AI code.
-
-### AI Chat Experience
-
-<!-- AI Chat screenshots will be added in Phase 2 -->
-
-> 6 AI personas (Assistente, Professor, Ninja, Conselheiro, Pesquisador, Criativo) • Context-aware responses • Auto-open welcome on first login • Smart panda mascot
-
----
-
-## 🛒 The Plugin Marketplace (Medusa Store)
-
-The **Medusa Store** is where the Panda Fabrics ecosystem comes alive. Creators build plugins, users install them, everyone earns.
-
-### Available Plugin Categories
-
-| Category          | What It Does                                     | Examples                           |
-| ----------------- | ------------------------------------------------ | ---------------------------------- |
-| **CRM Tools**     | Manage clients, leads, sales pipeline            | PandaCRM, LeadScorer               |
-| **Design Tools**  | Create graphics, logos, social media posts       | LogoMaker, BannerGen, PostDesigner |
-| **EdTech**        | Build and sell courses with AI-generated content | QuizMaster, CourseBuilder          |
-| **Analytics**     | Dashboards, reports, data visualization          | SalesTracker, CohortAnalysis       |
-| **Trading**       | Analysis bots, signals, portfolio tracking       | GoldBot, CryptoScanner             |
-| **Landing Pages** | Drag-and-drop page builder with templates        | PageForge, FunnelBuilder           |
-| **Automation**    | Workflow automation, scheduled tasks             | AutoMailer, TaskScheduler          |
-| **Communication** | WhatsApp templates, email campaigns              | WhatsBlaster, MailCampaign         |
-
-> Every plugin is **AI-native** through MCP integration. Install a CRM → AI already knows how to search clients, score leads, and draft follow-up messages.
-
----
-
-## 💰 How Creators Earn
-
-Panda Fabrics isn't just a product — it's a **wealth engine for creators**:
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    HOW YOU EARN ON PANDA FABRICS                     │
-│                                                                     │
-│  📦 BUILD a plugin (CRM, design tool, course, bot...)              │
-│  📤 PUBLISH it to the Medusa Store                                 │
-│  💵 Every time someone buys or uses it → YOU EARN 52%              │
-│                                                                     │
-│  📚 CREATE a course → AI generates quizzes + content               │
-│  🥝 DISTRIBUTE via Kiwify or Hotmart automatically                 │
-│  💵 Every sale → Revenue auto-splits to your wallet                │
-│                                                                     │
-│  ⛏️ SHARE idle CPU in the P2P network                              │
-│  💰 Earn Panda Coins passively while you work                      │
-│                                                                     │
-│  👥 REFER users → Earn commissions                                 │
-│  📦 BUNDLE tools into Casulos → Higher package margins             │
-│                                                                     │
-│  ─── THE SPLIT ────────────────────────────────────────            │
-│  │ 52% Creator │ 25% Platform │ 15% Reserve │ 5% Ops │ 3% Burn │  │
-│  ────────────────────────────────────────────────────────          │
-│                                                                     │
-│  Sleep. Wake up. Check wallet. Repeat. 💤💰                        │
+│                       HOW YOU EARN                                    │
+│                                                                       │
+│  📦 PACKAGE an AI product (CRM, bot, automation...)                  │
+│  🥝 LIST on Hotmart or Kiwify as producer                            │
+│  👥 OPEN affiliate program with 60-70% commission                    │
+│  💵 Affiliates sell → you earn R$30+ per R$97 sale                   │
+│                                                                       │
+│  🏪 UPSELL on native Store → extra modules $4.99-$9.99              │
+│  💰 Margin ~95% (no affiliate, just gateway fee)                     │
+│                                                                       │
+│  ⛏️ PASSIVE MINING → share idle CPU, earn Panda Coins                │
+│                                                                       │
+│  ─── REAL ECONOMICS ─────────────────────────────────                │
+│  R$97 product on Kiwify (65% affiliate):                              │
+│  │ Kiwify keeps: R$11.21 │ Affiliate: R$55.76 │ YOU: R$30.03 │      │
+│  ────────────────────────────────────────────────────────            │
+│  100 sales/mo = R$3,003 (founder) + R$5,576 (affiliate)              │
+│  500 sales/mo = R$15,015 (founder) + R$27,880 (affiliate)            │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Real-World Scenarios
 
 <details>
-<summary><strong>🎨 Scenario 1: Freelance Designer (Maria, São Paulo)</strong></summary>
+<summary><strong>🏥 CRM for Dentists (Dr. Patrícia, BH)</strong></summary>
 
-```
-Maria opens Panda Fabrics in her browser
-→ Asks AI to design 4 logo options for a client           (Gemini Imagen)
-→ Picks one, saves to her Google Drive                     (Drive API)
-→ Sends final to client via WhatsApp integration           (Medusa tentacle)
-→ Client pays via integrated checkout                      (Revenue hook)
-→ Maria earns 52% instantly. Google Drive stores the asset.
+```text
+Dr. Patrícia installs the Panda Factory CRM module
+→ AI imports 300 patients from Google Sheets              (Gemini + Sheets API)
+→ Bot sends appointment reminders via WhatsApp            (Medusa tentacle)
+→ Dashboard shows patient return rate                     (Analytics AI)
+→ She pays R$97 once. No Salesforce. No R$200/mo.
 
-Total cost to Maria: $0/month. Professional output. Passive income from templates she publishes.
-```
-
-</details>
-
-<details>
-<summary><strong>🏠 Scenario 2: Real Estate Agent (Carlos, Curitiba)</strong></summary>
-
-```
-Carlos installs PandaCRM plugin from the Medusa Store
-→ Imports 200 leads from Google Sheets                     (Sheets API)
-→ AI auto-scores leads from 1-10 based on engagement       (Gemini Pro)
-→ Hot leads get auto-follow-up via WhatsApp templates       (Medusa tentacle)
-→ 4 closings this month → triggered by smart lead nurture
-
-Total cost to Carlos: the plugin price (one-time). No Salesforce. No HubSpot. No $200/month bill.
+Affiliate who referred her earns R$63 (65%). Founder earns R$30.
 ```
 
 </details>
 
 <details>
-<summary><strong>📚 Scenario 3: Online Teacher (Prof. Ana, Recife)</strong></summary>
+<summary><strong>📱 Instagram Automation (Coach Marcos, SP)</strong></summary>
 
-```
-Prof. Ana uses Panda Fabrics to create a nutrition course
-→ AI generates 20 quiz questions from her content          (Gemini Think)
-→ AI creates summary flashcards for each module            (Gemini Flash)
-→ She publishes directly to Kiwify with one click          (Medusa tentacle)
-→ 50 students enroll at R$97 each. She earns 52% per sale.
+```text
+Coach Marcos buys the Social Automation module on Hotmart
+→ Hotmart webhook fires → access activated in Panda Factory
+→ Bot posts AI content on 3 networks (Insta, TikTok, LinkedIn)
+→ AI generates captions, hashtags and ideal posting times   (Gemini Pro)
+→ 5x more engagement in the first month
 
-Every student who studies generates Gemini API calls.
-Every quiz generates Sheets writes. Every file goes to Drive.
+He buys an extra "Landing Pages" module ($4.99) in the internal Store.
 ```
 
 </details>
 
 <details>
-<summary><strong>📈 Scenario 4: Trader (Global)</strong></summary>
+<summary><strong>🏠 Prospecting Bot (Carlos, Realtor, Curitiba)</strong></summary>
 
-```
-Trader builds a XAUUSD analysis bot as a Panda plugin
-→ Bot uses Gemini for market sentiment analysis
-→ Published on Medusa Store for 200 PC (Panda Coins)
-→ 30 people buy it this month → 6,000 PC revenue
-→ Trader earns 52% = 3,120 PC while sleeping 💤
+```text
+Carlos buys Panda CRM + Prospecting Bot via Kiwify
+→ Bot scrapes leads from real estate portals              (Client-side)
+→ AI classifies leads 1-10 by probability                 (Gemini Think)
+→ Hot leads get automatic WhatsApp message                (Medusa tentacle)
+→ 4 sales in the first month. ROI: 4000%
 
-Bot creators earn passive income. Users get AI-powered tools. Platform grows.
+Google CAN'T offer this — it violates compliance. Panda can (Art. 9).
 ```
 
 </details>
+
+---
+
+## 🧠 6 Native AIs
+
+Every Panda Factory module comes with integrated AI — the buyer doesn't need to configure anything:
+
+| Model                | Purpose                          | Speed |
+| -------------------- | -------------------------------- | :---: |
+| **Gemini 2.0 Flash** | Instant responses, quick tasks   |  ⚡   |
+| **Gemini 2.0 Pro**   | Deep analysis, complex reasoning |  🔬   |
+| **Gemini 3.0 Think** | Multi-step strategy, planning    |  🧠   |
+| **Gemini Research**  | Answers with web sources         |  🌐   |
+| **Gemini Imagen**    | AI image generation              |  🎨   |
+
+> All modules are **AI-native via MCP** (Model Context Protocol). Module creators don't need to write AI code — it's already there.
+
+---
+
+## 🏪 Module Store
+
+| Category              | What It Does                         | Examples                      |
+| --------------------- | ------------------------------------ | ----------------------------- |
+| **CRM by Vertical**   | Client management by niche           | CRM Dentists, CRM Real Estate |
+| **Social Automation** | Bots for Instagram, TikTok, LinkedIn | PostBot, HashtagGen           |
+| **Prospecting**       | Scraping + AI for leads              | LeadScorer, ProspectBot       |
+| **Landing Pages**     | Drag-and-drop builder                | PageForge, FunnelBuilder      |
+| **Trading**           | Analysis and signal bots             | GoldBot, CryptoScanner        |
+| **Education**         | AI-powered course creation           | QuizMaster, CourseBuilder     |
+
+> Each Store module = **recurring revenue**. Upsell without affiliates = ~95% margin.
 
 ---
 
 ## 🏗️ Architecture
 
-### The Google-First Stack
-
-Every layer of Panda Fabrics runs on Google infrastructure:
-
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│                 PANDA FABRICS — ARCHITECTURE                        │
+│                    PANDA FACTORY — ARCHITECTURE                       │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  🖥️ FRONTEND (Browser)             ☁️ BACKEND (Serverless)         │
-│  ├── React 18 (30 components)      ├── Google Apps Script (logic)  │
-│  ├── TLDraw (infinite canvas)      ├── Google Sheets (database)    │
-│  ├── Glassmorphism dark theme      ├── Google Drive (file storage) │
-│  └── PWA-ready (install to home)   └── Google Workspace (docs)     │
-│                                                                     │
-│  🧠 AI LAYER                       🔐 AUTH & SECURITY              │
-│  ├── Gemini 2.0 Flash (chat)       ├── Firebase Auth               │
-│  ├── Gemini 2.0 Pro (analysis)     ├── Firebase RTDB (real-time)   │
-│  ├── Gemini 3.0 Think (reasoning)  ├── Ed25519 Cryptography        │
-│  ├── Gemini Research (grounded)    └── Panda Defend (14 rules)     │
-│  └── Gemini Imagen (images)                                        │
-│                                                                     │
-│  🐙 MEDUSA ENGINE                  🦀 DESKTOP AGENT (Optional)     │
-│  ├── 15 distribution tentacles     ├── Rust/Tauri native app       │
-│  ├── Cross-platform publishing     ├── GPU detection & monitoring  │
-│  ├── Kiwify + Hotmart hooks        ├── License management          │
-│  └── WhatsApp Business             └── P2P mining integration      │
-│                                                                     │
-│  🔌 SDK (17 Namespaces)            📊 MONITORING                   │
-│  ├── Panda.Auth      (login)       ├── Gasômetro (GAS usage)       │
-│  ├── Panda.Brain     (AI)          ├── TentacleMonitor (health)    │
-│  ├── Panda.Storage   (Drive/DB)    ├── Circuit Breaker (failover)  │
-│  ├── Panda.Wallet    (economy)     └── Real-time heartbeat         │
-│  ├── Panda.Plugins   (install)                                     │
-│  ├── Panda.Medusa    (distribute)                                  │
-│  └── Panda.Defend    (security)                                    │
-│                                                                     │
+│                                                                      │
+│  🖥️ FRONTEND (Browser)             ☁️ BACKEND (Serverless)          │
+│  ├── React 18 (48 components)      ├── Google Apps Script (17 .gs)  │
+│  ├── TLDraw (infinite canvas)      ├── Google Sheets (database)     │
+│  ├── Glassmorphism dark theme      ├── Google Drive (storage)       │
+│  └── PWA-ready                     └── Google Workspace (docs)      │
+│                                                                      │
+│  🧠 AI LAYER                       🔐 AUTH & SECURITY               │
+│  ├── Gemini Flash (chat)           ├── Firebase Auth                │
+│  ├── Gemini Pro (analysis)         ├── Firebase RTDB (real-time)    │
+│  ├── Gemini Think (strategy)       ├── Ed25519 Cryptography         │
+│  ├── Gemini Research (web)         └── Panda Defend (14 rules)      │
+│  └── Gemini Imagen (images)                                         │
+│                                                                      │
+│  🐙 MEDUSA ENGINE                  🦀 DESKTOP AGENT (Optional)      │
+│  ├── 15 distribution tentacles     ├── Rust/Tauri native app        │
+│  ├── Webhooks Kiwify + Hotmart     ├── GPU detection & mining       │
+│  ├── Stripe + PIX (MercadoPago)    ├── License management           │
+│  └── 6 supported platforms         └── P2P compute network          │
+│                                                                      │
+│  🔌 SDK (17 Namespaces)            📊 MONITORING                    │
+│  ├── Panda.Auth     (login)        ├── Gasometer (GAS usage)        │
+│  ├── Panda.Brain    (AI)           ├── TentacleMonitor (health)     │
+│  ├── Panda.Storage  (Drive/DB)     ├── Circuit Breaker (failover)   │
+│  ├── Panda.Wallet   (economy)      └── Heartbeat real-time          │
+│  ├── Panda.Plugins  (install)                                       │
+│  ├── Panda.Medusa   (distribution)                                  │
+│  └── Panda.Defend   (security)                                      │
+│                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### How It Flows
+### User Flow (via Hotmart/Kiwify)
 
+```text
+[Purchase on Hotmart/Kiwify via affiliate]
+    │
+    ▼
+[Webhook fires → GAS processes → validates HMAC → credits wallet]
+    │
+    ▼
+[User receives link → accesses Panda Factory]
+    │
+    ▼
+[LoginGate → creates account (Firebase Auth)]
+    │
+    ▼
+[Welcome Wizard → initial setup]
+    │
+    ▼
+[Purchased module activated automatically]
+    │
+    ▼
+[Internal Store → buy extra modules (PIX/Stripe)]
 ```
-USER (Browser)
-    │
-    ├── Opens Panda Fabrics (GitHub Pages, zero-install)
-    │
-    ├── Logs in → Firebase Auth (Google, Email/Password)
-    │
-    ├── Works on canvas → All files save to USER's Google Drive
-    │
-    ├── Uses AI → Gemini API (5 models, contextual, MCP-native)
-    │
-    ├── Installs plugins → Medusa Store (marketplace)
-    │
-    ├── Creates content → Distributes via Medusa tentacles
-    │   ├── Kiwify (infoproducts)
-    │   ├── Hotmart (courses)
-    │   ├── WhatsApp (messaging)
-    │   ├── Google Ads (marketing)
-    │   └── Social media (distribution)
-    │
-    └── Earns → Revenue auto-split via hooks (52% to creator)
-```
-
-### Google Services Consumption Per User
-
-| Google Service         | What It Powers in Panda Fabrics              | Monthly Usage/User |
-| ---------------------- | -------------------------------------------- | ------------------ |
-| **Gemini API**         | AI chat, code gen, images, reasoning         | ~500K tokens       |
-| **Google Apps Script** | Backend logic, billing, data processing      | ~2,000 executions  |
-| **Google Sheets**      | Database: users, transactions, catalog       | ~500 rows          |
-| **Firebase Auth**      | Identity and sessions                        | 1 active user      |
-| **Firebase RTDB**      | Real-time signaling, live collaboration      | ~10K reads         |
-| **Google Colab**       | Heavy AI tasks (BYOC — Bring Your Own Colab) | ~4 GPU sessions    |
-| **Google Drive**       | File storage, assets, project sync           | ~100MB             |
 
 ---
 
-## 📸 UI Showcase
+## 📊 Numbers (Audited Feb 2026)
 
-### 30 React Components — Full Desktop Experience in the Browser
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        PANDA FABRICS UI                              │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  🎯 CORE SHELL                     💼 BUSINESS TOOLS               │
-│  ├── PFHeader          (top bar)   ├── PFStore          (shop)     │
-│  ├── PFDock            (left)      ├── PFCheckoutModal  (buy)      │
-│  ├── PFRightToolbar    (right)     ├── PFCatalog        (browse)   │
-│  ├── PFStatusBar       (bottom)    ├── PFProductDetail  (detail)   │
-│  ├── PFCanvas          (center)    ├── PFFinancePanel   (wallet)   │
-│  ├── PFEmptyCanvas     (welcome)   ├── PFGasometerPanel (metrics)  │
-│  └── PFWindowManager   (windows)   └── PFBundleCreator  (bundles)  │
-│                                                                     │
-│  🧠 AI & DEV TOOLS                 🔐 AUTH & SECURITY              │
-│  ├── PFChat            (AI chat)   ├── PFLoginGate      (login)    │
-│  ├── PFSettings        (config)    ├── PFLoginModal     (email)    │
-│  ├── PFDevModePanel    (debug)     ├── PFDefendDashboard (audit)   │
-│  ├── PFPluginEditor    (create)    ├── PFDefendPanel    (rules)    │
-│  ├── PFMiningPanel     (P2P)       ├── PFPanicButton    (kill sw)  │
-│  ├── PFNotifications   (alerts)    ├── PFCouncilPanel   (govern)   │
-│  └── PFWelcomeWizard   (onboard)   ├── PFFounderDashboard         │
-│                                    ├── PFFounderModal              │
-│                                    └── PFFounderPopout             │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    PANDA FACTORY                               │
+│                                                                │
+│  📦 48 React Components       📄 16 Reference Docs            │
+│  🎨 18 CSS Files               🔧 12 SDK Modules              │
+│  🐙 37 Tentacle Modules       🔴 17 GAS Backend Files         │
+│  🦀 8 Rust Modules             🛡️ 14 Security Rules           │
+│  🧠 5 Gemini Models            💳 6 Webhook Gateways           │
+│  💰 17 SDK Namespaces          🌐 15 Integrations              │
+│                                                                │
+│  ⚡ Phase 1: 95% UI Real · 70% Backend Written               │
+│  🚀 Target: March 1st 2026                                    │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## 🗺️ Roadmap
 
-### Current Status: Phase 1 — 90% Complete (Audited Feb 14, 2026)
+### Current Status: Founder-First GTM (Feb 2026)
 
-| Component                | Status  | Real Count                        |
-| ------------------------ | ------- | --------------------------------- |
-| SDK Core (17 namespaces) | ✅ 100% | 12 .js files                      |
-| React UI Components      | ✅ 100% | **30 JSX** + 18 CSS               |
-| Backend (GAS)            | ✅ 100% | 9 .gs files                       |
-| AI Integration (Gemini)  | ✅ 100% | 5 models configured               |
-| MCP Protocol             | ✅ 100% | Tri-Mode + extensibility          |
-| Security (Panda Defend)  | ✅ 100% | 14 Semgrep rules                  |
-| Documentation (SSoT)     | ✅ 100% | 16 reference docs                 |
-| Rust Agent (Desktop)     | ✅ 100% | 8 .rs modules                     |
-| Medusa Store             | ✅ 90%  | v3.2: 12 extensions (EN)          |
-| Auth Ed25519             | 🚧 50%  | Crypto ready, SDK pending         |
-| GAS Production Deploy    | ⏳ Next | `useMock: true` — flip to go live |
-| Firebase RTDB            | ⏳ Next | Project exists, rules pending     |
+| Sprint | Focus                         | Hours | Deliverable                                   |
+| :----: | ----------------------------- | :---: | --------------------------------------------- |
+| **S1** | Auth + Wallet + Webhooks      | ~15h  | Firebase Auth, GAS deployed, HMAC-SHA256      |
+| **S2** | Stripe + PIX + Access Control | ~19h  | Real payments, modules activate post-purchase |
+| **S3** | Products + E2E                | ~17h  | AI CRM packaged, webhook tested               |
+| **S4** | Affiliates + Go-live          |  ~9h  | Program open, first real sales                |
 
 ### Timeline
 
-| Phase    | Timeline     | Focus                 | Key Milestones                            |
-| -------- | ------------ | --------------------- | ----------------------------------------- |
-| **0** ✅ | Jan 2026     | Foundation            | SDK, Backend, AI, Security                |
-| **1** 🚧 | Feb 2026     | UI/UX Polish          | 30 components, Medusa Store, DevTools     |
-| **2** ⏳ | Mar-Apr 2026 | Growth + Monetization | Kiwify/Hotmart live, PWA, Firebase deploy |
-| **3** ⏳ | Q2-Q3 2026   | Expansion             | Google Ads, Play Store, P2P Network       |
+| Phase    | When         | Focus            | Milestones                                  |
+| -------- | ------------ | ---------------- | ------------------------------------------- |
+| **0** ✅ | Jan 2026     | Foundation       | SDK, Backend, AI, Security                  |
+| **1** 🚧 | Feb 2026     | UI + Founder GTM | 48 components, Store, Login, i18n, Webhooks |
+| **2** ⏳ | Mar-Apr 2026 | Monetization     | First sales, active affiliates              |
+| **3** ⏳ | Q2-Q3 2026   | Expansion        | Dev marketplace, P2P, Mobile                |
 
 ---
 
 ## 🎯 Target Markets
 
-| Vertical                          | TAM   | Why Panda Fabrics Wins                               |
-| --------------------------------- | ----- | ---------------------------------------------------- |
-| **Infoproducts** (Kiwify/Hotmart) | $3.2B | AI course generation + auto-distribution at $0/month |
-| **EdTech** (Brazil, LATAM)        | $5B   | Interactive AI tutoring + Colab GPU for simulations  |
-| **Micro-SaaS for SMBs**           | $12B  | Near-zero cost, user owns data, no vendor lock-in    |
-| **Creator Economy**               | $100B | Landing pages + Medusa multi-platform distribution   |
-| **FinTech / Trading**             | $8B   | AI analysis bots with passive income for creators    |
-
----
-
-## 📊 By The Numbers (Audited Feb 2026)
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│                    PANDA FABRICS                               │
-│                                                                │
-│  📦 30 React Components     📄 16 Reference Docs              │
-│  🎨 18 CSS Files             🔧 12 SDK Modules                 │
-│  🐙 37 Tentacle Modules     🔴 9 Backend Files                │
-│  🦀 8 Rust Modules           🛡️ 14 Security Rules              │
-│  🧠 5 Gemini Models          📊 3,100+ CSS Lines               │
-│  💰 17 SDK Namespaces        🌐 15 Platform Integrations       │
-│                                                                │
-│  ⚡ Phase 1: 90% Complete                                      │
-│  🚀 Zero install. Browser-only. Your data stays yours.         │
-└──────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🤝 Why Google for Startups?
-
-Panda Fabrics is not just _built on_ Google — it **is** Google infrastructure, packaged for the next 3.8 billion internet users.
-
-<table>
-<tr>
-<td>
-
-### What We Bring to Google
-
-| Value                     | How                                                                       |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Direct API Revenue**    | Every user → ~500K Gemini tokens/month + Firebase + Drive + Colab         |
-| **Emerging Market Reach** | Micro-businesses in Brazil & LATAM that don't yet use Google Cloud        |
-| **Gemini Showcase**       | AI powers our entire product (5 models, 6 personas) — not just a chatbot  |
-| **Workspace Adoption**    | Medusa integrates Drive, Sheets, Docs, Colab into daily workflows         |
-| **Developer Ecosystem**   | Plugin marketplace trains devs to build on Google APIs (MCP+GAS+Firebase) |
-
-</td>
-</tr>
-<tr>
-<td>
-
-### What We Need from Google
-
-| Support                        | Impact                                                         |
-| ------------------------------ | -------------------------------------------------------------- |
-| **Gemini API credits**         | Scale from 10K → 100K users without API cost bottleneck        |
-| **Firebase Blaze sponsorship** | Remove free-tier limits for real-time P2P signaling            |
-| **Google Cloud credits**       | Future Cloud Run + BigQuery for analytics at scale             |
-| **Technical mentorship**       | Architecture review for production-grade deployment            |
-| **Go-to-market support**       | Visibility in Google for Startups alumni network, LATAM events |
-
-</td>
-</tr>
-</table>
-
-> **Vision**: Panda Fabrics becomes the **"Canva for emerging markets"** — a free, AI-powered workspace where every interaction deepens the user's relationship with Google services.
->
-> 📊 **Google Sheets as Database** → millions of new Sheets power users  
-> 🧠 **Gemini as Core Brain** → demonstrating AI-native product design  
-> 🧪 **Google Colab as GPU** → converting free-tier users to Colab Pro  
-> ☁️ **Google Drive as Storage** → Drive adoption in markets where Dropbox dominates  
-> 📢 **Google Ads integration** → SMBs managing ads directly from Panda
+| Vertical                                  | TAM   | Why Panda Wins                                  |
+| ----------------------------------------- | ----- | ----------------------------------------------- |
+| **AI Infoproducts** (Hotmart/Kiwify)      | $3.2B | Only facilitator with AI + channel + affiliates |
+| **CRM by Vertical** (dentists, realtors)  | $2B   | BigTechs don't do niches — Panda does           |
+| **Social Automation** (Instagram, TikTok) | $4B   | Violates BigTech compliance — Panda can         |
+| **Prospecting Bots**                      | $1.5B | Scraping + AI client-side = zero cost           |
+| **Trading/Crypto**                        | $8B   | Regulation blocks BigTechs — niche is free      |
 
 ---
 
@@ -474,12 +352,12 @@ Panda Fabrics is not just _built on_ Google — it **is** Google infrastructure,
 
 - 🐙 GitHub: [@LucassVal](https://github.com/LucassVal)
 - 📍 Brazil
-- 📧 Open to Google for Startups partnership discussions
+- 📧 Open for partnerships and affiliate program
 
 ---
 
 <p align="center">
-  <strong>Panda Fabrics</strong><br>
-  <em>Your browser is your OS. Your Drive is your server. AI is your co-pilot.</em><br>
-  <code>v7.2 — February 2026</code>
+  <strong>Panda Factory</strong><br>
+  <em>Where BigTechs sell services, you sell results.</em><br>
+  <code>v8.0 — Founder Edition · February 2026</code>
 </p>

@@ -1,0 +1,81 @@
+{
+  "login": {
+    "tagline": "Your AI-Powered Infoproduct Factory",
+    "description": "Package AI products for specific niches and sell via Hotmart and Kiwify with up to 70% affiliate commission. CRM, bots, automations — ready to monetize. Where BigTechs sell services, you sell results.",
+    "welcomeBack": "Welcome back",
+    "signInSubtitle": "Sign in to access your workspace",
+    "signInGoogle": "Sign in with Google",
+    "soon": "Soon",
+    "or": "or",
+    "email": "Email",
+    "password": "Password",
+    "signInEmail": "Sign in with Email",
+    "signingIn": "Signing in...",
+    "freeHint": "🔓 Free access — explore without a credit card",
+    "forgotPassword": "Forgot password?",
+    "demoLabel": "MVP Demo Credentials",
+    "invalidCredentials": "Invalid email or password",
+    "loading": "Loading...",
+    "features": [
+      {
+        "icon": "🚀",
+        "title": "Ready-Made AI Products",
+        "desc": "CRM, bots, automations — packaged to sell"
+      },
+      {
+        "icon": "💰",
+        "title": "60-70% Commission",
+        "desc": "The best affiliate program on the market"
+      },
+      {
+        "icon": "🥝",
+        "title": "Hotmart + Kiwify",
+        "desc": "Native integration — direct webhook to the platform"
+      },
+      {
+        "icon": "🧠",
+        "title": "6 Built-in AIs",
+        "desc": "Gemini Pro, Flash, Think — in every module"
+      },
+      {
+        "icon": "🎯",
+        "title": "Profitable Niches",
+        "desc": "Dentists, realtors, coaches — tailored products"
+      },
+      {
+        "icon": "🔒",
+        "title": "Your Data, Your Control",
+        "desc": "Client-side first — zero vendor lock-in"
+      }
+    ],
+    "stats": [
+      { "value": "R$30+", "label": "per sale" },
+      { "value": "6", "label": "Native AIs" },
+      { "value": "8+", "label": "Modules" },
+      { "value": "60-70%", "label": "for affiliates" }
+    ]
+  },
+  "statusBar": {
+    "openStore": "OPEN STORE",
+    "lightMode": "LIGHT MODE",
+    "darkMode": "DARK MODE",
+    "notifications": "NOTIFICATIONS",
+    "mining": "MY MINING",
+    "defend": "PANDA DEFEND",
+    "founder": "FOUNDER DASHBOARD",
+    "settings": "SETTINGS",
+    "logout": "LOGOUT",
+    "logoutConfirm": "Log out of Panda Fabrics?",
+    "unpinBar": "UNPIN BAR",
+    "pinBar": "PIN BAR",
+    "energy": "ENERGY",
+    "treasury": "TREASURY — OPEN PAT COUNCIL",
+    "session": "SESSION"
+  },
+  "common": {
+    "language": "Language",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel"
+  }
+}

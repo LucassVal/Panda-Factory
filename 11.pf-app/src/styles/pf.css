@@ -4312,3 +4312,112 @@ body.light-mode .pf-skeleton {
   );
   background-size: 200% 100%;
 }
+
+/* ============================================= */
+/* LANGUAGE SELECTOR (i18n v1.0)                 */
+/* ============================================= */
+.pf-lang-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pf-lang-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  white-space: nowrap;
+}
+
+.pf-lang-trigger .pf-lang-flag {
+  font-size: 14px;
+}
+
+.pf-lang-trigger .pf-lang-code {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+.pf-lang-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 160px;
+  background: var(--pf-elevation-2, #1e2a4a);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius-card, 12px);
+  box-shadow: var(--pf-shadow-modal);
+  padding: 4px;
+  z-index: 6000;
+  animation: pf-scale-in 150ms var(--pf-ease-out, ease);
+}
+
+.pf-lang-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--pf-radius-btn, 8px);
+  background: transparent;
+  color: var(--pf-text, #eaeaea);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background var(--pf-transition-fast, 0.15s ease);
+}
+
+.pf-lang-option:hover {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+.pf-lang-option.active {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.pf-lang-option .pf-lang-flag {
+  font-size: 16px;
+}
+
+.pf-lang-option .pf-lang-name {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+}
+
+.pf-lang-option .pf-lang-code {
+  font-size: 10px;
+  opacity: 0.6;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.pf-lang-option .pf-lang-check {
+  color: var(--pf-success, #10b981);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Light Mode */
+body.light-mode .pf-lang-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #e0e0e5;
+}
+
+body.light-mode .pf-lang-option {
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-lang-option:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+body.light-mode .pf-lang-option.active {
+  background: rgba(102, 126, 234, 0.15);
+}

@@ -34,7 +34,7 @@ const KILL_SWITCH_ACTIONS = [
   { id: "emergency_backup", icon: "💾", label: "Emergency Backup", desc: "Backup imediato" },
 ];
 
-export function PATCouncilPanel({ isOpen, onClose, activeTool = "treasury" }) {
+export function PATCouncilPanel({ isOpen, onClose, activeTool = "treasury", embedded = false }) {
   const [activeTab, setActiveTab] = useState(activeTool);
   const [patStatus, setPatStatus] = useState(null);
   const [constitutionResults, setConstitutionResults] = useState([]);
@@ -49,7 +49,7 @@ export function PATCouncilPanel({ isOpen, onClose, activeTool = "treasury" }) {
 
   // Fetch PAT status on open
   useEffect(() => {
-    if (!isOpen) return;
+    if (!embedded && !isOpen) return;
 
     const fetchStatus = async () => {
       try {
@@ -88,9 +88,9 @@ export function PATCouncilPanel({ isOpen, onClose, activeTool = "treasury" }) {
       { time: "4h atrás", action: "🤖 Heartbeat check: all systems healthy", level: "L1" },
       { time: "12h atrás", action: "🛡️ Panda Defend scan: 0 threats", level: "L2" },
     ]);
-  }, [isOpen]);
+  }, [isOpen, embedded]);
 
-  if (!isOpen) return null;
+  if (!embedded && !isOpen) return null;
 
   const healthScore = patStatus
     ? Math.round((patStatus.reserve / (patStatus.circulatingSupply * 0.5)) * 100)
@@ -128,203 +128,220 @@ export function PATCouncilPanel({ isOpen, onClose, activeTool = "treasury" }) {
     ]);
   };
 
+  // ── Panel content (shared between embedded and standalone modes) ──
+  const panelContent = (
+    <>
+      {/* Header — only show close button in standalone mode */}
+      <div className="pat-header">
+        <div className="pat-header-title">
+          <span style={{ fontSize: 28 }}>🏛️</span>
+          <h2>Panda Council</h2>
+          <span className="pat-header-badge">PAT v1.0</span>
+        </div>
+        {!embedded && <button className="pat-close" onClick={onClose}>✕</button>}
+      </div>
+
+      {/* Tabs */}
+      <div className="pat-tabs">
+        <button
+          className={`pat-tab ${activeTab === "treasury" ? "active" : ""}`}
+          onClick={() => setActiveTab("treasury")}
+        >
+          🏦 Treasury
+        </button>
+        <button
+          className={`pat-tab ${activeTab === "constitution" ? "active" : ""}`}
+          onClick={() => setActiveTab("constitution")}
+        >
+          ⚖️ Constitution ({passedCount}/{totalArticles})
+        </button>
+        <button
+          className={`pat-tab ${activeTab === "rig" ? "active" : ""}`}
+          onClick={() => setActiveTab("rig")}
+        >
+          🔧 Governance
+        </button>
+      </div>
+
+      {/* ═══ TAB: TREASURY ═══ */}
+      {activeTab === "treasury" && (
+        <div>
+          {/* Health Score */}
+          <div className="pat-health-card">
+            <div className="pat-health-ring">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                <circle className="pat-health-ring-bg" cx="50" cy="50" r="45" />
+                <circle
+                  className="pat-health-ring-fill"
+                  cx="50" cy="50" r="45"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={offset}
+                  style={{ stroke: clampedScore > 80 ? "#10b981" : clampedScore > 60 ? "#f59e0b" : "#ef4444" }}
+                />
+              </svg>
+              <div className="pat-health-ring-text">
+                <div className="pat-health-value">{clampedScore}%</div>
+                <div className="pat-health-label">Health</div>
+              </div>
+            </div>
+
+            <div className="pat-health-metrics">
+              <div className="pat-metric-row">
+                <span className="pat-metric-label">Reserva vs Circulante</span>
+                <div className="pat-metric-bar">
+                  <div className="pat-metric-fill" style={{ width: "85%", background: "#10b981" }} />
+                </div>
+                <span className="pat-metric-value">85%</span>
+              </div>
+              <div className="pat-metric-row">
+                <span className="pat-metric-label">Runway (dias)</span>
+                <div className="pat-metric-bar">
+                  <div className="pat-metric-fill" style={{ width: "100%", background: "#667eea" }} />
+                </div>
+                <span className="pat-metric-value">120d</span>
+              </div>
+              <div className="pat-metric-row">
+                <span className="pat-metric-label">Diversificação</span>
+                <div className="pat-metric-bar">
+                  <div className="pat-metric-fill" style={{ width: "80%", background: "#f59e0b" }} />
+                </div>
+                <span className="pat-metric-value">80%</span>
+              </div>
+              <div className="pat-metric-row">
+                <span className="pat-metric-label">Inflação</span>
+                <div className="pat-metric-bar">
+                  <div className="pat-metric-fill" style={{ width: `${(patStatus?.inflation || 0.02) * 1000}%`, background: "#8b5cf6" }} />
+                </div>
+                <span className="pat-metric-value">{((patStatus?.inflation || 0.02) * 100).toFixed(1)}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Reserve Grid */}
+          <div className="pat-section-title">💰 Composição da Reserva</div>
+          <div className="pat-reserve-grid">
+            {reserveData.map((r) => (
+              <div className="pat-reserve-card" key={r.label}>
+                <div className="pat-reserve-icon">{r.icon}</div>
+                <div className="pat-reserve-label">{r.label}</div>
+                <div className="pat-reserve-value">{r.value}</div>
+                <div className="pat-reserve-pct">{r.pct}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Total Banner */}
+          <div className="pat-total-banner">
+            <div>
+              <div className="pat-total-label">Reserva Total</div>
+              <div className="pat-total-value">$2,350,000</div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div className="pat-total-label">Circulante</div>
+              <div style={{ fontSize: 18, fontWeight: 600 }}>
+                {((patStatus?.circulatingSupply || 5200000) / 1000000).toFixed(1)}M PC
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ TAB: CONSTITUTION ═══ */}
+      {activeTab === "constitution" && (
+        <div>
+          <div className="pat-section-title">
+            ⚖️ Validação dos 12 Artigos — {passedCount}/{totalArticles} OK
+          </div>
+          <ul className="pat-constitution-list">
+            {constitutionResults.map((art) => (
+              <li className="pat-article" key={art.id}>
+                <div className={`pat-article-status ${art.passed ? "ok" : "fail"}`}>
+                  {art.passed ? "✅" : "❌"}
+                </div>
+                <div className="pat-article-info">
+                  <div className="pat-article-title">
+                    Art. {art.id} — {art.title}
+                  </div>
+                  <div className="pat-article-desc">{art.desc}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* ═══ TAB: GOVERNANCE ═══ */}
+      {activeTab === "rig" && (
+        <div>
+          {/* Kill Switch */}
+          <div className="pat-killswitch-section">
+            <div className="pat-killswitch-header">
+              <span style={{ fontSize: 24 }}>🚨</span>
+              <h3>Kill Switch (L4 — Ed25519 + PIN)</h3>
+            </div>
+            <div className="pat-killswitch-grid">
+              {KILL_SWITCH_ACTIONS.map((action) => (
+                <button
+                  key={action.id}
+                  className="pat-killswitch-btn"
+                  onClick={() => handleKillSwitch(action.id)}
+                  title={action.desc}
+                >
+                  <span className="icon">{action.icon}</span>
+                  {action.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Audit Logs */}
+          <div style={{ marginTop: 20 }}>
+            <div className="pat-section-title">🔐 Audit Log (Imutável)</div>
+            {auditLogs.map((log, i) => (
+              <div className="pat-audit-row" key={i}>
+                <span className="pat-audit-label">{log.time}</span>
+                <span className="pat-audit-value">{log.action}</span>
+                <span className="pat-audit-label">{log.level}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Auth Level Info */}
+          <div style={{ marginTop: 16 }}>
+            <div className="pat-section-title">🔑 Níveis de Autenticação</div>
+            {[
+              { level: "L1", desc: "View — Ver logs, status", req: "Nenhum" },
+              { level: "L2", desc: "Suggest — Propor mudanças", req: "Session Token" },
+              { level: "L3", desc: "Execute — Transações < 1000 PC", req: "Ed25519" },
+              { level: "L4", desc: "Critical — Kill Switch, > 1000 PC", req: "Ed25519 + PIN" },
+              { level: "L5", desc: "Emergency — Violação Constituição", req: "Ed25519 + PIN + Bypass" },
+            ].map((auth) => (
+              <div className="pat-audit-row" key={auth.level}>
+                <span className="pat-audit-value">{auth.level}</span>
+                <span className="pat-audit-label" style={{ flex: 1, padding: "0 12px" }}>{auth.desc}</span>
+                <span style={{ color: "#667eea", fontSize: 11 }}>{auth.req}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+
+  // Embedded mode: render content directly, no overlay
+  if (embedded) {
+    return (
+      <div className="pat-panel" style={{ position: "relative", width: "100%", height: "100%", overflow: "auto" }}>
+        {panelContent}
+      </div>
+    );
+  }
+
+  // Standalone mode: wrap in overlay
   return (
     <div className="pat-overlay" onClick={onClose}>
       <div className="pat-panel" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
-        <div className="pat-header">
-          <div className="pat-header-title">
-            <span style={{ fontSize: 28 }}>🏛️</span>
-            <h2>Panda Council</h2>
-            <span className="pat-header-badge">PAT v1.0</span>
-          </div>
-          <button className="pat-close" onClick={onClose}>✕</button>
-        </div>
-
-        {/* Tabs */}
-        <div className="pat-tabs">
-          <button
-            className={`pat-tab ${activeTab === "treasury" ? "active" : ""}`}
-            onClick={() => setActiveTab("treasury")}
-          >
-            🏦 Treasury
-          </button>
-          <button
-            className={`pat-tab ${activeTab === "constitution" ? "active" : ""}`}
-            onClick={() => setActiveTab("constitution")}
-          >
-            ⚖️ Constitution ({passedCount}/{totalArticles})
-          </button>
-          <button
-            className={`pat-tab ${activeTab === "rig" ? "active" : ""}`}
-            onClick={() => setActiveTab("rig")}
-          >
-            🔧 Governance
-          </button>
-        </div>
-
-        {/* ═══ TAB: TREASURY ═══ */}
-        {activeTab === "treasury" && (
-          <div>
-            {/* Health Score */}
-            <div className="pat-health-card">
-              <div className="pat-health-ring">
-                <svg width="100" height="100" viewBox="0 0 100 100">
-                  <circle className="pat-health-ring-bg" cx="50" cy="50" r="45" />
-                  <circle
-                    className="pat-health-ring-fill"
-                    cx="50" cy="50" r="45"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={offset}
-                    style={{ stroke: clampedScore > 80 ? "#10b981" : clampedScore > 60 ? "#f59e0b" : "#ef4444" }}
-                  />
-                </svg>
-                <div className="pat-health-ring-text">
-                  <div className="pat-health-value">{clampedScore}%</div>
-                  <div className="pat-health-label">Health</div>
-                </div>
-              </div>
-
-              <div className="pat-health-metrics">
-                <div className="pat-metric-row">
-                  <span className="pat-metric-label">Reserva vs Circulante</span>
-                  <div className="pat-metric-bar">
-                    <div className="pat-metric-fill" style={{ width: "85%", background: "#10b981" }} />
-                  </div>
-                  <span className="pat-metric-value">85%</span>
-                </div>
-                <div className="pat-metric-row">
-                  <span className="pat-metric-label">Runway (dias)</span>
-                  <div className="pat-metric-bar">
-                    <div className="pat-metric-fill" style={{ width: "100%", background: "#667eea" }} />
-                  </div>
-                  <span className="pat-metric-value">120d</span>
-                </div>
-                <div className="pat-metric-row">
-                  <span className="pat-metric-label">Diversificação</span>
-                  <div className="pat-metric-bar">
-                    <div className="pat-metric-fill" style={{ width: "80%", background: "#f59e0b" }} />
-                  </div>
-                  <span className="pat-metric-value">80%</span>
-                </div>
-                <div className="pat-metric-row">
-                  <span className="pat-metric-label">Inflação</span>
-                  <div className="pat-metric-bar">
-                    <div className="pat-metric-fill" style={{ width: `${(patStatus?.inflation || 0.02) * 1000}%`, background: "#8b5cf6" }} />
-                  </div>
-                  <span className="pat-metric-value">{((patStatus?.inflation || 0.02) * 100).toFixed(1)}%</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Reserve Grid */}
-            <div className="pat-section-title">💰 Composição da Reserva</div>
-            <div className="pat-reserve-grid">
-              {reserveData.map((r) => (
-                <div className="pat-reserve-card" key={r.label}>
-                  <div className="pat-reserve-icon">{r.icon}</div>
-                  <div className="pat-reserve-label">{r.label}</div>
-                  <div className="pat-reserve-value">{r.value}</div>
-                  <div className="pat-reserve-pct">{r.pct}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Total Banner */}
-            <div className="pat-total-banner">
-              <div>
-                <div className="pat-total-label">Reserva Total</div>
-                <div className="pat-total-value">$2,350,000</div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <div className="pat-total-label">Circulante</div>
-                <div style={{ fontSize: 18, fontWeight: 600 }}>
-                  {((patStatus?.circulatingSupply || 5200000) / 1000000).toFixed(1)}M PC
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ═══ TAB: CONSTITUTION ═══ */}
-        {activeTab === "constitution" && (
-          <div>
-            <div className="pat-section-title">
-              ⚖️ Validação dos 12 Artigos — {passedCount}/{totalArticles} OK
-            </div>
-            <ul className="pat-constitution-list">
-              {constitutionResults.map((art) => (
-                <li className="pat-article" key={art.id}>
-                  <div className={`pat-article-status ${art.passed ? "ok" : "fail"}`}>
-                    {art.passed ? "✅" : "❌"}
-                  </div>
-                  <div className="pat-article-info">
-                    <div className="pat-article-title">
-                      Art. {art.id} — {art.title}
-                    </div>
-                    <div className="pat-article-desc">{art.desc}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* ═══ TAB: GOVERNANCE ═══ */}
-        {activeTab === "rig" && (
-          <div>
-            {/* Kill Switch */}
-            <div className="pat-killswitch-section">
-              <div className="pat-killswitch-header">
-                <span style={{ fontSize: 24 }}>🚨</span>
-                <h3>Kill Switch (L4 — Ed25519 + PIN)</h3>
-              </div>
-              <div className="pat-killswitch-grid">
-                {KILL_SWITCH_ACTIONS.map((action) => (
-                  <button
-                    key={action.id}
-                    className="pat-killswitch-btn"
-                    onClick={() => handleKillSwitch(action.id)}
-                    title={action.desc}
-                  >
-                    <span className="icon">{action.icon}</span>
-                    {action.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Audit Logs */}
-            <div style={{ marginTop: 20 }}>
-              <div className="pat-section-title">🔐 Audit Log (Imutável)</div>
-              {auditLogs.map((log, i) => (
-                <div className="pat-audit-row" key={i}>
-                  <span className="pat-audit-label">{log.time}</span>
-                  <span className="pat-audit-value">{log.action}</span>
-                  <span className="pat-audit-label">{log.level}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Auth Level Info */}
-            <div style={{ marginTop: 16 }}>
-              <div className="pat-section-title">🔑 Níveis de Autenticação</div>
-              {[
-                { level: "L1", desc: "View — Ver logs, status", req: "Nenhum" },
-                { level: "L2", desc: "Suggest — Propor mudanças", req: "Session Token" },
-                { level: "L3", desc: "Execute — Transações < 1000 PC", req: "Ed25519" },
-                { level: "L4", desc: "Critical — Kill Switch, > 1000 PC", req: "Ed25519 + PIN" },
-                { level: "L5", desc: "Emergency — Violação Constituição", req: "Ed25519 + PIN + Bypass" },
-              ].map((auth) => (
-                <div className="pat-audit-row" key={auth.level}>
-                  <span className="pat-audit-value">{auth.level}</span>
-                  <span className="pat-audit-label" style={{ flex: 1, padding: "0 12px" }}>{auth.desc}</span>
-                  <span style={{ color: "#667eea", fontSize: 11 }}>{auth.req}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {panelContent}
       </div>
     </div>
   );

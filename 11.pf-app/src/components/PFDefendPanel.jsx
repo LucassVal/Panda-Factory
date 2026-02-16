@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
+import { PanicButton } from "./PFPanicButton";
 
 /**
  * 🛡️ Panda Defend — User Security Panel v1.0
@@ -649,6 +650,17 @@ export function PFDefendPanel() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* ────── Emergency Kill Switch ────── */}
+      <div style={S.card}>
+        <div style={S.sectionTitle}>
+          <span>🚨</span> Emergency Kill Switch
+        </div>
+        <div style={{ fontSize: 13, color: "var(--pf-text-muted, #94a3b8)", marginBottom: 12 }}>
+          Desliga TODOS os serviços imediatamente. Requer PIN + assinatura Ed25519.
+        </div>
+        <PanicButton />
       </div>
 
       {/* ────── About ────── */}

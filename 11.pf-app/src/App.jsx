@@ -10,6 +10,7 @@ import PFRightToolbar from "./components/PFRightToolbar";
 import PFNotifications from "./components/PFNotifications";
 import LoginGate from "./components/PFLoginGate";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
+import { I18nProvider } from "./i18n/i18n.jsx";
 
 import { FounderDashboard } from "./components/PFFounderDashboard";
 import { DevModePanel } from "./components/PFDevModePanel";
@@ -25,6 +26,7 @@ import { GasometerPanel } from "./components/PFGasometerPanel";
 import { MiningPanel } from "./components/PFMiningPanel";
 import { PFDefendPanel } from "./components/PFDefendPanel";
 import PFWelcomeWizard from "./components/PFWelcomeWizard";
+import PluginManifestEditor from "./components/PFPluginEditor";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 
 /**
@@ -117,8 +119,10 @@ function AppContent() {
   };
 
   // Component factory for flexlayout-react
+  // All onClose handlers call closeAppWindow(id) to properly close the tab
   const componentFactory = useCallback(
     (componentType, config) => {
+      const close = () => closeAppWindow(componentType);
       switch (componentType) {
         case "founder-dashboard":
           return <FounderDashboard />;
@@ -126,23 +130,23 @@ function AppContent() {
           return (
             <PATCouncilPanel
               isOpen={true}
-              onClose={() => {}}
+              onClose={close}
               activeTool={config?.activeTool || "treasury"}
               embedded={true}
             />
           );
         case "devtools":
           return (
-            <DevModePanel isOpen={true} onClose={() => {}} embedded={true} />
+            <DevModePanel isOpen={true} onClose={close} embedded={true} />
           );
         case "settings":
           return (
-            <PFSettings isOpen={true} onClose={() => {}} embedded={true} />
+            <PFSettings isOpen={true} onClose={close} embedded={true} />
           );
         case "store":
           return (
             <PFStore
-              onClose={() => {}}
+              onClose={close}
               onInstall={handleInstallPlugin}
               embedded={true}
             />
@@ -151,7 +155,7 @@ function AppContent() {
           return (
             <PFCatalog
               isOpen={true}
-              onClose={() => {}}
+              onClose={close}
               plugins={installedPlugins}
               onPluginUninstall={handleUninstallPlugin}
               onOpenApp={handleOpenApp}
@@ -160,20 +164,24 @@ function AppContent() {
           );
         default: {
           // Check for known extra modules
+          const closeDefault = () => closeAppWindow(componentType);
           if (componentType === "bundle-creator") {
-            return <BundleCreator onClose={() => {}} embedded={true} />;
+            return <BundleCreator onClose={closeDefault} embedded={true} />;
           }
           if (componentType === "finance-panel") {
-            return <FinancePanel onClose={() => {}} embedded={true} />;
+            return <FinancePanel onClose={closeDefault} embedded={true} />;
           }
           if (componentType === "gasometer") {
-            return <GasometerPanel onClose={() => {}} embedded={true} />;
+            return <GasometerPanel onClose={closeDefault} embedded={true} />;
           }
           if (componentType === "mining-panel") {
             return <MiningPanel embedded={true} />;
           }
           if (componentType === "defend-panel") {
             return <PFDefendPanel />;
+          }
+          if (componentType === "plugin-editor") {
+            return <PluginManifestEditor onClose={closeDefault} onSave={(manifest) => console.log("📦 Manifest saved:", manifest)} />;
           }
           return (
             <div style={{ padding: 20, color: "#aaa" }}>
@@ -243,6 +251,9 @@ function AppContent() {
         onToolsClick={() => { const next = !showRightToolbar; setShowRightToolbar(next); if (next) setShowSettings(false); }}
         onStoreClick={() => setShowStore(true)}
         onSettingsClick={() => setShowSettings(true)}
+        onFinanceClick={() => openAppWindow("finance-panel")}
+        onGasometerClick={() => openAppWindow("gasometer")}
+        onCouncilClick={() => openAppWindow("pat-council")}
         onDevModeToggle={(isActive) => { setDevMode(isActive); if (isActive) openAppWindow("devtools"); }}
         onPluginOpen={handleOpenPlugin}
         onPluginClose={handleClosePlugin}
@@ -312,11 +323,13 @@ function AppContent() {
 // Wrap with AuthProvider
 function App() {
   return (
-    <AuthProvider>
-      <LoginGate>
-        <AppContent />
-      </LoginGate>
-    </AuthProvider>
+    <I18nProvider>
+      <AuthProvider>
+        <LoginGate>
+          <AppContent />
+        </LoginGate>
+      </AuthProvider>
+    </I18nProvider>
   );
 }
 

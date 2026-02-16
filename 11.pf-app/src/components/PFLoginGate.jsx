@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useI18n } from "../i18n/i18n.jsx";
 
 /**
  * Login Gate — Access Control (v8.0)
@@ -49,56 +50,57 @@ const CREDENTIALS = [
   },
 ];
 
-// Feature highlights for the landing page
+// Feature highlights — positioned as infoproduct facilitator
 const FEATURES = [
   {
+    icon: "🚀",
+    title: "Produtos IA Prontos",
+    desc: "CRM, bots, automações — empacotados para vender",
+  },
+  {
+    icon: "💰",
+    title: "60-70% Comissão",
+    desc: "O melhor programa de afiliados do mercado",
+  },
+  {
+    icon: "🥝",
+    title: "Hotmart + Kiwify",
+    desc: "Integração nativa — webhook direto na plataforma",
+  },
+  {
     icon: "🧠",
-    title: "6 Specialist AIs",
-    desc: "Autonomous agents for design, code, and business",
+    title: "6 IAs Integradas",
+    desc: "Gemini Pro, Flash, Think — em cada módulo",
   },
   {
-    icon: "🎨",
-    title: "Infinite Canvas",
-    desc: "Draw, design, and prototype without limits",
+    icon: "🎯",
+    title: "Nichos Lucrativos",
+    desc: "Dentistas, corretores, coaches — produtos sob medida",
   },
   {
-    icon: "🏪",
-    title: "Medusa Store",
-    desc: "Install extensions or publish your own",
-  },
-  {
-    icon: "⛏️",
-    title: "PAT Mining",
-    desc: "Earn tokens while you create and contribute",
-  },
-  {
-    icon: "🧩",
-    title: "Fully Modular",
-    desc: "Install only what you need — nothing extra",
-  },
-  {
-    icon: "⚡",
-    title: "Real-time Sync",
-    desc: "Collaborate live with GitHub Actions CI/CD",
+    icon: "🔒",
+    title: "Seus Dados, Seu Controle",
+    desc: "Client-side first — zero vendor lock-in",
   },
 ];
 
-// Social proof stats
+// Social proof stats — business-focused
 const STATS = [
-  { value: "Open Source", label: "MIT License" },
-  { value: "6", label: "AI Models" },
-  { value: "12+", label: "Extensions" },
-  { value: "∞", label: "Canvas" },
+  { value: "R$30+", label: "por venda" },
+  { value: "6", label: "IAs nativas" },
+  { value: "8+", label: "Módulos" },
+  { value: "60-70%", label: "p/ afiliados" },
 ];
 
-// Tech stack badges
+// Distribution channel badges
 const TECH_BADGES = [
-  "React", "Gemini AI", "Firebase", "tldraw", "GitHub Actions", "Ed25519"
+  "Hotmart", "Kiwify", "Gemini AI", "PIX", "Stripe", "Firebase"
 ];
 
-const APP_VERSION = "v6.5 — MVP";
+const APP_VERSION = "v8.0 — Founder Edition";
 
 function LoginGate({ children }) {
+  const { t } = useI18n();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -168,7 +170,7 @@ function LoginGate({ children }) {
       localStorage.setItem("panda_user", JSON.stringify(matched.profile));
       setIsAuthenticated(true);
     } else {
-      setError("Invalid email or password");
+      setError(t("login.invalidCredentials"));
     }
     setIsSubmitting(false);
   };
@@ -179,7 +181,7 @@ function LoginGate({ children }) {
         <div className="login-spinner">
           <img src="/panda-icon.png" alt="Panda" style={{width:"48px",height:"48px"}} />
         </div>
-        <p>Loading...</p>
+        <p>{t("login.loading")}</p>
       </div>
     );
   }
@@ -204,17 +206,15 @@ function LoginGate({ children }) {
             </div>
             <h1 className="login-title">Panda Factory</h1>
             <p className="login-tagline">
-              Your AI-Powered Creative Studio
+              {t("login.tagline")}
             </p>
             <p className="login-description">
-              An open-source modular workspace where you design on an infinite canvas,
-              harness 6 AI models, and earn PAT tokens for every contribution.
-              Built for creators, developers, and entrepreneurs.
+              {t("login.description")}
             </p>
 
             {/* Social Proof Stats */}
             <div className="login-stats">
-              {STATS.map((s, i) => (
+              {t("login.stats").map((s, i) => (
                 <div className="login-stat" key={i}>
                   <span className="login-stat-value">{s.value}</span>
                   <span className="login-stat-label">{s.label}</span>
@@ -224,7 +224,7 @@ function LoginGate({ children }) {
 
             {/* Feature Cards */}
             <div className="login-features">
-              {FEATURES.map((f, i) => (
+              {t("login.features").map((f, i) => (
                 <div
                   className="login-feature-card"
                   key={i}
@@ -254,16 +254,16 @@ function LoginGate({ children }) {
         {/* RIGHT — Login Form */}
         <div className="login-form-section">
           <div className="login-form-container">
-            <h2 className="login-form-title">Welcome back</h2>
+            <h2 className="login-form-title">{t("login.welcomeBack")}</h2>
             <p className="login-form-subtitle">
-              Sign in to access your workspace
+              {t("login.signInSubtitle")}
             </p>
 
             {/* Google Sign-in (Coming Soon) */}
             <button
               className="login-google-btn"
               disabled
-              title="Google Sign-in coming soon"
+              title={t("login.signInGoogle")}
             >
               <svg className="login-google-icon" viewBox="0 0 24 24" width="20" height="20">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -271,18 +271,18 @@ function LoginGate({ children }) {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
-              Sign in with Google
-              <span className="login-badge-soon">Soon</span>
+              {t("login.signInGoogle")}
+              <span className="login-badge-soon">{t("login.soon")}</span>
             </button>
 
             <div className="login-divider">
-              <span>or</span>
+              <span>{t("login.or")}</span>
             </div>
 
             {/* Email/Password Form */}
             <form onSubmit={handleLogin} className="login-form">
               <div className="login-field">
-                <label htmlFor="login-email">Email</label>
+                <label htmlFor="login-email">{t("login.email")}</label>
                 <input
                   id="login-email"
                   type="email"
@@ -296,7 +296,7 @@ function LoginGate({ children }) {
               </div>
 
               <div className="login-field">
-                <label htmlFor="login-password">Password</label>
+                <label htmlFor="login-password">{t("login.password")}</label>
                 <input
                   id="login-password"
                   type="password"
@@ -316,14 +316,14 @@ function LoginGate({ children }) {
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
-                  <span className="login-btn-loading">Signing in...</span>
+                  <span className="login-btn-loading">{t("login.signingIn")}</span>
                 ) : (
-                  "Sign in with Email"
+                  t("login.signInEmail")
                 )}
               </button>
 
               <p className="login-free-hint">
-                🔓 Free to explore — no credit card required
+                {t("login.freeHint")}
               </p>
             </form>
 
@@ -332,13 +332,13 @@ function LoginGate({ children }) {
               className="login-forgot-btn"
               onClick={() => alert("Password reset coming soon. For now, use the demo credentials below.")}
             >
-              Forgot password?
+              {t("login.forgotPassword")}
             </button>
 
             {/* Demo Hint — collapsible */}
             <details className="login-demo-details">
               <summary className="login-demo-summary">
-                <span className="login-demo-label">MVP Demo Credentials</span>
+                <span className="login-demo-label">{t("login.demoLabel")}</span>
               </summary>
               <div className="login-demo-content">
                 <code>user@panda.com</code> / <code>user</code>

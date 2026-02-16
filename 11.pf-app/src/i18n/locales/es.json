@@ -1,0 +1,81 @@
+{
+  "login": {
+    "tagline": "Tu Fábrica de Infoproductos con IA",
+    "description": "Empaqueta productos de IA para nichos específicos y vende vía Hotmart y Kiwify con hasta 70% de comisión para afiliados. CRM, bots, automatizaciones — todo listo para monetizar. Donde las BigTechs venden servicios, tú vendes resultados.",
+    "welcomeBack": "Bienvenido de nuevo",
+    "signInSubtitle": "Inicia sesión para acceder a tu workspace",
+    "signInGoogle": "Iniciar sesión con Google",
+    "soon": "Pronto",
+    "or": "o",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "signInEmail": "Iniciar sesión con Email",
+    "signingIn": "Iniciando sesión...",
+    "freeHint": "🔓 Acceso gratuito — explora sin tarjeta de crédito",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "demoLabel": "Credenciales de demostración MVP",
+    "invalidCredentials": "Correo o contraseña inválidos",
+    "loading": "Cargando...",
+    "features": [
+      {
+        "icon": "🚀",
+        "title": "Productos IA Listos",
+        "desc": "CRM, bots, automatizaciones — empaquetados para vender"
+      },
+      {
+        "icon": "💰",
+        "title": "60-70% Comisión",
+        "desc": "El mejor programa de afiliados del mercado"
+      },
+      {
+        "icon": "🥝",
+        "title": "Hotmart + Kiwify",
+        "desc": "Integración nativa — webhook directo a la plataforma"
+      },
+      {
+        "icon": "🧠",
+        "title": "6 IAs Integradas",
+        "desc": "Gemini Pro, Flash, Think — en cada módulo"
+      },
+      {
+        "icon": "🎯",
+        "title": "Nichos Rentables",
+        "desc": "Dentistas, corredores, coaches — productos a medida"
+      },
+      {
+        "icon": "🔒",
+        "title": "Tus Datos, Tu Control",
+        "desc": "Client-side first — zero vendor lock-in"
+      }
+    ],
+    "stats": [
+      { "value": "R$30+", "label": "por venta" },
+      { "value": "6", "label": "IAs nativas" },
+      { "value": "8+", "label": "Módulos" },
+      { "value": "60-70%", "label": "p/ afiliados" }
+    ]
+  },
+  "statusBar": {
+    "openStore": "ABRIR TIENDA",
+    "lightMode": "MODO CLARO",
+    "darkMode": "MODO OSCURO",
+    "notifications": "NOTIFICACIONES",
+    "mining": "MI MINERÍA",
+    "defend": "PANDA DEFEND",
+    "founder": "PANEL FUNDADOR",
+    "settings": "CONFIGURACIÓN",
+    "logout": "SALIR",
+    "logoutConfirm": "¿Salir de Panda Fabrics?",
+    "unpinBar": "DESFIJAR BARRA",
+    "pinBar": "FIJAR BARRA",
+    "energy": "ENERGÍA",
+    "treasury": "TESORO — ABRIR CONSEJO PAT",
+    "session": "SESIÓN"
+  },
+  "common": {
+    "language": "Idioma",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  }
+}
