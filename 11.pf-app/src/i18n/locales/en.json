@@ -1,7 +1,7 @@
 {
   "login": {
-    "tagline": "Your AI-Powered Infoproduct Factory",
-    "description": "Package AI products for specific niches and sell via Hotmart and Kiwify with up to 70% affiliate commission. CRM, bots, automations — ready to monetize. Where BigTechs sell services, you sell results.",
+    "tagline": "The 4th Digital Layer — Package, Sell, Scale",
+    "description": "There are 3 digital layers today: infrastructure, platforms, and tools. None of them help you COMPOSE all three into a packaged product. Panda Factory IS that layer — an orchestration SDK with its own marketplace and co-production economy. Zero upfront cost. We only earn when you earn.",
     "welcomeBack": "Welcome back",
     "signInSubtitle": "Sign in to access your workspace",
     "signInGoogle": "Sign in with Google",
@@ -18,41 +18,41 @@
     "loading": "Loading...",
     "features": [
       {
-        "icon": "🚀",
-        "title": "Ready-Made AI Products",
-        "desc": "CRM, bots, automations — packaged to sell"
+        "icon": "🌐",
+        "title": "4th Digital Layer",
+        "desc": "Orchestrate Infra + Platforms + AI with a single SDK"
       },
       {
-        "icon": "💰",
-        "title": "60-70% Commission",
-        "desc": "The best affiliate program on the market"
+        "icon": "🔌",
+        "title": "17 Namespaces",
+        "desc": "Auth, Brain, Store, Wallet — all with one import"
       },
       {
-        "icon": "🥝",
-        "title": "Hotmart + Kiwify",
-        "desc": "Native integration — direct webhook to the platform"
+        "icon": "💸",
+        "title": "Dev Revenue Share",
+        "desc": "70% Store · 40% Usage · 85% Own Hook — the fairest split in tech"
       },
       {
         "icon": "🧠",
-        "title": "6 Built-in AIs",
-        "desc": "Gemini Pro, Flash, Think — in every module"
+        "title": "AI-Native Everything",
+        "desc": "Gemini Pro, Flash, Think — built in by default"
       },
       {
-        "icon": "🎯",
-        "title": "Profitable Niches",
-        "desc": "Dentists, realtors, coaches — tailored products"
+        "icon": "🐙",
+        "title": "Medusa + Hotmart",
+        "desc": "Publish with one command, reach 34M+ buyers"
       },
       {
-        "icon": "🔒",
-        "title": "Your Data, Your Control",
-        "desc": "Client-side first — zero vendor lock-in"
+        "icon": "🛡️",
+        "title": "Panda Defend",
+        "desc": "The 4th layer governs itself — 14 rules, kill switch"
       }
     ],
     "stats": [
-      { "value": "R$30+", "label": "per sale" },
-      { "value": "6", "label": "Native AIs" },
-      { "value": "8+", "label": "Modules" },
-      { "value": "60-70%", "label": "for affiliates" }
+      { "value": "17", "label": "SDK namespaces" },
+      { "value": "3", "label": "layers composed" },
+      { "value": "70%", "label": "dev revenue" },
+      { "value": "0", "label": "fixed cost" }
     ]
   },
   "statusBar": {
@@ -72,10 +72,74 @@
     "treasury": "TREASURY — OPEN PAT COUNCIL",
     "session": "SESSION"
   },
+  "wizard": {
+    "step1Title": "Welcome to Panda Factory",
+    "step1Desc": "The 4th Digital Layer — let's set up your workspace.",
+    "step2Title": "Choose Your Theme",
+    "step2Desc": "Pick the look that suits you best.",
+    "step3Title": "Explore the SDK",
+    "step3Desc": "17 namespaces at your fingertips — Auth, Brain, Store, Wallet, and more.",
+    "step4Title": "You're Ready!",
+    "step4Desc": "Start creating, publishing, and earning.",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Finish",
+    "skip": "Skip"
+  },
+  "store": {
+    "title": "Panda Store",
+    "searchPlaceholder": "Search modules, tentacles, themes...",
+    "install": "Install",
+    "installed": "Installed",
+    "uninstall": "Uninstall",
+    "price": "Price",
+    "free": "Free",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "rating": "Rating",
+    "downloads": "Downloads",
+    "publishedBy": "Published by",
+    "devRevenue": "Dev earns 70%",
+    "usageRevenue": "Dev earns 40% from usage"
+  },
+  "chat": {
+    "placeholder": "Ask Panda Brain anything...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "errorGeneric": "Something went wrong. Try again.",
+    "clearHistory": "Clear History",
+    "model": "Model",
+    "tokens": "Tokens used"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "language": "Language",
+    "notifications": "Notifications",
+    "account": "Account",
+    "about": "About",
+    "version": "Version",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "autoSave": "Auto Save",
+    "resetDefaults": "Reset to Defaults"
+  },
   "common": {
     "language": "Language",
     "close": "Close",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "retry": "Retry",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search",
+    "noResults": "No results found"
   }
 }

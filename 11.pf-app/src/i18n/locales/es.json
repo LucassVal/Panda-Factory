@@ -1,7 +1,7 @@
 {
   "login": {
-    "tagline": "Tu Fábrica de Infoproductos con IA",
-    "description": "Empaqueta productos de IA para nichos específicos y vende vía Hotmart y Kiwify con hasta 70% de comisión para afiliados. CRM, bots, automatizaciones — todo listo para monetizar. Donde las BigTechs venden servicios, tú vendes resultados.",
+    "tagline": "La 4ª Capa Digital — Empaqueta, Vende, Escala",
+    "description": "Existen 3 capas digitales hoy: infraestructura, plataformas y herramientas. Ninguna te ayuda a COMPONER las tres en un producto empaquetado. Panda Factory ES esa capa — un SDK de orquestación con marketplace propio y economía de co-producción. Cero costo fijo. Solo ganamos cuando tú ganas.",
     "welcomeBack": "Bienvenido de nuevo",
     "signInSubtitle": "Inicia sesión para acceder a tu workspace",
     "signInGoogle": "Iniciar sesión con Google",
@@ -18,41 +18,41 @@
     "loading": "Cargando...",
     "features": [
       {
-        "icon": "🚀",
-        "title": "Productos IA Listos",
-        "desc": "CRM, bots, automatizaciones — empaquetados para vender"
+        "icon": "🌐",
+        "title": "4ª Capa Digital",
+        "desc": "Orquesta Infra + Plataformas + IA con un solo SDK"
       },
       {
-        "icon": "💰",
-        "title": "60-70% Comisión",
-        "desc": "El mejor programa de afiliados del mercado"
+        "icon": "🔌",
+        "title": "17 Namespaces",
+        "desc": "Auth, Brain, Store, Wallet — todo con un import"
       },
       {
-        "icon": "🥝",
-        "title": "Hotmart + Kiwify",
-        "desc": "Integración nativa — webhook directo a la plataforma"
+        "icon": "💸",
+        "title": "Revenue Share para Devs",
+        "desc": "70% Store · 40% Usage · 85% Hook Propio — el split más justo del mercado"
       },
       {
         "icon": "🧠",
-        "title": "6 IAs Integradas",
-        "desc": "Gemini Pro, Flash, Think — en cada módulo"
+        "title": "IA Nativa en Todo",
+        "desc": "Gemini Pro, Flash, Think — integrado por defecto"
       },
       {
-        "icon": "🎯",
-        "title": "Nichos Rentables",
-        "desc": "Dentistas, corredores, coaches — productos a medida"
+        "icon": "🐙",
+        "title": "Medusa + Hotmart",
+        "desc": "Publica con un comando, llega a 34M+ compradores"
       },
       {
-        "icon": "🔒",
-        "title": "Tus Datos, Tu Control",
-        "desc": "Client-side first — zero vendor lock-in"
+        "icon": "🛡️",
+        "title": "Panda Defend",
+        "desc": "La 4ª capa se autogobierna — 14 reglas, kill switch"
       }
     ],
     "stats": [
-      { "value": "R$30+", "label": "por venta" },
-      { "value": "6", "label": "IAs nativas" },
-      { "value": "8+", "label": "Módulos" },
-      { "value": "60-70%", "label": "p/ afiliados" }
+      { "value": "17", "label": "SDK namespaces" },
+      { "value": "3", "label": "capas compuestas" },
+      { "value": "70%", "label": "ingresos del dev" },
+      { "value": "0", "label": "costo fijo" }
     ]
   },
   "statusBar": {
@@ -72,10 +72,74 @@
     "treasury": "TESORO — ABRIR CONSEJO PAT",
     "session": "SESIÓN"
   },
+  "wizard": {
+    "step1Title": "Bienvenido a Panda Factory",
+    "step1Desc": "La 4ª Capa Digital — configuremos tu workspace.",
+    "step2Title": "Elige Tu Tema",
+    "step2Desc": "Escoge el estilo que más te guste.",
+    "step3Title": "Explora el SDK",
+    "step3Desc": "17 namespaces a tu alcance — Auth, Brain, Store, Wallet y más.",
+    "step4Title": "¡Estás Listo!",
+    "step4Desc": "Comienza a crear, publicar y ganar.",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "finish": "Finalizar",
+    "skip": "Saltar"
+  },
+  "store": {
+    "title": "Panda Store",
+    "searchPlaceholder": "Buscar módulos, tentáculos, temas...",
+    "install": "Instalar",
+    "installed": "Instalado",
+    "uninstall": "Desinstalar",
+    "price": "Precio",
+    "free": "Gratis",
+    "category": "Categoría",
+    "allCategories": "Todas las Categorías",
+    "rating": "Calificación",
+    "downloads": "Descargas",
+    "publishedBy": "Publicado por",
+    "devRevenue": "Dev gana 70%",
+    "usageRevenue": "Dev gana 40% por uso"
+  },
+  "chat": {
+    "placeholder": "Pregúntale lo que quieras a Panda Brain...",
+    "send": "Enviar",
+    "thinking": "Pensando...",
+    "errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
+    "clearHistory": "Limpiar Historial",
+    "model": "Modelo",
+    "tokens": "Tokens usados"
+  },
+  "settings": {
+    "title": "Configuración",
+    "general": "General",
+    "appearance": "Apariencia",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "account": "Cuenta",
+    "about": "Acerca de",
+    "version": "Versión",
+    "darkMode": "Modo Oscuro",
+    "lightMode": "Modo Claro",
+    "autoSave": "Guardar Automáticamente",
+    "resetDefaults": "Restablecer Predeterminados"
+  },
   "common": {
     "language": "Idioma",
     "close": "Cerrar",
     "save": "Guardar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "retry": "Reintentar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "search": "Buscar",
+    "noResults": "No se encontraron resultados"
   }
 }

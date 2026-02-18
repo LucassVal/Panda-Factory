@@ -50,54 +50,54 @@ const CREDENTIALS = [
   },
 ];
 
-// Feature highlights — positioned as infoproduct facilitator
+// Feature highlights — positioned as 4th Digital Layer
 const FEATURES = [
   {
-    icon: "🚀",
-    title: "Produtos IA Prontos",
-    desc: "CRM, bots, automações — empacotados para vender",
+    icon: "🌐",
+    title: "4ª Camada Digital",
+    desc: "Orquestre Infra + Plataformas + IA em um único SDK",
+  },
+  {
+    icon: "🔌",
+    title: "17 Namespaces",
+    desc: "Auth, Brain, Store, Wallet — tudo com um import",
   },
   {
     icon: "💰",
-    title: "60-70% Comissão",
-    desc: "O melhor programa de afiliados do mercado",
-  },
-  {
-    icon: "🥝",
-    title: "Hotmart + Kiwify",
-    desc: "Integração nativa — webhook direto na plataforma",
+    title: "Co-Produção",
+    desc: "Zero custo fixo — Panda só ganha quando você ganha",
   },
   {
     icon: "🧠",
-    title: "6 IAs Integradas",
-    desc: "Gemini Pro, Flash, Think — em cada módulo",
+    title: "IA Nativa em Tudo",
+    desc: "Gemini Pro, Flash, Think — já integrado por padrão",
   },
   {
-    icon: "🎯",
-    title: "Nichos Lucrativos",
-    desc: "Dentistas, corretores, coaches — produtos sob medida",
+    icon: "🐙",
+    title: "Medusa + Hotmart",
+    desc: "Publique com um comando, distribua para 34M+ compradores",
   },
   {
-    icon: "🔒",
-    title: "Seus Dados, Seu Controle",
-    desc: "Client-side first — zero vendor lock-in",
+    icon: "🛡️",
+    title: "Panda Defend",
+    desc: "A 4ª camada se auto-governa — 14 regras, kill switch",
   },
 ];
 
-// Social proof stats — business-focused
+// Social proof stats — 4th Layer focused
 const STATS = [
-  { value: "R$30+", label: "por venda" },
-  { value: "6", label: "IAs nativas" },
-  { value: "8+", label: "Módulos" },
-  { value: "60-70%", label: "p/ afiliados" },
+  { value: "17", label: "SDK namespaces" },
+  { value: "3", label: "camadas compostas" },
+  { value: "0", label: "custo fixo" },
+  { value: "∞", label: "co-produção" },
 ];
 
-// Distribution channel badges
+// Tech stack badges — layer-aware
 const TECH_BADGES = [
-  "Hotmart", "Kiwify", "Gemini AI", "PIX", "Stripe", "Firebase"
+  "L1: Firebase", "L2: Hotmart", "L3: Gemini AI", "L4: Panda SDK", "Ed25519", "MCP"
 ];
 
-const APP_VERSION = "v8.0 — Founder Edition";
+const APP_VERSION = "v9.0 — 4th Layer Edition";
 
 function LoginGate({ children }) {
   const { t } = useI18n();

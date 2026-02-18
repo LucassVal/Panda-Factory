@@ -24,11 +24,12 @@ const TIER_DISCOUNTS = {
   beta_founder: 0.3, // 30%
 };
 
-// Revenue split (from §26.3)
+// Revenue split — Split Master v3.0 (Store Sale)
+// Calculated on NET (post-gateway). See PF_ECONOMY_REFERENCE §E
 const REVENUE_SPLIT = {
-  dev: 0.55, // 55% to developer
-  pandaFund: 0.22, // 22% to Panda Fund
-  platform: 0.23, // 23% platform fees & ecosystem
+  dev: 0.7, // 70% to developer
+  ops: 0.25, // 25% Panda Ops
+  founder: 0.05, // 5% Founder (eternal)
 };
 
 /**

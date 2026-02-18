@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHealthStatus } from "../hooks/useHealthStatus";
 import PFLanguageSelector from "./PFLanguageSelector";
+import { useI18n } from "../i18n/i18n";
 
 /**
  * PF Status Bar v6.3 — PIN + White Label
@@ -24,6 +25,7 @@ function PFStatusBar({
   onPinChange,
   isFounder = false,
 }) {
+  const { t } = useI18n();
   const [time, setTime] = useState("");
   const [energy, setEnergy] = useState(100);
   const [userName, setUserName] = useState(() => {
@@ -165,7 +167,7 @@ function PFStatusBar({
         <div
           className="pf-brand-container"
           onClick={onStoreClick}
-          title="OPEN STORE"
+          title={t("statusBar.openStore", "OPEN STORE")}
         >
           <img
             src={brandLogo}
@@ -200,8 +202,8 @@ function PFStatusBar({
           <button
             className="pf-theme-toggle pf-header-btn"
             onClick={toggleTheme}
-            title={isDarkMode ? "LIGHT MODE" : "DARK MODE"}
-            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDarkMode ? t("statusBar.lightMode", "LIGHT MODE") : t("statusBar.darkMode", "DARK MODE")}
+            aria-label={isDarkMode ? t("statusBar.lightMode", "LIGHT MODE") : t("statusBar.darkMode", "DARK MODE")}
           >
             {isDarkMode ? "☀️" : "🌙"}
           </button>
@@ -213,7 +215,7 @@ function PFStatusBar({
           <PFLanguageSelector />
 
           {/* Arc Energy */}
-          <div className="pf-arc-energy" title={`${energy}% ENERGY`} aria-label={`Session energy: ${energy}%`}>
+          <div className="pf-arc-energy" title={`${energy}% ${t("statusBar.energy", "ENERGY")}`} aria-label={`${t("statusBar.session", "SESSION")} ${t("statusBar.energy", "ENERGY")}: ${energy}%`}>
             <svg width="40" height="40" viewBox="0 0 48 48">
               <defs>
                 <linearGradient
@@ -245,7 +247,7 @@ function PFStatusBar({
           {/* Treasury */}
           <div
             className="pf-treasury"
-            title="TREASURY — OPEN PAT COUNCIL"
+            title={t("statusBar.treasury", "TREASURY — OPEN PAT COUNCIL")}
             onClick={onTreasuryClick}
             style={{ cursor: onTreasuryClick ? "pointer" : "default" }}
           >
@@ -258,7 +260,7 @@ function PFStatusBar({
           </div>
 
           {/* User */}
-          <div className="pf-user-status" title={`SESSION: ${sessionDuration}`}>
+          <div className="pf-user-status" title={`${t("statusBar.session", "SESSION")}: ${sessionDuration}`}>
             <span className="pf-user-avatar">👤</span>
             <div className="pf-user-info">
               <span className="pf-user-name">{userName}</span>
@@ -270,8 +272,8 @@ function PFStatusBar({
           <button
             className="pf-header-btn"
             onClick={onNotificationsClick}
-            title="NOTIFICATIONS"
-            aria-label="Open notifications"
+            title={t("statusBar.notifications", "NOTIFICATIONS")}
+            aria-label={t("statusBar.notifications", "NOTIFICATIONS")}
           >
             🔔
           </button>
@@ -280,8 +282,8 @@ function PFStatusBar({
           <button
             className="pf-header-btn"
             onClick={onMiningClick}
-            title="MY MINING"
-            aria-label="Open mining panel"
+            title={t("statusBar.mining", "MY MINING")}
+            aria-label={t("statusBar.mining", "MY MINING")}
           >
             ⛏️
           </button>
@@ -290,8 +292,8 @@ function PFStatusBar({
           <button
             className="pf-header-btn"
             onClick={onDefendClick}
-            title="PANDA DEFEND"
-            aria-label="Open Panda Defend"
+            title={t("statusBar.defend", "PANDA DEFEND")}
+            aria-label={t("statusBar.defend", "PANDA DEFEND")}
           >
             🛡️
           </button>
@@ -301,7 +303,7 @@ function PFStatusBar({
             <button
               className="pf-header-btn founder-btn"
               onClick={onFounderClick}
-              title="FOUNDER DASHBOARD"
+              title={t("statusBar.founder", "FOUNDER DASHBOARD")}
             >
               🏭
             </button>
@@ -310,9 +312,9 @@ function PFStatusBar({
           {/* Settings */}
           <button
             className="pf-header-btn"
-            title="SETTINGS"
+            title={t("statusBar.settings", "SETTINGS")}
             onClick={onSettingsClick}
-            aria-label="Settings"
+            aria-label={t("statusBar.settings", "SETTINGS")}
           >
             ⚙️
           </button>
@@ -320,10 +322,10 @@ function PFStatusBar({
           {/* Exit / Logout */}
           <button
             className="pf-header-btn"
-            title="LOGOUT"
-            aria-label="Log out of Panda Fabrics"
+            title={t("statusBar.logout", "LOGOUT")}
+            aria-label={t("statusBar.logoutConfirm", "Log out of Panda Fabrics?")}
             onClick={() => {
-              if (window.confirm("Log out of Panda Fabrics?")) {
+              if (window.confirm(t("statusBar.logoutConfirm", "Log out of Panda Fabrics?"))) {
                 sessionStorage.removeItem("panda_auth");
                 sessionStorage.removeItem("panda_auth_token");
                 localStorage.removeItem("panda_user");
@@ -346,8 +348,8 @@ function PFStatusBar({
           <button
             className="pf-header-btn pf-pin-btn"
             onClick={() => setIsPinned(!isPinned)}
-            title={isPinned ? "UNPIN BAR" : "PIN BAR"}
-            aria-label={isPinned ? "Unpin status bar" : "Pin status bar"}
+            title={isPinned ? t("statusBar.unpinBar", "UNPIN BAR") : t("statusBar.pinBar", "PIN BAR")}
+            aria-label={isPinned ? t("statusBar.unpinBar", "UNPIN BAR") : t("statusBar.pinBar", "PIN BAR")}
             aria-pressed={isPinned}
             style={{
               opacity: isPinned ? 1 : 0.4,
