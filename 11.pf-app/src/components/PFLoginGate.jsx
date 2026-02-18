@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useI18n } from "../i18n/i18n.jsx";
+import { useI18n, LOCALES } from "../i18n/i18n.jsx";
 
 /**
  * Login Gate — Access Control (v8.0)
@@ -100,7 +100,7 @@ const TECH_BADGES = [
 const APP_VERSION = "v9.0 — 4th Layer Edition";
 
 function LoginGate({ children }) {
-  const { t } = useI18n();
+  const { t, locale, setLocale } = useI18n();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -192,6 +192,21 @@ function LoginGate({ children }) {
 
   return (
     <div className="login-gate">
+      {/* i18n Language Selector — top right */}
+      <div className="login-lang-selector">
+        {Object.entries(LOCALES).map(([key, loc]) => (
+          <button
+            key={key}
+            className={`login-lang-btn${locale === key ? " active" : ""}`}
+            onClick={() => setLocale(key)}
+            title={loc.name}
+          >
+            <span className="login-lang-flag">{loc.flag}</span>
+            <span className="login-lang-label">{loc.label}</span>
+          </button>
+        ))}
+      </div>
+
       {/* Animated background orbs */}
       <div className="login-bg-orb login-bg-orb-1" />
       <div className="login-bg-orb login-bg-orb-2" />

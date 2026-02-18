@@ -1969,6 +1969,59 @@ body.light-mode .pf-right-toolbar {
   overflow: hidden;
 }
 
+/* i18n Language Selector — top right corner */
+.login-lang-selector {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: rgba(15, 15, 35, 0.6);
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+}
+
+.login-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login-lang-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: rgba(255,255,255,0.7);
+}
+
+.login-lang-btn.active {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.4);
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+.login-lang-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.login-lang-label {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 /* Animated Background Orbs */
 .login-bg-orb {
   position: absolute;
