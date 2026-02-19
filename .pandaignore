@@ -1,0 +1,32 @@
+# ═══════════════════════════════════════════════════════════
+# 🐼 PANDA FACTORY — .pandaignore
+# ═══════════════════════════════════════════════════════════
+# Arquivos que NÃO devem ser processados pelo Panda Agent/MCP
+# Atualizado: 2026-02-18
+# ═══════════════════════════════════════════════════════════
+
+# Segredos (NUNCA processar via AI)
+.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets/
+00.credentials/
+_archive/legacy/secrets.js
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/
+target/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
