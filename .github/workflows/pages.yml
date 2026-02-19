@@ -43,10 +43,20 @@ jobs:
 
       - name: 📋 Copy Root Assets to Dist
         run: |
+          # Prevent Jekyll from processing the output
+          touch 11.pf-app/../dist/jam/.nojekyll
           # Copy manifest and PWA assets to dist
           cp manifest.json 11.pf-app/../dist/jam/ 2>/dev/null || true
           cp favicon.ico 11.pf-app/../dist/jam/ 2>/dev/null || true
           echo "✅ Assets copied to dist/jam"
+
+      - name: 📋 Verify Build Output
+        run: |
+          echo "=== dist/jam contents ==="
+          ls -la dist/jam/
+          ls -la dist/jam/assets/ || echo "No assets dir"
+          echo "=== index.html head ==="
+          head -5 dist/jam/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
