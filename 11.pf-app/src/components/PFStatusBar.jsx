@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHealthStatus } from "../hooks/useHealthStatus";
 import PFLanguageSelector from "./PFLanguageSelector";
 import { useI18n } from "../i18n/i18n";
+import { useAuth } from "../hooks/useAuth";
 
 /**
  * PF Status Bar v6.3 — PIN + White Label
@@ -26,6 +27,7 @@ function PFStatusBar({
   isFounder = false,
 }) {
   const { t } = useI18n();
+  const { logout: authLogout } = useAuth();
   const [time, setTime] = useState("");
   const [energy, setEnergy] = useState(100);
   const [userName, setUserName] = useState(() => {
@@ -324,8 +326,15 @@ function PFStatusBar({
             className="pf-header-btn"
             title={t("statusBar.logout", "LOGOUT")}
             aria-label={t("statusBar.logoutConfirm", "Log out of Panda Fabrics?")}
-            onClick={() => {
+            onClick={async () => {
               if (window.confirm(t("statusBar.logoutConfirm", "Log out of Panda Fabrics?"))) {
+                try {
+                  // 1. Firebase signOut (clears IndexedDB auth persistence)
+                  await authLogout();
+                } catch (e) {
+                  console.warn("Firebase signOut error:", e);
+                }
+                // 2. Clear all local state
                 sessionStorage.removeItem("panda_auth");
                 sessionStorage.removeItem("panda_auth_token");
                 localStorage.removeItem("panda_user");
@@ -333,6 +342,7 @@ function PFStatusBar({
                 localStorage.removeItem("panda_founder_mode");
                 localStorage.removeItem("pf_chat_welcomed");
                 localStorage.removeItem("panda_onboarding_complete");
+                // 3. Reload to show login gate
                 window.location.reload();
               }
             }}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHealthStatus } from "../hooks/useHealthStatus";
 import { useFounderMetrics } from "../hooks/useFounderMetrics";
+import { useHeartbeat } from "../hooks/useHeartbeat";
 import { PanicButton } from "./PFPanicButton";
 import { FinancePanel } from "./PFFinancePanel";
 import { PandaDefendDashboard } from "./PFDefendDashboard";
@@ -14,6 +15,7 @@ export function FounderDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
   const { health, services, isConnected } = useHealthStatus("admin");
   const { metrics, isLoading } = useFounderMetrics();
+  const heartbeat = useHeartbeat({ interval: 300000, enabled: true });
 
   return (
     <div className="founder-dashboard">
@@ -84,6 +86,12 @@ export function FounderDashboard() {
           onClick={setActiveTab}
         />
         <Tab
+          id="heartbeat"
+          label="💓 Heartbeat"
+          active={activeTab}
+          onClick={setActiveTab}
+        />
+        <Tab
           id="logs"
           label="📜 Logs"
           active={activeTab}
@@ -101,6 +109,7 @@ export function FounderDashboard() {
         {activeTab === "users" && <UsersPanel metrics={metrics} />}
         {activeTab === "services" && <ServicesPanel services={services} />}
         {activeTab === "mining" && <MiningPanel />}
+        {activeTab === "heartbeat" && <HeartbeatPanel heartbeat={heartbeat} />}
         {activeTab === "logs" && <LogsPanel />}
       </div>
     </div>
@@ -485,6 +494,111 @@ function MiningPanel() {
 
       <div style={{fontSize:'11px',opacity:0.4,marginTop:'8px',textAlign:'center'}}>
         ⚠️ Dados simulados — Rust Agent backend não implementado. Dashboard demonstra a UI planejada.
+      </div>
+    </div>
+  );
+}
+
+/**
+ * 💓 Heartbeat Panel — Real-time agent health monitor
+ * Reads from useHeartbeat hook (5 min auto-refresh)
+ */
+function HeartbeatPanel({ heartbeat }) {
+  const { agents, isChecking, lastCheck, alerts, refresh } = heartbeat;
+
+  const statusColors = {
+    online: '#10b981',
+    offline: '#ef4444',
+    warning: '#f59e0b',
+    unknown: '#64748b',
+  };
+
+  const statusDots = {
+    online: '🟢',
+    offline: '🔴',
+    warning: '🟡',
+    unknown: '⚪',
+  };
+
+  const formatAgo = (isoStr) => {
+    if (!isoStr) return '—';
+    const diff = Date.now() - new Date(isoStr).getTime();
+    if (diff < 60000) return `${Math.round(diff / 1000)}s ago`;
+    if (diff < 3600000) return `${Math.round(diff / 60000)}m ago`;
+    return `${Math.round(diff / 3600000)}h ago`;
+  };
+
+  const cardStyle = {
+    background: 'rgba(255,255,255,0.03)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '12px',
+    padding: '16px 20px',
+    marginBottom: '16px',
+  };
+
+  return (
+    <div className="heartbeat-panel">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <h3 style={{ margin: 0 }}>💓 Agent Heartbeat — 5 min interval</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {lastCheck && <span style={{ fontSize: '11px', opacity: 0.5 }}>Last: {formatAgo(lastCheck)}</span>}
+          <button
+            onClick={refresh}
+            disabled={isChecking}
+            style={{ padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', cursor: 'pointer', fontSize: '12px' }}
+          >
+            {isChecking ? '⏳ Checking...' : '🔄 Refresh'}
+          </button>
+        </div>
+      </div>
+
+      {/* Agent Table */}
+      <div style={cardStyle}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+          <thead>
+            <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', textAlign: 'left' }}>
+              <th style={{ padding: '8px 12px', fontWeight: 600, opacity: 0.6 }}>Agent</th>
+              <th style={{ padding: '8px 12px', fontWeight: 600, opacity: 0.6 }}>Status</th>
+              <th style={{ padding: '8px 12px', fontWeight: 600, opacity: 0.6 }}>Last Ping</th>
+              <th style={{ padding: '8px 12px', fontWeight: 600, opacity: 0.6 }}>Latency</th>
+              <th style={{ padding: '8px 12px', fontWeight: 600, opacity: 0.6 }}>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            {agents.map((agent) => (
+              <tr key={agent.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                <td style={{ padding: '8px 12px' }}>
+                  <span style={{ marginRight: '8px' }}>{agent.icon}</span>
+                  {agent.name}
+                </td>
+                <td style={{ padding: '8px 12px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '2px 10px', borderRadius: '12px', background: `${statusColors[agent.status]}22`, color: statusColors[agent.status], fontWeight: 600, fontSize: '12px' }}>
+                    {statusDots[agent.status]} {agent.status.toUpperCase()}
+                  </span>
+                </td>
+                <td style={{ padding: '8px 12px', fontFamily: 'monospace', fontSize: '12px', opacity: 0.7 }}>{formatAgo(agent.lastPing)}</td>
+                <td style={{ padding: '8px 12px', fontFamily: 'monospace', fontSize: '12px' }}>
+                  {agent.latency ? `${agent.latency}ms` : '—'}
+                </td>
+                <td style={{ padding: '8px 12px', fontSize: '12px', opacity: 0.7 }}>{agent.detail || '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Alerts */}
+      <div style={cardStyle}>
+        <div style={{ fontWeight: 700, fontSize: '14px', marginBottom: '8px', color: '#f59e0b' }}>🔔 Alerts</div>
+        {alerts.length === 0 ? (
+          <div style={{ opacity: 0.5, fontSize: '13px' }}>No alerts</div>
+        ) : (
+          alerts.map((alert, i) => (
+            <div key={i} style={{ padding: '6px 0', fontSize: '13px', color: alert.type === 'error' ? '#ef4444' : alert.type === 'warning' ? '#f59e0b' : '#10b981' }}>
+              {alert.message}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

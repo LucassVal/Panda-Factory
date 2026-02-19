@@ -1,9 +1,10 @@
 # 🐼 PANDA FACTORY — ROADMAP ESTRATÉGICO COMPLETO
 
-> **Versão:** 1.0.0 | **Atualizado:** 2026-02-18
+> **Versão:** 1.1.0 | **Atualizado:** 2026-02-18
 > **Tese:** Converter afiliados Kiwify/Hotmart em criadores vibe-code no Panda.
 > **Modelo:** Founder Solo → Guerrilha → Comunidade → Escala
-> **Base:** 17 PF\_ docs SSoT + CONTEXT.md (~8.000L analisadas)
+> **Base:** 18 PF\_ docs SSoT + CONTEXT.md (~8.000L analisadas)
+> **Pagamento:** Stripe Brasil Direto (CPF, sem CNPJ, MoR via Managed Payments) + Paddle (fallback)
 > **SSoT:** Este arquivo. Para referência cruzada: `council_viability_report.md §15`
 
 ---
@@ -330,11 +331,185 @@ COM PANDA:
 
 ### 8.5 Payout
 
-| Método             | Região | Notas                       |
-| ------------------ | ------ | --------------------------- |
-| **Stripe Connect** | Global | MoR central                 |
-| **PagBank**        | BR     | PIX instantâneo             |
-| **Paddle**         | Global | MoR alternativo (46 países) |
+| Método             | Região | Notas                                                           |
+| ------------------ | ------ | --------------------------------------------------------------- |
+| **Stripe Connect** | Global | MoR central — payout direto para **Nubank** (Pix/TED) via CPF   |
+| **Paddle**         | Global | MoR fallback (jurisdições complexas: EU VAT, US Sales Tax)      |
+| **Saldo em PC**    | Global | Dev opta por receber em Panda Coins (reinvestir no ecossistema) |
+
+> ✅ **Zero Bloqueio:** Stripe Brasil aceita **Pessoa Física com CPF** — **não precisa de CNPJ**. Payout cai direto na conta **Nubank** do Founder em BRL via Pix/TED. Day 1 ready.
+
+### 8.6 Infra de Pagamento — Gateways (`PF_MEDUSA_REFERENCE.md §10.4`)
+
+> **Sem isso, PC é monopólio interno. Com isso, PC é moeda global.**
+>
+> ⚠️ **PagSeguro ABORTADO** (decisão Founder 2026-02-18).
+> ✅ **Stripe Brasil Direto** — aceita CPF (Pessoa Física), sem CNPJ. Payout → Nubank.
+
+| Gateway    | Cobertura         | Papel                                                                      | Status               |
+| ---------- | ----------------- | -------------------------------------------------------------------------- | -------------------- |
+| **Stripe** | 🌎 Global + 🇧🇷 BR | **MoR Primário (Day 1)** — Managed Payments. Cartão, Pix, Apple/Google Pay | ✅ Day 1 Ready (CPF) |
+| **Paddle** | 🌎 Global         | **MoR Fallback** — tax compliance para EU VAT / US Sales Tax               | 📋 Proposto          |
+
+> **Stripe Brasil (CNPJ: 22.121.209/0001-46):**
+>
+> - Entidade: _Stripe Brasil Soluções de Pagamento Ltda. — Instituição de Pagamento_
+> - Aceita **Pessoa Física com CPF** — CNPJ é **opcional**
+> - Pix nativo via parceria backend EBANX (transparente para o Founder)
+> - Payout em BRL direto para conta **Nubank** via Pix/TED
+> - **Stripe Managed Payments** = MoR nativo do Stripe (75+ países, 35 categorias)
+> - Assume tax compliance, fraude, disputas, checkout, suporte
+>
+> **Nota Alipay/WeChat:** Stripe e Paddle aceitam Alipay/WeChat Pay como métodos alternativos. **Não é necessário cadastro na China.**
+
+#### Fluxo de Checkout (Panda Store)
+
+```text
+User clica "Comprar" (Store PDP)
+  └─► PFCheckoutModal.jsx (frontend)
+        ├─► Verifica PC balance (RTDB via useCheckout.js)
+        │     ├─ Se tem PC suficiente → debita PC direto (transação RTDB)
+        │     └─ Se NÃO tem PC suficiente → abre gateway:
+        │           ├─ 🇧🇷 Brasil → Stripe (Pix nativo, BRL)
+        │           ├─ 🌎 Global → Stripe (Cartão/GooglePay/ApplePay)
+        │           └─ 📋 Fallback → Paddle (EU VAT / US Sales Tax)
+        └─► Stripe Webhook recebe confirmação
+              ├─► Credita PC no RTDB (/wallets/{uid}/balance)
+              ├─► Registra licença (/licenses/{uid}/{moduleId})
+              ├─► Split automático (70% dev / 25% Ops / 5% Founder)
+              └─► Payout → Nubank (Pix/TED em BRL)
+```
+
+#### Por que 2 Gateways (Stripe + Paddle)?
+
+| Cenário                   | Gateway ideal           | Motivo                                           |
+| ------------------------- | ----------------------- | ------------------------------------------------ |
+| Dev/Founder BR sem CNPJ   | **Stripe (CPF direto)** | Stripe BR aceita Pessoa Física — zero papelada   |
+| User BR quer Pix          | **Stripe**              | Pix nativo via EBANX backend (transparente)      |
+| User global com cartão    | **Stripe**              | 75+ países, Apple/Google Pay, menor latência     |
+| Dev quer receber em USD   | **Stripe Connect**      | Payout global direto na conta bancária do dev    |
+| Dev quer receber em BRL   | **Stripe Connect**      | Payout em BRL direto na **Nubank** via Pix/TED   |
+| Compliance fiscal (EU/US) | **Paddle**              | MoR calcula e paga VAT/Sales Tax automaticamente |
+
+### 8.7 Distribution Hooks — Canais de Saída (`PF_MEDUSA_REFERENCE.md §10.4`)
+
+> **Modelo Híbrido (Modelo C): Tool-only + MoR nativo**
+> Panda **intermedia quando o dev quer** (Panda Store nativo) mas **também aceita hooks externos** para devs que já possuem infraestrutura.
+
+#### Hooks de Entrada (como o dev submete)
+
+| Hook        | Mecanismo                                            | Status  |
+| ----------- | ---------------------------------------------------- | ------- |
+| 🐙 GitHub   | `git push` → GitHub Action → Medusa valida manifest  | Roadmap |
+| 📁 G. Drive | Upload em `/PandaStore/{moduleId}/` → Agente detecta | Roadmap |
+
+#### Hooks de Saída (onde o produto é vendido)
+
+| Canal           | Tipo     | Fee / Split                     | Responsabilidade Legal |
+| --------------- | -------- | ------------------------------- | ---------------------- |
+| 🐼 Panda Store  | Nativo   | Split 70% dev / 30% Panda       | Panda intermedia (MoR) |
+| 🥝 Kiwify       | Hook out | Listing Fee $1.99 + 5% comissão | Dev configura          |
+| 🔥 Hotmart      | Hook out | Listing Fee $1.99 + 5% comissão | Dev configura          |
+| 🌐 GitHub Pages | Deploy   | Sem fee                         | Dev                    |
+| 🎮 Steam        | Link ext | Sem fee                         | Dev                    |
+| 📱 Play Store   | Link ext | Sem fee                         | Dev                    |
+| 🍎 Apple Store  | Link ext | Sem fee                         | Dev                    |
+
+#### Fluxo de Publicação (DevTools → Medusa)
+
+```text
+Dev preenche PUBLISH form (DevTools v3.0)
+  → Seleciona hooks de saída (Panda Store + externos)
+  → Medusa valida manifest + security scan (Layer 1 — Static)
+  → Produto listado no Panda Store (+ hooks de saída se configurados)
+  → Compra processada pelo gateway selecionado
+  → Split creditado via PAT (Panda Coins) ou fiat
+```
+
+### 8.8 MoR — Democratização via Merchant of Record (`PF_MEDUSA_REFERENCE.md §10.4`)
+
+> **O Stripe Managed Payments resolve O PROBLEMA CENTRAL: a barreira fiscal que impede devs BR de vender global.**
+
+```text
+SEM PANDA (hoje):
+  Dev precisa: CNPJ → Gateway → Site → Suporte → Impostos → Infra
+  Barreira: ALTA (muitos desistem ou não podem — MEI sem nota de exportação)
+
+COM PANDA (Stripe Managed Payments):
+  Dev precisa: Código → PUBLISH form → Pronto
+  Panda faz:   Validação → Listagem → Pagamento → Split → Suporte → Tax Compliance
+  Barreira:    ZERO (democratiza acesso ao mercado global)
+
+ARQUITETURA MoR (SIMPLIFICADA):
+  Stripe Brasil (CPF) ←→ Panda Factory ←→ Nubank (payout BRL)
+  │                         │
+  ├── Managed Payments      ├── Panda gerencia Store/Split/PAT
+  │   (MoR nativo Stripe)   ├── Dev recebe via Stripe Connect
+  ├── Pix via EBANX         └── Paddle = fallback (EU/US tax)
+  │   (backend, transparente)
+  ├── 75+ países, 35 categorias
+  └── Tax compliance automático
+
+  ✅ ZERO BLOQUEIO:
+  Day 1 → Stripe (CPF, Pessoa Física) → Nubank (Pix/TED)
+  Não precisa de CNPJ, não precisa de EBANX como intermediário
+```
+
+**Nota legal:** O Panda Factory utiliza **Stripe Managed Payments** como MoR nativo. O Stripe Brasil (CNPJ: 22.121.209/0001-46) aceita Pessoa Física com CPF — o Founder não precisa de CNPJ. Os pagamentos são processados pelo Stripe e enviados diretamente para a conta **Nubank** em BRL. O Stripe assume responsabilidade por tax compliance, fraude, disputas e chargebacks. **Paddle** é MoR fallback para jurisdições onde Stripe não oferece cobertura fiscal completa (ex: EU VAT, US Sales Tax).
+
+| Aspecto               | Sem MoR (dev sozinho)        | Com MoR (Stripe Managed Payments)          |
+| --------------------- | ---------------------------- | ------------------------------------------ |
+| **CNPJ necessário?**  | ✅ Sim (MEI no mínimo)       | ❌ Não — Stripe aceita CPF (Pessoa Física) |
+| **Nota fiscal?**      | Dev emite (complexo)         | Stripe emite (automático)                  |
+| **Pix nativo?**       | Dev configura sozinho        | ✅ Stripe Pix nativo (via EBANX backend)   |
+| **Payout?**           | Dev abre conta gateway       | ✅ Direto na **Nubank** (Pix/TED em BRL)   |
+| **VAT/Sales Tax EU?** | Dev calcula e recolhe        | Stripe Managed Payments calcula e paga     |
+| **Chargeback?**       | Dev assume risco             | Stripe absorve (incluso na taxa)           |
+| **Câmbio USD→BRL?**   | Dev contrata corretora/banco | Stripe Connect converte e paga em BRL      |
+| **Compliance GDPR?**  | Dev implementa               | Stripe garante                             |
+| **Suporte ao buyer?** | Dev atende                   | Stripe + Panda atendem                     |
+
+### 8.9 Revenue Model — Nativo vs Externo (`PF_MEDUSA_REFERENCE.md §10.4`)
+
+> **Por que hooks externos NÃO matam a receita do Panda:**
+
+| Fonte de receita     | Nativo (Panda Store) | Externo (Kiwify/Hotmart/etc) |
+| -------------------- | -------------------- | ---------------------------- |
+| **Split/Comissão**   | 48% (inclui gateway) | 5% comissão sobre vendas     |
+| **Listing Fee**      | Grátis               | $1.99 taxa única             |
+| **Destaque**         | Incluído em popular  | $4.99/mês "Em Destaque"      |
+| **API Usage**        | Incluído no PC       | Taxa por request se usar IA  |
+| **Trust Badge**      | ✅ Incluso           | $2.99/mês selo Verificado    |
+| **PC como moeda**    | ✅ Circula           | ❌ Não usa                   |
+| **Compute/IA/Nuvem** | ✅ User roda dentro  | ❌ Perda de compute          |
+
+> **Moat competitivo do nativo:** _"Pessoa compra e usa no ambiente seguro do Panda"_ — sandboxed, auditado, sem risco de hack/golpe, com IA integrada. O externo é apenas para não perder quem já tem infra, mas o incentivo econômico (0% listing + PC rewards + compute incluso) **sempre puxa para o nativo.**
+
+### 8.10 Billing Enforcement — Anti-Bypass de Receita (`PF_SECURITY_REFERENCE.md`)
+
+> **Todo consumo de serviço pago deve passar pelo billing do Panda.** Bypass = suspensão.
+
+```text
+REGRA: Todo uso de IA/GPU/Cloud deve passar por Panda.* wrapper
+
+❌ BLOQUEADO:
+  fetch("https://api.openai.com/v1/chat", { headers: { "Authorization": "sk-..." } })
+  // Bypass do billing — chamada direta a API paga
+
+✅ PERMITIDO:
+  await Panda.Brain.chat("pergunta...")
+  // Billing embutido — PC debitado automaticamente
+
+  await Panda.GPU.process(data)
+  // Billing embutido — PC debitado automaticamente
+```
+
+| Proteção                 | Mecanismo                                       | Consequência                      |
+| ------------------------ | ----------------------------------------------- | --------------------------------- |
+| Stripe key hardcoded     | Regex scan Layer 1 (`pk_live_`, `sk_live_`)     | Score = 0, rejeição na publicação |
+| API call direta (bypass) | Behavior monitor Layer 2 (intercepta `fetch()`) | Auto-suspend do módulo            |
+| Serviço pago sem billing | `panda-billing-enforcement` rule                | Notificação + suspend após 24h    |
+| Wallet manipulation      | Ed25519 signed transactions Layer 3             | Kill Switch ativável pelo Founder |
 
 ---
 
@@ -348,7 +523,7 @@ COM PANDA:
 | ----------------- | ---------------------------------------------- | ---------- | ----------- |
 | 💬 **Social**     | WhatsApp, Telegram, Twitter, Instagram, TikTok | L1-L2      | 🟡 Mock     |
 | 📺 **Conteúdo**   | YouTube, Twitch, Spotify                       | L1-L2      | 🟡 Mock     |
-| 💰 **Pagamentos** | Kiwify, Hotmart, Stripe, Pix, Paddle           | L2-L3      | Task #4,#11 |
+| 💰 **Pagamentos** | Kiwify, Hotmart, Stripe (Direto CPF), Paddle   | L2-L3      | Task #4,#11 |
 | 📈 **Trading**    | cTrader, Binance                               | L1-L2      | 🟡 Mock     |
 | 🎮 **Games**      | Godot, Unity, Steam                            | L1         | 🟡 Mock     |
 | 🤖 **AI**         | Gemini 3 (Pro/Flash/Deep Think), Colab GPU     | L3         | Task #12    |
@@ -438,7 +613,9 @@ COM PANDA:
 
 | Versão | Data       | Descrição                                                                                            |
 | ------ | ---------- | ---------------------------------------------------------------------------------------------------- |
-| 1.0.0  | 2026-02-18 | Criação do ROADMAP.md com cobertura total de 17 PF\_ docs. 42 tasks, 5 etapas, 4 sprints na Etapa 1. |
+| 1.2.0  | 2026-02-18 | Stripe BR aceita CPF direto — EBANX desnecessário como intermediário. Stripe = Day 1 ready. Nubank.  |
+| 1.1.0  | 2026-02-18 | PagSeguro ABORTADO. Stripe como MoR primário. Paddle = fallback.                                     |
+| 1.0.0  | 2026-02-18 | Criação do ROADMAP.md com cobertura total de 18 PF\_ docs. 42 tasks, 5 etapas, 4 sprints na Etapa 1. |
 
 ---
 

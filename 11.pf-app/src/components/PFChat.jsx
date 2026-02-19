@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { injectContext, getUIContext } from "../services/uiContext";
+import { useFounderBrain } from "../hooks/useFounderBrain";
 
 /**
  * Jam Chat v1.2 - Omnichannel AI Chat (Bottom Right)
@@ -141,6 +142,9 @@ async function callBrain(action, payload) {
 }
 
 function PFChat() {
+  // 🧠 Founder Brain — personality compass for ALL users, evolves for Founder
+  const { systemPrompt, appendInsight, isFounderBrain, insightCount } = useFounderBrain();
+
   // Auto-open on first login for onboarding
   const isFirstVisit = !localStorage.getItem("pf_chat_welcomed");
   const [isOpen, setIsOpen] = useState(isFirstVisit);
@@ -249,6 +253,11 @@ function PFChat() {
     // AUTO-INJECT UI CONTEXT (all agents, all tiers)
     const messageWithContext = injectContext(currentInput);
 
+    // 🧠 Inject Founder Brain personality into every call
+    const messageWithBrain = systemPrompt
+      ? `[System Context]\n${systemPrompt}\n\n[User Message]\n${messageWithContext}`
+      : messageWithContext;
+
     try {
       let response;
 
@@ -256,17 +265,17 @@ function PFChat() {
       if (activeGem) {
         const gemAction = activeGem; // writer, analyst, coder, etc.
         response = await callBrain(gemAction, {
-          topic: messageWithContext,
-          task: messageWithContext,
-          concept: messageWithContext,
-          objective: messageWithContext,
-          message: messageWithContext,
+          topic: messageWithBrain,
+          task: messageWithBrain,
+          concept: messageWithBrain,
+          objective: messageWithBrain,
+          message: messageWithBrain,
         });
       }
       // Regular chat with model
       else {
         response = await callBrain("chat", {
-          message: messageWithContext,
+          message: messageWithBrain,
           options: {
             model: activeModel,
             gem: null,
@@ -294,15 +303,22 @@ function PFChat() {
         ? ` (${response.cost.toFixed(2)} PC)`
         : "";
 
+      const aiText = response.text || response.response;
+
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: `> ${prefix}${billingInfo}\n\n${response.text || response.response}`,
+          content: `> ${prefix}${billingInfo}\n\n${aiText}`,
           model: activeModel,
           gem: activeGem,
         },
       ]);
+
+      // 🧠 Founder-only: evolve brain with conversation insights
+      if (isFounderBrain) {
+        appendInsight(currentInput, aiText);
+      }
     } catch (error) {
       console.error("Chat error:", error);
       setMessages((prev) => [
@@ -411,6 +427,13 @@ function PFChat() {
               className={`pf-api-status ${isApiReady ? "ready" : "offline"}`}
             >
               {isApiReady ? "●" : "○"}
+            </span>
+            {/* Brain indicator — shows insight count */}
+            <span
+              className="pf-brain-indicator"
+              title={`🧠 Founder Brain: ${insightCount} insights${isFounderBrain ? " (evolving)" : " (read-only)"}`}
+            >
+              🧠 {insightCount}
             </span>
             <button
               className="pf-chat-gems-toggle"

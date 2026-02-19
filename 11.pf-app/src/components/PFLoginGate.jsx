@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useI18n, LOCALES } from "../i18n/i18n.jsx";
+import { useAuth } from "../hooks/useAuth.jsx";
 
 /**
  * Login Gate — Access Control (v8.0)
@@ -101,15 +102,24 @@ const APP_VERSION = "v9.0 — 4th Layer Edition";
 
 function LoginGate({ children }) {
   const { t, locale, setLocale } = useI18n();
+  const auth = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
+  // Sync with useAuth state — Firebase or localStorage session
   useEffect(() => {
-    // Check existing session
+    if (auth.isAuthenticated) {
+      setIsAuthenticated(true);
+      setIsLoading(false);
+      return;
+    }
+
+    // Fallback: Check logingate session (demo credentials)
     const authToken = sessionStorage.getItem("panda_auth");
     const isValid = CREDENTIALS.some(
       (cr) => authToken === `${cr.user}-${cr.pass}`
@@ -120,32 +130,8 @@ function LoginGate({ children }) {
       return;
     }
 
-    const indexToken = sessionStorage.getItem("panda_auth_token");
-    if (indexToken) {
-      try {
-        const decoded = JSON.parse(atob(indexToken));
-        if (decoded.email && decoded.exp > Date.now()) {
-          setIsAuthenticated(true);
-        }
-      } catch (e) {
-        console.warn("Invalid panda_auth_token");
-      }
-    }
-
-    const pandaUser = localStorage.getItem("panda_user");
-    if (pandaUser) {
-      try {
-        const user = JSON.parse(pandaUser);
-        if (user.email) {
-          setIsAuthenticated(true);
-        }
-      } catch (e) {
-        console.warn("Invalid panda_user");
-      }
-    }
-
-    setIsLoading(false);
-  }, []);
+    setIsLoading(auth.isLoading);
+  }, [auth.isAuthenticated, auth.isLoading]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -167,12 +153,27 @@ function LoginGate({ children }) {
         "panda_auth",
         `${matched.user}-${matched.pass}`
       );
-      localStorage.setItem("panda_user", JSON.stringify(matched.profile));
+      // Also register with useAuth for domain-level access
+      await auth.loginWithGate(matched.profile);
       setIsAuthenticated(true);
     } else {
       setError(t("login.invalidCredentials"));
     }
     setIsSubmitting(false);
+  };
+
+  // Google Sign-In handler
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    setError("");
+    try {
+      await auth.loginWithGoogle();
+      // onAuthStateChanged in useAuth will set user → isAuthenticated
+    } catch (err) {
+      setError(auth.error || err.message || "Google login failed");
+    } finally {
+      setIsGoogleLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -274,10 +275,11 @@ function LoginGate({ children }) {
               {t("login.signInSubtitle")}
             </p>
 
-            {/* Google Sign-in (Coming Soon) */}
+            {/* Google Sign-in — Real Firebase Auth */}
             <button
               className="login-google-btn"
-              disabled
+              onClick={handleGoogleLogin}
+              disabled={isGoogleLoading}
               title={t("login.signInGoogle")}
             >
               <svg className="login-google-icon" viewBox="0 0 24 24" width="20" height="20">
@@ -286,8 +288,7 @@ function LoginGate({ children }) {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
-              {t("login.signInGoogle")}
-              <span className="login-badge-soon">{t("login.soon")}</span>
+              {isGoogleLoading ? "Connecting..." : t("login.signInGoogle")}
             </button>
 
             <div className="login-divider">
