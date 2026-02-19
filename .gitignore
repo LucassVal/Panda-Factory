@@ -82,6 +82,8 @@ scripts/
 
 # Package raiz (não é necessário no público)
 package.json
+# EXCETO o da app React (necessário para npm ci no GitHub Actions)
+!11.pf-app/package.json
 
 # ========================================
 # MANTÉM NO REPO PÚBLICO (Panda-Factory)
