@@ -99,14 +99,11 @@ export function LoginModal({ isOpen, onClose }) {
                 ✉️ Continue with Email
               </button>
 
-              <div className="login-test-accounts">
-                <p>Test accounts:</p>
-                <code>founder@panda.com</code> (Founder)
-                <br />
-                <code>dev@test.com</code> (Developer)
-                <br />
-                <code>user@test.com</code> (User)
-              </div>
+              {/* Demo hint — only user@panda.com (Founder uses Google Sign-In) */}
+              <details className="login-test-accounts">
+                <summary>Demo access</summary>
+                <code>user@panda.com</code> / <code>user</code>
+              </details>
             </>
           )}
 

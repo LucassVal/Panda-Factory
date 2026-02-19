@@ -3,12 +3,12 @@ import { useI18n, LOCALES } from "../i18n/i18n.jsx";
 import { useAuth } from "../hooks/useAuth.jsx";
 
 /**
- * Login Gate — Access Control (v8.0)
+ * Login Gate — Access Control (v8.1)
  *
- * EMAIL-BASED CREDENTIALS:
- *   1) founder@panda.com / founder  → Founder (full access)
- *   2) user@panda.com / user        → User (MVP demo, can toggle Dev Mode)
+ * EMAIL-BASED CREDENTIALS (demo only):
+ *   user@panda.com / user → User (MVP demo, can toggle Dev Mode)
  *
+ * FOUNDER AUTH: Firebase Google Sign-In only — never hardcoded here.
  * REAL CREDENTIALS: stored in 00.credentials/, NOT listed here.
  */
 
@@ -23,20 +23,8 @@ const simpleHash = (str) => {
   return hash.toString(16);
 };
 
-// Credential sets — email-based, 2 tiers only
+// Credential sets — demo user only (Founder uses Firebase Google Sign-In)
 const CREDENTIALS = [
-  {
-    user: simpleHash("founder@panda.com"),
-    pass: simpleHash("founder"),
-    profile: {
-      uid: "founder-001",
-      email: "founder@panda.com",
-      displayName: "Lucas Valério",
-      userType: "founder",
-      founderPercent: 5,
-      authMethod: "logingate",
-    },
-  },
   {
     user: simpleHash("user@panda.com"),
     pass: simpleHash("user"),

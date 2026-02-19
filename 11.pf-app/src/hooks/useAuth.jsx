@@ -39,14 +39,7 @@ const FOUNDER_EMAILS = [
  * 2-tier model: Founder + User (User can toggle Dev Mode in-app)
  */
 const MOCK_USERS = {
-  "founder@panda.com": {
-    uid: "founder-001",
-    email: "founder@panda.com",
-    displayName: "Lucas Valério",
-    userType: UserType.FOUNDER,
-    founderPercent: 5,
-    ed25519PublicKey: "mock_public_key_hex",
-  },
+  // Founder auth is ONLY via Firebase (Google Sign-In) — never mock.
   "user@panda.com": {
     uid: "user-demo",
     email: "user@panda.com",
