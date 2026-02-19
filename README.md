@@ -7,10 +7,10 @@
 <h1 align="center">Panda Factory</h1>
 
 <p align="center">
-  <strong>The 4th Digital Layer — Package, Sell & Scale</strong><br>
-  <em>There are 3 digital layers today: infrastructure, platforms, and tools.<br>
-  None of them help you COMPOSE all three into a packaged product.<br>
-  Panda Factory IS that layer.</em>
+  <strong>The 4th Digital Layer — Parasitize, Don't Compete</strong><br>
+  <em>There are 3 digital layers: infrastructure, platforms, and tools.<br>
+  Panda Factory IS the 4th layer — the one that CONNECTS them all.<br>
+  Your tools stay the same. Panda operates behind the scenes via MCP Brain.</em>
 </p>
 
 <p align="center">
@@ -24,12 +24,11 @@
 
 <p align="center">
   <a href="#-live-demo">▶ Try Now</a> •
-  <a href="#-the-4th-digital-layer">The 4th Layer</a> •
+  <a href="#-mcp-interactivity--the-real-differentiator">MCP Interactivity</a> •
+  <a href="#-spine--tentacles-architecture">Architecture</a> •
   <a href="#-the-thesis">Thesis</a> •
-  <a href="#-why-bigtechs-cant-compete">BigTech Defense</a> •
   <a href="#-how-you-make-money">Monetization</a> •
   <a href="#-the-sdk--17-namespaces">SDK</a> •
-  <a href="#-architecture">Architecture</a> •
   <a href="#-roadmap">Roadmap</a> •
   <a href="#-contact">Contact</a>
 </p>
@@ -208,6 +207,119 @@ A full IDE-like workspace — users can arrange their tools exactly how they wor
 │  Visual Editor: Built-in manifest editor with live validation           │
 └──────────────────────────────────────────────────────────────────────┘
 ```
+
+### 🧠 MCP Interactivity — The Real Differentiator
+
+**This is NOT just another plugin system.** Panda's MCP Brain actively watches what you're doing inside WebViews and suggests actions:
+
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│  🧠 MCP BRAIN INTERACTIVITY — Live Example                             │
+│                                                                        │
+│  User opens Mercado Livre Seller Hub (WebView inside Canvas):          │
+│                                                                        │
+│  ┌────────────────────────────┬──────────────────────────┐            │
+│  │  🌐 WebView: ML Seller    │  🧠 Brain Sidebar        │            │
+│  │                            │                          │            │
+│  │  Anúncio: iPhone 15 Pro   │  💡 "Notei que este      │            │
+│  │  Preço: R$ 6.499          │  anúncio está R$300      │            │
+│  │  Vendas: 3/mês            │  acima da concorrência.  │            │
+│  │  Perguntas: 7 pendentes   │  Quer que eu ajuste      │            │
+│  │                            │  o preço?"               │            │
+│  │  ░░░░░░░░░░░░░░░░░░░░░░░ │                          │            │
+│  │  Painel normal do ML      │  🔔 "7 perguntas sem     │            │
+│  │  (nenhuma modificação)    │  resposta — responder    │            │
+│  │                            │  automaticamente?"       │            │
+│  └────────────────────────────┴──────────────────────────┘            │
+│                                                                        │
+│  HOW IT WORKS:                                                         │
+│  1. WebView loads external tool (ML, Instagram, Calendar...)          │
+│  2. MCP Manifest extracts ONLY strategic data via API                 │
+│  3. Brain receives context → reasons across ALL connected services    │
+│  4. Sidebar shows suggestions — user approves or dismisses            │
+│  5. Panda executes via API Bridge (never touches the WebView DOM)     │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+#### More Interactivity Examples
+
+| WebView Open        | Brain Suggests                                                               | Cross-Platform Data                                   |
+| ------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **Google Calendar** | "Você tem 2 clientes VIP agendados amanhã. Enviar lembrete por WhatsApp?"    | CRM contacts → Calendar events → WhatsApp reminder    |
+| **Instagram DMs**   | "Este lead perguntou sobre preço 3x. Criar proposta no CRM?"                 | Instagram context → CRM pipeline → Follow-up schedule |
+| **iFood Painel**    | "Estoque de mussarela está em 2.5kg (mínimo: 5kg). Pausar item no cardápio?" | iFood orders → Estoque alerts → Menu auto-pause       |
+| **Bling ERP**       | "NF emitida para Cliente X. Atualizar status no CRM e enviar rastreio?"      | Bling invoice → CRM update → WhatsApp tracking        |
+| **Shopee Seller**   | "Este produto vendeu 15 unidades ontem. Reposição automática no fornecedor?" | Shopee sales → Estoque debit → Supplier alert         |
+
+> **The external tool is the HEAVY OPERATION interface. Panda's internal UI is the STRATEGIC CONTROL layer.**
+
+### 📋 Intelligent Manifests
+
+Each Tentacle has a JSON manifest that tells MCP exactly what data to extract:
+
+```json
+{
+  "name": "mercadolivre",
+  "capabilities": {
+    "orders": { "read": true, "webhook": true },
+    "questions": { "read": true, "write": true }
+  },
+  "spine_mapping": {
+    "orders → estoque": "auto_debit",
+    "questions → crm": "auto_capture_lead"
+  }
+}
+```
+
+> The `spine_mapping` field is the **secret sauce** — it declares how data from external APIs automatically feeds CRM, Calendar, and Estoque without any user action.
+
+### 🦴 Spine + Tentacles Architecture
+
+```text
+                    🧠 Gemini (Brain)
+                         │
+          ┌──────────────┼──────────────┐
+          │              │              │
+     📇 CRM        📅 Calendar     📦 Inventory
+     (Contacts)    (Events)        (Products)
+          │              │              │
+          └──────────────┼──────────────┘
+                         │
+                   SPINE (backbone)
+                   (Native RTDB, auto-populated)
+                         │
+          ┌──────┬───────┼───────┬──────┐
+          │      │       │       │      │
+        WhApp  Insta    ML    Shopee  iFood
+                         │
+                   TENTACLES
+                   (External APIs via JSON manifests)
+                         │
+                   📊 Visual Dashboard
+                   (Canvas multiwindow, detachable)
+```
+
+| Layer         | What                                        | Where                       | Strategy                                       |
+| ------------- | ------------------------------------------- | --------------------------- | ---------------------------------------------- |
+| **Spine**     | CRM + Calendar + Inventory + Dashboard      | Panda's own RTDB            | Always present, auto-populated by tentacles    |
+| **Tentacles** | WhatsApp, ML, Shopee, iFood, Calendar...    | External APIs via manifests | Panda parasitizes — connects, doesn't replace  |
+| **WebViews**  | Borrowed UI (Google Calendar, Bling, ML...) | iframe/webview in Canvas    | User sees the real tool, Panda operates behind |
+
+> **Philosophy: "Parasitize, Don't Compete."** — If the user already has a tool, Panda connects to it. If not, Panda offers a basic native module.
+
+### 🎯 Templates by Niche (Kiwify/Hotmart Products)
+
+Each template = a ready-to-run AI employee for a specific business type:
+
+| Template           | Tentacles                       | What the Panda Does                            |
+| ------------------ | ------------------------------- | ---------------------------------------------- |
+| 🍕 **Restaurant**  | WhatsApp + iFood + Sheets       | Orders, menu, inventory, auto-reply            |
+| 🛒 **E-commerce**  | WhatsApp + ML + Shopee + Bling  | Questions, tracking, stock, complaints         |
+| 🏥 **Clinic**      | WhatsApp + Calendar + Sheets    | Scheduling, confirmation, reminders, follow-up |
+| 🏠 **Real Estate** | WhatsApp + Instagram + Calendar | Leads, tours, follow-up, qualification         |
+| 🔧 **Services**    | WhatsApp + Calendar + Sheets    | Quotes, scheduling, billing                    |
+
+> **Affiliate sells, client connects, Panda operates.** Zero onboarding friction.
 
 ### 🧠 AI Chat — 5 Models + 6 GEMs
 
@@ -768,8 +880,8 @@ Panda Factory is looking for developers who want to build and earn in the 4th la
 
 <p align="center">
   <strong>Panda Factory — The 4th Digital Layer</strong><br>
-  <em>Where BigTechs sell services, you sell results.</em><br>
-  <em>We don't compete with Layers 1-3. We compose them.</em><br>
-  <em>We don't take 30%. We give you 85%.</em><br>
-  <code>v9.1 — Dev Ally Edition · February 2026</code>
+  <em>Where BigTechs sell services, Panda connects them into one invisible employee.</em><br>
+  <em>Spine + Tentacles + MCP Brain = the 4th layer in action.</em><br>
+  <em>We don't compete with Layers 1-3. We parasitize their APIs and orchestrate them.</em><br>
+  <code>v10.0 — 4th Layer · Spine + Tentacles Edition · February 2026</code>
 </p>
