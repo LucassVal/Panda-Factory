@@ -14,7 +14,7 @@ import es from "./locales/es.json";
 
 // Available locales
 export const LOCALES = {
-  "pt-BR": { label: "PT-BR", flag: "🇧🇷", name: "Português" },
+  "pt-BR": { label: "PT", flag: "🇧🇷", name: "Português" },
   en: { label: "ENG", flag: "🇺🇸", name: "English" },
   es: { label: "ESP", flag: "🇪🇸", name: "Español" },
 };

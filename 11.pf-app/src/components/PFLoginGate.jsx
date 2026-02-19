@@ -168,7 +168,7 @@ function LoginGate({ children }) {
     return (
       <div className="login-gate-loading">
         <div className="login-spinner">
-          <img src="/panda-icon.png" alt="Panda" style={{width:"48px",height:"48px"}} />
+          <img src="./panda-icon.png" alt="Panda" style={{width:"48px",height:"48px"}} />
         </div>
         <p>{t("login.loading")}</p>
       </div>
@@ -206,7 +206,7 @@ function LoginGate({ children }) {
         <div className="login-hero">
           <div className="login-hero-content">
             <div className="login-logo">
-              <img src="/panda-icon.png" alt="Panda Factory" />
+              <img src="./panda-icon.png" alt="Panda Factory" />
             </div>
             <h1 className="login-title">Panda Factory</h1>
             <p className="login-tagline">

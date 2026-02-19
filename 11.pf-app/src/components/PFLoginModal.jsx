@@ -53,7 +53,7 @@ export function LoginModal({ isOpen, onClose }) {
         </button>
 
         <div className="login-header">
-          <span className="login-logo"><img src="/panda-icon.png" alt="Panda" style={{width:"64px",height:"64px"}} /></span>
+          <span className="login-logo"><img src="./panda-icon.png" alt="Panda" style={{width:"64px",height:"64px"}} /></span>
           <h2>Login to Panda Factory</h2>
         </div>
 

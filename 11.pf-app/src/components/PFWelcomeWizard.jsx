@@ -23,7 +23,7 @@ const STEPS = [
     subtitle: "Your modular creation platform",
     content:
       "Panda Fabrics is your infinite workspace to create, publish, and monetize. Fully modular, fully connected.",
-    visual: "/panda-icon.png",
+    visual: "./panda-icon.png",
   },
   {
     id: "powers",

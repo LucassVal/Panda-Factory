@@ -52,7 +52,7 @@ function WelcomeOverlay({ onAction, onDismiss }) {
   return (
     <div className={`pf-welcome-overlay ${exiting ? "pf-welcome-exit" : ""}`}>
       <div className="pf-welcome-content">
-        <div className="pf-welcome-logo"><img src="/panda-icon.png" alt="Panda Fabrics" className="pf-logo-icon-lg" style={{width:"80px",height:"80px"}} /></div>
+        <div className="pf-welcome-logo"><img src="./panda-icon.png" alt="Panda Fabrics" className="pf-logo-icon-lg" style={{width:"80px",height:"80px"}} /></div>
         <h2 className="pf-welcome-title">WELCOME TO PANDA FABRICS</h2>
         <p className="pf-welcome-subtitle">
           Your infinite workspace. Choose where to begin:

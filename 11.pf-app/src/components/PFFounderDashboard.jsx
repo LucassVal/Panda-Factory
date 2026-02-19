@@ -22,7 +22,7 @@ export function FounderDashboard() {
       {/* Header */}
       <header className="founder-header">
         <div className="founder-title">
-          <span className="founder-logo"><img src="/panda-icon.png" alt="Panda" style={{width:"48px",height:"48px"}} /></span>
+          <span className="founder-logo"><img src="./panda-icon.png" alt="Panda" style={{width:"48px",height:"48px"}} /></span>
           <h1>FOUNDER DASHBOARD</h1>
         </div>
         <div className="founder-actions">

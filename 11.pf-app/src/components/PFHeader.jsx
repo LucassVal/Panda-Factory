@@ -8,7 +8,7 @@ function PFHeader({ onStoreClick }) {
   return (
     <header className="pf-header">
       <div className="pf-header-logo">
-        <span><img src="/panda-icon.png" alt="Panda" style={{width:"28px",height:"28px",verticalAlign:"middle"}} /></span>
+        <span><img src="./panda-icon.png" alt="Panda" style={{width:"28px",height:"28px",verticalAlign:"middle"}} /></span>
         <span>Panda Fabrics</span>
       </div>
 

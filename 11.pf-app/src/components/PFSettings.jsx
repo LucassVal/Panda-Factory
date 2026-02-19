@@ -14,7 +14,7 @@ import "./PFSettings.css";
  */
 
 // Logo atual do Panda Fabrics
-const PANDA_LOGO = "/panda-icon.png";
+const PANDA_LOGO = "./panda-icon.png";
 
 // Cores disponíveis para white-label
 const ACCENT_COLORS = [
@@ -302,7 +302,7 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
                 }}
               >
                 <img
-                  src={localStorage.getItem("panda_custom_logo") || "/panda-icon.png"}
+                  src={localStorage.getItem("panda_custom_logo") || "./panda-icon.png"}
                   alt="Logo"
                   style={{ width: "48px", height: "48px", borderRadius: "8px", objectFit: "contain" }}
                 />
@@ -504,7 +504,7 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
           <div className="pf-settings-card pf-wallet-hero">
             <div className="pf-wallet-balance">
               <div className="pf-wallet-icon">
-                <img src="/panda-icon.png" alt="Panda" style={{ width: "24px", height: "24px" }} />
+                <img src="./panda-icon.png" alt="Panda" style={{ width: "24px", height: "24px" }} />
               </div>
               <div className="pf-wallet-amount">500 PC</div>
               <div className="pf-wallet-usd">≈ R$ 5,00 BRL</div>
