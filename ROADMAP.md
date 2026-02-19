@@ -1,6 +1,6 @@
 # 🐼 PANDA FACTORY — ROADMAP ESTRATÉGICO COMPLETO
 
-> **Versão:** 1.1.0 | **Atualizado:** 2026-02-18
+> **Versão:** 1.3.0 | **Atualizado:** 2026-02-19
 > **Tese:** Converter afiliados Kiwify/Hotmart em criadores vibe-code no Panda.
 > **Modelo:** Founder Solo → Guerrilha → Comunidade → Escala
 > **Base:** 18 PF\_ docs SSoT + CONTEXT.md (~8.000L analisadas)
@@ -51,10 +51,10 @@
 | #   | Feature                                                           | Fonte SSoT                     | Status Atual                                     | Etapa  |
 | --- | ----------------------------------------------------------------- | ------------------------------ | ------------------------------------------------ | ------ |
 | 1   | Firebase RTDB Rules + Schema                                      | `BACKEND_REF §7`, `CONTEXT §9` | ⏳ Projeto existe, rules/schema não configurados | E1-S1A |
-| 2   | Firebase Auth providers (Email + Google)                          | `CONTEXT §9`                   | ⏳ Providers precisam ser habilitados            | E1-S1A |
+| 2   | Firebase Auth providers (Email + Google)                          | `CONTEXT §9`                   | ✅ Providers habilitados (Email+Google live)     | E1-S1A |
 | 3   | GAS Deploy como Web App (doPost público)                          | `GAS_REF`, `CONTEXT §9`        | 🟡 9 .gs existem, não publicados                 | E1-S1A |
 | 4   | GAS Webhook handler Kiwify/Hotmart real                           | `SDK_REF`, `ECONOMY_REF`       | 🟡 Mock (handleKiwifyWebhook stub)               | E1-S1A |
-| 5   | SDK Auth wiring (mock→Firebase Auth real)                         | `SDK_REF §Auth`                | 🟡 useAuth.jsx com hardcoded creds               | E1-S1A |
+| 5   | SDK Auth wiring (mock→Firebase Auth real)                         | `SDK_REF §Auth`                | 🟡 useAuth parcial (Google+Gate, RTDB pending)   | E1-S1A |
 | 6   | SDK Wallet wiring (mock→RTDB real)                                | `SDK_REF §Wallet`              | 🟡 Mock balance/history                          | E1-S1A |
 | 7   | CSP + SRI + CORS security headers                                 | `SECURITY_REF`, `CONTEXT §9`   | ⏳ P0 segundo CONTEXT                            | E1-S1A |
 | 8   | PC Economy Real — compra de pacotes                               | `ECONOMY_REF §9.1`             | ⏳ 7 pacotes documentados, não implementados     | E1-S1B |
@@ -65,7 +65,7 @@
 | 13  | PWA real (vite-plugin-pwa, SW funcional)                          | `CONTEXT §9`                   | ⏳ manifest.json/sw.js legacy                    | E1-S1C |
 | 14  | Mobile/Responsive (breakpoints 1024/768/480)                      | `UI_REF`, `CONTEXT §9`         | ⏳                                               | E1-S1C |
 | 15  | GAS Heartbeat + Cron triggers                                     | `GAS_REF`                      | ⏳ Mock                                          | E1-S1C |
-| 16  | Google Sign-in real (remover "Soon" badge)                        | `CONTEXT §11`                  | ⏳ Disabled no LoginGate                         | E1-S1D |
+| 16  | Google Sign-in real (remover "Soon" badge)                        | `CONTEXT §11`                  | ✅ Google Sign-In funcional (cursor fixed)       | E1-S1D |
 | 17  | Onboarding pulsing dots (Phase 2 Wizard)                          | `CONTEXT §11`                  | ⏳ Planejado                                     | E1-S1D |
 | 18  | Store 12 extensões com preço real em PC                           | `MEDUSA_REF`                   | 🟡 Mock prices                                   | E1-S1D |
 | 19  | SDK Dev Portal público                                            | `CONTEXT §9`                   | ⏳                                               | E2-S2A |
@@ -613,6 +613,7 @@ REGRA: Todo uso de IA/GPU/Cloud deve passar por Panda.* wrapper
 
 | Versão | Data       | Descrição                                                                                            |
 | ------ | ---------- | ---------------------------------------------------------------------------------------------------- |
+| 1.3.0  | 2026-02-19 | Firebase Auth live (#2 ✅), Google Sign-In funcional (#16 ✅), Login UI centered, cursor fix.        |
 | 1.2.0  | 2026-02-18 | Stripe BR aceita CPF direto — EBANX desnecessário como intermediário. Stripe = Day 1 ready. Nubank.  |
 | 1.1.0  | 2026-02-18 | PagSeguro ABORTADO. Stripe como MoR primário. Paddle = fallback.                                     |
 | 1.0.0  | 2026-02-18 | Criação do ROADMAP.md com cobertura total de 18 PF\_ docs. 42 tasks, 5 etapas, 4 sprints na Etapa 1. |
