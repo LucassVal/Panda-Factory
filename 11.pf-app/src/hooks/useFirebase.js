@@ -13,7 +13,16 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, ref, get, set, onValue, off } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  push,
+  update,
+  onValue,
+  off,
+} from "firebase/database";
 
 /**
  * Firebase Configuration
@@ -94,6 +103,15 @@ export const firebaseAuth = {
   },
 
   /**
+   * Get Firebase ID Token (for forwarding to GAS backend)
+   * @returns {Promise<string|null>}
+   */
+  async getToken() {
+    if (!auth?.currentUser) return null;
+    return auth.currentUser.getIdToken();
+  },
+
+  /**
    * Subscribe to auth state changes
    */
   onAuthStateChanged(callback) {
@@ -136,6 +154,24 @@ export const firebaseDB = {
   },
 
   /**
+   * Push data to a path (generates unique key)
+   */
+  async push(path, data) {
+    if (!database) throw new Error("Firebase not initialized");
+    const newRef = push(ref(database, path));
+    await set(newRef, data);
+    return newRef.key;
+  },
+
+  /**
+   * Update data at path (partial update, doesn't overwrite siblings)
+   */
+  async update(path, data) {
+    if (!database) throw new Error("Firebase not initialized");
+    await update(ref(database, path), data);
+  },
+
+  /**
    * Get user status (online/offline)
    */
   async getUserStatus(uid) {
@@ -170,6 +206,56 @@ export const firebaseDB = {
       this.get("metrics/errors"),
     ]);
     return { treasury, users, usage, errors };
+  },
+
+  // ── Wallet RTDB helpers (TICKET-05) ──
+
+  /**
+   * Get wallet balance for a user
+   * @param {string} uid
+   * @returns {Promise<number>}
+   */
+  async getWalletBalance(uid) {
+    const balance = await this.get(`pf_cells/${uid}/wallet/balance`);
+    return balance || 0;
+  },
+
+  /**
+   * Get wallet transaction history
+   * @param {string} uid
+   * @returns {Promise<Object[]>}
+   */
+  async getWalletHistory(uid) {
+    const history = await this.get(`pf_cells/${uid}/wallet/transactions`);
+    if (!history) return [];
+    return Object.entries(history)
+      .map(([key, val]) => ({ id: key, ...val }))
+      .reverse();
+  },
+
+  /**
+   * Subscribe to wallet balance changes (realtime)
+   * @param {string} uid
+   * @param {Function} callback
+   * @returns {Function} unsubscribe
+   */
+  subscribeWalletBalance(uid, callback) {
+    return this.subscribe(`pf_cells/${uid}/wallet/balance`, callback);
+  },
+
+  /**
+   * Initialize wallet for a new user
+   * @param {string} uid
+   */
+  async initWallet(uid) {
+    const existing = await this.get(`pf_cells/${uid}/wallet`);
+    if (!existing) {
+      await this.set(`pf_cells/${uid}/wallet`, {
+        balance: 0,
+        currency: "PC",
+        createdAt: Date.now(),
+      });
+    }
   },
 };
 

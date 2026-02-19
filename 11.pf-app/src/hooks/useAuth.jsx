@@ -5,7 +5,7 @@ import {
   createContext,
   useContext,
 } from "react";
-import { firebaseAuth } from "./useFirebase";
+import { firebaseAuth, firebaseDB } from "./useFirebase";
 
 /**
  * User types for Panda Factory
@@ -30,9 +30,7 @@ export const AuthMethod = {
  * Founder emails — the ONE source of truth for founder detection.
  * Matches the emails used in Firebase Console + PFLoginGate credentials.
  */
-const FOUNDER_EMAILS = [
-  "lucassvalerio@gmail.com",
-];
+const FOUNDER_EMAILS = ["lucassvalerio@gmail.com"];
 
 /**
  * Mock user data for development (when Firebase is not configured)
@@ -55,7 +53,9 @@ const MOCK_USERS = {
  */
 function mapFirebaseUser(firebaseUser) {
   const email = firebaseUser.email || "";
-  const isFounder = FOUNDER_EMAILS.some(fe => fe.toLowerCase() === email.toLowerCase());
+  const isFounder = FOUNDER_EMAILS.some(
+    (fe) => fe.toLowerCase() === email.toLowerCase(),
+  );
 
   return {
     uid: firebaseUser.uid,
@@ -63,9 +63,10 @@ function mapFirebaseUser(firebaseUser) {
     displayName: firebaseUser.displayName || email.split("@")[0],
     photoURL: firebaseUser.photoURL || null,
     userType: isFounder ? UserType.FOUNDER : UserType.USER,
-    authMethod: firebaseUser.providerData?.[0]?.providerId === "google.com"
-      ? AuthMethod.GOOGLE
-      : AuthMethod.EMAIL,
+    authMethod:
+      firebaseUser.providerData?.[0]?.providerId === "google.com"
+        ? AuthMethod.GOOGLE
+        : AuthMethod.EMAIL,
     founderPercent: isFounder ? 5 : undefined,
   };
 }
@@ -88,18 +89,66 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [firebaseReady, setFirebaseReady] = useState(false);
 
+  // ── Expose getToken globally for Panda.Auth SDK ──
+  useEffect(() => {
+    window.__pandaFirebaseAuth = firebaseAuth;
+    // Bind Panda.Wallet to RTDB
+    if (typeof Panda !== "undefined" && Panda.Wallet?.bindDB) {
+      Panda.Wallet.bindDB(firebaseDB);
+    }
+  }, []);
+
   // ── Bootstrap: detect Firebase availability ──
   useEffect(() => {
     let unsubscribe = null;
+    let authResolved = false;
+
+    // Safety timeout — if Firebase never responds (invalid config, network),
+    // fall back to mock mode after 5 seconds instead of stuck "loading" forever.
+    const safetyTimeout = setTimeout(() => {
+      if (!authResolved) {
+        console.warn(
+          "[useAuth] Firebase auth timeout — falling back to mock mode",
+        );
+        authResolved = true;
+        setFirebaseReady(false);
+
+        // Restore logingate session if present
+        const storedUser = localStorage.getItem("panda_user");
+        if (storedUser) {
+          try {
+            const parsed = JSON.parse(storedUser);
+            if (parsed.authMethod === AuthMethod.LOGINGATE) {
+              setUser(parsed);
+            }
+          } catch (e) {
+            localStorage.removeItem("panda_user");
+          }
+        }
+        setIsLoading(false);
+      }
+    }, 5000);
 
     // Try Firebase onAuthStateChanged first
     try {
       unsubscribe = firebaseAuth.onAuthStateChanged((firebaseUser) => {
+        authResolved = true;
+        clearTimeout(safetyTimeout);
         setFirebaseReady(true);
         if (firebaseUser) {
           const pandaUser = mapFirebaseUser(firebaseUser);
           setUser(pandaUser);
           localStorage.setItem("panda_user", JSON.stringify(pandaUser));
+          // Sync to Panda SDK Auth layer
+          if (typeof Panda !== "undefined" && Panda.Auth?.syncUser) {
+            Panda.Auth.syncUser(pandaUser);
+          }
+          // Initialize wallet for this user
+          if (typeof Panda !== "undefined" && Panda.Wallet?.init) {
+            Panda.Wallet.init(pandaUser.uid).catch((e) =>
+              console.warn("Wallet init:", e.message),
+            );
+          }
         } else {
           // Firebase says no user — check if there's a mock/logingate session
           const storedUser = localStorage.getItem("panda_user");
@@ -126,7 +175,12 @@ export function AuthProvider({ children }) {
       });
     } catch (err) {
       // Firebase not initialized — pure mock mode
-      console.warn("[useAuth] Firebase not available, using mock mode:", err.message);
+      console.warn(
+        "[useAuth] Firebase not available, using mock mode:",
+        err.message,
+      );
+      authResolved = true;
+      clearTimeout(safetyTimeout);
       setFirebaseReady(false);
 
       const storedUser = localStorage.getItem("panda_user");
@@ -141,6 +195,7 @@ export function AuthProvider({ children }) {
     }
 
     return () => {
+      clearTimeout(safetyTimeout);
       if (unsubscribe) unsubscribe();
     };
   }, []);
@@ -153,20 +208,44 @@ export function AuthProvider({ children }) {
     setError(null);
 
     try {
-      const firebaseUser = await firebaseAuth.signInWithGoogle();
+      // Timeout: if popup hangs (blocked, invalid config), abort after 15s
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("POPUP_TIMEOUT")), 15000),
+      );
+
+      const firebaseUser = await Promise.race([
+        firebaseAuth.signInWithGoogle(),
+        timeoutPromise,
+      ]);
       // onAuthStateChanged will handle the user mapping
       console.log("🔥 Google login success:", firebaseUser.email);
     } catch (err) {
       // If Firebase is not configured, show helpful error
       if (!firebaseReady || err.message?.includes("not initialized")) {
-        setError("Firebase not configured. Use demo credentials below, or add Firebase config to .env");
+        setError("Firebase não configurado. Use as credenciais demo abaixo.");
+      } else if (err.message === "POPUP_TIMEOUT") {
+        setError(
+          "Popup de login bloqueado ou sem resposta. Verifique o bloqueador de popup.",
+        );
       } else if (err.code === "auth/popup-closed-by-user") {
         // User closed the popup — not an error
         setError(null);
       } else if (err.code === "auth/unauthorized-domain") {
-        setError("This domain is not authorized in Firebase. Add it in Firebase Console > Authentication > Settings.");
+        setError(
+          "Domínio não autorizado no Firebase. Adicione localhost em Firebase Console > Authentication > Settings.",
+        );
+      } else if (
+        err.code === "auth/api-key-not-valid.-please-pass-a-valid-api-key."
+      ) {
+        setError(
+          "API Key do Firebase inválida. Configure o arquivo .env com as credenciais corretas.",
+        );
+      } else if (err.code === "auth/popup-blocked") {
+        setError(
+          "Popup bloqueado pelo navegador. Permita popups para este site.",
+        );
       } else {
-        setError(err.message || "Google login failed");
+        setError(err.message || "Google login falhou");
       }
     } finally {
       setIsLoading(false);
@@ -176,42 +255,49 @@ export function AuthProvider({ children }) {
   /**
    * Login with Email/Password (Firebase Auth or Mock fallback)
    */
-  const loginWithEmail = useCallback(async (email, password) => {
-    setIsLoading(true);
-    setError(null);
+  const loginWithEmail = useCallback(
+    async (email, password) => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      if (firebaseReady) {
-        // Try real Firebase email/password auth
-        const firebaseUser = await firebaseAuth.signInWithEmail(email, password);
-        console.log("🔥 Email login success:", firebaseUser.email);
-        // onAuthStateChanged will handle the user mapping
-      } else {
-        // Fallback: Mock mode (for development / demo)
-        await new Promise((r) => setTimeout(r, 500));
-        const mockUser = MOCK_USERS[email.toLowerCase()];
-        if (!mockUser) {
-          throw new Error("User not found");
+      try {
+        if (firebaseReady) {
+          // Try real Firebase email/password auth
+          const firebaseUser = await firebaseAuth.signInWithEmail(
+            email,
+            password,
+          );
+          console.log("🔥 Email login success:", firebaseUser.email);
+          // onAuthStateChanged will handle the user mapping
+        } else {
+          // Fallback: Mock mode (for development / demo)
+          await new Promise((r) => setTimeout(r, 500));
+          const mockUser = MOCK_USERS[email.toLowerCase()];
+          if (!mockUser) {
+            throw new Error("User not found");
+          }
+          if (password.length < 4) {
+            throw new Error("Invalid password");
+          }
+          const userWithMethod = { ...mockUser, authMethod: AuthMethod.EMAIL };
+          setUser(userWithMethod);
+          localStorage.setItem("panda_user", JSON.stringify(userWithMethod));
         }
-        if (password.length < 4) {
-          throw new Error("Invalid password");
-        }
-        const userWithMethod = { ...mockUser, authMethod: AuthMethod.EMAIL };
-        setUser(userWithMethod);
-        localStorage.setItem("panda_user", JSON.stringify(userWithMethod));
+      } catch (err) {
+        const msg =
+          err.code === "auth/invalid-credential"
+            ? "Invalid email or password"
+            : err.code === "auth/user-not-found"
+              ? "No account found with this email"
+              : err.message || "Login failed";
+        setError(msg);
+        throw err;
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      const msg = err.code === "auth/invalid-credential"
-        ? "Invalid email or password"
-        : err.code === "auth/user-not-found"
-          ? "No account found with this email"
-          : err.message || "Login failed";
-      setError(msg);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [firebaseReady]);
+    },
+    [firebaseReady],
+  );
 
   /**
    * Login via LoginGate (legacy email-based credentials with hash)
@@ -239,6 +325,11 @@ export function AuthProvider({ children }) {
       localStorage.removeItem("panda_user");
       sessionStorage.removeItem("panda_auth");
       sessionStorage.removeItem("panda_auth_token");
+      // Cleanup Panda SDK
+      if (typeof Panda !== "undefined") {
+        Panda.Auth?.syncUser(null);
+        Panda.Wallet?.destroy();
+      }
     } catch (err) {
       setError(err.message);
     }

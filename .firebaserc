@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "panda-factory"
+  },
   "targets": {},
   "etags": {}
 }
