@@ -1,4 +1,7 @@
 {
+  "database": {
+    "rules": "00.credentials/database.rules.json"
+  },
   "firestore": {
     "database": "(default)",
     "location": "southamerica-east1",
@@ -7,11 +10,7 @@
   },
   "hosting": {
     "public": "11.pf-app/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
