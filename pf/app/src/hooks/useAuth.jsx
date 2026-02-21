@@ -330,6 +330,8 @@ export function AuthProvider({ children }) {
         Panda.Auth?.syncUser(null);
         Panda.Wallet?.destroy();
       }
+      // Redirect to landing page (login lives there now)
+      window.location.href = "../";
     } catch (err) {
       setError(err.message);
     }
