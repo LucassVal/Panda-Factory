@@ -3,7 +3,7 @@ import { useGasometer } from "../hooks/useGasometer";
 import "./PFGasometerPanel.css";
 
 /**
- * ⛽ GasometerPanel v1.0 — GAS Usage Dashboard
+ * ⛽ GasometerPanel v2.0 — GAS Usage Dashboard
  * Real-time monitoring of Google Apps Script execution quota.
  *
  * Features:
@@ -17,7 +17,15 @@ import "./PFGasometerPanel.css";
  */
 
 export function GasometerPanel({ onClose }) {
-  const { quota, executionLog, topOperations, alerts, isLoading, refresh } = useGasometer();
+  const {
+    quota,
+    executionLog,
+    topOperations,
+    alerts,
+    isLoading,
+    mode,
+    refresh,
+  } = useGasometer();
   const [activeTab, setActiveTab] = useState("overview");
 
   const formatNumber = (n) => {
@@ -34,7 +42,10 @@ export function GasometerPanel({ onClose }) {
 
   const formatTime = (iso) => {
     const d = new Date(iso);
-    return d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   // AI suggestions based on usage patterns
@@ -51,7 +62,9 @@ export function GasometerPanel({ onClose }) {
       <div className="gasometer-panel">
         <div className="gasometer-header">
           <h3>⛽ Gasômetro</h3>
-          <button className="gasometer-close" onClick={onClose}>✕</button>
+          <button className="gasometer-close" onClick={onClose}>
+            ✕
+          </button>
         </div>
         <div className="gasometer-loading">
           <div className="gasometer-spinner" />
@@ -67,11 +80,31 @@ export function GasometerPanel({ onClose }) {
       <div className="gasometer-header">
         <div className="gasometer-title">
           <h3>⛽ Gasômetro</h3>
-          <span className="gasometer-badge">GAS Monitor v1.0</span>
+          <span className="gasometer-badge">GAS Monitor v2.0</span>
+          <span
+            className="gasometer-badge"
+            style={{
+              background:
+                mode === "real"
+                  ? "rgba(16,185,129,0.15)"
+                  : "rgba(245,158,11,0.15)",
+              color: mode === "real" ? "#10b981" : "#f59e0b",
+            }}
+          >
+            {mode === "real" ? "🟢 Live" : "🟡 Mock"}
+          </span>
         </div>
         <div className="gasometer-actions">
-          <button className="gasometer-refresh" onClick={refresh} title="Refresh">🔄</button>
-          <button className="gasometer-close" onClick={onClose}>✕</button>
+          <button
+            className="gasometer-refresh"
+            onClick={refresh}
+            title="Refresh"
+          >
+            🔄
+          </button>
+          <button className="gasometer-close" onClick={onClose}>
+            ✕
+          </button>
         </div>
       </div>
 
@@ -79,7 +112,10 @@ export function GasometerPanel({ onClose }) {
       {alerts.length > 0 && (
         <div className="gasometer-alerts">
           {alerts.map((a, i) => (
-            <div key={i} className={`gasometer-alert gasometer-alert-${a.type}`}>
+            <div
+              key={i}
+              className={`gasometer-alert gasometer-alert-${a.type}`}
+            >
               {a.message}
             </div>
           ))}
@@ -120,7 +156,9 @@ export function GasometerPanel({ onClose }) {
               </div>
               <div className="gasometer-gauge-stats">
                 <span>{formatNumber(quota.used)} used</span>
-                <span className="gasometer-gauge-pct">{quota.percentage.toFixed(2)}%</span>
+                <span className="gasometer-gauge-pct">
+                  {quota.percentage.toFixed(2)}%
+                </span>
                 <span>{formatNumber(quota.remaining)} remaining</span>
               </div>
             </div>
@@ -129,22 +167,30 @@ export function GasometerPanel({ onClose }) {
             <div className="gasometer-stats-grid">
               <div className="gasometer-stat-card">
                 <div className="gasometer-stat-icon">📈</div>
-                <div className="gasometer-stat-value">{formatNumber(quota.used)}</div>
+                <div className="gasometer-stat-value">
+                  {formatNumber(quota.used)}
+                </div>
                 <div className="gasometer-stat-label">Executions Today</div>
               </div>
               <div className="gasometer-stat-card">
                 <div className="gasometer-stat-icon">⛽</div>
-                <div className="gasometer-stat-value">{formatNumber(quota.remaining)}</div>
+                <div className="gasometer-stat-value">
+                  {formatNumber(quota.remaining)}
+                </div>
                 <div className="gasometer-stat-label">Remaining</div>
               </div>
               <div className="gasometer-stat-card">
                 <div className="gasometer-stat-icon">🎯</div>
-                <div className="gasometer-stat-value">{executionLog.filter(e => e.status === "success").length}</div>
+                <div className="gasometer-stat-value">
+                  {executionLog.filter((e) => e.status === "success").length}
+                </div>
                 <div className="gasometer-stat-label">Success Rate</div>
               </div>
               <div className="gasometer-stat-card">
                 <div className="gasometer-stat-icon">❌</div>
-                <div className="gasometer-stat-value">{executionLog.filter(e => e.status === "error").length}</div>
+                <div className="gasometer-stat-value">
+                  {executionLog.filter((e) => e.status === "error").length}
+                </div>
                 <div className="gasometer-stat-label">Errors</div>
               </div>
             </div>
@@ -158,7 +204,9 @@ export function GasometerPanel({ onClose }) {
                     <span className="gasometer-op-rank">#{i + 1}</span>
                     <span className="gasometer-op-name">{op.operation}</span>
                     <span className="gasometer-op-count">{op.count}×</span>
-                    <span className="gasometer-op-cost">{op.totalCost} exec</span>
+                    <span className="gasometer-op-cost">
+                      {op.totalCost} exec
+                    </span>
                     <div className="gasometer-op-bar">
                       <div
                         className="gasometer-op-bar-fill"
@@ -179,17 +227,28 @@ export function GasometerPanel({ onClose }) {
           <div className="gasometer-history">
             <div className="gasometer-history-header">
               <span>Last 50 Operations</span>
-              <span className="gasometer-history-count">{executionLog.length} entries</span>
+              <span className="gasometer-history-count">
+                {executionLog.length} entries
+              </span>
             </div>
             <div className="gasometer-history-list">
               {executionLog.map((entry) => (
-                <div key={entry.id} className={`gasometer-history-row ${entry.status}`}>
+                <div
+                  key={entry.id}
+                  className={`gasometer-history-row ${entry.status}`}
+                >
                   <span className="gasometer-history-status">
                     {entry.status === "success" ? "✅" : "❌"}
                   </span>
-                  <span className="gasometer-history-op">{entry.operation}</span>
-                  <span className="gasometer-history-cost">{entry.cost} exec</span>
-                  <span className="gasometer-history-time">{formatTime(entry.timestamp)}</span>
+                  <span className="gasometer-history-op">
+                    {entry.operation}
+                  </span>
+                  <span className="gasometer-history-cost">
+                    {entry.cost} exec
+                  </span>
+                  <span className="gasometer-history-time">
+                    {formatTime(entry.timestamp)}
+                  </span>
                 </div>
               ))}
             </div>
@@ -211,7 +270,10 @@ export function GasometerPanel({ onClose }) {
               ))}
             </div>
             <div className="gasometer-ai-footer">
-              <p>These suggestions are generated based on your usage patterns. Apply them to reduce GAS consumption by up to 60%.</p>
+              <p>
+                These suggestions are generated based on your usage patterns.
+                Apply them to reduce GAS consumption by up to 60%.
+              </p>
             </div>
           </div>
         )}

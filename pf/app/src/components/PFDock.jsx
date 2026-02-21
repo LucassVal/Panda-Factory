@@ -20,6 +20,7 @@ function PFDock({
   onFinanceClick,
   onGasometerClick,
   onCouncilClick,
+  onDiagnosticsClick,
   plugins = [],
   onPluginOpen,
   onPluginClose,
@@ -202,7 +203,7 @@ function PFDock({
 
         <div className="pf-dock-items">
           {/* ── CORE TOOLS ─── */}
-          
+
           {/* Drawing Tools - Opens Right Toolbar */}
           <button
             className="pf-dock-item section-toggle"
@@ -234,7 +235,11 @@ function PFDock({
             title="PANDA STORE (Ctrl+K)"
             aria-label="Abrir Panda Store"
           >
-            <img src="./panda-logo.png" alt="Panda Store" style={{ width: 28, height: 28 }} />
+            <img
+              src="./panda-logo.png"
+              alt="Panda Store"
+              style={{ width: 28, height: 28 }}
+            />
           </button>
 
           <div className="pf-dock-separator" />
@@ -285,6 +290,18 @@ function PFDock({
             ⚙️
           </button>
 
+          {/* Diagnostics — Founder only */}
+          {isFounder && (
+            <button
+              className="pf-dock-item"
+              onClick={onDiagnosticsClick}
+              title="DIAGNOSTICS"
+              aria-label="Open system diagnostics"
+            >
+              🩺
+            </button>
+          )}
+
           {/* Dev Mode — Available to all users */}
           <button
             className={`pf-dock-item dev-toggle ${devModeActive ? "active" : ""}`}
@@ -324,7 +341,7 @@ function PFDock({
         <div
           className="pf-dock-context-menu"
           role="menu"
-          aria-label={`Opções para ${contextMenu.plugin.name || 'plugin'}`}
+          aria-label={`Opções para ${contextMenu.plugin.name || "plugin"}`}
           style={{
             position: "fixed",
             left: contextMenu.x,
@@ -348,7 +365,8 @@ function PFDock({
               borderBottom: "1px solid rgba(102, 126, 234, 0.15)",
             }}
           >
-            {contextMenu.plugin.icon || "🧩"} {contextMenu.plugin.name?.toUpperCase()}
+            {contextMenu.plugin.icon || "🧩"}{" "}
+            {contextMenu.plugin.name?.toUpperCase()}
           </div>
           <button
             style={{
@@ -362,7 +380,9 @@ function PFDock({
               textAlign: "left",
               fontSize: 13,
             }}
-            onMouseEnter={(e) => (e.target.style.background = "rgba(102, 126, 234, 0.15)")}
+            onMouseEnter={(e) =>
+              (e.target.style.background = "rgba(102, 126, 234, 0.15)")
+            }
             onMouseLeave={(e) => (e.target.style.background = "none")}
             onClick={() => handlePluginClick(contextMenu.plugin)}
             role="menuitem"
@@ -381,7 +401,9 @@ function PFDock({
               textAlign: "left",
               fontSize: 13,
             }}
-            onMouseEnter={(e) => (e.target.style.background = "rgba(251, 191, 36, 0.15)")}
+            onMouseEnter={(e) =>
+              (e.target.style.background = "rgba(251, 191, 36, 0.15)")
+            }
             onMouseLeave={(e) => (e.target.style.background = "none")}
             onClick={handleCloseTab}
             role="menuitem"
@@ -400,7 +422,9 @@ function PFDock({
               textAlign: "left",
               fontSize: 13,
             }}
-            onMouseEnter={(e) => (e.target.style.background = "rgba(239, 68, 68, 0.15)")}
+            onMouseEnter={(e) =>
+              (e.target.style.background = "rgba(239, 68, 68, 0.15)")
+            }
             onMouseLeave={(e) => (e.target.style.background = "none")}
             onClick={handleUninstall}
             role="menuitem"

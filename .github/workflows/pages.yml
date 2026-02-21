@@ -28,40 +28,40 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: "11.pf-app/package-lock.json"
+          cache-dependency-path: "pf/app/package-lock.json"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: 📦 Install Dependencies
-        working-directory: 11.pf-app
+        working-directory: pf/app
         run: npm ci
 
       - name: 🔨 Build JAM React App
-        working-directory: 11.pf-app
+        working-directory: pf/app
         run: npm run build
 
       - name: 📋 Copy Root Assets to Dist
         run: |
           # Prevent Jekyll from processing the output
-          touch 11.pf-app/../dist/jam/.nojekyll
+          touch pf/dist/jam/.nojekyll
           # Copy manifest and PWA assets to dist
-          cp manifest.json 11.pf-app/../dist/jam/ 2>/dev/null || true
-          cp favicon.ico 11.pf-app/../dist/jam/ 2>/dev/null || true
-          echo "✅ Assets copied to dist/jam"
+          cp pf/manifest.json pf/dist/jam/ 2>/dev/null || true
+          cp pf/favicon.ico pf/dist/jam/ 2>/dev/null || true
+          echo "✅ Assets copied to pf/dist/jam"
 
       - name: 📋 Verify Build Output
         run: |
-          echo "=== dist/jam contents ==="
-          ls -la dist/jam/
-          ls -la dist/jam/assets/ || echo "No assets dir"
+          echo "=== pf/dist/jam contents ==="
+          ls -la pf/dist/jam/
+          ls -la pf/dist/jam/assets/ || echo "No assets dir"
           echo "=== index.html head ==="
-          head -5 dist/jam/index.html
+          head -5 pf/dist/jam/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/jam
+          path: pf/dist/jam
 
   deploy:
     environment:
@@ -76,5 +76,5 @@ jobs:
 
       - name: 🎉 Deployment Complete
         run: |
-          echo "Panda Fabrics UI v7.2 is LIVE!"
+          echo "Panda Factory UI is LIVE!"
           echo "URL: ${{ steps.deployment.outputs.page_url }}"

@@ -1,0 +1,267 @@
+/* ═══════════════════════════════════════════════
+   🪙 PFBuyPC — PC Purchase Panel Styles
+   Phase 1: Founder Direct Sales
+   ═══════════════════════════════════════════════ */
+
+.buypc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.buypc-panel {
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: min(95vw, 900px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Header ── */
+.buypc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.buypc-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.buypc-subtitle {
+  margin: 4px 0 0;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.buypc-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.buypc-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* ── Balance ── */
+.buypc-balance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+}
+
+.buypc-balance-label {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.buypc-balance-value {
+  color: #10b981;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* ── Package Grid ── */
+.buypc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.buypc-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.buypc-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.buypc-card.popular {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.06);
+}
+.buypc-card.popular:hover {
+  border-color: rgba(245, 158, 11, 0.6);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);
+}
+
+.buypc-card.partner {
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+/* ── Badges ── */
+.buypc-popular-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.buypc-discount-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* ── Card Content ── */
+.buypc-card-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.buypc-card-label {
+  margin: 0 0 12px;
+  color: #e2e8f0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.buypc-card-pc {
+  color: #f59e0b;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.buypc-card-pc small {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.buypc-card-price {
+  color: #94a3b8;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.buypc-card-price small {
+  font-size: 0.75rem;
+}
+
+.buypc-card-savings {
+  color: #10b981;
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+}
+
+.buypc-card-btn {
+  width: 100%;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.buypc-card-btn:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+.buypc-card-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Payment Methods ── */
+.buypc-methods {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 12px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.buypc-method-soon {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Footer ── */
+.buypc-footer {
+  display: flex;
+  justify-content: space-between;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+/* ── Animation ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .buypc-panel {
+    padding: 20px;
+  }
+  .buypc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .buypc-methods {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .buypc-grid {
+    grid-template-columns: 1fr;
+  }
+}

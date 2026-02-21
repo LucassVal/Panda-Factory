@@ -1,0 +1,481 @@
+/**
+ * 🗺️ PF System Map — Styles
+ * Dark theme grid layout with Core vs Extension Point visual boundary.
+ */
+
+.smap-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  overflow-y: auto;
+}
+
+/* ── Header ── */
+.smap-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #21262d;
+  background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.smap-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.smap-title-icon {
+  font-size: 26px;
+}
+
+.smap-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e6edf3;
+  letter-spacing: -0.5px;
+}
+
+.smap-version {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #21262d;
+  color: #8b949e;
+}
+
+.smap-boot-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+.smap-boot-ready {
+  background: #23863633;
+  color: #3fb950;
+  border: 1px solid #23863666;
+}
+
+.smap-boot-booting {
+  background: #d2992233;
+  color: #d29922;
+  border: 1px solid #d2992266;
+}
+
+.smap-boot-idle,
+.smap-boot-error,
+.smap-boot-unknown {
+  background: #21262d;
+  color: #8b949e;
+  border: 1px solid #30363d;
+}
+
+/* ── Coverage Bar ── */
+.smap-coverage {
+  margin-bottom: 10px;
+}
+
+.smap-coverage-bar {
+  height: 6px;
+  background: #21262d;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.smap-coverage-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #238636, #3fb950);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.smap-coverage-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.smap-stat {
+  color: #8b949e;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.smap-stat.wired { color: #3fb950; }
+.smap-stat.mixed { color: #d29922; }
+.smap-stat.mock { color: #f85149; }
+.smap-stat.loaded { color: #a371f7; }
+.smap-stat.coverage {
+  font-weight: 700;
+  color: #e6edf3;
+  margin-left: auto;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* ── Responsibility Banner ── */
+.smap-responsibility {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #161b2288;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.smap-resp-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+
+.smap-resp-badge.core {
+  background: #23863633;
+  color: #3fb950;
+  border: 1px solid #23863666;
+}
+
+.smap-resp-badge.ext {
+  background: #58a6ff22;
+  color: #58a6ff;
+  border: 1px solid #58a6ff44;
+}
+
+.smap-resp-text {
+  font-size: 11px;
+  color: #8b949e;
+}
+
+.smap-resp-divider {
+  color: #30363d;
+  font-size: 14px;
+}
+
+/* ── Actions ── */
+.smap-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.smap-btn {
+  padding: 6px 14px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #21262d;
+  color: #c9d1d9;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.smap-btn:hover {
+  background: #30363d;
+  border-color: #484f58;
+}
+
+.smap-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.smap-btn-primary {
+  background: #238636;
+  border-color: #2ea043;
+  color: #fff;
+  font-weight: 600;
+}
+
+.smap-btn-primary:hover {
+  background: #2ea043;
+}
+
+.smap-btn-test {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  border-radius: 50%;
+  background: #0d111766;
+  border: 1px solid #30363d;
+}
+
+.smap-btn-test:hover {
+  background: #21262d;
+  transform: scale(1.1);
+}
+
+/* ── Sections ── */
+.smap-section {
+  padding: 16px 24px 8px;
+}
+
+.smap-section-header {
+  margin-bottom: 12px;
+}
+
+.smap-section-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.smap-section-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.smap-section-domain-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  color: #0d1117;
+  letter-spacing: 0.5px;
+}
+
+.smap-section-subtitle {
+  margin: 0;
+  font-size: 12px;
+  color: #6e7681;
+}
+
+/* ── Card Grid ── */
+.smap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.smap-card {
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  background: #161b22;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.smap-card:hover {
+  border-color: #30363d;
+}
+
+.smap-card.expanded {
+  border-color: #30363d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Card Header ── */
+.smap-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #c9d1d9;
+  font-family: inherit;
+  border-left: 4px solid;
+  transition: background 0.15s ease;
+}
+
+.smap-card-header:hover {
+  background: #21262d44;
+}
+
+.smap-card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.smap-card-icon {
+  font-size: 22px;
+  width: 32px;
+  text-align: center;
+}
+
+.smap-card-info {
+  text-align: left;
+}
+
+.smap-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6edf3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.smap-status-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 4px;
+  color: #0d1117;
+  letter-spacing: 0.5px;
+}
+
+.smap-card-desc {
+  font-size: 11px;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.smap-card-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.smap-expand-arrow {
+  font-size: 10px;
+  color: #484f58;
+  transition: transform 0.2s ease;
+}
+
+/* ── Card Body (expanded) ── */
+.smap-card-body {
+  border-top: 1px solid #21262d;
+  background: #0d111799;
+  padding: 12px 16px;
+  animation: smapSlideDown 0.2s ease;
+}
+
+@keyframes smapSlideDown {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 500px; }
+}
+
+.smap-methods-block {
+  margin-bottom: 10px;
+}
+
+.smap-sub-ns {
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 2px solid #30363d;
+}
+
+.smap-block-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.smap-method-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.smap-method-tag {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #c9d1d9;
+}
+
+/* ── Test Results ── */
+.smap-test-results {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #21262d;
+}
+
+.smap-test-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.smap-test-row.pass { color: #3fb950; }
+.smap-test-row.fail { color: #f85149; }
+
+.smap-test-icon {
+  font-size: 13px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.smap-test-label {
+  font-weight: 600;
+  min-width: 120px;
+  color: #e6edf3;
+}
+
+.smap-test-detail {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 11px;
+  color: #8b949e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Empty State ── */
+.smap-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+  color: #484f58;
+}
+
+.smap-empty p {
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* ── Footer ── */
+.smap-footer {
+  padding: 12px 24px;
+  border-top: 1px solid #21262d;
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: #484f58;
+  margin-top: auto;
+}
+
+/* ── Scrollbar ── */
+.smap-container::-webkit-scrollbar { width: 6px; }
+.smap-container::-webkit-scrollbar-track { background: transparent; }
+.smap-container::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+.smap-container::-webkit-scrollbar-thumb:hover { background: #484f58; }

@@ -10,9 +10,9 @@
  *     ├── callGAS.post()   → doPost actions (purchase, wallet, AI dispatch)
  *     └── callGAS.stream() → future: streaming responses
  *
- * @see PF_GAS_REFERENCE.md
+ * @version 1.3.0 — License namespace added (TICKET-12)
  * @see PF_BACKEND_REFERENCE.md
- * @version 1.0.0
+ * @version 1.2.0
  */
 
 // ── Config ──
@@ -167,6 +167,8 @@ export const Store = {
 export const Wallet = {
   getBalance: () => gasPost("GET_BALANCE"),
   recharge: (amount) => gasPost("RECHARGE", { amount }),
+  getHistory: () => gasPost("GET_HISTORY"),
+  transfer: (toUid, amount) => gasPost("TRANSFER", { toUid, amount }),
 };
 
 /** Gasometer — Usage stats */
@@ -182,16 +184,48 @@ export const AI = {
     gasPost("DISPATCH", { type: "TOOL_CALL", payload: { tool, args } }),
 };
 
-/** Stripe — Payment flow */
+/** Brain — Panda Chat AI (Gemini) */
+export const Brain = {
+  chat: (message, options = {}) =>
+    gasPost("BRAIN_CHAT", { message, ...options }),
+  analyze: (data, analysisType) =>
+    gasPost("BRAIN_ANALYZE", { data, analysisType }),
+  getGems: () => gasPost("BRAIN_GEMS"),
+};
+
+/** License — Module license management (TICKET-12) */
+export const License = {
+  check: (moduleId) => gasPost("LICENSE_CHECK", { moduleId }),
+  list: () => gasPost("LICENSE_LIST"),
+  activate: (code) => gasPost("LICENSE_ACTIVATE", { code }),
+};
+
+/** Stripe — Payment flow (Phase 1: Founder sells directly) */
 export const Payments = {
-  createStripeCheckout: (amountPC, priceUSD) =>
-    gasPost("CREATE_PAYMENT_STRIPE", { amountPC, priceUSD }),
+  createStripeCheckout: (amountPC, priceUSD, packageId) =>
+    gasPost("CREATE_PAYMENT_STRIPE", { amountPC, priceUSD, packageId }),
+  createCryptoIntent: (amountPC, priceUSDC) =>
+    gasPost("CREATE_PAYMENT_CRYPTO", { amountPC, priceUSDC }),
 };
 
 /** Status — Backend health */
 export const Status = {
   ping: () => gasGet("ping"),
   health: () => gasGet("status"),
+};
+
+/** Drive — Google Drive file management (Affiliate Materials) */
+export const Drive = {
+  listFiles: (folderId) => gasPost("DRIVE_LIST_FILES", { folderId }),
+  readFile: (fileId) => gasPost("DRIVE_READ", { fileId }),
+  getShareLink: (fileId) => gasPost("DRIVE_SHARE_LINK", { fileId }),
+  initFounderFolder: () => gasPost("DRIVE_INIT_FOUNDER"),
+};
+
+/** Founder — Sales & webhook dashboard */
+export const Founder = {
+  getRecentSales: (limit = 20) => gasPost("FOUNDER_RECENT_SALES", { limit }),
+  getWebhookLogs: (limit = 50) => gasPost("FOUNDER_WEBHOOK_LOGS", { limit }),
 };
 
 export default {
@@ -202,6 +236,10 @@ export default {
   Wallet,
   Gasometer,
   AI,
+  Brain,
+  License,
   Payments,
   Status,
+  Drive,
+  Founder,
 };

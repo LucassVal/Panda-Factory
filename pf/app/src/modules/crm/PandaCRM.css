@@ -1,0 +1,445 @@
+/**
+ * 📱 PandaCRM v1.0 — Module Styles (TICKET-13)
+ * Dark theme, consistent with Panda Factory design system.
+ */
+
+.panda-crm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.crm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #161b22, #1c2333);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.crm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.crm-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.crm-stats {
+  display: flex;
+  gap: 12px;
+}
+
+.crm-stat {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.crm-stat.pipeline { color: #f59e0b; }
+.crm-stat.won { color: #10b981; }
+
+.crm-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crm-search {
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #c9d1d9;
+  font-size: 12px;
+  width: 160px;
+  outline: none;
+}
+
+.crm-search:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+}
+
+.crm-view-toggle {
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.crm-view-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #8b949e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.crm-view-btn.active {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+.crm-add-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.crm-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.crm-close-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #8b949e;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Content Area ── */
+.crm-content {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+}
+
+/* ── Kanban View ── */
+.crm-kanban {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.crm-kanban-column {
+  min-width: 220px;
+  max-width: 260px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.crm-kanban-header {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid;
+  font-size: 13px;
+}
+
+.crm-kanban-title { font-weight: 600; }
+
+.crm-kanban-count {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.crm-kanban-cards {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.crm-kanban-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px;
+  cursor: default;
+  transition: all 0.2s;
+}
+
+.crm-kanban-card:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.crm-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+  margin-bottom: 4px;
+}
+
+.crm-card-company {
+  font-size: 11px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+
+.crm-card-value {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.crm-card-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.crm-card-actions button {
+  padding: 2px 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.crm-card-actions button:hover { opacity: 1; }
+
+.crm-card-stage-select {
+  flex: 1;
+  padding: 2px 4px;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #c9d1d9;
+  cursor: pointer;
+}
+
+.crm-kanban-empty {
+  text-align: center;
+  padding: 20px 8px;
+  font-size: 11px;
+  color: #484f58;
+  font-style: italic;
+}
+
+.crm-kanban-total {
+  padding: 8px 12px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 600;
+  color: #10b981;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── List View ── */
+.crm-list { overflow: auto; }
+
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.crm-table th {
+  text-align: left;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+  font-size: 11px;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crm-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.crm-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.crm-cell-name { font-weight: 600; color: #e6edf3; }
+
+.crm-cell-stage {
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #c9d1d9;
+  font-size: 11px;
+}
+
+.crm-cell-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.crm-cell-actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.crm-cell-actions button:hover { opacity: 1; }
+
+/* ── Contact Form ── */
+.crm-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.crm-form {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.crm-form h3 {
+  margin: 0 0 20px;
+  font-size: 16px;
+  color: #e6edf3;
+}
+
+.crm-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.crm-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.crm-form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.crm-form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crm-form-group input,
+.crm-form-group select,
+.crm-form-group textarea {
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #c9d1d9;
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.crm-form-group input:focus,
+.crm-form-group select:focus,
+.crm-form-group textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1);
+}
+
+.crm-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.crm-btn-cancel {
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: transparent;
+  color: #8b949e;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.crm-btn-save {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.crm-btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ── Loading State ── */
+.crm-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  color: #8b949e;
+}
+
+/* ── Store button installed state ── */
+.pf-store-card-btn.installed {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  cursor: default;
+  opacity: 0.8;
+}

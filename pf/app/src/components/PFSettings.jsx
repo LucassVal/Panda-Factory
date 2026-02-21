@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useWallet } from "../hooks/useWallet";
 import "./PFSettings.css";
 
 /**
@@ -34,7 +35,7 @@ const GEMINI_MODELS = [
   { id: "video", name: "🎬 Gemini Veo", desc: "Geração de vídeos" },
 ];
 
-function PFSettings({ isOpen, onClose, embedded = false }) {
+function PFSettings({ isOpen, onClose, embedded = false, uid }) {
   const [activeSection, setActiveSection] = useState("profile");
 
   // Dynamic user data from localStorage
@@ -179,7 +180,11 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
     <div className="pf-settings-sidebar">
       <div className="pf-settings-user">
         <div className="pf-settings-avatar">
-          <img src={PANDA_LOGO} alt="Panda" style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
+          <img
+            src={PANDA_LOGO}
+            alt="Panda"
+            style={{ width: "32px", height: "32px", borderRadius: "50%" }}
+          />
         </div>
         <div className="pf-settings-user-info">
           <h4>{userData.displayName}</h4>
@@ -278,33 +283,58 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
                 />
               ))}
             </div>
-            <div className="pf-settings-sublabel" style={{ marginTop: "8px", fontSize: "11px", opacity: 0.6 }}>
-              Selecionada: {ACCENT_COLORS.find((c) => c.color === accentColor)?.name || accentColor}
+            <div
+              className="pf-settings-sublabel"
+              style={{ marginTop: "8px", fontSize: "11px", opacity: 0.6 }}
+            >
+              Selecionada:{" "}
+              {ACCENT_COLORS.find((c) => c.color === accentColor)?.name ||
+                accentColor}
             </div>
           </div>
 
           <div className="pf-settings-card">
             <div className="pf-settings-label">🏷️ Logo Personalizado</div>
             <div className="pf-settings-sublabel">
-              Substitua o logo padrão por um personalizado (canvas welcome, header)
+              Substitua o logo padrão por um personalizado (canvas welcome,
+              header)
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", marginTop: "12px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                marginTop: "12px",
+              }}
+            >
               <div
                 style={{
                   width: "64px",
                   height: "64px",
                   borderRadius: "12px",
-                  background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+                  background: darkMode
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(0,0,0,0.05)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  border: "2px dashed " + (darkMode ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"),
+                  border:
+                    "2px dashed " +
+                    (darkMode ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"),
                 }}
               >
                 <img
-                  src={localStorage.getItem("panda_custom_logo") || "./panda-icon.png"}
+                  src={
+                    localStorage.getItem("panda_custom_logo") ||
+                    "./panda-icon.png"
+                  }
                   alt="Logo"
-                  style={{ width: "48px", height: "48px", borderRadius: "8px", objectFit: "contain" }}
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "8px",
+                    objectFit: "contain",
+                  }}
                 />
               </div>
               <div style={{ flex: 1 }}>
@@ -325,14 +355,20 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
                     width: "100%",
                     padding: "8px 12px",
                     borderRadius: "8px",
-                    border: darkMode ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
-                    background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+                    border: darkMode
+                      ? "1px solid rgba(255,255,255,0.15)"
+                      : "1px solid rgba(0,0,0,0.15)",
+                    background: darkMode
+                      ? "rgba(255,255,255,0.05)"
+                      : "rgba(0,0,0,0.03)",
                     color: darkMode ? "#e0e0e0" : "#333",
                     fontSize: "13px",
                     outline: "none",
                   }}
                 />
-                <div style={{ marginTop: "6px", fontSize: "11px", opacity: 0.5 }}>
+                <div
+                  style={{ marginTop: "6px", fontSize: "11px", opacity: 0.5 }}
+                >
                   Cole a URL de uma imagem ou faça upload abaixo
                 </div>
               </div>
@@ -361,7 +397,10 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
                     if (file && file.size < 500000) {
                       const reader = new FileReader();
                       reader.onload = (ev) => {
-                        localStorage.setItem("panda_custom_logo", ev.target.result);
+                        localStorage.setItem(
+                          "panda_custom_logo",
+                          ev.target.result,
+                        );
                         window.location.reload();
                       };
                       reader.readAsDataURL(file);
@@ -407,8 +446,12 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
                 padding: "8px 12px",
                 marginTop: "10px",
                 borderRadius: "8px",
-                border: darkMode ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
-                background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+                border: darkMode
+                  ? "1px solid rgba(255,255,255,0.15)"
+                  : "1px solid rgba(0,0,0,0.15)",
+                background: darkMode
+                  ? "rgba(255,255,255,0.05)"
+                  : "rgba(0,0,0,0.03)",
                 color: darkMode ? "#e0e0e0" : "#333",
                 fontSize: "13px",
                 outline: "none",
@@ -416,9 +459,13 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
             />
           </div>
 
-          <div className="pf-settings-info" style={{ fontSize: "12px", marginTop: "8px" }}>
-            ℹ️ <strong>White-Label para devs:</strong> personalize cores, logo e nome. Configs persistem em{" "}
-            <code>localStorage</code> (panda_accent_color, panda_custom_logo, panda_custom_name).
+          <div
+            className="pf-settings-info"
+            style={{ fontSize: "12px", marginTop: "8px" }}
+          >
+            ℹ️ <strong>White-Label para devs:</strong> personalize cores, logo e
+            nome. Configs persistem em <code>localStorage</code>{" "}
+            (panda_accent_color, panda_custom_logo, panda_custom_name).
           </div>
         </div>
       )}
@@ -432,7 +479,9 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">Notificações por Email</div>
-                <div className="pf-settings-sublabel">Receber updates por email</div>
+                <div className="pf-settings-sublabel">
+                  Receber updates por email
+                </div>
               </div>
               <div
                 className={`pf-toggle ${notifications.email ? "active" : ""}`}
@@ -488,7 +537,9 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">Auto-sugestões</div>
-                <div className="pf-settings-sublabel">IA ajuda enquanto você trabalha</div>
+                <div className="pf-settings-sublabel">
+                  IA ajuda enquanto você trabalha
+                </div>
               </div>
               <div className="pf-toggle active" />
             </div>
@@ -498,54 +549,11 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
 
       {/* Wallet Section */}
       {activeSection === "wallet" && (
-        <div className="pf-settings-section">
-          <h2>💰 Wallet</h2>
-          <p>Gerencie seus Panda Coins</p>
-          <div className="pf-settings-card pf-wallet-hero">
-            <div className="pf-wallet-balance">
-              <div className="pf-wallet-icon">
-                <img src="./panda-icon.png" alt="Panda" style={{ width: "24px", height: "24px" }} />
-              </div>
-              <div className="pf-wallet-amount">500 PC</div>
-              <div className="pf-wallet-usd">≈ R$ 5,00 BRL</div>
-            </div>
-            <div className="pf-wallet-actions">
-              <button className="pf-btn-primary">💳 Comprar PC</button>
-              <button className="pf-btn-secondary">📤 Transferir</button>
-            </div>
-          </div>
-          <div className="pf-settings-card">
-            <div className="pf-settings-row">
-              <div>
-                <div className="pf-settings-label">Plano Atual</div>
-                <div className="pf-settings-sublabel">Founder Edition (Lifetime)</div>
-              </div>
-              <span className="pf-status-badge online">Ativo</span>
-            </div>
-            <div className="pf-settings-row">
-              <div>
-                <div className="pf-settings-label">Créditos Mensais</div>
-                <div className="pf-settings-sublabel">100 PC grátis/mês</div>
-              </div>
-              <span className="pf-status-badge online">Disponível</span>
-            </div>
-            <div className="pf-settings-row">
-              <div>
-                <div className="pf-settings-label">⛏️ Mining Earned</div>
-                <div className="pf-settings-sublabel">Total ganho via Partner Mode</div>
-              </div>
-              <span
-                className="pf-status-badge"
-                style={{
-                  background: miningEnabled ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.05)",
-                  color: miningEnabled ? "#10b981" : "#888",
-                }}
-              >
-                {miningTotal} PC {miningEnabled ? "" : "(OFF)"}
-              </span>
-            </div>
-          </div>
-        </div>
+        <WalletSection
+          uid={uid}
+          miningEnabled={miningEnabled}
+          miningTotal={miningTotal}
+        />
       )}
 
       {/* Mining / Partner Mode Section */}
@@ -561,24 +569,39 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               borderRadius: "12px",
             }}
           >
-            <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+            <div
+              style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}
+            >
               <span style={{ fontSize: "22px" }}>ℹ️</span>
               <div style={{ lineHeight: "1.6", fontSize: "13px" }}>
-                <div style={{ fontWeight: 700, marginBottom: "4px", color: "var(--accent-color, #667eea)" }}>
+                <div
+                  style={{
+                    fontWeight: 700,
+                    marginBottom: "4px",
+                    color: "var(--accent-color, #667eea)",
+                  }}
+                >
                   Como funciona o Partner Mode
                 </div>
-                <div className="pf-settings-sublabel" style={{ lineHeight: "1.6" }}>
-                  Quando ativado, o Panda Factory utiliza CPU/GPU ociosa do seu computador para minerar
-                  criptomoeda de forma nativa (via Rust Agent). Você recebe <strong>60%</strong> do valor
-                  minerado convertido em Panda Coins — os outros 40% cobrem impostos, conversão e
-                  infraestrutura.
+                <div
+                  className="pf-settings-sublabel"
+                  style={{ lineHeight: "1.6" }}
+                >
+                  Quando ativado, o Panda Factory utiliza CPU/GPU ociosa do seu
+                  computador para minerar criptomoeda de forma nativa (via Rust
+                  Agent). Você recebe <strong>60%</strong> do valor minerado
+                  convertido em Panda Coins — os outros 40% cobrem impostos,
+                  conversão e infraestrutura.
                   <br />
                   <br />
-                  <strong>Padrão:</strong> Sempre desligado. <strong>Opt-in</strong> — você ativa manualmente.
+                  <strong>Padrão:</strong> Sempre desligado.{" "}
+                  <strong>Opt-in</strong> — você ativa manualmente.
                   <br />
-                  <strong>Controle total:</strong> Desative a qualquer momento aqui no Settings.
+                  <strong>Controle total:</strong> Desative a qualquer momento
+                  aqui no Settings.
                   <br />
-                  <strong>Sem surpresas:</strong> Consumo energético pode aumentar levemente com GPU ativada.
+                  <strong>Sem surpresas:</strong> Consumo energético pode
+                  aumentar levemente com GPU ativada.
                 </div>
               </div>
             </div>
@@ -595,15 +618,28 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               }}
             >
               <div style={{ fontSize: "32px", marginBottom: "8px" }}>⛏️</div>
-              <div style={{ fontWeight: 700, fontSize: "15px", color: "#f59e0b", marginBottom: "6px" }}>
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  color: "#f59e0b",
+                  marginBottom: "6px",
+                }}
+              >
                 Mineração Desligada
               </div>
               <div
                 className="pf-settings-sublabel"
-                style={{ lineHeight: "1.6", maxWidth: "420px", margin: "0 auto", fontSize: "13px" }}
+                style={{
+                  lineHeight: "1.6",
+                  maxWidth: "420px",
+                  margin: "0 auto",
+                  fontSize: "13px",
+                }}
               >
-                Ligue o Partner Mode e ganhe Panda Coins automaticamente enquanto seu computador está
-                ocioso. Sem custos extras, desative quando quiser.
+                Ligue o Partner Mode e ganhe Panda Coins automaticamente
+                enquanto seu computador está ocioso. Sem custos extras, desative
+                quando quiser.
               </div>
             </div>
           )}
@@ -612,18 +648,28 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               <div>
                 <div className="pf-settings-label">⛏️ Ativar Partner Mode</div>
                 <div className="pf-settings-sublabel">
-                  Mineração passiva com recursos ociosos (opt-in, desligado por padrão)
+                  Mineração passiva com recursos ociosos (opt-in, desligado por
+                  padrão)
                 </div>
               </div>
-              <div className={`pf-toggle ${miningEnabled ? "active" : ""}`} onClick={toggleMining} />
+              <div
+                className={`pf-toggle ${miningEnabled ? "active" : ""}`}
+                onClick={toggleMining}
+              />
             </div>
           </div>
           <div
             className="pf-settings-card"
-            style={{ opacity: miningEnabled ? 1 : 0.45, pointerEvents: miningEnabled ? "auto" : "none" }}
+            style={{
+              opacity: miningEnabled ? 1 : 0.45,
+              pointerEvents: miningEnabled ? "auto" : "none",
+            }}
           >
             <div className="pf-settings-label">Limites de Recursos</div>
-            <div className="pf-settings-sublabel" style={{ marginBottom: "12px" }}>
+            <div
+              className="pf-settings-sublabel"
+              style={{ marginBottom: "12px" }}
+            >
               Controle quanto do seu hardware é utilizado
             </div>
             <div className="pf-settings-row">
@@ -636,7 +682,11 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
                   step="5"
                   value={cpuLimit}
                   onChange={(e) => handleCpuLimit(e.target.value)}
-                  style={{ width: "100%", marginTop: "8px", accentColor: "#f59e0b" }}
+                  style={{
+                    width: "100%",
+                    marginTop: "8px",
+                    accentColor: "#f59e0b",
+                  }}
                 />
                 <div
                   style={{
@@ -656,9 +706,14 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
             <div className="pf-settings-row" style={{ marginTop: "8px" }}>
               <div>
                 <div className="pf-settings-label">🖥️ Mineração GPU</div>
-                <div className="pf-settings-sublabel">Ativar GPU para ganhos maiores</div>
+                <div className="pf-settings-sublabel">
+                  Ativar GPU para ganhos maiores
+                </div>
               </div>
-              <div className={`pf-toggle ${gpuMining ? "active" : ""}`} onClick={toggleGpu} />
+              <div
+                className={`pf-toggle ${gpuMining ? "active" : ""}`}
+                onClick={toggleGpu}
+              />
             </div>
           </div>
           <div className="pf-settings-card">
@@ -669,7 +724,9 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               <div>
                 <div className="pf-settings-label">Status</div>
               </div>
-              <span className={`pf-status-badge ${miningEnabled ? "online" : "offline"}`}>
+              <span
+                className={`pf-status-badge ${miningEnabled ? "online" : "offline"}`}
+              >
                 {miningEnabled
                   ? `⛏️ Minerando${gpuMining ? " (CPU+GPU)" : " (CPU)"}`
                   : "⏸️ Inativo"}
@@ -679,7 +736,13 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               <div>
                 <div className="pf-settings-label">Perfil de Hardware</div>
               </div>
-              <span style={{ fontWeight: 600, fontSize: "12px", color: gpuMining ? "#10b981" : "#f59e0b" }}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  fontSize: "12px",
+                  color: gpuMining ? "#10b981" : "#f59e0b",
+                }}
+              >
                 {gpuMining
                   ? cpuLimit >= 75
                     ? "🌲 Forest"
@@ -695,7 +758,13 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               <div>
                 <div className="pf-settings-label">Hashrate Estimado</div>
               </div>
-              <span style={{ fontWeight: 600, fontFamily: "monospace", fontSize: "13px" }}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  fontFamily: "monospace",
+                  fontSize: "13px",
+                }}
+              >
                 {miningEnabled
                   ? `~${gpuMining ? (cpuLimit >= 75 ? "4.2" : "2.8") : cpuLimit >= 50 ? "1.1" : "0.6"} KH/s`
                   : "— KH/s"}
@@ -705,13 +774,17 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               <div>
                 <div className="pf-settings-label">Ganho Estimado</div>
               </div>
-              <span style={{ fontWeight: 600, color: "#f59e0b" }}>~{estimatedPc} PC/dia</span>
+              <span style={{ fontWeight: 600, color: "#f59e0b" }}>
+                ~{estimatedPc} PC/dia
+              </span>
             </div>
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">Estimativa Mensal</div>
               </div>
-              <span style={{ fontWeight: 600, color: "#10b981" }}>~{estimatedPc * 30} PC/mês</span>
+              <span style={{ fontWeight: 600, color: "#10b981" }}>
+                ~{estimatedPc * 30} PC/mês
+              </span>
             </div>
             <div className="pf-settings-row">
               <div>
@@ -723,7 +796,9 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               <div>
                 <div className="pf-settings-label">Ciclo de Pagamento</div>
               </div>
-              <span style={{ fontWeight: 500, fontSize: "12px" }}>End-of-Day (23:59 UTC)</span>
+              <span style={{ fontWeight: 500, fontSize: "12px" }}>
+                End-of-Day (23:59 UTC)
+              </span>
             </div>
             <div className="pf-settings-row">
               <div>
@@ -734,10 +809,14 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
               </span>
             </div>
           </div>
-          <div className="pf-settings-info" style={{ fontSize: "11px", marginTop: "4px", opacity: 0.6 }}>
-            💡 Fator de conversão: x0.60 flat (60% User / 40% Panda). Válido para todos os tiers.
-            Execução real requer <strong>Rust Agent</strong> (binário nativo) — a interface web é apenas
-            o painel de controle.
+          <div
+            className="pf-settings-info"
+            style={{ fontSize: "11px", marginTop: "4px", opacity: 0.6 }}
+          >
+            💡 Fator de conversão: x0.60 flat (60% User / 40% Panda). Válido
+            para todos os tiers. Execução real requer{" "}
+            <strong>Rust Agent</strong> (binário nativo) — a interface web é
+            apenas o painel de controle.
           </div>
         </div>
       )}
@@ -751,28 +830,36 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">Autenticação 2FA</div>
-                <div className="pf-settings-sublabel">Proteção extra com Google Auth</div>
+                <div className="pf-settings-sublabel">
+                  Proteção extra com Google Auth
+                </div>
               </div>
               <button className="pf-btn-secondary">Configurar</button>
             </div>
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">Sessões Ativas</div>
-                <div className="pf-settings-sublabel">1 dispositivo conectado</div>
+                <div className="pf-settings-sublabel">
+                  1 dispositivo conectado
+                </div>
               </div>
               <button className="pf-btn-secondary">Ver</button>
             </div>
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">Alterar Senha</div>
-                <div className="pf-settings-sublabel">Última alteração: nunca</div>
+                <div className="pf-settings-sublabel">
+                  Última alteração: nunca
+                </div>
               </div>
               <button className="pf-btn-secondary">Alterar</button>
             </div>
           </div>
           <div className="pf-settings-card">
             <div className="pf-settings-label">🛡️ Panda Defend</div>
-            <div className="pf-settings-sublabel">Sistema de proteção ativo</div>
+            <div className="pf-settings-sublabel">
+              Sistema de proteção ativo
+            </div>
             <div className="pf-defend-status">
               <span className="pf-status-badge online">11 Regras Ativas</span>
             </div>
@@ -789,7 +876,9 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
             <div className="pf-settings-row">
               <div>
                 <div className="pf-settings-label">🔗 MCP Server</div>
-                <div className="pf-settings-sublabel">Conexão com ferramentas externas</div>
+                <div className="pf-settings-sublabel">
+                  Conexão com ferramentas externas
+                </div>
               </div>
               <span className="pf-status-badge offline">Desconectado</span>
             </div>
@@ -824,7 +913,11 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
           <p>Panda Fabrics Information</p>
           <div className="pf-settings-card">
             <div className="pf-about-logo">
-              <img src={PANDA_LOGO} alt="Panda Fabrics" style={{ width: "80px", height: "80px" }} />
+              <img
+                src={PANDA_LOGO}
+                alt="Panda Fabrics"
+                style={{ width: "80px", height: "80px" }}
+              />
             </div>
             <div className="pf-about-title">Panda Fabrics</div>
             <div className="pf-about-version">v6.2 Founder Edition</div>
@@ -851,7 +944,10 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
   // Embedded: render content directly, no overlay
   if (embedded) {
     return (
-      <div className="pf-settings-modal" style={{ position: "relative", width: "100%", height: "100%" }}>
+      <div
+        className="pf-settings-modal"
+        style={{ position: "relative", width: "100%", height: "100%" }}
+      >
         {sidebar}
         {contentPane}
       </div>
@@ -864,6 +960,186 @@ function PFSettings({ isOpen, onClose, embedded = false }) {
       <div className="pf-settings-modal" onClick={(e) => e.stopPropagation()}>
         {sidebar}
         {contentPane}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * 💰 WalletSection — Real-time Panda Coin Wallet
+ * Uses useWallet hook for Firebase RTDB subscription.
+ */
+function WalletSection({ uid, miningEnabled, miningTotal }) {
+  const { balance, balanceBRL, transactions, isLoading, mode, refresh } =
+    useWallet(uid);
+
+  const formatDate = (ts) => {
+    const d = new Date(ts);
+    return (
+      d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }) +
+      " " +
+      d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+    );
+  };
+
+  const txIcon = (type) => (type === "credit" ? "📥" : "📤");
+  const txColor = (type) => (type === "credit" ? "#10b981" : "#ef4444");
+
+  return (
+    <div className="pf-settings-section">
+      <h2>
+        💰 Wallet{" "}
+        <span
+          style={{
+            fontSize: "11px",
+            padding: "2px 8px",
+            borderRadius: "8px",
+            fontWeight: 600,
+            background:
+              mode === "real"
+                ? "rgba(16,185,129,0.15)"
+                : "rgba(245,158,11,0.15)",
+            color: mode === "real" ? "#10b981" : "#f59e0b",
+          }}
+        >
+          {mode === "real" ? "🟢 Live" : "🟡 Mock"}
+        </span>
+      </h2>
+      <p>Gerencie seus Panda Coins</p>
+
+      {/* Hero Balance Card */}
+      <div className="pf-settings-card pf-wallet-hero">
+        <div className="pf-wallet-balance">
+          <div className="pf-wallet-icon">
+            <img
+              src="./panda-icon.png"
+              alt="Panda"
+              style={{ width: "24px", height: "24px" }}
+            />
+          </div>
+          <div className="pf-wallet-amount">
+            {isLoading ? "..." : `${balance.toLocaleString()} PC`}
+          </div>
+          <div className="pf-wallet-usd">
+            ≈ R${" "}
+            {isLoading
+              ? "—"
+              : parseFloat(balanceBRL).toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}{" "}
+            BRL
+          </div>
+        </div>
+        <div className="pf-wallet-actions">
+          <button className="pf-btn-primary">💳 Comprar PC</button>
+          <button className="pf-btn-secondary">📤 Transferir</button>
+          <button
+            className="pf-btn-secondary"
+            onClick={refresh}
+            title="Atualizar saldo"
+            style={{ minWidth: "auto", padding: "6px 10px" }}
+          >
+            🔄
+          </button>
+        </div>
+      </div>
+
+      {/* Plan & Mining Stats */}
+      <div className="pf-settings-card">
+        <div className="pf-settings-row">
+          <div>
+            <div className="pf-settings-label">Plano Atual</div>
+            <div className="pf-settings-sublabel">
+              Founder Edition (Lifetime)
+            </div>
+          </div>
+          <span className="pf-status-badge online">Ativo</span>
+        </div>
+        <div className="pf-settings-row">
+          <div>
+            <div className="pf-settings-label">Créditos Mensais</div>
+            <div className="pf-settings-sublabel">100 PC grátis/mês</div>
+          </div>
+          <span className="pf-status-badge online">Disponível</span>
+        </div>
+        <div className="pf-settings-row">
+          <div>
+            <div className="pf-settings-label">⛏️ Mining Earned</div>
+            <div className="pf-settings-sublabel">
+              Total ganho via Partner Mode
+            </div>
+          </div>
+          <span
+            className="pf-status-badge"
+            style={{
+              background: miningEnabled
+                ? "rgba(16,185,129,0.15)"
+                : "rgba(255,255,255,0.05)",
+              color: miningEnabled ? "#10b981" : "#888",
+            }}
+          >
+            {miningTotal} PC {miningEnabled ? "" : "(OFF)"}
+          </span>
+        </div>
+      </div>
+
+      {/* Transaction History */}
+      <div className="pf-settings-card">
+        <div className="pf-settings-label" style={{ marginBottom: "12px" }}>
+          📜 Histórico de Transações
+        </div>
+        {transactions.length === 0 ? (
+          <div
+            className="pf-settings-sublabel"
+            style={{ textAlign: "center", padding: "16px" }}
+          >
+            Nenhuma transação ainda
+          </div>
+        ) : (
+          <div style={{ maxHeight: "220px", overflowY: "auto" }}>
+            {transactions.slice(0, 10).map((tx) => (
+              <div
+                key={tx.id}
+                className="pf-settings-row"
+                style={{
+                  padding: "6px 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.04)",
+                }}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <span style={{ fontSize: "14px" }}>{txIcon(tx.type)}</span>
+                  <div>
+                    <div
+                      className="pf-settings-label"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {tx.description}
+                    </div>
+                    <div
+                      className="pf-settings-sublabel"
+                      style={{ fontSize: "10px" }}
+                    >
+                      {formatDate(tx.timestamp)}
+                    </div>
+                  </div>
+                </div>
+                <span
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "13px",
+                    color: txColor(tx.type),
+                    fontFamily: "monospace",
+                  }}
+                >
+                  {tx.type === "credit" ? "+" : "−"}
+                  {tx.amount} PC
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

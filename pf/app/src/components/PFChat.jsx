@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { injectContext, getUIContext } from "../services/uiContext";
 import { useFounderBrain } from "../hooks/useFounderBrain";
+import { Brain as GASBrain } from "../services/callGAS";
 
 /**
- * Jam Chat v1.2 - Omnichannel AI Chat (Bottom Right)
+ * Jam Chat v2.0 - Omnichannel AI Chat (Bottom Right)
  *
+ * v2.0: Production Gemini wiring via callGAS.Brain (TICKET-11)
  * v1.2: Trail bubble mascot greetings for returning users
  * v1.1: Auto-open on first login + welcome CTA
  *
@@ -16,10 +18,19 @@ import { useFounderBrain } from "../hooks/useFounderBrain";
  * - 6 GEMs: Writer, Analyst, Coder, Designer, Planner, Researcher
  *
  * ARCHITECTURE:
- * - PFChat calls Panda.Brain.Gemini (SDK)
- * - SDK translates to GAS backend call
- * - Billing handled by backend
+ * - PFChat calls callGAS.Brain (primary) → GAS doPost → PF_Brain_Core.gs → Gemini API
+ * - Falls back to Panda.Brain.Gemini (SDK) if callGAS unavailable
+ * - Billing handled by backend (PC debit per request)
  */
+
+// Map UI model IDs → Gemini 3 API model names (PF_GEMINI_REFERENCE.md §2.1)
+const MODEL_MAP = {
+  flash: "gemini-3-flash-preview",
+  pro: "gemini-3-pro-preview",
+  thinking: "gemini-3-flash-preview", // Uses thinkingLevel: "high"
+  research: "deep-research-pro-preview-12-2025",
+  imagen: "gemini-3-pro-image-preview",
+};
 
 // AI Models for UI
 const AI_MODELS = [
@@ -87,12 +98,54 @@ function isPandaSDKAvailable() {
 }
 
 /**
- * Call GAS backend via Panda SDK or direct fetch
- * Falls back to direct GAS call if SDK not loaded
+ * Connection mode: LIVE (GAS configured), SDK (SDK only), OFFLINE
+ */
+function getConnectionMode() {
+  const gasUrl =
+    import.meta.env?.VITE_GAS_URL || localStorage.getItem("GAS_URL");
+  if (gasUrl) return "LIVE";
+  if (isPandaSDKAvailable()) return "SDK";
+  return "OFFLINE";
+}
+
+/**
+ * Call Brain AI — Primary: callGAS.Brain, Fallback: SDK
+ * Routes through GAS backend → PF_Brain_Core.gs → Gemini API
  */
 async function callBrain(action, payload) {
-  // Use Panda SDK if available
-  if (isPandaSDKAvailable()) {
+  const mode = getConnectionMode();
+
+  // PRIMARY: callGAS.Brain (GAS backend → Gemini)
+  if (mode === "LIVE") {
+    switch (action) {
+      case "chat":
+        return GASBrain.chat(payload.message, {
+          gemId: payload.options?.gem || null,
+          model: MODEL_MAP[payload.options?.model] || MODEL_MAP.flash,
+          sessionId: payload.options?.sessionId || null,
+        });
+      case "gems":
+        return GASBrain.getGems();
+      case "analyze":
+        return GASBrain.analyze(payload.data, payload.question);
+      default:
+        // GEM actions (writer, analyst, coder, etc.) → chat with gemId
+        return GASBrain.chat(
+          payload.message ||
+            payload.topic ||
+            payload.task ||
+            payload.concept ||
+            payload.objective,
+          {
+            gemId: action,
+            model: MODEL_MAP.flash,
+          },
+        );
+    }
+  }
+
+  // FALLBACK: Panda SDK (if loaded via pf.sdk.js)
+  if (mode === "SDK") {
     switch (action) {
       case "chat":
         return window.Panda.Brain.Gemini.chat(payload.message, payload.options);
@@ -103,47 +156,24 @@ async function callBrain(action, payload) {
           payload.data,
           payload.question,
         );
-      case "code":
-        return window.Panda.Brain.Gemini.code(payload.task, payload.language);
-      case "write":
-        return window.Panda.Brain.Gemini.write(payload.topic, payload.format);
-      case "design":
-        return window.Panda.Brain.Gemini.design(payload.concept);
-      case "plan":
-        return window.Panda.Brain.Gemini.plan(payload.objective);
-      case "research":
-        return window.Panda.Brain.Gemini.research(payload.topic);
       default:
-        throw new Error(`Unknown action: ${action}`);
+        return window.Panda.Brain.Gemini.chat(
+          payload.message || payload.topic,
+          { gem: action },
+        );
     }
   }
 
-  // Direct GAS call fallback (for development/testing)
-  const GAS_URL =
-    import.meta.env?.VITE_GAS_URL || localStorage.getItem("GAS_URL");
-
-  if (!GAS_URL) {
-    throw new Error(
-      "SDK not loaded. Configure GAS_URL or load pf.sdk.js",
-    );
-  }
-
-  const response = await fetch(GAS_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: `brain.${action}`,
-      payload,
-      token: localStorage.getItem("panda_token") || "",
-    }),
-  });
-
-  return response.json();
+  // OFFLINE: No backend available
+  throw new Error(
+    "No AI backend available. Configure GAS_URL or load pf.sdk.js",
+  );
 }
 
 function PFChat() {
   // 🧠 Founder Brain — personality compass for ALL users, evolves for Founder
-  const { systemPrompt, appendInsight, isFounderBrain, insightCount } = useFounderBrain();
+  const { systemPrompt, appendInsight, isFounderBrain, insightCount } =
+    useFounderBrain();
 
   // Auto-open on first login for onboarding
   const isFirstVisit = !localStorage.getItem("pf_chat_welcomed");
@@ -180,9 +210,8 @@ function PFChat() {
   // Check SDK/API status on mount
   useEffect(() => {
     const checkApi = () => {
-      const sdkReady = isPandaSDKAvailable();
-      const gasConfigured = !!localStorage.getItem("GAS_URL");
-      setIsApiReady(sdkReady || gasConfigured);
+      const mode = getConnectionMode();
+      setIsApiReady(mode !== "OFFLINE");
     };
 
     checkApi();
@@ -204,9 +233,11 @@ function PFChat() {
 
     const hour = new Date().getHours();
     const greetings = [
-      hour < 12 ? "☀️ Good morning! I'm here if you need me." :
-      hour < 18 ? "🌤️ Good afternoon! Any questions, just ask." :
-                  "🌙 Good evening! Need any help?",
+      hour < 12
+        ? "☀️ Good morning! I'm here if you need me."
+        : hour < 18
+          ? "🌤️ Good afternoon! Any questions, just ask."
+          : "🌙 Good evening! Need any help?",
       "Hi! Want to explore something new?",
       "💡 Tip: try opening the Store!",
       "✨ I'm here if you need me!",
@@ -303,6 +334,19 @@ function PFChat() {
         ? ` (${response.cost.toFixed(2)} PC)`
         : "";
 
+      // Handle insufficient balance
+      if (response.status === "INSUFFICIENT_BALANCE") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `> ⚠️ **Insufficient Panda Coins**\n\nYou need **${response.cost} PC** for this request but only have **${response.balance?.toFixed(2) || 0} PC**.\n\n💰 Top up your wallet to continue chatting!`,
+          },
+        ]);
+        setIsLoading(false);
+        return;
+      }
+
       const aiText = response.text || response.response;
 
       setMessages((prev) => [
@@ -378,11 +422,7 @@ function PFChat() {
         {isOpen ? (
           "✕"
         ) : (
-          <img
-            src="./panda-icon.png"
-            alt="Chat"
-            className="pf-chat-fab-logo"
-          />
+          <img src="./panda-icon.png" alt="Chat" className="pf-chat-fab-logo" />
         )}
       </button>
 
@@ -425,8 +465,13 @@ function PFChat() {
 
             <span
               className={`pf-api-status ${isApiReady ? "ready" : "offline"}`}
+              title={`Mode: ${getConnectionMode()}`}
             >
-              {isApiReady ? "●" : "○"}
+              {getConnectionMode() === "LIVE"
+                ? "🟢"
+                : getConnectionMode() === "SDK"
+                  ? "🟡"
+                  : "🔴"}
             </span>
             {/* Brain indicator — shows insight count */}
             <span

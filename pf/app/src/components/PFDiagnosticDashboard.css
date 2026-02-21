@@ -1,0 +1,491 @@
+/**
+ * 🩺 PF Diagnostic Dashboard — Styles
+ * Dark theme, expandable/collapsible cards with animated transitions.
+ */
+
+.diag-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  overflow-y: auto;
+}
+
+/* ── Tab Bar ── */
+.diag-tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 16px;
+  background: #161b22;
+  border-bottom: 2px solid #21262d;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.diag-tab {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  color: #8b949e;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s ease;
+}
+
+.diag-tab:hover {
+  color: #c9d1d9;
+  background: #21262d44;
+}
+
+.diag-tab.active {
+  color: #e6edf3;
+  border-bottom-color: #58a6ff;
+}
+
+/* ── Header ── */
+.diag-header {
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid #21262d;
+  background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+}
+
+.diag-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.diag-icon {
+  font-size: 28px;
+}
+
+.diag-title-row h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e6edf3;
+  letter-spacing: -0.5px;
+}
+
+.diag-overall-badge {
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+
+.diag-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #8b949e;
+  margin-bottom: 12px;
+}
+
+.diag-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.diag-btn {
+  padding: 6px 14px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #21262d;
+  color: #c9d1d9;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.diag-btn:hover {
+  background: #30363d;
+  border-color: #484f58;
+}
+
+.diag-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.diag-btn-primary {
+  background: #238636;
+  border-color: #2ea043;
+  color: #fff;
+  font-weight: 600;
+}
+
+.diag-btn-primary:hover {
+  background: #2ea043;
+}
+
+.diag-btn-primary:disabled {
+  background: #21262d;
+  border-color: #30363d;
+  color: #8b949e;
+}
+
+.diag-auto-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #8b949e;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.diag-auto-label input {
+  accent-color: #58a6ff;
+}
+
+.diag-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: #8b949e;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.diag-close:hover {
+  background: #f8514922;
+  color: #f85149;
+}
+
+/* ── Summary Bar (dot row) ── */
+.diag-summary-bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px;
+  border-bottom: 1px solid #21262d;
+  background: #161b2288;
+}
+
+.diag-summary-dot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 2px solid;
+  background: #0d111766;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  color: #c9d1d9;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.diag-summary-dot:hover {
+  background: #21262d;
+  transform: translateY(-1px);
+}
+
+.diag-dot-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: diagPulse 2s ease-in-out infinite;
+}
+
+@keyframes diagPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.diag-dot-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ── Card List ── */
+.diag-cards {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.diag-card {
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  background: #161b22;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.diag-card:hover {
+  border-color: #30363d;
+}
+
+.diag-card.expanded {
+  border-color: #30363d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Card Header ── */
+.diag-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #c9d1d9;
+  font-family: inherit;
+  border-left: 4px solid;
+  transition: background 0.15s ease;
+}
+
+.diag-card-header:hover {
+  background: #21262d44;
+}
+
+.diag-card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.diag-card-icon {
+  font-size: 26px;
+  width: 40px;
+  text-align: center;
+}
+
+.diag-card-info {
+  text-align: left;
+}
+
+.diag-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e6edf3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diag-card-id {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: currentColor;
+  color: #0d1117 !important;
+  -webkit-background-clip: unset;
+}
+
+.diag-card-desc {
+  font-size: 12px;
+  color: #8b949e;
+  margin-top: 2px;
+}
+
+.diag-card-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.diag-card-score {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.diag-card-status {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.diag-expand-arrow {
+  font-size: 11px;
+  color: #484f58;
+  transition: transform 0.2s ease;
+}
+
+/* ── Sub-tests ── */
+.diag-subtests {
+  border-top: 1px solid #21262d;
+  background: #0d111799;
+  animation: diagSlideDown 0.2s ease;
+}
+
+@keyframes diagSlideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+.diag-subtest {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 28px;
+  border-bottom: 1px solid #161b2266;
+  transition: background 0.1s ease;
+}
+
+.diag-subtest:last-child {
+  border-bottom: none;
+}
+
+.diag-subtest:hover {
+  background: #21262d33;
+}
+
+.diag-sub-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.diag-sub-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.diag-sub-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.diag-sub-desc {
+  font-size: 11px;
+  color: #6e7681;
+  margin-top: 1px;
+}
+
+.diag-sub-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  max-width: 300px;
+}
+
+.diag-sub-detail {
+  font-size: 11px;
+  color: #8b949e;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.diag-sub-ms {
+  font-size: 11px;
+  color: #6e7681;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  flex-shrink: 0;
+}
+
+.diag-sub-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+
+/* ── Footer ── */
+.diag-footer {
+  padding: 12px 24px;
+  border-top: 1px solid #21262d;
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: #484f58;
+  margin-top: auto;
+}
+
+/* ── Scrollbar ── */
+.diag-dashboard::-webkit-scrollbar {
+  width: 6px;
+}
+
+.diag-dashboard::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.diag-dashboard::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 3px;
+}
+
+.diag-dashboard::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* ── Running Animation ── */
+@keyframes diagSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Access Denied (Founder Gate) ── */
+.diag-access-denied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px;
+  gap: 12px;
+}
+
+.diag-denied-icon {
+  font-size: 64px;
+  opacity: 0.6;
+}
+
+.diag-access-denied h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.diag-access-denied p {
+  margin: 0;
+  font-size: 14px;
+  color: #8b949e;
+}

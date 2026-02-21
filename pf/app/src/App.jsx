@@ -28,6 +28,11 @@ import { PFDefendPanel } from "./components/PFDefendPanel";
 import PFWelcomeWizard from "./components/PFWelcomeWizard";
 import PluginManifestEditor from "./components/PFPluginEditor";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
+import PandaCRM from "./modules/crm";
+import PandaLanding from "./modules/landing";
+import FounderHub from "./modules/founder";
+import PFDiagnosticDashboard from "./components/PFDiagnosticDashboard";
+import PFErrorBoundary from "./components/PFErrorBoundary";
 
 /**
  * PANDA FABRICS — MAIN APPLICATION v6.6
@@ -60,11 +65,24 @@ function AppContent() {
 
   // Wave 3 — Global keyboard shortcuts
   useKeyboardShortcuts({
-    onToggleDevTools: () => { setDevMode((d) => { const next = !d; if (next) openAppWindow("devtools"); return next; }); },
-    onToggleChat: () => window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal")),
+    onToggleDevTools: () => {
+      setDevMode((d) => {
+        const next = !d;
+        if (next) openAppWindow("devtools");
+        return next;
+      });
+    },
+    onToggleChat: () =>
+      window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal")),
     onOpenSettings: () => setShowSettings(true),
     onOpenStore: () => setShowStore(true),
-    onEscape: () => { setShowSettings(false); setShowStore(false); setShowCatalog(false); setShowNotifications(false); setShowGasometer(false); },
+    onEscape: () => {
+      setShowSettings(false);
+      setShowStore(false);
+      setShowCatalog(false);
+      setShowNotifications(false);
+      setShowGasometer(false);
+    },
   });
 
   // Global event listeners for Welcome Overlay & Catalog actions
@@ -136,13 +154,9 @@ function AppContent() {
             />
           );
         case "devtools":
-          return (
-            <DevModePanel isOpen={true} onClose={close} embedded={true} />
-          );
+          return <DevModePanel isOpen={true} onClose={close} embedded={true} />;
         case "settings":
-          return (
-            <PFSettings isOpen={true} onClose={close} embedded={true} />
-          );
+          return <PFSettings isOpen={true} onClose={close} embedded={true} />;
         case "store":
           return (
             <PFStore
@@ -181,7 +195,45 @@ function AppContent() {
             return <PFDefendPanel />;
           }
           if (componentType === "plugin-editor") {
-            return <PluginManifestEditor onClose={closeDefault} onSave={(manifest) => console.log("📦 Manifest saved:", manifest)} />;
+            return (
+              <PluginManifestEditor
+                onClose={closeDefault}
+                onSave={(manifest) =>
+                  console.log("📦 Manifest saved:", manifest)
+                }
+              />
+            );
+          }
+          if (componentType === "crm") {
+            return (
+              <PFErrorBoundary>
+                <PandaCRM userId={"founder"} onClose={closeDefault} />
+              </PFErrorBoundary>
+            );
+          }
+          if (componentType === "landing") {
+            return (
+              <PFErrorBoundary>
+                <PandaLanding onClose={closeDefault} />
+              </PFErrorBoundary>
+            );
+          }
+          if (componentType === "founder-hub") {
+            return (
+              <PFErrorBoundary>
+                <FounderHub onClose={closeDefault} />
+              </PFErrorBoundary>
+            );
+          }
+          if (componentType === "diagnostics") {
+            return (
+              <PFErrorBoundary>
+                <PFDiagnosticDashboard
+                  onClose={closeDefault}
+                  isFounder={isFounder}
+                />
+              </PFErrorBoundary>
+            );
           }
           return (
             <div style={{ padding: 20, color: "#aaa" }}>
@@ -221,12 +273,13 @@ function AppContent() {
       {/* STATUS BAR (Top) */}
       <PFStatusBar
         onStoreClick={() => setShowStore(true)}
-        onSettingsClick={() => { setShowSettings(true); setShowRightToolbar(false); }}
+        onSettingsClick={() => {
+          setShowSettings(true);
+          setShowRightToolbar(false);
+        }}
         onNotificationsClick={() => setShowNotifications(true)}
         onFounderClick={
-          isFounder
-            ? () => openAppWindow("founder-dashboard")
-            : undefined
+          isFounder ? () => openAppWindow("founder-dashboard") : undefined
         }
         onMiningClick={() => openAppWindow("mining-panel")}
         onDefendClick={() => openAppWindow("defend-panel")}
@@ -248,13 +301,21 @@ function AppContent() {
       {/* DOCK (Left Side) — Only in main window, NOT in pop-outs */}
       <PFDock
         onCatalogClick={() => setShowCatalog(true)}
-        onToolsClick={() => { const next = !showRightToolbar; setShowRightToolbar(next); if (next) setShowSettings(false); }}
+        onToolsClick={() => {
+          const next = !showRightToolbar;
+          setShowRightToolbar(next);
+          if (next) setShowSettings(false);
+        }}
         onStoreClick={() => setShowStore(true)}
         onSettingsClick={() => setShowSettings(true)}
         onFinanceClick={() => openAppWindow("finance-panel")}
         onGasometerClick={() => openAppWindow("gasometer")}
         onCouncilClick={() => openAppWindow("pat-council")}
-        onDevModeToggle={(isActive) => { setDevMode(isActive); if (isActive) openAppWindow("devtools"); }}
+        onDiagnosticsClick={() => openAppWindow("diagnostics")}
+        onDevModeToggle={(isActive) => {
+          setDevMode(isActive);
+          if (isActive) openAppWindow("devtools");
+        }}
         onPluginOpen={handleOpenPlugin}
         onPluginClose={handleClosePlugin}
         onPluginUninstall={handleUninstallPlugin}
@@ -306,15 +367,15 @@ function AppContent() {
         <GasometerPanel onClose={() => setShowGasometer(false)} />
       )}
 
-
-
       {/* WATERMARK — Panda Fabrics branding + Medusa */}
       <footer className="pf-footer">
         <span className="pf-footer-accent" />
         PANDA FABRICS
         <span className="pf-footer-accent" />
         POWERED BY TLDRAW • 🐙 MEDUSA
-        <span className="pf-footer-version">v6.6 • {new Date().getFullYear()}</span>
+        <span className="pf-footer-version">
+          v6.6 • {new Date().getFullYear()}
+        </span>
       </footer>
     </div>
   );
@@ -323,13 +384,15 @@ function AppContent() {
 // Wrap with AuthProvider
 function App() {
   return (
-    <I18nProvider>
-      <AuthProvider>
-        <LoginGate>
-          <AppContent />
-        </LoginGate>
-      </AuthProvider>
-    </I18nProvider>
+    <PFErrorBoundary>
+      <I18nProvider>
+        <AuthProvider>
+          <LoginGate>
+            <AppContent />
+          </LoginGate>
+        </AuthProvider>
+      </I18nProvider>
+    </PFErrorBoundary>
   );
 }
 

@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panda Factory — Pitch Deck 2026 | Digital Democratization</title>
+    <!-- SEO: Primary Meta -->
+    <meta
+      name="description"
+      content="Panda Factory Pitch Deck 2026 — AI-First Ecosystem where anyone builds software with natural language. 17 SDK namespaces, P2P economy, up to 85% revenue share."
+    />
+    <meta
+      name="keywords"
+      content="Panda Factory, pitch deck, startup, AI platform, digital democratization, SDK, plugin marketplace, Gemini, MCP Protocol, Google-first"
+    />
+    <meta name="author" content="Lucas Valério" />
+    <meta name="robots" content="index, follow" />
+    <link
+      rel="canonical"
+      href="https://lucassval.github.io/Panda-Factory/10.assets/pages/pitch-deck-en.html"
+    />
+    <!-- SEO: Open Graph -->
+    <meta property="og:title" content="Panda Factory — Pitch Deck 2026" />
+    <meta
+      property="og:description"
+      content="Digital Democratization — AI-First Ecosystem. 17 SDK namespaces. Up to 85% revenue share. Zero upfront cost."
+    />
+    <meta
+      property="og:image"
+      content="https://lucassval.github.io/Panda-Factory/assets/panda_logo.png"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Panda Factory" />
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Panda Factory — Pitch Deck 2026" />
+    <meta
+      name="twitter:description"
+      content="AI-First ecosystem. 17 SDK namespaces. Plugin marketplace. Up to 85% revenue share."
+    />
+    <meta
+      name="twitter:image"
+      content="https://lucassval.github.io/Panda-Factory/assets/panda_logo.png"
+    />
+    <!-- SEO: Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "PresentationDigitalDocument",
+        "name": "Panda Factory — Pitch Deck 2026",
+        "description": "Digital Democratization — AI-First Ecosystem where anyone builds software with natural language.",
+        "url": "https://lucassval.github.io/Panda-Factory/10.assets/pages/pitch-deck-en.html",
+        "author": {
+          "@type": "Person",
+          "name": "Lucas Valério",
+          "url": "https://github.com/LucassVal"
+        },
+        "datePublished": "2026-02-20"
+      }
+    </script>
+    <link rel="icon" type="image/png" href="../../assets/panda_logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --panda-dark: #1a1a2e;
+        --panda-purple: #6c5ce7;
+        --panda-green: #00d4aa;
+        --panda-orange: #fd7014;
+        --text-light: #ffffff;
+        --text-muted: #a0a0b0;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--panda-dark);
+        color: var(--text-light);
+      }
+      .slide {
+        min-height: 100vh;
+        padding: 60px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        page-break-after: always;
+        background: linear-gradient(135deg, var(--panda-dark) 0%, #16213e 100%);
+      }
+      .slide::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--panda-purple),
+          var(--panda-green),
+          var(--panda-orange)
+        );
+      }
+      .slide-number {
+        position: absolute;
+        bottom: 30px;
+        right: 40px;
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+      h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--panda-purple),
+          var(--panda-green)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 40px;
+        color: var(--text-light);
+      }
+      h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--panda-green);
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: var(--text-muted);
+        max-width: 900px;
+      }
+      .tagline {
+        font-size: 1.8rem;
+        color: var(--panda-orange);
+        margin-bottom: 40px;
+      }
+      .logo-container {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+      .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+      .card h4 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--text-light);
+      }
+      .card p {
+        font-size: 1rem;
+        color: var(--text-muted);
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+        margin-top: 50px;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-number {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--panda-green);
+      }
+      .stat-label {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-top: 10px;
+      }
+      .timeline {
+        margin-top: 40px;
+      }
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 30px;
+      }
+      .timeline-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--panda-purple);
+        margin-right: 20px;
+        flex-shrink: 0;
+        margin-top: 5px;
+      }
+      .timeline-dot.active {
+        background: var(--panda-green);
+        box-shadow: 0 0 20px var(--panda-green);
+      }
+      .timeline-content h4 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+      .timeline-content p {
+        font-size: 1rem;
+      }
+      .layer-diagram {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        padding: 40px;
+        margin-top: 30px;
+      }
+      .layer {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .layer-icon {
+        font-size: 2rem;
+        margin-right: 20px;
+        width: 60px;
+        text-align: center;
+      }
+      .layer-info h4 {
+        font-size: 1.1rem;
+        color: var(--text-light);
+      }
+      .layer-info p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+      }
+      .highlight-box {
+        background: linear-gradient(
+          135deg,
+          rgba(108, 92, 231, 0.2),
+          rgba(0, 212, 170, 0.2)
+        );
+        border: 2px solid var(--panda-purple);
+        border-radius: 16px;
+        padding: 40px;
+        margin-top: 40px;
+      }
+      .cta-box {
+        background: linear-gradient(135deg, var(--panda-purple), #4834d4);
+        border-radius: 20px;
+        padding: 50px;
+        text-align: center;
+        margin-top: 40px;
+      }
+      .cta-box h2 {
+        margin-bottom: 20px;
+      }
+      .cta-box p {
+        max-width: 100%;
+        text-align: center;
+        margin: 0 auto 30px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      .badge-purple {
+        background: var(--panda-purple);
+      }
+      .badge-green {
+        background: var(--panda-green);
+        color: var(--panda-dark);
+      }
+      .badge-orange {
+        background: var(--panda-orange);
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+      @media print {
+        .slide {
+          min-height: 100vh;
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SLIDE 1: Cover -->
+    <div class="slide">
+      <div class="logo-container">
+        <img
+          src="logo.png"
+          alt="Panda Factory"
+          style="width: 150px; height: 150px; margin-bottom: 20px"
+        />
+        <h1>Panda Factory</h1>
+        <p class="tagline">Digital Democratization — Developer First</p>
+        <p
+          style="font-size: 1.1rem; color: var(--text-muted); margin-top: 10px"
+        >
+          AI-First Ecosystem where anyone builds software with natural language
+        </p>
+      </div>
+      <div style="text-align: center; margin-top: 40px">
+        <span class="badge badge-purple">AI/ML Platform</span>
+        <span class="badge badge-green">Built on Google</span>
+        <span class="badge badge-orange">Zero Infra Cost</span>
+        <span class="badge badge-purple">NLLB 200 Languages</span>
+        <span class="badge badge-green">Whisper STT</span>
+        <span class="badge badge-orange">MCP Protocol</span>
+      </div>
+      <p style="text-align: center; margin-top: 60px; font-size: 1rem">
+        Lucas Valério • February 2026 • github.com/LucassVal/Panda-Factory
+      </p>
+      <span class="slide-number">01</span>
+    </div>
+
+    <!-- SLIDE 2: Problem -->
+    <div class="slide">
+      <h2>The Problem 😤</h2>
+      <div class="two-col">
+        <div>
+          <h3>Software is too complex</h3>
+          <p>
+            Creating automations, using AI, and scaling businesses still
+            requires technical knowledge that 99% of people don't have.
+          </p>
+          <div class="highlight-box" style="margin-top: 30px">
+            <p style="font-size: 1.1rem; color: var(--text-light)">
+              <strong>80%</strong> of small businesses don't automate processes
+              due to lack of technical knowledge or cost.
+            </p>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-icon">💸</div>
+            <h4>High Cost</h4>
+            <p>SaaS tools cost $50-500/month each</p>
+          </div>
+          <div class="card" style="margin-top: 20px">
+            <div class="card-icon">🧠</div>
+            <h4>Learning Curve</h4>
+            <p>Each tool has its own interface</p>
+          </div>
+          <div class="card" style="margin-top: 20px">
+            <div class="card-icon">🔗</div>
+            <h4>Fragmentation</h4>
+            <p>Scattered data, broken integrations</p>
+          </div>
+        </div>
+      </div>
+      <span class="slide-number">02</span>
+    </div>
+
+    <!-- SLIDE 3: Solution -->
+    <div class="slide">
+      <h2>The Solution: Panda Ecosystem 🐼</h2>
+      <p>
+        <strong>Digital Democratization:</strong> Minimalist runtime where devs
+        create plugins, and users operate with natural language — in any
+        language.
+      </p>
+      <div class="grid" style="margin-top: 50px">
+        <div class="card">
+          <div class="card-icon">🧠</div>
+          <h4>Native AI (MCP)</h4>
+          <p>
+            Every tool is understood by AI. Ask in any language, it executes.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔌</div>
+          <h4>Plugin-First</h4>
+          <p>Minimal core. Everything via plugins. Dev earns 55% per sale.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛒</div>
+          <h4>Medusa Store</h4>
+          <p>Open source plugin store. Buy, sell, reuse components.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌍</div>
+          <h4>NLLB Translation</h4>
+          <p>200 languages offline. Interface auto-translated for user.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🆓</div>
+          <h4>Free to Start</h4>
+          <p>500k tokens/month free. Gemini integrated, $0 initial cost.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤝</div>
+          <h4>Partner Mode</h4>
+          <p>Share idle resources, earn credits. Circular economy.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <h4>App Store Hooks</h4>
+          <p>PlayStore, Apple Store, Steam — publish anywhere.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛍️</div>
+          <h4>Marketplace Hooks</h4>
+          <p>Kiwify, Hotmart, Gumroad — sell on any platform.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔄</div>
+          <h4>Bidirectional SDK</h4>
+          <p>Hooks inbound or outbound. You decide the destination.</p>
+        </div>
+      </div>
+      <span class="slide-number">03</span>
+    </div>
+
+    <!-- SLIDE 4: Architecture -->
+    <div class="slide">
+      <h2>Architecture: Google-First 🔷</h2>
+      <div class="layer-diagram">
+        <div class="layer">
+          <div class="layer-icon">☁️</div>
+          <div class="layer-info">
+            <h4>Google Layer (90% of cases)</h4>
+            <p>
+              Gemini + GAS + Firebase • Cost: $0 • Business automation, light AI
+            </p>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-icon">🐍</div>
+          <div class="layer-info">
+            <h4>Colab Layer (Free GPU)</h4>
+            <p>
+              Google Colab Free Tier • ML, Whisper, Translation • User's T4 GPU
+            </p>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-icon">🦀</div>
+          <div class="layer-info">
+            <h4>Rust Layer (Partner Mode)</h4>
+            <p>
+              Local Agent • NLLB Translation (200 langs), Whisper STT, RPA,
+              Multi-Window PiP
+            </p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 40px; text-align: center">
+        <strong>Google as Backbone:</strong> 100% of backends use Google
+        infrastructure. Each user generates demand for GAS, Firebase, Gemini and
+        Colab.<br /><br />
+        <strong>🎯 Target:</strong> 100K users = 50M Gemini calls/year + 2B GAS
+        executions
+      </p>
+      <span class="slide-number">04</span>
+    </div>
+
+    <!-- SLIDE 5: Business Model -->
+    <div class="slide">
+      <h2>Business Model 💰</h2>
+      <div class="two-col">
+        <div>
+          <h3>Revenue 1: Medusa Store</h3>
+          <div class="card">
+            <p><strong>Panda Hooks (Auto Split):</strong></p>
+            <p>• 52% Developer (creator)</p>
+            <p>• 22% Panda Education</p>
+            <p>• 15% Operations</p>
+            <p>• 5% Founder + 3% Gateway</p>
+          </div>
+          <h3 style="margin-top: 40px">Revenue 2: Partner Mode</h3>
+          <div class="card">
+            <p><strong>P2P Compute Credits:</strong></p>
+            <p>• 50-70% User (Panda Credits)</p>
+            <p>• 25% Reserve</p>
+            <p>• 23% Infrastructure</p>
+            <p>• 2% Founder</p>
+          </div>
+        </div>
+        <div>
+          <h3>Why it works?</h3>
+          <div class="highlight-box">
+            <p style="font-size: 1.1rem">
+              🔗 <strong>Panda Hooks</strong><br /><br />Automated distribution:
+              each transaction triggers hooks that split revenue between Dev,
+              Education, Ops and Founder. Zero intermediaries.
+            </p>
+          </div>
+          <div
+            class="stat-grid"
+            style="grid-template-columns: 1fr 1fr; margin-top: 30px"
+          >
+            <div class="stat">
+              <div class="stat-number">$0</div>
+              <div class="stat-label">Partner Cost</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">70%</div>
+              <div class="stat-label">Return to ecosystem</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="slide-number">05</span>
+    </div>
+
+    <!-- SLIDE 6: Traction -->
+    <div class="slide">
+      <h2>Traction & Roadmap 📈</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-number">17</div>
+          <div class="stat-label">Technical Docs</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Phase 0 Complete</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5+</div>
+          <div class="stat-label">Integrations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">~200KB</div>
+          <div class="stat-label">Architecture Doc</div>
+        </div>
+      </div>
+      <div class="timeline" style="margin-top: 60px">
+        <div class="timeline-item">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-content">
+            <h4>✅ Phase 0: Foundation (Jan 2026)</h4>
+            <p>Shell, SDK, GAS Backend, Complete documentation</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-content">
+            <h4>🚧 Phase 1: Day 1 (Feb 2026)</h4>
+            <p>Rust Agent, AI Cores, Partner Mode, Medusa Store</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>⏳ Phase 2: Scale (Mar-Apr 2026)</h4>
+            <p>P2P Compute, VSX Store, GPU Pool</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>⏳ Phase 3: Expansion (Q2-Q3 2026)</h4>
+            <p>EdTech (Panda Labs), Open Marketplace</p>
+          </div>
+        </div>
+      </div>
+      <span class="slide-number">06</span>
+    </div>
+
+    <!-- SLIDE 7: Team -->
+    <div class="slide">
+      <h2>Team 👤</h2>
+      <div class="two-col">
+        <div style="text-align: center">
+          <div style="font-size: 8rem; margin-bottom: 20px">👨‍💻</div>
+          <h3 style="color: var(--text-light)">Lucas Valério</h3>
+          <p style="color: var(--panda-green); margin-bottom: 20px">
+            Founder & Solo Developer
+          </p>
+          <p style="font-size: 1rem">
+            Full-stack developer with experience in automation, algorithmic
+            trading and distributed systems.
+          </p>
+        </div>
+        <div>
+          <h3>Tech Stack</h3>
+          <div class="card" style="margin-bottom: 15px">
+            <h4>Frontend</h4>
+            <p>React, TLDraw, Vanilla JS</p>
+          </div>
+          <div class="card" style="margin-bottom: 15px">
+            <h4>Backend</h4>
+            <p>Rust, Google Apps Script, Firebase</p>
+          </div>
+          <div class="card" style="margin-bottom: 15px">
+            <h4>AI/ML</h4>
+            <p>Gemini API, Colab, MCP Protocol</p>
+          </div>
+          <div class="card">
+            <h4>Infrastructure</h4>
+            <p>100% Google: GAS, Firebase, Gemini, Colab, Drive, Sheets</p>
+          </div>
+          <div class="card" style="margin-top: 15px">
+            <h4>Local AI</h4>
+            <p>NLLB Translation (200 langs), Whisper STT, WebGPU</p>
+          </div>
+        </div>
+      </div>
+      <span class="slide-number">07</span>
+    </div>
+
+    <!-- SLIDE 8: Ask -->
+    <div class="slide">
+      <h2>The Ask 🎯</h2>
+      <div class="cta-box">
+        <h2>Google Cloud Credits</h2>
+        <p style="font-size: 1.3rem">
+          To accelerate Rust Agent development, Colab integration and scaling
+          infrastructure.
+        </p>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+          "
+        >
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 700">$50k-200k</div>
+            <div style="font-size: 0.9rem; opacity: 0.8">Cloud Credits</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 700">12 months</div>
+            <div style="font-size: 0.9rem; opacity: 0.8">Estimated runway</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box" style="text-align: center">
+        <h3 style="color: var(--text-light); margin-bottom: 20px">
+          How credits will be used
+        </h3>
+        <div style="display: flex; justify-content: center; gap: 60px">
+          <div>
+            <div style="font-size: 2rem">☁️</div>
+            <p>Cloud Run / GKE</p>
+          </div>
+          <div>
+            <div style="font-size: 2rem">🧠</div>
+            <p>Vertex AI</p>
+          </div>
+          <div>
+            <div style="font-size: 2rem">🔥</div>
+            <p>Firebase Scale</p>
+          </div>
+          <div>
+            <div style="font-size: 2rem">📊</div>
+            <p>BigQuery</p>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 50px; font-size: 1.5rem">
+        🐼 <strong>pandafactory.dev</strong> •
+        github.com/LucassVal/Panda-Factory
+      </p>
+      <span class="slide-number">08</span>
+    </div>
+  </body>
+</html>

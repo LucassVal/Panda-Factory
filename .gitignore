@@ -47,6 +47,9 @@ rust-agent/
 # Assets/Data Internos
 10.assets/
 
+# Sandbox (testes locais, NÃO vai para o repo)
+12.sandbox/
+
 # Backups e arquivos antigos
 _backup_pre_numbered/
 _archive/
@@ -83,20 +86,15 @@ scripts/
 # Package raiz (não é necessário no público)
 package.json
 # EXCETO o da app React (necessário para npm ci no GitHub Actions)
-!11.pf-app/package.json
+!pf/app/package.json
 
 # ========================================
 # MANTÉM NO REPO PÚBLICO (Panda-Factory)
 # ========================================
-# !11.pf-app/         → JAM React UI (source para build)
-# !dist/jam/       → Build output para GitHub Pages
-# !README.md       → Página pitch pública
-# !index.html      → Landing page
-# !manifest.json   → PWA manifest
-# !sw.js           → Service Worker
-# !.github/        → Workflows CI/CD (apenas pages.yml)
-# !_config.yml     → GitHub Pages config
-# !assets/         → Imagens públicas (logo, screenshots para README)
+# !pf/              → Deployment folder (app, assets, dist, configs)
+# !README.md        → Página pitch pública
+# !pitch-deck.html  → Pitch deck público
+# !.github/         → Workflows CI/CD (apenas pages.yml)
 
 # ========================================
 # PADRÃO
