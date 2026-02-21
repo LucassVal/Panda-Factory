@@ -479,6 +479,14 @@ body {
   background-color: #f8f8fc !important;
 }
 
+/* Force light mode TLDraw internal variables */
+.pf-canvas-wrapper.light .tl-container {
+  --color-background: #f8f8fc !important;
+  --color-panel: #ffffff !important;
+  --color-muted-0: #f0f0f4 !important;
+  --color-muted-1: #e8e8ec !important;
+}
+
 /* Light Mode Grid - White/Gray lines */
 .pf-canvas-wrapper.light.show-grid::before {
   background-image:

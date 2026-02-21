@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Tldraw } from "@tldraw/tldraw";
 import "@tldraw/tldraw/tldraw.css";
 
@@ -52,7 +52,14 @@ function WelcomeOverlay({ onAction, onDismiss }) {
   return (
     <div className={`pf-welcome-overlay ${exiting ? "pf-welcome-exit" : ""}`}>
       <div className="pf-welcome-content">
-        <div className="pf-welcome-logo"><img src="./panda-icon.png" alt="Panda Fabrics" className="pf-logo-icon-lg" style={{width:"80px",height:"80px"}} /></div>
+        <div className="pf-welcome-logo">
+          <img
+            src="./panda-icon.png"
+            alt="Panda Fabrics"
+            className="pf-logo-icon-lg"
+            style={{ width: "80px", height: "80px" }}
+          />
+        </div>
         <h2 className="pf-welcome-title">WELCOME TO PANDA FABRICS</h2>
         <p className="pf-welcome-subtitle">
           Your infinite workspace. Choose where to begin:
@@ -73,7 +80,10 @@ function WelcomeOverlay({ onAction, onDismiss }) {
           ))}
         </div>
 
-        <button className="pf-welcome-skip" onClick={() => handleAction("skip")}>
+        <button
+          className="pf-welcome-skip"
+          onClick={() => handleAction("skip")}
+        >
           Skip and explore freely →
         </button>
       </div>
@@ -159,11 +169,12 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
   // Expose grid toggle globally
   useEffect(() => {
     window.PandaCanvas = {
-      toggleGrid: () => setShowGrid((prev) => {
-        const next = !prev;
-        localStorage.setItem("panda_grid_visible", String(next));
-        return next;
-      }),
+      toggleGrid: () =>
+        setShowGrid((prev) => {
+          const next = !prev;
+          localStorage.setItem("panda_grid_visible", String(next));
+          return next;
+        }),
       isGridVisible: () => showGrid,
       setDarkMode: (dark) => {
         setIsDarkMode(dark);
@@ -213,7 +224,9 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
     switch (action) {
       case "draw":
         if (window.TLDrawEditor) {
-          try { window.TLDrawEditor.setCurrentTool("draw"); } catch {}
+          try {
+            window.TLDrawEditor.setCurrentTool("draw");
+          } catch {}
         }
         break;
       case "store":
@@ -241,6 +254,7 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
         persistenceKey={roomId}
         components={components}
         onMount={handleMount}
+        autoFocus
       />
 
       {/* Welcome Overlay (empty canvas) */}
