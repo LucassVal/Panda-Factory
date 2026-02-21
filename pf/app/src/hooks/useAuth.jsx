@@ -331,7 +331,10 @@ export function AuthProvider({ children }) {
         Panda.Wallet?.destroy();
       }
       // Redirect to landing page (login lives there now)
-      window.location.href = "../";
+      const basePath = window.location.pathname
+        .replace(/\/app\/.*$/, "/")
+        .replace(/\/app\/?$/, "/");
+      window.location.href = basePath;
     } catch (err) {
       setError(err.message);
     }
