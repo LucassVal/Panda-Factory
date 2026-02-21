@@ -1,7 +1,7 @@
 # 🐼 Panda Factory
 
 <p align="center">
-  <img src="assets/panda_logo.png" alt="Panda Factory" width="160">
+  <img src="pf/assets/panda_logo.png" alt="Panda Factory" width="160">
 </p>
 
 <h1 align="center">Panda Factory</h1>

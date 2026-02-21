@@ -41,27 +41,37 @@ jobs:
         working-directory: pf/app
         run: npm run build
 
-      - name: 📋 Copy Root Assets to Dist
+      - name: 📋 Assemble Deployment Directory
         run: |
-          # Prevent Jekyll from processing the output
-          touch pf/dist/jam/.nojekyll
-          # Copy manifest and PWA assets to dist
-          cp pf/manifest.json pf/dist/jam/ 2>/dev/null || true
-          cp pf/favicon.ico pf/dist/jam/ 2>/dev/null || true
-          echo "✅ Assets copied to pf/dist/jam"
+          mkdir -p deploy/app
+          # Landing page → root
+          cp pf/index.html deploy/index.html
+          # Assets (logo, images) → /assets/
+          cp -r pf/assets deploy/assets 2>/dev/null || true
+          # React app build → /app/
+          cp -r pf/dist/jam/* deploy/app/
+          # PWA assets
+          cp pf/manifest.json deploy/ 2>/dev/null || true
+          cp pf/favicon.ico deploy/ 2>/dev/null || true
+          # Prevent Jekyll
+          touch deploy/.nojekyll
+          echo "✅ Deployment directory assembled"
 
       - name: 📋 Verify Build Output
         run: |
-          echo "=== pf/dist/jam contents ==="
-          ls -la pf/dist/jam/
-          ls -la pf/dist/jam/assets/ || echo "No assets dir"
-          echo "=== index.html head ==="
-          head -5 pf/dist/jam/index.html
+          echo "=== deploy/ root ==="
+          ls -la deploy/
+          echo "=== deploy/assets/ ==="
+          ls -la deploy/assets/ 2>/dev/null || echo "No assets dir"
+          echo "=== deploy/app/ ==="
+          ls -la deploy/app/
+          echo "=== Landing page head ==="
+          head -5 deploy/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: pf/dist/jam
+          path: deploy
 
   deploy:
     environment:
