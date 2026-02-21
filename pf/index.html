@@ -226,11 +226,179 @@
       }
       .hero {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 48px;
+        padding: 60px 24px 40px;
+        max-width: 1200px;
+        width: 100%;
+      }
+      .hero-left {
+        flex: 1;
         text-align: center;
-        padding: 80px 24px 40px;
-        max-width: 820px;
+        max-width: 620px;
+      }
+      /* ── Floating Login Card ── */
+      .hero-login {
+        width: 360px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--panda-border);
+        border-radius: 20px;
+        padding: 36px 28px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        animation: fadeInUp 0.6s ease-out 0.3s both;
+        position: sticky;
+        top: 100px;
+      }
+      .hero-login h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        text-align: center;
+      }
+      .hero-login .login-subtitle {
+        font-size: 0.85rem;
+        color: var(--panda-text-muted);
+        text-align: center;
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+      .login-google-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: linear-gradient(
+          135deg,
+          var(--panda-emerald) 0%,
+          #059669 100%
+        );
+        color: white;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+        font-family: inherit;
+        margin-bottom: 16px;
+      }
+      .login-google-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+      }
+      .login-google-btn:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+      .login-google-btn svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+      .login-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+        color: var(--panda-text-dim);
+        font-size: 0.75rem;
+      }
+      .login-divider::before,
+      .login-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--panda-border);
+      }
+      .login-demo-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: transparent;
+        border: 1px solid var(--panda-border);
+        color: var(--panda-text-muted);
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: inherit;
+      }
+      .login-demo-btn:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        color: var(--panda-text);
+        background: var(--panda-surface);
+      }
+      .login-status {
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        text-align: center;
+        display: none;
+      }
+      .login-status.error {
+        display: block;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+      }
+      .login-status.success {
+        display: block;
+        background: var(--panda-emerald-glow);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: var(--panda-emerald-bright);
+      }
+      .login-hint {
+        margin-top: 16px;
+        font-size: 0.72rem;
+        color: var(--panda-text-dim);
+        text-align: center;
+        line-height: 1.5;
+      }
+      .login-user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: var(--panda-emerald-glow);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+      .login-user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--panda-surface);
+      }
+      .login-user-details {
+        flex: 1;
+        min-width: 0;
+      }
+      .login-user-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .login-user-email {
+        font-size: 0.75rem;
+        color: var(--panda-text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .hero-badge {
         display: inline-flex;
@@ -708,6 +876,20 @@
           grid-template-columns: repeat(3, 1fr);
         }
       }
+      @media (max-width: 960px) {
+        .hero {
+          flex-direction: column;
+          align-items: center;
+        }
+        .hero-left {
+          max-width: 100%;
+        }
+        .hero-login {
+          width: 100%;
+          max-width: 420px;
+          position: static;
+        }
+      }
       @media (max-width: 768px) {
         header {
           padding: 16px 20px;
@@ -716,7 +898,7 @@
           display: none;
         }
         .hero {
-          padding: 60px 20px 30px;
+          padding: 40px 20px 30px;
         }
         .stats-grid {
           grid-template-columns: repeat(2, 1fr);
@@ -794,8 +976,8 @@
               rel="noopener"
               >Community</a
             >
-            <a class="header-cta" href="./app/" data-i18n="nav_open"
-              >Open App →</a
+            <a class="header-cta" href="#hero" id="nav-cta" data-i18n="nav_open"
+              >Sign In →</a
             >
           </nav>
         </div>
@@ -804,37 +986,108 @@
       <!-- ── Hero ── -->
       <main>
         <section class="hero" id="hero">
-          <div class="hero-badge">
-            <span class="hero-badge-dot"></span>
-            <span data-i18n="badge">Beta — Founder Solo Phase</span>
+          <!-- Left Column: Content -->
+          <div class="hero-left">
+            <div class="hero-badge">
+              <span class="hero-badge-dot"></span>
+              <span data-i18n="badge">Beta — Founder Solo Phase</span>
+            </div>
+
+            <h1>
+              <span class="hero-gradient-text" data-i18n="headline"
+                >The 4th Digital Layer</span
+              >
+            </h1>
+
+            <p class="hero-subtitle" data-i18n="subtitle">
+              Three layers exist: infrastructure, platforms, and tools. Panda
+              Factory is the 4th — an orchestration fabric that democratizes
+              creation, packaging &amp; monetization for everyone, with zero
+              upfront cost.
+            </p>
+
+            <div class="hero-actions">
+              <a
+                class="btn-secondary"
+                href="https://github.com/LucassVal/Panda-Factory"
+                target="_blank"
+                rel="noopener"
+                id="cta-github"
+              >
+                ⭐ <span data-i18n="cta_star">Star on GitHub</span>
+              </a>
+            </div>
           </div>
 
-          <h1>
-            <span class="hero-gradient-text" data-i18n="headline"
-              >The 4th Digital Layer</span
-            >
-          </h1>
+          <!-- Right Column: Login -->
+          <div class="hero-login" id="login-card">
+            <!-- Pre-login state -->
+            <div id="login-form">
+              <h3>🐼 Enter Panda Factory</h3>
+              <p class="login-subtitle">
+                Sign in with your Google account to access the workspace
+              </p>
 
-          <p class="hero-subtitle" data-i18n="subtitle">
-            Three layers exist: infrastructure, platforms, and tools. Panda
-            Factory is the 4th — an orchestration fabric that democratizes
-            creation, packaging &amp; monetization for everyone, with zero
-            upfront cost.
-          </p>
+              <button
+                class="login-google-btn"
+                id="btn-google-login"
+                onclick="handleGoogleLogin()"
+              >
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                Sign in with Google
+              </button>
 
-          <div class="hero-actions">
-            <a class="btn-primary" href="./app/" id="cta-primary">
-              🐼 <span data-i18n="cta_enter">Enter Panda Factory</span>
-            </a>
-            <a
-              class="btn-secondary"
-              href="https://github.com/LucassVal/Panda-Factory"
-              target="_blank"
-              rel="noopener"
-              id="cta-github"
-            >
-              ⭐ <span data-i18n="cta_star">Star on GitHub</span>
-            </a>
+              <div class="login-divider">or</div>
+
+              <button class="login-demo-btn" onclick="handleDemoAccess()">
+                👀 View Demo (read-only)
+              </button>
+
+              <div class="login-status" id="login-status"></div>
+
+              <p class="login-hint">
+                🔒 Secured by Firebase Auth · No password needed<br />
+                Your Google account is the only key to Panda Factory
+              </p>
+            </div>
+
+            <!-- Post-login state -->
+            <div id="login-success" style="display: none">
+              <div class="login-user-info">
+                <img class="login-user-avatar" id="user-avatar" alt="" src="" />
+                <div class="login-user-details">
+                  <div class="login-user-name" id="user-name"></div>
+                  <div class="login-user-email" id="user-email"></div>
+                </div>
+              </div>
+              <a
+                class="login-google-btn"
+                href="./app/"
+                style="text-decoration: none; text-align: center"
+              >
+                🐼 Open Workspace
+              </a>
+              <button class="login-demo-btn" onclick="handleSignOut()">
+                Sign Out
+              </button>
+            </div>
           </div>
         </section>
 
@@ -1095,7 +1348,7 @@
                   <div class="compare-value good">+40%</div>
                 </div>
               </div>
-              <a class="btn-primary" href="./app/" id="cta-revenue">
+              <a class="btn-primary" href="#hero" id="cta-revenue">
                 <span data-i18n="cta_build">Start Building for Free →</span>
               </a>
             </div>
@@ -1111,7 +1364,7 @@
               You bring domain knowledge and creativity. Together we create
               products for niches BigTechs won't touch.
             </p>
-            <a class="btn-primary" href="./dist/jam/index.html" id="cta-final">
+            <a class="btn-primary" href="#hero" id="cta-final">
               🐼 <span data-i18n="cta_enter">Enter Panda Factory</span>
             </a>
             <div class="cta-links">
@@ -1175,7 +1428,7 @@
     <script>
       const T = {
         en: {
-          nav_open: "Open App →",
+          nav_open: "Sign In →",
           badge: "Beta — Founder Solo Phase",
           headline: "The 4th Digital Layer",
           subtitle:
@@ -1254,7 +1507,7 @@
             "We handle infrastructure, AI, payments, distribution, compliance. You bring domain knowledge and creativity. Together we create products for niches BigTechs won't touch.",
         },
         pt: {
-          nav_open: "Abrir App →",
+          nav_open: "Entrar →",
           badge: "Beta — Fase Fundador Solo",
           headline: "A 4ª Camada Digital",
           subtitle:
@@ -1333,7 +1586,7 @@
             "Cuidamos de infraestrutura, IA, pagamentos, distribuição, compliance. Você traz conhecimento de domínio e criatividade. Juntos criamos produtos para nichos que BigTechs não atendem.",
         },
         es: {
-          nav_open: "Abrir App →",
+          nav_open: "Iniciar →",
           badge: "Beta — Fase Fundador Solo",
           headline: "La 4ª Capa Digital",
           subtitle:
@@ -1444,6 +1697,115 @@
         }
         if (T[lang]) setLang(lang);
       })();
+    </script>
+
+    <!-- ── Firebase SDK (CDN compat) ── -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script>
+      // Firebase init
+      const firebaseConfig = {
+        apiKey: "AIzaSyDyWiRgNusHQ38mNbusKgWHmXYYOfa5gjM",
+        authDomain: "panda-factory.firebaseapp.com",
+        databaseURL: "https://panda-factory-default-rtdb.firebaseio.com",
+        projectId: "panda-factory",
+        storageBucket: "panda-factory.firebasestorage.app",
+        messagingSenderId: "980998365446",
+        appId: "1:980998365446:web:90200c58606a6238eebe87",
+        measurementId: "G-RBZ0YWHSHN",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+      // DOM refs
+      const loginForm = document.getElementById("login-form");
+      const loginSuccess = document.getElementById("login-success");
+      const loginStatus = document.getElementById("login-status");
+      const btnGoogle = document.getElementById("btn-google-login");
+
+      // Show status message
+      function showStatus(msg, type) {
+        loginStatus.textContent = msg;
+        loginStatus.className = "login-status " + type;
+      }
+
+      // Show logged-in state
+      function showUser(user) {
+        document.getElementById("user-name").textContent =
+          user.displayName || "Panda User";
+        document.getElementById("user-email").textContent = user.email;
+        const avatar = document.getElementById("user-avatar");
+        if (user.photoURL) avatar.src = user.photoURL;
+        else avatar.style.display = "none";
+        loginForm.style.display = "none";
+        loginSuccess.style.display = "block";
+        // Update header CTA
+        const navCta = document.getElementById("nav-cta");
+        if (navCta) {
+          navCta.href = "./app/";
+          navCta.textContent = "🐼 Open App";
+        }
+      }
+
+      // Show logged-out state
+      function showLoggedOut() {
+        loginForm.style.display = "block";
+        loginSuccess.style.display = "none";
+        const navCta = document.getElementById("nav-cta");
+        if (navCta) {
+          navCta.href = "#hero";
+          navCta.textContent = "Sign In →";
+        }
+      }
+
+      // Google Sign-In
+      async function handleGoogleLogin() {
+        btnGoogle.disabled = true;
+        loginStatus.className = "login-status";
+        try {
+          const result = await auth.signInWithPopup(googleProvider);
+          showStatus(
+            "✅ Welcome, " + (result.user.displayName || "Panda") + "!",
+            "success",
+          );
+          showUser(result.user);
+        } catch (err) {
+          console.error("Google login error:", err);
+          if (err.code === "auth/popup-closed-by-user") {
+            showStatus("Sign-in cancelled. Try again when ready.", "error");
+          } else if (err.code === "auth/unauthorized-domain") {
+            showStatus(
+              "Domain not authorized in Firebase. Add this domain to your Firebase Console > Auth > Settings > Authorized domains.",
+              "error",
+            );
+          } else {
+            showStatus("Login failed: " + err.message, "error");
+          }
+        } finally {
+          btnGoogle.disabled = false;
+        }
+      }
+
+      // Demo access (read-only, no auth)
+      function handleDemoAccess() {
+        window.location.href = "./app/";
+      }
+
+      // Sign out
+      async function handleSignOut() {
+        await auth.signOut();
+        showLoggedOut();
+      }
+
+      // Listen for auth state changes (persists across page reloads)
+      auth.onAuthStateChanged(function (user) {
+        if (user) {
+          showUser(user);
+        } else {
+          showLoggedOut();
+        }
+      });
     </script>
   </body>
 </html>
