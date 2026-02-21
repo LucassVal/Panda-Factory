@@ -168,13 +168,9 @@ Social automation, prospecting bots, vertical CRMs, trading tools — markets to
 
 ## 🔥 Native Features (What It Actually Does)
 
-### 🪟 Multi-Window Docking System
-
-Panda Factory runs on a **FlexLayout-based window manager** that turns the entire canvas into a multi-window workspace:
-
 ### 🪟 Multi-Window Workspace (FlexLayout)
 
-A full IDE-like workspace — users can arrange their tools exactly how they work:
+Panda Factory runs on a **FlexLayout-based window manager** — a full IDE-like workspace where users can arrange their tools exactly how they work:
 
 | Feature              | What It Does                                                          |
 | -------------------- | --------------------------------------------------------------------- |
@@ -301,11 +297,13 @@ Each Tentacle has a JSON manifest that tells MCP exactly what data to extract:
 
 | Layer         | What                                        | Where                       | Strategy                                       |
 | ------------- | ------------------------------------------- | --------------------------- | ---------------------------------------------- |
-| **Spine**     | CRM + Calendar + Inventory + Dashboard      | Panda's own RTDB            | Always present, auto-populated by tentacles    |
+| **Spine**     | CRM + Calendar + Inventory                  | Panda's own RTDB            | Always present, auto-populated by tentacles    |
+| **Dashboard** | 🎯 **Fixed core icon in App Dock**          | Panda native (always on)    | Aggregates ALL connected services — the moat   |
 | **Tentacles** | WhatsApp, ML, Shopee, iFood, Calendar...    | External APIs via manifests | Panda parasitizes — connects, doesn't replace  |
 | **WebViews**  | Borrowed UI (Google Calendar, Bling, ML...) | iframe/webview in Canvas    | User sees the real tool, Panda operates behind |
 
 > **Philosophy: "Parasitize, Don't Compete."** — If the user already has a tool, Panda connects to it. If not, Panda offers a basic native module.
+> **Dashboard = core, not optional.** Without it, Panda is just a browser with tabs. The Dashboard aggregates metrics from ALL connected services into one view.
 
 ### 🎯 Templates by Niche (Kiwify/Hotmart Products)
 
@@ -355,6 +353,38 @@ In-app marketplace where users browse, install, and purchase extensions:
 | 🟣 **PRO**      | Paid Panda-built modules                      | Instagram, YouTube, Kiwify, Hotmart     |
 
 > **12 extensions** already built — Social (Instagram, Facebook, YouTube, TikTok, Twitter), Ads (Google Ads, Meta Business), Commerce (Kiwify, Hotmart), Productivity (CRM, Landing Pages, Analytics)
+
+### 🔌 Bridge Reuse — Devs Build On Top
+
+**This is the Shopify/Chrome Extensions model.** Panda provides BYOL bridges (`@panda/`) as shared infrastructure. Third-party devs create modules ON TOP — dashboards, automations, integrations — consuming the bridges via MCP.
+
+```text
+LAYER 1: BRIDGES (@panda/ — Managed by Panda Core)
+├── @panda/youtube      (WebView + API Bridge)
+├── @panda/instagram    (WebView + API Bridge)
+├── @panda/canva        (WebView + API Bridge)
+├── @panda/whatsapp     (WebView + API Bridge)
+└── Dev and User CONSUME these without worrying about OAuth, rate limits, tokens.
+
+LAYER 2: MODULES (Created by Devs — Published on Medusa Store)
+├── 🎯 @panda/dashboard  ← Panda native (default, fixed in App Dock)
+├── @dev/restaurant-dash ← Dev built a dashboard for restaurants
+├── @dev/ecommerce-dash  ← Dev built a dashboard for e-commerce
+└── Revenue: 70% dev / 30% Panda
+```
+
+**Why devs choose Panda over building from scratch:**
+
+```text
+WITHOUT PANDA (~9 weeks):                WITH PANDA (~2 weeks):
+1. Integrate iFood API (2 wks)           1. useBridge('@panda/ifood')     → ready
+2. Integrate Instagram API (2 wks)       2. useBridge('@panda/instagram') → ready
+3. Integrate WhatsApp API (3 wks)        3. useBridge('@panda/whatsapp')  → ready
+4. Build dashboard UI (2 wks)            4. Build dashboard UI (2 wks)
+   Total: ~9 weeks                          Total: ~2 weeks (78% reduction)
+```
+
+> **The bridges are the moat.** Devs come to Panda because the integrations already exist. They don't need to solve OAuth, rate limits, or token refresh — the bridge handles it. They focus on what they do best: building niche dashboards and selling them in the Store.
 
 ### 🛡️ Panda Defend — Security Layer
 
@@ -606,13 +636,13 @@ await Panda.Store.publish({ name: "DentistCRM", price: 97 }); // L2: Platform
 
 Every product ships AI-native via MCP (Model Context Protocol). Module creators don't need to write AI code:
 
-| Model                | Purpose                          | Speed |
-| -------------------- | -------------------------------- | :---: |
-| **Gemini 2.0 Flash** | Instant responses, quick tasks   |  ⚡   |
-| **Gemini 2.0 Pro**   | Deep analysis, complex reasoning |  🔬   |
-| **Gemini 3.0 Think** | Multi-step strategy, planning    |  🧠   |
-| **Gemini Research**  | Answers with web sources         |  🌐   |
-| **Gemini Imagen**    | AI image generation              |  🎨   |
+| Model                    | Purpose                          | Speed |
+| ------------------------ | -------------------------------- | :---: |
+| **Gemini 3 Flash**       | Instant responses, quick tasks   |  ⚡   |
+| **Gemini 3 Pro**         | Deep analysis, complex reasoning |  🔬   |
+| **Gemini 3 Flash Think** | Multi-step strategy, planning    |  🧠   |
+| **Deep Research**        | Answers with web sources         |  🌐   |
+| **Gemini 3 Pro Imagen**  | AI image generation              |  🎨   |
 
 ---
 
@@ -749,6 +779,47 @@ Panda Factory flips this:
 
 ---
 
+## 📂 Project Structure — 11 Numbered Hubs
+
+The repository uses a **numbered taxonomy** for instant navigation. This structure is the ground truth for MCP interactions:
+
+```text
+Panda-Factory/
+├── 00.credentials/        # Firebase keys, .env (gitignored)
+├── 1.core/                # GAS backend (17 .gs files)
+├── 2.system/              # System configs (Brain, SecurityAgent, TentacleRegistry)
+├── 3.sdk/                 # SDK source (17 namespaces)
+├── 4.ui/                  # CSS + shared UI components
+├── 5.tentacles/           # Medusa tentacle modules (37 integrations)
+├── 7.rust-agent/          # Rust/Tauri desktop agent (GPU, P2P, license)
+├── 8.docs/                # Reference documentation (16 docs)
+├── 9.tools/               # Dev tools, scripts, utilities
+├── 10.assets/             # Images, pages, pitch decks
+├── 11.pf-app/             # React 18 application (Vite)
+├── 12.sandbox/            # Experimental / playground
+├── PF_MASTER_ARCHITECTURE.md   # 📜 Master SSoT (architecture + roadmap)
+├── README.md              # ← You are here
+└── index.html             # Landing page (GitHub Pages)
+```
+
+> **Hub 6 is intentionally skipped** — reserved for future use.
+
+---
+
+## 📚 Documentation Index
+
+| Document                        | Purpose                                                 | Location     |
+| ------------------------------- | ------------------------------------------------------- | ------------ |
+| **PF_MASTER_ARCHITECTURE.md**   | SSoT — Architecture, Economy, Roadmap, File Registry    | Project root |
+| **council_viability_report.md** | Viability analysis, market positioning, risk assessment | `8.docs/`    |
+| **PF_SDK_REFERENCE.md**         | SDK namespaces, API surface, usage examples             | `8.docs/`    |
+| **PF_UI_REFERENCE.md**          | Design system, components, CSS variables                | `8.docs/`    |
+| **PAT_Constitution.md**         | Governance rules, 12 Articles, Panda Defend             | `8.docs/`    |
+
+> Full roadmap lives in **PF_MASTER_ARCHITECTURE.md §15** — this README shows the summary only.
+
+---
+
 ## 📊 Numbers (Audited Feb 2026)
 
 ```text
@@ -762,8 +833,8 @@ Panda Factory flips this:
 │  🧠 5 Gemini Models            💳 6 Webhook Gateways           │
 │  💰 17 SDK Namespaces          🌐 15 Integrations              │
 │                                                                │
-│  ⚡ Phase 1: 95% UI Real · 70% Backend Written               │
-│  🚀 Target: March 1st 2026                                    │
+│  ⚡ Phase 1: 95% Complete · UI Real · Backend 70% Written    │
+│  🚀 Target: March 1st 2026 — Founder GTM Launch              │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -771,23 +842,31 @@ Panda Factory flips this:
 
 ## 🗺️ Roadmap
 
-### Current Status: Founder-First GTM (Feb 2026)
+### 5-Phase Strategic Roadmap
 
-| Sprint | Focus                         | Hours | Deliverable                                   |
-| :----: | ----------------------------- | :---: | --------------------------------------------- |
-| **S1** | Auth + Wallet + Webhooks      | ~15h  | Firebase Auth, GAS deployed, HMAC-SHA256      |
-| **S2** | Stripe + PIX + Access Control | ~19h  | Real payments, modules activate post-purchase |
-| **S3** | Products + E2E                | ~17h  | AI CRM packaged, webhook tested               |
-| **S4** | Affiliates + Go-live          |  ~9h  | Program open, first real sales                |
+| Phase | Name                        | When       | Focus                                                                                 | Status  |
+| :---: | --------------------------- | ---------- | ------------------------------------------------------------------------------------- | :-----: |
+| **0** | Foundation                  | Jan 2026   | SDK, Backend (17 GAS), AI pipeline, Security core                                     | ✅ Done |
+| **1** | UI + Founder GTM            | Feb 2026   | 31 components, Store, Login, i18n, Webhooks, first users                              | 🚧 95%  |
+| **2** | Bridge Infra + Monetization | Mar 2026   | `@panda/` bridges (YouTube, Instagram, WhatsApp), Stripe + PIX live, first real sales | ⏳ Next |
+| **3** | Dev Marketplace             | Q2 2026    | Bridge Reuse API, first 3rd-party modules, Medusa Store public, affiliate program     |   ⏳    |
+| **4** | Scale + P2P                 | Q3-Q4 2026 | P2P compute (BYOC), Rust Agent GA, 5-tier mining, Google Partner application          |   ⏳    |
 
-### Timeline
+> 📜 **Full roadmap with task-level detail:** see [PF_MASTER_ARCHITECTURE.md §15](PF_MASTER_ARCHITECTURE.md)
 
-| Phase    | When         | Focus            | Milestones                                  |
-| -------- | ------------ | ---------------- | ------------------------------------------- |
-| **0** ✅ | Jan 2026     | Foundation       | SDK, Backend, AI, Security                  |
-| **1** 🚧 | Feb 2026     | UI + Founder GTM | 31 components, Store, Login, i18n, Webhooks |
-| **2** ⏳ | Mar-Apr 2026 | Monetization     | First sales, active affiliates              |
-| **3** ⏳ | Q2-Q3 2026   | Expansion        | Dev marketplace, P2P, Mobile                |
+---
+
+## 🔐 Security Status
+
+| Item                        | Priority |   Status   | Detail                                              |
+| --------------------------- | :------: | :--------: | --------------------------------------------------- |
+| **Firebase Security Rules** |    P0    | ⚠️ Pending | RTDB rules need per-user read/write scoping         |
+| **CSP Headers**             |    P0    | ⚠️ Pending | Content Security Policy for XSS prevention          |
+| **Ed25519 Kill Switch**     |    P0    | 🟡 Partial | Crypto logic exists, real key pair not yet deployed |
+| **HMAC Webhook Validation** |    P1    |  ✅ Done   | Kiwify/Hotmart webhooks validate signatures         |
+| **Panda Defend (14 Rules)** |    P1    |  ✅ Done   | Runtime constitution enforcement active             |
+
+> See [council_viability_report.md](8.docs/council_viability_report.md) for the full risk analysis.
 
 ---
 
@@ -883,5 +962,5 @@ Panda Factory is looking for developers who want to build and earn in the 4th la
   <em>Where BigTechs sell services, Panda connects them into one invisible employee.</em><br>
   <em>Spine + Tentacles + MCP Brain = the 4th layer in action.</em><br>
   <em>We don't compete with Layers 1-3. We parasitize their APIs and orchestrate them.</em><br>
-  <code>v10.0 — 4th Layer · Spine + Tentacles Edition · February 2026</code>
+  <code>v11.0 — 4th Layer · Spine + Tentacles Edition · February 2026</code>
 </p>
