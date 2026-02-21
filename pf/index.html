@@ -70,21 +70,21 @@
     />
     <style>
       :root {
-        --panda-black: #0a0a0f;
-        --panda-dark: #0f172a;
-        --panda-surface: rgba(255, 255, 255, 0.04);
-        --panda-border: rgba(255, 255, 255, 0.08);
-        --panda-border-hover: rgba(16, 185, 129, 0.3);
-        --panda-emerald: #10b981;
-        --panda-emerald-glow: rgba(16, 185, 129, 0.15);
-        --panda-emerald-bright: #34d399;
-        --panda-purple: #8b5cf6;
-        --panda-purple-glow: rgba(139, 92, 246, 0.15);
-        --panda-orange: #f59e0b;
-        --panda-blue: #3b82f6;
-        --panda-text: #e2e8f0;
-        --panda-text-muted: #64748b;
-        --panda-text-dim: #475569;
+        --pf-black: #0a0a1a;
+        --pf-dark: #0f172a;
+        --pf-surface: rgba(22, 33, 62, 0.95);
+        --pf-border: rgba(255, 255, 255, 0.08);
+        --pf-border-hover: rgba(16, 185, 129, 0.3);
+        --pf-emerald: #10b981;
+        --pf-emerald-glow: rgba(16, 185, 129, 0.15);
+        --pf-emerald-bright: #34d399;
+        --pf-purple: #8b5cf6;
+        --pf-purple-glow: rgba(139, 92, 246, 0.15);
+        --pf-orange: #f59e0b;
+        --pf-blue: #3b82f6;
+        --pf-text: #eaeaea;
+        --pf-text-muted: #8a8a9a;
+        --pf-text-dim: #6a6a7a;
       }
       * {
         margin: 0;
@@ -100,9 +100,9 @@
           -apple-system,
           BlinkMacSystemFont,
           sans-serif;
-        background: var(--panda-black);
+        background: var(--pf-black);
         min-height: 100vh;
-        color: var(--panda-text);
+        color: var(--pf-text);
         overflow-x: hidden;
       }
       body::before {
@@ -112,12 +112,12 @@
         background:
           radial-gradient(
             ellipse 80% 50% at 50% -20%,
-            var(--panda-emerald-glow) 0%,
+            var(--pf-emerald-glow) 0%,
             transparent 60%
           ),
           radial-gradient(
             ellipse 60% 40% at 80% 50%,
-            var(--panda-purple-glow) 0%,
+            var(--pf-purple-glow) 0%,
             transparent 50%
           );
         pointer-events: none;
@@ -166,55 +166,60 @@
         gap: 24px;
       }
       .header-links a {
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         text-decoration: none;
         font-size: 0.85rem;
         font-weight: 500;
         transition: color 0.2s;
       }
       .header-links a:hover {
-        color: var(--panda-text);
+        color: var(--pf-text);
       }
       .lang-switcher {
         display: flex;
-        gap: 4px;
-        background: var(--panda-surface);
-        border: 1px solid var(--panda-border);
-        border-radius: 8px;
-        padding: 3px;
+        gap: 6px;
+        padding: 4px;
+        background: rgba(15, 15, 35, 0.6);
+        border: 1px solid rgba(102, 126, 234, 0.15);
+        border-radius: 12px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
       .lang-btn {
         background: transparent;
-        border: none;
-        color: var(--panda-text-muted);
+        border: 1px solid transparent;
+        color: rgba(255, 255, 255, 0.45);
         padding: 5px 10px;
-        border-radius: 6px;
+        border-radius: 8px;
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 500;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.25s ease;
         font-family: inherit;
       }
       .lang-btn.active {
-        background: var(--panda-emerald-glow);
-        color: var(--panda-emerald-bright);
+        background: rgba(102, 126, 234, 0.2);
+        border-color: rgba(102, 126, 234, 0.4);
+        color: #a78bfa;
+        font-weight: 600;
       }
       .lang-btn:hover:not(.active) {
-        color: var(--panda-text);
+        background: rgba(102, 126, 234, 0.1);
+        color: rgba(255, 255, 255, 0.7);
       }
       .header-cta {
-        background: var(--panda-surface);
-        border: 1px solid var(--panda-border);
-        color: var(--panda-text) !important;
+        background: var(--pf-surface);
+        border: 1px solid var(--pf-border);
+        color: var(--pf-text) !important;
         padding: 8px 20px;
         border-radius: 8px;
         font-weight: 600 !important;
         transition: all 0.25s !important;
       }
       .header-cta:hover {
-        background: var(--panda-emerald-glow) !important;
-        border-color: var(--panda-emerald) !important;
-        color: var(--panda-emerald-bright) !important;
+        background: var(--pf-emerald-glow) !important;
+        border-color: var(--pf-emerald) !important;
+        color: var(--pf-emerald-bright) !important;
       }
 
       /* ── Hero ── */
@@ -243,12 +248,12 @@
       .hero-login {
         width: 360px;
         flex-shrink: 0;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--panda-border);
-        border-radius: 20px;
+        background: rgba(15, 15, 35, 0.8);
+        border: 1px solid rgba(102, 126, 234, 0.15);
+        border-radius: 16px;
         padding: 36px 28px;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         animation: fadeInUp 0.6s ease-out 0.3s both;
         position: sticky;
         top: 100px;
@@ -261,7 +266,7 @@
       }
       .hero-login .login-subtitle {
         font-size: 0.85rem;
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         text-align: center;
         margin-bottom: 24px;
         line-height: 1.5;
@@ -271,27 +276,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
-        background: linear-gradient(
-          135deg,
-          var(--panda-emerald) 0%,
-          #059669 100%
-        );
-        color: white;
-        padding: 14px 24px;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e0e0e0;
+        padding: 13px 16px;
         border-radius: 12px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border: none;
+        font-size: 14px;
+        font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+        transition: all 0.2s ease;
         font-family: inherit;
         margin-bottom: 16px;
       }
       .login-google-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
       }
       .login-google-btn:disabled {
         opacity: 0.7;
@@ -307,15 +307,15 @@
         align-items: center;
         gap: 12px;
         margin: 16px 0;
-        color: var(--panda-text-dim);
-        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 12px;
       }
       .login-divider::before,
       .login-divider::after {
         content: "";
         flex: 1;
         height: 1px;
-        background: var(--panda-border);
+        background: rgba(255, 255, 255, 0.08);
       }
       .login-demo-btn {
         width: 100%;
@@ -324,8 +324,8 @@
         justify-content: center;
         gap: 8px;
         background: transparent;
-        border: 1px solid var(--panda-border);
-        color: var(--panda-text-muted);
+        border: 1px solid var(--pf-border);
+        color: var(--pf-text-muted);
         padding: 12px 24px;
         border-radius: 12px;
         font-size: 0.85rem;
@@ -336,8 +336,8 @@
       }
       .login-demo-btn:hover {
         border-color: rgba(255, 255, 255, 0.2);
-        color: var(--panda-text);
-        background: var(--panda-surface);
+        color: var(--pf-text);
+        background: var(--pf-surface);
       }
       .login-status {
         margin-top: 16px;
@@ -355,14 +355,14 @@
       }
       .login-status.success {
         display: block;
-        background: var(--panda-emerald-glow);
+        background: var(--pf-emerald-glow);
         border: 1px solid rgba(16, 185, 129, 0.3);
-        color: var(--panda-emerald-bright);
+        color: var(--pf-emerald-bright);
       }
       .login-hint {
         margin-top: 16px;
         font-size: 0.72rem;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         text-align: center;
         line-height: 1.5;
       }
@@ -371,7 +371,7 @@
         align-items: center;
         gap: 12px;
         padding: 12px;
-        background: var(--panda-emerald-glow);
+        background: var(--pf-emerald-glow);
         border: 1px solid rgba(16, 185, 129, 0.2);
         border-radius: 12px;
         margin-bottom: 16px;
@@ -380,7 +380,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: var(--panda-surface);
+        background: var(--pf-surface);
       }
       .login-user-details {
         flex: 1;
@@ -395,7 +395,7 @@
       }
       .login-user-email {
         font-size: 0.75rem;
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -404,12 +404,12 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: var(--panda-surface);
-        border: 1px solid var(--panda-border);
+        background: var(--pf-surface);
+        border: 1px solid var(--pf-border);
         border-radius: 100px;
         padding: 6px 18px;
         font-size: 0.8rem;
-        color: var(--panda-emerald-bright);
+        color: var(--pf-emerald-bright);
         font-weight: 500;
         margin-bottom: 32px;
         animation: fadeInDown 0.6s ease-out;
@@ -418,7 +418,7 @@
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: var(--panda-emerald);
+        background: var(--pf-emerald);
         animation: pulse-dot 2s infinite;
       }
       @keyframes pulse-dot {
@@ -441,8 +441,8 @@
       .hero-gradient-text {
         background: linear-gradient(
           135deg,
-          var(--panda-emerald-bright) 0%,
-          var(--panda-purple) 100%
+          var(--pf-emerald-bright) 0%,
+          var(--pf-purple) 100%
         );
         -webkit-background-clip: text;
         background-clip: text;
@@ -450,7 +450,7 @@
       }
       .hero-subtitle {
         font-size: clamp(1rem, 2vw, 1.2rem);
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         max-width: 620px;
         line-height: 1.7;
         margin-bottom: 40px;
@@ -468,11 +468,7 @@
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        background: linear-gradient(
-          135deg,
-          var(--panda-emerald) 0%,
-          #059669 100%
-        );
+        background: linear-gradient(135deg, var(--pf-emerald) 0%, #059669 100%);
         color: white;
         padding: 14px 32px;
         border-radius: 10px;
@@ -493,20 +489,20 @@
         align-items: center;
         gap: 10px;
         background: transparent;
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         padding: 14px 32px;
         border-radius: 10px;
         font-size: 1rem;
         font-weight: 500;
-        border: 1px solid var(--panda-border);
+        border: 1px solid var(--pf-border);
         cursor: pointer;
         text-decoration: none;
         transition: all 0.3s;
       }
       .btn-secondary:hover {
-        color: var(--panda-text);
+        color: var(--pf-text);
         border-color: rgba(255, 255, 255, 0.2);
-        background: var(--panda-surface);
+        background: var(--pf-surface);
       }
 
       /* ── Social Proof ── */
@@ -522,7 +518,7 @@
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.15em;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         margin-bottom: 20px;
         font-weight: 500;
       }
@@ -537,12 +533,12 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: var(--panda-surface);
-        border: 1px solid var(--panda-border);
+        background: var(--pf-surface);
+        border: 1px solid var(--pf-border);
         padding: 7px 14px;
         border-radius: 8px;
         font-size: 0.78rem;
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         font-weight: 500;
         transition: border-color 0.2s;
       }
@@ -561,18 +557,18 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 1px;
-        background: var(--panda-border);
+        background: var(--pf-border);
         border-radius: 16px;
         overflow: hidden;
       }
       .stat-card {
-        background: var(--panda-black);
+        background: var(--pf-black);
         padding: 28px 16px;
         text-align: center;
         transition: background 0.3s;
       }
       .stat-card:hover {
-        background: var(--panda-surface);
+        background: var(--pf-surface);
       }
       .stat-number {
         font-size: 1.8rem;
@@ -580,8 +576,8 @@
         letter-spacing: -0.02em;
         background: linear-gradient(
           135deg,
-          var(--panda-emerald-bright),
-          var(--panda-purple)
+          var(--pf-emerald-bright),
+          var(--pf-purple)
         );
         -webkit-background-clip: text;
         background-clip: text;
@@ -590,7 +586,7 @@
       }
       .stat-label {
         font-size: 0.78rem;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         font-weight: 500;
       }
 
@@ -612,7 +608,7 @@
         margin-bottom: 12px;
       }
       .section-header p {
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         font-size: 1rem;
         max-width: 550px;
         margin: 0 auto;
@@ -624,14 +620,14 @@
         gap: 14px;
       }
       .feat-card {
-        background: var(--panda-surface);
-        border: 1px solid var(--panda-border);
+        background: var(--pf-surface);
+        border: 1px solid var(--pf-border);
         border-radius: 14px;
         padding: 24px 20px;
         transition: all 0.3s;
       }
       .feat-card:hover {
-        border-color: var(--panda-border-hover);
+        border-color: var(--pf-border-hover);
         transform: translateY(-3px);
         box-shadow: 0 12px 40px rgba(16, 185, 129, 0.06);
       }
@@ -644,7 +640,7 @@
         justify-content: center;
         font-size: 1.1rem;
         margin-bottom: 14px;
-        background: var(--panda-emerald-glow);
+        background: var(--pf-emerald-glow);
       }
       .feat-card h3 {
         font-size: 0.92rem;
@@ -654,13 +650,13 @@
       }
       .feat-card p {
         font-size: 0.8rem;
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         line-height: 1.55;
       }
       .feat-highlight {
         display: inline-block;
-        background: var(--panda-emerald-glow);
-        color: var(--panda-emerald-bright);
+        background: var(--pf-emerald-glow);
+        color: var(--pf-emerald-bright);
         padding: 2px 8px;
         border-radius: 4px;
         font-size: 0.72rem;
@@ -679,19 +675,19 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 1px;
-        background: var(--panda-border);
+        background: var(--pf-border);
         border-radius: 16px;
         overflow: hidden;
         margin-bottom: 32px;
       }
       .rev-card {
-        background: var(--panda-black);
+        background: var(--pf-black);
         padding: 28px 16px;
         text-align: center;
         transition: background 0.3s;
       }
       .rev-card:hover {
-        background: var(--panda-surface);
+        background: var(--pf-surface);
       }
       .rev-emoji {
         font-size: 1.5rem;
@@ -700,18 +696,18 @@
       .rev-pct {
         font-size: 1.6rem;
         font-weight: 800;
-        color: var(--panda-emerald-bright);
+        color: var(--pf-emerald-bright);
         margin-bottom: 2px;
       }
       .rev-label {
         font-size: 0.72rem;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         font-weight: 500;
         line-height: 1.4;
       }
       .rev-sublabel {
         font-size: 0.65rem;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         opacity: 0.7;
         margin-top: 4px;
       }
@@ -725,7 +721,7 @@
           rgba(16, 185, 129, 0.05),
           rgba(139, 92, 246, 0.05)
         );
-        border: 1px solid var(--panda-border);
+        border: 1px solid var(--pf-border);
         border-radius: 16px;
         padding: 36px 32px;
         text-align: center;
@@ -736,7 +732,7 @@
         margin-bottom: 8px;
       }
       .revenue-compare-card p {
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         font-size: 0.92rem;
         line-height: 1.65;
         margin-bottom: 24px;
@@ -753,7 +749,7 @@
       }
       .compare-platform {
         font-size: 0.72rem;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         margin-bottom: 4px;
       }
       .compare-value {
@@ -764,7 +760,7 @@
         color: #ef4444;
       }
       .compare-value.good {
-        color: var(--panda-emerald-bright);
+        color: var(--pf-emerald-bright);
       }
 
       /* ── CTA Banner ── */
@@ -781,7 +777,7 @@
           rgba(16, 185, 129, 0.08),
           rgba(139, 92, 246, 0.08)
         );
-        border: 1px solid var(--panda-border);
+        border: 1px solid var(--pf-border);
         border-radius: 20px;
         padding: 48px 40px;
       }
@@ -791,7 +787,7 @@
         margin-bottom: 12px;
       }
       .cta-card p {
-        color: var(--panda-text-muted);
+        color: var(--pf-text-muted);
         margin-bottom: 28px;
         font-size: 0.95rem;
         line-height: 1.7;
@@ -804,20 +800,20 @@
         margin-top: 16px;
       }
       .cta-link {
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         font-size: 0.8rem;
         text-decoration: none;
         transition: color 0.2s;
       }
       .cta-link:hover {
-        color: var(--panda-emerald-bright);
+        color: var(--pf-emerald-bright);
       }
 
       /* ── Footer ── */
       footer {
         padding: 40px 24px;
         text-align: center;
-        border-top: 1px solid var(--panda-border);
+        border-top: 1px solid var(--pf-border);
         max-width: 1200px;
         width: 100%;
         margin: 0 auto;
@@ -829,20 +825,20 @@
       }
       .footer-copy {
         font-size: 0.78rem;
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
       }
       .footer-links {
         display: flex;
         gap: 20px;
       }
       .footer-links a {
-        color: var(--panda-text-dim);
+        color: var(--pf-text-dim);
         text-decoration: none;
         font-size: 0.78rem;
         transition: color 0.2s;
       }
       .footer-links a:hover {
-        color: var(--panda-text);
+        color: var(--pf-text);
       }
 
       /* ── Animations ── */
