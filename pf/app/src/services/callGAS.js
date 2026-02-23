@@ -228,6 +228,78 @@ export const Founder = {
   getWebhookLogs: (limit = 50) => gasPost("FOUNDER_WEBHOOK_LOGS", { limit }),
 };
 
+/** WhatsApp — Evolution API tentacle (MOD-01) */
+export const WhatsApp = {
+  send: (chatId, message) => gasPost("WA_SEND", { chatId, message }),
+  getStatus: () => gasPost("WA_STATUS"),
+  getChats: () => gasPost("WA_GET_CHATS"),
+  getMessages: (chatId) => gasPost("WA_GET_MESSAGES", { chatId }),
+};
+
+/** Instagram — Meta Graph API tentacle (MOD-02) */
+export const Instagram = {
+  send: (chatId, message) => gasPost("IG_SEND", { chatId, message }),
+  getStatus: () => gasPost("IG_STATUS"),
+  getChats: () => gasPost("IG_GET_CHATS"),
+  getMessages: (chatId) => gasPost("IG_GET_MESSAGES", { chatId }),
+};
+
+/** CRM — Native CRM Tentacle (MOD-04) */
+export const CRM = {
+  upsert: (contact) => gasPost("CRM_UPSERT", { contact }),
+  delete: (contactId) => gasPost("CRM_DELETE", { contactId }),
+  list: (pipeline, search) => gasPost("CRM_LIST", { pipeline, search }),
+  pipelineUpdate: (contactId, pipeline) =>
+    gasPost("CRM_PIPELINE_UPDATE", { contactId, pipeline }),
+};
+
+/** Agenda — Calendar Management (MOD-05) */
+export const Agenda = {
+  create: (event) => gasPost("AGENDA_CREATE", { event }),
+  list: (dateFrom, dateTo) => gasPost("AGENDA_LIST", { dateFrom, dateTo }),
+  update: (eventId, updates) => gasPost("AGENDA_UPDATE", { eventId, updates }),
+  remove: (eventId) => gasPost("AGENDA_DELETE", { eventId }),
+};
+
+/** PDV — Point of Sale / Cardápio (MOD-06) */
+export const PDV = {
+  getMenu: (category) => gasPost("PDV_GET_MENU", { category }),
+  upsertMenu: (item) => gasPost("PDV_UPSERT_MENU", { item }),
+  createOrder: (order) => gasPost("PDV_CREATE_ORDER", { order }),
+  listOrders: () => gasPost("PDV_LIST_ORDERS", {}),
+};
+
+/** Estoque — Inventory Management (MOD-07) */
+export const Estoque = {
+  list: (category, lowStockOnly) =>
+    gasPost("STOCK_LIST", { category, lowStockOnly }),
+  upsert: (item) => gasPost("STOCK_UPSERT", { item }),
+  adjust: (itemId, adjustment, reason, type) =>
+    gasPost("STOCK_ADJUST", { itemId, adjustment, reason, type }),
+};
+
+/** Facebook Messenger — DM Auto-Reply (MOD-08) */
+export const Facebook = {
+  receive: (payload) => gasPost("FB_RECEIVE", { payload }),
+  send: (recipientId, message) => gasPost("FB_SEND", { recipientId, message }),
+  status: () => gasGet("FB_STATUS"),
+};
+
+/** TikTok — Comments + DM (MOD-09) */
+export const TikTok = {
+  receive: (payload) => gasPost("TT_RECEIVE", { payload }),
+  reply: (commentId, text) => gasPost("TT_REPLY", { commentId, text }),
+  status: () => gasGet("TT_STATUS"),
+};
+
+/** YouTube — Comments + Moderation (MOD-10) */
+export const YouTube = {
+  replyComment: (commentId, text) =>
+    gasPost("YT_REPLY_COMMENT", { commentId, text }),
+  moderate: (commentId, action) =>
+    gasPost("YT_MODERATE", { commentId, action }),
+};
+
 export default {
   get: gasGet,
   post: gasPost,
@@ -242,4 +314,13 @@ export default {
   Status,
   Drive,
   Founder,
+  WhatsApp,
+  Instagram,
+  CRM,
+  Agenda,
+  PDV,
+  Estoque,
+  Facebook,
+  TikTok,
+  YouTube,
 };

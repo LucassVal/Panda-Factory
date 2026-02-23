@@ -1,0 +1,505 @@
+/**
+ * 💬 PFWhatsApp.css — WhatsApp Tentacle Styles (MOD-01)
+ * Dark theme, glassmorphism, chat bubble layout.
+ * @version 1.0.0
+ */
+
+/* ── Container ── */
+.pf-whatsapp {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0e17 0%, #111827 50%, #0f172a 100%);
+  color: #e2e8f0;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Status Bar ── */
+.wa-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.wa-status-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wa-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+
+.wa-status-dot.connected {
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+.wa-status-dot.disconnected {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.wa-status-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.wa-status-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wa-msg-count {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.wa-ai-toggle {
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(30, 41, 59, 0.6);
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wa-ai-toggle.active {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #818cf8;
+}
+
+.wa-ai-toggle:hover {
+  background: rgba(99, 102, 241, 0.3);
+}
+
+.wa-close-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.wa-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+/* ── Body ── */
+.wa-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Sidebar ── */
+.wa-sidebar {
+  width: 300px;
+  min-width: 240px;
+  border-right: 1px solid rgba(99, 102, 241, 0.1);
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.wa-search {
+  padding: 10px;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+}
+
+.wa-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  background: rgba(30, 41, 59, 0.6);
+  color: #e2e8f0;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.wa-search-input:focus {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.wa-search-input::placeholder {
+  color: #475569;
+}
+
+/* ── Chat List ── */
+.wa-chat-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.2) transparent;
+}
+
+.wa-loading, .wa-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #475569;
+  font-size: 13px;
+}
+
+.wa-empty small {
+  color: #334155;
+  display: block;
+  margin-top: 8px;
+}
+
+.wa-chat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.04);
+}
+
+.wa-chat-item:hover {
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.wa-chat-item.active {
+  background: rgba(99, 102, 241, 0.12);
+  border-left: 3px solid #6366f1;
+}
+
+.wa-chat-item.unread {
+  background: rgba(34, 197, 94, 0.04);
+}
+
+.wa-chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.wa-chat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wa-chat-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wa-unread-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+
+.wa-chat-preview {
+  font-size: 12px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.wa-chat-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.wa-chat-time {
+  font-size: 10px;
+  color: #475569;
+}
+
+.wa-chat-count {
+  font-size: 10px;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* ── Chat Area ── */
+.wa-chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.wa-no-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  gap: 8px;
+}
+
+.wa-no-chat-icon {
+  font-size: 48px;
+  opacity: 0.4;
+}
+
+.wa-no-chat h3 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #64748b;
+  margin: 0;
+}
+
+.wa-no-chat p {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+}
+
+.wa-no-chat small {
+  font-size: 11px;
+  color: #334155;
+}
+
+/* ── Chat Header ── */
+.wa-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(30, 41, 59, 0.5);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.wa-back-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.wa-chat-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.wa-chat-header-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.wa-chat-header-id {
+  font-size: 11px;
+  color: #64748b;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* ── Messages ── */
+.wa-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.2) transparent;
+}
+
+.wa-no-messages {
+  text-align: center;
+  color: #475569;
+  font-size: 13px;
+  padding: 40px 0;
+}
+
+.wa-message {
+  display: flex;
+  max-width: 75%;
+}
+
+.wa-message.incoming {
+  align-self: flex-start;
+}
+
+.wa-message.outgoing {
+  align-self: flex-end;
+}
+
+.wa-message-bubble {
+  padding: 8px 12px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.wa-message.incoming .wa-message-bubble {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-bottom-left-radius: 4px;
+}
+
+.wa-message.outgoing .wa-message-bubble {
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-bottom-right-radius: 4px;
+}
+
+.wa-message.ai .wa-message-bubble {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.wa-message.sending .wa-message-bubble {
+  opacity: 0.6;
+}
+
+.wa-ai-badge {
+  font-size: 10px;
+  background: rgba(139, 92, 246, 0.25);
+  color: #a78bfa;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+
+.wa-message-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e2e8f0;
+  word-break: break-word;
+}
+
+.wa-message-time {
+  font-size: 10px;
+  color: #475569;
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* ── Input Bar ── */
+.wa-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(30, 41, 59, 0.6);
+  border-top: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.wa-input {
+  flex: 1;
+  resize: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  background: rgba(15, 23, 42, 0.8);
+  color: #e2e8f0;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.wa-input:focus {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.wa-input::placeholder {
+  color: #475569;
+}
+
+.wa-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.wa-send-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+.wa-send-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .wa-sidebar {
+    width: 100%;
+  }
+
+  .wa-chat-area {
+    display: none;
+  }
+
+  .wa-back-btn {
+    display: block;
+  }
+}

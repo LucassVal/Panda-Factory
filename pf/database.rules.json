@@ -1,0 +1,232 @@
+{
+  "rules": {
+    // ══════════════════════════════════════════════
+    // 🐼 PANDA FACTORY — Firebase RTDB Security Rules
+    // Parent/Child architecture: each node has clear ownership.
+    // ══════════════════════════════════════════════
+
+    // ── USERS (Parent: uid) ──────────────────────
+    "users": {
+      "$uid": {
+        // User reads/writes own data only
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid",
+
+        "profile": {
+          ".validate": "newData.hasChildren(['email', 'tier', 'createdAt'])"
+        },
+        "wallet": {
+          "balance": {
+            ".validate": "newData.isNumber() && newData.val() >= 0"
+          },
+          "transactions": {
+            "$txId": {
+              ".validate": "newData.hasChildren(['type', 'amount', 'timestamp'])"
+            }
+          }
+        },
+        "licenses": {
+          "$moduleId": {
+            ".validate": "newData.hasChildren(['granted', 'version'])"
+          }
+        },
+        "gasometer": {
+          "$date": {
+            ".validate": "newData.isNumber()"
+          }
+        }
+      }
+    },
+
+    // ── STORE (Parent: catalog) ──────────────────
+    "store": {
+      "catalog": {
+        // Public read — anyone can browse the store
+        ".read": true,
+        // Only admin (Founder) can write
+        ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
+
+        "$moduleId": {
+          ".validate": "newData.hasChildren(['name', 'icon', 'description', 'price', 'tier', 'author', 'version'])",
+
+          // Children: each module has nested config
+          "mcpTools": { ".validate": true },
+          "embedLinks": { ".validate": true },
+          "reviews": {
+            "$uid": {
+              ".write": "auth != null && auth.uid == $uid",
+              ".validate": "newData.hasChildren(['rating', 'timestamp'])"
+            }
+          },
+          "stats": {
+            ".read": true,
+            ".write": "auth != null && root.child('admins/' + auth.uid).exists()"
+          }
+        }
+      },
+
+      "sales": {
+        // Only GAS service writes (via Admin SDK or service account)
+        ".read": "auth != null && root.child('admins/' + auth.uid).exists()",
+        ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
+
+        "$saleId": {
+          ".validate": "newData.hasChildren(['userId', 'moduleId', 'amount', 'method', 'timestamp'])"
+        }
+      }
+    },
+
+    // ── ADMINS (Founder-only) ────────────────────
+    "admins": {
+      ".read": "auth != null && root.child('admins/' + auth.uid).exists()",
+      ".write": false
+    },
+
+    // ── GASOMETER (Aggregated stats — public read) ──
+    "gasometer": {
+      ".read": true,
+      ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
+
+      "daily": {
+        "$date": {
+          ".validate": "newData.hasChildren(['total', 'byOperation'])"
+        }
+      }
+    },
+
+    // ── HEARTBEAT (Agent health monitoring) ──────
+    "heartbeat": {
+      ".read": true,
+      ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
+
+      "agents": {
+        "$agentId": {
+          ".validate": "newData.hasChildren(['status', 'lastPing'])"
+        }
+      },
+      "interval": { ".validate": "newData.isNumber()" },
+      "lastCheck": { ".validate": "newData.isString()" }
+    },
+
+    // ── MODULES (Runtime — MCP tool registry) ───
+    "modules": {
+      ".read": true,
+      ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
+
+      "$moduleId": {
+        "manifest": { ".validate": true },
+        "mcpTools": {
+          "$toolName": {
+            ".validate": "newData.hasChildren(['description', 'inputSchema'])"
+          }
+        },
+        "status": { ".validate": "newData.isString()" }
+      }
+    },
+
+    // ── HOOKS (Developer-generated distribution hooks) ──
+    "hooks": {
+      ".read": true,
+      ".write": "auth != null",
+
+      "$hookId": {
+        ".validate": "newData.hasChildren(['moduleId', 'authorUid', 'createdAt'])",
+        ".write": "auth != null && (newData.child('authorUid').val() == auth.uid || root.child('admins/' + auth.uid).exists())"
+      }
+    },
+
+    // ══════════════════════════════════════════════
+    // 🦴 PF_CELLS — ESPINHA DORSAL (Spine)
+    // Auto-populated by tentacles. User sees results in Dashboard.
+    // Architecture: PF_MCP_REFERENCE.md Part F + PF_BACKEND_REFERENCE.md §4.2
+    // ══════════════════════════════════════════════
+    "pf_cells": {
+      "$uid": {
+        // User reads/writes own spine data only
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid",
+
+        // ── CRM (Contacts + Leads) ──
+        "crm": {
+          "contacts": {
+            "$contactId": {
+              ".validate": "newData.hasChildren(['name'])"
+            }
+          }
+        },
+
+        // ── Calendar (Events + Follow-ups) ──
+        "calendar": {
+          "events": {
+            "$eventId": {
+              ".validate": "newData.hasChildren(['title', 'date'])"
+            }
+          }
+        },
+
+        // ── Estoque / Inventory ──
+        "estoque": {
+          "items": {
+            "$itemId": {
+              ".validate": "newData.hasChildren(['name', 'qty'])"
+            }
+          }
+        },
+
+        // ── Dashboard KPIs (auto-calculated) ──
+        "dashboard": {
+          "kpis": {
+            ".validate": true
+          }
+        },
+
+        // ── Tentacles Status (connection health) ──
+        "tentacles": {
+          "$tentacleId": {
+            ".validate": "newData.hasChildren(['status', 'lastSync'])"
+          }
+        },
+
+        // ── WhatsApp Conversations (native CRM view, NOT WebView) ──
+        "whatsapp": {
+          "$chatId": {
+            "messages": {
+              "$msgId": {
+                ".validate": "newData.hasChildren(['content', 'timestamp', 'direction'])"
+              }
+            },
+            "meta": {
+              ".validate": true
+            }
+          }
+        },
+
+        // ── Instagram DMs ──
+        "instagram": {
+          "$chatId": {
+            "messages": {
+              "$msgId": {
+                ".validate": "newData.hasChildren(['content', 'timestamp', 'direction'])"
+              }
+            }
+          }
+        },
+
+        // ── MCP Signaling (Rust Agent ↔ Web) ──
+        "command_queue": {
+          "$cmdId": {
+            ".validate": "newData.hasChildren(['action', 'payload', 'timestamp'])"
+          }
+        },
+        "response_stream": {
+          "$cmdId": {
+            ".validate": "newData.hasChildren(['status', 'data', 'completed_at'])"
+          }
+        },
+        "agent_status": {
+          ".validate": "newData.hasChildren(['online', 'last_ping'])"
+        }
+      }
+    }
+  }
+}

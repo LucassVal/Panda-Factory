@@ -18,7 +18,31 @@ function LoginGate({ children }) {
   // Redirect to landing page when not authenticated
   useEffect(() => {
     if (!auth.isLoading && !auth.isAuthenticated) {
-      // Build landing page URL (works on localhost + GitHub Pages)
+      const isLocalDev =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+
+      if (isLocalDev) {
+        // If user just logged out, don't auto-login — let them see the logged-out state
+        if (sessionStorage.getItem("panda_logout_pending")) {
+          sessionStorage.removeItem("panda_logout_pending");
+          console.warn("[LoginGate] logout pending — skipping auto-login");
+          return; // Show "Redirecting..." UI; user refreshes to re-login
+        }
+        // Dev mode: auto-login with mock user instead of redirect loop
+        // (Vite serves at / so redirect to landing → loop)
+        console.warn("[LoginGate] localhost detected — auto-login dev mode");
+        auth.loginWithGate({
+          uid: "dev-local",
+          email: "dev@panda.local",
+          displayName: "Dev Local",
+          userType: "user",
+          pcBalance: 999,
+        });
+        return;
+      }
+
+      // Production: redirect to landing page (GitHub Pages)
       const basePath = window.location.pathname
         .replace(/\/app\/.*$/, "/")
         .replace(/\/app\/?$/, "/");

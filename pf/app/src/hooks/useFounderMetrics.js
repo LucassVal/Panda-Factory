@@ -83,19 +83,93 @@ export function useFounderMetrics() {
       const agentMetrics = getAgentMetrics();
       setAgentData(agentMetrics);
 
-      // Merge with mock data for now
-      // TODO: Replace with actual API calls
-      const mockData = getMockMetrics();
+      // Fetch real data from GAS backend
+      let walletData = null;
+      let statusData = null;
+      let salesData = null;
 
-      // Override with real data where available
+      try {
+        const { Wallet, Status, Founder } =
+          await import("../services/callGAS.js");
+        const [walletRes, statusRes, salesRes] = await Promise.allSettled([
+          Wallet.getBalance(),
+          Status.health(),
+          Founder.getRecentSales(5),
+        ]);
+
+        if (
+          walletRes.status === "fulfilled" &&
+          walletRes.value?.status !== "MOCK"
+        ) {
+          walletData = walletRes.value;
+        }
+        if (
+          statusRes.status === "fulfilled" &&
+          statusRes.value?.status !== "MOCK"
+        ) {
+          statusData = statusRes.value;
+        }
+        if (
+          salesRes.status === "fulfilled" &&
+          salesRes.value?.status !== "MOCK"
+        ) {
+          salesData = salesRes.value;
+        }
+      } catch (gasError) {
+        console.warn(
+          "[useFounderMetrics] GAS fetch failed, using fallbacks:",
+          gasError.message,
+        );
+      }
+
+      // Build metrics object — real data where available, fallback where not
+      const data = {
+        treasury: {
+          pc:
+            walletData?.balance != null
+              ? Number(walletData.balance).toLocaleString()
+              : "—",
+          pat: "0",
+          usd:
+            walletData?.usdRate && walletData?.balance != null
+              ? `$${((walletData.balance / 100) * walletData.usdRate).toFixed(2)}`
+              : "—",
+          pending: "$0.00",
+          source: walletData ? "GAS" : "offline",
+        },
+        users: {
+          total: "—",
+          online: "—",
+          newToday: "—",
+          premium: "—",
+          devs: "—",
+        },
+        usage: {
+          apiCalls:
+            statusData?.catalogCount != null
+              ? `${statusData.catalogCount} modules`
+              : "—",
+          mcpCalls: statusData?.modes ? statusData.modes.join(", ") : "—",
+          gpuHours: "—",
+          version: statusData?.version || "—",
+          gasStatus: statusData?.status || "OFFLINE",
+        },
+        errors: {
+          last24h: 0,
+          open: 0,
+          critical: 0,
+        },
+        transactions: salesData?.data || [],
+      };
+
+      // Override with real AgentTelemetry data where available
       if (agentMetrics) {
-        mockData.tentacles = agentMetrics.tentacles;
-        mockData.activities = agentMetrics.activities;
-        mockData.agentMetrics = agentMetrics.metrics;
+        data.tentacles = agentMetrics.tentacles;
+        data.activities = agentMetrics.activities;
+        data.agentMetrics = agentMetrics.metrics;
 
-        // Update errors from real data
         if (agentMetrics.errors) {
-          mockData.errors = {
+          data.errors = {
             last24h: agentMetrics.errors.total,
             open: agentMetrics.errors.unresolved,
             critical: 0,
@@ -104,7 +178,7 @@ export function useFounderMetrics() {
         }
       }
 
-      setMetrics(mockData);
+      setMetrics(data);
       setError(null);
     } catch (err) {
       setError(err.message);

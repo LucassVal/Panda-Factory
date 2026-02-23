@@ -2,6 +2,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
   createContext,
   useContext,
 } from "react";
@@ -89,6 +90,9 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [firebaseReady, setFirebaseReady] = useState(false);
 
+  // Guard: prevent onAuthStateChanged from re-triggering setUser during logout
+  const loggingOutRef = useRef(false);
+
   // ── Expose getToken globally for Panda.Auth SDK ──
   useEffect(() => {
     window.__pandaFirebaseAuth = firebaseAuth;
@@ -132,6 +136,8 @@ export function AuthProvider({ children }) {
     // Try Firebase onAuthStateChanged first
     try {
       unsubscribe = firebaseAuth.onAuthStateChanged((firebaseUser) => {
+        // Skip state updates if we're in the middle of logging out
+        if (loggingOutRef.current) return;
         authResolved = true;
         clearTimeout(safetyTimeout);
         setFirebaseReady(true);
@@ -314,6 +320,12 @@ export function AuthProvider({ children }) {
    */
   const logout = useCallback(async () => {
     try {
+      // Set guard to prevent onAuthStateChanged from cascading state updates
+      loggingOutRef.current = true;
+
+      // Signal to LoginGate: don't auto-login on next load (localhost guard)
+      sessionStorage.setItem("panda_logout_pending", "true");
+
       // Sign out from Firebase (if active)
       try {
         await firebaseAuth.signOut();
@@ -321,20 +333,25 @@ export function AuthProvider({ children }) {
         // Firebase not initialized — that's fine
       }
 
-      setUser(null);
+      // Clear ALL local state (single source of truth for cleanup)
+      // NOTE: Do NOT call setUser(null) here — it triggers LoginGate's useEffect
+      // which re-logins before the reload takes effect (race condition).
       localStorage.removeItem("panda_user");
+      localStorage.removeItem("panda_token");
+      localStorage.removeItem("panda_founder_mode");
+      localStorage.removeItem("pf_chat_welcomed");
+      localStorage.removeItem("panda_onboarding_complete");
       sessionStorage.removeItem("panda_auth");
       sessionStorage.removeItem("panda_auth_token");
+
       // Cleanup Panda SDK
       if (typeof Panda !== "undefined") {
         Panda.Auth?.syncUser(null);
         Panda.Wallet?.destroy();
       }
-      // Redirect to landing page (login lives there now)
-      const basePath = window.location.pathname
-        .replace(/\/app\/.*$/, "/")
-        .replace(/\/app\/?$/, "/");
-      window.location.href = basePath;
+
+      // Reload — LoginGate will see panda_logout_pending and skip auto-login
+      window.location.reload();
     } catch (err) {
       setError(err.message);
     }

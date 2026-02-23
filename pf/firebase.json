@@ -1,6 +1,6 @@
 {
   "database": {
-    "rules": "00.credentials/database.rules.json"
+    "rules": "database.rules.json"
   },
   "firestore": {
     "database": "(default)",

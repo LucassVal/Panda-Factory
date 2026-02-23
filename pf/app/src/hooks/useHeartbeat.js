@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { gasGet } from "../services/callGAS";
+import { firebaseDB } from "./useFirebase";
 
 /**
  * 💓 useHeartbeat — Agent Health Monitor (5 min interval)
@@ -114,15 +115,44 @@ export function useHeartbeat({
       }
     }
 
-    // Firebase RTDB — basic connectivity test
+    // Firebase RTDB — real connectivity test
     if (agent.id === "firebase_rtdb") {
-      // Will be wired to real Firebase in Sprint 1B
-      return {
-        ...agent,
-        status: "unknown",
-        detail: "wire in Sprint 1B",
-        lastPing: new Date().toISOString(),
-      };
+      try {
+        if (!firebaseDB || !firebaseDB.isReady?.()) {
+          return {
+            ...agent,
+            status: "offline",
+            detail: "Firebase not initialized",
+            lastPing: new Date().toISOString(),
+          };
+        }
+        // Write a heartbeat timestamp and read it back
+        const now = new Date().toISOString();
+        await firebaseDB.set("heartbeat/lastCheck", now);
+        const readBack = await firebaseDB.get("heartbeat/lastCheck");
+        const latency = Date.now() - start;
+        return {
+          ...agent,
+          status: readBack
+            ? latency > 3000
+              ? "warning"
+              : "online"
+            : "offline",
+          latency,
+          detail: readBack
+            ? `round-trip: ${latency}ms`
+            : "write OK, read failed",
+          lastPing: now,
+        };
+      } catch (err) {
+        return {
+          ...agent,
+          status: "offline",
+          latency: Date.now() - start,
+          detail: err.message?.slice(0, 60) || "RTDB error",
+          lastPing: new Date().toISOString(),
+        };
+      }
     }
 
     // Rust Agent — offline until detected

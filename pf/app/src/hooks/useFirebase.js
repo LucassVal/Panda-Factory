@@ -125,6 +125,13 @@ export const firebaseAuth = {
  */
 export const firebaseDB = {
   /**
+   * Check if Firebase RTDB is initialized and ready
+   */
+  isReady() {
+    return !!database;
+  },
+
+  /**
    * Get data at path
    */
   async get(path) {
