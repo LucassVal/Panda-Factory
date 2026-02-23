@@ -35,6 +35,8 @@ const TIER_CONFIG = {
 // Store data — only REAL items that exist or are in active development
 // Exported for Casulo manifest generation
 export const STORE_ITEMS = [
+  // ─── NATIVE MODULES (FREE / OSS) ─────────────────────────────
+  // These ship with Panda Factory — always free, always available
   {
     id: "crm",
     name: "Panda CRM",
@@ -62,17 +64,121 @@ export const STORE_ITEMS = [
     description: "Manage posts, stories and Instagram metrics",
     fullDescription:
       "Connect your Instagram business account and manage everything from within Panda.\nSchedule posts, analyze story performance, and track follower growth with beautiful dashboards.\n\nFeatures:\n• Post scheduling with AI captions\n• Story analytics and engagement metrics\n• Hashtag research and suggestions\n• Content calendar view",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "pro",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
     storeCategory: "social",
-    category: "community",
+    category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
     embedLinks: [
       { type: "instagram", url: "https://instagram.com/p/example123" },
     ],
   },
+  {
+    id: "whatsapp",
+    name: "WhatsApp",
+    icon: "💬",
+    description: "Send messages, manage contacts and automate WhatsApp flows",
+    fullDescription:
+      "WhatsApp Business integration for Panda Factory.\nManage conversations, send templates, and automate customer communication.\n\nFeatures:\n• Contact management\n• Message templates\n• Automated responses\n• CRM integration",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
+    storeCategory: "social",
+    category: "panda-factory",
+    author: "Panda Factory",
+    version: "1.0.0",
+    embedLinks: [],
+  },
+  {
+    id: "crm-tentacle",
+    name: "CRM Tentacle",
+    icon: "🐙",
+    description: "Extended CRM with multi-channel lead capture and automation",
+    fullDescription:
+      "Advanced CRM extension with multi-channel lead capture.\nCapture leads from WhatsApp, Instagram, and web forms into a unified pipeline.\n\nFeatures:\n• Multi-channel lead capture\n• Automated follow-up sequences\n• Lead scoring with AI\n• Integration with Panda CRM",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
+    storeCategory: "productivity",
+    category: "panda-factory",
+    author: "Panda Factory",
+    version: "1.0.0",
+    embedLinks: [],
+  },
+  {
+    id: "agenda",
+    name: "Panda Agenda",
+    icon: "📅",
+    description: "Calendar, appointments and scheduling for your business",
+    fullDescription:
+      "Full-featured agenda and scheduling system.\nManage appointments, send reminders, and sync with Google Calendar.\n\nFeatures:\n• Calendar view (day/week/month)\n• Appointment scheduling\n• Automated reminders via WhatsApp\n• Google Calendar sync",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
+    storeCategory: "productivity",
+    category: "panda-factory",
+    author: "Panda Factory",
+    version: "1.0.0",
+    embedLinks: [],
+  },
+  {
+    id: "pdv",
+    name: "Panda PDV",
+    icon: "🛒",
+    description: "Point of sale with digital menu and order management",
+    fullDescription:
+      "Point of Sale system with digital menu for restaurants and retailers.\nManage orders, track sales, and serve customers faster.\n\nFeatures:\n• Digital menu (Cardápio)\n• Order management\n• Sales reports\n• Table/counter management",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
+    storeCategory: "productivity",
+    category: "panda-factory",
+    author: "Panda Factory",
+    version: "1.0.0",
+    embedLinks: [],
+  },
+  {
+    id: "estoque",
+    name: "Panda Estoque",
+    icon: "📦",
+    description: "Inventory management with stock alerts and reports",
+    fullDescription:
+      "Inventory management system for products and materials.\nTrack stock levels, get low-stock alerts, and generate reports.\n\nFeatures:\n• Product catalog\n• Stock level tracking\n• Low-stock alerts\n• Inventory reports",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
+    storeCategory: "productivity",
+    category: "panda-factory",
+    author: "Panda Factory",
+    version: "1.0.0",
+    embedLinks: [],
+  },
+  {
+    id: "landing-pages",
+    name: "Landing Pages",
+    icon: "🌐",
+    description:
+      "Drag-and-drop page builder with AI copy — publish to GitHub Pages",
+    fullDescription:
+      "Build stunning landing pages with a visual drag-and-drop editor.\nAI writes your copy, you publish directly to GitHub Pages — zero hosting cost.\n\nFeatures:\n• Visual page builder\n• AI-powered copywriting\n• One-click deploy to GitHub Pages\n• Mobile-responsive templates\n• Analytics integration",
+    priceUSD: 0,
+    price: 0,
+    tier: "oss",
+    storeCategory: "design",
+    category: "panda-factory",
+    author: "Panda Factory",
+    version: "1.1.0",
+    popular: true,
+    embedLinks: [
+      { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
+      { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
+    ],
+  },
+
+  // ─── COMMUNITY EXTENSIONS (PAID / PRO) ───────────────────────
+  // Third-party or premium integrations — future marketplace items
   {
     id: "facebook",
     name: "Facebook",
@@ -190,84 +296,6 @@ export const STORE_ITEMS = [
         type: "github",
         url: "https://github.com/analytics_dev/panda-dashboard",
       },
-    ],
-  },
-  {
-    id: "kiwify",
-    name: "Kiwify",
-    icon: "🥝",
-    description:
-      "Sell digital products — courses, ebooks, memberships via Kiwify",
-    fullDescription:
-      "Integrate your Kiwify store with Panda Factory.\nTrack sales, manage digital products, and automate customer communication.\n\nFeatures:\n• Sales dashboard with real-time updates\n• Product management\n• Customer communication automation\n• Revenue analytics",
-    priceUSD: 9.99,
-    price: 100,
-    tier: "pro",
-    storeCategory: "automation",
-    category: "community",
-    author: "Panda Factory",
-    version: "1.0.0",
-    popular: true,
-    embedLinks: [
-      { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-  },
-  {
-    id: "hotmart",
-    name: "Hotmart",
-    icon: "🔥",
-    description:
-      "Infoproduct marketplace — courses, subscriptions, affiliate sales",
-    fullDescription:
-      "Hotmart integration for infoproduct sellers.\nManage your courses, track subscriptions, and monitor affiliate performance.\n\nFeatures:\n• Course management dashboard\n• Subscription tracking\n• Affiliate performance analytics\n• Revenue reports",
-    priceUSD: 9.99,
-    price: 100,
-    tier: "pro",
-    storeCategory: "automation",
-    category: "community",
-    author: "Panda Factory",
-    version: "1.0.0",
-    embedLinks: [],
-  },
-  {
-    id: "landing-pages",
-    name: "Landing Pages",
-    icon: "🌐",
-    description:
-      "Drag-and-drop page builder with AI copy — publish to GitHub Pages",
-    fullDescription:
-      "Build stunning landing pages with a visual drag-and-drop editor.\nAI writes your copy, you publish directly to GitHub Pages — zero hosting cost.\n\nFeatures:\n• Visual page builder\n• AI-powered copywriting\n• One-click deploy to GitHub Pages\n• Mobile-responsive templates\n• Analytics integration",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "freemium",
-    storeCategory: "design",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.1.0",
-    popular: true,
-    embedLinks: [
-      { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
-      { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-  },
-  {
-    id: "founder-hub",
-    name: "Founder Hub",
-    icon: "🚀",
-    description:
-      "Central de afiliados — materiais Drive, links UTM, dashboard de vendas",
-    fullDescription:
-      "Seu painel de comando para vendas via Kiwify e Hotmart.\nGerencie materiais de afiliados no Google Drive, gere links UTM rastreáveis, e acompanhe cada venda em tempo real.\n\nFeatures:\n• Navegação de arquivos no Google Drive\n• Gerador de links com UTM para afiliados\n• Dashboard de vendas com códigos de ativação\n• Logs de webhook Kiwify/Hotmart\n• Compartilhamento de materiais com 1 clique",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "productivity",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.0.0",
-    popular: true,
-    embedLinks: [
-      { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
     ],
   },
 ];
