@@ -49,6 +49,7 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: "980998365446"
           VITE_FIREBASE_APP_ID: "1:980998365446:web:90200c58606a6238eebe87"
           VITE_FIREBASE_MEASUREMENT_ID: G-RBZ0YWHSHN
+          VITE_GAS_URL: https://script.google.com/macros/s/AKfycbwaQ_8shY1czKSiT6nyxJLOtybG2133RUIrqnFdtIDVqinjFyXpzNXnNNtExPYWM7LV/exec
 
       - name: 📋 Assemble Deployment Directory
         run: |
