@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckoutModal } from "./PFCheckoutModal";
 import PFProductDetail from "./PFProductDetail";
 import useLicenses from "../hooks/useLicenses";
-import { Store } from "../services/callGAS";
+import { Store, gasPost } from "../services/callGAS";
 
 /**
  * 🏪 Panda Store v4.0 — Medusa Distribution UI
@@ -33,7 +33,8 @@ const TIER_CONFIG = {
 };
 
 // Store data — only REAL items that exist or are in active development
-const STORE_ITEMS = [
+// Exported for Casulo manifest generation
+export const STORE_ITEMS = [
   {
     id: "crm",
     name: "Panda CRM",
@@ -277,6 +278,9 @@ function PFStore({
   userPcBalance = 500,
   userTier = "user",
   embedded = false,
+  selectionMode = false,
+  selectedIds = new Set(),
+  onSelectionChange,
 }) {
   const [filter, setFilter] = useState("all");
   const [checkoutItem, setCheckoutItem] = useState(null);
@@ -284,8 +288,28 @@ function PFStore({
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { isLicensed, refresh: refreshLicenses } = useLicenses();
 
-  // Featured items (popular ones)
-  const featuredItems = STORE_ITEMS.filter((i) => i.popular);
+  // Sponsored items from RTDB (TICKET-09)
+  const [sponsoredIds, setSponsoredIds] = useState(new Set());
+
+  useEffect(() => {
+    let cancelled = false;
+    gasPost("GET_FEATURED", {})
+      .then((res) => {
+        if (!cancelled && res.featured && res.featured.length > 0) {
+          const ids = new Set(res.featured.map((f) => f.moduleId));
+          setSponsoredIds(ids);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Featured: static popular OR RTDB sponsored (merged, deduplicated)
+  const featuredItems = STORE_ITEMS.filter(
+    (i) => i.popular || sponsoredIds.has(i.id),
+  );
 
   const filteredItems = STORE_ITEMS.filter((item) => {
     const matchesFilter =
@@ -381,10 +405,22 @@ function PFStore({
         {/* Header */}
         <div className="pf-store-header">
           <div className="store-header-left">
-            <h2 className="pf-store-title">🏪 Panda Store</h2>
-            <span className="store-balance">
-              💰 {userPcBalance.toLocaleString()} PC
-            </span>
+            <h2 className="pf-store-title">
+              {selectionMode ? "📦 Selecionar Módulos" : "🏪 Panda Store"}
+            </h2>
+            {selectionMode ? (
+              <span
+                className="store-balance"
+                style={{ color: selectedIds.size > 0 ? "#10b981" : "#64748b" }}
+              >
+                ✓ {selectedIds.size} selecionado
+                {selectedIds.size !== 1 ? "s" : ""}
+              </span>
+            ) : (
+              <span className="store-balance">
+                💰 {userPcBalance.toLocaleString()} PC
+              </span>
+            )}
           </div>
           {!embedded && (
             <button className="pf-store-close" onClick={onClose}>
@@ -430,6 +466,11 @@ function PFStore({
                   onClick={() => setSelectedProduct(item)}
                 >
                   <span className="featured-icon">{item.icon}</span>
+                  {sponsoredIds.has(item.id) && (
+                    <span className="featured-sponsored-badge">
+                      🎯 Promoted
+                    </span>
+                  )}
                   <div className="featured-info">
                     <div className="featured-name">{item.name}</div>
                     <div className="featured-desc">{item.description}</div>
@@ -445,7 +486,7 @@ function PFStore({
 
         {/* Grid or PDP */}
         <div className="pf-store-content">
-          {selectedProduct ? (
+          {selectedProduct && !selectionMode ? (
             <PFProductDetail
               item={selectedProduct}
               onBack={() => setSelectedProduct(null)}
@@ -470,6 +511,18 @@ function PFStore({
                       {item.popular && (
                         <span className="card-badge">⭐ Popular</span>
                       )}
+                      {sponsoredIds.has(item.id) && (
+                        <span
+                          className="card-badge"
+                          style={{
+                            background: "rgba(234,179,8,0.2)",
+                            color: "#eab308",
+                            borderColor: "rgba(234,179,8,0.3)",
+                          }}
+                        >
+                          🎯 Sponsored
+                        </span>
+                      )}
                       {item.tier && TIER_CONFIG[item.tier] && (
                         <span
                           className="card-badge"
@@ -486,7 +539,11 @@ function PFStore({
 
                     <div
                       className="pf-store-card-clickable"
-                      onClick={() => setSelectedProduct(item)}
+                      onClick={() =>
+                        selectionMode
+                          ? onSelectionChange?.(item.id)
+                          : setSelectedProduct(item)
+                      }
                     >
                       <div className="pf-store-card-icon">{item.icon}</div>
                       <div className="pf-store-card-name">{item.name}</div>
@@ -503,17 +560,28 @@ function PFStore({
                           <span className="price-pc">({item.price} PC)</span>
                         )}
                       </div>
-                      <button
-                        className={`pf-store-card-btn ${isLicensed(item.id) ? "installed" : item.priceUSD === 0 ? "free" : "paid"}`}
-                        onClick={() => handleInstall(item)}
-                        disabled={isLicensed(item.id)}
-                      >
-                        {isLicensed(item.id)
-                          ? "Instalado ✓"
-                          : item.priceUSD === 0
-                            ? "Instalar"
-                            : "Comprar"}
-                      </button>
+                      {selectionMode ? (
+                        <button
+                          className={`pf-store-card-btn ${selectedIds.has(item.id) ? "installed" : "free"}`}
+                          onClick={() => onSelectionChange?.(item.id)}
+                        >
+                          {selectedIds.has(item.id)
+                            ? "✓ Selecionado"
+                            : "+ Selecionar"}
+                        </button>
+                      ) : (
+                        <button
+                          className={`pf-store-card-btn ${isLicensed(item.id) ? "installed" : item.priceUSD === 0 ? "free" : "paid"}`}
+                          onClick={() => handleInstall(item)}
+                          disabled={isLicensed(item.id)}
+                        >
+                          {isLicensed(item.id)
+                            ? "Instalado ✓"
+                            : item.priceUSD === 0
+                              ? "Instalar"
+                              : "Comprar"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}

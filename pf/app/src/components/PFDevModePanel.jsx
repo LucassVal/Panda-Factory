@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./PFDevModePanel.css";
+import { useStoreModules } from "../hooks/useStoreModules";
+import PFStore, { STORE_ITEMS } from "./PFStore";
 
 /**
  * 🛠️ Dev Mode Panel v3.0
@@ -63,6 +65,13 @@ const DEV_TOOLS = [
     status: "active",
   },
   {
+    id: "casulo",
+    name: "CASULO",
+    icon: "🐛",
+    desc: "Encapsulado Creator",
+    status: "active",
+  },
+  {
     id: "database",
     name: "DATABASE",
     icon: "🗄️",
@@ -88,7 +97,342 @@ const INTEGRATIONS = [
   { id: "ms", name: "Medusa Store", icon: "🛒" },
 ];
 
+// ── Casulo Inline Wizard (Encapsulado Creator inside DevTools) ──
+function CasuloInline() {
+  const [step, setStep] = useState(1);
+  const [info, setInfo] = useState({ name: "", description: "", priceUSD: "" });
+  const [selected, setSelected] = useState([]);
+
+  const priceNum = parseFloat(info.priceUSD) || 0;
+
+  const toggleModule = (id) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+  };
+
+  const selectedModules = STORE_ITEMS.filter((m) => selected.includes(m.id));
+
+  // Generate manifest
+  const generateManifest = () => ({
+    name: info.name,
+    type: "encapsulado",
+    version: "1.0.0",
+    description: info.description,
+    priceUSD: priceNum,
+    modules: selectedModules.map((m) => ({
+      id: m.id,
+      name: m.name,
+      category: m.storeCategory,
+    })),
+    revenue: {
+      pandaPercent: 30,
+      devPercent: 70,
+    },
+    createdAt: new Date().toISOString(),
+  });
+
+  const downloadManifest = () => {
+    const manifest = generateManifest();
+    const blob = new Blob([JSON.stringify(manifest, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "panda.manifest.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="tool-content casulo-tool">
+      {/* Step indicator */}
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          marginBottom: 12,
+          alignItems: "center",
+        }}
+      >
+        {[1, 2, 3].map((s) => (
+          <div
+            key={s}
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 12,
+              fontWeight: 700,
+              background:
+                step > s
+                  ? "#10b981"
+                  : step === s
+                    ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
+                    : "rgba(100,116,139,0.2)",
+              color: step >= s ? "#fff" : "#64748b",
+              transition: "all 0.3s",
+            }}
+          >
+            {step > s ? "✓" : s}
+          </div>
+        ))}
+        <span
+          style={{
+            fontSize: 11,
+            color: "#64748b",
+            marginLeft: 8,
+            textTransform: "uppercase",
+          }}
+        >
+          {step === 1 && "Info"}
+          {step === 2 && "Panda Store"}
+          {step === 3 && "Split & Manifest"}
+        </span>
+      </div>
+
+      {/* ── Step 1: Info ── */}
+      {step === 1 && (
+        <div className="casulo-step">
+          <div className="publish-field">
+            <label>Nome do Encapsulado *</label>
+            <input
+              type="text"
+              placeholder="Ex: Starter Pack Restaurante"
+              value={info.name}
+              onChange={(e) => setInfo({ ...info, name: e.target.value })}
+            />
+          </div>
+          <div className="publish-field">
+            <label>Descrição</label>
+            <textarea
+              rows={3}
+              placeholder="Pacote completo para delivery digital..."
+              value={info.description}
+              onChange={(e) =>
+                setInfo({ ...info, description: e.target.value })
+              }
+            />
+          </div>
+          <div className="publish-field">
+            <label>Preço do Encapsulado (USD)</label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="0.00 (grátis) ou valor customizado"
+              value={info.priceUSD}
+              onChange={(e) => setInfo({ ...info, priceUSD: e.target.value })}
+            />
+            <span
+              style={{
+                fontSize: 11,
+                color: "#64748b",
+                marginTop: 4,
+                display: "block",
+              }}
+            >
+              Módulos nativos são gratuitos. O preço representa o valor da sua
+              integração/dashboard.
+            </span>
+          </div>
+          <button
+            className="btn-publish"
+            disabled={!info.name.trim()}
+            onClick={() => setStep(2)}
+            style={{ marginTop: 8 }}
+          >
+            Próximo → Panda Store
+          </button>
+        </div>
+      )}
+
+      {/* ── Step 2: Panda Store Browser ── */}
+      {step === 2 && (
+        <div className="casulo-step">
+          <div
+            style={{ marginBottom: 10, borderRadius: 8, overflow: "hidden" }}
+          >
+            <PFStore
+              embedded={true}
+              selectionMode={true}
+              selectedIds={new Set(selected)}
+              onSelectionChange={(id) => toggleModule(id)}
+            />
+          </div>
+          <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+            <button
+              className="btn-add-embed"
+              onClick={() => setStep(1)}
+              style={{ flex: 1 }}
+            >
+              ← Voltar
+            </button>
+            <button
+              className="btn-publish"
+              disabled={selected.length === 0}
+              onClick={() => setStep(3)}
+              style={{ flex: 2 }}
+            >
+              Próximo → Split Calculator ({selected.length})
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Step 3: Split Calculator + Manifest ── */}
+      {step === 3 && (
+        <div className="casulo-step">
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: "#e2e8f0",
+              marginBottom: 10,
+            }}
+          >
+            💰 Revenue Split — "{info.name}"
+          </div>
+
+          {/* Split bar */}
+          <div
+            style={{
+              display: "flex",
+              height: 32,
+              borderRadius: 8,
+              overflow: "hidden",
+              marginBottom: 12,
+            }}
+          >
+            <div
+              style={{
+                width: "30%",
+                background: "linear-gradient(90deg, #6366f1, #8b5cf6)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 11,
+                fontWeight: 700,
+                color: "#fff",
+              }}
+            >
+              🐼 30%
+            </div>
+            <div
+              style={{
+                width: "70%",
+                background: "linear-gradient(90deg, #10b981, #059669)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 11,
+                fontWeight: 700,
+                color: "#fff",
+              }}
+            >
+              👤 Dev 70%
+            </div>
+          </div>
+
+          {priceNum > 0 && (
+            <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 10 }}>
+              Por venda de{" "}
+              <strong style={{ color: "#10b981" }}>
+                ${priceNum.toFixed(2)}
+              </strong>
+              : Panda recebe <strong>${(priceNum * 0.3).toFixed(2)}</strong> ·
+              Dev recebe{" "}
+              <strong style={{ color: "#10b981" }}>
+                ${(priceNum * 0.7).toFixed(2)}
+              </strong>
+            </div>
+          )}
+
+          {/* Selected modules summary */}
+          <div style={{ fontSize: 12, color: "#64748b", marginBottom: 8 }}>
+            📦 {selectedModules.length} módulos incluídos:
+          </div>
+          <div style={{ maxHeight: 100, overflowY: "auto", marginBottom: 12 }}>
+            {selectedModules.map((m) => (
+              <div
+                key={m.id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "4px 0",
+                  fontSize: 12,
+                  color: "#e2e8f0",
+                }}
+              >
+                <span>{m.icon}</span>
+                <span>{m.name}</span>
+                <span style={{ color: "#10b981", marginLeft: "auto" }}>
+                  🎁 Free
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Manifest preview */}
+          <details style={{ marginBottom: 10 }}>
+            <summary
+              style={{
+                cursor: "pointer",
+                fontSize: 12,
+                color: "#8b5cf6",
+                fontWeight: 600,
+              }}
+            >
+              📄 Preview panda.manifest.json
+            </summary>
+            <pre
+              style={{
+                background: "#0c0c0c",
+                border: "1px solid #333",
+                borderRadius: 6,
+                padding: 10,
+                fontSize: 10,
+                color: "#94a3b8",
+                maxHeight: 150,
+                overflowY: "auto",
+                marginTop: 6,
+              }}
+            >
+              {JSON.stringify(generateManifest(), null, 2)}
+            </pre>
+          </details>
+
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              className="btn-add-embed"
+              onClick={() => setStep(2)}
+              style={{ flex: 1 }}
+            >
+              ← Voltar
+            </button>
+            <button
+              className="btn-publish"
+              onClick={downloadManifest}
+              style={{ flex: 2 }}
+            >
+              📥 Download Manifest
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function DevModePanel({ isOpen, onClose, embedded = false }) {
+  // ── Casulo modules hook (used by renderCasulo) ──
+  const { modules: casuloModules, pcToUsd } = useStoreModules();
+
   const [mcpMode, setMcpMode] = useState("internal");
   const [activeTool, setActiveTool] = useState(null);
   const [logs, setLogs] = useState([]);
@@ -124,9 +468,18 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
       ]);
     };
 
-    console.log = (...args) => { addLog("log", args); originalLog.apply(console, args); };
-    console.warn = (...args) => { addLog("warn", args); originalWarn.apply(console, args); };
-    console.error = (...args) => { addLog("error", args); originalError.apply(console, args); };
+    console.log = (...args) => {
+      addLog("log", args);
+      originalLog.apply(console, args);
+    };
+    console.warn = (...args) => {
+      addLog("warn", args);
+      originalWarn.apply(console, args);
+    };
+    console.error = (...args) => {
+      addLog("error", args);
+      originalError.apply(console, args);
+    };
 
     return () => {
       console.log = originalLog;
@@ -142,8 +495,16 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
   const checkIntegrations = useCallback(() => {
     const s = {};
-    s.fb = import.meta.env.VITE_FIREBASE_API_KEY && import.meta.env.VITE_FIREBASE_API_KEY !== "YOUR_API_KEY" ? "on" : "mock";
-    s.ga = import.meta.env.VITE_GAS_URL && !import.meta.env.VITE_GAS_URL?.includes("YOUR_DEPLOYMENT") ? "on" : "mock";
+    s.fb =
+      import.meta.env.VITE_FIREBASE_API_KEY &&
+      import.meta.env.VITE_FIREBASE_API_KEY !== "YOUR_API_KEY"
+        ? "on"
+        : "mock";
+    s.ga =
+      import.meta.env.VITE_GAS_URL &&
+      !import.meta.env.VITE_GAS_URL?.includes("YOUR_DEPLOYMENT")
+        ? "on"
+        : "mock";
     s.ru = window.Panda?.Bridge?.isConnected?.() ? "on" : "mock";
     s.gh = "on"; // public API
     s.gd = "mock";
@@ -154,7 +515,13 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
   // ── MCP toggle ──
   const handleMcpToggle = () => {
     const next = mcpMode === "internal" ? "external" : "internal";
-    if (next === "external" && !confirm("⚠️ Modo EXTERNO dá acesso ao PC.\nAprovação única.\n\nContinuar?")) return;
+    if (
+      next === "external" &&
+      !confirm(
+        "⚠️ Modo EXTERNO dá acesso ao PC.\nAprovação única.\n\nContinuar?",
+      )
+    )
+      return;
     setMcpMode(next);
     console.log(`🔧 MCP Mode: ${next.toUpperCase()}`);
   };
@@ -166,7 +533,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
       return;
     }
     setActiveTool(activeTool?.id === tool.id ? null : tool);
-    console.log(`🛠️ ${tool.name} ${activeTool?.id === tool.id ? "fechado" : "aberto"}`);
+    console.log(
+      `🛠️ ${tool.name} ${activeTool?.id === tool.id ? "fechado" : "aberto"}`,
+    );
   };
 
   // ── Render tool content ──
@@ -186,6 +555,8 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
         return renderConstitution();
       case "publish":
         return renderPublish();
+      case "casulo":
+        return renderCasulo();
       default:
         return <div className="tool-placeholder">🔒 Em desenvolvimento</div>;
     }
@@ -193,11 +564,15 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
   // ── Console Tool ──
   const renderConsole = () => {
-    const filtered = logFilter === "all" ? logs : logs.filter((l) => l.type === logFilter);
+    const filtered =
+      logFilter === "all" ? logs : logs.filter((l) => l.type === logFilter);
     return (
       <div className="tool-content console-tool">
         <div className="console-controls">
-          <select value={logFilter} onChange={(e) => setLogFilter(e.target.value)}>
+          <select
+            value={logFilter}
+            onChange={(e) => setLogFilter(e.target.value)}
+          >
             <option value="all">Todos ({logs.length})</option>
             <option value="log">Logs</option>
             <option value="warn">Warnings</option>
@@ -212,7 +587,11 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
             filtered.map((log) => (
               <div key={log.id} className={`console-line ${log.type}`}>
                 <span className="log-time">
-                  {log.time.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                  {log.time.toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
                 </span>
                 <span className="log-type">{log.type.toUpperCase()}</span>
                 <span className="log-msg">{log.message}</span>
@@ -227,24 +606,60 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
   // ── MCP Browser Tool ──
   const renderMCPBrowser = () => {
     const mcpTools = [
-      { name: "execute_command", desc: "Executar comando no terminal (pwsh)", permission: "external" },
-      { name: "read_file", desc: "Ler arquivo do sistema", permission: "external" },
-      { name: "write_file", desc: "Escrever arquivo no sistema", permission: "external" },
-      { name: "list_directory", desc: "Listar conteúdo de diretório", permission: "external" },
-      { name: "health_check", desc: "Verificar saúde do sistema", permission: "internal" },
-      { name: "gpu_info", desc: "Informações de GPU disponível", permission: "internal" },
-      { name: "crypto_sign", desc: "Assinar com Ed25519", permission: "internal" },
-      { name: "mining_status", desc: "Status de mineração Panda Coin", permission: "internal" },
+      {
+        name: "execute_command",
+        desc: "Executar comando no terminal (pwsh)",
+        permission: "external",
+      },
+      {
+        name: "read_file",
+        desc: "Ler arquivo do sistema",
+        permission: "external",
+      },
+      {
+        name: "write_file",
+        desc: "Escrever arquivo no sistema",
+        permission: "external",
+      },
+      {
+        name: "list_directory",
+        desc: "Listar conteúdo de diretório",
+        permission: "external",
+      },
+      {
+        name: "health_check",
+        desc: "Verificar saúde do sistema",
+        permission: "internal",
+      },
+      {
+        name: "gpu_info",
+        desc: "Informações de GPU disponível",
+        permission: "internal",
+      },
+      {
+        name: "crypto_sign",
+        desc: "Assinar com Ed25519",
+        permission: "internal",
+      },
+      {
+        name: "mining_status",
+        desc: "Status de mineração Panda Coin",
+        permission: "internal",
+      },
     ];
 
     return (
       <div className="tool-content mcp-tool">
         <div className="mcp-info">
-          Modo atual: <strong className={mcpMode}>{mcpMode.toUpperCase()}</strong>
+          Modo atual:{" "}
+          <strong className={mcpMode}>{mcpMode.toUpperCase()}</strong>
         </div>
         <div className="mcp-tools-list">
           {mcpTools.map((t) => (
-            <div key={t.name} className={`mcp-tool-item ${t.permission === "external" && mcpMode === "internal" ? "locked" : ""}`}>
+            <div
+              key={t.name}
+              className={`mcp-tool-item ${t.permission === "external" && mcpMode === "internal" ? "locked" : ""}`}
+            >
               <code>{t.name}</code>
               <span>{t.desc}</span>
               {t.permission === "external" && mcpMode === "internal" && (
@@ -281,7 +696,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
               <span className="api-desc">{ep.desc}</span>
               <button
                 className="btn-test"
-                onClick={() => console.log(`🔌 Testing ${ep.action}... (mock response OK)`)}
+                onClick={() =>
+                  console.log(`🔌 Testing ${ep.action}... (mock response OK)`)
+                }
               >
                 ▶ TEST
               </button>
@@ -314,7 +731,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
         </div>
       </div>
       <div className="treasury-status">
-        <span>⚖️ Balanço: <strong style={{ color: "#4CAF50" }}>SAUDÁVEL</strong></span>
+        <span>
+          ⚖️ Balanço: <strong style={{ color: "#4CAF50" }}>SAUDÁVEL</strong>
+        </span>
         <span>📊 Score: 92/100</span>
       </div>
     </div>
@@ -368,10 +787,26 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
     ];
 
     const OUTPUT_HOOKS = [
-      { id: "panda-store", label: "🐼 Panda Store (nativo)", desc: "Split 52% via PagSeguro/Paddle" },
-      { id: "kiwify", label: "🥝 Kiwify", desc: "Hook de saída — config do dev" },
-      { id: "hotmart", label: "🔥 Hotmart", desc: "Hook de saída — config do dev" },
-      { id: "github-pages", label: "🌐 GitHub Pages", desc: "Deploy landing page" },
+      {
+        id: "panda-store",
+        label: "🐼 Panda Store (nativo)",
+        desc: "Split 52% via PagSeguro/Paddle",
+      },
+      {
+        id: "kiwify",
+        label: "🥝 Kiwify",
+        desc: "Hook de saída — config do dev",
+      },
+      {
+        id: "hotmart",
+        label: "🔥 Hotmart",
+        desc: "Hook de saída — config do dev",
+      },
+      {
+        id: "github-pages",
+        label: "🌐 GitHub Pages",
+        desc: "Deploy landing page",
+      },
       { id: "steam", label: "🎮 Steam", desc: "Link externo" },
       { id: "playstore", label: "📱 Play Store", desc: "Link externo" },
     ];
@@ -395,7 +830,7 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
       setPublishForm((prev) => ({
         ...prev,
         embedLinks: prev.embedLinks.map((e, i) =>
-          i === index ? { ...e, [field]: value } : e
+          i === index ? { ...e, [field]: value } : e,
         ),
       }));
 
@@ -408,7 +843,7 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
       }));
 
     const priceNum = parseFloat(publishForm.priceUSD) || 0;
-    const isPriceInvalid = priceNum > 0 && priceNum < 0.50;
+    const isPriceInvalid = priceNum > 0 && priceNum < 0.5;
 
     const handlePublish = async () => {
       if (!publishForm.name.trim()) {
@@ -416,11 +851,15 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
         return;
       }
       if (!publishForm.namespace.trim()) {
-        console.warn("📦 PUBLISH: Namespace é obrigatório (ex: @username/nome)");
+        console.warn(
+          "📦 PUBLISH: Namespace é obrigatório (ex: @username/nome)",
+        );
         return;
       }
       if (isPriceInvalid) {
-        console.warn("📦 PUBLISH: Preço mínimo de venda é $0.50 (ou $0.00 para grátis)");
+        console.warn(
+          "📦 PUBLISH: Preço mínimo de venda é $0.50 (ou $0.00 para grátis)",
+        );
         return;
       }
 
@@ -434,55 +873,80 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
         { label: "Validando panda.mcp.json", duration: 800 },
         { label: "Static Analysis (Semgrep rules)", duration: 1200 },
         { label: "Dependency scan", duration: 900 },
-        { label: `Sandbox test (30s${isTentacle ? " + Proxy SDK check" : ""})`, duration: 1500 },
+        {
+          label: `Sandbox test (30s${isTentacle ? " + Proxy SDK check" : ""})`,
+          duration: 1500,
+        },
         { label: "Calculando Defend Score", duration: 1000 },
         { label: "Registrando na Medusa Store", duration: 700 },
       ];
 
       for (let i = 0; i < steps.length; i++) {
         const step = steps[i];
-        setVerificationSteps(prev => [
+        setVerificationSteps((prev) => [
           ...prev,
-          { index: i + 1, total: steps.length, label: step.label, status: "running", time: null },
+          {
+            index: i + 1,
+            total: steps.length,
+            label: step.label,
+            status: "running",
+            time: null,
+          },
         ]);
 
-        await new Promise(r => setTimeout(r, step.duration));
+        await new Promise((r) => setTimeout(r, step.duration));
 
         // Mock: step 4 fails for tentacles with score < 50 (epic-hook scenario)
-        const passed = !(isTentacle && i === 3 && publishForm.namespace.includes("epic"));
+        const passed = !(
+          isTentacle &&
+          i === 3 &&
+          publishForm.namespace.includes("epic")
+        );
         const elapsed = `${(step.duration / 1000).toFixed(1)}s`;
 
-        setVerificationSteps(prev =>
+        setVerificationSteps((prev) =>
           prev.map((s, idx) =>
-            idx === i ? { ...s, status: passed ? "pass" : "fail", time: elapsed } : s
-          )
+            idx === i
+              ? { ...s, status: passed ? "pass" : "fail", time: elapsed }
+              : s,
+          ),
         );
 
         if (!passed) {
           // Abort on failure
-          setVerificationSteps(prev => [
+          setVerificationSteps((prev) => [
             ...prev,
-            { index: 0, total: 0, label: "❌ PUBLICAÇÃO ABORTADA — Sandbox test falhou", status: "abort", time: null },
+            {
+              index: 0,
+              total: 0,
+              label: "❌ PUBLICAÇÃO ABORTADA — Sandbox test falhou",
+              status: "abort",
+              time: null,
+            },
           ]);
           setVerificationRunning(false);
           setVerificationDone(true);
-          console.error("📦 PUBLISH: ❌ Falha no sandbox test — publicação abortada");
+          console.error(
+            "📦 PUBLISH: ❌ Falha no sandbox test — publicação abortada",
+          );
           return;
         }
       }
 
       // Calculate mock score
       const score = isTentacle ? 74 : 92;
-      setVerificationSteps(prev => [
+      setVerificationSteps((prev) => [
         ...prev,
         {
-          index: 0, total: 0,
+          index: 0,
+          total: 0,
           label: `\n✅ DEFEND SCORE: ${score}/100 — ${score >= 70 ? "APROVADO" : "REJEITADO"}`,
           status: score >= 70 ? "final-pass" : "final-fail",
           time: null,
         },
         {
-          index: 0, total: 0,
+          index: 0,
+          total: 0,
           label: `📦 Módulo "${publishForm.name}" registrado na Medusa Store! (mock)`,
           status: "info",
           time: null,
@@ -491,7 +955,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
       setVerificationRunning(false);
       setVerificationDone(true);
-      console.log(`📦 PUBLISH: ✅ Score ${score}/100 — Módulo registrado (mock)`);
+      console.log(
+        `📦 PUBLISH: ✅ Score ${score}/100 — Módulo registrado (mock)`,
+      );
     };
 
     return (
@@ -543,12 +1009,20 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
               </div>
               {/* Min sale price warning */}
               {isPriceInvalid && (
-                <div style={{
-                  marginTop: 6, padding: "6px 10px", borderRadius: 6,
-                  background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)",
-                  fontSize: 12, color: "#ef4444",
-                }}>
-                  ⚠️ Preço mínimo de venda: <strong>$0.50</strong> — Publicar é grátis, mas módulos pagos devem custar no mínimo $0.50. Use $0.00 para distribuição gratuita.
+                <div
+                  style={{
+                    marginTop: 6,
+                    padding: "6px 10px",
+                    borderRadius: 6,
+                    background: "rgba(239,68,68,0.08)",
+                    border: "1px solid rgba(239,68,68,0.25)",
+                    fontSize: 12,
+                    color: "#ef4444",
+                  }}
+                >
+                  ⚠️ Preço mínimo de venda: <strong>$0.50</strong> — Publicar é
+                  grátis, mas módulos pagos devem custar no mínimo $0.50. Use
+                  $0.00 para distribuição gratuita.
                 </div>
               )}
             </div>
@@ -556,33 +1030,130 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
           {/* ── Revenue Split Info ── */}
           {priceNum > 0 && !isPriceInvalid && (
-            <div className="publish-section" style={{
-              background: "rgba(16,185,129,0.06)",
-              border: "1px solid rgba(16,185,129,0.2)",
-              borderRadius: 8,
-            }}>
-              <div className="publish-section-title" style={{ color: "#10b981" }}>
+            <div
+              className="publish-section"
+              style={{
+                background: "rgba(16,185,129,0.06)",
+                border: "1px solid rgba(16,185,129,0.2)",
+                borderRadius: 8,
+              }}
+            >
+              <div
+                className="publish-section-title"
+                style={{ color: "#10b981" }}
+              >
                 💰 Revenue Split (USD-FIRST)
               </div>
-              <div style={{ fontSize: 13, lineHeight: 1.7, color: "#e2e8f0", padding: "0 8px" }}>
-                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.7,
+                  color: "#e2e8f0",
+                  padding: "0 8px",
+                }}
+              >
+                <table
+                  style={{
+                    width: "100%",
+                    fontSize: 12,
+                    borderCollapse: "collapse",
+                  }}
+                >
                   <thead>
-                    <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
-                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Destinatário</th>
-                      <th style={{ textAlign: "center", padding: "4px 8px", color: "#94a3b8" }}>%</th>
-                      <th style={{ textAlign: "right", padding: "4px 8px", color: "#94a3b8" }}>Valor/venda</th>
+                    <tr
+                      style={{
+                        borderBottom: "1px solid rgba(100,116,139,0.2)",
+                      }}
+                    >
+                      <th
+                        style={{
+                          textAlign: "left",
+                          padding: "4px 8px",
+                          color: "#94a3b8",
+                        }}
+                      >
+                        Destinatário
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          padding: "4px 8px",
+                          color: "#94a3b8",
+                        }}
+                      >
+                        %
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "right",
+                          padding: "4px 8px",
+                          color: "#94a3b8",
+                        }}
+                      >
+                        Valor/venda
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><td style={{ padding: "4px 8px" }}>👤 Desenvolvedor</td><td style={{ padding: "4px 8px", textAlign: "center" }}>55%</td><td style={{ padding: "4px 8px", textAlign: "right", color: "#10b981", fontWeight: 700 }}>${(priceNum * 0.55).toFixed(2)}</td></tr>
-                    <tr><td style={{ padding: "4px 8px" }}>🎓 Educação</td><td style={{ padding: "4px 8px", textAlign: "center" }}>22%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.22).toFixed(2)}</td></tr>
-                    <tr><td style={{ padding: "4px 8px" }}>⚙️ Operações</td><td style={{ padding: "4px 8px", textAlign: "center" }}>15%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.15).toFixed(2)}</td></tr>
-                    <tr><td style={{ padding: "4px 8px" }}>🏭 Founder</td><td style={{ padding: "4px 8px", textAlign: "center" }}>5%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.05).toFixed(2)}</td></tr>
-                    <tr><td style={{ padding: "4px 8px" }}>💳 Taxas</td><td style={{ padding: "4px 8px", textAlign: "center" }}>3%</td><td style={{ padding: "4px 8px", textAlign: "right" }}>${(priceNum * 0.03).toFixed(2)}</td></tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>👤 Desenvolvedor</td>
+                      <td style={{ padding: "4px 8px", textAlign: "center" }}>
+                        55%
+                      </td>
+                      <td
+                        style={{
+                          padding: "4px 8px",
+                          textAlign: "right",
+                          color: "#10b981",
+                          fontWeight: 700,
+                        }}
+                      >
+                        ${(priceNum * 0.55).toFixed(2)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>🎓 Educação</td>
+                      <td style={{ padding: "4px 8px", textAlign: "center" }}>
+                        22%
+                      </td>
+                      <td style={{ padding: "4px 8px", textAlign: "right" }}>
+                        ${(priceNum * 0.22).toFixed(2)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>⚙️ Operações</td>
+                      <td style={{ padding: "4px 8px", textAlign: "center" }}>
+                        15%
+                      </td>
+                      <td style={{ padding: "4px 8px", textAlign: "right" }}>
+                        ${(priceNum * 0.15).toFixed(2)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>🏭 Founder</td>
+                      <td style={{ padding: "4px 8px", textAlign: "center" }}>
+                        5%
+                      </td>
+                      <td style={{ padding: "4px 8px", textAlign: "right" }}>
+                        ${(priceNum * 0.05).toFixed(2)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>💳 Taxas</td>
+                      <td style={{ padding: "4px 8px", textAlign: "center" }}>
+                        3%
+                      </td>
+                      <td style={{ padding: "4px 8px", textAlign: "right" }}>
+                        ${(priceNum * 0.03).toFixed(2)}
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-                <p style={{ margin: "8px 0 0", fontSize: 11, color: "#64748b" }}>
-                  Preço USD convertido para PC no momento da compra. Publicar é <strong>GRÁTIS</strong>.
+                <p
+                  style={{ margin: "8px 0 0", fontSize: 11, color: "#64748b" }}
+                >
+                  Preço USD convertido para PC no momento da compra. Publicar é{" "}
+                  <strong>GRÁTIS</strong>.
                 </p>
               </div>
             </div>
@@ -590,37 +1161,126 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
           {/* ── Tentáculo Warning ── */}
           {publishForm.category === "tentacle" && (
-            <div className="publish-section" style={{
-              background: "rgba(245,158,11,0.06)",
-              border: "1px solid rgba(245,158,11,0.25)",
-              borderRadius: 8,
-            }}>
-              <div className="publish-section-title" style={{ color: "#f59e0b" }}>
+            <div
+              className="publish-section"
+              style={{
+                background: "rgba(245,158,11,0.06)",
+                border: "1px solid rgba(245,158,11,0.25)",
+                borderRadius: 8,
+              }}
+            >
+              <div
+                className="publish-section-title"
+                style={{ color: "#f59e0b" }}
+              >
                 ⚠️ AVISO: TENTÁCULO — Nível de Blindagem Alto
               </div>
-              <div style={{ fontSize: 13, lineHeight: 1.7, color: "#e2e8f0", padding: "0 8px" }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.7,
+                  color: "#e2e8f0",
+                  padding: "0 8px",
+                }}
+              >
                 <p style={{ margin: "0 0 10px" }}>
-                  Tentáculos acessam APIs do sistema via <strong>Proxy SDK</strong> em
-                  <strong> iframe blindado</strong>. Requerem sandbox forte, permissões explícitas
-                  no manifest, e passam pelo <strong>Panda Defend Score ≥ 70</strong> para aprovação.
+                  Tentáculos acessam APIs do sistema via{" "}
+                  <strong>Proxy SDK</strong> em
+                  <strong> iframe blindado</strong>. Requerem sandbox forte,
+                  permissões explícitas no manifest, e passam pelo{" "}
+                  <strong>Panda Defend Score ≥ 70</strong> para aprovação.
                 </p>
-                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+                <table
+                  style={{
+                    width: "100%",
+                    fontSize: 12,
+                    borderCollapse: "collapse",
+                  }}
+                >
                   <thead>
-                    <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
-                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Nível</th>
-                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Exemplo</th>
-                      <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Aprovação</th>
+                    <tr
+                      style={{
+                        borderBottom: "1px solid rgba(100,116,139,0.2)",
+                      }}
+                    >
+                      <th
+                        style={{
+                          textAlign: "left",
+                          padding: "4px 8px",
+                          color: "#94a3b8",
+                        }}
+                      >
+                        Nível
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "left",
+                          padding: "4px 8px",
+                          color: "#94a3b8",
+                        }}
+                      >
+                        Exemplo
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "left",
+                          padding: "4px 8px",
+                          color: "#94a3b8",
+                        }}
+                      >
+                        Aprovação
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><td style={{ padding: "4px 8px" }}>🟢 Baixo</td><td style={{ padding: "4px 8px", fontFamily: "monospace", fontSize: 11 }}>panda.ui.toast, panda.data.read</td><td style={{ padding: "4px 8px" }}>Auto-approve</td></tr>
-                    <tr><td style={{ padding: "4px 8px" }}>🟡 Médio</td><td style={{ padding: "4px 8px", fontFamily: "monospace", fontSize: 11 }}>panda.data.write, panda.store.state</td><td style={{ padding: "4px 8px" }}>Auto + auditoria</td></tr>
-                    <tr><td style={{ padding: "4px 8px" }}>🔴 Alto</td><td style={{ padding: "4px 8px", fontFamily: "monospace", fontSize: 11 }}>panda.wallet.send, panda.auth.modify</td><td style={{ padding: "4px 8px" }}>Founder review</td></tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>🟢 Baixo</td>
+                      <td
+                        style={{
+                          padding: "4px 8px",
+                          fontFamily: "monospace",
+                          fontSize: 11,
+                        }}
+                      >
+                        panda.ui.toast, panda.data.read
+                      </td>
+                      <td style={{ padding: "4px 8px" }}>Auto-approve</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>🟡 Médio</td>
+                      <td
+                        style={{
+                          padding: "4px 8px",
+                          fontFamily: "monospace",
+                          fontSize: 11,
+                        }}
+                      >
+                        panda.data.write, panda.store.state
+                      </td>
+                      <td style={{ padding: "4px 8px" }}>Auto + auditoria</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: "4px 8px" }}>🔴 Alto</td>
+                      <td
+                        style={{
+                          padding: "4px 8px",
+                          fontFamily: "monospace",
+                          fontSize: 11,
+                        }}
+                      >
+                        panda.wallet.send, panda.auth.modify
+                      </td>
+                      <td style={{ padding: "4px 8px" }}>Founder review</td>
+                    </tr>
                   </tbody>
                 </table>
-                <p style={{ margin: "10px 0 0", fontSize: 12, color: "#f59e0b" }}>
-                  🔒 Regras de Blindagem: <code>eval()</code>, <code>document.write()</code> e <code>fetch()</code>
-                  sem <code>Panda.Bridge</code> são <strong>bloqueados automaticamente</strong>.
+                <p
+                  style={{ margin: "10px 0 0", fontSize: 12, color: "#f59e0b" }}
+                >
+                  🔒 Regras de Blindagem: <code>eval()</code>,{" "}
+                  <code>document.write()</code> e <code>fetch()</code>
+                  sem <code>Panda.Bridge</code> são{" "}
+                  <strong>bloqueados automaticamente</strong>.
                 </p>
               </div>
             </div>
@@ -653,10 +1313,14 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
           <div className="publish-section">
             <div className="publish-section-title">
               🔗 Embed Links
-              <button className="btn-add-embed" onClick={addEmbed}>+ Adicionar</button>
+              <button className="btn-add-embed" onClick={addEmbed}>
+                + Adicionar
+              </button>
             </div>
             {publishForm.embedLinks.length === 0 ? (
-              <div className="publish-empty">Nenhum embed. Clique "+ Adicionar" para incluir links de mídia.</div>
+              <div className="publish-empty">
+                Nenhum embed. Clique "+ Adicionar" para incluir links de mídia.
+              </div>
             ) : (
               publishForm.embedLinks.map((embed, i) => (
                 <div key={i} className="embed-row">
@@ -665,7 +1329,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
                     onChange={(e) => updateEmbed(i, "type", e.target.value)}
                   >
                     {EMBED_TYPES.map((t) => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
+                      <option key={t.value} value={t.value}>
+                        {t.label}
+                      </option>
                     ))}
                   </select>
                   <input
@@ -674,7 +1340,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
                     value={embed.url}
                     onChange={(e) => updateEmbed(i, "url", e.target.value)}
                   />
-                  <button className="btn-remove" onClick={() => removeEmbed(i)}>✕</button>
+                  <button className="btn-remove" onClick={() => removeEmbed(i)}>
+                    ✕
+                  </button>
                 </div>
               ))
             )}
@@ -682,7 +1350,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
 
           {/* Output Hooks */}
           <div className="publish-section">
-            <div className="publish-section-title">🔌 Hooks de Saída (Distribuição)</div>
+            <div className="publish-section-title">
+              🔌 Hooks de Saída (Distribuição)
+            </div>
             <div className="hooks-grid">
               {OUTPUT_HOOKS.map((hook) => (
                 <label
@@ -706,51 +1376,77 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
             className="btn-publish"
             onClick={handlePublish}
             disabled={verificationRunning}
-            style={verificationRunning ? { opacity: 0.5, cursor: "not-allowed" } : {}}
+            style={
+              verificationRunning ? { opacity: 0.5, cursor: "not-allowed" } : {}
+            }
           >
-            {verificationRunning ? "⏳ VERIFICAÇÃO EM ANDAMENTO..." : "📦 PUBLICAR NA MEDUSA STORE"}
+            {verificationRunning
+              ? "⏳ VERIFICAÇÃO EM ANDAMENTO..."
+              : "📦 PUBLICAR NA MEDUSA STORE"}
           </button>
 
           {/* ── Inline Verification Runner (PowerShell style) ── */}
           {(verificationRunning || verificationDone) && (
-            <div style={{
-              marginTop: 12,
-              background: "#0c0c0c",
-              border: "1px solid #333",
-              borderRadius: 8,
-              padding: "14px 16px",
-              fontFamily: "'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace",
-              fontSize: 12,
-              lineHeight: 1.8,
-              maxHeight: 260,
-              overflowY: "auto",
-            }}>
-              <div style={{ color: "#6366f1", marginBottom: 8, fontWeight: 700 }}>
-                PS C:\PandaFactory\Medusa&gt; publish-verify --module "{publishForm.name || '...'}"
+            <div
+              style={{
+                marginTop: 12,
+                background: "#0c0c0c",
+                border: "1px solid #333",
+                borderRadius: 8,
+                padding: "14px 16px",
+                fontFamily:
+                  "'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace",
+                fontSize: 12,
+                lineHeight: 1.8,
+                maxHeight: 260,
+                overflowY: "auto",
+              }}
+            >
+              <div
+                style={{ color: "#6366f1", marginBottom: 8, fontWeight: 700 }}
+              >
+                PS C:\PandaFactory\Medusa&gt; publish-verify --module "
+                {publishForm.name || "..."}"
               </div>
               {verificationSteps.map((step, i) => (
-                <div key={i} style={{
-                  color:
-                    step.status === "running" ? "#fbbf24" :
-                    step.status === "pass" ? "#10b981" :
-                    step.status === "fail" || step.status === "abort" ? "#ef4444" :
-                    step.status === "final-pass" ? "#10b981" :
-                    step.status === "final-fail" ? "#ef4444" :
-                    "#94a3b8",
-                  whiteSpace: "pre-wrap",
-                }}>
+                <div
+                  key={i}
+                  style={{
+                    color:
+                      step.status === "running"
+                        ? "#fbbf24"
+                        : step.status === "pass"
+                          ? "#10b981"
+                          : step.status === "fail" || step.status === "abort"
+                            ? "#ef4444"
+                            : step.status === "final-pass"
+                              ? "#10b981"
+                              : step.status === "final-fail"
+                                ? "#ef4444"
+                                : "#94a3b8",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
                   {step.index > 0 && (
-                    <span style={{ color: "#64748b" }}>[STEP {step.index}/{step.total}] </span>
+                    <span style={{ color: "#64748b" }}>
+                      [STEP {step.index}/{step.total}]{" "}
+                    </span>
                   )}
                   {step.status === "running" && "⏳ "}
                   {step.status === "pass" && "✅ "}
                   {step.status === "fail" && "❌ "}
                   {step.label}
-                  {step.time && <span style={{ color: "#64748b" }}> ({step.time})</span>}
+                  {step.time && (
+                    <span style={{ color: "#64748b" }}> ({step.time})</span>
+                  )}
                 </div>
               ))}
               {verificationRunning && (
-                <div style={{ color: "#fbbf24", animation: "pulse 1s infinite" }}>▌</div>
+                <div
+                  style={{ color: "#fbbf24", animation: "pulse 1s infinite" }}
+                >
+                  ▌
+                </div>
               )}
             </div>
           )}
@@ -760,7 +1456,10 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
             <button
               className="btn-add-embed"
               style={{ marginTop: 8, width: "100%" }}
-              onClick={() => { setVerificationDone(false); setVerificationSteps([]); }}
+              onClick={() => {
+                setVerificationDone(false);
+                setVerificationSteps([]);
+              }}
             >
               🔄 Nova Publicação
             </button>
@@ -770,22 +1469,38 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
     );
   };
 
+  // ── Casulo (Encapsulado Creator) Tool ──
+  const renderCasulo = () => {
+    return <CasuloInline />;
+  };
+
   if (!isOpen) return null;
 
   // Inner content (shared between embedded and standalone modes)
   const panelContent = (
-    <div className={`devmode-panel ${embedded ? "embedded" : ""}`} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={`devmode-panel ${embedded ? "embedded" : ""}`}
+      onClick={(e) => e.stopPropagation()}
+    >
       {/* Header + MCP Toggle */}
       <header className="devmode-header">
         <h2>🛠️ DEV MODE</h2>
         <div className="mcp-toggle-compact">
-          <span className={mcpMode === "internal" ? "active" : ""}>🏠 INTERNO</span>
+          <span className={mcpMode === "internal" ? "active" : ""}>
+            🏠 INTERNO
+          </span>
           <button className="toggle-switch" onClick={handleMcpToggle}>
             <span className={`switch-dot ${mcpMode}`} />
           </button>
-          <span className={mcpMode === "external" ? "active" : ""}>💻 EXTERNO</span>
+          <span className={mcpMode === "external" ? "active" : ""}>
+            💻 EXTERNO
+          </span>
         </div>
-        {!embedded && <button className="btn-close" onClick={onClose}>×</button>}
+        {!embedded && (
+          <button className="btn-close" onClick={onClose}>
+            ×
+          </button>
+        )}
       </header>
 
       <div className="devmode-body">
@@ -802,7 +1517,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
               >
                 <span className="tool-icon">{tool.icon}</span>
                 <span className="tool-name">{tool.name}</span>
-                {tool.status === "future" && <span className="future-badge">SOON</span>}
+                {tool.status === "future" && (
+                  <span className="future-badge">SOON</span>
+                )}
               </button>
             ))}
           </div>
@@ -811,10 +1528,16 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
           <div className="section-label">INTEGRAÇÕES</div>
           <div className="integrations-row">
             {INTEGRATIONS.map((int) => (
-              <div key={int.id} className={`int-chip ${integrationStatus[int.id] || "unknown"}`} title={int.name}>
+              <div
+                key={int.id}
+                className={`int-chip ${integrationStatus[int.id] || "unknown"}`}
+                title={int.name}
+              >
                 <span>{int.icon}</span>
                 <span className="int-label">{int.id.toUpperCase()}</span>
-                <span className={`int-dot ${integrationStatus[int.id] || "unknown"}`} />
+                <span
+                  className={`int-dot ${integrationStatus[int.id] || "unknown"}`}
+                />
               </div>
             ))}
           </div>
@@ -825,7 +1548,9 @@ export function DevModePanel({ isOpen, onClose, embedded = false }) {
           {activeTool ? (
             <>
               <div className="tool-view-header">
-                <span>{activeTool.icon} {activeTool.name}</span>
+                <span>
+                  {activeTool.icon} {activeTool.name}
+                </span>
                 <small>{activeTool.desc}</small>
               </div>
               {renderToolContent()}
