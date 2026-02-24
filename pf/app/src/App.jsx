@@ -360,7 +360,6 @@ function AppContent() {
         onBundleClick={() => openAppWindow("bundle-creator")}
         onGasometerClick={() => openAppWindow("gasometer")}
         onCouncilClick={() => openAppWindow("pat-council")}
-        onDiagnosticsClick={() => openAppWindow("diagnostics")}
         onDevModeToggle={(isActive) => {
           setDevMode(isActive);
           if (isActive) openAppWindow("devtools");

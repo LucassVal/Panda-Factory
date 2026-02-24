@@ -20,7 +20,6 @@ function PFDock({
   onFinanceClick,
   onGasometerClick,
   onCouncilClick,
-  onDiagnosticsClick,
   plugins = [],
   onPluginOpen,
   onPluginClose,
@@ -289,18 +288,6 @@ function PFDock({
           >
             ⚙️
           </button>
-
-          {/* Diagnostics — Founder only */}
-          {isFounder && (
-            <button
-              className="pf-dock-item"
-              onClick={onDiagnosticsClick}
-              title="DIAGNOSTICS"
-              aria-label="Open system diagnostics"
-            >
-              🩺
-            </button>
-          )}
 
           {/* Dev Mode — Available to all users */}
           <button
