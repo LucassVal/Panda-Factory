@@ -17,7 +17,6 @@ function PFDock({
   onToolsClick,
   onStoreClick,
   onSettingsClick,
-  onEconomyClick,
   plugins = [],
   onPluginOpen,
   onPluginClose,
@@ -237,20 +236,6 @@ function PFDock({
               alt="Panda Store"
               style={{ width: 28, height: 28 }}
             />
-          </button>
-
-          <div className="pf-dock-separator" />
-
-          {/* ── ECONOMY ─── */}
-
-          {/* Economy — unified Finance + Gasometer */}
-          <button
-            className="pf-dock-item"
-            onClick={onEconomyClick}
-            title="ECONOMY — FINANCE & GASOMETER"
-            aria-label="Open economy panel"
-          >
-            ⛽
           </button>
 
           <div className="pf-dock-separator" />

@@ -24,6 +24,7 @@ function PFStatusBar({
   onDefendClick,
   onTreasuryClick,
   onNotificationsClick,
+  onGasometerClick,
   onPinChange,
   isFounder = false,
 }) {
@@ -314,8 +315,10 @@ function PFStatusBar({
           {/* Arc Energy */}
           <div
             className="pf-arc-energy"
-            title={`${energy}% ${t("statusBar.energy", "ENERGY")}`}
-            aria-label={`${t("statusBar.session", "SESSION")} ${t("statusBar.energy", "ENERGY")}: ${energy}%`}
+            title={`⛽ GASOMETER — ${energy}% ENERGY\nClick to open Economy panel`}
+            aria-label={`Gasometer / Energy: ${energy}%`}
+            onClick={onGasometerClick}
+            style={{ cursor: onGasometerClick ? "pointer" : "default" }}
           >
             <svg width="40" height="40" viewBox="0 0 48 48">
               <defs>

@@ -332,6 +332,7 @@ function AppContent() {
         onMiningClick={() => openAppWindow("mining-panel")}
         onDefendClick={() => openAppWindow("defend-panel")}
         onTreasuryClick={() => openAppWindow("founder-dashboard")}
+        onGasometerClick={() => openAppWindow("gasometer")}
         onPinChange={setIsPinned}
         isFounder={isFounder}
       />
@@ -354,7 +355,6 @@ function AppContent() {
         }}
         onStoreClick={() => setShowStore(true)}
         onSettingsClick={() => setShowSettings(true)}
-        onEconomyClick={() => openAppWindow("gasometer")}
         onBundleClick={() => openAppWindow("bundle-creator")}
         onDevModeToggle={(isActive) => {
           setDevMode(isActive);
