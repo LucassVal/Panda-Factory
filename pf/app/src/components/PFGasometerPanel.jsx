@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useGasometer } from "../hooks/useGasometer";
+import { useFounderMetrics } from "../hooks/useFounderMetrics";
 import "./PFGasometerPanel.css";
 
 /**
@@ -26,6 +27,7 @@ export function GasometerPanel({ onClose }) {
     mode,
     refresh,
   } = useGasometer();
+  const { metrics: financeMetrics } = useFounderMetrics();
   const [activeTab, setActiveTab] = useState("overview");
 
   const formatNumber = (n) => {
@@ -124,13 +126,14 @@ export function GasometerPanel({ onClose }) {
 
       {/* Tabs */}
       <div className="gasometer-tabs">
-        {["overview", "history", "optimize"].map((tab) => (
+        {["overview", "finance", "history", "optimize"].map((tab) => (
           <button
             key={tab}
             className={`gasometer-tab ${activeTab === tab ? "active" : ""}`}
             onClick={() => setActiveTab(tab)}
           >
             {tab === "overview" && "📊 Overview"}
+            {tab === "finance" && "💰 Finance"}
             {tab === "history" && "📜 History"}
             {tab === "optimize" && "🤖 AI Tips"}
           </button>
@@ -213,6 +216,67 @@ export function GasometerPanel({ onClose }) {
                         style={{
                           width: `${(op.totalCost / topOperations[0].totalCost) * 100}%`,
                         }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* === FINANCE TAB === */}
+        {activeTab === "finance" && (
+          <div className="gasometer-overview">
+            <div className="gasometer-stats-grid">
+              <div className="gasometer-stat-card">
+                <div className="gasometer-stat-icon">💰</div>
+                <div className="gasometer-stat-value">
+                  {financeMetrics?.treasury?.pc || "1,234,567"}
+                </div>
+                <div className="gasometer-stat-label">Panda Coin (PC)</div>
+              </div>
+              <div className="gasometer-stat-card">
+                <div className="gasometer-stat-icon">🏦</div>
+                <div className="gasometer-stat-value">
+                  {financeMetrics?.treasury?.pat || "500"}
+                </div>
+                <div className="gasometer-stat-label">PAT Holders</div>
+              </div>
+              <div className="gasometer-stat-card">
+                <div className="gasometer-stat-icon">💵</div>
+                <div className="gasometer-stat-value">
+                  {financeMetrics?.treasury?.usd || "$5,234"}
+                </div>
+                <div className="gasometer-stat-label">USD Value</div>
+              </div>
+              <div className="gasometer-stat-card">
+                <div className="gasometer-stat-icon">⏳</div>
+                <div className="gasometer-stat-value">
+                  {financeMetrics?.treasury?.pending || "$0.00"}
+                </div>
+                <div className="gasometer-stat-label">Pending</div>
+              </div>
+            </div>
+
+            {/* Revenue Breakdown */}
+            <div className="gasometer-top-ops">
+              <h4>📊 Revenue Sources</h4>
+              <div className="gasometer-ops-list">
+                {[
+                  { label: "PC Sales", pct: 65, amount: "$3,400" },
+                  { label: "Store Commission", pct: 20, amount: "$1,050" },
+                  { label: "API Usage", pct: 10, amount: "$524" },
+                  { label: "Premium Subs", pct: 5, amount: "$260" },
+                ].map((item, i) => (
+                  <div key={i} className="gasometer-op-row">
+                    <span className="gasometer-op-name">{item.label}</span>
+                    <span className="gasometer-op-count">{item.amount}</span>
+                    <span className="gasometer-op-cost">{item.pct}%</span>
+                    <div className="gasometer-op-bar">
+                      <div
+                        className="gasometer-op-bar-fill"
+                        style={{ width: `${item.pct}%` }}
                       />
                     </div>
                   </div>

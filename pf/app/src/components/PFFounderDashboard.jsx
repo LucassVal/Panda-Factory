@@ -14,6 +14,7 @@ import "./PFFounderDashboard.css";
 /**
  * FounderDashboard - Exclusive Founder control panel
  * Protected by Ed25519 signature verification
+ * v6.7 — Consolidated to 8 tabs (Heartbeat, Flow, Diagnostics merged into Overview)
  */
 export function FounderDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -96,18 +97,6 @@ export function FounderDashboard() {
           onClick={setActiveTab}
         />
         <Tab
-          id="heartbeat"
-          label="💓 Heartbeat"
-          active={activeTab}
-          onClick={setActiveTab}
-        />
-        <Tab
-          id="flow"
-          label="🌐 Flow"
-          active={activeTab}
-          onClick={setActiveTab}
-        />
-        <Tab
           id="logs"
           label="📜 Logs"
           active={activeTab}
@@ -119,32 +108,25 @@ export function FounderDashboard() {
           active={activeTab}
           onClick={setActiveTab}
         />
-        <Tab
-          id="diagnostics"
-          label="🩺 Diagnostics"
-          active={activeTab}
-          onClick={setActiveTab}
-        />
       </nav>
 
       {/* Content */}
       <div className="founder-content">
         {activeTab === "overview" && (
-          <OverviewPanel metrics={metrics} services={services} />
+          <OverviewPanel
+            metrics={metrics}
+            services={services}
+            heartbeat={heartbeat}
+          />
         )}
         {activeTab === "finance" && <FinancePanel metrics={metrics} />}
         {activeTab === "defend" && <PandaDefendDashboard />}
         {activeTab === "users" && <UsersPanel metrics={metrics} />}
         {activeTab === "services" && <ServicesPanel services={services} />}
         {activeTab === "mining" && <MiningPanel />}
-        {activeTab === "heartbeat" && <HeartbeatPanel heartbeat={heartbeat} />}
-        {activeTab === "flow" && <PFLiveFlowMonitor />}
         {activeTab === "logs" && <PFLiveFlowMonitor />}
         {activeTab === "council" && (
           <PATCouncilPanel isOpen={true} embedded={true} />
-        )}
-        {activeTab === "diagnostics" && (
-          <PFDiagnosticDashboard isFounder={true} />
         )}
       </div>
     </div>
@@ -193,7 +175,12 @@ function Tab({ id, label, active, onClick }) {
 /**
  * Overview Panel - Main metrics cards
  */
-function OverviewPanel({ metrics, services }) {
+function OverviewPanel({ metrics, services, heartbeat }) {
+  const { agents = [], lastCheck, alerts = [] } = heartbeat || {};
+  const onlineCount = agents.filter((a) => a.status === "online").length;
+  const totalAgents = agents.length;
+  const criticalAlerts = alerts.filter((a) => a.level === "critical").length;
+
   return (
     <div className="overview-panel">
       <div className="metrics-grid">
@@ -249,6 +236,50 @@ function OverviewPanel({ metrics, services }) {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* 💓 Heartbeat Summary (embedded from former standalone tab) */}
+      <div className="services-summary" style={{ marginTop: "16px" }}>
+        <h3>💓 Agent Heartbeat</h3>
+        <div className="services-grid">
+          <div className="service-row">
+            <span
+              className={`service-dot dot-${onlineCount === totalAgents ? "green" : onlineCount > 0 ? "yellow" : "red"}`}
+            />
+            <span className="service-name">Agents Online</span>
+            <span className="service-status">
+              {onlineCount}/{totalAgents}
+            </span>
+          </div>
+          <div className="service-row">
+            <span className="service-dot dot-gray" />
+            <span className="service-name">Last Check</span>
+            <span className="service-status">
+              {lastCheck ? new Date(lastCheck).toLocaleTimeString() : "—"}
+            </span>
+          </div>
+          {criticalAlerts > 0 && (
+            <div className="service-row">
+              <span className="service-dot dot-red" />
+              <span className="service-name">⚠️ Critical Alerts</span>
+              <span className="service-status" style={{ color: "#ef4444" }}>
+                {criticalAlerts}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 🌐 Flow Monitor (embedded compact) */}
+      <div className="services-summary" style={{ marginTop: "16px" }}>
+        <h3>🌐 Live Flow</h3>
+        <PFLiveFlowMonitor compact={true} />
+      </div>
+
+      {/* 🩺 Diagnostics (embedded compact) */}
+      <div className="services-summary" style={{ marginTop: "16px" }}>
+        <h3>🩺 Diagnostics</h3>
+        <PFDiagnosticDashboard compact={true} isFounder={true} />
       </div>
     </div>
   );
