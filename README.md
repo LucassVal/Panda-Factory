@@ -7,7 +7,7 @@
 <h1 align="center">Panda Factory</h1>
 
 <p align="center">
-  <strong>The 4th Digital Layer — Parasitize, Don't Compete</strong><br>
+  <strong>The 4th Digital Layer — Coexist, Don't Compete</strong><br>
   <em>There are 3 digital layers: infrastructure, platforms, and tools.<br>
   Panda Factory IS the 4th layer — the one that CONNECTS them all.<br>
   Your tools stay the same. Panda operates behind the scenes via MCP Brain.</em>
