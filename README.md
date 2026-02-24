@@ -10,11 +10,13 @@
   <strong>The 4th Digital Layer — Connect, Don't Compete</strong><br>
   <em>There are 3 digital layers: infrastructure, platforms, and tools.<br>
   Panda Factory IS the 4th layer — the one that CONNECTS them all.<br>
-  Your tools stay the same. Panda operates behind the scenes via MCP Brain.</em>
+  Your tools stay the same. Panda operates behind the scenes via MCP Brain.</em><br><br>
+  <strong>One SDK. Every layer. Zero infrastructure cost until you sell.</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Layer_4-Orchestration_Fabric-6C3AED?style=for-the-badge" alt="4th Layer">
+  <img src="https://img.shields.io/badge/MCP_Brain-Context_Protocol-00BCD4?style=for-the-badge" alt="MCP Brain">
   <img src="https://img.shields.io/badge/SDK-17_Namespaces-00C853?style=for-the-badge" alt="SDK">
   <img src="https://img.shields.io/badge/AI-Gemini_3.0-8E75B2?logo=google&style=for-the-badge" alt="Gemini">
   <img src="https://img.shields.io/badge/Dev_Split-Up_to_85%25-FF6B00?style=for-the-badge" alt="Dev Revenue Share">
@@ -958,9 +960,10 @@ Panda Factory is looking for developers who want to build and earn in the 4th la
 ---
 
 <p align="center">
-  <strong>Panda Factory — The 4th Digital Layer</strong><br>
+  <strong>🐼 Panda Factory — The 4th Digital Layer</strong><br>
   <em>Where BigTechs sell services, Panda connects them into one invisible employee.</em><br>
   <em>Spine + Tentacles + MCP Brain = the 4th layer in action.</em><br>
-  <em>We don't compete with Layers 1-3. We compose their APIs and orchestrate them.</em><br>
+  <em>We don't compete with Layers 1-3. We compose their APIs and orchestrate them.</em><br><br>
+  <strong>Connect, Don't Compete.</strong><br>
   <code>v11.0 — 4th Layer · Spine + Tentacles Edition · February 2026</code>
 </p>
