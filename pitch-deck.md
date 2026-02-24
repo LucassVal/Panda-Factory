@@ -1,161 +1,249 @@
-<p align="center">
-  <img src="pf/assets/panda_logo.png" alt="Panda Factory" width="150">
-</p>
+# 🐼 Panda Factory — Pitch Deck 2026
 
-<h1 align="center">🐼 Panda Factory — Pitch Deck 2026</h1>
-
-<p align="center">
-  <strong>Digital Democratization — Developer First</strong><br>
-  AI-First Ecosystem where anyone builds software with natural language
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/AI%2FML-Platform-6c5ce7?style=for-the-badge" alt="AI/ML Platform">
-  <img src="https://img.shields.io/badge/Built%20on-Google-00d4aa?style=for-the-badge" alt="Built on Google">
-  <img src="https://img.shields.io/badge/Infra%20Cost-$0-fd7014?style=for-the-badge" alt="Zero Infra Cost">
-  <img src="https://img.shields.io/badge/NLLB-200%20Languages-6c5ce7?style=for-the-badge" alt="NLLB 200 Languages">
-  <img src="https://img.shields.io/badge/MCP-Protocol-fd7014?style=for-the-badge" alt="MCP Protocol">
-</p>
-
-<p align="center"><em>Lucas Valério • February 2026 • github.com/LucassVal/Panda-Factory</em></p>
+**The 4th Digital Layer: Connect, Don't Compete**
 
 ---
 
-## 😤 The Problem
+## 🧩 The Problem
 
-> Creating automations, using AI, and scaling businesses still requires technical knowledge that **99% of people don't have**.
+Software lives in three disconnected layers:
 
-| Pain                  | Impact                              |
-| --------------------- | ----------------------------------- |
-| 💸 **High Cost**      | SaaS tools cost $50-500/month each  |
-| 🧠 **Learning Curve** | Each tool has its own interface     |
-| 🔗 **Fragmentation**  | Scattered data, broken integrations |
+| Layer                   | What                  | Examples                   |
+| ----------------------- | --------------------- | -------------------------- |
+| **L1 — Infrastructure** | Raw compute & storage | AWS, GCP, Azure            |
+| **L2 — Platforms**      | Managed services      | Firebase, Stripe, Supabase |
+| **L3 — Tools**          | End-user software     | VS Code, Notion, Figma     |
 
-> **80%** of small businesses don't automate processes due to lack of technical knowledge or cost.
+**They don't talk to each other.** Developers spend 70% of their time gluing APIs together. Non-technical users are locked out entirely.
 
----
-
-## 🐼 The Solution: Panda Ecosystem
-
-**Digital Democratization:** Minimalist runtime where devs create plugins, and users operate with natural language — in any language.
-
-| Feature                  | Description                                                       |
-| ------------------------ | ----------------------------------------------------------------- |
-| 🧠 **Native AI (MCP)**   | Every tool is understood by AI. Ask in any language, it executes. |
-| 🔌 **Plugin-First**      | Minimal core. Everything via plugins. Dev earns 55% per sale.     |
-| 🛒 **Medusa Store**      | Open source plugin store. Buy, sell, reuse components.            |
-| 🌍 **NLLB Translation**  | 200 languages offline. Interface auto-translated for user.        |
-| 🆓 **Free to Start**     | 500k tokens/month free. Gemini integrated, $0 initial cost.       |
-| 🤝 **Partner Mode**      | Share idle resources, earn credits. Circular economy.             |
-| 📱 **App Store Hooks**   | PlayStore, Apple Store, Steam — publish anywhere.                 |
-| 🛍️ **Marketplace Hooks** | Kiwify, Hotmart, Gumroad — sell on any platform.                  |
-| 🔄 **Bidirectional SDK** | Hooks inbound or outbound. You decide the destination.            |
+> **$650B** is spent annually on software that could be composed from existing pieces — if someone connected the dots.
 
 ---
 
-## 🔷 Architecture: Google-First
+## 💡 The Solution
+
+**Panda Factory is the 4th Layer** — a runtime that orchestrates infrastructure, platforms, and tools into unified, sellable products.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  ☁️  Google Layer (90% of cases)                            │
-│  Gemini + GAS + Firebase • Cost: $0 • Business automation   │
-├─────────────────────────────────────────────────────────────┤
-│  🐍  Colab Layer (Free GPU)                                 │
-│  Google Colab Free Tier • ML, Whisper, Translation • T4 GPU │
-├─────────────────────────────────────────────────────────────┤
-│  🦀  Rust Layer (Partner Mode)                              │
-│  Local Agent • NLLB (200 langs), Whisper STT, RPA, PiP      │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────┐
+│         L4 — PANDA FACTORY (Orchestration)       │
+│       SDK · AI Brain · Store · Rust Agent        │
+├──────────────────────────────────────────────────┤
+│         L3 — Tools (VS Code, Notion, Figma)      │
+├──────────────────────────────────────────────────┤
+│     L2 — Platforms (Firebase, Stripe, Supabase)  │
+├──────────────────────────────────────────────────┤
+│       L1 — Infrastructure (GCP, AWS, Azure)      │
+└──────────────────────────────────────────────────┘
 ```
 
-**Google as Backbone:** 100% of backends use Google infrastructure. Each user generates demand for GAS, Firebase, Gemini and Colab.
+We don't build new infrastructure. We **compose** what already exists into a single AI-powered workspace where developers create modules and users operate them with **natural language** — in any of 200+ languages.
 
-🎯 **Target:** 100K users = 50M Gemini calls/year + 2B GAS executions
+---
+
+## 🔑 How It Works
+
+### For Developers → Build & Earn
+
+1. **Create a module** using the Panda SDK (18 ready-made namespaces)
+2. **Publish** to the Medusa Store — set your price, get instant distribution
+3. **Earn 70%** of every sale + compute bonuses when users consume your module
+
+### For Users → Talk & Create
+
+1. **Open Panda Factory** in the browser — no install needed
+2. **Describe what you need** in natural language (PT-BR, EN, ES, or 200+)
+3. **The AI Brain composes** your solution from available modules automatically
+
+### The Secret Weapon: MCP
+
+The AI doesn't just answer questions — it **acts**. The Model Context Protocol gives the Brain deep awareness across all modules, data, and services. It reads, writes, and orchestrates everything seamlessly.
+
+---
+
+## ⚙️ Architecture: Google-First
+
+Every backend runs on Google — a strategic choice, not a limitation.
+
+```
+┌─────────────────────────────────────────────────┐
+│               PANDA FACTORY STACK               │
+├────────────┬────────────┬──────────┬────────────┤
+│  Frontend  │  Backend   │ AI Brain │ Rust Agent │
+│  React     │  Google    │ Gemini   │ Local MCP  │
+│  Multi-Win │  Apps      │ 2.5      │ GPU Compu- │
+│  TLDraw    │  Script    │ Flash /  │ te, Offli- │
+│  SDK       │  Firebase  │ Pro      │ ne Mode    │
+└────────────┴────────────┴──────────┴────────────┘
+```
+
+### Why This Matters
+
+|                          | Impact                                                                           |
+| ------------------------ | -------------------------------------------------------------------------------- |
+| **User-side compute**    | Each user's Google account handles their own backend — Panda pays $0 for scaling |
+| **Free tier covers MVP** | Firebase + GAS quotas = zero infra cost until 100K+ users                        |
+| **Best AI cost**         | Gemini = lowest cost per token of any frontier model                             |
+| **Partner alignment**    | We _use_ Google, we don't compete with Google                                    |
+
+### Three Ways to Run
+
+| Tier       | What You Get                                      |
+| ---------- | ------------------------------------------------- |
+| **Shell**  | 100% browser — zero install, instant start        |
+| **Hybrid** | + Rust Agent for local power and MCP integrations |
+| **Full**   | + Local AI, offline mode, GPU compute             |
 
 ---
 
 ## 💰 Business Model
 
-### Revenue 1: Medusa Store — Panda Hooks (Auto Split)
+### Panda Coin (PC) — The Energy Credit
 
-| Destination            | Share   |
-| ---------------------- | ------- |
-| 👨‍💻 Developer (creator) | **52%** |
-| 📚 Panda Education     | 22%     |
-| ⚙️ Operations          | 15%     |
-| 🐼 Founder             | 5%      |
-| 💳 Gateway             | 3%      |
+Users buy PCs to use AI, modules, and compute. Simple.
 
-### Revenue 2: Partner Mode — P2P Compute Credits
+**1 PC = R$ 1.00** · Packages from R$ 50 to R$ 1,000 with volume bonuses.
 
-| Destination             | Share      |
-| ----------------------- | ---------- |
-| 👤 User (Panda Credits) | **50-70%** |
-| 🏦 Reserve              | 25%        |
-| 🖥️ Infrastructure       | 23%        |
-| 🐼 Founder              | 2%         |
+### Revenue Split
 
-> 🔗 **Panda Hooks** — Automated distribution: each transaction triggers hooks that split revenue between Dev, Education, Ops and Founder. Zero intermediaries.
+| When a module sells | Dev gets **70%** | Panda gets **25%** | Founder gets **5%** |
+| ------------------- | ---------------- | ------------------ | ------------------- |
 
-<p align="center">
-  <strong>$0</strong> Partner Cost&nbsp;&nbsp;•&nbsp;&nbsp;<strong>70%</strong> Return to ecosystem
-</p>
+| When a user consumes AI/compute | Dev gets **40%** | Panda gets **55%** | Founder gets **5%** |
+| ------------------------------- | ---------------- | ------------------ | ------------------- |
+
+Developers earn from **both** — the sale _and_ the usage. That's the flywheel.
+
+### Bundles (Encapsulados)
+
+Multiple modules packaged as one product. Multi-developer bundles auto-split revenue proportionally. Build together, earn together.
 
 ---
 
-## 📈 Traction & Roadmap
+## 🚀 Go-to-Market
 
-<p align="center">
+```
+   NOW                     NEXT                    THEN
+┌──────────────┐      ┌──────────────┐       ┌──────────────┐
+│  HOTMART /   │      │   MEDUSA     │       │   FLYWHEEL   │
+│  KIWIFY      │─────▶│   STORE      │──────▶│   ORGANIC    │
+│              │      │              │       │              │
+│ Use existing │      │ Direct sales │       │ Devs attract │
+│ platforms to │      │ + affiliate  │       │ users, users │
+│ get first    │      │ splits       │       │ attract devs │
+│ paying users │      │              │       │              │
+└──────────────┘      └──────────────┘       └──────────────┘
+```
 
-|       17       |       95%        |      5+      |      ~200KB      |
-| :------------: | :--------------: | :----------: | :--------------: |
-| Technical Docs | Phase 0 Complete | Integrations | Architecture Doc |
+**Phase 1 is about proof.** One real sale. Three onboarded developers. Revenue before hiring.
 
-</p>
+---
 
-| Phase                   | When         | Status | What                                             |
-| ----------------------- | ------------ | :----: | ------------------------------------------------ |
-| **Phase 0: Foundation** | Jan 2026     |   ✅   | Shell, SDK, GAS Backend, Complete documentation  |
-| **Phase 1: Day 1**      | Feb 2026     |   🚧   | Rust Agent, AI Cores, Partner Mode, Medusa Store |
-| **Phase 2: Scale**      | Mar-Apr 2026 |   ⏳   | P2P Compute, VSX Store, GPU Pool                 |
-| **Phase 3: Expansion**  | Q2-Q3 2026   |   ⏳   | EdTech (Panda Labs), Open Marketplace            |
+## 🧬 The SDK: Developer Superpower
+
+18 namespaces. Plug-and-play. Zero to published module in under 1 hour.
+
+|                                   |                               |                                |
+| --------------------------------- | ----------------------------- | ------------------------------ |
+| `Panda.Brain` — AI orchestration  | `Panda.Store` — Marketplace   | `Panda.Auth` — Authentication  |
+| `Panda.Canvas` — Visual workspace | `Panda.Data` — Database layer | `Panda.MCP` — Context protocol |
+| `Panda.Hooks` — React integration | `Panda.i18n` — 200+ languages | `Panda.Defend` — Security      |
+| `Panda.RustBridge` — Local agent  | `Panda.UI` — Components       | `Panda.Events` — Event bus     |
+
+**The SDK is the moat.** Every namespace a dev uses is another reason they stay.
+
+---
+
+## 🛡️ Why BigTech Won't Kill This
+
+| "Couldn't Google/Microsoft build this?"                                             |     |
+| ----------------------------------------------------------------------------------- | --- |
+| We **use** Google. We're a customer, not a competitor.                              | ✅  |
+| No-code platforms **replace** devs. We **empower** them. Devs are our sales force.  | ✅  |
+| AI coding tools help **write** code. We help **sell** code. Totally different game. | ✅  |
+| We sit in a gap BigTech can't fill without cannibalizing their own products.        | ✅  |
+
+---
+
+## 📊 Where We Are
+
+### Built ✅
+
+- SDK v3.4 — 18 namespaces, fully working
+- React UI with multi-window workspace
+- Firebase Auth + Google Apps Script backend
+- AI Brain with Gemini integration + MCP
+- TLDraw visual canvas
+- Complete documentation system (15+ docs, 2000+ pages)
+
+### Building Now 🚧
+
+- First product for sale on Hotmart
+- Medusa Store MVP
+- Security hardening
+- Multi-language interface (PT-BR, EN, ES)
+
+### Next 🎯
+
+- 10 active developers · 50 users · R$ 10K monthly revenue
+- Rust Agent with local compute
+- Google Partner application
+
+---
+
+## 🗺️ Roadmap
+
+```
+ 2025 H2            2026 H1             2026 H2            2027+
+┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│FOUNDATION│    │ FOUNDER SOLO │    │  GUERRILLA   │    │   FLYWHEEL   │
+│    ✅    │───▶│     🚧       │───▶│     🎯       │───▶│     ⏳       │
+│          │    │              │    │              │    │              │
+│ SDK 3.4  │    │ 1st Sale     │    │ 10 Devs      │    │ 100+ Devs    │
+│ Firebase │    │ 3 Devs       │    │ 50 Users     │    │ 1K+ Users    │
+│ AI Brain │    │ Medusa MVP   │    │ R$10K MRR    │    │ R$100K MRR   │
+│ Full Docs│    │ Hotmart Live │    │ Rust Agent   │    │ P2P Compute  │
+└──────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+```
 
 ---
 
 ## 👤 Team
 
-**Lucas Valério** — Founder & Solo Developer
+**Lucas Valério** — Solo Founder & Full-Stack Architect
 
-Full-stack developer with experience in automation, algorithmic trading and distributed systems.
+Built the entire SDK, architecture, economy, and documentation solo. The system is designed so that **any developer can onboard by reading the docs** — no tribal knowledge, no bus factor.
 
-| Area           | Technologies                                             |
-| -------------- | -------------------------------------------------------- |
-| Frontend       | React, TLDraw, Vanilla JS                                |
-| Backend        | Rust, Google Apps Script, Firebase                       |
-| AI/ML          | Gemini API, Colab, MCP Protocol                          |
-| Infrastructure | 100% Google: GAS, Firebase, Gemini, Colab, Drive, Sheets |
-| Local AI       | NLLB Translation (200 langs), Whisper STT, WebGPU        |
+**AI is the second engineer.** Gemini + MCP handles what would normally require a team.
+
+**Hiring comes after revenue, not before.**
 
 ---
 
 ## 🎯 The Ask
 
-<p align="center">
-  <strong>Google Cloud Credits</strong><br>
-  To accelerate Rust Agent development, Colab integration and scaling infrastructure.
-</p>
+### For Google
 
-<p align="center">
-  <strong>$50k-200k</strong> Cloud Credits &nbsp;•&nbsp; <strong>12 months</strong> Estimated runway
-</p>
+- **Cloud Credits** for Gemini API and Firebase scaling
+- **Google for Startups** for mentorship and visibility
+- Review of our user-side GAS scaling model (novel approach worth a case study)
 
-### How credits will be used
+### For Developers
 
-| ☁️ Cloud Run / GKE | 🧠 Vertex AI | 🔥 Firebase Scale | 📊 BigQuery |
-| :----------------: | :----------: | :---------------: | :---------: |
+- **Beta spots are open** — build a module, prove your value, earn a permanent seat in the ecosystem before the flywheel spins up
+
+### For Investors
+
+- Not raising now. Revenue first.
+- Future raise after proving R$ 10K MRR
 
 ---
 
-<p align="center">
-  🐼 <strong>pandafactory.dev</strong> • github.com/LucassVal/Panda-Factory
-</p>
+## 💬 One Sentence
+
+> **Panda Factory is the 4th Digital Layer — where developers build and sell AI-powered software modules, and users compose them into products using natural language, all running on Google infrastructure at zero cost.**
+
+---
+
+_Panda Factory v6.6 · Pitch Deck v2.1 · February 2026_
+_"Connect, Don't Compete."_
