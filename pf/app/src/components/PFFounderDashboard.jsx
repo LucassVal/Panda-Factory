@@ -14,7 +14,7 @@ import "./PFFounderDashboard.css";
 /**
  * FounderDashboard - Exclusive Founder control panel
  * Protected by Ed25519 signature verification
- * v6.7 — Consolidated to 8 tabs (Heartbeat, Flow, Diagnostics merged into Overview)
+ * v6.7 — Consolidated to 6 tabs (Services, Logs, Heartbeat, Flow, Diagnostics merged into Overview)
  */
 export function FounderDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -85,23 +85,12 @@ export function FounderDashboard() {
           onClick={setActiveTab}
         />
         <Tab
-          id="services"
-          label="🔧 Services"
-          active={activeTab}
-          onClick={setActiveTab}
-        />
-        <Tab
           id="mining"
           label="⛏️ Mining"
           active={activeTab}
           onClick={setActiveTab}
         />
-        <Tab
-          id="logs"
-          label="📜 Logs"
-          active={activeTab}
-          onClick={setActiveTab}
-        />
+
         <Tab
           id="council"
           label="🏛️ Council"
@@ -122,9 +111,7 @@ export function FounderDashboard() {
         {activeTab === "finance" && <FinancePanel metrics={metrics} />}
         {activeTab === "defend" && <PandaDefendDashboard />}
         {activeTab === "users" && <UsersPanel metrics={metrics} />}
-        {activeTab === "services" && <ServicesPanel services={services} />}
         {activeTab === "mining" && <MiningPanel />}
-        {activeTab === "logs" && <PFLiveFlowMonitor />}
         {activeTab === "council" && (
           <PATCouncilPanel isOpen={true} embedded={true} />
         )}

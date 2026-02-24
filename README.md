@@ -7,7 +7,7 @@
 <h1 align="center">Panda Factory</h1>
 
 <p align="center">
-  <strong>The 4th Digital Layer — Parasitize, Don't Compete</strong><br>
+  <strong>The 4th Digital Layer — Connect, Don't Compete</strong><br>
   <em>There are 3 digital layers: infrastructure, platforms, and tools.<br>
   Panda Factory IS the 4th layer — the one that CONNECTS them all.<br>
   Your tools stay the same. Panda operates behind the scenes via MCP Brain.</em>
@@ -299,10 +299,10 @@ Each Tentacle has a JSON manifest that tells MCP exactly what data to extract:
 | ------------- | ------------------------------------------- | --------------------------- | ---------------------------------------------- |
 | **Spine**     | CRM + Calendar + Inventory                  | Panda's own RTDB            | Always present, auto-populated by tentacles    |
 | **Dashboard** | 🎯 **Fixed core icon in App Dock**          | Panda native (always on)    | Aggregates ALL connected services — the moat   |
-| **Tentacles** | WhatsApp, ML, Shopee, iFood, Calendar...    | External APIs via manifests | Panda parasitizes — connects, doesn't replace  |
+| **Tentacles** | WhatsApp, ML, Shopee, iFood, Calendar...    | External APIs via manifests | Panda connects — enhances, doesn't replace     |
 | **WebViews**  | Borrowed UI (Google Calendar, Bling, ML...) | iframe/webview in Canvas    | User sees the real tool, Panda operates behind |
 
-> **Philosophy: "Parasitize, Don't Compete."** — If the user already has a tool, Panda connects to it. If not, Panda offers a basic native module.
+> **Philosophy: "Connect, Don't Compete."** — If the user already has a tool, Panda connects to it. If not, Panda offers a basic native module.
 > **Dashboard = core, not optional.** Without it, Panda is just a browser with tabs. The Dashboard aggregates metrics from ALL connected services into one view.
 
 ### 🎯 Templates by Niche (Kiwify/Hotmart Products)
@@ -961,6 +961,6 @@ Panda Factory is looking for developers who want to build and earn in the 4th la
   <strong>Panda Factory — The 4th Digital Layer</strong><br>
   <em>Where BigTechs sell services, Panda connects them into one invisible employee.</em><br>
   <em>Spine + Tentacles + MCP Brain = the 4th layer in action.</em><br>
-  <em>We don't compete with Layers 1-3. We parasitize their APIs and orchestrate them.</em><br>
+  <em>We don't compete with Layers 1-3. We compose their APIs and orchestrate them.</em><br>
   <code>v11.0 — 4th Layer · Spine + Tentacles Edition · February 2026</code>
 </p>
