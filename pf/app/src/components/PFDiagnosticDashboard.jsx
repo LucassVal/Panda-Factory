@@ -263,6 +263,25 @@ const INDICATOR_DEFS = [
   },
 ];
 
+// ── GAS status cache (avoid 5+ parallel calls during diagnostics) ──
+let _statusCache = null;
+let _statusCachePromise = null;
+
+function getCachedStatus() {
+  if (_statusCache) return Promise.resolve(_statusCache);
+  if (_statusCachePromise) return _statusCachePromise;
+  _statusCachePromise = gasGet("status").then((r) => {
+    _statusCache = r;
+    return r;
+  });
+  return _statusCachePromise;
+}
+
+function clearStatusCache() {
+  _statusCache = null;
+  _statusCachePromise = null;
+}
+
 // ── Run individual sub-tests ──
 async function runSubtest(subtestId) {
   const start = Date.now();
@@ -326,7 +345,7 @@ async function runSubtest(subtestId) {
       }
       case "ga_status_ping": {
         try {
-          const result = await gasGet("status");
+          const result = await getCachedStatus();
           const ms = Date.now() - start;
           if (result.status === "MOCK")
             return {
@@ -343,7 +362,7 @@ async function runSubtest(subtestId) {
       }
       case "ga_version": {
         try {
-          const result = await gasGet("status");
+          const result = await getCachedStatus();
           if (result.status === "MOCK")
             return { pass: false, detail: "Mock mode", ms: Date.now() - start };
           return {
@@ -468,7 +487,7 @@ async function runSubtest(subtestId) {
       // ── Google Properties ──
       case "gp_properties": {
         try {
-          const result = await gasGet("status");
+          const result = await getCachedStatus();
           const ms = Date.now() - start;
           if (result.status === "MOCK")
             return { pass: false, detail: "Mock mode", ms };
@@ -479,7 +498,7 @@ async function runSubtest(subtestId) {
       }
       case "gp_drive_access": {
         try {
-          const result = await gasGet("status");
+          const result = await getCachedStatus();
           const ms = Date.now() - start;
           if (result.status === "MOCK")
             return { pass: false, detail: "Mock — cannot test Drive", ms };
@@ -490,7 +509,7 @@ async function runSubtest(subtestId) {
       }
       case "gp_sheets_access": {
         try {
-          const result = await gasGet("status");
+          const result = await getCachedStatus();
           const ms = Date.now() - start;
           if (result.status === "MOCK")
             return { pass: false, detail: "Mock — cannot test Sheets", ms };
@@ -599,7 +618,7 @@ async function runSubtest(subtestId) {
       }
       case "st_api_config": {
         try {
-          const result = await gasGet("status");
+          const result = await getCachedStatus();
           const ms = Date.now() - start;
           if (result?.status === "MOCK")
             return {
@@ -756,6 +775,7 @@ export default function PFDiagnosticDashboard({ onClose, isFounder = false }) {
   // Run all diagnostics
   const runAll = useCallback(async () => {
     setIsRunning(true);
+    clearStatusCache(); // Reset cache for fresh run
 
     // Mark all as running
     setIndicators((prev) =>

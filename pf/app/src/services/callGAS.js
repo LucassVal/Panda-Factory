@@ -19,9 +19,9 @@
 const GAS_CONFIG = {
   // Will be set after `clasp deploy` — placeholder for now
   url: import.meta.env.VITE_GAS_URL || "",
-  timeout: 15000,
-  retries: 2,
-  retryDelay: 1000,
+  timeout: 30000, // GAS cold-start can take 10-15s
+  retries: 1,
+  retryDelay: 2000,
 };
 
 /**

@@ -94,7 +94,30 @@
       }
     },
 
-    // ── HEARTBEAT (Agent health monitoring) ──────
+    // ── SYSTEM (Health, Diagnostics, Heartbeat) ──
+    "system": {
+      // Public read for health/heartbeat status
+      "health": {
+        ".read": true,
+        ".write": "auth != null && root.child('admins/' + auth.uid).exists()"
+      },
+      "heartbeat": {
+        ".read": true,
+        ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
+        "services": {
+          "$serviceId": {
+            ".validate": "newData.hasChildren(['status'])"
+          }
+        }
+      },
+      "diagnostics": {
+        // Any authenticated user can write diagnostic timestamps
+        ".read": true,
+        ".write": "auth != null"
+      }
+    },
+
+    // ── HEARTBEAT (Legacy — Agent health monitoring) ──
     "heartbeat": {
       ".read": true,
       ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
