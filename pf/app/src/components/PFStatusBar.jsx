@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useHealthStatus } from "../hooks/useHealthStatus";
-import { useHeartbeat } from "../hooks/useHeartbeat";
 import PFLanguageSelector from "./PFLanguageSelector";
 import { useI18n } from "../i18n/i18n";
 import { useAuth } from "../hooks/useAuth";
@@ -87,25 +86,6 @@ function PFStatusBar({
           ? "offline"
           : "warning";
   });
-
-  // TICKET-15: Heartbeat — agent health monitoring
-  const {
-    agents: heartbeatAgents,
-    lastCheck: heartbeatLastCheck,
-    refresh: heartbeatRefresh,
-  } = useHeartbeat({ enabled: true });
-  const heartbeatOnline = heartbeatAgents.filter(
-    (a) => a.status === "online",
-  ).length;
-  const heartbeatOffline = heartbeatAgents.filter(
-    (a) => a.status === "offline",
-  ).length;
-  const heartbeatOverall =
-    heartbeatOffline === 0
-      ? "ok"
-      : heartbeatOffline <= 2
-        ? "degraded"
-        : "critical";
 
   // Theme
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -239,54 +219,6 @@ function PFStatusBar({
                 />
               </div>
             ))}
-          </div>
-
-          {/* TICKET-15: Heartbeat Badge — overall system health */}
-          <div
-            className="pf-heartbeat-badge"
-            title={`System Health: ${heartbeatOnline}/${heartbeatAgents.length} agents online\nLast check: ${heartbeatLastCheck ? new Date(heartbeatLastCheck).toLocaleTimeString() : "N/A"}`}
-            onClick={heartbeatRefresh}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 4,
-              padding: "2px 8px",
-              borderRadius: 12,
-              fontSize: 11,
-              fontWeight: 600,
-              cursor: "pointer",
-              background:
-                heartbeatOverall === "ok"
-                  ? "rgba(16,185,129,0.15)"
-                  : heartbeatOverall === "degraded"
-                    ? "rgba(245,158,11,0.15)"
-                    : "rgba(239,68,68,0.15)",
-              color:
-                heartbeatOverall === "ok"
-                  ? "#10b981"
-                  : heartbeatOverall === "degraded"
-                    ? "#f59e0b"
-                    : "#ef4444",
-              border: `1px solid ${
-                heartbeatOverall === "ok"
-                  ? "rgba(16,185,129,0.3)"
-                  : heartbeatOverall === "degraded"
-                    ? "rgba(245,158,11,0.3)"
-                    : "rgba(239,68,68,0.3)"
-              }`,
-              transition: "all 0.3s ease",
-            }}
-          >
-            <span>
-              {heartbeatOverall === "ok"
-                ? "🟢"
-                : heartbeatOverall === "degraded"
-                  ? "🟡"
-                  : "🔴"}
-            </span>
-            <span>
-              {heartbeatOnline}/{heartbeatAgents.length}
-            </span>
           </div>
 
           <button
