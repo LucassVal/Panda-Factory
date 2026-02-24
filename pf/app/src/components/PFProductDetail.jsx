@@ -33,8 +33,7 @@ const EMBED_WHITELIST = [
     icon: "🎵",
     label: "TikTok",
     match: /tiktok\.com\/@[^/]+\/video\/(\d+)/,
-    toEmbed: (id) =>
-      `https://www.tiktok.com/embed/v2/${id}`,
+    toEmbed: (id) => `https://www.tiktok.com/embed/v2/${id}`,
     isIframe: true,
   },
   {
@@ -143,8 +142,12 @@ function EmbedCard({ link }) {
 function PFProductDetail({ item, onBack, onInstall, formatPrice }) {
   if (!item) return null;
 
-  const isOfficial =
-    item.author === "Panda Factory" || item.id?.startsWith("@panda/");
+  // 3-tier badge system: Panda Founder → Panda Dev → Unverified
+  const BADGE_MAP = {
+    "panda-founder": { label: "🐼 Panda Founder", className: "founder" },
+    "panda-dev": { label: "🛡️ Panda Dev", className: "dev" },
+  };
+  const badgeInfo = BADGE_MAP[item.badge];
   const embeds = item.embedLinks || [];
   const fullDesc = item.fullDescription || item.description;
 
@@ -164,9 +167,9 @@ function PFProductDetail({ item, onBack, onInstall, formatPrice }) {
           <div className="pdp-hero-title-row">
             <h2 className="pdp-title">{item.name}</h2>
             <span
-              className={`pdp-badge ${isOfficial ? "official" : "community"}`}
+              className={`pdp-badge ${badgeInfo ? badgeInfo.className : "community"}`}
             >
-              {isOfficial ? "✅ Oficial" : "⚠️ Comunidade"}
+              {badgeInfo ? badgeInfo.label : "⚠️ Não verificado"}
             </span>
           </div>
           <div className="pdp-meta">
@@ -201,8 +204,8 @@ function PFProductDetail({ item, onBack, onInstall, formatPrice }) {
         </div>
       )}
 
-      {/* Community disclaimer */}
-      {!isOfficial && (
+      {/* Disclaimer — only for truly unverified items (no badge) */}
+      {!badgeInfo && (
         <div className="pdp-disclaimer">
           ⚠️ Módulos não-verificados são de responsabilidade exclusiva do
           desenvolvedor. A Panda Factory não se responsabiliza por conteúdo,

@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "landing-pages",
+  "name": "Landing Pages",
+  "version": "1.1.0",
+  "description": "Drag-and-drop page builder with AI copy — publish to GitHub Pages",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "design",
+  "icon": "🌐",
+  "entry": "modules/landing-pages/index.jsx",
+  "permissions": ["data:read", "data:write", "brain:chat", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

@@ -38,6 +38,26 @@ export default defineConfig({
             purpose: "any maskable",
           },
         ],
+        shortcuts: [
+          {
+            name: "New Canvas",
+            short_name: "Canvas",
+            url: "./?action=canvas",
+            icons: [{ src: "panda-192.png", sizes: "192x192" }],
+          },
+          {
+            name: "Open Store",
+            short_name: "Store",
+            url: "./?action=store",
+            icons: [{ src: "panda-192.png", sizes: "192x192" }],
+          },
+          {
+            name: "AI Chat",
+            short_name: "Chat",
+            url: "./?action=chat",
+            icons: [{ src: "panda-192.png", sizes: "192x192" }],
+          },
+        ],
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
@@ -70,5 +90,11 @@ export default defineConfig({
   server: {
     port: 3001,
     cors: true,
+    headers: {
+      // TICKET-06: CSP + Security Headers (mirrors index.html meta tag)
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "SAMEORIGIN",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+    },
   },
 });

@@ -1,0 +1,23 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "crm-tentacle",
+  "name": "CRM Tentacle",
+  "version": "1.0.0",
+  "description": "Extended CRM with multi-channel lead capture and automation",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "productivity",
+  "type": "tentacle",
+  "icon": "🐙",
+  "entry": "tentacles/crm-tentacle/index.js",
+  "permissions": ["data:read", "data:write", "hooks:register"],
+  "dependencies": ["crm"],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

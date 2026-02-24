@@ -100,6 +100,16 @@ export function AuthProvider({ children }) {
     if (typeof Panda !== "undefined" && Panda.Wallet?.bindDB) {
       Panda.Wallet.bindDB(firebaseDB);
     }
+    // Bind Panda.Auth SDK layer to React AuthProvider (TICKET-04)
+    if (typeof Panda !== "undefined" && Panda.Auth?.bindReactAuth) {
+      Panda.Auth.bindReactAuth({
+        loginWithGoogle: () => firebaseAuth.signInWithGoogle(),
+        loginWithEmail: (email, pw) => firebaseAuth.signInWithEmail(email, pw),
+        logout: () => firebaseAuth.signOut(),
+        getToken: () => firebaseAuth.getToken(),
+        user: null, // Will be synced via syncUser on auth state change
+      });
+    }
   }, []);
 
   // ── Bootstrap: detect Firebase availability ──

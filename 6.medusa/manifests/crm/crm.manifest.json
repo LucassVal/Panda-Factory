@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "crm",
+  "name": "Panda CRM",
+  "version": "2.1.0",
+  "description": "Complete CRM solution — contacts, leads, Kanban pipeline, AI insights",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "productivity",
+  "icon": "📱",
+  "entry": "modules/crm/index.jsx",
+  "permissions": ["data:read", "data:write", "brain:chat"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

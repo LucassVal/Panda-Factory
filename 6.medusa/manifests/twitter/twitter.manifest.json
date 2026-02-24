@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "twitter",
+  "name": "Twitter / X",
+  "version": "1.0.0",
+  "description": "Tweets, threads, analytics and engagement tracking",
+  "author": "Panda Factory",
+  "license": "proprietary",
+  "tier": "pro",
+  "pricing": {
+    "model": "one-time",
+    "pricePC": 50,
+    "priceUSD": 4.99
+  },
+  "category": "social",
+  "icon": "🐦",
+  "entry": "modules/twitter/index.jsx",
+  "permissions": ["data:read", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-dev"]
+}

@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "agenda",
+  "name": "Panda Agenda",
+  "version": "1.0.0",
+  "description": "Calendar, appointments and scheduling for your business",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "productivity",
+  "icon": "📅",
+  "entry": "modules/agenda/index.jsx",
+  "permissions": ["data:read", "data:write", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

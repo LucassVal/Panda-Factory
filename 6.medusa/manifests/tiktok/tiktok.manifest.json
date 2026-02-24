@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "tiktok",
+  "name": "TikTok",
+  "version": "1.0.0",
+  "description": "Profile management, videos and trends analytics",
+  "author": "Panda Factory",
+  "license": "proprietary",
+  "tier": "pro",
+  "pricing": {
+    "model": "one-time",
+    "pricePC": 50,
+    "priceUSD": 4.99
+  },
+  "category": "social",
+  "icon": "🎵",
+  "entry": "modules/tiktok/index.jsx",
+  "permissions": ["data:read", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-dev"]
+}

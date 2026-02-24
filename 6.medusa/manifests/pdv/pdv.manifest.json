@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "pdv",
+  "name": "Panda PDV",
+  "version": "1.0.0",
+  "description": "Point of sale with digital menu and order management",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "productivity",
+  "icon": "🛒",
+  "entry": "modules/pdv/index.jsx",
+  "permissions": ["data:read", "data:write", "wallet:charge"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

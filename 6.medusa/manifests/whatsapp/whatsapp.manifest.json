@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "whatsapp",
+  "name": "WhatsApp",
+  "version": "1.0.0",
+  "description": "Send messages, manage contacts and automate WhatsApp flows",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "social",
+  "icon": "💬",
+  "entry": "modules/whatsapp/index.jsx",
+  "permissions": ["data:read", "data:write", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "youtube",
+  "name": "YouTube",
+  "version": "1.0.0",
+  "description": "Channel, videos, analytics and comments management",
+  "author": "Panda Factory",
+  "license": "proprietary",
+  "tier": "pro",
+  "pricing": {
+    "model": "one-time",
+    "pricePC": 50,
+    "priceUSD": 4.99
+  },
+  "category": "social",
+  "icon": "▶️",
+  "entry": "modules/youtube/index.jsx",
+  "permissions": ["data:read", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-dev"]
+}

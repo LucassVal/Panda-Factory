@@ -1,0 +1,22 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "estoque",
+  "name": "Panda Estoque",
+  "version": "1.0.0",
+  "description": "Inventory management with stock alerts and reports",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "productivity",
+  "icon": "📦",
+  "entry": "modules/estoque/index.jsx",
+  "permissions": ["data:read", "data:write"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder"]
+}

@@ -32,6 +32,22 @@ const TIER_CONFIG = {
   pro: { badge: "🟣 PRO", color: "#8b5cf6", border: "rgba(139,92,246,0.3)" },
 };
 
+// Badge config — §10.3 PF_MEDUSA_REFERENCE.md (Panda Founder / Panda Dev)
+const BADGE_CONFIG = {
+  "panda-founder": {
+    label: "🐼 Panda Founder",
+    bg: "rgba(255, 214, 0, 0.12)",
+    color: "#ffd600",
+    border: "rgba(255, 214, 0, 0.25)",
+  },
+  "panda-dev": {
+    label: "🛡️ Panda Dev",
+    bg: "rgba(16, 185, 129, 0.12)",
+    color: "#10b981",
+    border: "rgba(16, 185, 129, 0.25)",
+  },
+};
+
 // Store data — only REAL items that exist or are in active development
 // Exported for Casulo manifest generation
 export const STORE_ITEMS = [
@@ -52,6 +68,7 @@ export const STORE_ITEMS = [
     author: "Panda Factory",
     version: "2.1.0",
     popular: true,
+    badge: "panda-founder",
     embedLinks: [
       { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
       { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
@@ -71,6 +88,7 @@ export const STORE_ITEMS = [
     category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-founder",
     embedLinks: [
       { type: "instagram", url: "https://instagram.com/p/example123" },
     ],
@@ -89,6 +107,7 @@ export const STORE_ITEMS = [
     category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-founder",
     embedLinks: [],
   },
   {
@@ -105,6 +124,7 @@ export const STORE_ITEMS = [
     category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-founder",
     embedLinks: [],
   },
   {
@@ -121,6 +141,7 @@ export const STORE_ITEMS = [
     category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-founder",
     embedLinks: [],
   },
   {
@@ -137,6 +158,7 @@ export const STORE_ITEMS = [
     category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-founder",
     embedLinks: [],
   },
   {
@@ -153,6 +175,7 @@ export const STORE_ITEMS = [
     category: "panda-factory",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-founder",
     embedLinks: [],
   },
   {
@@ -171,6 +194,7 @@ export const STORE_ITEMS = [
     author: "Panda Factory",
     version: "1.1.0",
     popular: true,
+    badge: "panda-founder",
     embedLinks: [
       { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
       { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
@@ -193,6 +217,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-dev",
     embedLinks: [],
   },
   {
@@ -209,6 +234,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-dev",
     embedLinks: [
       { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
     ],
@@ -227,6 +253,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-dev",
     embedLinks: [],
   },
   {
@@ -243,6 +270,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-dev",
     embedLinks: [],
   },
   {
@@ -259,6 +287,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-dev",
     embedLinks: [],
   },
   {
@@ -275,6 +304,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
+    badge: "panda-dev",
     embedLinks: [],
   },
   {
@@ -291,6 +321,7 @@ export const STORE_ITEMS = [
     category: "community",
     author: "@analytics_dev",
     version: "1.2.0",
+    badge: "panda-dev",
     embedLinks: [
       {
         type: "github",
@@ -499,6 +530,18 @@ function PFStore({
                       🎯 Promoted
                     </span>
                   )}
+                  {item.badge && BADGE_CONFIG[item.badge] && (
+                    <span
+                      className="featured-sponsored-badge"
+                      style={{
+                        background: BADGE_CONFIG[item.badge].bg,
+                        color: BADGE_CONFIG[item.badge].color,
+                        borderColor: BADGE_CONFIG[item.badge].border,
+                      }}
+                    >
+                      {BADGE_CONFIG[item.badge].label}
+                    </span>
+                  )}
                   <div className="featured-info">
                     <div className="featured-name">{item.name}</div>
                     <div className="featured-desc">{item.description}</div>
@@ -551,16 +594,17 @@ function PFStore({
                           🎯 Sponsored
                         </span>
                       )}
-                      {item.tier && TIER_CONFIG[item.tier] && (
+
+                      {item.badge && BADGE_CONFIG[item.badge] && (
                         <span
                           className="card-badge"
                           style={{
-                            background: TIER_CONFIG[item.tier].border,
-                            color: TIER_CONFIG[item.tier].color,
-                            borderColor: TIER_CONFIG[item.tier].border,
+                            background: BADGE_CONFIG[item.badge].bg,
+                            color: BADGE_CONFIG[item.badge].color,
+                            borderColor: BADGE_CONFIG[item.badge].border,
                           }}
                         >
-                          {TIER_CONFIG[item.tier].badge}
+                          {BADGE_CONFIG[item.badge].label}
                         </span>
                       )}
                     </div>
