@@ -17,9 +17,7 @@ function PFDock({
   onToolsClick,
   onStoreClick,
   onSettingsClick,
-  onFinanceClick,
-  onGasometerClick,
-  onCouncilClick,
+  onEconomyClick,
   plugins = [],
   onPluginOpen,
   onPluginClose,
@@ -243,36 +241,16 @@ function PFDock({
 
           <div className="pf-dock-separator" />
 
-          {/* ── ECONOMY & GOVERNANCE ─── */}
+          {/* ── ECONOMY ─── */}
 
-          {/* Finance */}
+          {/* Economy — unified Finance + Gasometer */}
           <button
             className="pf-dock-item"
-            onClick={onFinanceClick}
-            title="FINANCE"
-            aria-label="Open finance panel"
-          >
-            💰
-          </button>
-
-          {/* Gasometer */}
-          <button
-            className="pf-dock-item"
-            onClick={onGasometerClick}
-            title="GASOMETER"
-            aria-label="Open gasometer panel"
+            onClick={onEconomyClick}
+            title="ECONOMY — FINANCE & GASOMETER"
+            aria-label="Open economy panel"
           >
             ⛽
-          </button>
-
-          {/* Council */}
-          <button
-            className="pf-dock-item"
-            onClick={onCouncilClick}
-            title="PAT COUNCIL"
-            aria-label="Open PAT Council"
-          >
-            🏛️
           </button>
 
           <div className="pf-dock-separator" />

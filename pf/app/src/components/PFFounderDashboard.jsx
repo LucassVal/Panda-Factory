@@ -7,6 +7,7 @@ import { FinancePanel } from "./PFFinancePanel";
 import { PandaDefendDashboard } from "./PFDefendDashboard";
 import { PFLiveFlowMonitor } from "./PFLiveFlowMonitor";
 import PFDiagnosticDashboard from "./PFDiagnosticDashboard";
+import { PATCouncilPanel } from "./PFCouncilPanel";
 import "./PFLiveFlowMonitor.css";
 import "./PFFounderDashboard.css";
 
@@ -113,6 +114,12 @@ export function FounderDashboard() {
           onClick={setActiveTab}
         />
         <Tab
+          id="council"
+          label="🏛️ Council"
+          active={activeTab}
+          onClick={setActiveTab}
+        />
+        <Tab
           id="diagnostics"
           label="🩺 Diagnostics"
           active={activeTab}
@@ -133,6 +140,9 @@ export function FounderDashboard() {
         {activeTab === "heartbeat" && <HeartbeatPanel heartbeat={heartbeat} />}
         {activeTab === "flow" && <PFLiveFlowMonitor />}
         {activeTab === "logs" && <PFLiveFlowMonitor />}
+        {activeTab === "council" && (
+          <PATCouncilPanel isOpen={true} embedded={true} />
+        )}
         {activeTab === "diagnostics" && (
           <PFDiagnosticDashboard isFounder={true} />
         )}

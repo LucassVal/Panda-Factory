@@ -331,9 +331,7 @@ function AppContent() {
         }
         onMiningClick={() => openAppWindow("mining-panel")}
         onDefendClick={() => openAppWindow("defend-panel")}
-        onTreasuryClick={() =>
-          openAppWindow("pat-council", { activeTool: "treasury" })
-        }
+        onTreasuryClick={() => openAppWindow("founder-dashboard")}
         onPinChange={setIsPinned}
         isFounder={isFounder}
       />
@@ -356,10 +354,8 @@ function AppContent() {
         }}
         onStoreClick={() => setShowStore(true)}
         onSettingsClick={() => setShowSettings(true)}
-        onFinanceClick={() => openAppWindow("finance-panel")}
+        onEconomyClick={() => openAppWindow("gasometer")}
         onBundleClick={() => openAppWindow("bundle-creator")}
-        onGasometerClick={() => openAppWindow("gasometer")}
-        onCouncilClick={() => openAppWindow("pat-council")}
         onDevModeToggle={(isActive) => {
           setDevMode(isActive);
           if (isActive) openAppWindow("devtools");
