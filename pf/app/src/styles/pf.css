@@ -1379,9 +1379,10 @@ body {
 }
 
 .pf-chat-fab-logo {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
   animation: pulse-logo 2s ease-in-out infinite;
   filter: hue-rotate(160deg) saturate(0.85) brightness(1.1);
 }
@@ -1481,10 +1482,10 @@ body {
 .pf-chat-header-logo {
   width: 26px;
   height: 26px;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px;
+  background: none;
+  padding: 0;
   filter: hue-rotate(160deg) saturate(0.85) brightness(1.1);
 }
 
@@ -4137,7 +4138,7 @@ body.light-mode .pf-clock { color: #555; }
   height: 56px;
   border-radius: 50%;
   z-index: 3000;
-  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  background: transparent;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -4145,12 +4146,14 @@ body.light-mode .pf-clock { color: #555; }
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.pf-chat-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(6, 182, 212, 0.5); }
+.pf-chat-fab:hover { transform: scale(1.08); }
 .pf-chat-fab.active { background: var(--pf-accent, #e94560); box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); }
-.pf-chat-fab-logo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.pf-chat-fab-logo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
 
 /* Chat Panel */
 .pf-chat-panel {
