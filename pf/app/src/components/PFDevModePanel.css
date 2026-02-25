@@ -21,7 +21,7 @@
   width: min(92vw, 900px);
   max-height: 85vh;
   background: var(--pf-surface, #1a1a2e);
-  border: 1px solid rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(6, 182, 212, 0.3);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -45,14 +45,14 @@
   align-items: center;
   gap: 16px;
   padding: 14px 20px;
-  background: rgba(102, 126, 234, 0.08);
-  border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+  background: rgba(6, 182, 212, 0.08);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.15);
 }
 
 .devmode-header h2 {
   font-size: 16px;
   font-weight: 700;
-  color: #667eea;
+  color: #06b6d4;
   margin: 0;
   letter-spacing: 1px;
   white-space: nowrap;
@@ -76,7 +76,7 @@
 
 .mcp-toggle-compact span.active {
   opacity: 1;
-  color: #667eea;
+  color: #06b6d4;
 }
 
 .toggle-switch {
@@ -84,7 +84,7 @@
   width: 40px;
   height: 22px;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(6, 182, 212, 0.3);
   border-radius: 11px;
   cursor: pointer;
   padding: 0;
@@ -96,7 +96,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #667eea;
+  background: #06b6d4;
   transition: left 0.2s ease;
 }
 
@@ -132,7 +132,7 @@
   width: 280px;
   min-width: 280px;
   padding: 16px;
-  border-right: 1px solid rgba(102, 126, 234, 0.12);
+  border-right: 1px solid rgba(6, 182, 212, 0.12);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -143,7 +143,7 @@
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: rgba(102, 126, 234, 0.7);
+  color: rgba(6, 182, 212, 0.7);
   text-transform: uppercase;
 }
 
@@ -161,7 +161,7 @@
   gap: 4px;
   padding: 12px 8px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.1);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -169,15 +169,15 @@
 }
 
 .tool-card:hover {
-  background: rgba(102, 126, 234, 0.12);
-  border-color: rgba(102, 126, 234, 0.3);
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.3);
   transform: translateY(-2px);
 }
 
 .tool-card.active {
-  background: rgba(102, 126, 234, 0.15);
-  border-color: #667eea;
-  box-shadow: 0 0 12px rgba(102, 126, 234, 0.2);
+  background: rgba(6, 182, 212, 0.15);
+  border-color: #06b6d4;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
 }
 
 .tool-card.future {
@@ -260,10 +260,10 @@
   align-items: baseline;
   gap: 12px;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.1);
   font-weight: 700;
   font-size: 14px;
-  color: #667eea;
+  color: #06b6d4;
 }
 
 .tool-view-header small {
@@ -316,7 +316,7 @@
 .console-controls select {
   flex: 1;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   color: inherit;
   border-radius: 6px;
   padding: 4px 8px;
@@ -325,7 +325,7 @@
 
 .console-controls button {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   color: inherit;
   border-radius: 6px;
   padding: 4px 10px;
@@ -334,7 +334,7 @@
 }
 
 .console-controls button:hover {
-  background: rgba(102, 126, 234, 0.15);
+  background: rgba(6, 182, 212, 0.15);
 }
 
 .console-output {
@@ -424,7 +424,7 @@
 .mcp-tool-item code {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: #667eea;
+  color: #06b6d4;
   font-weight: 600;
   min-width: 140px;
 }
@@ -457,7 +457,7 @@
 }
 
 .api-url code {
-  color: #667eea;
+  color: #06b6d4;
 }
 
 .api-endpoints {
@@ -485,7 +485,7 @@
 
 .api-endpoint code {
   font-family: "JetBrains Mono", monospace;
-  color: #667eea;
+  color: #06b6d4;
   font-weight: 600;
 }
 
@@ -495,9 +495,9 @@
 }
 
 .btn-test {
-  background: rgba(102, 126, 234, 0.15);
-  border: 1px solid rgba(102, 126, 234, 0.3);
-  color: #667eea;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
   padding: 4px 10px;
   border-radius: 6px;
   cursor: pointer;
@@ -506,7 +506,7 @@
 }
 
 .btn-test:hover {
-  background: rgba(102, 126, 234, 0.25);
+  background: rgba(6, 182, 212, 0.25);
 }
 
 /* ── PAT Treasury Tool ── */
@@ -528,7 +528,7 @@
   gap: 4px;
   padding: 16px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.1);
   border-radius: 12px;
 }
 
@@ -542,7 +542,7 @@
 .treasury-value {
   font-size: 18px;
   font-weight: 700;
-  color: #667eea;
+  color: #06b6d4;
 }
 
 .treasury-status {
@@ -569,13 +569,13 @@
 .constitution-header h4 {
   margin: 0;
   font-size: 13px;
-  color: #667eea;
+  color: #06b6d4;
 }
 
 .btn-validate {
-  background: rgba(102, 126, 234, 0.15);
-  border: 1px solid rgba(102, 126, 234, 0.3);
-  color: #667eea;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
   padding: 6px 14px;
   border-radius: 8px;
   cursor: pointer;
@@ -584,7 +584,7 @@
 }
 
 .btn-validate:hover {
-  background: rgba(102, 126, 234, 0.25);
+  background: rgba(6, 182, 212, 0.25);
 }
 
 .articles-list {
@@ -602,7 +602,7 @@
   border-radius: 8px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
-  border-left: 3px solid rgba(102, 126, 234, 0.3);
+  border-left: 3px solid rgba(6, 182, 212, 0.3);
 }
 
 /* ── Publish Tool ── */
@@ -619,7 +619,7 @@
 
 .publish-section {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.1);
   border-radius: 12px;
   padding: 14px;
 }
@@ -628,7 +628,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #667eea;
+  color: #06b6d4;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -653,7 +653,7 @@
 .publish-field select,
 .publish-field textarea {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   border-radius: 8px;
   color: inherit;
   padding: 8px 10px;
@@ -666,8 +666,8 @@
 .publish-field select:focus,
 .publish-field textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
 }
 
 .publish-field textarea {
@@ -698,7 +698,7 @@
 
 .embed-row select {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   border-radius: 6px;
   color: inherit;
   padding: 6px 8px;
@@ -709,7 +709,7 @@
 .embed-row input {
   flex: 1;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   border-radius: 6px;
   color: inherit;
   padding: 6px 8px;
@@ -762,19 +762,19 @@
   flex-direction: column;
   padding: 10px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.1);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .hook-option:hover {
-  border-color: rgba(102, 126, 234, 0.3);
+  border-color: rgba(6, 182, 212, 0.3);
 }
 
 .hook-option.selected {
-  background: rgba(102, 126, 234, 0.12);
-  border-color: #667eea;
+  background: rgba(6, 182, 212, 0.12);
+  border-color: #06b6d4;
 }
 
 .hook-option input[type="checkbox"] {
@@ -795,7 +795,7 @@
 
 /* Publish CTA */
 .btn-publish {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
   border: none;
   color: white;
   padding: 12px 20px;
@@ -805,18 +805,18 @@
   font-weight: 700;
   letter-spacing: 0.5px;
   transition: all 0.2s;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
 }
 
 .btn-publish:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
 }
 
 /* Light Mode Publish */
 body.light-mode .publish-section {
-  background: rgba(102, 126, 234, 0.04);
-  border-color: rgba(102, 126, 234, 0.12);
+  background: rgba(6, 182, 212, 0.04);
+  border-color: rgba(6, 182, 212, 0.12);
 }
 
 body.light-mode .publish-field label {
@@ -829,12 +829,12 @@ body.light-mode .publish-field textarea,
 body.light-mode .embed-row select,
 body.light-mode .embed-row input {
   background: #fff;
-  border-color: rgba(102, 126, 234, 0.2);
+  border-color: rgba(6, 182, 212, 0.2);
   color: #1a1a2e;
 }
 
 body.light-mode .hook-option {
-  background: rgba(102, 126, 234, 0.04);
+  background: rgba(6, 182, 212, 0.04);
 }
 
 body.light-mode .hook-label { color: #1a1a2e; }
@@ -848,13 +848,13 @@ body.light-mode .hook-desc { color: #6b7280; }
   padding: 10px 20px;
   font-size: 10px;
   color: rgba(255, 255, 255, 0.3);
-  border-top: 1px solid rgba(102, 126, 234, 0.1);
+  border-top: 1px solid rgba(6, 182, 212, 0.1);
   letter-spacing: 0.5px;
 }
 
 .footer-mcp {
   font-weight: 700;
-  color: rgba(102, 126, 234, 0.5);
+  color: rgba(6, 182, 212, 0.5);
 }
 
 /* ── Animation ── */
@@ -866,13 +866,13 @@ body.light-mode .hook-desc { color: #6b7280; }
 /* ── Light Mode Overrides ── */
 body.light-mode .devmode-panel {
   background: #f8f9fa;
-  border-color: rgba(102, 126, 234, 0.2);
+  border-color: rgba(6, 182, 212, 0.2);
   color: #1a1a2e;
 }
 
 body.light-mode .devmode-header {
   background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-  border-color: rgba(102, 126, 234, 0.2);
+  border-color: rgba(6, 182, 212, 0.2);
   color: #1a1a2e;
 }
 
@@ -882,13 +882,13 @@ body.light-mode .devmode-header span {
 }
 
 body.light-mode .tool-card {
-  background: rgba(102, 126, 234, 0.06);
-  border-color: rgba(102, 126, 234, 0.15);
+  background: rgba(6, 182, 212, 0.06);
+  border-color: rgba(6, 182, 212, 0.15);
   color: #1a1a2e;
 }
 
 body.light-mode .tool-card:hover {
-  background: rgba(102, 126, 234, 0.12);
+  background: rgba(6, 182, 212, 0.12);
 }
 
 body.light-mode .tool-card .tool-name,
@@ -904,7 +904,7 @@ body.light-mode .future-badge {
 body.light-mode .console-output {
   background: #fff;
   color: #1a1a2e;
-  border-color: rgba(102, 126, 234, 0.15);
+  border-color: rgba(6, 182, 212, 0.15);
 }
 
 body.light-mode .devmode-section-title {
@@ -912,8 +912,8 @@ body.light-mode .devmode-section-title {
 }
 
 body.light-mode .integration-card {
-  background: rgba(102, 126, 234, 0.05);
-  border-color: rgba(102, 126, 234, 0.12);
+  background: rgba(6, 182, 212, 0.05);
+  border-color: rgba(6, 182, 212, 0.12);
   color: #1a1a2e;
 }
 
@@ -924,18 +924,18 @@ body.light-mode .integration-status {
 body.light-mode .mcp-card,
 body.light-mode .api-card {
   background: #ffffff;
-  border-color: rgba(102, 126, 234, 0.15);
+  border-color: rgba(6, 182, 212, 0.15);
   color: #1a1a2e;
 }
 
 body.light-mode .treasury-summary {
-  background: rgba(102, 126, 234, 0.06);
+  background: rgba(6, 182, 212, 0.06);
   color: #1a1a2e;
 }
 
 body.light-mode .constitution-article {
   background: #ffffff;
-  border-color: rgba(102, 126, 234, 0.12);
+  border-color: rgba(6, 182, 212, 0.12);
   color: #1a1a2e;
 }
 
@@ -944,13 +944,13 @@ body.light-mode .devmode-tabs button {
 }
 
 body.light-mode .devmode-tabs button.active {
-  color: #667eea;
-  border-color: #667eea;
+  color: #06b6d4;
+  border-color: #06b6d4;
 }
 
 body.light-mode .devmode-tools {
-  border-color: rgba(102, 126, 234, 0.12);
-  background: rgba(102, 126, 234, 0.03);
+  border-color: rgba(6, 182, 212, 0.12);
+  background: rgba(6, 182, 212, 0.03);
 }
 
 body.light-mode .devmode-content {
@@ -968,7 +968,7 @@ body.light-mode .devmode-header .btn-close:hover {
 
 /* Section labels */
 body.light-mode .section-label {
-  color: rgba(102, 126, 234, 0.85);
+  color: rgba(6, 182, 212, 0.85);
 }
 
 /* MCP toggle */
@@ -976,16 +976,16 @@ body.light-mode .mcp-toggle-compact span {
   color: #6b7280;
 }
 body.light-mode .mcp-toggle-compact span.active {
-  color: #667eea;
+  color: #06b6d4;
 }
 body.light-mode .toggle-switch {
   background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(102, 126, 234, 0.25);
+  border-color: rgba(6, 182, 212, 0.25);
 }
 
 /* Tool view header */
 body.light-mode .tool-view-header {
-  border-color: rgba(102, 126, 234, 0.12);
+  border-color: rgba(6, 182, 212, 0.12);
 }
 body.light-mode .tool-view-header small {
   color: #6b7280;
@@ -1001,7 +1001,7 @@ body.light-mode .mcp-info {
   color: #6b7280;
 }
 body.light-mode .mcp-tool-item {
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(6, 182, 212, 0.05);
 }
 body.light-mode .mcp-tool-item span {
   color: #6b7280;
@@ -1012,7 +1012,7 @@ body.light-mode .api-url {
   color: #6b7280;
 }
 body.light-mode .api-endpoint {
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(6, 182, 212, 0.05);
 }
 body.light-mode .api-desc {
   color: #6b7280;
@@ -1020,8 +1020,8 @@ body.light-mode .api-desc {
 
 /* Treasury */
 body.light-mode .treasury-card {
-  background: rgba(102, 126, 234, 0.05);
-  border-color: rgba(102, 126, 234, 0.12);
+  background: rgba(6, 182, 212, 0.05);
+  border-color: rgba(6, 182, 212, 0.12);
 }
 body.light-mode .treasury-label {
   color: #6b7280;
@@ -1033,16 +1033,16 @@ body.light-mode .treasury-status {
 
 /* Constitution */
 body.light-mode .articles-list li {
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(6, 182, 212, 0.05);
   color: #374151;
-  border-left-color: rgba(102, 126, 234, 0.4);
+  border-left-color: rgba(6, 182, 212, 0.4);
 }
 
 /* Console */
 body.light-mode .console-controls select,
 body.light-mode .console-controls button {
   background: #ffffff;
-  border-color: rgba(102, 126, 234, 0.2);
+  border-color: rgba(6, 182, 212, 0.2);
   color: #1a1a2e;
 }
 body.light-mode .console-empty {
@@ -1060,7 +1060,7 @@ body.light-mode .log-msg {
 
 /* Integration chips */
 body.light-mode .int-chip {
-  background: rgba(102, 126, 234, 0.06);
+  background: rgba(6, 182, 212, 0.06);
 }
 body.light-mode .int-label {
   color: #374151;
@@ -1069,10 +1069,10 @@ body.light-mode .int-label {
 /* Footer */
 body.light-mode .devmode-footer {
   color: #9ca3af;
-  border-top-color: rgba(102, 126, 234, 0.12);
+  border-top-color: rgba(6, 182, 212, 0.12);
 }
 body.light-mode .footer-mcp {
-  color: #667eea;
+  color: #06b6d4;
 }
 
 /* Publish empty text */
@@ -1090,7 +1090,7 @@ body.light-mode .publish-empty {
     width: 100%;
     min-width: unset;
     border-right: none;
-    border-bottom: 1px solid rgba(102, 126, 234, 0.12);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.12);
     max-height: 200px;
   }
 

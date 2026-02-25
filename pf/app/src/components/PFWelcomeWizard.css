@@ -134,7 +134,7 @@ body.light-mode .pf-wizard-close-btn:hover {
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  box-shadow: 0 0 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.4);
   margin-bottom: var(--pf-space-sm, 8px);
   animation: pf-wizard-pulse 2s ease-in-out infinite;
 }
@@ -203,7 +203,7 @@ body.light-mode .pf-wizard-logo {
 
 .pf-wizard-feature-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.2);
 }
 
 body.light-mode .pf-wizard-feature-card {
@@ -267,8 +267,8 @@ body.light-mode .pf-wizard-feature-card:hover {
 
 .pf-wizard-cta-card:hover {
   transform: translateX(4px);
-  border-color: rgba(102, 126, 234, 0.5);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.15);
 }
 
 body.light-mode .pf-wizard-cta-card {
@@ -450,8 +450,8 @@ body.light-mode .pf-wizard-back-btn {
 }
 
 @keyframes pf-wizard-pulse {
-  0%, 100% { box-shadow: 0 0 24px rgba(102, 126, 234, 0.4); }
-  50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.6); }
+  0%, 100% { box-shadow: 0 0 24px rgba(6, 182, 212, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.6); }
 }
 
 /* Responsive */
