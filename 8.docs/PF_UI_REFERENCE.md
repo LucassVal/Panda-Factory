@@ -16,7 +16,7 @@ cross_ref:
 # 📐 PF_UI_REFERENCE - Panda Fabrics UI Layout System
 
 > **Versão:** 3.4.0 | **Atualizado:** 2026-02-24
-> **Referência:** `11.pf-app/src/styles/pf.css` (~2560 linhas)
+> **Referência:** `pf/app/src/styles/pf.css` (~2560 linhas)
 > **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md §3](PF_MASTER_ARCHITECTURE.md#3-camada-frontend)
 
 ---
@@ -160,7 +160,7 @@ body,
 
 ## 4. Header/Status Bar (PFStatusBar v6.4)
 
-> **Arquivo:** `11.pf-app/src/components/PFStatusBar.jsx` (452 linhas)
+> **Arquivo:** `pf/app/src/components/PFStatusBar.jsx` (452 linhas)
 > **CSS:** `pf.css` linhas 580-665
 
 ### Dimensions
@@ -263,7 +263,7 @@ window.location.reload();
 
 ## 5. Dock System (PFDock v6.2)
 
-> **Arquivo:** `11.pf-app/src/components/PFDock.jsx` (~364 linhas)
+> **Arquivo:** `pf/app/src/components/PFDock.jsx` (~364 linhas)
 > **CSS:** `pf.css` linhas 260-395
 > **Atualizado:** 2026-02-13 — Dock com 5 itens core (🔔 Notificações está na StatusBar, NÃO no Dock)
 
@@ -917,7 +917,7 @@ localStorage.setItem("panda_wizard_completed", "true");
 
 - CSS Design System (consolidado abaixo - PARTE B)
 - Jam React Components (consolidado abaixo - PARTE D)
-- [pf.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/11.pf-app/src/styles/pf.css)
+- [pf.css](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/pf/app/src/styles/pf.css)
 - [PANDA.md](file:///c:/Users/Lucas%20Val%C3%A9rio/Desktop/Panda%20Factory/.agent/PANDA.md)
 
 ---
@@ -925,7 +925,7 @@ localStorage.setItem("panda_wizard_completed", "true");
 # PARTE B: CSS Design System
 
 > **Status:** ✅ Totalmente implementado em `pf.css` — namespace `--pf-*`
-> **Consolidado de:** `PF_CSS_REFERENCE.md` | **Fonte:** `11.pf-app/src/styles/pf.css`
+> **Consolidado de:** `PF_CSS_REFERENCE.md` | **Fonte:** `pf/app/src/styles/pf.css`
 >
 > Tokens B.1–B.8 todos implementados: cores, spacing, radius, shadows, elevation, motion, skeleton, focus, animations, components.
 
@@ -1501,7 +1501,7 @@ body.light-mode {
 ## D.1 Estrutura de Arquivos
 
 ```text
-11.pf-app/src/
+pf/app/src/
 ├── main.jsx                     # Entry point React
 ├── App.jsx                      # Main app v6.5
 ├── components/
@@ -1951,7 +1951,7 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 
 ## 15. Founder Dashboard
 
-> **Arquivo:** `11.pf-app/src/components/PFFounderDashboard.jsx`
+> **Arquivo:** `pf/app/src/components/PFFounderDashboard.jsx`
 > **CSS:** `PFFounderDashboard.css`
 > **Acesso:** StatusBar 🏭 button (`onFounderClick`) | Treasury 🏦 click (`onTreasuryClick`)
 > **Gating:** `isFounder === true` — oculto para usuários não-founder

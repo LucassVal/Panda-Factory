@@ -1029,7 +1029,7 @@ body {
   height: 32px;
   border: none;
   border-radius: 50%;
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
   font-size: 16px;
   transition: all 0.3s;
@@ -1039,7 +1039,7 @@ body {
 }
 
 .pf-theme-toggle:hover {
-  background: rgba(102, 126, 234, 0.25);
+  background: rgba(255, 255, 255, 0.12);
   transform: rotate(15deg);
 }
 
@@ -1053,9 +1053,9 @@ body {
 .pf-version {
   font-size: 12px;
   padding: 4px 10px;
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(6, 182, 212, 0.15);
   border-radius: 6px;
-  color: #667eea;
+  color: #06b6d4;
   font-weight: 600;
 }
 
@@ -1143,7 +1143,7 @@ body {
 }
 .pf-arc-bg {
   fill: none;
-  stroke: rgba(102, 126, 234, 0.2);
+  stroke: rgba(255, 255, 255, 0.12);
   stroke-width: 3;
 }
 .pf-arc-fill {
@@ -1180,13 +1180,13 @@ body {
   align-items: center;
   gap: 8px;
   padding: 4px 12px;
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   cursor: pointer;
 }
 
 .pf-user-status:hover {
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .pf-user-avatar {
@@ -1217,7 +1217,7 @@ body {
   height: 32px;
   border: none;
   border-radius: 8px;
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
@@ -1227,7 +1227,7 @@ body {
 }
 
 .pf-header-btn:hover {
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(255, 255, 255, 0.12);
   transform: scale(1.05);
 }
 
@@ -1316,13 +1316,13 @@ body {
   gap: 12px;
   padding: 12px;
   border-radius: 10px;
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(255, 255, 255, 0.03);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .pf-catalog-item:hover {
-  background: rgba(102, 126, 234, 0.15);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .pf-catalog-icon {
@@ -1383,6 +1383,7 @@ body {
   height: 50px;
   object-fit: contain;
   animation: pulse-logo 2s ease-in-out infinite;
+  filter: hue-rotate(160deg) saturate(0.85) brightness(1.1);
 }
 
 @keyframes pulse-logo {
@@ -1453,39 +1454,97 @@ body {
   right: 20px;
   width: 360px;
   height: 450px;
-  background: linear-gradient(145deg, #1a1f35 0%, #0f1322 100%);
+  background: linear-gradient(145deg, #141824 0%, #0c0f1a 100%);
   border-radius: 16px;
-  border: 1px solid rgba(102, 126, 234, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   z-index: 2500;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(102, 126, 234, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
 }
 
 .pf-chat-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--pf-border);
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.25);
   font-weight: 600;
   color: var(--pf-text);
 }
 
 .pf-chat-header-logo {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px;
+  filter: hue-rotate(160deg) saturate(0.85) brightness(1.1);
 }
 
 .pf-chat-title {
-  font-family: "Courier New", monospace;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
   font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: #e0e8ff;
   flex: 1;
+}
+
+/* Session Stats (header pill) */
+.pf-session-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  cursor: help;
+}
+
+.pf-stats-pc {
+  color: #10b981;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.pf-stats-gas {
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.pf-stats-gas.active {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.pf-stats-gas.inactive {
+  background: rgba(239, 68, 68, 0.1);
+  color: #888;
+}
+
+/* API Status indicator */
+.pf-api-status {
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Brain indicator */
+.pf-brain-indicator {
+  font-size: 10px;
+  color: var(--pf-text-muted);
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  cursor: help;
 }
 
 /* Fallout Terminal Style Messages */
@@ -1516,7 +1575,7 @@ body {
 
 .pf-chat-channel.active {
   opacity: 1;
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(6, 182, 212, 0.2);
 }
 
 /* AI Model Selector Bar */
@@ -1524,8 +1583,8 @@ body {
   display: flex;
   gap: 4px;
   padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid var(--pf-border);
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   overflow-x: auto;
 }
 
@@ -1544,12 +1603,12 @@ body {
 }
 
 .pf-chat-model:hover {
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .pf-chat-model.active {
-  background: rgba(102, 126, 234, 0.25);
-  box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+  background: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.15);
 }
 
 .pf-chat-model.premium::after {
@@ -1582,8 +1641,8 @@ body {
 .pf-chat-gems-toggle {
   margin-left: auto;
   padding: 4px 8px;
-  background: rgba(102, 126, 234, 0.2);
-  border: 1px solid var(--pf-accent);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
@@ -1591,8 +1650,8 @@ body {
 }
 
 .pf-chat-gems-toggle:hover {
-  background: rgba(102, 126, 234, 0.4);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.05);
 }
 
 /* GEMs Panel */
@@ -1643,14 +1702,14 @@ body {
 }
 
 .pf-chat-gem:hover {
-  background: rgba(102, 126, 234, 0.15);
-  border-color: rgba(102, 126, 234, 0.3);
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.25);
 }
 
 .pf-chat-gem.active {
-  background: rgba(102, 126, 234, 0.25);
+  background: rgba(6, 182, 212, 0.2);
   border-color: var(--pf-accent);
-  box-shadow: 0 0 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
 }
 
 .pf-gem-icon {
@@ -1670,7 +1729,7 @@ body {
 /* Active GEM Indicator */
 .pf-chat-gem-active {
   padding: 6px 12px;
-  background: linear-gradient(90deg, rgba(102, 126, 234, 0.2), transparent);
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.15), transparent);
   border-bottom: 1px solid var(--pf-border);
 }
 
@@ -1705,12 +1764,8 @@ body {
 
 .pf-chat-message.assistant {
   align-self: flex-start;
-  background: linear-gradient(
-    135deg,
-    rgba(6, 182, 212, 0.15) 0%,
-    rgba(102, 126, 234, 0.2) 100%
-  );
-  border: 1px solid rgba(6, 182, 212, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--pf-text);
 }
 
@@ -1732,15 +1787,16 @@ body {
   display: flex;
   gap: 8px;
   padding: 12px;
-  border-top: 1px solid var(--pf-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .pf-chat-input {
   flex: 1;
   padding: 10px 14px;
-  border: 1px solid rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.3);
   color: var(--pf-text);
   font-size: 13px;
   resize: none;
@@ -1749,8 +1805,8 @@ body {
 
 .pf-chat-input:focus {
   outline: none;
-  border-color: rgba(6, 182, 212, 0.6);
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.12);
 }
 
 .pf-chat-send {
@@ -1758,15 +1814,23 @@ body {
   height: 40px;
   border: none;
   border-radius: 8px;
-  background: var(--pf-accent);
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
   color: white;
   font-size: 16px;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pf-chat-send:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
 }
 
 .pf-chat-send:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ========================================= */
@@ -4492,4 +4556,401 @@ body.light-mode .pf-lang-option:hover {
 
 body.light-mode .pf-lang-option.active {
   background: rgba(102, 126, 234, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* §R — RESPONSIVE BREAKPOINTS (#14)                         */
+/* Mobile-first responsive layer for Panda Factory           */
+/* Tiers: Tablet ≤1024 · Mobile ≤768 · Portrait ≤480         */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* ──────────── Tablet (≤ 1024px) ──────────── */
+@media (max-width: 1024px) {
+  /* Status Bar: compact */
+  .pf-status-bar {
+    height: 48px;
+    padding: 0 12px;
+  }
+
+  .pf-brand-text {
+    font-size: 18px;
+  }
+
+  .pf-brand-logo {
+    height: 34px;
+    width: 34px;
+  }
+
+  .pf-status-pills {
+    gap: 4px;
+    padding: 4px 10px;
+  }
+
+  .pf-status-label {
+    font-size: 10px;
+  }
+
+  /* Store: wider on tablet */
+  .pf-store {
+    width: 92%;
+    max-width: none;
+    max-height: 90vh;
+  }
+
+  .pf-store-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  /* Dock: smaller items */
+  .pf-dock-item {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .pf-dock-item.tool {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+  }
+}
+
+/* ──────────── Mobile Landscape (≤ 768px) ──────────── */
+@media (max-width: 768px) {
+  /* Status Bar: single row, hide less critical elements */
+  .pf-status-bar {
+    height: 44px;
+    padding: 0 10px;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  /* Header controls: compress gap */
+  .pf-header-controls {
+    gap: 6px;
+  }
+
+  /* Hide user info text, keep avatar */
+  .pf-user-info {
+    display: none;
+  }
+
+  /* Smaller energy arc */
+  .pf-arc-energy {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pf-arc-energy svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pf-arc-text {
+    font-size: 8px;
+  }
+
+  /* Compact clock */
+  .pf-clock {
+    font-size: 10px;
+  }
+
+  .pf-brand-text {
+    font-size: 16px;
+  }
+
+  .pf-brand-logo {
+    height: 30px;
+    width: 30px;
+  }
+
+  /* Hide individual status pill labels, keep dots */
+  .pf-status-label {
+    display: none;
+  }
+
+  .pf-status-pills {
+    gap: 3px;
+    padding: 3px 8px;
+  }
+
+  .pf-version {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  /* Dock → horizontal bottom bar */
+  .pf-left-dock {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    z-index: 3000;
+  }
+
+  .pf-dock-items {
+    flex-direction: row;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 8px;
+    border-radius: 0;
+    border-top: 1px solid var(--pf-border);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .pf-dock-handle {
+    display: none;
+  }
+
+  .pf-dock-separator {
+    width: 1px;
+    height: 28px;
+    margin: 0 4px;
+  }
+
+  .pf-dock-dynamic {
+    flex-direction: row;
+    max-height: none;
+    max-width: 200px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .pf-dock-section {
+    flex-direction: row;
+    margin: 0 -2px;
+    padding: 4px;
+  }
+
+  /* Main area: add bottom padding for dock */
+  .pf-main {
+    padding-bottom: 56px;
+  }
+
+  /* Store: near full-screen */
+  .pf-store {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .pf-store-overlay {
+    align-items: flex-end;
+  }
+
+  .pf-store-content {
+    max-height: calc(100vh - 60px);
+  }
+
+  .pf-store-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  /* Header: compact */
+  .pf-header {
+    height: 40px;
+    padding: 6px 10px;
+  }
+
+  .pf-header-logo {
+    font-size: 14px;
+  }
+
+  /* Canvas empty state */
+  .pf-canvas-empty-icon {
+    font-size: 48px;
+  }
+
+  .pf-canvas-empty-text {
+    font-size: 15px;
+    padding: 0 16px;
+    text-align: center;
+  }
+
+  /* Watermark: smaller */
+  .pf-watermark {
+    font-size: 9px;
+    bottom: 60px; /* above dock */
+    right: 8px;
+  }
+
+  /* Theme toggle: reposition */
+  .pf-theme-toggle {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  /* Language selector adjustments */
+  .pf-lang-dropdown {
+    right: -40px;
+    min-width: 140px;
+  }
+}
+
+/* ──────────── Mobile Portrait (≤ 480px) ──────────── */
+@media (max-width: 480px) {
+  /* Status Bar: minimal */
+  .pf-status-bar {
+    height: 40px;
+    padding: 0 8px;
+    overflow: hidden;
+  }
+
+  /* Header controls: compact and scrollable */
+  .pf-header-controls {
+    gap: 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .pf-header-controls::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide secondary items on small screens */
+  .pf-arc-energy,
+  .pf-treasury,
+  .pf-user-status,
+  .pf-clock,
+  .pf-pin-btn {
+    display: none !important;
+  }
+
+  /* Smaller header buttons */
+  .pf-header-btn {
+    padding: 4px;
+    font-size: 14px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+
+  .pf-brand-container {
+    gap: 6px;
+  }
+
+  .pf-brand-text {
+    font-size: 14px;
+  }
+
+  .pf-brand-logo {
+    height: 26px;
+    width: 26px;
+  }
+
+  .pf-brand-store-label {
+    display: none;
+  }
+
+  /* Hide status pills entirely on very small screens */
+  .pf-status-pills {
+    display: none;
+  }
+
+  /* Dock items: smaller for narrow screens */
+  .pf-dock-item {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+
+  .pf-dock-items {
+    padding: 4px 6px;
+    gap: 1px;
+  }
+
+  /* Store cards: single column */
+  .pf-store-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .pf-store-content {
+    padding: 12px;
+  }
+
+  .pf-store-header {
+    padding: 12px 16px;
+  }
+
+  .pf-store-title {
+    font-size: 16px;
+  }
+
+  /* Cards: smaller padding */
+  .pf-card {
+    padding: var(--pf-space-sm, 8px);
+  }
+
+  /* Buttons: full width on small screens */
+  .pf-btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: var(--pf-space-sm, 8px) var(--pf-space-md, 16px);
+  }
+}
+
+/* ──────────── Touch-friendly enhancements ──────────── */
+@media (pointer: coarse) {
+  /* Larger touch targets */
+  .pf-dock-item {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .pf-header-btn {
+    min-height: 40px;
+    padding: 8px 14px;
+  }
+
+  .pf-store-card-btn {
+    min-height: 40px;
+    padding: 8px 18px;
+  }
+
+  /* Disable hover animations on touch */
+  .pf-card:hover {
+    transform: none;
+  }
+
+  .pf-store-card:hover {
+    transform: none;
+  }
+}
+
+/* ──────────── Landscape phone (short height) ──────────── */
+@media (max-height: 500px) and (max-width: 900px) {
+  .pf-status-bar {
+    height: 36px;
+  }
+
+  .pf-brand-logo {
+    display: none;
+  }
+
+  .pf-dock-items {
+    padding: 3px 6px;
+  }
+
+  .pf-dock-item {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+  }
+
+  .pf-main {
+    padding-bottom: 44px;
+  }
 }

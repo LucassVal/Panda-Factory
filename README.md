@@ -781,7 +781,7 @@ Panda Factory flips this:
 
 ---
 
-## 📂 Project Structure — 11 Numbered Hubs
+## 📂 Project Structure — 13 Numbered Hubs
 
 The repository uses a **numbered taxonomy** for instant navigation. This structure is the ground truth for MCP interactions:
 
@@ -793,18 +793,19 @@ Panda-Factory/
 ├── 3.sdk/                 # SDK source (17 namespaces)
 ├── 4.ui/                  # CSS + shared UI components
 ├── 5.tentacles/           # Medusa tentacle modules (37 integrations)
+├── 6.medusa/              # Medusa manifests (12 integration manifests)
 ├── 7.rust-agent/          # Rust/Tauri desktop agent (GPU, P2P, license)
-├── 8.docs/                # Reference documentation (16 docs)
+├── 8.docs/                # Reference documentation (32 docs)
 ├── 9.tools/               # Dev tools, scripts, utilities
 ├── 10.assets/             # Images, pages, pitch decks
-├── 11.pf-app/             # React 18 application (Vite)
+├── pf/                    # React 18 application (Vite + pf/app/)
 ├── 12.sandbox/            # Experimental / playground
 ├── PF_MASTER_ARCHITECTURE.md   # 📜 Master SSoT (architecture + roadmap)
 ├── README.md              # ← You are here
 └── index.html             # Landing page (GitHub Pages)
 ```
 
-> **Hub 6 is intentionally skipped** — reserved for future use.
+> **Hub 11 was deprecated** — the React app now lives in `pf/` (with `pf/app/` inside).
 
 ---
 
@@ -828,7 +829,7 @@ Panda-Factory/
 ┌──────────────────────────────────────────────────────────────┐
 │                    PANDA FACTORY — THE 4TH LAYER               │
 │                                                                │
-│  📦 31 React Components       📄 16 Reference Docs            │
+│  📦 31 React Components       📄 32 Reference Docs            │
 │  🎨 18 CSS Files               🔧 12 SDK Modules              │
 │  🐙 37 Tentacle Modules       🔴 17 GAS Backend Files         │
 │  🦀 8 Rust Modules             🛡️ 14 Security Rules           │

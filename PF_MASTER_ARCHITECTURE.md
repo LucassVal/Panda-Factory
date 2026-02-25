@@ -427,7 +427,7 @@ LEGENDA DE STATUS:
 │  │   ├── icons/                    # PWA icons                              │
 │  │   └── pages/                    # Landing pages                          │
 │  │                                                                          │
-│  ├── 📁 11.pf-app/                    # 🍇 React Frontend (Vite + TLDraw)     │
+│  ├── 📁 pf/app/                         # 🍇 React Frontend (Vite + TLDraw)     │
 │  │   ├── src/components/           # 23 componentes React                  │
 │  │   ├── src/hooks/                # 8 custom hooks                        │
 |  │   ├── src/styles/               # pf.css (Design System, 1961 linhas)   │
@@ -806,7 +806,7 @@ O arquivo `.gitignore` na raiz controla o que **NÃO** vai para o repo público 
 │                                                                      │
 │  🔒 PRIVADO (SOMENTE SAAS)        │  🌐 PÚBLICO (VAI PRO PANDA)    │
 │  ─────────────────────────────     │  ──────────────────────────     │
-│  1.core/    GAS backend, PAT      │  11.pf-app/    JAM React source    │
+│  1.core/    GAS backend, PAT      │  pf/app/       JAM React source    │
 │  2.system/  Kernel, governance     │  dist/jam/  Build output        │
 │  3.sdk/     SDK proprietário       │  .github/   CI/CD workflows    │
 │  4.ui/      UI legacy             │  README.md  Pitch público       │
@@ -836,7 +836,7 @@ git push origin main
 
 # 3. Push para PÚBLICO (deploy)
 git push panda main
-# → Triggera GitHub Actions → build 11.pf-app/ → deploy dist/jam/ → GitHub Pages
+# → Triggera GitHub Actions → build pf/app/ → deploy dist/jam/ → GitHub Pages
 ```
 
 #### 1.8.3. Emergência: Vazamento de Arquivos Sensíveis
@@ -856,7 +856,7 @@ git push origin main
 #### 1.8.4. GitHub Pages Deploy Flow
 
 ```text
-Push panda → GitHub Actions → npm ci (11.pf-app/) → npm run build →
+Push panda → GitHub Actions → npm ci (pf/app/) → npm run build →
   Upload dist/jam/ → Deploy GitHub Pages →
   LIVE: lucassval.github.io/Panda-Factory/
 ```
@@ -1297,7 +1297,7 @@ window.PandaDevTools = {
 | `components/Comp_DevToolsDock.html` | Dock lateral com ícones               |
 | `4.ui/pf.devtools.js`               | Lógica DevTools v2.0                  |
 | `js/pf.sdk.js` (Panda.UI)           | API `popout/getPopouts/closePopout`   |
-| `11.pf-app/src/styles/pf.css`       | Design System principal (1961 linhas) |
+| `pf/app/src/styles/pf.css`          | Design System principal (1961 linhas) |
 
 ### 3.4. Sistema de Ícones (Logo Kit) 🎨
 
@@ -1417,7 +1417,7 @@ O **Panda Jam** é o frontend moderno construído com React + Vite, oferecendo u
 │                         PANDA JAM ARCHITECTURE                       │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│  11.pf-app/                        COMPONENTES (22)                       │
+│  pf/app/                           COMPONENTES (22)                       │
 │  ├── src/                                                           │
 │  │   ├── components/         ┌─────────────────────────────────┐   │
 │  │   │   ├── JamStatusBar    │ Header com status de agentes    │   │
@@ -1534,7 +1534,7 @@ body.light-mode {
 #### E. Deploy
 
 - **Build:** `npm run build` (Vite)
-- **Output:** `/dist/11.pf-app/` → copiado para `/dist/11.pf-app/` na raiz
+- **Output:** `/dist/pf/app/` → copiado para `/dist/pf/app/` na raiz
 - **Serve:** GitHub Pages em `https://lucassval.github.io/Panda-Factory/`
 
 ---
