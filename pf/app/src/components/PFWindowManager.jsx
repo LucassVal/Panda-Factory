@@ -148,60 +148,76 @@ export function PFWindowManager({
   );
 
   // Public method: open an app as a new tab
-  const openApp = useCallback(
-    (appId, extraConfig = {}) => {
-      const model = modelRef.current;
-      if (!model) return;
+  const openApp = useCallback((appId, extraConfig = {}) => {
+    const model = modelRef.current;
+    if (!model) return;
 
-      // Check if already open — focus it
-      const existingNode = model.getNodeById(appId);
-      if (existingNode) {
-        model.doAction(FlexLayout.Actions.selectTab(appId));
-        return;
-      }
+    // Check if already open — focus it
+    const existingNode = model.getNodeById(appId);
+    if (existingNode) {
+      model.doAction(FlexLayout.Actions.selectTab(appId));
+      return;
+    }
 
-      const appDef = APP_REGISTRY[appId] || {};
-      const isUrl = !!appDef.url || !!extraConfig.url;
+    const appDef = APP_REGISTRY[appId] || {};
+    const isUrl = !!appDef.url || !!extraConfig.url;
 
-      const newTab = {
-        type: "tab",
-        id: appId,
-        name: `${(appDef.name || extraConfig.name || appId).toUpperCase()}`,
-        component: isUrl ? "iframe" : appDef.component || appId,
-        config: {
-          ...extraConfig,
-          url: appDef.url || extraConfig.url,
-          appId,
-        },
-      };
+    const newTab = {
+      type: "tab",
+      id: appId,
+      name: `${(appDef.name || extraConfig.name || appId).toUpperCase()}`,
+      component: isUrl ? "iframe" : appDef.component || appId,
+      config: {
+        ...extraConfig,
+        url: appDef.url || extraConfig.url,
+        appId,
+      },
+    };
 
-      // Add next to active tabset (fallback to 'main' if none active yet)
-      const activeTabset = model.getActiveTabset() || model.getNodeById("main");
-      if (activeTabset) {
-        model.doAction(
-          FlexLayout.Actions.addNode(
-            newTab,
-            activeTabset.getId(),
-            FlexLayout.DockLocation.CENTER,
-            -1,
-          ),
-        );
-      }
-    },
-    [],
-  );
+    // Add next to active tabset (fallback to 'main' if none active yet)
+    const activeTabset = model.getActiveTabset() || model.getNodeById("main");
+    if (activeTabset) {
+      model.doAction(
+        FlexLayout.Actions.addNode(
+          newTab,
+          activeTabset.getId(),
+          FlexLayout.DockLocation.CENTER,
+          -1,
+        ),
+      );
+    }
+  }, []);
 
   // Public method: close a tab by appId
-  const closeApp = useCallback(
-    (appId) => {
-      const model = modelRef.current;
-      if (!model) return;
-      const node = model.getNodeById(appId);
-      if (node) {
-        model.doAction(FlexLayout.Actions.deleteTab(appId));
+  const closeApp = useCallback((appId) => {
+    const model = modelRef.current;
+    if (!model) return;
+    const node = model.getNodeById(appId);
+    if (node) {
+      model.doAction(FlexLayout.Actions.deleteTab(node.getId()));
+    } else {
+      // Fallback: tentar encontrar pelo config.appId se o FlexLayout alterou o ID raiz
+      let fallbackNode = null;
+      model.visitNodes((n) => {
+        if (n.getType() === "tab" && n.getConfig()?.appId === appId) {
+          fallbackNode = n;
+        }
+      });
+      if (fallbackNode) {
+        model.doAction(FlexLayout.Actions.deleteTab(fallbackNode.getId()));
+      }
+    }
+  }, []);
+
+  // Sync internal modelRef with FlexLayout updates
+  const handleModelChange = useCallback(
+    (model) => {
+      modelRef.current = model;
+      if (onModelChange) {
+        onModelChange(model);
       }
     },
-    [],
+    [onModelChange],
   );
 
   // Expose openApp + closeApp method via ref-like pattern
@@ -218,7 +234,7 @@ export function PFWindowManager({
       ref={layoutRef}
       model={modelRef.current}
       factory={factory}
-      onModelChange={onModelChange}
+      onModelChange={handleModelChange}
       font={{ size: "13px" }}
     />
   );
