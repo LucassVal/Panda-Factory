@@ -10,45 +10,8 @@ import "./PFNotifications.css";
  * @see PF_UI_REFERENCE.md
  */
 
-// Mock notifications for initial UI — will connect to EventBus later
-const MOCK_NOTIFICATIONS = [
-  {
-    id: "n1",
-    type: "system",
-    icon: "🐼",
-    title: "WELCOME TO PANDA FABRICS",
-    message: "Your workspace is ready. Explore the catalog!",
-    time: new Date(Date.now() - 1000 * 60 * 2),
-    read: false,
-  },
-  {
-    id: "n2",
-    type: "store",
-    icon: "🛒",
-    title: "STORE UPDATED",
-    message: "9 extensions available — including Instagram, Google Ads and more",
-    time: new Date(Date.now() - 1000 * 60 * 15),
-    read: false,
-  },
-  {
-    id: "n3",
-    type: "ai",
-    icon: "🧠",
-    title: "BRAIN READY",
-    message: "Panda Brain connected via MCP. Say 'hello' in the chat!",
-    time: new Date(Date.now() - 1000 * 60 * 60),
-    read: true,
-  },
-  {
-    id: "n4",
-    type: "security",
-    icon: "🛡️",
-    title: "PANDA DEFEND ACTIVE",
-    message: "14 Semgrep rules monitoring. System secure.",
-    time: new Date(Date.now() - 1000 * 60 * 60 * 2),
-    read: true,
-  },
-];
+// Notifications are populated by the EventBus at runtime
+// Initial state is empty — fresh OS boot
 
 function formatTimeAgo(date) {
   const now = new Date();
@@ -60,7 +23,7 @@ function formatTimeAgo(date) {
 }
 
 function PFNotifications({ isOpen, onClose }) {
-  const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
+  const [notifications, setNotifications] = useState([]);
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const markAllRead = () => {

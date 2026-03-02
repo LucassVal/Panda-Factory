@@ -18,21 +18,21 @@ export function FinancePanel({ metrics }) {
         <div className="treasury-cards">
           <TreasuryCard
             title="Panda Coin (PC)"
-            value={treasury.pc || "1,234,567"}
-            change="+2.3%"
-            positive
+            value={treasury.pc || "0"}
+            change=""
+            neutral
           />
           <TreasuryCard
             title="PAT Holders"
-            value={treasury.pat || "500"}
-            change="+5"
-            positive
+            value={treasury.pat || "0"}
+            change=""
+            neutral
           />
           <TreasuryCard
             title="USD Value"
-            value={treasury.usd || "$5,234.89"}
-            change="+$123.45"
-            positive
+            value={treasury.usd || "$0.00"}
+            change=""
+            neutral
           />
           <TreasuryCard
             title="Pending"
@@ -58,10 +58,10 @@ export function FinancePanel({ metrics }) {
           ))}
         </div>
         <div className="revenue-bars">
-          <RevenueBar label="PC Sales" value={65} amount="$3,400" />
-          <RevenueBar label="Store Commission" value={20} amount="$1,050" />
-          <RevenueBar label="API Usage" value={10} amount="$524" />
-          <RevenueBar label="Premium Subs" value={5} amount="$260" />
+          <RevenueBar label="PC Sales" value={0} amount="$0" />
+          <RevenueBar label="Store Commission" value={0} amount="$0" />
+          <RevenueBar label="API Usage" value={0} amount="$0" />
+          <RevenueBar label="Premium Subs" value={0} amount="$0" />
         </div>
       </section>
 
@@ -109,15 +109,15 @@ export function FinancePanel({ metrics }) {
         <div className="founder-share">
           <div className="share-item">
             <span className="share-label">Total Earned</span>
-            <span className="share-value">$1,234.56</span>
+            <span className="share-value">$0.00</span>
           </div>
           <div className="share-item">
             <span className="share-label">This Month</span>
-            <span className="share-value">$234.56</span>
+            <span className="share-value">$0.00</span>
           </div>
           <div className="share-item">
             <span className="share-label">Pending Payout</span>
-            <span className="share-value">$89.12</span>
+            <span className="share-value">$0.00</span>
           </div>
         </div>
       </section>

@@ -15,23 +15,9 @@ export function FounderDashboardPopout() {
   const [activeTab, setActiveTab] = useState("overview");
   const [realtimeFeed, setRealtimeFeed] = useState([]);
 
-  // Mock realtime feed (replace with SSE/WebSocket)
+  // Realtime feed — populated by SSE/WebSocket when available
   useEffect(() => {
-    const mockEvents = [
-      {
-        id: 1,
-        type: "purchase",
-        msg: "Plugin X vendido por 50 PC",
-        time: new Date(),
-      },
-      {
-        id: 2,
-        type: "info",
-        msg: "Re-scan concluído: 234 plugins OK",
-        time: new Date(),
-      },
-    ];
-    setRealtimeFeed(mockEvents);
+    setRealtimeFeed([]);
   }, []);
 
   const tabs = [
@@ -108,28 +94,28 @@ export function FounderDashboardPopout() {
               <div className="metric-card">
                 <span className="metric-icon">👥</span>
                 <span className="metric-value">
-                  {formatNumber(metrics?.users?.total || 1234)}
+                  {formatNumber(metrics?.users?.total || 0)}
                 </span>
                 <span className="metric-label">Users Total</span>
               </div>
               <div className="metric-card">
                 <span className="metric-icon">📈</span>
                 <span className="metric-value">
-                  {formatNumber(metrics?.users?.dau || 89)}
+                  {formatNumber(metrics?.users?.dau || 0)}
                 </span>
                 <span className="metric-label">DAU</span>
               </div>
               <div className="metric-card">
                 <span className="metric-icon">💰</span>
                 <span className="metric-value">
-                  {formatNumber(metrics?.pc?.circulating || 50000)}
+                  {formatNumber(metrics?.pc?.circulating || 0)}
                 </span>
                 <span className="metric-label">PC Circulante</span>
               </div>
               <div className="metric-card highlight">
                 <span className="metric-icon">💵</span>
                 <span className="metric-value">
-                  ${formatNumber(metrics?.revenue?.month || 1250)}
+                  ${formatNumber(metrics?.revenue?.month || 0)}
                 </span>
                 <span className="metric-label">Revenue (30d)</span>
               </div>
@@ -151,25 +137,25 @@ export function FounderDashboardPopout() {
               <div className="treasury-item">
                 <span className="item-icon">🟡</span>
                 <span className="item-label">PAXG (Ouro)</span>
-                <span className="item-value">$3,500</span>
-                <span className="item-percent">35%</span>
+                <span className="item-value">$0</span>
+                <span className="item-percent">0%</span>
               </div>
               <div className="treasury-item">
                 <span className="item-icon">🟢</span>
                 <span className="item-label">USDC (Stable)</span>
-                <span className="item-value">$4,500</span>
-                <span className="item-percent">45%</span>
+                <span className="item-value">$0</span>
+                <span className="item-percent">0%</span>
               </div>
               <div className="treasury-item">
                 <span className="item-icon">🔵</span>
                 <span className="item-label">Ops Fund</span>
-                <span className="item-value">$2,000</span>
-                <span className="item-percent">20%</span>
+                <span className="item-value">$0</span>
+                <span className="item-percent">0%</span>
               </div>
             </div>
             <div className="runway-info">
               <span className="runway-label">Runway:</span>
-              <span className="runway-value">18 meses</span>
+              <span className="runway-value">—</span>
             </div>
           </div>
         )}
@@ -179,35 +165,23 @@ export function FounderDashboardPopout() {
           <div className="tab-panel store">
             <div className="store-stats">
               <div className="stat-item">
-                <span className="stat-value">234</span>
+                <span className="stat-value">0</span>
                 <span className="stat-label">Plugins</span>
               </div>
               <div className="stat-item">
-                <span className="stat-value">12</span>
+                <span className="stat-value">0</span>
                 <span className="stat-label">Vendas Hoje</span>
               </div>
               <div className="stat-item">
-                <span className="stat-value">89</span>
+                <span className="stat-value">0</span>
                 <span className="stat-label">Vendas Semana</span>
               </div>
             </div>
-            <h3>Top Sellers</h3>
-            <div className="top-sellers">
-              <div className="seller-item">
-                <span className="rank">#1</span>
-                <span className="name">AI Image Generator</span>
-                <span className="sales">45 vendas</span>
-              </div>
-              <div className="seller-item">
-                <span className="rank">#2</span>
-                <span className="name">Code Formatter Pro</span>
-                <span className="sales">32 vendas</span>
-              </div>
-              <div className="seller-item">
-                <span className="rank">#3</span>
-                <span className="name">Doc Translator</span>
-                <span className="sales">28 vendas</span>
-              </div>
+            <div
+              className="top-sellers"
+              style={{ textAlign: "center", padding: "20px", opacity: 0.4 }}
+            >
+              Sem vendas registradas
             </div>
           </div>
         )}
@@ -242,38 +216,23 @@ export function FounderDashboardPopout() {
             <h2>🛡️ Panda Defend</h2>
             <div className="defend-metrics">
               <div className="defend-stat">
-                <span className="stat-value good">12</span>
+                <span className="stat-value good">0</span>
                 <span className="stat-label">Aprovados Hoje</span>
               </div>
               <div className="defend-stat">
-                <span className="stat-value warning">1</span>
+                <span className="stat-value warning">0</span>
                 <span className="stat-label">Pendentes</span>
               </div>
               <div className="defend-stat">
-                <span className="stat-value bad">2</span>
+                <span className="stat-value bad">0</span>
                 <span className="stat-label">Rejeitados</span>
               </div>
             </div>
-            <h3>Alertas Recentes</h3>
-            <div className="alerts-list">
-              <div className="alert-item critical">
-                <span className="alert-icon">🔴</span>
-                <span className="alert-msg">
-                  plugin-xyz: eval() detectado - BLOQUEADO
-                </span>
-              </div>
-              <div className="alert-item warning">
-                <span className="alert-icon">🟡</span>
-                <span className="alert-msg">
-                  plugin-abc: fetch() não declarado - PENDENTE
-                </span>
-              </div>
-              <div className="alert-item info">
-                <span className="alert-icon">🟢</span>
-                <span className="alert-msg">
-                  plugin-123: Score 85/100 - APROVADO
-                </span>
-              </div>
+            <div
+              className="alerts-list"
+              style={{ textAlign: "center", padding: "20px", opacity: 0.4 }}
+            >
+              Sem alertas de segurança
             </div>
           </div>
         )}

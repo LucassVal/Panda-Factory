@@ -13,16 +13,8 @@ import React, { useState, useEffect } from "react";
  * @see PF_ECONOMY_REFERENCE.md §16 Rust Mining Node
  */
 
-// ── Mock data (replaced by Rust Agent API in production) ──
-const MOCK_EARNINGS_HISTORY = [
-  { date: "13/02", earned: 3.2, status: "✅" },
-  { date: "12/02", earned: 3.4, status: "✅" },
-  { date: "11/02", earned: 2.9, status: "✅" },
-  { date: "10/02", earned: 3.1, status: "✅" },
-  { date: "09/02", earned: 3.3, status: "✅" },
-  { date: "08/02", earned: 0.0, status: "⏸️" },
-  { date: "07/02", earned: 3.0, status: "✅" },
-];
+// ── Earnings history — populated by Rust Agent API in production ──
+// Initial state is empty (fresh OS boot)
 
 export function MiningPanel({ embedded = false }) {
   const [miningEnabled, setMiningEnabled] = useState(false);
@@ -73,11 +65,9 @@ export function MiningPanel({ embedded = false }) {
       ? 1.3
       : 0.7;
 
-  const totalEarnedMock = 42.8;
-  const totalWeekEarned = MOCK_EARNINGS_HISTORY.reduce(
-    (sum, d) => sum + d.earned,
-    0,
-  ).toFixed(1);
+  const earningsHistory = []; // Populated by Rust Agent
+  const totalEarned = 0;
+  const totalWeekEarned = "0.0";
 
   // ── Styles ──
   const panel = {
@@ -217,9 +207,7 @@ export function MiningPanel({ embedded = false }) {
           }}
         >
           <div style={{ fontSize: "36px", marginBottom: "10px" }}>⛏️</div>
-          <div
-            style={{ fontWeight: 700, fontSize: "16px", color: "#f59e0b" }}
-          >
+          <div style={{ fontWeight: 700, fontSize: "16px", color: "#f59e0b" }}>
             Ganhe Panda Coins Passivamente
           </div>
           <div
@@ -423,11 +411,9 @@ export function MiningPanel({ embedded = false }) {
             <div
               style={{ fontSize: "26px", fontWeight: 700, color: "#f59e0b" }}
             >
-              {totalEarnedMock}
+              {totalEarned}
             </div>
-            <div
-              style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}
-            >
+            <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}>
               PC Total Acumulado
             </div>
           </div>
@@ -437,9 +423,7 @@ export function MiningPanel({ embedded = false }) {
             >
               {totalWeekEarned}
             </div>
-            <div
-              style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}
-            >
+            <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}>
               PC Última Semana
             </div>
           </div>
@@ -449,9 +433,7 @@ export function MiningPanel({ embedded = false }) {
             >
               ~{(estimatedPcDay * 30).toFixed(0)}
             </div>
-            <div
-              style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}
-            >
+            <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}>
               Estimativa Mensal
             </div>
           </div>
@@ -505,33 +487,44 @@ export function MiningPanel({ embedded = false }) {
             </tr>
           </thead>
           <tbody>
-            {MOCK_EARNINGS_HISTORY.map((row, i) => (
-              <tr
-                key={i}
-                style={{
-                  borderBottom: "1px solid rgba(255,255,255,0.04)",
-                }}
-              >
+            {earningsHistory.length === 0 ? (
+              <tr>
                 <td
-                  style={{
-                    padding: "8px 12px",
-                    fontFamily: "monospace",
-                  }}
+                  colSpan="3"
+                  style={{ padding: "16px", textAlign: "center", opacity: 0.4 }}
                 >
-                  {row.date}
+                  Sem histórico — inicie o mining para acumular dados
                 </td>
-                <td
-                  style={{
-                    padding: "8px 12px",
-                    fontWeight: 600,
-                    color: row.earned > 0 ? "#10b981" : "#666",
-                  }}
-                >
-                  {row.earned > 0 ? `+${row.earned} PC` : "—"}
-                </td>
-                <td style={{ padding: "8px 12px" }}>{row.status}</td>
               </tr>
-            ))}
+            ) : (
+              earningsHistory.map((row, i) => (
+                <tr
+                  key={i}
+                  style={{
+                    borderBottom: "1px solid rgba(255,255,255,0.04)",
+                  }}
+                >
+                  <td
+                    style={{
+                      padding: "8px 12px",
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    {row.date}
+                  </td>
+                  <td
+                    style={{
+                      padding: "8px 12px",
+                      fontWeight: 600,
+                      color: row.earned > 0 ? "#10b981" : "#666",
+                    }}
+                  >
+                    {row.earned > 0 ? `+${row.earned} PC` : "—"}
+                  </td>
+                  <td style={{ padding: "8px 12px" }}>{row.status}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

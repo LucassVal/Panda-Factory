@@ -451,14 +451,9 @@ body {
   --color-muted-1: #252636 !important;
 }
 
-/* TLDraw Status Bar / Footer in Dark Mode */
-.pf-canvas-wrapper.dark .tlui-layout__bottom,
-.pf-canvas-wrapper.dark .tlui-debug-panel,
-.pf-canvas-wrapper.dark .tlui-navigation-panel,
-.pf-canvas-wrapper.dark [class*="tlui-"],
-.pf-canvas-wrapper.dark .tl-overlays__item {
-  background: #1a1b26 !important;
-  background-color: #1a1b26 !important;
+/* TLDraw navigation/zoom panel in Dark Mode (UI only, not canvas) */
+.pf-canvas-wrapper.dark .tlui-navigation-panel {
+  background: rgba(26, 27, 38, 0.8) !important;
   color: #a0a0b0 !important;
 }
 

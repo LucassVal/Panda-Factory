@@ -16,167 +16,11 @@ import { PanicButton } from "./PFPanicButton";
  * All data is mock — Rust Agent integration pending.
  */
 
-// ── Mock Data — will be replaced by Rust Agent API ──
-const MOCK_MODULES = [
-  {
-    id: "@panda/ai-chat",
-    name: "Panda Brain Chat",
-    icon: "🧠",
-    score: 98,
-    risk: "low",
-    permissions: ["panda.ui.toast", "panda.data.read"],
-    lastScan: "2026-02-13 09:00",
-    status: "approved",
-    type: "module",
-  },
-  {
-    id: "@panda/draw-tools",
-    name: "Draw Tools",
-    icon: "🎨",
-    score: 95,
-    risk: "low",
-    permissions: ["panda.ui.canvas", "panda.data.write"],
-    lastScan: "2026-02-13 08:30",
-    status: "approved",
-    type: "module",
-  },
-  {
-    id: "@fulano/steam-library",
-    name: "Steam Library",
-    icon: "🎮",
-    score: 82,
-    risk: "medium",
-    permissions: ["panda.ui.toast", "panda.data.read", "panda.store.state"],
-    lastScan: "2026-02-12 22:15",
-    status: "approved",
-    type: "module",
-  },
-  {
-    id: "@dev/whatsapp-bridge",
-    name: "WhatsApp Bridge",
-    icon: "💬",
-    score: 71,
-    risk: "high",
-    permissions: [
-      "panda.ui.toast",
-      "panda.data.read",
-      "panda.data.write",
-      "panda.bridge.external",
-    ],
-    lastScan: "2026-02-12 18:00",
-    status: "review",
-    type: "tentacle",
-  },
-  {
-    id: "@carlo/epic-hook",
-    name: "Epic Games Hook",
-    icon: "🕹️",
-    score: 45,
-    risk: "high",
-    permissions: [
-      "panda.data.read",
-      "panda.data.write",
-      "panda.auth.modify",
-      "panda.wallet.send",
-    ],
-    lastScan: "2026-02-11 14:00",
-    status: "suspended",
-    type: "tentacle",
-  },
-];
-
-// ── Mock score breakdowns ──
-const MOCK_SCORE_DETAILS = {
-  "@panda/ai-chat": {
-    bonus: [
-      "CSP declarado (+5)",
-      "TypeScript completo (+5)",
-      "Testes > 50% (+5)",
-      "README.md (+5)",
-    ],
-    penalty: [],
-  },
-  "@panda/draw-tools": {
-    bonus: ["strict mode (+5)", "README.md (+5)", "Changelog semântico (+5)"],
-    penalty: ["Web Workers não declarado (-10)"],
-  },
-  "@fulano/steam-library": {
-    bonus: ["README.md (+5)", "CSP declarado (+5)"],
-    penalty: ["fetch() externo não declarado (-10)", "IndexedDB > 50MB (-10)"],
-  },
-  "@dev/whatsapp-bridge": {
-    bonus: ["strict mode (+5)"],
-    penalty: [
-      "fetch() externo não declarado (-10)",
-      "WebRTC não declarado (-10)",
-      "Notification API (-10)",
-    ],
-  },
-  "@carlo/epic-hook": {
-    bonus: [],
-    penalty: [
-      "eval() dinâmico (Score=0)",
-      "Obfuscação detectada (-∞)",
-      "fetch() não declarado (-10)",
-    ],
-  },
-};
-
-const GOLDEN_RULES = [
-  { id: "R1", rule: "Dynamic eval", risk: "RCE" },
-  { id: "R2", rule: "document.write", risk: "XSS" },
-  { id: "R3", rule: "Unsafe innerHTML", risk: "XSS" },
-  { id: "R4", rule: "Cross-origin storage", risk: "Data theft" },
-  { id: "R5", rule: "Undeclared fetch", risk: "Exfiltration" },
-  { id: "R6", rule: "Frame access", risk: "Sandbox escape" },
-  { id: "R7", rule: "Crypto mining", risk: "Resource theft" },
-  { id: "R8", rule: "Obfuscation", risk: "Hidden malware" },
-  { id: "R9", rule: "Prototype Pollution", risk: "RCE" },
-  { id: "R10", rule: "Hardcoded Secrets", risk: "Credential leak" },
-  { id: "R11", rule: "Insecure Crypto", risk: "Weak security" },
-  { id: "R12", rule: "IA Externa (bypass)", risk: "Revenue theft" },
-  { id: "R13", rule: "Billing Bypass", risk: "Economic damage" },
-  { id: "R14", rule: "MCP Manifest ausente", risk: "No integration" },
-];
-
-const MOCK_EVENTS = [
-  {
-    id: 1,
-    time: "12:34",
-    type: "block",
-    msg: "🔴 @carlo/epic-hook: fetch() não autorizado bloqueado — tentativa de bypass Proxy SDK",
-  },
-  {
-    id: 2,
-    time: "12:30",
-    type: "warning",
-    msg: "🟡 @dev/whatsapp-bridge: panda.bridge.external requer revisão — Score 71 (limítrofe)",
-  },
-  {
-    id: 3,
-    time: "11:15",
-    type: "scan",
-    msg: "🔍 Re-scan diário concluído: 4 módulos OK, 1 suspenso",
-  },
-  {
-    id: 4,
-    time: "10:00",
-    type: "info",
-    msg: "✅ @panda/ai-chat: Score atualizado 97→98 — nenhuma vulnerabilidade nova",
-  },
-  {
-    id: 5,
-    time: "09:45",
-    type: "block",
-    msg: "🔴 @carlo/epic-hook: eval() dinâmico detectado — Auto-suspend ativado (Score < 50)",
-  },
-  {
-    id: 6,
-    time: "08:30",
-    type: "info",
-    msg: "✅ @panda/draw-tools: Sandbox test 30s — OK",
-  },
-];
+// ── Module and event data — populated by Rust Agent at runtime ──
+// Initial state is empty (fresh OS boot)
+const INITIAL_MODULES = [];
+const INITIAL_SCORE_DETAILS = {};
+const INITIAL_EVENTS = [];
 
 // ── Risk helpers ──
 const RISK_COLORS = {
@@ -296,7 +140,7 @@ export function PFDefendPanel() {
   const [expandedModule, setExpandedModule] = useState(null);
   const [eventFilter, setEventFilter] = useState("all");
   const [rulesExpanded, setRulesExpanded] = useState(false);
-  const [modules, setModules] = useState(MOCK_MODULES);
+  const [modules, setModules] = useState(INITIAL_MODULES);
   const [reportedModules, setReportedModules] = useState(new Set());
 
   const globalScore = Math.round(
@@ -312,8 +156,8 @@ export function PFDefendPanel() {
 
   const filteredEvents =
     eventFilter === "all"
-      ? MOCK_EVENTS
-      : MOCK_EVENTS.filter((e) => e.type === eventFilter);
+      ? INITIAL_EVENTS
+      : INITIAL_EVENTS.filter((e) => e.type === eventFilter);
 
   const handleReport = useCallback((modId) => {
     setReportedModules((prev) => new Set([...prev, modId]));
@@ -514,7 +358,7 @@ export function PFDefendPanel() {
                 )}
 
                 {/* ── Score Breakdown ── */}
-                {MOCK_SCORE_DETAILS[mod.id] && (
+                {INITIAL_SCORE_DETAILS[mod.id] && (
                   <div style={{ marginTop: 10 }}>
                     <div
                       style={{
@@ -526,7 +370,7 @@ export function PFDefendPanel() {
                     >
                       📊 SCORE BREAKDOWN:
                     </div>
-                    {MOCK_SCORE_DETAILS[mod.id].bonus.map((b, i) => (
+                    {INITIAL_SCORE_DETAILS[mod.id].bonus.map((b, i) => (
                       <div
                         key={`b-${i}`}
                         style={{
@@ -538,7 +382,7 @@ export function PFDefendPanel() {
                         + {b}
                       </div>
                     ))}
-                    {MOCK_SCORE_DETAILS[mod.id].penalty.map((p, i) => (
+                    {INITIAL_SCORE_DETAILS[mod.id].penalty.map((p, i) => (
                       <div
                         key={`p-${i}`}
                         style={{
@@ -550,8 +394,8 @@ export function PFDefendPanel() {
                         − {p}
                       </div>
                     ))}
-                    {MOCK_SCORE_DETAILS[mod.id].bonus.length === 0 &&
-                      MOCK_SCORE_DETAILS[mod.id].penalty.length === 0 && (
+                    {INITIAL_SCORE_DETAILS[mod.id]?.bonus.length === 0 &&
+                      INITIAL_SCORE_DETAILS[mod.id]?.penalty.length === 0 && (
                         <div
                           style={{
                             fontSize: 11,
@@ -648,7 +492,7 @@ export function PFDefendPanel() {
               fontSize: 11,
             }}
           >
-            <option value="all">Todos ({MOCK_EVENTS.length})</option>
+            <option value="all">Todos ({INITIAL_EVENTS.length})</option>
             <option value="block">🔴 Bloqueios</option>
             <option value="warning">🟡 Alertas</option>
             <option value="scan">🔍 Scans</option>

@@ -27,42 +27,7 @@ const PIPELINE_STAGES = [
   { id: "lost", label: "❌ Lost", color: "#ef4444" },
 ];
 
-// ── Demo Contacts (for first-run experience) ──
-const DEMO_CONTACTS = [
-  {
-    id: "demo-1",
-    name: "Maria Silva",
-    email: "maria@example.com",
-    phone: "+55 11 99999-0001",
-    company: "TechCorp",
-    stage: "lead",
-    value: 5000,
-    notes: "Interested in CRM module",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "demo-2",
-    name: "João Santos",
-    email: "joao@example.com",
-    phone: "+55 21 88888-0002",
-    company: "DigitalAgency",
-    stage: "contacted",
-    value: 12000,
-    notes: "Scheduled demo for next week",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "demo-3",
-    name: "Ana Oliveira",
-    email: "ana@example.com",
-    phone: "+55 31 77777-0003",
-    company: "StartupXYZ",
-    stage: "proposal",
-    value: 8500,
-    notes: "Sent proposal, waiting for feedback",
-    createdAt: new Date().toISOString(),
-  },
-];
+// ── No demo data — CRM starts empty (clean OS boot) ──
 
 export default function PandaCRM({ userId, onClose }) {
   const [contacts, setContacts] = useState([]);
@@ -86,8 +51,8 @@ export default function PandaCRM({ userId, onClose }) {
         /* ignore */
       }
 
-      // First run: use demo contacts
-      setContacts(DEMO_CONTACTS);
+      // First run: start empty
+      setContacts([]);
       setLoading(false);
     };
 

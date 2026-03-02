@@ -8,7 +8,6 @@ import { PandaDefendDashboard } from "./PFDefendDashboard";
 import { PFLiveFlowMonitor } from "./PFLiveFlowMonitor";
 import PFDiagnosticDashboard from "./PFDiagnosticDashboard";
 import { PATCouncilPanel } from "./PFCouncilPanel";
-import { PandaDefendDashboard } from "./PFDefendDashboard";
 import "./PFLiveFlowMonitor.css";
 import "./PFFounderDashboard.css";
 
@@ -104,12 +103,6 @@ export function FounderDashboard() {
           active={activeTab}
           onClick={setActiveTab}
         />
-        <Tab
-          id="defend"
-          label="🛡️ Defend"
-          active={activeTab}
-          onClick={setActiveTab}
-        />
       </nav>
 
       {/* Content */}
@@ -129,7 +122,6 @@ export function FounderDashboard() {
           <PATCouncilPanel isOpen={true} embedded={true} />
         )}
         {activeTab === "constitution" && <ConstitutionPanel />}
-        {activeTab === "defend" && <PandaDefendDashboard isFounder={true} />}
       </div>
     </div>
   );
@@ -551,13 +543,13 @@ function ServicesPanel({ services }) {
  * All data is mock — Rust Agent backend not yet implemented
  */
 function MiningPanel() {
-  // Mock data — will be replaced by Rust Agent API
+  // Data populated by Rust Agent API at runtime
   const networkStats = {
-    activeMiners: 47,
-    totalHashrate: "128.4 KH/s",
-    pcDistributedToday: 3842,
-    pcDistributedMonth: 94120,
-    avgUptimePercent: 87,
+    activeMiners: 0,
+    totalHashrate: "0 KH/s",
+    pcDistributedToday: 0,
+    pcDistributedMonth: 0,
+    avgUptimePercent: 0,
   };
 
   const revenueSplit = [
@@ -565,104 +557,37 @@ function MiningPanel() {
       label: "👤 Users (60%)",
       percent: 60,
       color: "#10b981",
-      amount: "2,305 PC",
+      amount: "0 PC",
     },
     {
       label: "🏛️ Impostos BR (18%)",
       percent: 18,
       color: "#ef4444",
-      amount: "692 PC",
+      amount: "0 PC",
     },
     {
       label: "⚙️ Ops/Infra (10%)",
       percent: 10,
       color: "#f59e0b",
-      amount: "384 PC",
+      amount: "0 PC",
     },
     {
       label: "🔒 Hold Reserve (7%)",
       percent: 7,
       color: "#8b5cf6",
-      amount: "269 PC",
+      amount: "0 PC",
     },
     {
       label: "🏦 Treasury (5%)",
       percent: 5,
       color: "#667eea",
-      amount: "192 PC",
+      amount: "0 PC",
     },
   ];
 
-  const topMiners = [
-    {
-      user: "node-alpha-01",
-      tier: "🌲 Forest",
-      hashrate: "4.2 KH/s",
-      earned: "312 PC",
-      gpu: "RTX 4080",
-    },
-    {
-      user: "node-beta-07",
-      tier: "🌳 Tree",
-      hashrate: "2.8 KH/s",
-      earned: "198 PC",
-      gpu: "RTX 3060",
-    },
-    {
-      user: "node-gamma-12",
-      tier: "🌿 Sprout",
-      hashrate: "1.1 KH/s",
-      earned: "78 PC",
-      gpu: "GTX 1660",
-    },
-    {
-      user: "node-delta-03",
-      tier: "🌱 Seed",
-      hashrate: "0.6 KH/s",
-      earned: "42 PC",
-      gpu: "—",
-    },
-    {
-      user: "node-epsilon-19",
-      tier: "🌳 Tree",
-      hashrate: "2.5 KH/s",
-      earned: "185 PC",
-      gpu: "RTX 3070",
-    },
-  ];
+  const topMiners = [];
 
-  const payoutHistory = [
-    {
-      date: "2026-02-13",
-      amount: "3,842 PC",
-      cryptoPrice: "$142.30 XMR",
-      status: "✅ Pago",
-    },
-    {
-      date: "2026-02-12",
-      amount: "4,019 PC",
-      cryptoPrice: "$143.80 XMR",
-      status: "✅ Pago",
-    },
-    {
-      date: "2026-02-11",
-      amount: "3,651 PC",
-      cryptoPrice: "$139.50 XMR",
-      status: "✅ Pago",
-    },
-    {
-      date: "2026-02-10",
-      amount: "3,988 PC",
-      cryptoPrice: "$141.20 XMR",
-      status: "✅ Pago",
-    },
-    {
-      date: "2026-02-09",
-      amount: "3,724 PC",
-      cryptoPrice: "$140.60 XMR",
-      status: "✅ Pago",
-    },
-  ];
+  const payoutHistory = [];
 
   const cardStyle = {
     background: "rgba(255,255,255,0.03)",
