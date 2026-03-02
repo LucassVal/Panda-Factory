@@ -40,8 +40,19 @@ function PFDock({
     const saved = localStorage.getItem("panda_dock_position");
     if (saved) {
       try {
-        setPosition(JSON.parse(saved));
-      } catch (e) {}
+        const parsed = Math.abs ? JSON.parse(saved) : null;
+        if (parsed && typeof parsed.x === "number") {
+          // Garante que não foi empurrado para fora da tela
+          const maxX = window.innerWidth - 70;
+          const maxY = window.innerHeight - 200;
+          const clampedX = Math.max(0, Math.min(parsed.x, maxX));
+          const clampedY =
+            parsed.y !== null ? Math.max(0, Math.min(parsed.y, maxY)) : null;
+          setPosition({ x: clampedX, y: clampedY });
+        }
+      } catch (e) {
+        console.error("PFDock position load error", e);
+      }
     }
   }, []);
 
