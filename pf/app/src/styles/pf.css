@@ -1947,8 +1947,38 @@ body {
 
 .pf-toolbar-label {
   font-size: 10px;
-  color: var(--pf-text-muted);
+  color: var(--pf-text-muted, #94a3b8);
   text-align: center;
+}
+
+/* Dark mode: força cores visíveis no toolbar */
+.pf-right-toolbar {
+  color: var(--pf-text, #e2e8f0);
+}
+
+.pf-toolbar-header {
+  color: var(--pf-text, #e2e8f0);
+}
+
+.pf-toolbar-item {
+  color: var(--pf-text, #e2e8f0);
+}
+
+.pf-toolbar-option {
+  color: var(--pf-text, #e2e8f0);
+}
+
+/* Light mode overrides */
+body.light-mode .pf-toolbar-label {
+  color: #4a5568;
+}
+
+body.light-mode .pf-toolbar-item {
+  color: #1a202c;
+}
+
+body.light-mode .pf-toolbar-option {
+  color: #1a202c;
 }
 
 .pf-toolbar-divider {

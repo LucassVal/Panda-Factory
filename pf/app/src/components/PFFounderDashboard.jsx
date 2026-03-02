@@ -8,6 +8,7 @@ import { PandaDefendDashboard } from "./PFDefendDashboard";
 import { PFLiveFlowMonitor } from "./PFLiveFlowMonitor";
 import PFDiagnosticDashboard from "./PFDiagnosticDashboard";
 import { PATCouncilPanel } from "./PFCouncilPanel";
+import { PandaDefendDashboard } from "./PFDefendDashboard";
 import "./PFLiveFlowMonitor.css";
 import "./PFFounderDashboard.css";
 
@@ -103,6 +104,12 @@ export function FounderDashboard() {
           active={activeTab}
           onClick={setActiveTab}
         />
+        <Tab
+          id="defend"
+          label="🛡️ Defend"
+          active={activeTab}
+          onClick={setActiveTab}
+        />
       </nav>
 
       {/* Content */}
@@ -122,6 +129,7 @@ export function FounderDashboard() {
           <PATCouncilPanel isOpen={true} embedded={true} />
         )}
         {activeTab === "constitution" && <ConstitutionPanel />}
+        {activeTab === "defend" && <PandaDefendDashboard isFounder={true} />}
       </div>
     </div>
   );
