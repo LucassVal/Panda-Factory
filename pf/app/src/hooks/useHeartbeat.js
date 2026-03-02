@@ -2,6 +2,10 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { gasGet } from "../services/callGAS";
 import { firebaseDB } from "./useFirebase";
 
+// Em desenvolvimento local sem GAS URL real, pings causam flood de erros CORS.
+// Detecta automaticamente se estamos em localhost sem URL do GAS configurada.
+const IS_DEV_WITHOUT_GAS = import.meta.env.DEV && !import.meta.env.VITE_GAS_URL;
+
 /**
  * 💓 useHeartbeat — Agent Health Monitor (5 min interval)
  *
@@ -42,7 +46,7 @@ const HEARTBEAT_INTERVAL = 300_000; // 5 minutes
 
 export function useHeartbeat({
   interval = HEARTBEAT_INTERVAL,
-  enabled = true,
+  enabled = !IS_DEV_WITHOUT_GAS, // desativa pings em dev sem GAS URL (evita CORS flood)
 } = {}) {
   const [agents, setAgents] = useState(() =>
     DEFAULT_AGENTS.map((a) => ({
