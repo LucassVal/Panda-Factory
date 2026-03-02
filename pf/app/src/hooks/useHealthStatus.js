@@ -6,7 +6,14 @@ import { firebaseAuth, firebaseDB } from "./useFirebase";
  */
 const HEALTH_CONFIGS = {
   jam: {
-    services: ["firebase_auth", "firebase_rtdb", "gas", "mcp"],
+    services: [
+      "firebase_auth",
+      "firebase_rtdb",
+      "gas",
+      "mcp",
+      "rust_agent",
+      "gpu",
+    ],
     pollInterval: 10000,
   },
   store: {
@@ -98,6 +105,20 @@ const checkServiceHealth = async (serviceName) => {
       return hasStripe
         ? { status: "ready", message: "Stripe.js loaded" }
         : { status: "unavailable", message: "Stripe.js not loaded" };
+    }
+    case "rust_agent": {
+      // Rust Agent binary — Phase 2 (planned)
+      const hasRust = !!window.__panda_rust_agent;
+      return hasRust
+        ? { status: "connected", message: "Agent running" }
+        : { status: "offline", message: "Not installed (Phase 2)" };
+    }
+    case "gpu": {
+      // Panda Local GPU worker — Phase 2 (planned)
+      const hasGPU = !!window.__panda_gpu_worker;
+      return hasGPU
+        ? { status: "connected", message: "GPU Worker active" }
+        : { status: "offline", message: "Not installed (Phase 2)" };
     }
     case "gasometer": {
       // Depends on GAS being available

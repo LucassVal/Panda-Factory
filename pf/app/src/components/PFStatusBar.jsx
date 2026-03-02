@@ -76,16 +76,43 @@ function PFStatusBar({
 
   // Status indicators — live from useHealthStatus
   const { services: healthServices } = useHealthStatus("jam");
-  const statuses = {};
+
+  // Build service lookup by health-service key
+  const svcMap = {};
   healthServices.forEach((svc) => {
-    statuses[svc.name] = svc.isHealthy
-      ? "online"
-      : svc.status === "unavailable"
-        ? "unavailable"
-        : svc.status === "offline"
-          ? "offline"
-          : "warning";
+    svcMap[svc.name] = svc;
   });
+
+  const resolveStatus = (svc) => {
+    if (!svc) return "offline";
+    if (svc.isHealthy) return "online";
+    if (svc.status === "unavailable") return "unavailable";
+    if (svc.status === "offline") return "offline";
+    return "warning";
+  };
+
+  // Aggregate firebase_auth + firebase_rtdb → single "firebase" pill
+  const fbAuth = svcMap.firebase_auth;
+  const fbRtdb = svcMap.firebase_rtdb;
+  const fbStatus =
+    fbAuth && fbRtdb
+      ? fbAuth.isHealthy && fbRtdb.isHealthy
+        ? "online"
+        : fbAuth.isHealthy || fbRtdb.isHealthy
+          ? "warning"
+          : "unavailable"
+      : fbAuth
+        ? resolveStatus(fbAuth)
+        : resolveStatus(fbRtdb);
+
+  // Map pill IDs → resolved statuses
+  const statuses = {
+    firebase: fbStatus,
+    gas: resolveStatus(svcMap.gas),
+    rust: resolveStatus(svcMap.rust_agent),
+    mcp: resolveStatus(svcMap.mcp),
+    gpu: resolveStatus(svcMap.gpu),
+  };
 
   // Theme
   const [isDarkMode, setIsDarkMode] = useState(() => {

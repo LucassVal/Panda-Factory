@@ -4153,7 +4153,7 @@ body.light-mode .pf-clock { color: #555; }
 }
 .pf-chat-fab:hover { transform: scale(1.08); }
 .pf-chat-fab.active { background: var(--pf-accent, #e94560); box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); }
-.pf-chat-fab-logo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.pf-chat-fab-logo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; filter: hue-rotate(160deg) saturate(0.85) brightness(1.1); }
 
 /* Chat Panel */
 .pf-chat-panel {
