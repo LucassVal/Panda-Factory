@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Tldraw } from "@tldraw/tldraw";
 import "@tldraw/tldraw/tldraw.css";
 
@@ -101,16 +101,15 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
     const saved = localStorage.getItem("panda_grid_visible");
     return saved !== "false"; // default true
   });
-  const [editor, setEditor] = useState(null);
+  const editorRef = useRef(null);
   const [showWelcome, setShowWelcome] = useState(false);
 
   // Check if canvas is empty to show welcome
   useEffect(() => {
-    if (!editor) return;
-
+    if (!editorRef.current) return;
     const checkEmpty = () => {
       try {
-        const shapes = editor.getCurrentPageShapes();
+        const shapes = editorRef.current.getCurrentPageShapes();
         const dismissed = sessionStorage.getItem("pf_welcome_dismissed");
         if (shapes.length === 0 && !dismissed) {
           setShowWelcome(true);
@@ -121,27 +120,25 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
         // Editor not ready yet
       }
     };
-
-    // Check after a short delay to let persistence load
     const timer = setTimeout(checkEmpty, 500);
     return () => clearTimeout(timer);
-  }, [editor]);
+    // editorRef is a ref — we use isDarkMode as trigger to re-check after mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDarkMode]);
 
-  // Sync TLDraw when theme changes
-  const syncTheme = useCallback(
-    (dark) => {
-      if (editor) {
-        try {
-          editor.user.updateUserPreferences({
-            colorScheme: dark ? "dark" : "light",
-          });
-        } catch (e) {
-          console.log("Theme sync error:", e);
-        }
+  // Sync TLDraw theme — always reads editorRef.current (no stale closure)
+  const syncTheme = useCallback((dark) => {
+    const ed = editorRef.current;
+    if (ed) {
+      try {
+        ed.user.updateUserPreferences({
+          colorScheme: dark ? "dark" : "light",
+        });
+      } catch (e) {
+        console.log("Theme sync error:", e);
       }
-    },
-    [editor],
-  );
+    }
+  }, []); // stable — uses ref, not state
 
   // Listen for theme changes from body class
   useEffect(() => {
@@ -159,12 +156,8 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
     return () => observer.disconnect();
   }, [syncTheme]);
 
-  // Sync theme when editor becomes available
-  useEffect(() => {
-    if (editor) {
-      syncTheme(isDarkMode);
-    }
-  }, [editor, isDarkMode, syncTheme]);
+  // Sync theme when editor becomes available (after mount)
+  // No extra useEffect needed — handleMount calls syncTheme directly
 
   // Expose grid toggle globally
   useEffect(() => {
@@ -202,7 +195,7 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
   const handleMount = useCallback(
     (editorInstance) => {
       console.log("TLDraw Editor mounted");
-      setEditor(editorInstance);
+      editorRef.current = editorInstance;
 
       const isLight = document.body.classList.contains("light-mode");
       try {
@@ -212,6 +205,15 @@ function PFCanvas({ plugins, roomId = "panda-pf-default", onEditorMount }) {
       } catch (e) {
         console.log("Initial theme set error:", e);
       }
+
+      // Check welcome after mount
+      setTimeout(() => {
+        try {
+          const shapes = editorInstance.getCurrentPageShapes();
+          const dismissed = sessionStorage.getItem("pf_welcome_dismissed");
+          if (shapes.length === 0 && !dismissed) setShowWelcome(true);
+        } catch {}
+      }, 500);
 
       window.TLDrawEditor = editorInstance;
       if (onEditorMount) onEditorMount(editorInstance);

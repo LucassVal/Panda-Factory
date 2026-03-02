@@ -88,7 +88,12 @@ const MOCK_MODULES = [
 // ── Mock score breakdowns ──
 const MOCK_SCORE_DETAILS = {
   "@panda/ai-chat": {
-    bonus: ["CSP declarado (+5)", "TypeScript completo (+5)", "Testes > 50% (+5)", "README.md (+5)"],
+    bonus: [
+      "CSP declarado (+5)",
+      "TypeScript completo (+5)",
+      "Testes > 50% (+5)",
+      "README.md (+5)",
+    ],
     penalty: [],
   },
   "@panda/draw-tools": {
@@ -101,11 +106,19 @@ const MOCK_SCORE_DETAILS = {
   },
   "@dev/whatsapp-bridge": {
     bonus: ["strict mode (+5)"],
-    penalty: ["fetch() externo não declarado (-10)", "WebRTC não declarado (-10)", "Notification API (-10)"],
+    penalty: [
+      "fetch() externo não declarado (-10)",
+      "WebRTC não declarado (-10)",
+      "Notification API (-10)",
+    ],
   },
   "@carlo/epic-hook": {
     bonus: [],
-    penalty: ["eval() dinâmico (Score=0)", "Obfuscação detectada (-∞)", "fetch() não declarado (-10)"],
+    penalty: [
+      "eval() dinâmico (Score=0)",
+      "Obfuscação detectada (-∞)",
+      "fetch() não declarado (-10)",
+    ],
   },
 };
 
@@ -270,7 +283,11 @@ const S = {
 
 function getPermRisk(perm) {
   if (perm.includes("wallet") || perm.includes("auth.modify")) return "high";
-  if (perm.includes("write") || perm.includes("state") || perm.includes("bridge"))
+  if (
+    perm.includes("write") ||
+    perm.includes("state") ||
+    perm.includes("bridge")
+  )
     return "medium";
   return "low";
 }
@@ -283,18 +300,14 @@ export function PFDefendPanel() {
   const [reportedModules, setReportedModules] = useState(new Set());
 
   const globalScore = Math.round(
-    modules.reduce((sum, m) => sum + m.score, 0) / (modules.length || 1)
+    modules.reduce((sum, m) => sum + m.score, 0) / (modules.length || 1),
   );
   const scoreColor =
-    globalScore >= 80
-      ? "#10b981"
-      : globalScore >= 60
-        ? "#f59e0b"
-        : "#ef4444";
+    globalScore >= 80 ? "#10b981" : globalScore >= 60 ? "#f59e0b" : "#ef4444";
 
   const toggleModule = useCallback(
     (id) => setExpandedModule((prev) => (prev === id ? null : id)),
-    []
+    [],
   );
 
   const filteredEvents =
@@ -303,12 +316,14 @@ export function PFDefendPanel() {
       : MOCK_EVENTS.filter((e) => e.type === eventFilter);
 
   const handleReport = useCallback((modId) => {
-    setReportedModules(prev => new Set([...prev, modId]));
-    console.log(`🛡️ DEFEND: ⚠️ Módulo ${modId} reportado — denúncia registrada`);
+    setReportedModules((prev) => new Set([...prev, modId]));
+    console.log(
+      `🛡️ DEFEND: ⚠️ Módulo ${modId} reportado — denúncia registrada`,
+    );
   }, []);
 
   const handleUninstall = useCallback((modId) => {
-    setModules(prev => prev.filter(m => m.id !== modId));
+    setModules((prev) => prev.filter((m) => m.id !== modId));
     setExpandedModule(null);
     console.log(`🛡️ DEFEND: 🗑️ Módulo ${modId} desinstalado`);
   }, []);
@@ -427,9 +442,7 @@ export function PFDefendPanel() {
                 style={{
                   fontSize: 12,
                   transform:
-                    expandedModule === mod.id
-                      ? "rotate(180deg)"
-                      : "rotate(0)",
+                    expandedModule === mod.id ? "rotate(180deg)" : "rotate(0)",
                   transition: "transform .2s",
                 }}
               >
@@ -503,47 +516,104 @@ export function PFDefendPanel() {
                 {/* ── Score Breakdown ── */}
                 {MOCK_SCORE_DETAILS[mod.id] && (
                   <div style={{ marginTop: 10 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 6 }}>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: "#94a3b8",
+                        marginBottom: 6,
+                      }}
+                    >
                       📊 SCORE BREAKDOWN:
                     </div>
                     {MOCK_SCORE_DETAILS[mod.id].bonus.map((b, i) => (
-                      <div key={`b-${i}`} style={{ fontSize: 11, color: "#10b981", paddingLeft: 8 }}>+ {b}</div>
+                      <div
+                        key={`b-${i}`}
+                        style={{
+                          fontSize: 11,
+                          color: "#10b981",
+                          paddingLeft: 8,
+                        }}
+                      >
+                        + {b}
+                      </div>
                     ))}
                     {MOCK_SCORE_DETAILS[mod.id].penalty.map((p, i) => (
-                      <div key={`p-${i}`} style={{ fontSize: 11, color: "#ef4444", paddingLeft: 8 }}>− {p}</div>
+                      <div
+                        key={`p-${i}`}
+                        style={{
+                          fontSize: 11,
+                          color: "#ef4444",
+                          paddingLeft: 8,
+                        }}
+                      >
+                        − {p}
+                      </div>
                     ))}
-                    {MOCK_SCORE_DETAILS[mod.id].bonus.length === 0 && MOCK_SCORE_DETAILS[mod.id].penalty.length === 0 && (
-                      <div style={{ fontSize: 11, color: "#64748b", paddingLeft: 8 }}>Nenhum detalhe disponível</div>
-                    )}
+                    {MOCK_SCORE_DETAILS[mod.id].bonus.length === 0 &&
+                      MOCK_SCORE_DETAILS[mod.id].penalty.length === 0 && (
+                        <div
+                          style={{
+                            fontSize: 11,
+                            color: "#64748b",
+                            paddingLeft: 8,
+                          }}
+                        >
+                          Nenhum detalhe disponível
+                        </div>
+                      )}
                   </div>
                 )}
 
                 {/* ── Module Actions ── */}
                 <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
                   <button
-                    onClick={(e) => { e.stopPropagation(); handleReport(mod.id); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleReport(mod.id);
+                    }}
                     disabled={reportedModules.has(mod.id)}
                     style={{
-                      padding: "5px 12px", borderRadius: 6, fontSize: 11, fontWeight: 600,
-                      background: reportedModules.has(mod.id) ? "rgba(100,116,139,0.1)" : "rgba(245,158,11,0.1)",
-                      color: reportedModules.has(mod.id) ? "#64748b" : "#f59e0b",
+                      padding: "5px 12px",
+                      borderRadius: 6,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      background: reportedModules.has(mod.id)
+                        ? "rgba(100,116,139,0.1)"
+                        : "rgba(245,158,11,0.1)",
+                      color: reportedModules.has(mod.id)
+                        ? "#64748b"
+                        : "#f59e0b",
                       border: `1px solid ${reportedModules.has(mod.id) ? "rgba(100,116,139,0.2)" : "rgba(245,158,11,0.25)"}`,
-                      cursor: reportedModules.has(mod.id) ? "default" : "pointer",
+                      cursor: reportedModules.has(mod.id)
+                        ? "default"
+                        : "pointer",
                     }}
                   >
-                    {reportedModules.has(mod.id) ? "✅ Reportado" : "⚠️ Reportar"}
+                    {reportedModules.has(mod.id)
+                      ? "✅ Reportado"
+                      : "⚠️ Reportar"}
                   </button>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (window.confirm(`Desinstalar ${mod.name}? Esta ação não pode ser desfeita.`)) {
+                      if (
+                        window.confirm(
+                          `Desinstalar ${mod.name}? Esta ação não pode ser desfeita.`,
+                        )
+                      ) {
                         handleUninstall(mod.id);
                       }
                     }}
                     style={{
-                      padding: "5px 12px", borderRadius: 6, fontSize: 11, fontWeight: 600,
-                      background: "rgba(239,68,68,0.1)", color: "#ef4444",
-                      border: "1px solid rgba(239,68,68,0.25)", cursor: "pointer",
+                      padding: "5px 12px",
+                      borderRadius: 6,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      background: "rgba(239,68,68,0.1)",
+                      color: "#ef4444",
+                      border: "1px solid rgba(239,68,68,0.25)",
+                      cursor: "pointer",
                     }}
                   >
                     🗑️ Desinstalar
@@ -617,50 +687,118 @@ export function PFDefendPanel() {
       {/* ────── 14 Golden Rules (Collapsed) ────── */}
       <div style={S.card}>
         <div
-          style={{ ...S.sectionTitle, cursor: "pointer", justifyContent: "space-between" }}
-          onClick={() => setRulesExpanded(prev => !prev)}
+          style={{
+            ...S.sectionTitle,
+            cursor: "pointer",
+            justifyContent: "space-between",
+          }}
+          onClick={() => setRulesExpanded((prev) => !prev)}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span>📋</span> 14 Regras de Ouro (Bloqueio Automático)
           </div>
-          <span style={{ fontSize: 12, transform: rulesExpanded ? "rotate(180deg)" : "rotate(0)", transition: "transform .2s" }}>▼</span>
+          <span
+            style={{
+              fontSize: 12,
+              transform: rulesExpanded ? "rotate(180deg)" : "rotate(0)",
+              transition: "transform .2s",
+            }}
+          >
+            ▼
+          </span>
         </div>
         {rulesExpanded && (
           <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+            <table
+              style={{
+                width: "100%",
+                fontSize: 12,
+                borderCollapse: "collapse",
+              }}
+            >
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
-                  <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>ID</th>
-                  <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Regra</th>
-                  <th style={{ textAlign: "left", padding: "4px 8px", color: "#94a3b8" }}>Risco</th>
+                  <th
+                    style={{
+                      textAlign: "left",
+                      padding: "4px 8px",
+                      color: "#94a3b8",
+                    }}
+                  >
+                    ID
+                  </th>
+                  <th
+                    style={{
+                      textAlign: "left",
+                      padding: "4px 8px",
+                      color: "#94a3b8",
+                    }}
+                  >
+                    Regra
+                  </th>
+                  <th
+                    style={{
+                      textAlign: "left",
+                      padding: "4px 8px",
+                      color: "#94a3b8",
+                    }}
+                  >
+                    Risco
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {GOLDEN_RULES.map(r => (
-                  <tr key={r.id} style={{ borderBottom: "1px solid rgba(100,116,139,0.08)" }}>
-                    <td style={{ padding: "4px 8px", fontWeight: 700, color: "#ef4444", fontFamily: "monospace" }}>{r.id}</td>
+                {GOLDEN_RULES.map((r) => (
+                  <tr
+                    key={r.id}
+                    style={{ borderBottom: "1px solid rgba(100,116,139,0.08)" }}
+                  >
+                    <td
+                      style={{
+                        padding: "4px 8px",
+                        fontWeight: 700,
+                        color: "#ef4444",
+                        fontFamily: "monospace",
+                      }}
+                    >
+                      {r.id}
+                    </td>
                     <td style={{ padding: "4px 8px" }}>{r.rule}</td>
-                    <td style={{ padding: "4px 8px", fontSize: 11, color: "#f59e0b" }}>{r.risk}</td>
+                    <td
+                      style={{
+                        padding: "4px 8px",
+                        fontSize: 11,
+                        color: "#f59e0b",
+                      }}
+                    >
+                      {r.risk}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div style={{ fontSize: 11, color: "#64748b", marginTop: 8, padding: "0 8px" }}>
-              Ref: <code style={{ fontSize: 10, background: "rgba(100,116,139,0.15)", padding: "1px 4px", borderRadius: 3 }}>PF_SECURITY_REFERENCE.md §1.6.B</code>
+            <div
+              style={{
+                fontSize: 11,
+                color: "#64748b",
+                marginTop: 8,
+                padding: "0 8px",
+              }}
+            >
+              Ref:{" "}
+              <code
+                style={{
+                  fontSize: 10,
+                  background: "rgba(100,116,139,0.15)",
+                  padding: "1px 4px",
+                  borderRadius: 3,
+                }}
+              >
+                PF_SECURITY_REFERENCE.md §1.6.B
+              </code>
             </div>
           </div>
         )}
-      </div>
-
-      {/* ────── Emergency Kill Switch ────── */}
-      <div style={S.card}>
-        <div style={S.sectionTitle}>
-          <span>🚨</span> Emergency Kill Switch
-        </div>
-        <div style={{ fontSize: 13, color: "var(--pf-text-muted, #94a3b8)", marginBottom: 12 }}>
-          Desliga TODOS os serviços imediatamente. Requer PIN + assinatura Ed25519.
-        </div>
-        <PanicButton />
       </div>
 
       {/* ────── About ────── */}
@@ -684,11 +822,10 @@ export function PFDefendPanel() {
               Como funciona o Panda Defend
             </div>
             <div style={{ color: "var(--pf-text-muted, #94a3b8)" }}>
-              O Panda Defend monitora todos os módulos e tentáculos
-              instalados no seu ambiente. Cada extensão recebe um{" "}
-              <strong>Score de Segurança</strong> (0-100) baseado em
-              análise estática, permissões declaradas, e comportamento em
-              sandbox.
+              O Panda Defend monitora todos os módulos e tentáculos instalados
+              no seu ambiente. Cada extensão recebe um{" "}
+              <strong>Score de Segurança</strong> (0-100) baseado em análise
+              estática, permissões declaradas, e comportamento em sandbox.
               <br />
               <br />
               <strong>Score ≥ 70:</strong> Aprovado automaticamente.
@@ -698,8 +835,8 @@ export function PFDefendPanel() {
               <strong>Score {"<"} 50:</strong> Suspenso automaticamente.
               <br />
               <br />
-              Extensões suspeitas são bloqueadas em tempo real. Você
-              sempre tem controle total para desinstalar qualquer módulo.
+              Extensões suspeitas são bloqueadas em tempo real. Você sempre tem
+              controle total para desinstalar qualquer módulo.
             </div>
           </div>
         </div>
