@@ -211,3 +211,29 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .panic-modal-overlay { background: rgba(0,0,0,0.5); }
+body.light-mode .panic-modal {
+  background: #ffffff;
+  border-color: #ef4444;
+}
+body.light-mode .panic-modal-body { color: #1a1a2e; }
+body.light-mode .panic-list li { color: #6a6a7a; }
+body.light-mode .panic-note { color: #8a8a9a; }
+body.light-mode .panic-pin-input {
+  background: #f5f5f7;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .panic-modal-footer {
+  background: #f5f5f7;
+  border-top-color: #e0e0e5;
+}
+body.light-mode .panic-cancel,
+body.light-mode .panic-close {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+

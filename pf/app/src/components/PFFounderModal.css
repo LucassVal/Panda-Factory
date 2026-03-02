@@ -85,3 +85,21 @@
     right: 12px;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .founder-modal-overlay { background: rgba(0,0,0,0.4); }
+body.light-mode .founder-modal {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2);
+}
+body.light-mode .founder-modal-close {
+  background: #f5f5f7;
+  border-color: #e0e0e5;
+  color: #6a6a7a;
+}
+body.light-mode .founder-modal-close:hover {
+  background: #e0e0e5;
+  color: #1a1a2e;
+}
+

@@ -265,3 +265,23 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .buypc-overlay { background: rgba(0,0,0,0.4); }
+body.light-mode .buypc-panel {
+  background: linear-gradient(145deg, #ffffff, #f5f5f7);
+  border-color: #e0e0e5;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+}
+body.light-mode .buypc-subtitle { color: #6a6a7a; }
+body.light-mode .buypc-close { background: rgba(0,0,0,0.05); color: #6a6a7a; }
+body.light-mode .buypc-close:hover { background: rgba(0,0,0,0.1); color: #1a1a2e; }
+body.light-mode .buypc-balance { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .buypc-balance-label { color: #6a6a7a; }
+body.light-mode .buypc-card { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .buypc-card-label { color: #1a1a2e; }
+body.light-mode .buypc-card-price { color: #6a6a7a; }
+body.light-mode .buypc-card-pc small { color: #6a6a7a; }
+body.light-mode .buypc-methods { border-top-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .buypc-footer { color: #8a8a9a; }
+

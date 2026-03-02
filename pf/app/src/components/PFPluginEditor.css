@@ -313,3 +313,47 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .manifest-editor-overlay { background: rgba(0,0,0,0.4); }
+body.light-mode .manifest-editor {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f7 100%);
+  border-color: #e0e0e5;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+body.light-mode .editor-header { border-bottom-color: #e0e0e5; }
+body.light-mode .editor-header h2 { color: #1a1a2e; }
+body.light-mode .toggle-view { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .btn-close { color: #6a6a7a; }
+body.light-mode .json-editor textarea {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .form-section { border-bottom-color: #e0e0e5; }
+body.light-mode .form-section h3 { color: #1a1a2e; }
+body.light-mode .section-desc { color: #8a8a9a; }
+body.light-mode .form-row label { color: #6a6a7a; }
+body.light-mode .form-row input[type="text"],
+body.light-mode .form-row input[type="url"],
+body.light-mode .form-row input[type="number"],
+body.light-mode .form-row textarea,
+body.light-mode .form-row select {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .form-row .hint { color: #8a8a9a; }
+body.light-mode .form-row .char-count { color: #8a8a9a; }
+body.light-mode .permission-item { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .permission-item:hover { background: #ffffff; }
+body.light-mode .perm-name { color: #1a1a2e; }
+body.light-mode .validation-messages { background: #f5f5f7; }
+body.light-mode .editor-footer {
+  background: #f5f5f7;
+  border-top-color: #e0e0e5;
+}
+body.light-mode .btn-reset { color: #6a6a7a; }
+body.light-mode .btn-reset:hover { color: #1a1a2e; }
+body.light-mode .btn-cancel { background: #ffffff; border-color: #e0e0e5; color: #6a6a7a; }
+

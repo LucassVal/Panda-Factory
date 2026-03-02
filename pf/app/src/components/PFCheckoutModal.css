@@ -357,3 +357,34 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+/* ══ Light Mode ══ */
+body.light-mode .checkout-overlay { background: rgba(0,0,0,0.4); }
+body.light-mode .checkout-modal {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f7 100%);
+  border-color: #e0e0e5;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+body.light-mode .checkout-header { border-bottom-color: #e0e0e5; }
+body.light-mode .checkout-header h2 { color: #1a1a2e; }
+body.light-mode .checkout-close { color: #6a6a7a; }
+body.light-mode .checkout-close:hover { color: #1a1a2e; }
+body.light-mode .checkout-product { background: #fafafa; border-bottom-color: #e0e0e5; }
+body.light-mode .product-name { color: #1a1a2e; }
+body.light-mode .product-desc { color: #6a6a7a; }
+body.light-mode .product-author { color: #8a8a9a; }
+body.light-mode .checkout-pricing { border-bottom-color: #e0e0e5; }
+body.light-mode .price-currency { color: #6a6a7a; }
+body.light-mode .price-label { color: #8a8a9a; }
+body.light-mode .price-equivalent { color: #6a6a7a; }
+body.light-mode .checkout-methods h4 { color: #6a6a7a; }
+body.light-mode .method-option { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .method-option:hover { background: #ffffff; }
+body.light-mode .method-name { color: #1a1a2e; }
+body.light-mode .method-value { color: #6a6a7a; }
+body.light-mode .checkout-balance { background: #fafafa; color: #6a6a7a; }
+body.light-mode .btn-cancel { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .checkout-footer { background: #f5f5f7; border-top-color: #e0e0e5; }
+body.light-mode .checkout-footer span { color: #8a8a9a; }
+body.light-mode .product-meta { color: rgba(0,0,0,0.4); }
+
+

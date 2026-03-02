@@ -900,3 +900,59 @@
     gap: 10px;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .bundle-overlay { background: rgba(0,0,0,0.4); }
+body.light-mode .bundle-creator {
+  background: linear-gradient(145deg, #f0f0f5 0%, #ffffff 50%, #f5f5f7 100%);
+  border-color: #e0e0e5;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+}
+body.light-mode .bundle-loading { color: #6a6a7a; }
+body.light-mode .bundle-header {
+  background: rgba(139,92,246,0.04);
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .bundle-header h2 { color: #1a1a2e; }
+body.light-mode .step-dot { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .bundle-section h3 { color: #1a1a2e; }
+body.light-mode .section-hint { color: #6a6a7a; }
+body.light-mode .form-group label { color: #6a6a7a; }
+body.light-mode .form-group input,
+body.light-mode .form-group textarea {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .module-search {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .category-pill { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .module-card { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .module-card:hover { background: #fafafa; }
+body.light-mode .module-name { color: #1a1a2e; }
+body.light-mode .module-namespace { color: #8a8a9a; }
+body.light-mode .split-overview { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .split-total-label { color: #6a6a7a; }
+body.light-mode .split-total-value { color: #1a1a2e; }
+body.light-mode .split-row { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .split-dev-name { color: #1a1a2e; }
+body.light-mode .split-module-name { color: #8a8a9a; }
+body.light-mode .split-amount { color: #1a1a2e; }
+body.light-mode .split-empty { color: #8a8a9a; }
+body.light-mode .platform-btn { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .platform-btn:hover { background: #ffffff; }
+body.light-mode .publish-summary { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .publish-summary h4 { color: #1a1a2e; }
+body.light-mode .summary-label { color: #6a6a7a; }
+body.light-mode .summary-value { color: #1a1a2e; }
+body.light-mode .manifest-preview { background: #f0f0f3; border-color: #e0e0e5; }
+body.light-mode .manifest-preview pre { color: #7c3aed; }
+body.light-mode .step-nav { border-top-color: #e0e0e5; }
+body.light-mode .btn-back { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .btn-close { color: #6a6a7a; }
+body.light-mode .btn-close:hover { background: rgba(0,0,0,0.05); color: #1a1a2e; }
+body.light-mode .bundle-content::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.15); }
+
