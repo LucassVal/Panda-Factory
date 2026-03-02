@@ -540,3 +540,75 @@
   font-size: 12px;
   color: #64748b;
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .founder-popout {
+  background: linear-gradient(135deg, #f0f2f5 0%, #e8e6f0 50%, #f0f2f5 100%);
+  color: #1a1a2e;
+}
+body.light-mode .popout-header {
+  background: rgba(255, 255, 255, 0.8);
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .popout-tabs {
+  background: rgba(255, 255, 255, 0.5);
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .tab-btn { color: #6a6a7a; }
+body.light-mode .tab-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a1a2e;
+}
+body.light-mode .tab-btn.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+body.light-mode .loading { color: #6a6a7a; }
+body.light-mode .metric-card {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .metric-card:hover { background: #fafafa; }
+body.light-mode .metric-label { color: #6a6a7a; }
+body.light-mode .treasury-item {
+  background: #f5f5f7;
+}
+body.light-mode .item-percent {
+  color: #6a6a7a;
+  background: rgba(0, 0, 0, 0.06);
+}
+body.light-mode .runway-label { color: #6a6a7a; }
+body.light-mode .stat-item {
+  background: #f5f5f7;
+}
+body.light-mode .stat-item .stat-label { color: #6a6a7a; }
+body.light-mode .seller-item {
+  background: #f5f5f7;
+}
+body.light-mode .seller-item .sales { color: #6a6a7a; }
+body.light-mode .top-sellers h3 { color: #6a6a7a; }
+body.light-mode .feed-item {
+  background: #f5f5f7;
+}
+body.light-mode .feed-time { color: #8a8a9a; }
+body.light-mode .defend-stat {
+  background: #f5f5f7;
+}
+body.light-mode .defend-stat .stat-label { color: #6a6a7a; }
+body.light-mode .control-btn.secondary {
+  background: rgba(0, 0, 0, 0.04);
+  color: #1a1a2e;
+  border-color: #e0e0e5;
+}
+body.light-mode .pat-override {
+  background: #f5f5f7;
+  border-color: #e0e0e5;
+}
+body.light-mode .pat-override p { color: #6a6a7a; }
+body.light-mode .popout-footer {
+  background: rgba(255, 255, 255, 0.8);
+  border-top-color: #e0e0e5;
+  color: #8a8a9a;
+}
+

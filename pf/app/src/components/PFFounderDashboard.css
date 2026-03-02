@@ -327,3 +327,77 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .founder-dashboard {
+  background: #f5f5f7;
+  color: #1a1a2e;
+}
+body.light-mode .founder-header {
+  background: #ffffff;
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .status-summary {
+  background: #fafafa;
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .status-pill {
+  background: #f0f0f3;
+  color: #1a1a2e;
+}
+body.light-mode .pill-value {
+  color: #6a6a7a;
+}
+body.light-mode .founder-tabs {
+  background: #fafafa;
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .founder-tab {
+  color: #6a6a7a;
+}
+body.light-mode .founder-tab:hover {
+  color: #1a1a2e;
+}
+body.light-mode .metric-card {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .metric-card h4 {
+  color: #6a6a7a;
+}
+body.light-mode .metric-value {
+  color: #1a1a2e;
+}
+body.light-mode .metric-label {
+  color: #6a6a7a;
+}
+body.light-mode .services-summary {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .service-row {
+  background: #f5f5f7;
+}
+body.light-mode .service-status {
+  color: #6a6a7a;
+}
+body.light-mode .service-latency {
+  color: #8a8a9a;
+}
+body.light-mode .stat-card {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .stat-label {
+  color: #6a6a7a;
+}
+body.light-mode .services-table th {
+  color: #6a6a7a;
+}
+body.light-mode .services-table td {
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .logs-placeholder {
+  background: #f5f5f7;
+  color: #6a6a7a;
+}

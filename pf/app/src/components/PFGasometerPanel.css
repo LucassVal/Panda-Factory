@@ -452,3 +452,84 @@
 @keyframes gasometerSpin {
   to { transform: rotate(360deg); }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .gasometer-panel {
+  background: linear-gradient(160deg, rgba(245, 245, 247, 0.98), rgba(240, 242, 245, 0.99));
+  border-color: #e0e0e5;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.15), 0 0 40px rgba(59, 130, 246, 0.05);
+}
+body.light-mode .gasometer-header {
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .gasometer-title h3 { color: #1a1a2e; }
+body.light-mode .gasometer-badge {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+body.light-mode .gasometer-refresh,
+body.light-mode .gasometer-close {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: #e0e0e5;
+  color: #6a6a7a;
+}
+body.light-mode .gasometer-refresh:hover,
+body.light-mode .gasometer-close:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+body.light-mode .gasometer-tabs {
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .gasometer-tab { color: #8a8a9a; }
+body.light-mode .gasometer-tab:hover { color: #6a6a7a; }
+body.light-mode .gasometer-tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
+body.light-mode .gasometer-gauge-card {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .gasometer-gauge-label { color: #6a6a7a; }
+body.light-mode .gasometer-gauge-bar { background: #e0e0e5; }
+body.light-mode .gasometer-gauge-stats { color: #8a8a9a; }
+body.light-mode .gasometer-gauge-pct { color: #1a1a2e; }
+body.light-mode .gasometer-stat-card {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .gasometer-stat-value { color: #1a1a2e; }
+body.light-mode .gasometer-stat-label { color: #6a6a7a; }
+body.light-mode .gasometer-top-ops h4 { color: #6a6a7a; }
+body.light-mode .gasometer-op-row {
+  background: #f5f5f7;
+}
+body.light-mode .gasometer-op-name { color: #1a1a2e; }
+body.light-mode .gasometer-op-count { color: #6a6a7a; }
+body.light-mode .gasometer-op-bar { background: #e0e0e5; }
+body.light-mode .gasometer-history-header { color: #6a6a7a; }
+body.light-mode .gasometer-history-count { color: #8a8a9a; }
+body.light-mode .gasometer-history-row:hover { background: rgba(0, 0, 0, 0.03); }
+body.light-mode .gasometer-history-op { color: #1a1a2e; }
+body.light-mode .gasometer-history-time { color: #8a8a9a; }
+body.light-mode .gasometer-ai-header { color: #1a1a2e; }
+body.light-mode .gasometer-ai-tip {
+  background: #f5f5f7;
+  border-color: rgba(139, 92, 246, 0.15);
+}
+body.light-mode .gasometer-ai-tip:hover {
+  background: rgba(139, 92, 246, 0.06);
+}
+body.light-mode .gasometer-ai-tip-text { color: #1a1a2e; }
+body.light-mode .gasometer-ai-footer {
+  background: rgba(59, 130, 246, 0.05);
+}
+body.light-mode .gasometer-ai-footer p { color: #6a6a7a; }
+body.light-mode .gasometer-loading { color: #6a6a7a; }
+body.light-mode .gasometer-spinner {
+  border-color: rgba(59, 130, 246, 0.2);
+  border-top-color: #3b82f6;
+}
+body.light-mode .gasometer-content::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.2);
+}
+

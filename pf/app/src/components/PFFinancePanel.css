@@ -229,3 +229,34 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .finance-panel section {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+body.light-mode .finance-panel h3 { color: #1a1a2e; }
+body.light-mode .treasury-card {
+  background: #f5f5f7;
+}
+body.light-mode .treasury-title { color: #6a6a7a; }
+body.light-mode .treasury-value { color: #1a1a2e; }
+body.light-mode .treasury-change.neutral { color: #8a8a9a; }
+body.light-mode .period-btn {
+  background: #f5f5f7;
+  border-color: #e0e0e5;
+  color: #6a6a7a;
+}
+body.light-mode .period-btn:hover { color: #1a1a2e; }
+body.light-mode .revenue-label { color: #1a1a2e; }
+body.light-mode .revenue-amount { color: #6a6a7a; }
+body.light-mode .revenue-track { background: #e0e0e5; }
+body.light-mode .transactions-table td {
+  border-bottom-color: #e0e0e5;
+}
+body.light-mode .transactions-table th { color: #6a6a7a; }
+body.light-mode .no-data { color: #8a8a9a; }
+body.light-mode .share-item {
+  background: #f5f5f7;
+}
+body.light-mode .share-label { color: #6a6a7a; }

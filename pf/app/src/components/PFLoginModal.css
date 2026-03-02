@@ -255,3 +255,53 @@
     font-size: 18px;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .login-modal-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+body.light-mode .login-modal {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+}
+body.light-mode .login-close {
+  background: #f5f5f7;
+  color: #6a6a7a;
+}
+body.light-mode .login-close:hover {
+  background: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .login-header h2 { color: #1a1a2e; }
+body.light-mode .login-subtitle { color: #6a6a7a; }
+body.light-mode .login-option {
+  background: #f5f5f7;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .login-option:hover {
+  background: #ffffff;
+}
+body.light-mode .login-divider::before,
+body.light-mode .login-divider::after {
+  background: #e0e0e5;
+}
+body.light-mode .login-divider span { color: #8a8a9a; }
+body.light-mode .login-test-accounts {
+  background: #f5f5f7;
+  color: #6a6a7a;
+}
+body.light-mode .login-test-accounts code {
+  background: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .login-back { color: #6a6a7a; }
+body.light-mode .login-back:hover { color: #1a1a2e; }
+body.light-mode .login-field label { color: #6a6a7a; }
+body.light-mode .login-field input {
+  background: #ffffff;
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+body.light-mode .login-field input::placeholder { color: #8a8a9a; }
