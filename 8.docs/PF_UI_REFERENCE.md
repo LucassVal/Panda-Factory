@@ -1,8 +1,8 @@
 ---
 tool_context: panda/ui
 description: UI Layout System - Panda Fabrics, CSS Variables, Components
-version: 3.4.0
-updated: 2026-02-24
+version: 3.5.0
+updated: 2026-03-02
 ssot: CONTEXT.md §5 (Sistema Montesquieu)
 cross_ref:
   [
@@ -15,7 +15,7 @@ cross_ref:
 
 # 📐 PF_UI_REFERENCE - Panda Fabrics UI Layout System
 
-> **Versão:** 3.4.0 | **Atualizado:** 2026-02-24
+> **Versão:** 3.5.0 | **Atualizado:** 2026-03-02
 > **Referência:** `pf/app/src/styles/pf.css` (~2560 linhas)
 > **Cross-Ref:** [PF_MASTER_ARCHITECTURE.md §3](PF_MASTER_ARCHITECTURE.md#3-camada-frontend)
 
@@ -705,6 +705,54 @@ const isLight = document.body.classList.contains("light-mode");
 | API tester       | `body.light-mode .api-section`               |
 | Publish section  | `body.light-mode .publish-section`           |
 | Footer           | `body.light-mode .devmode-footer`            |
+
+### 9.2 Full Light Mode Coverage (v3.5.0)
+
+> **Atualizado 2026-03-02 (LP01-LP03):** 24 CSS files com `body.light-mode` overrides.
+> **Design tokens:** `#f5f5f7` bg · `#ffffff` cards · `#1a1a2e` text · `#6a6a7a` muted · `#e0e0e5` borders
+
+#### Core Components (LP01)
+
+| Arquivo CSS           | Componente                      | Overrides   |
+| --------------------- | ------------------------------- | ----------- |
+| `pf.css`              | StatusBar, Dock, Footer, Canvas | ~80 linhas  |
+| `PFChat.css`          | Chat FAB + Panel                | ~25 linhas  |
+| `PFSettings.css`      | Settings Modal                  | ~30 linhas  |
+| `PFStore.css`         | Panda Store                     | ~25 linhas  |
+| `PFCatalog.css`       | Catálogo produtos               | ~20 linhas  |
+| `PFDevModePanel.css`  | Dev Mode painel                 | ~130 linhas |
+| `PFFlexLayout.css`    | FlexLayout tabs                 | ~15 linhas  |
+| `PFRightToolbar.css`  | Drawing toolbar                 | ~15 linhas  |
+| `PFNotifications.css` | Notifications panel             | ~15 linhas  |
+| `PFWelcomeWizard.css` | Welcome wizard                  | ~15 linhas  |
+
+#### Secondary Components (LP02)
+
+| Arquivo CSS           | Componente           | Overrides  |
+| --------------------- | -------------------- | ---------- |
+| `PFBundleCreator.css` | Bundle creator modal | ~40 linhas |
+| `PFBuyPC.css`         | Buy PC modal         | ~25 linhas |
+| `PFCheckoutModal.css` | Checkout flow        | ~30 linhas |
+| `PFPluginEditor.css`  | Plugin editor        | ~25 linhas |
+| `PFPanicButton.css`   | Panic button modal   | ~20 linhas |
+| `PFFounderModal.css`  | Founder modal        | ~10 linhas |
+
+#### Modules (LP03)
+
+| Arquivo CSS         | Módulo                              | Overrides  |
+| ------------------- | ----------------------------------- | ---------- |
+| `PFAgenda.css`      | Agenda/Calendar                     | ~34 linhas |
+| `PandaCRM.css`      | CRM Kanban/Table                    | ~32 linhas |
+| `PFCRMTentacle.css` | CRM Tentacle pipeline               | ~39 linhas |
+| `PFEstoque.css`     | Inventory management                | ~25 linhas |
+| `FounderHub.css`    | Founder Hub (materials, affiliates) | ~40 linhas |
+| `PFInstagram.css`   | Instagram DM integration            | ~31 linhas |
+| `PandaLanding.css`  | Landing page builder                | ~39 linhas |
+| `PFWhatsApp.css`    | WhatsApp integration                | ~33 linhas |
+
+> [!NOTE]
+> `PFCardapioPDV.css` é stub (2 linhas) — não necessita overrides.
+> Padrão: todos usam prefixo `body.light-mode .classe` no final do arquivo.
 
 ---
 
