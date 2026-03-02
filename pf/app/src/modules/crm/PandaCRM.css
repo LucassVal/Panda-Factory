@@ -443,3 +443,35 @@
   cursor: default;
   opacity: 0.8;
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .panda-crm { background: #f5f5f7; color: #1a1a2e; }
+body.light-mode .crm-header { background: linear-gradient(135deg, #ffffff, #fafafa); border-bottom-color: #e0e0e5; }
+body.light-mode .crm-stat { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .crm-search { background: #ffffff; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .crm-view-toggle { background: #f5f5f7; }
+body.light-mode .crm-view-btn { color: #6a6a7a; }
+body.light-mode .crm-view-btn.active { background: rgba(56,189,248,0.1); color: #0ea5e9; }
+body.light-mode .crm-close-btn { background: #f5f5f7; color: #6a6a7a; }
+body.light-mode .crm-kanban-column { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .crm-kanban-count { background: #f5f5f7; }
+body.light-mode .crm-kanban-card { background: #fafafa; border-color: #e0e0e5; }
+body.light-mode .crm-kanban-card:hover { border-color: rgba(56,189,248,0.3); background: #ffffff; }
+body.light-mode .crm-card-name { color: #1a1a2e; }
+body.light-mode .crm-card-company { color: #6a6a7a; }
+body.light-mode .crm-card-stage-select { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .crm-kanban-empty { color: #8a8a9a; }
+body.light-mode .crm-kanban-total { border-top-color: #e0e0e5; }
+body.light-mode .crm-table th { background: #fafafa; border-bottom-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .crm-table td { border-bottom-color: #f0f0f3; }
+body.light-mode .crm-table tr:hover td { background: #fafafa; }
+body.light-mode .crm-cell-name { color: #1a1a2e; }
+body.light-mode .crm-cell-stage { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .crm-form { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .crm-form h3 { color: #1a1a2e; }
+body.light-mode .crm-form-group label { color: #6a6a7a; }
+body.light-mode .crm-form-group input,
+body.light-mode .crm-form-group select,
+body.light-mode .crm-form-group textarea { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .crm-btn-cancel { border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .crm-loading { color: #6a6a7a; }

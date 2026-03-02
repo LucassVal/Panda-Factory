@@ -548,3 +548,43 @@
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .founder-hub { background: #f5f5f7; color: #1a1a2e; }
+body.light-mode .fh-header { background: linear-gradient(135deg, #ffffff, #fafafa); border-bottom-color: #e0e0e5; }
+body.light-mode .fh-close { border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .fh-close:hover { background: #f5f5f7; color: #ef4444; }
+body.light-mode .fh-tabs { background: #ffffff; border-bottom-color: #e0e0e5; }
+body.light-mode .fh-tab { color: #6a6a7a; }
+body.light-mode .fh-tab:hover { color: #1a1a2e; background: #fafafa; }
+body.light-mode .fh-tab.active { color: #f0c27f; border-bottom-color: #f0c27f; }
+body.light-mode .fh-loading { color: #6a6a7a; }
+body.light-mode .fh-breadcrumb-item { color: #3b82f6; }
+body.light-mode .fh-breadcrumb-item:hover { background: rgba(59,130,246,0.08); }
+body.light-mode .fh-breadcrumb-sep { color: #c0c0c8; }
+body.light-mode .fh-file-card { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .fh-file-card:hover { border-color: #c0c0c8; background: #fafafa; }
+body.light-mode .fh-file-name { color: #1a1a2e; }
+body.light-mode .fh-file-size { color: #8a8a9a; }
+body.light-mode .fh-btn-sm { border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .fh-btn-sm:hover { background: #f5f5f7; border-color: #3b82f6; }
+body.light-mode .fh-empty { color: #8a8a9a; }
+body.light-mode .fh-btn { background: #ffffff; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .fh-btn:hover { background: #f5f5f7; }
+body.light-mode .fh-utm-builder { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .fh-utm-builder h3 { color: #1a1a2e; }
+body.light-mode .fh-utm-fields label { color: #6a6a7a; }
+body.light-mode .fh-utm-fields input { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .fh-product-card { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .fh-product-info h4 { color: #1a1a2e; }
+body.light-mode .fh-product-info p { color: #6a6a7a; }
+body.light-mode .fh-quick-card { background: #ffffff; color: #1a1a2e; }
+body.light-mode .fh-quick-card:hover { background: #fafafa; }
+body.light-mode .fh-stat-card { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .fh-stat-label { color: #6a6a7a; }
+body.light-mode .fh-table-wrap { border-color: #e0e0e5; }
+body.light-mode .fh-table th { background: #fafafa; border-bottom-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .fh-table td { border-bottom-color: #f0f0f3; }
+body.light-mode .fh-table tr:hover td { background: #fafafa; }
+body.light-mode .fh-code { color: #3b82f6; }
+body.light-mode .fh-empty-cell { color: #8a8a9a; }

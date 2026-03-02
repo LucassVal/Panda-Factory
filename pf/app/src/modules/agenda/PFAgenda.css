@@ -110,3 +110,37 @@
 .pf-agenda-cancel-btn { background: rgba(30,30,50,0.5); border: 1px solid rgba(99,102,241,0.1); color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; }
 .pf-agenda-save-btn { background: linear-gradient(135deg, #6366f1, #a855f7); border: none; color: #fff; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
 .pf-agenda-delete-btn { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-right: auto; }
+
+/* ══ Light Mode ══ */
+body.light-mode .pf-agenda { background: linear-gradient(145deg, #f5f5f7, #ffffff, #f5f5f7); color: #1a1a2e; }
+body.light-mode .pf-agenda-header { background: rgba(255,255,255,0.8); border-bottom-color: #e0e0e5; }
+body.light-mode .pf-agenda-close { color: #6a6a7a; }
+body.light-mode .pf-agenda-nav button { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .pf-agenda-nav button:hover { background: #ffffff; color: #1a1a2e; }
+body.light-mode .pf-agenda-period { color: #1a1a2e; }
+body.light-mode .pf-agenda-view-toggle button { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .pf-agenda-view-toggle button.active { background: rgba(99,102,241,0.1); color: #6366f1; border-color: rgba(99,102,241,0.3); }
+body.light-mode .pf-agenda-loading { color: #6a6a7a; }
+body.light-mode .pf-agenda-day-col { background: #ffffff; border-color: #e0e0e5; }
+body.light-mode .pf-agenda-day-col.today { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.04); }
+body.light-mode .pf-agenda-day-header { border-bottom-color: #e0e0e5; }
+body.light-mode .pf-agenda-day-name { color: #6a6a7a; }
+body.light-mode .pf-agenda-day-num { color: #1a1a2e; }
+body.light-mode .pf-agenda-event-card { background: rgba(99,102,241,0.06); }
+body.light-mode .pf-agenda-event-card:hover { background: rgba(99,102,241,0.12); }
+body.light-mode .pf-agenda-event-title { color: #1a1a2e; }
+body.light-mode .pf-agenda-event-client { color: #6a6a7a; }
+body.light-mode .pf-agenda-list-item { border-bottom-color: #e0e0e5; }
+body.light-mode .pf-agenda-list-item:hover { background: rgba(99,102,241,0.04); }
+body.light-mode .pf-agenda-list-title { color: #1a1a2e; }
+body.light-mode .pf-agenda-list-meta { color: #6a6a7a; }
+body.light-mode .pf-agenda-empty { color: #8a8a9a; }
+body.light-mode .pf-agenda-overlay { background: rgba(0,0,0,0.4); }
+body.light-mode .pf-agenda-modal { background: #ffffff; border-color: #e0e0e5; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+body.light-mode .pf-agenda-modal-header { border-bottom-color: #e0e0e5; }
+body.light-mode .pf-agenda-modal-header h3 { color: #1a1a2e; }
+body.light-mode .pf-agenda-modal-close { color: #6a6a7a; }
+body.light-mode .pf-agenda-form label { color: #6a6a7a; }
+body.light-mode .pf-agenda-form input, body.light-mode .pf-agenda-form textarea, body.light-mode .pf-agenda-form select { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .pf-agenda-modal-actions { border-top-color: #e0e0e5; }
+body.light-mode .pf-agenda-cancel-btn { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }

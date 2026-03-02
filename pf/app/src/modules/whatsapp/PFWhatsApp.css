@@ -503,3 +503,36 @@
     display: block;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .pf-whatsapp { background: linear-gradient(135deg, #f5f5f7, #ffffff, #fafafa); color: #1a1a2e; }
+body.light-mode .wa-status-bar { background: rgba(255,255,255,0.9); border-bottom-color: #e0e0e5; }
+body.light-mode .wa-status-label { color: #6a6a7a; }
+body.light-mode .wa-msg-count { color: #8a8a9a; }
+body.light-mode .wa-ai-toggle { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .wa-ai-toggle.active { background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.3); color: #6366f1; }
+body.light-mode .wa-close-btn { color: #6a6a7a; }
+body.light-mode .wa-close-btn:hover { background: rgba(239,68,68,0.1); color: #ef4444; }
+body.light-mode .wa-sidebar { background: #ffffff; border-right-color: #e0e0e5; }
+body.light-mode .wa-search-input { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .wa-search-input::placeholder { color: #8a8a9a; }
+body.light-mode .wa-loading, body.light-mode .wa-empty { color: #8a8a9a; }
+body.light-mode .wa-chat-item { border-bottom-color: #f0f0f3; }
+body.light-mode .wa-chat-item:hover { background: rgba(99,102,241,0.04); }
+body.light-mode .wa-chat-item.active { background: rgba(99,102,241,0.08); }
+body.light-mode .wa-chat-name { color: #1a1a2e; }
+body.light-mode .wa-chat-preview { color: #6a6a7a; }
+body.light-mode .wa-chat-time { color: #8a8a9a; }
+body.light-mode .wa-no-chat { color: #8a8a9a; }
+body.light-mode .wa-no-chat h3 { color: #6a6a7a; }
+body.light-mode .wa-chat-header { background: #fafafa; border-bottom-color: #e0e0e5; }
+body.light-mode .wa-chat-header-name { color: #1a1a2e; }
+body.light-mode .wa-chat-header-id { color: #6a6a7a; }
+body.light-mode .wa-message.incoming .wa-message-bubble { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .wa-message.outgoing .wa-message-bubble { background: rgba(99,102,241,0.12); border-color: rgba(99,102,241,0.2); }
+body.light-mode .wa-message-text { color: #1a1a2e; }
+body.light-mode .wa-message-time { color: #8a8a9a; }
+body.light-mode .wa-no-messages { color: #8a8a9a; }
+body.light-mode .wa-input-bar { background: #ffffff; border-top-color: #e0e0e5; }
+body.light-mode .wa-input { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .wa-input::placeholder { color: #8a8a9a; }

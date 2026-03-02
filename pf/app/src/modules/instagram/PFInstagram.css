@@ -505,3 +505,34 @@
     display: block;
   }
 }
+
+/* ══ Light Mode ══ */
+body.light-mode .pf-instagram { background: linear-gradient(135deg, #f5f5f7, #ffffff, #fafafa); color: #1a1a2e; }
+body.light-mode .ig-status-bar { background: rgba(255,255,255,0.9); border-bottom-color: #e0e0e5; }
+body.light-mode .ig-status-label { color: #9333ea; }
+body.light-mode .ig-ai-toggle { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+body.light-mode .ig-ai-toggle.active { background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.3); color: #9333ea; }
+body.light-mode .ig-close-btn { color: #6a6a7a; }
+body.light-mode .ig-close-btn:hover { background: rgba(239,68,68,0.1); color: #ef4444; }
+body.light-mode .ig-sidebar { background: #ffffff; border-right-color: #e0e0e5; }
+body.light-mode .ig-search-input { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .ig-search-input::placeholder { color: #8a8a9a; }
+body.light-mode .ig-loading, body.light-mode .ig-empty { color: #8a8a9a; }
+body.light-mode .ig-chat-item { border-bottom-color: #f0f0f3; }
+body.light-mode .ig-chat-item:hover { background: rgba(168,85,247,0.04); }
+body.light-mode .ig-chat-item.active { background: rgba(168,85,247,0.08); }
+body.light-mode .ig-chat-name { color: #1a1a2e; }
+body.light-mode .ig-chat-preview { color: #6a6a7a; }
+body.light-mode .ig-chat-time { color: #8a8a9a; }
+body.light-mode .ig-no-chat { color: #8a8a9a; }
+body.light-mode .ig-no-chat h3 { color: #9333ea; }
+body.light-mode .ig-chat-header { background: #fafafa; border-bottom-color: #e0e0e5; }
+body.light-mode .ig-chat-header-name { color: #1a1a2e; }
+body.light-mode .ig-message.incoming .ig-message-bubble { background: #f5f5f7; border-color: #e0e0e5; }
+body.light-mode .ig-message.outgoing .ig-message-bubble { background: rgba(168,85,247,0.12); border-color: rgba(168,85,247,0.2); }
+body.light-mode .ig-message-text { color: #1a1a2e; }
+body.light-mode .ig-message-time { color: #8a8a9a; }
+body.light-mode .ig-no-messages { color: #8a8a9a; }
+body.light-mode .ig-input-bar { background: #ffffff; border-top-color: #e0e0e5; }
+body.light-mode .ig-input { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
+body.light-mode .ig-input::placeholder { color: #8a8a9a; }
