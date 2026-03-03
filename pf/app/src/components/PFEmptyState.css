@@ -1,0 +1,154 @@
+/* ═══════════════════════════════════════════════════════════
+   PFEmptyState.css — Reusable Empty State Component
+   LP06 — Standardized empty states
+   ═══════════════════════════════════════════════════════════ */
+
+.pf-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  animation: pfEmptyFadeIn 0.3s ease-out;
+}
+
+.pf-empty-state--sm {
+  padding: 16px 12px;
+}
+
+.pf-empty-state--md {
+  padding: 32px 20px;
+}
+
+.pf-empty-state--lg {
+  padding: 48px 32px;
+}
+
+/* ── Icon ── */
+.pf-empty-state__icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  opacity: 0.7;
+  filter: grayscale(0.2);
+}
+
+.pf-empty-state--sm .pf-empty-state__icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.pf-empty-state--lg .pf-empty-state__icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+/* ── Title ── */
+.pf-empty-state__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pf-text, #e2e8f0);
+  margin: 0 0 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.pf-empty-state--sm .pf-empty-state__title {
+  font-size: 12px;
+  margin: 0 0 4px;
+}
+
+.pf-empty-state--lg .pf-empty-state__title {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+/* ── Description ── */
+.pf-empty-state__desc {
+  font-size: 13px;
+  color: var(--pf-text-muted, #94a3b8);
+  margin: 0 0 16px;
+  line-height: 1.5;
+  max-width: 360px;
+  opacity: 0.7;
+}
+
+.pf-empty-state--sm .pf-empty-state__desc {
+  font-size: 11px;
+  margin: 0 0 10px;
+  max-width: 260px;
+}
+
+.pf-empty-state--lg .pf-empty-state__desc {
+  font-size: 14px;
+  margin: 0 0 20px;
+  max-width: 440px;
+}
+
+/* ── Action Button ── */
+.pf-empty-state__btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pf-empty-state__btn:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.5);
+  transform: translateY(-1px);
+}
+
+.pf-empty-state--sm .pf-empty-state__btn {
+  padding: 6px 14px;
+  font-size: 11px;
+  border-radius: 6px;
+}
+
+/* ── Animation ── */
+@keyframes pfEmptyFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════ */
+
+body.light-mode .pf-empty-state {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.light-mode .pf-empty-state__title {
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-empty-state__desc {
+  color: #6a6a7a;
+}
+
+body.light-mode .pf-empty-state__btn {
+  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(79, 70, 229, 0.3);
+  color: #4f46e5;
+}
+
+body.light-mode .pf-empty-state__btn:hover {
+  background: rgba(79, 70, 229, 0.15);
+  border-color: rgba(79, 70, 229, 0.5);
+}

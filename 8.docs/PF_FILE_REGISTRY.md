@@ -9,7 +9,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 # 📁 PF_FILE_REGISTRY - Catálogo de Arquivos
 
-> **Versão:** 7.5.0 | **Atualizado:** 2026-03-03 (LP05 inline styles → CSS files)
+> **Versão:** 7.6.0 | **Atualizado:** 2026-03-03 (LP06 PFEmptyState component)
 > **Propósito:** Inventário COMPLETO de todos os arquivos do Panda Factory (auditado via fs scan)
 
 ---
@@ -26,9 +26,9 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `.rs`    | 8   | Rust Agent                 | ⚠️ MOCKS (Phase 2)         |
 | `.md`    | 30  | Documentação + README      | 20 PF\_ + 10 outros        |
 | `.js`    | 79  | Frontend/SDK/Tentacles     | +facebook-messenger+tiktok |
-| `.jsx`   | 37  | React Components           | 35 PF + i18n + useAuth     |
+| `.jsx`   | 38  | React Components           | 36 PF + i18n + useAuth     |
 | `.html`  | 24  | UI/Components/Modules      | +CRM+IG+WA+Agenda+PDV+Est  |
-| `.css`   | 23  | Estilos (+ pf.css 4423 ln) | +PFDefendPanel+MiningPanel |
+| `.css`   | 24  | Estilos (+ pf.css 4423 ln) | +PFEmptyState              |
 | `.json`  | 11  | Config                     |                            |
 | `.py`    | 28  | Scripts/Automação          |                            |
 | imagens  | 24  | Logos, ícones, favicons    |                            |
@@ -409,6 +409,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `PFProductDetail.jsx`    | Detalhes do produto (PDP) na Store                               | 1.0.0 | 2026-02-03 |
 | `PFWelcomeWizard.jsx`    | Wizard de boas-vindas v2 (✕ close, FINISH ✓, ESC/arrows)         | 2.0.0 | 2026-02-15 |
 | `PFLanguageSelector.jsx` | Seletor de idioma (PT/EN/ES)                                     | 1.0.0 | 2026-02-15 |
+| `PFEmptyState.jsx`       | 📦 Empty state reutilizável (icon/title/desc/action, 3 sizes)    | 1.0.0 | 2026-03-03 |
 
 #### Hooks
 
@@ -476,6 +477,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `PFLiveFlowMonitor.css`  | Flow monitor + heartbeat badge styles  | 1.0.0 | 2026-02-21 |
 | `PFDefendPanel.css`      | 🛡️ Defend panel styles + light mode    | 1.0.0 | 2026-03-03 |
 | `PFMiningPanel.css`      | ⛏️ Mining panel styles + light mode    | 1.0.0 | 2026-03-03 |
+| `PFEmptyState.css`       | 📦 Empty state component styles        | 1.0.0 | 2026-03-03 |
 | `PFWelcomeWizard.css`    | Estilos wizard v2 (close+finish btns)  | 2.0.0 | 2026-02-15 |
 
 ---
@@ -728,7 +730,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 ---
 
 > 📖 **Mantido por:** Panda Council (PAT)
-> **Última atualização:** 2026-03-03 v7.5.0
+> **Última atualização:** 2026-03-03 v7.6.0
 
 ---
 
@@ -736,6 +738,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 | Versao | Data       | Alteracoes                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.6.0  | 2026-03-03 | LP06: +`PFEmptyState.jsx` v1.0 (reusable empty state, 3 sizes), +`PFEmptyState.css` v1.0 (light mode). JSX 37→38, CSS 23→24.                                                                                                                                                                                                                                                                                                                  |
 | 7.5.0  | 2026-03-03 | LP05: +`PFDefendPanel.css` v1.0 (inline→CSS + light mode), +`PFMiningPanel.css` v1.0 (inline→CSS + light mode), `PFDefendPanel.jsx` v1.1 (className migration, -57% lines), `PFMiningPanel.jsx` v1.1 (className migration, -56% lines). CSS count 21→23.                                                                                                                                                                                      |
 | 7.4.0  | 2026-03-02 | Sprint E1 docs: `PF_BACKEND_REFERENCE.md` v2.4.0 (+Firebase Auth real, RTDB rules, Wallet, Heartbeat, PWA); `PF_GAS_REFERENCE.md` v1.4.0 (+GAS Web App deploy, webhooks Kiwify/Hotmart, LICENSE_ACTIVATE, wallet.charge); `PF_SDK_REFERENCE.md` [1.0.0] (+useAuth/useFirebase Firebase real, Store+Stripe, Economy PC); `PF_GEMINI_REFERENCE.md` v3.1.0 (+GAS ?mcp=manifest, Founder Live Monitor); `SPRINT_ETAPA1.md` changelogs marcados ✅ |
 | 7.3.0  | 2026-02-25 | Status bar pill mapping fix: `PFStatusBar.jsx` v6.4 (pill IDs now map to health service keys, firebase aggregates auth+rtdb), `useHealthStatus.js` v1.1 (+rust_agent/gpu stubs in jam config)                                                                                                                                                                                                                                                 |
