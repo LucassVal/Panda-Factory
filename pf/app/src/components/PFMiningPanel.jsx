@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./PFMiningPanel.css";
 
 /**
  * ⛏️ PFMiningPanel — User Mining Dashboard
@@ -69,85 +70,31 @@ export function MiningPanel({ embedded = false }) {
   const totalEarned = 0;
   const totalWeekEarned = "0.0";
 
-  // ── Styles ──
-  const panel = {
-    padding: embedded ? "24px" : "32px",
-    maxWidth: "780px",
-    margin: "0 auto",
-    fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    color: "#e0e0e0",
-  };
-
-  const card = {
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    borderRadius: "12px",
-    padding: "16px 20px",
-    marginBottom: "16px",
-  };
-
-  const statBox = {
-    textAlign: "center",
-    padding: "14px",
-    background: "rgba(255,255,255,0.02)",
-    borderRadius: "10px",
-    border: "1px solid rgba(255,255,255,0.06)",
-    flex: 1,
-    minWidth: "130px",
-  };
-
-  const sectionTitle = {
-    fontWeight: 700,
-    fontSize: "14px",
-    marginBottom: "12px",
-    color: "#f59e0b",
-  };
-
   return (
-    <div style={panel}>
+    <div
+      className={`pf-mining-panel${embedded ? " pf-mining-panel--embedded" : ""}`}
+    >
       {/* Header */}
-      <div style={{ marginBottom: "24px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, margin: 0 }}>
-          ⛏️ Meu Mining
-        </h2>
-        <p
-          style={{
-            margin: "6px 0 0",
-            opacity: 0.6,
-            fontSize: "13px",
-            lineHeight: 1.5,
-          }}
-        >
+      <div className="pf-mining-header">
+        <h2 className="pf-mining-title">⛏️ Meu Mining</h2>
+        <p className="pf-mining-subtitle">
           Painel pessoal de mineração — acompanhe seus ganhos em Panda Coins
         </p>
       </div>
 
       {/* ────── ALWAYS-VISIBLE: Standard Disclosure ────── */}
-      <div
-        style={{
-          ...card,
-          background: "rgba(102,126,234,0.06)",
-          border: "1px solid rgba(102,126,234,0.2)",
-        }}
-      >
-        <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-          <span style={{ fontSize: "20px" }}>ℹ️</span>
-          <div style={{ lineHeight: "1.6", fontSize: "13px" }}>
-            <div
-              style={{
-                fontWeight: 700,
-                marginBottom: "4px",
-                color: "#667eea",
-              }}
-            >
+      <div className="pf-mining-card pf-mining-card--disclosure">
+        <div className="pf-mining-disclosure-row">
+          <span className="pf-mining-disclosure-icon">ℹ️</span>
+          <div className="pf-mining-disclosure-body">
+            <div className="pf-mining-disclosure-title">
               Como funciona o Partner Mode
             </div>
-            <div style={{ opacity: 0.7, lineHeight: 1.6 }}>
+            <div className="pf-mining-disclosure-text">
               O Partner Mode utiliza CPU/GPU ociosa do seu computador para
               minerar criptomoeda via Rust Agent. Você recebe{" "}
-              <strong style={{ color: "#10b981" }}>60%</strong> do valor
-              convertido em Panda Coins. Mineração é{" "}
+              <strong className="pf-mining-highlight-green">60%</strong> do
+              valor convertido em Panda Coins. Mineração é{" "}
               <strong>sempre opt-in e desligada por padrão</strong>. Desative a
               qualquer momento.
             </div>
@@ -156,19 +103,13 @@ export function MiningPanel({ embedded = false }) {
       </div>
 
       {/* ────── STATUS + TOGGLE ────── */}
-      <div style={card}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+      <div className="pf-mining-card">
+        <div className="pf-mining-status-row">
           <div>
-            <div style={{ fontWeight: 600, fontSize: "15px" }}>
+            <div className="pf-mining-status-label">
               {miningEnabled ? "⛏️ Minerando" : "⏸️ Mineração Desligada"}
             </div>
-            <div style={{ fontSize: "12px", opacity: 0.5, marginTop: "4px" }}>
+            <div className="pf-mining-status-detail">
               {miningEnabled
                 ? `${gpuEnabled ? "CPU + GPU" : "Apenas CPU"} • ${cpuLimit}% limite`
                 : "Ligue para ganhar PC automaticamente"}
@@ -176,19 +117,7 @@ export function MiningPanel({ embedded = false }) {
           </div>
           <button
             onClick={() => setMiningEnabled(!miningEnabled)}
-            style={{
-              padding: "10px 24px",
-              borderRadius: "8px",
-              border: "none",
-              fontWeight: 700,
-              fontSize: "13px",
-              cursor: "pointer",
-              background: miningEnabled
-                ? "rgba(239,68,68,0.15)"
-                : "rgba(16,185,129,0.15)",
-              color: miningEnabled ? "#ef4444" : "#10b981",
-              transition: "all 0.2s",
-            }}
+            className={`pf-mining-btn-toggle ${miningEnabled ? "pf-mining-btn-toggle--stop" : "pf-mining-btn-toggle--start"}`}
           >
             {miningEnabled ? "⏹ Parar" : "▶ Iniciar Mining"}
           </button>
@@ -197,28 +126,12 @@ export function MiningPanel({ embedded = false }) {
 
       {/* ────── INCENTIVE (when OFF) ────── */}
       {!miningEnabled && (
-        <div
-          style={{
-            ...card,
-            background: "rgba(245,158,11,0.06)",
-            border: "1px solid rgba(245,158,11,0.2)",
-            textAlign: "center",
-            padding: "28px 20px",
-          }}
-        >
-          <div style={{ fontSize: "36px", marginBottom: "10px" }}>⛏️</div>
-          <div style={{ fontWeight: 700, fontSize: "16px", color: "#f59e0b" }}>
+        <div className="pf-mining-card pf-mining-card--incentive">
+          <div className="pf-mining-incentive-icon">⛏️</div>
+          <div className="pf-mining-incentive-title">
             Ganhe Panda Coins Passivamente
           </div>
-          <div
-            style={{
-              fontSize: "13px",
-              opacity: 0.7,
-              lineHeight: 1.6,
-              maxWidth: "420px",
-              margin: "8px auto 0",
-            }}
-          >
+          <div className="pf-mining-incentive-text">
             Ligue o Partner Mode e ganhe Panda Coins automaticamente enquanto
             seu computador está ocioso. Sem custos extras, desative quando
             quiser.
@@ -230,108 +143,49 @@ export function MiningPanel({ embedded = false }) {
       {miningEnabled && (
         <>
           {/* Stats Cards */}
-          <div style={card}>
-            <div style={sectionTitle}>📊 Stats em Tempo Real</div>
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <div style={statBox}>
-                <div
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: 700,
-                    color: "#10b981",
-                  }}
-                >
+          <div className="pf-mining-card">
+            <div className="pf-mining-section-title">
+              📊 Stats em Tempo Real
+            </div>
+            <div className="pf-mining-stats-row">
+              <div className="pf-mining-stat-box">
+                <div className="pf-mining-stat-value pf-mining-stat-value--green">
                   {hardwareProfile}
                 </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    opacity: 0.5,
-                    marginTop: "4px",
-                  }}
-                >
-                  Perfil Hardware
-                </div>
+                <div className="pf-mining-stat-label">Perfil Hardware</div>
               </div>
-              <div style={statBox}>
-                <div
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: 700,
-                    color: "#f59e0b",
-                    fontFamily: "monospace",
-                  }}
-                >
+              <div className="pf-mining-stat-box">
+                <div className="pf-mining-stat-value pf-mining-stat-value--amber pf-mining-stat-value--mono">
                   ~{estimatedHashrate} KH/s
                 </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    opacity: 0.5,
-                    marginTop: "4px",
-                  }}
-                >
-                  Hashrate
-                </div>
+                <div className="pf-mining-stat-label">Hashrate</div>
               </div>
-              <div style={statBox}>
-                <div
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: 700,
-                    color: "#667eea",
-                    fontFamily: "monospace",
-                  }}
-                >
+              <div className="pf-mining-stat-box">
+                <div className="pf-mining-stat-value pf-mining-stat-value--purple pf-mining-stat-value--mono">
                   {formatUptime(sessionUptime)}
                 </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    opacity: 0.5,
-                    marginTop: "4px",
-                  }}
-                >
-                  Uptime Sessão
-                </div>
+                <div className="pf-mining-stat-label">Uptime Sessão</div>
               </div>
-              <div style={statBox}>
-                <div
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: 700,
-                    color: "#f59e0b",
-                  }}
-                >
+              <div className="pf-mining-stat-box">
+                <div className="pf-mining-stat-value pf-mining-stat-value--amber">
                   ~{estimatedPcDay} PC
                 </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    opacity: 0.5,
-                    marginTop: "4px",
-                  }}
-                >
-                  Estimado/Dia
-                </div>
+                <div className="pf-mining-stat-label">Estimado/Dia</div>
               </div>
             </div>
           </div>
 
           {/* Resource Controls */}
-          <div style={card}>
-            <div style={sectionTitle}>⚙️ Controle de Recursos</div>
-            <div style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontSize: "13px",
-                  marginBottom: "6px",
-                }}
-              >
+          <div className="pf-mining-card">
+            <div className="pf-mining-section-title">
+              ⚙️ Controle de Recursos
+            </div>
+            <div className="pf-mining-slider-wrap">
+              <div className="pf-mining-slider-header">
                 <span>Limite CPU</span>
-                <span style={{ fontWeight: 700 }}>{cpuLimit}%</span>
+                <span>
+                  <strong>{cpuLimit}%</strong>
+                </span>
               </div>
               <input
                 type="range"
@@ -340,61 +194,25 @@ export function MiningPanel({ embedded = false }) {
                 step="5"
                 value={cpuLimit}
                 onChange={(e) => setCpuLimit(Number(e.target.value))}
-                style={{
-                  width: "100%",
-                  accentColor: "#f59e0b",
-                  height: "6px",
-                }}
+                className="pf-mining-slider"
               />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontSize: "10px",
-                  opacity: 0.4,
-                  marginTop: "4px",
-                }}
-              >
+              <div className="pf-mining-slider-labels">
                 <span>25% Baixo</span>
                 <span>50% Equilibrado</span>
                 <span>75% Alto</span>
               </div>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: "12px",
-                paddingTop: "12px",
-                borderTop: "1px solid rgba(255,255,255,0.06)",
-              }}
-            >
+            <div className="pf-mining-gpu-row">
               <div>
-                <div style={{ fontWeight: 600, fontSize: "13px" }}>
-                  🖥️ Mineração GPU
-                </div>
-                <div style={{ fontSize: "11px", opacity: 0.5 }}>
+                <div className="pf-mining-gpu-label">🖥️ Mineração GPU</div>
+                <div className="pf-mining-gpu-detail">
                   Ativa GPU para ganhos maiores
                 </div>
               </div>
               <button
                 onClick={() => setGpuEnabled(!gpuEnabled)}
-                style={{
-                  padding: "6px 16px",
-                  borderRadius: "6px",
-                  border: gpuEnabled
-                    ? "1px solid #10b981"
-                    : "1px solid rgba(255,255,255,0.15)",
-                  background: gpuEnabled
-                    ? "rgba(16,185,129,0.15)"
-                    : "transparent",
-                  color: gpuEnabled ? "#10b981" : "#888",
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  cursor: "pointer",
-                }}
+                className={`pf-mining-btn-gpu${gpuEnabled ? " pf-mining-btn-gpu--active" : ""}`}
               >
                 {gpuEnabled ? "✅ Ativa" : "Desligada"}
               </button>
@@ -404,124 +222,63 @@ export function MiningPanel({ embedded = false }) {
       )}
 
       {/* ────── EARNINGS OVERVIEW ────── */}
-      <div style={card}>
-        <div style={sectionTitle}>💰 Resumo de Ganhos</div>
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-          <div style={statBox}>
-            <div
-              style={{ fontSize: "26px", fontWeight: 700, color: "#f59e0b" }}
-            >
+      <div className="pf-mining-card">
+        <div className="pf-mining-section-title">💰 Resumo de Ganhos</div>
+        <div className="pf-mining-stats-row">
+          <div className="pf-mining-stat-box">
+            <div className="pf-mining-stat-value pf-mining-stat-value--large pf-mining-stat-value--amber">
               {totalEarned}
             </div>
-            <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}>
-              PC Total Acumulado
-            </div>
+            <div className="pf-mining-stat-label">PC Total Acumulado</div>
           </div>
-          <div style={statBox}>
-            <div
-              style={{ fontSize: "26px", fontWeight: 700, color: "#10b981" }}
-            >
+          <div className="pf-mining-stat-box">
+            <div className="pf-mining-stat-value pf-mining-stat-value--large pf-mining-stat-value--green">
               {totalWeekEarned}
             </div>
-            <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}>
-              PC Última Semana
-            </div>
+            <div className="pf-mining-stat-label">PC Última Semana</div>
           </div>
-          <div style={statBox}>
-            <div
-              style={{ fontSize: "26px", fontWeight: 700, color: "#667eea" }}
-            >
+          <div className="pf-mining-stat-box">
+            <div className="pf-mining-stat-value pf-mining-stat-value--large pf-mining-stat-value--purple">
               ~{(estimatedPcDay * 30).toFixed(0)}
             </div>
-            <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "4px" }}>
-              Estimativa Mensal
-            </div>
+            <div className="pf-mining-stat-label">Estimativa Mensal</div>
           </div>
         </div>
       </div>
 
       {/* ────── EARNINGS HISTORY ────── */}
-      <div style={card}>
-        <div style={sectionTitle}>📋 Histórico (Últimos 7 Dias)</div>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            fontSize: "13px",
-          }}
-        >
+      <div className="pf-mining-card">
+        <div className="pf-mining-section-title">
+          📋 Histórico (Últimos 7 Dias)
+        </div>
+        <table className="pf-mining-table">
           <thead>
-            <tr
-              style={{
-                borderBottom: "1px solid rgba(255,255,255,0.1)",
-                textAlign: "left",
-              }}
-            >
-              <th
-                style={{
-                  padding: "8px 12px",
-                  fontWeight: 600,
-                  opacity: 0.6,
-                }}
-              >
-                Data
-              </th>
-              <th
-                style={{
-                  padding: "8px 12px",
-                  fontWeight: 600,
-                  opacity: 0.6,
-                }}
-              >
-                PC Ganho
-              </th>
-              <th
-                style={{
-                  padding: "8px 12px",
-                  fontWeight: 600,
-                  opacity: 0.6,
-                }}
-              >
-                Status
-              </th>
+            <tr>
+              <th>Data</th>
+              <th>PC Ganho</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {earningsHistory.length === 0 ? (
               <tr>
-                <td
-                  colSpan="3"
-                  style={{ padding: "16px", textAlign: "center", opacity: 0.4 }}
-                >
+                <td colSpan="3" className="pf-mining-table-empty">
                   Sem histórico — inicie o mining para acumular dados
                 </td>
               </tr>
             ) : (
               earningsHistory.map((row, i) => (
-                <tr
-                  key={i}
-                  style={{
-                    borderBottom: "1px solid rgba(255,255,255,0.04)",
-                  }}
-                >
+                <tr key={i}>
+                  <td className="pf-mining-date-cell">{row.date}</td>
                   <td
                     style={{
-                      padding: "8px 12px",
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    {row.date}
-                  </td>
-                  <td
-                    style={{
-                      padding: "8px 12px",
                       fontWeight: 600,
                       color: row.earned > 0 ? "#10b981" : "#666",
                     }}
                   >
                     {row.earned > 0 ? `+${row.earned} PC` : "—"}
                   </td>
-                  <td style={{ padding: "8px 12px" }}>{row.status}</td>
+                  <td>{row.status}</td>
                 </tr>
               ))
             )}
@@ -530,61 +287,26 @@ export function MiningPanel({ embedded = false }) {
       </div>
 
       {/* ────── REVENUE SPLIT INFO ────── */}
-      <div style={card}>
-        <div style={sectionTitle}>📐 Distribuição de Receita</div>
-        <div
-          style={{
-            display: "flex",
-            height: "24px",
-            borderRadius: "6px",
-            overflow: "hidden",
-            marginBottom: "10px",
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              background: "#10b981",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "10px",
-              fontWeight: 700,
-              color: "#fff",
-            }}
-          >
+      <div className="pf-mining-card">
+        <div className="pf-mining-section-title">
+          📐 Distribuição de Receita
+        </div>
+        <div className="pf-mining-split-bar">
+          <div className="pf-mining-split-segment pf-mining-split-segment--user">
             60% Você
           </div>
-          <div
-            style={{
-              width: "40%",
-              background: "#ef4444",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "10px",
-              fontWeight: 700,
-              color: "#fff",
-            }}
-          >
+          <div className="pf-mining-split-segment pf-mining-split-segment--infra">
             40% Infra
           </div>
         </div>
-        <div style={{ fontSize: "11px", opacity: 0.5, lineHeight: 1.6 }}>
+        <div className="pf-mining-split-note">
           Fator x0.60 flat: 60% convertido em PC para você. Os 40% restantes
           cobrem impostos (BR), infraestrutura, hold reserve e treasury.
         </div>
       </div>
 
       {/* ────── FOOTER ────── */}
-      <div
-        style={{
-          fontSize: "11px",
-          opacity: 0.35,
-          marginTop: "8px",
-          textAlign: "center",
-        }}
-      >
+      <div className="pf-mining-footer">
         ⚠️ Dados simulados — Execução real requer Rust Agent (binário nativo).
         Ciclo de pagamento: End-of-Day (23:59 UTC).
       </div>

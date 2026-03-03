@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { PanicButton } from "./PFPanicButton";
+import "./PFDefendPanel.css";
 
 /**
  * 🛡️ Panda Defend — User Security Panel v1.0
@@ -21,6 +22,7 @@ import { PanicButton } from "./PFPanicButton";
 const INITIAL_MODULES = [];
 const INITIAL_SCORE_DETAILS = {};
 const INITIAL_EVENTS = [];
+const GOLDEN_RULES = [];
 
 // ── Risk helpers ──
 const RISK_COLORS = {
@@ -37,92 +39,6 @@ const STATUS_LABELS = {
   approved: "✅ Aprovado",
   review: "🟡 Em Revisão",
   suspended: "🔴 Suspenso",
-};
-
-// ── Styles ──
-const S = {
-  container: {
-    padding: "24px 32px",
-    maxWidth: 900,
-    margin: "0 auto",
-    fontFamily: "'Inter', -apple-system, sans-serif",
-    color: "var(--pf-text, #e2e8f0)",
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    marginBottom: 8,
-  },
-  title: { fontSize: 24, fontWeight: 700, margin: 0 },
-  subtitle: {
-    color: "var(--pf-text-muted, #94a3b8)",
-    fontSize: 14,
-    marginBottom: 24,
-  },
-  card: {
-    background: "var(--pf-surface, rgba(30,41,59,0.7))",
-    border: "1px solid var(--pf-border, rgba(100,116,139,0.2))",
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 15,
-    fontWeight: 700,
-    marginBottom: 14,
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-  },
-  scoreBox: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 24,
-    padding: "20px 0",
-  },
-  scoreBig: {
-    fontSize: 56,
-    fontWeight: 800,
-    lineHeight: 1,
-  },
-  moduleRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    padding: "10px 14px",
-    borderRadius: 8,
-    marginBottom: 6,
-    cursor: "pointer",
-    transition: "background .15s",
-  },
-  permTag: {
-    display: "inline-block",
-    padding: "2px 8px",
-    borderRadius: 4,
-    fontSize: 11,
-    fontFamily: "'JetBrains Mono', monospace",
-    marginRight: 4,
-    marginBottom: 4,
-  },
-  eventRow: {
-    padding: "8px 12px",
-    borderRadius: 6,
-    marginBottom: 4,
-    fontSize: 13,
-    lineHeight: 1.5,
-    display: "flex",
-    gap: 10,
-    alignItems: "flex-start",
-  },
-  eventTime: {
-    color: "#64748b",
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: 11,
-    minWidth: 44,
-    marginTop: 2,
-  },
 };
 
 function getPermRisk(perm) {
@@ -173,28 +89,26 @@ export function PFDefendPanel() {
   }, []);
 
   return (
-    <div style={S.container}>
+    <div className="pf-defend-container">
       {/* Header */}
-      <div style={S.header}>
-        <span style={{ fontSize: 28 }}>🛡️</span>
-        <h1 style={S.title}>Panda Defend</h1>
+      <div className="pf-defend-header">
+        <span className="pf-defend-header-icon">🛡️</span>
+        <h1 className="pf-defend-title">Panda Defend</h1>
       </div>
-      <p style={S.subtitle}>
+      <p className="pf-defend-subtitle">
         Monitoramento de segurança — módulos instalados, permissões e atividade
       </p>
 
       {/* ────── Global Score ────── */}
-      <div style={S.card}>
-        <div style={S.scoreBox}>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ ...S.scoreBig, color: scoreColor }}>
+      <div className="pf-defend-card">
+        <div className="pf-defend-score-box">
+          <div className="pf-defend-score-center">
+            <div className="pf-defend-score-big" style={{ color: scoreColor }}>
               {globalScore}
             </div>
-            <div style={{ color: "#94a3b8", fontSize: 13, marginTop: 4 }}>
-              DEFEND SCORE
-            </div>
+            <div className="pf-defend-score-label">DEFEND SCORE</div>
           </div>
-          <div style={{ fontSize: 13, lineHeight: 1.8 }}>
+          <div className="pf-defend-stats">
             <div>
               ✅ Aprovados:{" "}
               <strong>
@@ -213,48 +127,34 @@ export function PFDefendPanel() {
                 {modules.filter((m) => m.status === "suspended").length}
               </strong>
             </div>
-            <div style={{ color: "#64748b", marginTop: 4, fontSize: 11 }}>
-              Último scan: hoje 12:34
-            </div>
+            <div className="pf-defend-stats-muted">Último scan: hoje 12:34</div>
           </div>
         </div>
       </div>
 
       {/* ────── Installed Modules ────── */}
-      <div style={S.card}>
-        <div style={S.sectionTitle}>
+      <div className="pf-defend-card">
+        <div className="pf-defend-section-title">
           <span>📦</span> Módulos Instalados ({modules.length})
         </div>
         {modules.map((mod) => (
           <div key={mod.id}>
             <div
-              style={{
-                ...S.moduleRow,
-                background:
-                  expandedModule === mod.id
-                    ? "rgba(100,116,139,0.15)"
-                    : "rgba(100,116,139,0.06)",
-              }}
+              className={`pf-defend-module-row${expandedModule === mod.id ? " pf-defend-module-row--expanded" : ""}`}
               onClick={() => toggleModule(mod.id)}
             >
-              <span style={{ fontSize: 20 }}>{mod.icon}</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600, fontSize: 14 }}>{mod.name}</div>
-                <div style={{ color: "#64748b", fontSize: 11 }}>
+              <span className="pf-defend-module-icon">{mod.icon}</span>
+              <div className="pf-defend-module-info">
+                <div className="pf-defend-module-name">{mod.name}</div>
+                <div className="pf-defend-module-meta">
                   {mod.id} •{" "}
                   {mod.type === "tentacle" ? "🐙 Tentáculo" : "📦 Módulo"}
                 </div>
               </div>
-              <div
-                style={{
-                  textAlign: "center",
-                  minWidth: 48,
-                }}
-              >
+              <div className="pf-defend-module-score-wrap">
                 <div
+                  className="pf-defend-module-score-value"
                   style={{
-                    fontWeight: 800,
-                    fontSize: 18,
                     color:
                       mod.score >= 80
                         ? "#10b981"
@@ -265,13 +165,11 @@ export function PFDefendPanel() {
                 >
                   {mod.score}
                 </div>
-                <div style={{ fontSize: 9, color: "#64748b" }}>SCORE</div>
+                <div className="pf-defend-module-score-label">SCORE</div>
               </div>
               <span
+                className="pf-defend-risk-badge"
                 style={{
-                  fontSize: 11,
-                  padding: "3px 8px",
-                  borderRadius: 4,
                   background: `${RISK_COLORS[mod.risk]}15`,
                   color: RISK_COLORS[mod.risk],
                   border: `1px solid ${RISK_COLORS[mod.risk]}30`,
@@ -279,16 +177,11 @@ export function PFDefendPanel() {
               >
                 {RISK_LABELS[mod.risk]}
               </span>
-              <span style={{ fontSize: 11, color: "#94a3b8" }}>
+              <span className="pf-defend-status-label">
                 {STATUS_LABELS[mod.status]}
               </span>
               <span
-                style={{
-                  fontSize: 12,
-                  transform:
-                    expandedModule === mod.id ? "rotate(180deg)" : "rotate(0)",
-                  transition: "transform .2s",
-                }}
+                className={`pf-defend-chevron${expandedModule === mod.id ? " pf-defend-chevron--open" : ""}`}
               >
                 ▼
               </span>
@@ -296,30 +189,18 @@ export function PFDefendPanel() {
 
             {/* Expanded permissions */}
             {expandedModule === mod.id && (
-              <div
-                style={{
-                  padding: "12px 20px 16px 48px",
-                  borderBottom: "1px solid rgba(100,116,139,0.1)",
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    marginBottom: 8,
-                    color: "#94a3b8",
-                  }}
-                >
+              <div className="pf-defend-expanded">
+                <div className="pf-defend-perm-header">
                   PERMISSÕES CONCEDIDAS:
                 </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                <div className="pf-defend-perm-list">
                   {mod.permissions.map((perm) => {
                     const r = getPermRisk(perm);
                     return (
                       <span
                         key={perm}
+                        className="pf-defend-perm-tag"
                         style={{
-                          ...S.permTag,
                           background: `${RISK_COLORS[r]}12`,
                           color: RISK_COLORS[r],
                           border: `1px solid ${RISK_COLORS[r]}25`,
@@ -330,27 +211,11 @@ export function PFDefendPanel() {
                     );
                   })}
                 </div>
-                <div
-                  style={{
-                    fontSize: 11,
-                    color: "#64748b",
-                    marginTop: 8,
-                  }}
-                >
+                <div className="pf-defend-last-scan">
                   Último scan: {mod.lastScan}
                 </div>
                 {mod.type === "tentacle" && (
-                  <div
-                    style={{
-                      marginTop: 8,
-                      padding: "8px 12px",
-                      borderRadius: 6,
-                      background: "rgba(245,158,11,0.08)",
-                      border: "1px solid rgba(245,158,11,0.2)",
-                      fontSize: 12,
-                      color: "#f59e0b",
-                    }}
-                  >
+                  <div className="pf-defend-tentacle-warning">
                     ⚠️ <strong>Tentáculo</strong> — acessa APIs do sistema via
                     Proxy SDK. Sandbox forte + permissões explícitas
                     obrigatórias.
@@ -359,50 +224,26 @@ export function PFDefendPanel() {
 
                 {/* ── Score Breakdown ── */}
                 {INITIAL_SCORE_DETAILS[mod.id] && (
-                  <div style={{ marginTop: 10 }}>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: "#94a3b8",
-                        marginBottom: 6,
-                      }}
-                    >
+                  <div className="pf-defend-breakdown">
+                    <div className="pf-defend-breakdown-header">
                       📊 SCORE BREAKDOWN:
                     </div>
                     {INITIAL_SCORE_DETAILS[mod.id].bonus.map((b, i) => (
-                      <div
-                        key={`b-${i}`}
-                        style={{
-                          fontSize: 11,
-                          color: "#10b981",
-                          paddingLeft: 8,
-                        }}
-                      >
+                      <div key={`b-${i}`} className="pf-defend-breakdown-bonus">
                         + {b}
                       </div>
                     ))}
                     {INITIAL_SCORE_DETAILS[mod.id].penalty.map((p, i) => (
                       <div
                         key={`p-${i}`}
-                        style={{
-                          fontSize: 11,
-                          color: "#ef4444",
-                          paddingLeft: 8,
-                        }}
+                        className="pf-defend-breakdown-penalty"
                       >
                         − {p}
                       </div>
                     ))}
                     {INITIAL_SCORE_DETAILS[mod.id]?.bonus.length === 0 &&
                       INITIAL_SCORE_DETAILS[mod.id]?.penalty.length === 0 && (
-                        <div
-                          style={{
-                            fontSize: 11,
-                            color: "#64748b",
-                            paddingLeft: 8,
-                          }}
-                        >
+                        <div className="pf-defend-breakdown-empty">
                           Nenhum detalhe disponível
                         </div>
                       )}
@@ -410,29 +251,14 @@ export function PFDefendPanel() {
                 )}
 
                 {/* ── Module Actions ── */}
-                <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                <div className="pf-defend-actions">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleReport(mod.id);
                     }}
                     disabled={reportedModules.has(mod.id)}
-                    style={{
-                      padding: "5px 12px",
-                      borderRadius: 6,
-                      fontSize: 11,
-                      fontWeight: 600,
-                      background: reportedModules.has(mod.id)
-                        ? "rgba(100,116,139,0.1)"
-                        : "rgba(245,158,11,0.1)",
-                      color: reportedModules.has(mod.id)
-                        ? "#64748b"
-                        : "#f59e0b",
-                      border: `1px solid ${reportedModules.has(mod.id) ? "rgba(100,116,139,0.2)" : "rgba(245,158,11,0.25)"}`,
-                      cursor: reportedModules.has(mod.id)
-                        ? "default"
-                        : "pointer",
-                    }}
+                    className="pf-defend-btn-report"
                   >
                     {reportedModules.has(mod.id)
                       ? "✅ Reportado"
@@ -449,16 +275,7 @@ export function PFDefendPanel() {
                         handleUninstall(mod.id);
                       }
                     }}
-                    style={{
-                      padding: "5px 12px",
-                      borderRadius: 6,
-                      fontSize: 11,
-                      fontWeight: 600,
-                      background: "rgba(239,68,68,0.1)",
-                      color: "#ef4444",
-                      border: "1px solid rgba(239,68,68,0.25)",
-                      cursor: "pointer",
-                    }}
+                    className="pf-defend-btn-uninstall"
                   >
                     🗑️ Desinstalar
                   </button>
@@ -470,27 +287,15 @@ export function PFDefendPanel() {
       </div>
 
       {/* ────── Activity Monitor ────── */}
-      <div style={S.card}>
-        <div
-          style={{
-            ...S.sectionTitle,
-            justifyContent: "space-between",
-          }}
-        >
+      <div className="pf-defend-card">
+        <div className="pf-defend-section-title pf-defend-section-title--between">
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span>📊</span> Monitor de Atividade
           </div>
           <select
             value={eventFilter}
             onChange={(e) => setEventFilter(e.target.value)}
-            style={{
-              background: "rgba(100,116,139,0.15)",
-              border: "1px solid rgba(100,116,139,0.2)",
-              borderRadius: 6,
-              color: "var(--pf-text, #e2e8f0)",
-              padding: "4px 8px",
-              fontSize: 11,
-            }}
+            className="pf-defend-filter-select"
           >
             <option value="all">Todos ({INITIAL_EVENTS.length})</option>
             <option value="block">🔴 Bloqueios</option>
@@ -499,29 +304,13 @@ export function PFDefendPanel() {
             <option value="info">✅ Info</option>
           </select>
         </div>
-        <div
-          style={{
-            maxHeight: 260,
-            overflowY: "auto",
-            background: "var(--pf-bg, rgba(0,0,0,0.2))",
-            borderRadius: 8,
-            padding: 8,
-          }}
-        >
+        <div className="pf-defend-event-log">
           {filteredEvents.map((evt) => (
             <div
               key={evt.id}
-              style={{
-                ...S.eventRow,
-                background:
-                  evt.type === "block"
-                    ? "rgba(239,68,68,0.06)"
-                    : evt.type === "warning"
-                      ? "rgba(245,158,11,0.06)"
-                      : "transparent",
-              }}
+              className={`pf-defend-event-row${evt.type === "block" ? " pf-defend-event-row--block" : evt.type === "warning" ? " pf-defend-event-row--warning" : ""}`}
             >
-              <span style={S.eventTime}>{evt.time}</span>
+              <span className="pf-defend-event-time">{evt.time}</span>
               <span>{evt.msg}</span>
             </div>
           ))}
@@ -529,115 +318,43 @@ export function PFDefendPanel() {
       </div>
 
       {/* ────── 14 Golden Rules (Collapsed) ────── */}
-      <div style={S.card}>
+      <div className="pf-defend-card">
         <div
-          style={{
-            ...S.sectionTitle,
-            cursor: "pointer",
-            justifyContent: "space-between",
-          }}
+          className="pf-defend-section-title pf-defend-section-title--between pf-defend-section-title--clickable"
           onClick={() => setRulesExpanded((prev) => !prev)}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span>📋</span> 14 Regras de Ouro (Bloqueio Automático)
           </div>
           <span
-            style={{
-              fontSize: 12,
-              transform: rulesExpanded ? "rotate(180deg)" : "rotate(0)",
-              transition: "transform .2s",
-            }}
+            className={`pf-defend-chevron${rulesExpanded ? " pf-defend-chevron--open" : ""}`}
           >
             ▼
           </span>
         </div>
         {rulesExpanded && (
           <div style={{ overflowX: "auto" }}>
-            <table
-              style={{
-                width: "100%",
-                fontSize: 12,
-                borderCollapse: "collapse",
-              }}
-            >
+            <table className="pf-defend-rules-table">
               <thead>
-                <tr style={{ borderBottom: "1px solid rgba(100,116,139,0.2)" }}>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "4px 8px",
-                      color: "#94a3b8",
-                    }}
-                  >
-                    ID
-                  </th>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "4px 8px",
-                      color: "#94a3b8",
-                    }}
-                  >
-                    Regra
-                  </th>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "4px 8px",
-                      color: "#94a3b8",
-                    }}
-                  >
-                    Risco
-                  </th>
+                <tr>
+                  <th>ID</th>
+                  <th>Regra</th>
+                  <th>Risco</th>
                 </tr>
               </thead>
               <tbody>
                 {GOLDEN_RULES.map((r) => (
-                  <tr
-                    key={r.id}
-                    style={{ borderBottom: "1px solid rgba(100,116,139,0.08)" }}
-                  >
-                    <td
-                      style={{
-                        padding: "4px 8px",
-                        fontWeight: 700,
-                        color: "#ef4444",
-                        fontFamily: "monospace",
-                      }}
-                    >
-                      {r.id}
-                    </td>
-                    <td style={{ padding: "4px 8px" }}>{r.rule}</td>
-                    <td
-                      style={{
-                        padding: "4px 8px",
-                        fontSize: 11,
-                        color: "#f59e0b",
-                      }}
-                    >
-                      {r.risk}
-                    </td>
+                  <tr key={r.id}>
+                    <td className="pf-defend-rule-id">{r.id}</td>
+                    <td>{r.rule}</td>
+                    <td className="pf-defend-rule-risk">{r.risk}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div
-              style={{
-                fontSize: 11,
-                color: "#64748b",
-                marginTop: 8,
-                padding: "0 8px",
-              }}
-            >
+            <div className="pf-defend-rules-ref">
               Ref:{" "}
-              <code
-                style={{
-                  fontSize: 10,
-                  background: "rgba(100,116,139,0.15)",
-                  padding: "1px 4px",
-                  borderRadius: 3,
-                }}
-              >
+              <code className="pf-defend-code-ref">
                 PF_SECURITY_REFERENCE.md §1.6.B
               </code>
             </div>
@@ -646,26 +363,14 @@ export function PFDefendPanel() {
       </div>
 
       {/* ────── About ────── */}
-      <div
-        style={{
-          ...S.card,
-          background: "rgba(102,126,234,0.06)",
-          border: "1px solid rgba(102,126,234,0.2)",
-        }}
-      >
-        <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-          <span style={{ fontSize: 22 }}>ℹ️</span>
-          <div style={{ fontSize: 13, lineHeight: 1.6 }}>
-            <div
-              style={{
-                fontWeight: 700,
-                marginBottom: 4,
-                color: "var(--accent-color, #667eea)",
-              }}
-            >
+      <div className="pf-defend-card pf-defend-card--info">
+        <div className="pf-defend-about-row">
+          <span className="pf-defend-about-icon">ℹ️</span>
+          <div className="pf-defend-about-body">
+            <div className="pf-defend-about-title">
               Como funciona o Panda Defend
             </div>
-            <div style={{ color: "var(--pf-text-muted, #94a3b8)" }}>
+            <div className="pf-defend-about-text">
               O Panda Defend monitora todos os módulos e tentáculos instalados
               no seu ambiente. Cada extensão recebe um{" "}
               <strong>Score de Segurança</strong> (0-100) baseado em análise

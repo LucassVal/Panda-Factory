@@ -1,0 +1,375 @@
+/* ═══════════════════════════════════════════════════════════
+   PFMiningPanel.css — Partner Mining Dashboard
+   Migrated from inline styles (LP05)
+   ═══════════════════════════════════════════════════════════ */
+
+.pf-mining-panel {
+  padding: 32px;
+  max-width: 780px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--pf-text, #e0e0e0);
+}
+
+.pf-mining-panel--embedded { padding: 24px; }
+
+/* ── Header ── */
+.pf-mining-header { margin-bottom: 24px; }
+
+.pf-mining-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.pf-mining-subtitle {
+  margin: 6px 0 0;
+  opacity: 0.6;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── Card ── */
+.pf-mining-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.pf-mining-card--disclosure {
+  background: rgba(102,126,234,0.06);
+  border: 1px solid rgba(102,126,234,0.2);
+}
+
+.pf-mining-card--incentive {
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.2);
+  text-align: center;
+  padding: 28px 20px;
+}
+
+/* ── Section Title ── */
+.pf-mining-section-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: #f59e0b;
+}
+
+/* ── Disclosure Box ── */
+.pf-mining-disclosure-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.pf-mining-disclosure-icon { font-size: 20px; }
+
+.pf-mining-disclosure-body {
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.pf-mining-disclosure-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #667eea;
+}
+
+.pf-mining-disclosure-text {
+  opacity: 0.7;
+  line-height: 1.6;
+}
+
+.pf-mining-highlight-green { color: #10b981; }
+
+/* ── Status Toggle ── */
+.pf-mining-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pf-mining-status-label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.pf-mining-status-detail {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
+
+.pf-mining-btn-toggle {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pf-mining-btn-toggle--start {
+  background: rgba(16,185,129,0.15);
+  color: #10b981;
+}
+
+.pf-mining-btn-toggle--stop {
+  background: rgba(239,68,68,0.15);
+  color: #ef4444;
+}
+
+/* ── Incentive ── */
+.pf-mining-incentive-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.pf-mining-incentive-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #f59e0b;
+}
+
+.pf-mining-incentive-text {
+  font-size: 13px;
+  opacity: 0.7;
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 8px auto 0;
+}
+
+/* ── Stat Boxes ── */
+.pf-mining-stats-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pf-mining-stat-box {
+  text-align: center;
+  padding: 14px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  flex: 1;
+  min-width: 130px;
+}
+
+.pf-mining-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.pf-mining-stat-value--large {
+  font-size: 26px;
+}
+
+.pf-mining-stat-value--mono {
+  font-family: monospace;
+}
+
+.pf-mining-stat-value--amber  { color: #f59e0b; }
+.pf-mining-stat-value--green  { color: #10b981; }
+.pf-mining-stat-value--purple { color: #667eea; }
+
+.pf-mining-stat-label {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
+
+/* ── Resource Controls ── */
+.pf-mining-slider-wrap { margin-bottom: 12px; }
+
+.pf-mining-slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.pf-mining-slider-header strong { font-weight: 700; }
+
+.pf-mining-slider {
+  width: 100%;
+  accent-color: #f59e0b;
+  height: 6px;
+}
+
+.pf-mining-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  opacity: 0.4;
+  margin-top: 4px;
+}
+
+.pf-mining-gpu-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.pf-mining-gpu-label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.pf-mining-gpu-detail {
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+.pf-mining-btn-gpu {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: #888;
+}
+
+.pf-mining-btn-gpu--active {
+  border-color: #10b981;
+  background: rgba(16,185,129,0.15);
+  color: #10b981;
+}
+
+/* ── Earnings Table ── */
+.pf-mining-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.pf-mining-table thead tr {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+}
+
+.pf-mining-table th {
+  padding: 8px 12px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+.pf-mining-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.pf-mining-table td { padding: 8px 12px; }
+
+.pf-mining-table td.pf-mining-date-cell {
+  font-family: monospace;
+}
+
+.pf-mining-table-empty {
+  padding: 16px;
+  text-align: center;
+  opacity: 0.4;
+}
+
+/* ── Revenue Split Bar ── */
+.pf-mining-split-bar {
+  display: flex;
+  height: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.pf-mining-split-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pf-mining-split-segment--user {
+  width: 60%;
+  background: #10b981;
+}
+
+.pf-mining-split-segment--infra {
+  width: 40%;
+  background: #ef4444;
+}
+
+.pf-mining-split-note {
+  font-size: 11px;
+  opacity: 0.5;
+  line-height: 1.6;
+}
+
+/* ── Footer ── */
+.pf-mining-footer {
+  font-size: 11px;
+  opacity: 0.35;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════ */
+
+body.light-mode .pf-mining-panel { color: #1a1a2e; }
+
+body.light-mode .pf-mining-card {
+  background: #ffffff;
+  border-color: #e0e0e5;
+}
+
+body.light-mode .pf-mining-card--disclosure {
+  background: rgba(102,126,234,0.08);
+  border-color: rgba(102,126,234,0.25);
+}
+
+body.light-mode .pf-mining-card--incentive {
+  background: rgba(245,158,11,0.08);
+  border-color: rgba(245,158,11,0.25);
+}
+
+body.light-mode .pf-mining-stat-box {
+  background: rgba(0,0,0,0.02);
+  border-color: #e0e0e5;
+}
+
+body.light-mode .pf-mining-gpu-row {
+  border-top-color: #e0e0e5;
+}
+
+body.light-mode .pf-mining-btn-gpu {
+  border-color: #e0e0e5;
+  color: #6a6a7a;
+}
+
+body.light-mode .pf-mining-table thead tr {
+  border-bottom-color: #e0e0e5;
+}
+
+body.light-mode .pf-mining-table tbody tr {
+  border-bottom-color: rgba(0,0,0,0.06);
+}
+
+body.light-mode .pf-mining-filter-select {
+  background: rgba(0,0,0,0.05);
+  border-color: #e0e0e5;
+  color: #1a1a2e;
+}
+
+body.light-mode .pf-mining-disclosure-title { color: #4f46e5; }
+
+body.light-mode .pf-mining-section-title { color: #d97706; }
