@@ -152,3 +152,33 @@ body.light-mode .pf-empty-state__btn:hover {
   background: rgba(79, 70, 229, 0.15);
   border-color: rgba(79, 70, 229, 0.5);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS (LP07)
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .pf-empty-state--md {
+    padding: 20px 14px;
+  }
+
+  .pf-empty-state--lg {
+    padding: 28px 16px;
+  }
+
+  .pf-empty-state__icon { font-size: 32px; }
+
+  .pf-empty-state--lg .pf-empty-state__icon { font-size: 40px; }
+
+  .pf-empty-state__title { font-size: 13px; }
+
+  .pf-empty-state__desc {
+    font-size: 12px;
+    max-width: 100%;
+  }
+
+  .pf-empty-state__btn {
+    width: 100%;
+    text-align: center;
+  }
+}

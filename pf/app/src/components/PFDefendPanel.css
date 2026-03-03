@@ -460,3 +460,67 @@ body.light-mode .pf-defend-code-ref {
 }
 
 body.light-mode .pf-defend-about-text { color: #6a6a7a; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS (LP07)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 768px) ── */
+@media (max-width: 768px) {
+  .pf-defend-container {
+    padding: 16px 20px;
+  }
+
+  .pf-defend-score-box {
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px 0;
+  }
+
+  .pf-defend-score-big {
+    font-size: 44px;
+  }
+
+  .pf-defend-module-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pf-defend-expanded {
+    padding: 10px 14px 14px 14px;
+  }
+}
+
+/* ── Mobile Portrait (≤ 480px) ── */
+@media (max-width: 480px) {
+  .pf-defend-container {
+    padding: 12px 14px;
+  }
+
+  .pf-defend-title { font-size: 18px; }
+
+  .pf-defend-card {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .pf-defend-score-big { font-size: 36px; }
+
+  /* Hide risk badge on portrait — keep status */
+  .pf-defend-risk-badge { display: none; }
+
+  .pf-defend-actions {
+    flex-direction: column;
+  }
+
+  .pf-defend-btn-report,
+  .pf-defend-btn-uninstall {
+    width: 100%;
+    text-align: center;
+    padding: 8px 12px;
+  }
+
+  .pf-defend-rules-table {
+    font-size: 11px;
+  }
+}

@@ -373,3 +373,77 @@ body.light-mode .pf-mining-filter-select {
 body.light-mode .pf-mining-disclosure-title { color: #4f46e5; }
 
 body.light-mode .pf-mining-section-title { color: #d97706; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS (LP07)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 768px) ── */
+@media (max-width: 768px) {
+  .pf-mining-panel {
+    padding: 20px 16px;
+  }
+
+  .pf-mining-stats-row {
+    gap: 8px;
+  }
+
+  .pf-mining-stat-box {
+    min-width: 100px;
+  }
+
+  .pf-mining-status-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pf-mining-btn-toggle {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ── Mobile Portrait (≤ 480px) ── */
+@media (max-width: 480px) {
+  .pf-mining-panel {
+    padding: 14px 12px;
+  }
+
+  .pf-mining-panel--embedded {
+    padding: 14px 12px;
+  }
+
+  .pf-mining-title { font-size: 18px; }
+
+  .pf-mining-card {
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  /* Stack stat boxes in 2-column grid */
+  .pf-mining-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .pf-mining-stat-box { min-width: unset; }
+
+  .pf-mining-gpu-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .pf-mining-btn-gpu {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Table: hide status col on tiny screens */
+  .pf-mining-table th:last-child,
+  .pf-mining-table td:last-child {
+    display: none;
+  }
+}
