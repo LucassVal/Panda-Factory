@@ -107,6 +107,9 @@ export default defineConfig({
     outDir: "../dist/jam",
     emptyOutDir: true,
   },
+  esbuild: {
+    drop: ["console", "debugger"],
+  },
   server: {
     port: 3001,
     cors: true,

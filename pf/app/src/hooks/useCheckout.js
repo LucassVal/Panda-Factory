@@ -25,6 +25,7 @@ export const PC_PACKAGES = [
     discount: 0,
     label: "Starter",
     badge: "🌱",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-starter",
   },
   {
     id: "boost",
@@ -33,8 +34,17 @@ export const PC_PACKAGES = [
     discount: 0.1,
     label: "Boost",
     badge: "⚡",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-boost",
   },
-  { id: "pro", pc: 12000, usd: 100, discount: 0.2, label: "Pro", badge: "🔥" },
+  {
+    id: "pro",
+    pc: 12000,
+    usd: 100,
+    discount: 0.2,
+    label: "Pro",
+    badge: "🔥",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-pro",
+  },
   {
     id: "business",
     pc: 30000,
@@ -42,6 +52,7 @@ export const PC_PACKAGES = [
     discount: 0.25,
     label: "Business",
     badge: "💼",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-business",
   },
   {
     id: "scale",
@@ -50,6 +61,7 @@ export const PC_PACKAGES = [
     discount: 0.2,
     label: "Scale",
     badge: "📈",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-scale",
   },
   {
     id: "enterprise",
@@ -58,6 +70,7 @@ export const PC_PACKAGES = [
     discount: 0.25,
     label: "Enterprise",
     badge: "🏢",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-enterprise",
   },
   {
     id: "partner",
@@ -66,6 +79,7 @@ export const PC_PACKAGES = [
     discount: 0.3,
     label: "Partner",
     badge: "🤝",
+    checkoutUrl: "https://pay.kiwify.com.br/mock-partner",
   },
 ];
 
@@ -139,26 +153,18 @@ export function useCheckout(userPcBalance = 0, userTier = "free") {
         packageId: pkg.id,
       });
 
-      if (result.status === "MOCK") {
-        // Dev mode — simulate success
-        console.log("🧪 MOCK MODE: Simulating PC purchase of", pkg.pc, "PC");
-        setLastTransaction({
-          id: `mock_${Date.now()}`,
-          type: "pc_purchase",
-          packageId: pkg.id,
-          amountPC: pkg.pc,
-          priceUSD: pkg.usd,
-          status: "mock_success",
-          timestamp: new Date().toISOString(),
-        });
+      if (result.status === "MOCK" || result.success) {
+        console.log(
+          "✈️ Redirecionando para Kiwify/Hotmart Mock:",
+          pkg.checkoutUrl,
+        );
+        setTimeout(() => {
+          window.open(
+            pkg.checkoutUrl || "https://pay.kiwify.com.br/mock",
+            "_blank",
+          );
+        }, 1500);
         setIsProcessing(false);
-        return { success: true, mock: true };
-      }
-
-      if (result.success && result.url) {
-        // Redirect to Stripe Checkout
-        console.log("✅ Redirecting to Stripe:", result.url);
-        window.location.href = result.url;
         return { success: true, redirecting: true };
       }
 
@@ -242,17 +248,22 @@ export function useCheckout(userPcBalance = 0, userTier = "free") {
           const result = await gasPost("CREATE_PAYMENT_STRIPE", {
             amountPC: pricing.pc,
             priceUSD: pricing.usd,
+            itemId: item.id,
           });
 
-          if (result.status === "MOCK") {
-            console.log("🧪 MOCK: USD checkout for", item.name);
+          if (result.status === "MOCK" || result.success) {
+            console.log(
+              "✈️ Redirecionando para Plataforma de Vendas do item:",
+              item.name,
+            );
+            setTimeout(() => {
+              window.open(
+                item.checkoutUrl ||
+                  `https://pay.kiwify.com.br/mock-item-${item.id}`,
+                "_blank",
+              );
+            }, 1500);
             setIsProcessing(false);
-            return { success: true, mock: true };
-          }
-
-          if (result.success && result.url) {
-            console.log("✅ Redirecting to Stripe for item:", item.name);
-            window.location.href = result.url;
             return { success: true, redirecting: true };
           }
 

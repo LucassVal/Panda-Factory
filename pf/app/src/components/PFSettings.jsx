@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useWallet } from "../hooks/useWallet";
+import { License } from "../services/callGAS";
 import "./PFSettings.css";
 
 /**
@@ -972,6 +973,37 @@ function PFSettings({ isOpen, onClose, embedded = false, uid }) {
 function WalletSection({ uid, miningEnabled, miningTotal }) {
   const { balance, balanceBRL, transactions, isLoading, mode, refresh } =
     useWallet(uid);
+  const [purchaseCode, setPurchaseCode] = useState("");
+  const [activationState, setActivationState] = useState({
+    status: "idle",
+    message: "",
+  });
+
+  const handleActivate = async () => {
+    if (!purchaseCode.trim()) return;
+    setActivationState({
+      status: "loading",
+      message: "Validando seu código...",
+    });
+    try {
+      const res = await License.activate(purchaseCode.trim());
+      if (res.status === "SUCCESS") {
+        setActivationState({
+          status: "success",
+          message: "Licença ativada com sucesso! Recarregando tela...",
+        });
+        setPurchaseCode("");
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        setActivationState({
+          status: "error",
+          message: res.error || res.message || "Código inválido ou já ativado.",
+        });
+      }
+    } catch (err) {
+      setActivationState({ status: "error", message: err.message });
+    }
+  };
 
   const formatDate = (ts) => {
     const d = new Date(ts);
@@ -1042,6 +1074,72 @@ function WalletSection({ uid, miningEnabled, miningTotal }) {
             🔄
           </button>
         </div>
+      </div>
+
+      {/* Activation Card */}
+      <div
+        className="pf-settings-card"
+        style={{ background: "var(--bg-card-hover, rgba(0,0,0,0.02))" }}
+      >
+        <div
+          className="pf-settings-label"
+          style={{ display: "flex", alignItems: "center", gap: "6px" }}
+        >
+          🔑 Ativar Licença ou Encapsulado
+        </div>
+        <div className="pf-settings-sublabel" style={{ marginBottom: "12px" }}>
+          Se você comprou um produto (Starter Pack, Extensões) no Hotmart ou
+          Kiwify, insira o seu <strong>Purchase Code</strong> abaixo.
+        </div>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <input
+            type="text"
+            placeholder="Cole seu código aqui... (ex: a1b2c3d4...)"
+            value={purchaseCode}
+            onChange={(e) => setPurchaseCode(e.target.value)}
+            disabled={activationState.status === "loading"}
+            className="pf-wl-input"
+            style={{
+              flex: 1,
+              padding: "8px 12px",
+              borderRadius: "8px",
+              border: "1px solid var(--border-color, rgba(100,100,100,0.2))",
+              background: "var(--bg-input, rgba(255,255,255,0.05))",
+              color: "inherit",
+              outline: "none",
+              fontFamily: "monospace",
+              fontSize: "13px",
+            }}
+          />
+          <button
+            className="pf-btn-primary"
+            onClick={handleActivate}
+            disabled={
+              activationState.status === "loading" || !purchaseCode.trim()
+            }
+            style={{ padding: "8px 16px", borderRadius: "8px" }}
+          >
+            {activationState.status === "loading" ? "⏳" : "🔓 Ativar"}
+          </button>
+        </div>
+        {activationState.message && (
+          <div
+            style={{
+              marginTop: "10px",
+              fontSize: "12px",
+              fontWeight: 600,
+              color: activationState.status === "error" ? "#ef4444" : "#10b981",
+              padding: "8px 12px",
+              borderRadius: "6px",
+              background:
+                activationState.status === "error"
+                  ? "rgba(239,68,68,0.1)"
+                  : "rgba(16,185,129,0.1)",
+            }}
+          >
+            {activationState.message}
+          </div>
+        )}
       </div>
 
       {/* Plan & Mining Stats */}

@@ -399,6 +399,32 @@ function PFStore({
     }
   };
 
+  const handleProcessPayment = async (paymentItem, method) => {
+    if (method === "pc") {
+      try {
+        const res = await Store.purchase(paymentItem.id);
+        if (res.status === "SUCCESS" || res.status === "MOCK") {
+          refreshLicenses();
+          onInstall && onInstall(paymentItem);
+          return { success: true, transaction: res.transaction || "mock-tx" };
+        }
+        return {
+          success: false,
+          error:
+            res.error ||
+            res.message ||
+            "Erro desconhecido ao processar pagamento",
+        };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    }
+    return {
+      success: false,
+      error: "Pagamento em USD ainda não habilitado nesta etapa.",
+    };
+  };
+
   const formatPrice = (item) => {
     if (item.priceUSD === 0) return "Free";
     return `$${item.priceUSD.toFixed(2)}`;
@@ -689,6 +715,11 @@ function PFStore({
         item={checkoutItem}
         userPcBalance={userPcBalance}
         userTier={userTier}
+        processPayment={handleProcessPayment}
+        onPurchaseComplete={() => {
+          setCheckoutItem(null);
+          refreshLicenses();
+        }}
       />
     </>
   );

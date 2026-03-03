@@ -69,9 +69,11 @@ export function CheckoutModal({
     try {
       if (isPcPurchase) {
         // ── PC Package Purchase → always Stripe ──
-        if (purchasePackage) {
           const result = await purchasePackage(pcPackage);
-          if (result.redirecting) return; // Page will redirect
+          if (result.redirecting) {
+            onClose();
+            return;
+          }
           if (result.mock) {
             onPurchaseComplete?.({
               type: "pc_purchase",
@@ -258,16 +260,16 @@ export function CheckoutModal({
         {/* Payment Info for PC Packages */}
         {isPcPurchase && (
           <div className="checkout-methods">
-            <h4>Pagamento via Stripe</h4>
+            <h4>Pagar via Hotmart / Kiwify</h4>
             <div className="method-option selected">
-              <span className="method-icon">💳</span>
+              <span className="method-icon">🛒</span>
               <div className="method-info">
-                <span className="method-name">Cartão de Crédito / Pix</span>
+                <span className="method-name">Cartão, Pix ou Boleto</span>
                 <span className="method-value">${pkgPrice.toFixed(2)} USD</span>
               </div>
             </div>
             <p className="checkout-stripe-note">
-              🔒 Você será redirecionado para o checkout seguro do Stripe
+              🔒 Você será redirecionado para o checkout seguro da nossa plataforma de vendas.
             </p>
           </div>
         )}
@@ -301,8 +303,8 @@ export function CheckoutModal({
 
         {/* Footer */}
         <footer className="checkout-footer">
-          <span>🔒 Pagamento seguro via Stripe</span>
-          <span>📝 Refund em até 7 dias</span>
+          <span>🔒 Pagamento 100% seguro (Kiwify/Hotmart)</span>
+          <span>📝 O Purchase Code será enviado no seu e-mail</span>
         </footer>
       </div>
     </div>
