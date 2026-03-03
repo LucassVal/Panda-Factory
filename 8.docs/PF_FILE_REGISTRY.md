@@ -1,7 +1,7 @@
 ---
 tool_context: panda/files
 description: Catálogo de arquivos — auditado 2026-03-03 LP05 inline→CSS migration
-version: 7.5.0
+version: 7.7.0
 updated: 2026-03-03
 ssot: CONTEXT.md §5 (Sistema Montesquieu)
 cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
@@ -9,7 +9,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 # 📁 PF_FILE_REGISTRY - Catálogo de Arquivos
 
-> **Versão:** 7.6.0 | **Atualizado:** 2026-03-03 (LP06 PFEmptyState component)
+> **Versão:** 7.7.0 | **Atualizado:** 2026-03-03 (LP04 Atualização do PF_UI_REFERENCE.md)
 > **Propósito:** Inventário COMPLETO de todos os arquivos do Panda Factory (auditado via fs scan)
 
 ---
@@ -118,7 +118,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `PF_MASTER_ARCHITECTURE.md`      | 🌟 Arquitetura completa (~192KB)           | 3.0.0 | 2026-02-14 |
 | `PF_FILE_REGISTRY.md`            | 📁 Este arquivo (catálogo)                 | 3.0.0 | 2026-02-14 |
 | `PF_SDK_REFERENCE.md`            | SDK, Tentacles, Social, Plugins            | 1.5.0 | 2026-02-14 |
-| `PF_UI_REFERENCE.md`             | Design System + Componentes                | 6.6.0 | 2026-02-15 |
+| `PF_UI_REFERENCE.md`             | Design System + Componentes                | 3.6.0 | 2026-03-03 |
 | `PF_BACKEND_REFERENCE.md`        | Backend geral + Firebase + Rust            | 2.1.0 | 2026-02-14 |
 | `PF_P2P_REFERENCE.md`            | P2P + Partner + Nodes + Mining             | 2.1.0 | 2026-02-14 |
 | `PF_GAS_REFERENCE.md`            | Google Apps Script (Tri-Mode)              | 1.3.0 | 2026-02-14 |
@@ -738,6 +738,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 | Versao | Data       | Alteracoes                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.7.0  | 2026-03-03 | LP04: SSOT update `PF_UI_REFERENCE.md` v3.6.0 (+§16 Módulos documentados, +PFEmptyState no inventário G.2, corrigido PFDefendPanel).                                                                                                                                                                                                                                                                                                          |
 | 7.6.0  | 2026-03-03 | LP06: +`PFEmptyState.jsx` v1.0 (reusable empty state, 3 sizes), +`PFEmptyState.css` v1.0 (light mode). JSX 37→38, CSS 23→24.                                                                                                                                                                                                                                                                                                                  |
 | 7.5.0  | 2026-03-03 | LP05: +`PFDefendPanel.css` v1.0 (inline→CSS + light mode), +`PFMiningPanel.css` v1.0 (inline→CSS + light mode), `PFDefendPanel.jsx` v1.1 (className migration, -57% lines), `PFMiningPanel.jsx` v1.1 (className migration, -56% lines). CSS count 21→23.                                                                                                                                                                                      |
 | 7.4.0  | 2026-03-02 | Sprint E1 docs: `PF_BACKEND_REFERENCE.md` v2.4.0 (+Firebase Auth real, RTDB rules, Wallet, Heartbeat, PWA); `PF_GAS_REFERENCE.md` v1.4.0 (+GAS Web App deploy, webhooks Kiwify/Hotmart, LICENSE_ACTIVATE, wallet.charge); `PF_SDK_REFERENCE.md` [1.0.0] (+useAuth/useFirebase Firebase real, Store+Stripe, Economy PC); `PF_GEMINI_REFERENCE.md` v3.1.0 (+GAS ?mcp=manifest, Founder Live Monitor); `SPRINT_ETAPA1.md` changelogs marcados ✅ |
