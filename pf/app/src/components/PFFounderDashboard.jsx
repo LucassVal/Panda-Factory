@@ -14,7 +14,7 @@ import "./PFFounderDashboard.css";
 /**
  * FounderDashboard - Exclusive Founder control panel
  * Protected by Ed25519 signature verification
- * v6.7 — Consolidated to 6 tabs (Services, Logs, Heartbeat, Flow, Diagnostics merged into Overview)
+ * v6.7.1 — 7 tabs (Overview, Finance, Defend, Users, Mining, Council, Constitution)
  */
 export function FounderDashboard() {
   const [activeTab, setActiveTab] = useState("overview");

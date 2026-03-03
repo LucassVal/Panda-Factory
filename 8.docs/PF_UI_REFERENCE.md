@@ -1565,7 +1565,7 @@ pf/app/src/
 │   ├── PFNotifications.jsx + .css # Centro de notificações
 │   ├── PFWindowManager.jsx       # FlexLayout multi-window
 │   ├── PFHeader.jsx              # (legacy header)
-│   ├── PFFounderDashboard.jsx + .css # Founder dashboard (8 tabs)
+│   ├── PFFounderDashboard.jsx + .css # Founder dashboard (7 tabs)
 │   ├── PFFounderModal.jsx + .css  # Founder modal
 │   ├── PFFounderPopout.jsx + .css # Popout variant
 │   ├── PFFinancePanel.jsx + .css  # Treasury/finance
@@ -2015,15 +2015,15 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 | StatusBar | 🏦 Treasury        | `openAppWindow("founder-dashboard")` |
 | StatusBar | Energy Arc (click) | `openAppWindow("gasometer")`         |
 
-### 8 Tabs (v6.7)
+### 7 Tabs (v6.7.1)
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
-│  FOUNDER DASHBOARD (PFFounderDashboard.jsx v6.7)                  │
+│  FOUNDER DASHBOARD (PFFounderDashboard.jsx v6.7.1)               │
 ├──────────────────────────────────────────────────────────────────────┤
 │  Tabs:                                                           │
 │  📊 Overview ◆ 💰 Finance ◆ 🛡️ Defend ◆ 👥 Users                    │
-│  🔧 Services ◆ ⛏️ Mining ◆ 📜 Logs ◆ 🏛️ Council                    │
+│  ⛏️ Mining ◆ 🏛️ Council ◆ ⚖️ Constitution                         │
 ├──────────────────────────────────────────────────────────────────────┤
 │  [PANIC 🔴]                                       [User Badge X%] │
 │  [Status Pills: firebase_auth ● firebase_rtdb ● gas ● gasometer ●] │
@@ -2032,20 +2032,19 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-| #   | Tab      | Ícone | Componente Renderizado | Descrição                                  |
-| --- | -------- | ----- | ---------------------- | ------------------------------------------ |
-| 1   | Overview | 📊    | (inline + embedded)    | Métricas + Service Status (HB, Flow, Diag) |
-| 2   | Finance  | 💰    | `FinancePanel`         | Treasury, receita, transações              |
-| 3   | Defend   | 🛡️    | `PandaDefendDashboard` | Kill Switch, DRM, segurança                |
-| 4   | Users    | 👥    | (inline)               | Gestão de usuários e roles                 |
-| 5   | Services | 🔧    | (inline)               | Status dos serviços                        |
-| 6   | Mining   | ⛏️    | (inline)               | Rede P2P, mineração, nodes                 |
-| 7   | Logs     | 📜    | `PFLiveFlowMonitor`    | Logs do sistema                            |
-| 8   | Council  | 🏛️    | `PATCouncilPanel`      | PAT Council — governança                   |
+| #   | Tab          | Ícone | Componente Renderizado | Descrição                                  |
+| --- | ------------ | ----- | ---------------------- | ------------------------------------------ |
+| 1   | Overview     | 📊    | (inline + embedded)    | Métricas + Service Status (HB, Flow, Diag) |
+| 2   | Finance      | 💰    | `FinancePanel`         | Treasury, receita, transações              |
+| 3   | Defend       | 🛡️    | `PandaDefendDashboard` | Kill Switch, DRM, segurança                |
+| 4   | Users        | 👥    | (inline)               | Gestão de usuários e roles                 |
+| 5   | Mining       | ⛏️    | (inline)               | Rede P2P, mineração, nodes                 |
+| 6   | Council      | 🏛️    | `PATCouncilPanel`      | PAT Council — governança                   |
+| 7   | Constitution | ⚖️    | (inline)               | Verificação constitucional (12 Artigos)    |
 
 > [!NOTE]
-> **Heartbeat, Flow, Diagnostics** foram absorvidos pelo **Overview** tab (v6.7, 2026-02-24).
-> Overview agora inclui seções embutidas: 💓 Agent Heartbeat, 🌐 Live Flow, 🩺 Diagnostics.
+> **Heartbeat, Flow, Diagnostics, Services e Logs** foram absorvidos pelo **Overview** tab (v6.7).
+> Overview agora inclui seções embutidas: 💓 Agent Heartbeat, 🌐 Live Flow, 🩺 Diagnostics, Services Grid.
 > Anteriormente eram 11 tabs separadas — consolidado para reduzir redundância.
 
 ### Key Features
@@ -2072,7 +2071,7 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 | Instagram    | `instagram/`    | `PFInstagram.jsx`    | `PFInstagram.css`        | 🟢 WebView |
 | CRM Tentacle | `crm-tentacle/` | `PFCRMTentacle.jsx`  | `PFCRMTentacle.css`      | 🟢 WebView |
 | Agenda       | `agenda/`       | `PFAgenda.jsx`       | —                        | 🟢 WebView |
-| PDV          | `pdv/`          | `PFPDV.jsx`          | —                        | 🟢 WebView |
+| PDV          | `pdv/`          | `PFCardapioPDV.jsx`  | `PFCardapioPDV.css`      | 🟢 REAL    |
 | Estoque      | `estoque/`      | `PFEstoque.jsx`      | —                        | 🟢 WebView |
 | Founder      | `founder/`      | `PFFounderDashboard` | `PFFounderDashboard.css` | 🟢 REAL    |
 

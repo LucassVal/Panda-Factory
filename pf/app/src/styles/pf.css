@@ -152,7 +152,7 @@ body.light-mode .pf-skeleton {
   background: var(--pf-info, #3b82f6);
   color: #ffffff;
   padding: 8px 16px;
-  z-index: 10001;
+  z-index: 10001; /* Above Login Gate (10000) */
   transition: top var(--pf-transition-fast, 0.15s ease);
   font-size: 14px;
   font-weight: 600;
@@ -351,7 +351,7 @@ body {
   background: var(--pf-surface);
   border-bottom: 1px solid var(--pf-border);
   height: 48px;
-  z-index: 100;
+  z-index: 2000;
 }
 
 .pf-header-logo {
