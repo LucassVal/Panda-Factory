@@ -104,7 +104,7 @@ export default defineConfig({
   ],
   base: "./",
   build: {
-    outDir: "../dist/jam",
+    outDir: "../dist",
     emptyOutDir: true,
   },
   esbuild: {

@@ -59,7 +59,7 @@ jobs:
           # Assets (logo, images) → /assets/
           cp -r pf/assets deploy/assets 2>/dev/null || true
           # React app build → /app/
-          cp -r pf/dist/jam/* deploy/app/
+          cp -r pf/dist/* deploy/app/
           # PWA assets
           cp pf/manifest.json deploy/ 2>/dev/null || true
           cp pf/favicon.ico deploy/ 2>/dev/null || true
