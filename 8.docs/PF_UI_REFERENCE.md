@@ -1,8 +1,8 @@
 ---
 tool_context: panda/ui
 description: UI Layout System - Panda Fabrics, CSS Variables, Components
-version: 3.6.0
-updated: 2026-03-03
+version: 3.7.0
+updated: 2026-03-04
 ssot: CONTEXT.md §5 (Sistema Montesquieu)
 cross_ref:
   [
@@ -2130,19 +2130,96 @@ case 'defend':  return <PFDefendPanel />;
 
 ---
 
+# §17 — Panda Orchestrator (PFOrchestrator)
+
+> **Papel:** Central MCP Tool Discovery dashboard. Mostra módulos ativos, tools disponíveis, e contexto IA injetado.
+> **Z-Index:** 3000 (mesmo nível do Chat)
+> **Trigger:** Footer MCP badge click ou evento `panda:open-orchestrator`
+
+### Componentes
+
+| Arquivo              | Descrição                                         | v     |
+| -------------------- | ------------------------------------------------- | ----- |
+| `PFOrchestrator.jsx` | Painel slide-in: module grid, tool search, AI ctx | 1.0.0 |
+| `PFOrchestrator.css` | Glassmorphism dark, neon accents, responsive      | 1.0.0 |
+| `useMCPRegistry.js`  | Hook: manifest loader, tool Map, Dock sync        | 1.0.0 |
+
+### Layout
+
+```text
+┌─────── PFOrchestrator ────────┐
+│ 🧠 Panda Orchestrator      ✕ │  ← Header
+│ [3 Módulos] [12 Tools] 🟢   │  ← Status Bar
+│                               │
+│ 📊 Módulos Ativos             │
+│ ┌─────┐ ┌─────┐ ┌─────┐     │
+│ │ 📱  │ │ 💬  │ │ 📷  │     │  ← Module Grid
+│ │ CRM │ │ WA  │ │ IG  │     │
+│ │4 t. │ │4 t. │ │4 t. │     │
+│ └─────┘ └─────┘ └─────┘     │
+│                               │
+│ 🔧 Tools (12)    [🔍 Buscar] │
+│ 📱 crm_addContact(...)       │  ← Tool List
+│ 💬 wa_sendMessage(...)       │
+│ ...                           │
+│                               │
+│ 💬 Contexto IA (12 tools)    │
+│ ┌─ pre ──────────────────┐   │  ← AI Context Preview
+│ │ MCP TOOLS DISPONÍVEIS  │   │
+│ │ 📱 CRM: addContact ... │   │
+│ └────────────────────────┘   │
+└───────────────────────────────┘
+```
+
+### Data Flow
+
+```text
+Dock installs module
+  → App.jsx: installedPlugins updated
+  → useEffect: syncWithDock(moduleIds)
+  → useMCPRegistry: import() manifest → extract mcp.tools[]
+  → useEffect: getToolsForAI()
+  → CustomEvent "panda:mcp-tools-updated"
+  → PFChat: mcpContext state updated
+  → callBrain: [MCP Tools Available] injected before user message
+```
+
+### CSS Classes
+
+| Classe                     | Uso                          |
+| -------------------------- | ---------------------------- |
+| `.pf-orchestrator-overlay` | Backdrop blur + z-index 3000 |
+| `.pf-orchestrator`         | Side panel 420px wide        |
+| `.pf-orch-header`          | Gradient header              |
+| `.pf-orch-status`          | Stats bar (modules/tools)    |
+| `.pf-orch-grid`            | Module cards auto-fill grid  |
+| `.pf-orch-module-card`     | Individual module card       |
+| `.pf-orch-tools-list`      | Scrollable tool list         |
+| `.pf-orch-tool-item`       | Single tool row              |
+| `.pf-orch-context-preview` | AI context monospace preview |
+
+### Events
+
+| Evento                    | Emitido por | Consumido por |
+| ------------------------- | ----------- | ------------- |
+| `panda:open-orchestrator` | Footer/Dock | App.jsx       |
+| `panda:mcp-tools-updated` | App.jsx     | PFChat.jsx    |
+
+---
+
 ## Changelog
 
-| Versao | Data       | Alteracoes                                                                                                                                                                              |
-| ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 3.6.0  | 2026-03-03 | LP04: +§16 Módulos (9 modules documentados), +PFEmptyState no inventário G.2, corrigido PFDefendPanel v1.1 separado de PFDefendDashboard, atualizado pf.css linhas (4985), versão 3.6.0 |
-| 3.5.0  | 2026-03-02 | LP01-LP03: light mode overrides em 24 CSS files                                                                                                                                         |
-| 3.4.0  | 2026-02-24 | Audit: §4 remove heartbeat badge, +8 components +4 hooks no inventário, G.2 DevMode fix, versões unificadas                                                                             |
-| 3.3.0  | 2026-02-24 | §15 FD consolidado 11→8 tabs (HB+Flow+Diag→Overview), +Finance tab no Gasometer                                                                                                         |
-| 3.2.0  | 2026-02-24 | §4 Treasury→FounderDashboard, Energy Arc clickable→gasometer, +§15 Founder Dashboard (11 tabs), dock consolidation                                                                      |
-| 3.1.0  | 2026-02-24 | +PARTE G: Mock & Hidden Components (hooks, tiers, tentacles, readiness matrix)                                                                                                          |
-| 3.0.0  | 2026-02-23 | +Casulo Creator tool (§E.2), PFStore selectionMode, PFDevModePanel Casulo wizard                                                                                                        |
-| 6.6.0  | 2026-02-15 | §13 LoginGate v8.0 + §14 Welcome Wizard v2.0                                                                                                                                            |
-| 6.5.0  | 2026-02-14 | MCP header padronizado, versao unificada                                                                                                                                                |
-| 6.5.0  | 2026-02-13 | Atualizacao Layout Grid, z-index, modal system                                                                                                                                          |
-| 2.9.0  | 2026-02-08 | Panda Fabrics CSS Variables, theme modes                                                                                                                                                |
-| 2.0.0  | 2026-01-26 | Criacao do UI Reference                                                                                                                                                                 |
+| Versao | Data       | Alteracoes                                                                                                         |
+| ------ | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| 3.7.0  | 2026-03-04 | +§17 Panda Orchestrator (PFOrchestrator.jsx/css, useMCPRegistry.js), data flow docs, event architecture            |
+| 3.5.0  | 2026-03-02 | LP01-LP03: light mode overrides em 24 CSS files                                                                    |
+| 3.4.0  | 2026-02-24 | Audit: §4 remove heartbeat badge, +8 components +4 hooks no inventário, G.2 DevMode fix, versões unificadas        |
+| 3.3.0  | 2026-02-24 | §15 FD consolidado 11→8 tabs (HB+Flow+Diag→Overview), +Finance tab no Gasometer                                    |
+| 3.2.0  | 2026-02-24 | §4 Treasury→FounderDashboard, Energy Arc clickable→gasometer, +§15 Founder Dashboard (11 tabs), dock consolidation |
+| 3.1.0  | 2026-02-24 | +PARTE G: Mock & Hidden Components (hooks, tiers, tentacles, readiness matrix)                                     |
+| 3.0.0  | 2026-02-23 | +Casulo Creator tool (§E.2), PFStore selectionMode, PFDevModePanel Casulo wizard                                   |
+| 6.6.0  | 2026-02-15 | §13 LoginGate v8.0 + §14 Welcome Wizard v2.0                                                                       |
+| 6.5.0  | 2026-02-14 | MCP header padronizado, versao unificada                                                                           |
+| 6.5.0  | 2026-02-13 | Atualizacao Layout Grid, z-index, modal system                                                                     |
+| 2.9.0  | 2026-02-08 | Panda Fabrics CSS Variables, theme modes                                                                           |
+| 2.0.0  | 2026-01-26 | Criacao do UI Reference                                                                                            |

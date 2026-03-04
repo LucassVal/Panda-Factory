@@ -15,8 +15,46 @@
   "category": "productivity",
   "icon": "📅",
   "entry": "modules/agenda/index.jsx",
-  "permissions": ["data:read", "data:write", "ui:panel"],
+  "permissions": ["data:read", "data:write"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "agenda_createEvent",
+        "description": "Cria novo evento na agenda",
+        "parameters": {
+          "title": "string (required)",
+          "start": "ISO datetime (required)",
+          "end": "ISO datetime (required)",
+          "color": "string (hex)",
+          "status": "string (pending|confirmed|completed|cancelled)"
+        }
+      },
+      {
+        "name": "agenda_updateEvent",
+        "description": "Atualiza evento existente",
+        "parameters": {
+          "eventId": "string (required)",
+          "updates": "object"
+        }
+      },
+      {
+        "name": "agenda_deleteEvent",
+        "description": "Remove evento da agenda",
+        "parameters": {
+          "eventId": "string (required)"
+        }
+      },
+      {
+        "name": "agenda_listEvents",
+        "description": "Lista eventos de um período (semana atual por padrão)",
+        "parameters": {
+          "startDate": "ISO date (optional)",
+          "endDate": "ISO date (optional)"
+        }
+      }
+    ]
+  }
 }

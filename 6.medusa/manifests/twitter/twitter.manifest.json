@@ -3,20 +3,38 @@
   "id": "twitter",
   "name": "Twitter / X",
   "version": "1.0.0",
-  "description": "Tweets, threads, analytics and engagement tracking",
+  "description": "Twitter/X DM integration and engagement automation",
   "author": "Panda Factory",
-  "license": "proprietary",
-  "tier": "pro",
-  "pricing": {
-    "model": "one-time",
-    "pricePC": 50,
-    "priceUSD": 4.99
-  },
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": { "model": "free", "pricePC": 0, "priceUSD": 0 },
   "category": "social",
   "icon": "🐦",
   "entry": "modules/twitter/index.jsx",
-  "permissions": ["data:read", "ui:panel"],
+  "permissions": ["data:read", "data:write", "ui:panel"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-dev"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "twitter_sendDM",
+        "description": "Envia mensagem direta no Twitter/X",
+        "parameters": {
+          "userId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "twitter_getInbox",
+        "description": "Lista conversas de DM",
+        "parameters": {}
+      },
+      {
+        "name": "twitter_toggleAutoReply",
+        "description": "Ativa/desativa resposta automática IA",
+        "parameters": { "enabled": "boolean (required)" }
+      }
+    ]
+  }
 }

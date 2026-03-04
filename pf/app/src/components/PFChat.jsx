@@ -4,8 +4,9 @@ import { useFounderBrain } from "../hooks/useFounderBrain";
 import { Brain as GASBrain } from "../services/callGAS";
 
 /**
- * Jam Chat v2.0 - Omnichannel AI Chat (Bottom Right)
+ * Jam Chat v2.1 - Omnichannel AI Chat (Bottom Right)
  *
+ * v2.1: MCP Tool Context injection (Orchestrator integration)
  * v2.0: Production Gemini wiring via callGAS.Brain (TICKET-11)
  * v1.2: Trail bubble mascot greetings for returning users
  * v1.1: Auto-open on first login + welcome CTA
@@ -16,11 +17,13 @@ import { Brain as GASBrain } from "../services/callGAS";
  * - Fallout terminal style
  * - Model selector: Flash, Pro, Think, Research, Imagen
  * - 6 GEMs: Writer, Analyst, Coder, Designer, Planner, Researcher
+ * - MCP Tool Discovery: AI knows which module tools are available
  *
  * ARCHITECTURE:
  * - PFChat calls callGAS.Brain (primary) → GAS doPost → PF_Brain_Core.gs → Gemini API
  * - Falls back to Panda.Brain.Gemini (SDK) if callGAS unavailable
  * - Billing handled by backend (PC debit per request)
+ * - MCP context injected via panda:mcp-tools-updated event from App.jsx
  */
 
 // Map UI model IDs → Gemini 3 API model names (PF_GEMINI_REFERENCE.md §2.1)
@@ -207,6 +210,9 @@ function PFChat() {
 
   const messagesEndRef = useRef(null);
 
+  // 📡 MCP Tool Context — received from App.jsx via global event
+  const [mcpContext, setMcpContext] = useState("");
+
   // Check SDK/API status on mount
   useEffect(() => {
     const checkApi = () => {
@@ -217,7 +223,20 @@ function PFChat() {
     checkApi();
     // Re-check when SDK might load
     window.addEventListener("panda:ready", checkApi);
-    return () => window.removeEventListener("panda:ready", checkApi);
+
+    // 🧠 Listen for MCP tools updates from Orchestrator
+    const handleMCPUpdate = (e) => {
+      if (e.detail?.context) {
+        setMcpContext(e.detail.context);
+        console.log("📡 PFChat: MCP tools context updated");
+      }
+    };
+    window.addEventListener("panda:mcp-tools-updated", handleMCPUpdate);
+
+    return () => {
+      window.removeEventListener("panda:ready", checkApi);
+      window.removeEventListener("panda:mcp-tools-updated", handleMCPUpdate);
+    };
   }, []);
 
   // Mark as welcomed after first open
@@ -284,10 +303,14 @@ function PFChat() {
     // AUTO-INJECT UI CONTEXT (all agents, all tiers)
     const messageWithContext = injectContext(currentInput);
 
-    // 🧠 Inject Founder Brain personality into every call
+    // 🧠 Inject Founder Brain personality + MCP tool context into every call
+    let enrichedMessage = messageWithContext;
+    if (mcpContext) {
+      enrichedMessage = `[MCP Tools Available]\n${mcpContext}\n\n${enrichedMessage}`;
+    }
     const messageWithBrain = systemPrompt
-      ? `[System Context]\n${systemPrompt}\n\n[User Message]\n${messageWithContext}`
-      : messageWithContext;
+      ? `[System Context]\n${systemPrompt}\n\n[User Message]\n${enrichedMessage}`
+      : enrichedMessage;
 
     try {
       let response;

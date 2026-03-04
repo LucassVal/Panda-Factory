@@ -18,5 +18,50 @@
   "permissions": ["data:read", "data:write", "brain:chat"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "crm_addContact",
+        "description": "Adiciona novo contato ao CRM",
+        "parameters": {
+          "name": "string (required)",
+          "email": "string",
+          "phone": "string",
+          "company": "string",
+          "stage": "string (lead|qualified|negotiation|won|lost)"
+        }
+      },
+      {
+        "name": "crm_updateContact",
+        "description": "Atualiza dados de um contato existente",
+        "parameters": {
+          "id": "string (required)",
+          "updates": "object"
+        }
+      },
+      {
+        "name": "crm_moveContact",
+        "description": "Move contato entre estágios do pipeline Kanban",
+        "parameters": {
+          "contactId": "string (required)",
+          "newStage": "string (required)"
+        }
+      },
+      {
+        "name": "crm_deleteContact",
+        "description": "Remove contato do CRM",
+        "parameters": {
+          "id": "string (required)"
+        }
+      },
+      {
+        "name": "crm_listContacts",
+        "description": "Lista todos os contatos, opcionalmente filtrados por estágio",
+        "parameters": {
+          "stage": "string (optional)"
+        }
+      }
+    ]
+  }
 }

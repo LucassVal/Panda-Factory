@@ -2,6 +2,8 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import PFCanvas from "./components/PFCanvas";
 import PFDock from "./components/PFDock";
 import PFStatusBar from "./components/PFStatusBar";
+import PFOrchestrator from "./components/PFOrchestrator";
+import useMCPRegistry from "./hooks/useMCPRegistry";
 import PFStore from "./components/PFStore";
 import PFCatalog from "./components/PFCatalog";
 import PFChat from "./components/PFChat";
@@ -63,11 +65,21 @@ function AppContent() {
   const [isPinned, setIsPinned] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGasometer, setShowGasometer] = useState(false);
+  const [showOrchestrator, setShowOrchestrator] = useState(false);
   const [showWizard, setShowWizard] = useState(() => {
     return !localStorage.getItem("panda_onboarding_complete");
   });
 
   const { isFounder } = useAuth();
+
+  // 🧠 MCP Registry — syncs with active Dock modules
+  const {
+    tools: mcpTools,
+    toolCount: mcpToolCount,
+    activeModules: mcpActiveModules,
+    syncWithDock,
+    getToolsForAI,
+  } = useMCPRegistry();
 
   // Wave 3 — Global keyboard shortcuts
   useKeyboardShortcuts({
@@ -88,6 +100,7 @@ function AppContent() {
       setShowCatalog(false);
       setShowNotifications(false);
       setShowGasometer(false);
+      setShowOrchestrator(false);
     },
   });
 
@@ -98,16 +111,42 @@ function AppContent() {
       window.dispatchEvent(new CustomEvent("panda:chat-toggle-internal"));
     };
     const handleOpenGasometer = () => setShowGasometer(true);
+    const handleOpenOrchestrator = () => setShowOrchestrator(true);
 
     window.addEventListener("panda:open-store", handleOpenStore);
     window.addEventListener("panda:toggle-chat", handleToggleChat);
     window.addEventListener("panda:open-gasometer", handleOpenGasometer);
+    window.addEventListener("panda:open-orchestrator", handleOpenOrchestrator);
     return () => {
       window.removeEventListener("panda:open-store", handleOpenStore);
       window.removeEventListener("panda:toggle-chat", handleToggleChat);
       window.removeEventListener("panda:open-gasometer", handleOpenGasometer);
+      window.removeEventListener(
+        "panda:open-orchestrator",
+        handleOpenOrchestrator,
+      );
     };
   }, []);
+
+  // 🧠 MCP: Sync registry with installed plugins + broadcast to PFChat
+  useEffect(() => {
+    const moduleIds = installedPlugins.map((p) => p.id).filter((id) => id); // only valid IDs
+    if (moduleIds.length > 0) {
+      syncWithDock(moduleIds);
+    }
+  }, [installedPlugins, syncWithDock]);
+
+  // 📡 Broadcast MCP tools context to PFChat whenever tools change
+  useEffect(() => {
+    const ctx = getToolsForAI();
+    if (ctx) {
+      window.dispatchEvent(
+        new CustomEvent("panda:mcp-tools-updated", {
+          detail: { context: ctx },
+        }),
+      );
+    }
+  }, [mcpTools, getToolsForAI]);
 
   // Install plugin from store (prevents duplicates)
   const handleInstallPlugin = (plugin) => {
@@ -377,6 +416,14 @@ function AppContent() {
       {/* FLOATING AI CHAT (Bottom Right) — Only in main window */}
       <PFChat />
 
+      {/* 🧠 ORCHESTRATOR PANEL (Right Side) */}
+      {showOrchestrator && (
+        <PFOrchestrator
+          activeModuleIds={installedPlugins.map((p) => p.id)}
+          onClose={() => setShowOrchestrator(false)}
+        />
+      )}
+
       {/* SETTINGS MODAL */}
       <PFSettings
         isOpen={showSettings}
@@ -411,14 +458,24 @@ function AppContent() {
         <GasometerPanel onClose={() => setShowGasometer(false)} />
       )}
 
-      {/* WATERMARK — Panda Fabrics branding + Medusa */}
+      {/* WATERMARK — Panda Fabrics branding + Medusa + MCP */}
       <footer className="pf-footer">
         <span className="pf-footer-accent" />
         PANDA FABRICS
         <span className="pf-footer-accent" />
         POWERED BY TLDRAW • 🐙 MEDUSA
+        {mcpToolCount > 0 && (
+          <span
+            className="pf-footer-mcp"
+            title={`${mcpToolCount} MCP tools from ${mcpActiveModules.length} modules`}
+            onClick={() => setShowOrchestrator(true)}
+            style={{ cursor: "pointer", marginLeft: 8 }}
+          >
+            🧠 MCP {mcpToolCount}
+          </span>
+        )}
         <span className="pf-footer-version">
-          v6.6 • {new Date().getFullYear()}
+          v6.7 • {new Date().getFullYear()}
         </span>
       </footer>
     </div>

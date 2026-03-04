@@ -14,9 +14,49 @@
   },
   "category": "design",
   "icon": "🌐",
-  "entry": "modules/landing-pages/index.jsx",
-  "permissions": ["data:read", "data:write", "brain:chat", "ui:panel"],
+  "entry": "modules/landing/index.jsx",
+  "permissions": ["data:read", "data:write", "brain:chat"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "landing_createPage",
+        "description": "Cria nova landing page a partir de template",
+        "parameters": {
+          "templateId": "string (saas|portfolio|product)",
+          "name": "string"
+        }
+      },
+      {
+        "name": "landing_updateSection",
+        "description": "Atualiza seção de uma landing page",
+        "parameters": {
+          "pageId": "string (required)",
+          "sectionIndex": "number (required)",
+          "updates": "object (title, subtitle, cta, bg)"
+        }
+      },
+      {
+        "name": "landing_exportHTML",
+        "description": "Exporta landing page como HTML puro para deploy",
+        "parameters": {
+          "pageId": "string (required)"
+        }
+      },
+      {
+        "name": "landing_listPages",
+        "description": "Lista todas as landing pages salvas",
+        "parameters": {}
+      },
+      {
+        "name": "landing_deletePage",
+        "description": "Remove uma landing page",
+        "parameters": {
+          "pageId": "string (required)"
+        }
+      }
+    ]
+  }
 }

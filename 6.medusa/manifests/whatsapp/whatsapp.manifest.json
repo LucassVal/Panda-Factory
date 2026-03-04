@@ -18,5 +18,37 @@
   "permissions": ["data:read", "data:write", "ui:panel"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "wa_sendMessage",
+        "description": "Envia mensagem de texto para um contato via WhatsApp",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "wa_getConversations",
+        "description": "Lista todas as conversas ativas",
+        "parameters": {}
+      },
+      {
+        "name": "wa_loadMessages",
+        "description": "Carrega histórico de mensagens de uma conversa",
+        "parameters": {
+          "contactId": "string (required)",
+          "limit": "number (default: 50)"
+        }
+      },
+      {
+        "name": "wa_toggleAutoReply",
+        "description": "Ativa ou desativa resposta automática por IA",
+        "parameters": {
+          "enabled": "boolean (required)"
+        }
+      }
+    ]
+  }
 }

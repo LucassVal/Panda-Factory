@@ -3,7 +3,7 @@
   "id": "instagram",
   "name": "Instagram",
   "version": "1.0.0",
-  "description": "Manage posts, stories and Instagram metrics from your workspace",
+  "description": "Manage DMs, stories and Instagram metrics via Meta Graph API",
   "author": "Panda Factory",
   "license": "MIT",
   "tier": "oss",
@@ -15,8 +15,40 @@
   "category": "social",
   "icon": "📸",
   "entry": "modules/instagram/index.jsx",
-  "permissions": ["data:read", "ui:panel"],
+  "permissions": ["data:read", "data:write", "ui:panel"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "ig_sendDM",
+        "description": "Envia mensagem direta no Instagram",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "ig_getInbox",
+        "description": "Lista conversas do inbox do Instagram",
+        "parameters": {}
+      },
+      {
+        "name": "ig_loadMessages",
+        "description": "Carrega histórico de DMs de uma conversa",
+        "parameters": {
+          "contactId": "string (required)",
+          "limit": "number (default: 50)"
+        }
+      },
+      {
+        "name": "ig_toggleAutoReply",
+        "description": "Ativa ou desativa resposta automática por IA nas DMs",
+        "parameters": {
+          "enabled": "boolean (required)"
+        }
+      }
+    ]
+  }
 }

@@ -3,7 +3,7 @@
   "id": "crm-tentacle",
   "name": "CRM Tentacle",
   "version": "1.0.0",
-  "description": "Extended CRM with multi-channel lead capture and automation",
+  "description": "Extended CRM with multi-channel lead capture, Kanban pipeline and automation",
   "author": "Panda Factory",
   "license": "MIT",
   "tier": "oss",
@@ -13,11 +13,47 @@
     "priceUSD": 0
   },
   "category": "productivity",
-  "type": "tentacle",
   "icon": "🐙",
-  "entry": "tentacles/crm-tentacle/index.js",
-  "permissions": ["data:read", "data:write", "hooks:register"],
+  "entry": "modules/crm-tentacle/index.jsx",
+  "permissions": ["data:read", "data:write", "ui:panel"],
   "dependencies": ["crm"],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "tentacle_addContact",
+        "description": "Adiciona lead capturado de canal externo ao pipeline",
+        "parameters": {
+          "name": "string (required)",
+          "source": "string (whatsapp|instagram|manual|import)",
+          "phone": "string",
+          "email": "string"
+        }
+      },
+      {
+        "name": "tentacle_moveStage",
+        "description": "Move contato entre estágios do pipeline (novo→qualificado→proposta→fechado→perdido)",
+        "parameters": {
+          "contactId": "string (required)",
+          "stage": "string (required)"
+        }
+      },
+      {
+        "name": "tentacle_getContacts",
+        "description": "Lista contatos filtrados por estágio ou fonte",
+        "parameters": {
+          "stage": "string (optional)",
+          "source": "string (optional)"
+        }
+      },
+      {
+        "name": "tentacle_deleteContact",
+        "description": "Remove contato do pipeline",
+        "parameters": {
+          "contactId": "string (required)"
+        }
+      }
+    ]
+  }
 }

@@ -2,21 +2,42 @@
   "panda_manifest_version": "1.0.0",
   "id": "youtube",
   "name": "YouTube",
-  "version": "1.0.0",
-  "description": "Channel, videos, analytics and comments management",
+  "version": "2.0.0",
+  "description": "YouTube comment management and community engagement",
   "author": "Panda Factory",
-  "license": "proprietary",
-  "tier": "pro",
-  "pricing": {
-    "model": "one-time",
-    "pricePC": 50,
-    "priceUSD": 4.99
-  },
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": { "model": "free", "pricePC": 0, "priceUSD": 0 },
   "category": "social",
   "icon": "▶️",
   "entry": "modules/youtube/index.jsx",
-  "permissions": ["data:read", "ui:panel"],
+  "permissions": ["data:read", "data:write", "ui:panel"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-dev"]
+  "badges": ["panda-founder"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "yt_replyComment",
+        "description": "Responde a comentário no YouTube",
+        "parameters": {
+          "commentId": "string (required)",
+          "reply": "string (required)"
+        }
+      },
+      {
+        "name": "yt_getComments",
+        "description": "Lista comentários recentes de um vídeo",
+        "parameters": {
+          "videoId": "string (required)",
+          "limit": "number (default: 50)"
+        }
+      },
+      {
+        "name": "yt_toggleAutoReply",
+        "description": "Ativa/desativa resposta automática IA nos comentários",
+        "parameters": { "enabled": "boolean (required)" }
+      }
+    ]
+  }
 }
