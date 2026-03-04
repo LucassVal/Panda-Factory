@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { gasPost } from "../../services/callGAS";
+import { BsBoxSeam, BsCartPlus, BsListUl, BsPlusLg } from "react-icons/bs";
+import { BiRestaurant } from "react-icons/bi";
 import "./PFCardapioPDV.css";
 
 /* ═══════════════════════════════════════════════════════════
@@ -114,7 +116,13 @@ export default function PFCardapioPDV({ onClose }) {
       {/* Header */}
       <div className="pf-pdv-header">
         <div className="pf-pdv-title-row">
-          <h2 className="pf-pdv-title">🍽️ Cardápio & PDV</h2>
+          <h2 className="pf-pdv-title">
+            <BsBoxSeam
+              size={24}
+              style={{ marginRight: 8, verticalAlign: "text-bottom" }}
+            />{" "}
+            Panda Commerce
+          </h2>
           <span className="pf-pdv-badge">MOD-06</span>
           {onClose && (
             <button className="pf-pdv-close" onClick={onClose}>
@@ -158,9 +166,39 @@ export default function PFCardapioPDV({ onClose }) {
         {/* Tabs */}
         <div className="pf-pdv-tabs">
           {[
-            { id: "menu", label: "🍽️ Cardápio" },
-            { id: "newOrder", label: "🛒 Novo Pedido" },
-            { id: "orders", label: "📋 Pedidos" },
+            {
+              id: "menu",
+              label: (
+                <>
+                  <BiRestaurant
+                    style={{ marginRight: 4, verticalAlign: "text-bottom" }}
+                  />{" "}
+                  Cardápio
+                </>
+              ),
+            },
+            {
+              id: "newOrder",
+              label: (
+                <>
+                  <BsCartPlus
+                    style={{ marginRight: 4, verticalAlign: "text-bottom" }}
+                  />{" "}
+                  Novo Pedido
+                </>
+              ),
+            },
+            {
+              id: "orders",
+              label: (
+                <>
+                  <BsListUl
+                    style={{ marginRight: 4, verticalAlign: "text-bottom" }}
+                  />{" "}
+                  Pedidos
+                </>
+              ),
+            },
           ].map((t) => (
             <button
               key={t.id}
@@ -177,7 +215,7 @@ export default function PFCardapioPDV({ onClose }) {
               setShowItemModal(true);
             }}
           >
-            ➕ Item
+            <BsPlusLg style={{ marginRight: 6 }} /> Item
           </button>
         </div>
       </div>
@@ -226,7 +264,7 @@ export default function PFCardapioPDV({ onClose }) {
                             className="pf-pdv-add-cart-btn"
                             onClick={() => addToCart(item)}
                           >
-                            ➕
+                            <BsPlusLg size={12} />
                           </button>
                         )}
                       </div>
@@ -237,7 +275,9 @@ export default function PFCardapioPDV({ onClose }) {
             ))}
             {menu.length === 0 && (
               <div className="pf-pdv-empty">
-                <div style={{ fontSize: 48, opacity: 0.3 }}>🍽️</div>
+                <div style={{ fontSize: 48, opacity: 0.3 }}>
+                  <BiRestaurant />
+                </div>
                 <p>Cardápio vazio</p>
               </div>
             )}

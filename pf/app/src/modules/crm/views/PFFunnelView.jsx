@@ -6,7 +6,7 @@
  * Billing: free to 100 contacts, 0.1 PC above
  * ═══════════════════════════════════════════════════════════ */
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import "./PFCRMTentacle.css";
+import "./PFFunnelView.css";
 
 // ── GAS communication ──
 const gasPost = async (action, payload = {}) => {

@@ -33,12 +33,8 @@ import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 import PandaCRM from "./modules/crm";
 import PandaLanding from "./modules/landing";
 import FounderHub from "./modules/founder";
-import PandaWhatsApp from "./modules/whatsapp";
-import PandaInstagram from "./modules/instagram";
-import PandaCRMTentacle from "./modules/crm-tentacle";
-import PandaAgenda from "./modules/agenda";
-import PandaPDV from "./modules/pdv";
-import PandaEstoque from "./modules/estoque";
+import PandaSocial from "./modules/social";
+import PandaCommerce from "./modules/pdv";
 import PFDiagnosticDashboard from "./components/PFDiagnosticDashboard";
 import PFErrorBoundary from "./components/PFErrorBoundary";
 
@@ -256,10 +252,17 @@ function AppContent() {
               </PFErrorBoundary>
             );
           }
-          if (componentType === "landing") {
+          if (componentType === "landing-pages") {
             return (
               <PFErrorBoundary>
                 <PandaLanding onClose={closeDefault} />
+              </PFErrorBoundary>
+            );
+          }
+          if (componentType === "pdv") {
+            return (
+              <PFErrorBoundary>
+                <PandaCommerce onClose={closeDefault} />
               </PFErrorBoundary>
             );
           }
@@ -280,45 +283,10 @@ function AppContent() {
               </PFErrorBoundary>
             );
           }
-          if (componentType === "whatsapp") {
+          if (componentType === "social") {
             return (
               <PFErrorBoundary>
-                <PandaWhatsApp onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "instagram") {
-            return (
-              <PFErrorBoundary>
-                <PandaInstagram onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "crm-tentacle") {
-            return (
-              <PFErrorBoundary>
-                <PandaCRMTentacle onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "agenda") {
-            return (
-              <PFErrorBoundary>
-                <PandaAgenda onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "pdv") {
-            return (
-              <PFErrorBoundary>
-                <PandaPDV onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "estoque") {
-            return (
-              <PFErrorBoundary>
-                <PandaEstoque onClose={closeDefault} />
+                <PandaSocial onClose={closeDefault} />
               </PFErrorBoundary>
             );
           }

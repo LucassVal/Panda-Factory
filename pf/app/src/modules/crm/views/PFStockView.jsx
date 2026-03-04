@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { gasPost } from "../../services/callGAS";
-import "./PFEstoque.css";
+import { gasPost } from "../../../services/callGAS";
+import "./PFStockView.css";
 
 const UNITS = ["un", "kg", "g", "L", "mL", "cx", "pct", "m", "m²"];
 

@@ -1,4 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
+import React from "react";
+import { RiOrganizationChart } from "react-icons/ri";
+import { TbMessageChatbot } from "react-icons/tb";
+import { PiChartLineUpBold } from "react-icons/pi";
+import { BsRobot } from "react-icons/bs";
+import { FaStore } from "react-icons/fa";
+import { AiOutlineStock } from "react-icons/ai";
 
 /**
  * 📦 useStoreModules — Fetch registered modules for Bundle Creator
@@ -13,64 +20,69 @@ import { useState, useEffect, useCallback } from "react";
 // ── Built-in Panda native modules (always available, custo zero) ──
 const NATIVE_MODULES = [
   {
-    id: "@panda/crm",
+    id: "crm",
     name: "Panda CRM",
-    icon: "📱",
+    icon: <RiOrganizationChart size={24} color="#818cf8" />,
     category: "productivity",
     price_pc: 0,
     author: { name: "Panda Core", namespace: "@panda" },
     native: true,
-    description: "CRM completo integrado ao ecossistema Panda",
+    description:
+      "Pipeline Kanban, Agenda e Estoque consolidados num único hub corporativo",
   },
   {
-    id: "@panda/brain",
-    name: "Panda Brain",
-    icon: "🧠",
-    category: "ai",
-    price_pc: 0,
-    author: { name: "Panda Core", namespace: "@panda" },
-    native: true,
-    description: "AI multimodal com Gemini — chat, análise, geração",
-  },
-  {
-    id: "@panda/trading",
-    name: "Trading Hub",
-    icon: "📊",
-    category: "trading",
-    price_pc: 0,
-    author: { name: "Panda Core", namespace: "@panda" },
-    native: true,
-    description: "Dashboard trading com sinais e análise técnica",
-  },
-  {
-    id: "@panda/analytics",
-    name: "Analytics Dashboard",
-    icon: "📈",
-    category: "analytics",
-    price_pc: 0,
-    author: { name: "Panda Core", namespace: "@panda" },
-    native: true,
-    description: "Métricas unificadas de todos os módulos",
-  },
-  {
-    id: "@panda/social",
-    name: "Social Manager",
-    icon: "💬",
+    id: "social",
+    name: "Social Hub",
+    icon: <TbMessageChatbot size={24} color="#34d399" />,
     category: "social",
     price_pc: 0,
     author: { name: "Panda Core", namespace: "@panda" },
     native: true,
-    description: "Gestão unificada de redes sociais",
+    description:
+      "Caixa de entrada unificada (WhatsApp, Instagram, FB) com respostas via Inteligência Artificial",
   },
   {
-    id: "@panda/store",
-    name: "Panda Store",
-    icon: "🏪",
+    id: "landing-pages",
+    name: "Panda Pages",
+    icon: <FaStore size={22} color="#f472b6" />,
     category: "productivity",
     price_pc: 0,
     author: { name: "Panda Core", namespace: "@panda" },
     native: true,
-    description: "Marketplace de módulos e tentáculos",
+    description:
+      "Gerador de Landing Pages e páginas internas de produto atreladas à Store",
+  },
+  {
+    id: "@panda/brain",
+    name: "Panda Brain",
+    icon: <BsRobot size={24} color="#c084fc" />,
+    category: "ai",
+    price_pc: 0,
+    author: { name: "Panda Core", namespace: "@panda" },
+    native: true,
+    description:
+      "AI multimodal com Gemini — controle central da inteligência autônoma",
+  },
+  {
+    id: "@panda/trading",
+    name: "Trading Hub",
+    icon: <AiOutlineStock size={24} color="#fbbf24" />,
+    category: "trading",
+    price_pc: 0,
+    author: { name: "Panda Core", namespace: "@panda" },
+    native: true,
+    description:
+      "Dashboard trading com sinais, análise técnica e multi-timeframes",
+  },
+  {
+    id: "@panda/analytics",
+    name: "Analytics Dashboard",
+    icon: <PiChartLineUpBold size={24} color="#38bdf8" />,
+    category: "analytics",
+    price_pc: 0,
+    author: { name: "Panda Core", namespace: "@panda" },
+    native: true,
+    description: "Métricas unificadas de todas as pontas do ecossistema",
   },
 ];
 
@@ -95,16 +107,6 @@ const COMMUNITY_MODULES = [
     author: { name: "Dev Beltrano", namespace: "@dev2" },
     native: false,
     description: "Cardápio online com QR Code",
-  },
-  {
-    id: "@dev3/whatsapp-bot",
-    name: "WhatsApp Bot",
-    icon: "💚",
-    category: "automation",
-    price_pc: 8000,
-    author: { name: "Dev Ciclano", namespace: "@dev3" },
-    native: false,
-    description: "Atendimento automatizado via WhatsApp",
   },
   {
     id: "@dev4/instagram-insights",

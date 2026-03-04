@@ -69,22 +69,21 @@ export function CheckoutModal({
     try {
       if (isPcPurchase) {
         // ── PC Package Purchase → always Stripe ──
-          const result = await purchasePackage(pcPackage);
-          if (result.redirecting) {
-            onClose();
-            return;
-          }
-          if (result.mock) {
-            onPurchaseComplete?.({
-              type: "pc_purchase",
-              package: pcPackage,
-              mock: true,
-            });
-            onClose();
-          }
-          if (!result.success) {
-            throw new Error(result.error);
-          }
+        const result = await purchasePackage(pcPackage);
+        if (result.redirecting) {
+          onClose();
+          return;
+        }
+        if (result.mock) {
+          onPurchaseComplete?.({
+            type: "pc_purchase",
+            package: pcPackage,
+            mock: true,
+          });
+          onClose();
+        }
+        if (!result.success) {
+          throw new Error(result.error);
         }
       } else if (paymentMethod === "pc") {
         // ── Store Item: PC debit ──
@@ -269,7 +268,8 @@ export function CheckoutModal({
               </div>
             </div>
             <p className="checkout-stripe-note">
-              🔒 Você será redirecionado para o checkout seguro da nossa plataforma de vendas.
+              🔒 Você será redirecionado para o checkout seguro da nossa
+              plataforma de vendas.
             </p>
           </div>
         )}

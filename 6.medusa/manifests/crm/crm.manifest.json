@@ -2,8 +2,8 @@
   "panda_manifest_version": "1.0.0",
   "id": "crm",
   "name": "Panda CRM",
-  "version": "2.1.0",
-  "description": "Complete CRM solution — contacts, leads, Kanban pipeline, AI insights",
+  "version": "3.0.0",
+  "description": "Premium All-in-One CRM: pipeline kanban, agenda de eventos, controle de estoque e funil de leads automáticos",
   "author": "Panda Factory",
   "license": "MIT",
   "tier": "oss",
@@ -13,12 +13,12 @@
     "priceUSD": 0
   },
   "category": "productivity",
-  "icon": "📱",
-  "entry": "modules/crm/index.jsx",
-  "permissions": ["data:read", "data:write", "brain:chat"],
+  "icon": "🏢",
+  "entry": "modules/crm/PandaCRM.jsx",
+  "permissions": ["data:read", "data:write", "brain:chat", "ui:panel"],
   "dependencies": [],
   "minSDK": "1.0.0",
-  "badges": ["panda-founder"],
+  "badges": ["panda-founder", "hero"],
   "mcp": {
     "tools": [
       {
@@ -60,6 +60,108 @@
         "description": "Lista todos os contatos, opcionalmente filtrados por estágio",
         "parameters": {
           "stage": "string (optional)"
+        }
+      },
+      {
+        "name": "tentacle_addContact",
+        "description": "Adiciona lead capturado de canal externo ao pipeline",
+        "parameters": {
+          "name": "string (required)",
+          "source": "string (whatsapp|instagram|manual|import)",
+          "phone": "string",
+          "email": "string"
+        }
+      },
+      {
+        "name": "tentacle_moveStage",
+        "description": "Move contato entre estágios do pipeline (novo→qualificado→proposta→fechado→perdido)",
+        "parameters": {
+          "contactId": "string (required)",
+          "stage": "string (required)"
+        }
+      },
+      {
+        "name": "tentacle_getContacts",
+        "description": "Lista contatos filtrados por estágio ou fonte",
+        "parameters": {
+          "stage": "string (optional)",
+          "source": "string (optional)"
+        }
+      },
+      {
+        "name": "tentacle_deleteContact",
+        "description": "Remove contato do pipeline",
+        "parameters": {
+          "contactId": "string (required)"
+        }
+      },
+      {
+        "name": "agenda_createEvent",
+        "description": "Cria novo evento na agenda",
+        "parameters": {
+          "title": "string (required)",
+          "start": "ISO datetime (required)",
+          "end": "ISO datetime (required)",
+          "color": "string (hex)",
+          "status": "string (pending|confirmed|completed|cancelled)"
+        }
+      },
+      {
+        "name": "agenda_updateEvent",
+        "description": "Atualiza evento existente",
+        "parameters": {
+          "eventId": "string (required)",
+          "updates": "object"
+        }
+      },
+      {
+        "name": "agenda_deleteEvent",
+        "description": "Remove evento da agenda",
+        "parameters": {
+          "eventId": "string (required)"
+        }
+      },
+      {
+        "name": "agenda_listEvents",
+        "description": "Lista eventos de um período (semana atual por padrão)",
+        "parameters": {
+          "startDate": "ISO date (optional)",
+          "endDate": "ISO date (optional)"
+        }
+      },
+      {
+        "name": "estoque_addItem",
+        "description": "Cadastra novo item no estoque",
+        "parameters": {
+          "name": "string (required)",
+          "sku": "string",
+          "unit": "string (un|kg|g|L|mL|cx|pct|m|m²)",
+          "minStock": "number",
+          "currentStock": "number"
+        }
+      },
+      {
+        "name": "estoque_adjustStock",
+        "description": "Ajusta quantidade em estoque (entrada ou saída)",
+        "parameters": {
+          "itemId": "string (required)",
+          "adjustment": "number (required, positive=entrada, negative=saída)",
+          "reason": "string",
+          "type": "string (entrada|saida|ajuste)"
+        }
+      },
+      {
+        "name": "estoque_listItems",
+        "description": "Lista todos os itens do estoque com quantidades",
+        "parameters": {
+          "lowStockOnly": "boolean (default: false)"
+        }
+      },
+      {
+        "name": "estoque_getItem",
+        "description": "Busca detalhes de um item específico",
+        "parameters": {
+          "itemId": "string (required)"
         }
       }
     ]

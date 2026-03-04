@@ -15,11 +15,15 @@
  * During dev, manifests are resolved from localStorage cache or
  * the inline BUILTIN_TOOLS fallback (embedded at build time).
  *
- * @version 1.1.0
+ * @version 2.0.0
  * @see PF_MCP_REFERENCE.md §B.2
  */
 
-import { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
+import { RiOrganizationChart } from "react-icons/ri";
+import { TbMessageChatbot } from "react-icons/tb";
+import { BsBoxSeam } from "react-icons/bs";
+import { MdOutlineStorefront } from "react-icons/md";
 
 // ── Inline tool definitions (extracted from 6.medusa/manifests/*) ──
 // This avoids import() across Vite root boundary.
@@ -27,7 +31,8 @@ import { useState, useCallback, useMemo } from "react";
 const BUILTIN_TOOLS = {
   crm: {
     name: "Panda CRM",
-    icon: "📱",
+    icon: <RiOrganizationChart size={24} color="#818cf8" />,
+    textIcon: "🏢",
     tools: [
       {
         name: "crm_addContact",
@@ -36,114 +41,47 @@ const BUILTIN_TOOLS = {
           name: "string (required)",
           email: "string",
           phone: "string",
-          tags: "string[]",
+          company: "string",
+          stage: "string (lead|qualified|negotiation|won|lost)",
         },
       },
       {
         name: "crm_updateContact",
-        description: "Atualiza dados de um contato",
-        parameters: { contactId: "string (required)", updates: "object" },
+        description: "Atualiza dados de um contato existente",
+        parameters: { id: "string (required)", updates: "object" },
       },
       {
         name: "crm_moveContact",
-        description: "Move contato para outro estágio do pipeline",
+        description: "Move contato entre estágios do pipeline Kanban",
         parameters: {
           contactId: "string (required)",
-          stage: "string (lead|prospect|client|inactive)",
+          newStage: "string (required)",
         },
       },
       {
         name: "crm_deleteContact",
         description: "Remove contato do CRM",
-        parameters: { contactId: "string (required)" },
+        parameters: { id: "string (required)" },
       },
       {
         name: "crm_listContacts",
-        description: "Lista contatos com filtros opcionais",
-        parameters: { stage: "string (optional)", search: "string (optional)" },
+        description:
+          "Lista todos os contatos, opcionalmente filtrados por estágio",
+        parameters: { stage: "string (optional)" },
       },
-    ],
-  },
-  whatsapp: {
-    name: "WhatsApp",
-    icon: "💬",
-    tools: [
-      {
-        name: "wa_sendMessage",
-        description: "Envia mensagem via WhatsApp",
-        parameters: {
-          conversationId: "string (required)",
-          message: "string (required)",
-        },
-      },
-      {
-        name: "wa_getConversations",
-        description: "Lista conversas recentes",
-        parameters: {},
-      },
-      {
-        name: "wa_loadMessages",
-        description: "Carrega mensagens de uma conversa",
-        parameters: {
-          conversationId: "string (required)",
-          limit: "number (default: 50)",
-        },
-      },
-      {
-        name: "wa_toggleAutoReply",
-        description: "Ativa/desativa resposta automática IA",
-        parameters: { enabled: "boolean (required)" },
-      },
-    ],
-  },
-  instagram: {
-    name: "Instagram DM",
-    icon: "📷",
-    tools: [
-      {
-        name: "ig_sendDM",
-        description: "Envia DM no Instagram",
-        parameters: {
-          userId: "string (required)",
-          message: "string (required)",
-        },
-      },
-      {
-        name: "ig_getInbox",
-        description: "Lista inbox do Instagram",
-        parameters: {},
-      },
-      {
-        name: "ig_loadMessages",
-        description: "Carrega mensagens de uma conversa",
-        parameters: {
-          conversationId: "string (required)",
-          limit: "number (default: 50)",
-        },
-      },
-      {
-        name: "ig_toggleAutoReply",
-        description: "Ativa/desativa resposta automática IA",
-        parameters: { enabled: "boolean (required)" },
-      },
-    ],
-  },
-  "crm-tentacle": {
-    name: "CRM Tentacle",
-    icon: "🐙",
-    tools: [
       {
         name: "tentacle_addContact",
-        description: "Adiciona contato ao CRM Tentacle",
+        description: "Adiciona lead capturado de canal externo ao pipeline",
         parameters: {
           name: "string (required)",
-          email: "string",
+          source: "string (whatsapp|instagram|manual|import)",
           phone: "string",
+          email: "string",
         },
       },
       {
         name: "tentacle_moveStage",
-        description: "Move contato entre estágios do funil",
+        description: "Move contato entre estágios do pipeline",
         parameters: {
           contactId: "string (required)",
           stage: "string (required)",
@@ -151,23 +89,14 @@ const BUILTIN_TOOLS = {
       },
       {
         name: "tentacle_getContacts",
-        description: "Lista contatos com filtros",
-        parameters: {
-          stage: "string (optional)",
-          limit: "number (default: 50)",
-        },
+        description: "Lista contatos filtrados por estágio ou fonte",
+        parameters: { stage: "string (optional)", source: "string (optional)" },
       },
       {
         name: "tentacle_deleteContact",
-        description: "Remove contato",
+        description: "Remove contato do pipeline",
         parameters: { contactId: "string (required)" },
       },
-    ],
-  },
-  agenda: {
-    name: "Panda Agenda",
-    icon: "📅",
-    tools: [
       {
         name: "agenda_createEvent",
         description: "Cria novo evento na agenda",
@@ -176,7 +105,7 @@ const BUILTIN_TOOLS = {
           start: "ISO datetime (required)",
           end: "ISO datetime (required)",
           color: "string (hex)",
-          status: "string (pending|confirmed|completed|cancelled)",
+          status: "string",
         },
       },
       {
@@ -197,11 +126,150 @@ const BUILTIN_TOOLS = {
           endDate: "ISO date (optional)",
         },
       },
+      {
+        name: "estoque_addItem",
+        description: "Cadastra novo item no estoque",
+        parameters: {
+          name: "string (required)",
+          sku: "string",
+          unit: "string",
+          minStock: "number",
+          currentStock: "number",
+        },
+      },
+      {
+        name: "estoque_adjustStock",
+        description: "Ajusta quantidade em estoque (entrada ou saída)",
+        parameters: {
+          itemId: "string (required)",
+          adjustment: "number (required)",
+          reason: "string",
+          type: "string",
+        },
+      },
+      {
+        name: "estoque_listItems",
+        description: "Lista todos os itens do estoque",
+        parameters: { lowStockOnly: "boolean (default: false)" },
+      },
+      {
+        name: "estoque_getItem",
+        description: "Busca detalhes de um item específico",
+        parameters: { itemId: "string (required)" },
+      },
+    ],
+  },
+  social: {
+    name: "Panda Social Hub",
+    icon: <TbMessageChatbot size={24} color="#34d399" />,
+    textIcon: "💬",
+    tools: [
+      {
+        name: "wa_sendMessage",
+        description: "Envia mensagem de texto para um contato via WhatsApp",
+        parameters: {
+          contactId: "string (required)",
+          message: "string (required)",
+        },
+      },
+      {
+        name: "wa_getConversations",
+        description: "Lista todas as conversas ativas no WhatsApp",
+        parameters: {},
+      },
+      {
+        name: "wa_loadMessages",
+        description:
+          "Carrega histórico de mensagens de uma conversa do WhatsApp",
+        parameters: { contactId: "string (required)", limit: "number" },
+      },
+      {
+        name: "wa_toggleAutoReply",
+        description: "Ativa ou desativa resposta automática por IA no WhatsApp",
+        parameters: { enabled: "boolean (required)" },
+      },
+      {
+        name: "ig_sendDM",
+        description: "Envia mensagem direta no Instagram",
+        parameters: {
+          contactId: "string (required)",
+          message: "string (required)",
+        },
+      },
+      {
+        name: "ig_getInbox",
+        description: "Lista conversas do inbox do Instagram",
+        parameters: {},
+      },
+      {
+        name: "ig_loadMessages",
+        description: "Carrega histórico de DMs de uma conversa no Instagram",
+        parameters: { contactId: "string (required)", limit: "number" },
+      },
+      {
+        name: "ig_toggleAutoReply",
+        description:
+          "Ativa ou desativa resposta automática por IA nas DMs do IG",
+        parameters: { enabled: "boolean (required)" },
+      },
+      {
+        name: "fb_sendDM",
+        description: "Envia mensagem no Facebook Messenger",
+        parameters: {
+          contactId: "string (required)",
+          message: "string (required)",
+        },
+      },
+      {
+        name: "fb_getInbox",
+        description: "Lista conversas do inbox do Facebook",
+        parameters: {},
+      },
+      {
+        name: "tk_sendDM",
+        description: "Envia mensagem no TikTok",
+        parameters: {
+          contactId: "string (required)",
+          message: "string (required)",
+        },
+      },
+      {
+        name: "tk_getInbox",
+        description: "Lista conversas do inbox do TikTok",
+        parameters: {},
+      },
+      {
+        name: "tw_sendDM",
+        description: "Envia mensagem no Twitter/X",
+        parameters: {
+          contactId: "string (required)",
+          message: "string (required)",
+        },
+      },
+      {
+        name: "tw_getInbox",
+        description: "Lista conversas do inbox do Twitter/X",
+        parameters: {},
+      },
+      {
+        name: "yt_replyComment",
+        description: "Responde a um comentário no YouTube",
+        parameters: {
+          commentId: "string (required)",
+          reply: "string (required)",
+        },
+      },
+      {
+        name: "yt_getComments",
+        description: "Lista comentários recentes do canal no YouTube",
+        parameters: {},
+      },
     ],
   },
   pdv: {
     name: "Panda PDV",
-    icon: "🛒",
+    icon: <BsBoxSeam size={22} color="#f59e0b" />,
+    textIcon: "🛒",
     tools: [
       {
         name: "pdv_addItem",
@@ -216,7 +284,7 @@ const BUILTIN_TOOLS = {
       {
         name: "pdv_addToCart",
         description: "Adiciona item ao carrinho de venda",
-        parameters: { itemId: "string (required)", qty: "number (default: 1)" },
+        parameters: { itemId: "string (required)", qty: "number" },
       },
       {
         name: "pdv_checkout",
@@ -230,54 +298,15 @@ const BUILTIN_TOOLS = {
       },
     ],
   },
-  estoque: {
-    name: "Panda Estoque",
-    icon: "📦",
-    tools: [
-      {
-        name: "estoque_addItem",
-        description: "Cadastra novo item no estoque",
-        parameters: {
-          name: "string (required)",
-          sku: "string",
-          unit: "string",
-          minStock: "number",
-          currentStock: "number",
-        },
-      },
-      {
-        name: "estoque_adjustStock",
-        description: "Ajusta quantidade em estoque",
-        parameters: {
-          itemId: "string (required)",
-          adjustment: "number (required)",
-          reason: "string",
-          type: "string (entrada|saida|ajuste)",
-        },
-      },
-      {
-        name: "estoque_listItems",
-        description: "Lista itens do estoque",
-        parameters: { lowStockOnly: "boolean (default: false)" },
-      },
-      {
-        name: "estoque_getItem",
-        description: "Busca detalhes de um item específico",
-        parameters: { itemId: "string (required)" },
-      },
-    ],
-  },
   "landing-pages": {
     name: "Landing Pages",
-    icon: "🌐",
+    icon: <MdOutlineStorefront size={24} color="#f472b6" />,
+    textIcon: "🌐",
     tools: [
       {
         name: "landing_createPage",
         description: "Cria nova landing page a partir de template",
-        parameters: {
-          templateId: "string (saas|portfolio|product)",
-          name: "string",
-        },
+        parameters: { templateId: "string", name: "string" },
       },
       {
         name: "landing_updateSection",
@@ -290,7 +319,7 @@ const BUILTIN_TOOLS = {
       },
       {
         name: "landing_exportHTML",
-        description: "Exporta landing page como HTML puro",
+        description: "Exporta landing page como HTML puro para deploy",
         parameters: { pageId: "string (required)" },
       },
       {
@@ -302,105 +331,6 @@ const BUILTIN_TOOLS = {
         name: "landing_deletePage",
         description: "Remove uma landing page",
         parameters: { pageId: "string (required)" },
-      },
-    ],
-  },
-  facebook: {
-    name: "Facebook Messenger",
-    icon: "📘",
-    tools: [
-      {
-        name: "fb_sendMessage",
-        description: "Envia mensagem via Facebook Messenger",
-        parameters: {
-          conversationId: "string (required)",
-          message: "string (required)",
-        },
-      },
-      {
-        name: "fb_getConversations",
-        description: "Lista conversas do Messenger",
-        parameters: {},
-      },
-      {
-        name: "fb_toggleAutoReply",
-        description: "Ativa/desativa resposta automática IA",
-        parameters: { enabled: "boolean (required)" },
-      },
-    ],
-  },
-  tiktok: {
-    name: "TikTok",
-    icon: "🎵",
-    tools: [
-      {
-        name: "tiktok_sendDM",
-        description: "Envia mensagem direta no TikTok",
-        parameters: {
-          userId: "string (required)",
-          message: "string (required)",
-        },
-      },
-      {
-        name: "tiktok_getInbox",
-        description: "Lista conversas do TikTok",
-        parameters: {},
-      },
-      {
-        name: "tiktok_toggleAutoReply",
-        description: "Ativa/desativa resposta automática IA",
-        parameters: { enabled: "boolean (required)" },
-      },
-    ],
-  },
-  twitter: {
-    name: "Twitter / X",
-    icon: "🐦",
-    tools: [
-      {
-        name: "twitter_sendDM",
-        description: "Envia mensagem direta no Twitter/X",
-        parameters: {
-          userId: "string (required)",
-          message: "string (required)",
-        },
-      },
-      {
-        name: "twitter_getInbox",
-        description: "Lista conversas de DM",
-        parameters: {},
-      },
-      {
-        name: "twitter_toggleAutoReply",
-        description: "Ativa/desativa resposta automática IA",
-        parameters: { enabled: "boolean (required)" },
-      },
-    ],
-  },
-  youtube: {
-    name: "YouTube",
-    icon: "▶️",
-    tools: [
-      {
-        name: "yt_replyComment",
-        description: "Responde a comentário no YouTube",
-        parameters: {
-          commentId: "string (required)",
-          reply: "string (required)",
-        },
-      },
-      {
-        name: "yt_getComments",
-        description: "Lista comentários recentes de um vídeo",
-        parameters: {
-          videoId: "string (required)",
-          limit: "number (default: 50)",
-        },
-      },
-      {
-        name: "yt_toggleAutoReply",
-        description: "Ativa/desativa resposta automática IA nos comentários",
-        parameters: { enabled: "boolean (required)" },
       },
     ],
   },
@@ -420,7 +350,7 @@ const BUILTIN_TOOLS = {
  * }}
  */
 export default function useMCPRegistry() {
-  // moduleId → { name, icon, tools[] }
+  // moduleId → { name, icon, textIcon, tools[] }
   const [registry, setRegistry] = useState(new Map());
 
   // ── Load a single module ──
@@ -500,6 +430,7 @@ export default function useMCPRegistry() {
           moduleId,
           moduleName: manifest.name,
           moduleIcon: manifest.icon,
+          moduleTextIcon: manifest.textIcon,
         });
       }
     }
@@ -530,7 +461,7 @@ export default function useMCPRegistry() {
       if (!byModule[tool.moduleId]) {
         byModule[tool.moduleId] = {
           name: tool.moduleName,
-          icon: tool.moduleIcon,
+          textIcon: tool.moduleTextIcon,
           tools: [],
         };
       }
@@ -538,7 +469,7 @@ export default function useMCPRegistry() {
     }
 
     for (const [, mod] of Object.entries(byModule)) {
-      lines.push(`${mod.icon} ${mod.name}:`);
+      lines.push(`${mod.textIcon} ${mod.name}:`);
       for (const tool of mod.tools) {
         const params = tool.parameters
           ? Object.keys(tool.parameters).join(", ")

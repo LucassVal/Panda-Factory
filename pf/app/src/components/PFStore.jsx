@@ -3,6 +3,12 @@ import { CheckoutModal } from "./PFCheckoutModal";
 import PFProductDetail from "./PFProductDetail";
 import useLicenses from "../hooks/useLicenses";
 import { Store, gasPost } from "../services/callGAS";
+import { RiOrganizationChart } from "react-icons/ri";
+import { TbMessageChatbot } from "react-icons/tb";
+import { BsBoxSeam } from "react-icons/bs";
+import { MdOutlineStorefront } from "react-icons/md";
+import { SiGoogleads, SiMeta } from "react-icons/si";
+import { PiChartLineUpBold } from "react-icons/pi";
 
 /**
  * 🏪 Panda Store v4.0 — Medusa Distribution UI
@@ -52,234 +58,89 @@ const BADGE_CONFIG = {
 // Exported for Casulo manifest generation
 export const STORE_ITEMS = [
   // ─── NATIVE MODULES (FREE / OSS) ─────────────────────────────
-  // These ship with Panda Factory — always free, always available
   {
     id: "crm",
     name: "Panda CRM",
-    icon: "📱",
-    description: "Manage contacts, leads and sales with integrated AI",
+    icon: <RiOrganizationChart size={28} color="#818cf8" />,
+    description:
+      "Premium All-in-One CRM: pipeline kanban, agenda de eventos, estoque e captura de leads",
     fullDescription:
-      "Complete CRM solution built into the Panda ecosystem.\nManage your contacts, track leads through a visual Kanban pipeline, and close sales faster with AI-powered insights.\n\nFeatures:\n• Contact management with smart search\n• Kanban board for sales pipeline\n• AI-generated follow-up suggestions\n• WhatsApp integration for direct messaging\n• Export reports in PDF and CSV",
+      "Complete CRM solution built into the Panda ecosystem.\nManage your contacts, track leads through a visual Kanban pipeline, and close sales faster with AI-powered insights.\n\nFeatures:\n• Contact management with smart search\n• Kanban board for sales pipeline\n• AI-generated follow-up suggestions\n• Integrated Agenda and Calendar",
     priceUSD: 0,
     price: 0,
     tier: "oss",
     storeCategory: "productivity",
     category: "panda-factory",
     author: "Panda Factory",
-    version: "2.1.0",
+    version: "3.0.0",
     popular: true,
     badge: "panda-founder",
-    embedLinks: [
-      { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
-      { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
-    ],
+    embedLinks: [],
   },
   {
-    id: "instagram",
-    name: "Instagram",
-    icon: "📸",
-    description: "Manage posts, stories and Instagram metrics",
+    id: "social",
+    name: "Social Hub",
+    icon: <TbMessageChatbot size={28} color="#34d399" />,
+    description:
+      "Unified Inbox for WhatsApp, Instagram, Facebook, TikTok, Twitter and YouTube",
     fullDescription:
-      "Connect your Instagram business account and manage everything from within Panda.\nSchedule posts, analyze story performance, and track follower growth with beautiful dashboards.\n\nFeatures:\n• Post scheduling with AI captions\n• Story analytics and engagement metrics\n• Hashtag research and suggestions\n• Content calendar view",
+      "All your social media messages in one place with AI Auto-Reply capabilities.\n\nFeatures:\n• Unified Inbox\n• Support for WhatsApp & Meta platform\n• Automated responses via AI\n• Conversation analytics",
     priceUSD: 0,
     price: 0,
     tier: "oss",
     storeCategory: "social",
     category: "panda-factory",
     author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-founder",
-    embedLinks: [
-      { type: "instagram", url: "https://instagram.com/p/example123" },
-    ],
-  },
-  {
-    id: "whatsapp",
-    name: "WhatsApp",
-    icon: "💬",
-    description: "Send messages, manage contacts and automate WhatsApp flows",
-    fullDescription:
-      "WhatsApp Business integration for Panda Factory.\nManage conversations, send templates, and automate customer communication.\n\nFeatures:\n• Contact management\n• Message templates\n• Automated responses\n• CRM integration",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "social",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-founder",
-    embedLinks: [],
-  },
-  {
-    id: "crm-tentacle",
-    name: "CRM Tentacle",
-    icon: "🐙",
-    description: "Extended CRM with multi-channel lead capture and automation",
-    fullDescription:
-      "Advanced CRM extension with multi-channel lead capture.\nCapture leads from WhatsApp, Instagram, and web forms into a unified pipeline.\n\nFeatures:\n• Multi-channel lead capture\n• Automated follow-up sequences\n• Lead scoring with AI\n• Integration with Panda CRM",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "productivity",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-founder",
-    embedLinks: [],
-  },
-  {
-    id: "agenda",
-    name: "Panda Agenda",
-    icon: "📅",
-    description: "Calendar, appointments and scheduling for your business",
-    fullDescription:
-      "Full-featured agenda and scheduling system.\nManage appointments, send reminders, and sync with Google Calendar.\n\nFeatures:\n• Calendar view (day/week/month)\n• Appointment scheduling\n• Automated reminders via WhatsApp\n• Google Calendar sync",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "productivity",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.0.0",
+    version: "2.0.0",
     badge: "panda-founder",
     embedLinks: [],
   },
   {
     id: "pdv",
-    name: "Panda PDV",
-    icon: "🛒",
-    description: "Point of sale with digital menu and order management",
+    name: "Panda Commerce",
+    icon: <BsBoxSeam size={28} color="#f59e0b" />,
+    description:
+      "Commerce module with Point of sale, digital menu, and inventory management",
     fullDescription:
-      "Point of Sale system with digital menu for restaurants and retailers.\nManage orders, track sales, and serve customers faster.\n\nFeatures:\n• Digital menu (Cardápio)\n• Order management\n• Sales reports\n• Table/counter management",
+      "Point of Sale system with digital menu for restaurants and retailers.\nManage orders, track sales, and serve customers faster.\n\nFeatures:\n• Digital menu (Cardápio)\n• Order management\n• Direct inventory integration\n• Sales reports",
     priceUSD: 0,
     price: 0,
     tier: "oss",
     storeCategory: "productivity",
     category: "panda-factory",
     author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-founder",
-    embedLinks: [],
-  },
-  {
-    id: "estoque",
-    name: "Panda Estoque",
-    icon: "📦",
-    description: "Inventory management with stock alerts and reports",
-    fullDescription:
-      "Inventory management system for products and materials.\nTrack stock levels, get low-stock alerts, and generate reports.\n\nFeatures:\n• Product catalog\n• Stock level tracking\n• Low-stock alerts\n• Inventory reports",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "productivity",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.0.0",
+    version: "2.0.0",
     badge: "panda-founder",
     embedLinks: [],
   },
   {
     id: "landing-pages",
-    name: "Landing Pages",
-    icon: "🌐",
+    name: "Panda Pages",
+    icon: <MdOutlineStorefront size={28} color="#f472b6" />,
     description:
       "Drag-and-drop page builder with AI copy — publish to GitHub Pages",
     fullDescription:
-      "Build stunning landing pages with a visual drag-and-drop editor.\nAI writes your copy, you publish directly to GitHub Pages — zero hosting cost.\n\nFeatures:\n• Visual page builder\n• AI-powered copywriting\n• One-click deploy to GitHub Pages\n• Mobile-responsive templates\n• Analytics integration",
+      "Build stunning landing pages with a visual drag-and-drop editor.\nAI writes your copy, you publish directly to GitHub Pages — zero hosting cost.\n\nFeatures:\n• Visual page builder\n• Product Display Pages integration\n• Advanced SEO tags\n• Mobile-responsive templates",
     priceUSD: 0,
     price: 0,
     tier: "oss",
     storeCategory: "design",
     category: "panda-factory",
     author: "Panda Factory",
-    version: "1.1.0",
+    version: "1.2.0",
     popular: true,
     badge: "panda-founder",
-    embedLinks: [
-      { type: "github", url: "https://github.com/LucassVal/Panda-Factory" },
-      { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
+    embedLinks: [],
   },
 
   // ─── COMMUNITY EXTENSIONS (PAID / PRO) ───────────────────────
-  // Third-party or premium integrations — future marketplace items
-  {
-    id: "facebook",
-    name: "Facebook",
-    icon: "👤",
-    description: "Pages, groups and Facebook campaigns",
-    fullDescription:
-      "Manage your Facebook presence directly from the Panda workspace.\nCreate and schedule posts, monitor page insights, and run campaigns — all without leaving your design canvas.\n\nFeatures:\n• Page management and analytics\n• Group interactions\n• Ad campaign monitoring\n• Audience insights",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "pro",
-    storeCategory: "social",
-    category: "community",
-    author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-dev",
-    embedLinks: [],
-  },
-  {
-    id: "youtube",
-    name: "YouTube",
-    icon: "▶️",
-    description: "Channel, videos, analytics and comments",
-    fullDescription:
-      "YouTube Studio inside Panda. Monitor your channel performance, manage comments, and analyze video metrics.\n\nFeatures:\n• Channel analytics dashboard\n• Video performance tracking\n• Comment moderation\n• Thumbnail A/B testing suggestions",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "pro",
-    storeCategory: "social",
-    category: "community",
-    author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-dev",
-    embedLinks: [
-      { type: "youtube", url: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-  },
-  {
-    id: "tiktok",
-    name: "TikTok",
-    icon: "🎵",
-    description: "Profile management, videos and trends",
-    fullDescription:
-      "Stay on top of TikTok trends and manage your creator profile from Panda.\n\nFeatures:\n• Trending sounds and hashtags\n• Video performance analytics\n• Posting schedule\n• Competitor analysis",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "pro",
-    storeCategory: "social",
-    category: "community",
-    author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-dev",
-    embedLinks: [],
-  },
-  {
-    id: "twitter",
-    name: "Twitter / X",
-    icon: "🐦",
-    description: "Tweets, threads, analytics and engagement",
-    fullDescription:
-      "Compose tweets, build threads, and track engagement — all from your Panda workspace.\n\nFeatures:\n• Tweet composer with AI suggestions\n• Thread builder\n• Engagement analytics\n• Mention monitoring",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "pro",
-    storeCategory: "social",
-    category: "community",
-    author: "Panda Factory",
-    version: "1.0.0",
-    badge: "panda-dev",
-    embedLinks: [],
-  },
   {
     id: "google-ads",
     name: "Google Ads",
-    icon: "📢",
+    icon: <SiGoogleads size={28} color="#ea4335" />,
     description: "Campaigns, metrics and optimization via webview",
     fullDescription:
-      "Monitor and optimize your Google Ads campaigns directly inside Panda.\nGet AI-powered recommendations for better ROAS.\n\nFeatures:\n• Campaign overview dashboard\n• Performance metrics (CTR, CPC, ROAS)\n• AI optimization suggestions\n• Budget alerts",
+      "Monitor and optimize your Google Ads campaigns directly inside Panda.\nGet AI-powered recommendations for better ROAS.",
     priceUSD: 9.99,
     price: 100,
     tier: "pro",
@@ -293,10 +154,10 @@ export const STORE_ITEMS = [
   {
     id: "meta-business",
     name: "Meta Business Suite",
-    icon: "Ⓜ️",
+    icon: <SiMeta size={28} color="#0668E1" />,
     description: "Facebook + Instagram Ads unified via webview",
     fullDescription:
-      "Unified Meta advertising dashboard. Manage Facebook and Instagram ads from a single view inside Panda.\n\nFeatures:\n• Unified ad management\n• Cross-platform analytics\n• Audience builder\n• Creative insights",
+      "Unified Meta advertising dashboard. Manage Facebook and Instagram ads from a single view inside Panda.",
     priceUSD: 9.99,
     price: 100,
     tier: "pro",
@@ -309,11 +170,11 @@ export const STORE_ITEMS = [
   },
   {
     id: "analytics-dashboard",
-    name: "Analytics Dashboard",
-    icon: "📊",
+    name: "Analytics",
+    icon: <PiChartLineUpBold size={28} color="#38bdf8" />,
     description: "Visual dashboards and reports for your data",
     fullDescription:
-      "Beautiful, customizable dashboards for all your business data.\nConnect multiple data sources and create stunning reports.\n\nFeatures:\n• Drag-and-drop chart builder\n• Multiple data source support\n• Scheduled report generation\n• Export to PDF/PNG",
+      "Beautiful, customizable dashboards for all your business data.\nConnect multiple data sources and create stunning reports.",
     priceUSD: 4.99,
     price: 50,
     tier: "freemium",
@@ -322,12 +183,7 @@ export const STORE_ITEMS = [
     author: "@analytics_dev",
     version: "1.2.0",
     badge: "panda-dev",
-    embedLinks: [
-      {
-        type: "github",
-        url: "https://github.com/analytics_dev/panda-dashboard",
-      },
-    ],
+    embedLinks: [],
   },
 ];
 

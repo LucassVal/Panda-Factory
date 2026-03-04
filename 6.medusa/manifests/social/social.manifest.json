@@ -1,0 +1,134 @@
+{
+  "panda_manifest_version": "1.0.0",
+  "id": "social",
+  "name": "Panda Social Hub",
+  "version": "2.0.0",
+  "description": "Unified Multi-channel Inbox (WhatsApp, Instagram, Facebook, TikTok, Twitter, YouTube) with AI Auto-Reply",
+  "author": "Panda Factory",
+  "license": "MIT",
+  "tier": "oss",
+  "pricing": {
+    "model": "free",
+    "pricePC": 0,
+    "priceUSD": 0
+  },
+  "category": "social",
+  "icon": "💬",
+  "entry": "modules/social/PandaSocial.jsx",
+  "permissions": ["data:read", "data:write", "brain:chat", "ui:panel"],
+  "dependencies": [],
+  "minSDK": "1.0.0",
+  "badges": ["panda-founder", "hero"],
+  "mcp": {
+    "tools": [
+      {
+        "name": "wa_sendMessage",
+        "description": "Envia mensagem de texto para um contato via WhatsApp",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "wa_getConversations",
+        "description": "Lista todas as conversas ativas no WhatsApp",
+        "parameters": {}
+      },
+      {
+        "name": "wa_loadMessages",
+        "description": "Carrega histórico de mensagens de uma conversa do WhatsApp",
+        "parameters": {
+          "contactId": "string (required)",
+          "limit": "number (default: 50)"
+        }
+      },
+      {
+        "name": "wa_toggleAutoReply",
+        "description": "Ativa ou desativa resposta automática por IA no WhatsApp",
+        "parameters": {
+          "enabled": "boolean (required)"
+        }
+      },
+      {
+        "name": "ig_sendDM",
+        "description": "Envia mensagem direta no Instagram",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "ig_getInbox",
+        "description": "Lista conversas do inbox do Instagram",
+        "parameters": {}
+      },
+      {
+        "name": "ig_loadMessages",
+        "description": "Carrega histórico de DMs de uma conversa no Instagram",
+        "parameters": {
+          "contactId": "string (required)",
+          "limit": "number (default: 50)"
+        }
+      },
+      {
+        "name": "ig_toggleAutoReply",
+        "description": "Ativa ou desativa resposta automática por IA nas DMs do IG",
+        "parameters": {
+          "enabled": "boolean (required)"
+        }
+      },
+      {
+        "name": "fb_sendDM",
+        "description": "Envia mensagem no Facebook Messenger",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "fb_getInbox",
+        "description": "Lista conversas do inbox do Facebook",
+        "parameters": {}
+      },
+      {
+        "name": "tk_sendDM",
+        "description": "Envia mensagem no TikTok",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "tk_getInbox",
+        "description": "Lista conversas do inbox do TikTok",
+        "parameters": {}
+      },
+      {
+        "name": "tw_sendDM",
+        "description": "Envia mensagem no Twitter/X",
+        "parameters": {
+          "contactId": "string (required)",
+          "message": "string (required)"
+        }
+      },
+      {
+        "name": "tw_getInbox",
+        "description": "Lista conversas do inbox do Twitter/X",
+        "parameters": {}
+      },
+      {
+        "name": "yt_replyComment",
+        "description": "Responde a um comentário no YouTube",
+        "parameters": {
+          "commentId": "string (required)",
+          "reply": "string (required)"
+        }
+      },
+      {
+        "name": "yt_getComments",
+        "description": "Lista comentários recentes do canal no YouTube",
+        "parameters": {}
+      }
+    ]
+  }
+}

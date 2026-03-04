@@ -4821,6 +4821,71 @@ body.light-mode .pf-lang-option.active {
     right: -40px;
     min-width: 140px;
   }
+
+  /* Chat: fullscreen on mobile */
+  .pf-chat-panel {
+    position: fixed !important;
+    top: 44px !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 56px !important;
+    width: 100% !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    z-index: 3500;
+  }
+
+  .pf-chat-fab {
+    bottom: 66px;
+    right: 12px;
+  }
+
+  /* Founder Dashboard: scrollable tabs */
+  .founder-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .founder-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .founder-tab {
+    font-size: 12px;
+    padding: 8px 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .founder-header {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Settings: fullscreen on mobile */
+  .pf-settings-overlay,
+  .pf-plugin-editor-overlay {
+    align-items: flex-end;
+  }
+
+  .pf-settings-inner,
+  .pf-plugin-editor-modal {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 95vh;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Catalog overlay: fullscreen */
+  .pf-catalog-overlay {
+    width: 100%;
+    border-radius: 0;
+  }
 }
 
 /* ──────────── Mobile Portrait (≤ 480px) ──────────── */

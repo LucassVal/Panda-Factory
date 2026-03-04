@@ -1,0 +1,441 @@
+/* 💬 Panda Social Hub CSS */
+
+.pf-social-hub {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--pf-bg-primary, #0f172a);
+  color: #fff;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* ── Top Nav ── */
+.sh-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0 16px;
+  backdrop-filter: blur(10px);
+}
+
+.sh-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sh-nav-logo {
+  width: 34px;
+  height: 34px;
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.sh-nav-brand h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.sh-nav-networks {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.sh-nav-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sh-nav-btn:hover {
+  background: rgba(255,255,255,0.05);
+  color: #e2e8f0;
+}
+
+.sh-nav-btn.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+}
+
+.sh-nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #475569;
+}
+.sh-nav-dot.online { background: #10b981; }
+
+.sh-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+/* ── Body ── */
+.sh-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Inbox Sidebar ── */
+.sh-sidebar {
+  width: 320px;
+  min-width: 320px;
+  background: var(--pf-bg-secondary, #1e293b);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.sh-search {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.sh-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.sh-search-input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.sh-chat-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sh-empty, .sh-loading {
+  padding: 30px 20px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.sh-chat-item {
+  display: flex;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+  transition: background 0.2s;
+}
+
+.sh-chat-item:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.sh-chat-item.active {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.sh-chat-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  position: relative;
+}
+
+.sh-avatar-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: #1e293b;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+.sh-chat-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sh-chat-name {
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sh-unread-badge {
+  width: 8px;
+  height: 8px;
+  background: #6366f1;
+  border-radius: 50%;
+}
+
+.sh-chat-preview {
+  font-size: 13px;
+  color: #94a3b8;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sh-chat-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 11px;
+  color: #64748b;
+  padding-top: 4px;
+}
+
+/* ── Chat Area ── */
+.sh-chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.sh-no-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.sh-no-chat-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.sh-no-chat h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+  color: #f8fafc;
+}
+
+.sh-no-chat p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.sh-chat-header {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sh-back-btn {
+  display: none;
+}
+
+.sh-chat-header-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sh-chat-header-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.sh-chat-header-detail {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.sh-ai-toggle {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── Messages ── */
+.sh-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--pf-bg-primary);
+}
+
+.sh-message {
+  display: flex;
+  width: 100%;
+}
+
+.sh-message.incoming { justify-content: flex-start; }
+.sh-message.outgoing { justify-content: flex-end; }
+
+.sh-message-bubble {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.sh-message.incoming .sh-message-bubble {
+  background: #334155;
+  border-bottom-left-radius: 4px;
+}
+
+.sh-message.outgoing .sh-message-bubble {
+  background: #4f46e5;
+  border-bottom-right-radius: 4px;
+}
+
+.sh-message.ai .sh-message-bubble {
+  background: #1e1b4b;
+  border: 1px solid #4338ca;
+}
+
+.sh-message-text { margin: 0; white-space: pre-wrap; word-break: break-word; }
+
+.sh-message-time {
+  font-size: 10px;
+  opacity: 0.6;
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.sh-ai-badge {
+  font-size: 10px;
+  font-weight: 600;
+  background: #4338ca;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+/* ── Input ── */
+.sh-input-bar {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.sh-input {
+  flex: 1;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 12px 16px;
+  border-radius: 20px;
+  color: #fff;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.sh-input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.sh-send-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sh-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .sh-sidebar {
+    width: 100%;
+    min-width: 100%;
+  }
+  .sh-chat-area {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 10;
+  }
+  .sh-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    margin-right: 12px;
+  }
+}
