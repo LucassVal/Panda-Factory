@@ -42,20 +42,9 @@ const NATIVE_MODULES = [
       "Caixa de entrada unificada (WhatsApp, Instagram, FB) com respostas via Inteligência Artificial",
   },
   {
-    id: "landing-pages",
-    name: "Panda Pages",
-    icon: <FaStore size={22} color="#f472b6" />,
-    category: "productivity",
-    price_pc: 0,
-    author: { name: "Panda Core", namespace: "@panda" },
-    native: true,
-    description:
-      "Gerador de Landing Pages e páginas internas de produto atreladas à Store",
-  },
-  {
     id: "@panda/brain",
     name: "Panda Brain",
-    icon: <BsRobot size={24} color="#c084fc" />,
+    icon: <BsRobot size={24} color="#a78bfa" />,
     category: "ai",
     price_pc: 0,
     author: { name: "Panda Core", namespace: "@panda" },
@@ -73,16 +62,6 @@ const NATIVE_MODULES = [
     native: true,
     description:
       "Dashboard trading com sinais, análise técnica e multi-timeframes",
-  },
-  {
-    id: "@panda/analytics",
-    name: "Analytics Dashboard",
-    icon: <PiChartLineUpBold size={24} color="#38bdf8" />,
-    category: "analytics",
-    price_pc: 0,
-    author: { name: "Panda Core", namespace: "@panda" },
-    native: true,
-    description: "Métricas unificadas de todas as pontas do ecossistema",
   },
 ];
 

@@ -31,10 +31,8 @@ import PFWelcomeWizard from "./components/PFWelcomeWizard";
 import PluginManifestEditor from "./components/PFPluginEditor";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 import PandaCRM from "./modules/crm";
-import PandaLanding from "./modules/landing";
 import FounderHub from "./modules/founder";
 import PandaSocial from "./modules/social";
-import PandaCommerce from "./modules/pdv";
 import PFDiagnosticDashboard from "./components/PFDiagnosticDashboard";
 import PFErrorBoundary from "./components/PFErrorBoundary";
 
@@ -249,20 +247,6 @@ function AppContent() {
             return (
               <PFErrorBoundary>
                 <PandaCRM userId={"founder"} onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "landing-pages") {
-            return (
-              <PFErrorBoundary>
-                <PandaLanding onClose={closeDefault} />
-              </PFErrorBoundary>
-            );
-          }
-          if (componentType === "pdv") {
-            return (
-              <PFErrorBoundary>
-                <PandaCommerce onClose={closeDefault} />
               </PFErrorBoundary>
             );
           }

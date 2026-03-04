@@ -2057,7 +2057,7 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 
 ---
 
-## 16. Módulos
+## 16. Módulos Consolidados (v3.7.0)
 
 > **Caminho:** `pf/app/src/modules/`
 > **Padrão:** Cada módulo tem `index.js` + componente principal `.jsx` + `.css`
@@ -2067,7 +2067,6 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 | ---------- | ---------- | -------------------- | ------------------------ | ------- |
 | CRM (Pro)  | `crm/`     | `PandaCRM.jsx`       | `PandaCRM.css`           | 🟢 REAL |
 | Social Hub | `social/`  | `PandaSocial.jsx`    | `PandaSocial.css`        | 🟢 REAL |
-| Pages      | `landing/` | `PandaLanding.jsx`   | `PandaLanding.css`       | 🟢 REAL |
 | Founder    | `founder/` | `PFFounderDashboard` | `PFFounderDashboard.css` | 🟢 REAL |
 
 ### Padrão de integração
@@ -2076,13 +2075,17 @@ Estes hooks degradam graciosamente para dados mock quando Firebase/GAS não est�
 // App.jsx componentFactory (extrato)
 case 'crm':    return <PandaCRM />;
 case 'social': return <PandaSocial />;
-case 'pages':  return <PandaLanding />;
 case 'founder-dashboard': return <PFFounderModal ... />;
 ```
 
-### Unificação de Módulos (v3.7.0)
+### Unificação da Arquitetura (v3.7.0)
 
-> Anteriormente, os módulos como WhatsApp, Instagram, CRM Tentacle, Agenda, PDV e Estoque possuíam pastas e arquivos apartados, muitos baseados em WebView (`<iframe>`). A partir de fev/2026, todos foram convertidos em **Native React Components** e unificados em três grandes hubs de operação: `PandaCRM`, `PandaSocial`, e a nova engine de criação `PandaPages`.
+> Anteriormente, as extensões internas do Panda Factory (Dashboard UI) contavam com aplicativos WebView apartados como WhatsApp, Instagram, CRM Tentacle, Agenda, PDV e Estoque. Todos foram convertidos em **Dois Super-Módulos Nativos**, agrupando os contextos:
+>
+> 1.  **Panda CRM (Pro):** Kanban + Controle de Estoque + Agenda + Analytics e Métricas Diretas.
+> 2.  **Panda Social Hub:** Inbox Unificado de Multicanais e Auto-reply de IA.
+>
+> _Anotação: Toda a construção "Drag-and-drop" de Landing Pages, Catálogos Storefront e Pages Builder são regidas pela macro-estrutura do **Medusa** e do ecossistema de infra, não sendo computadas ou instaladas como "módulos internos do dashboard em PFStore"._
 
 ### PFEmptyState (LP06)
 

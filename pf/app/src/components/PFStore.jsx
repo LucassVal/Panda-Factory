@@ -95,43 +95,6 @@ export const STORE_ITEMS = [
     badge: "panda-founder",
     embedLinks: [],
   },
-  {
-    id: "pdv",
-    name: "Panda Commerce",
-    icon: <BsBoxSeam size={28} color="#f59e0b" />,
-    description:
-      "Commerce module with Point of sale, digital menu, and inventory management",
-    fullDescription:
-      "Point of Sale system with digital menu for restaurants and retailers.\nManage orders, track sales, and serve customers faster.\n\nFeatures:\n• Digital menu (Cardápio)\n• Order management\n• Direct inventory integration\n• Sales reports",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "productivity",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "2.0.0",
-    badge: "panda-founder",
-    embedLinks: [],
-  },
-  {
-    id: "landing-pages",
-    name: "Panda Pages",
-    icon: <MdOutlineStorefront size={28} color="#f472b6" />,
-    description:
-      "Drag-and-drop page builder with AI copy — publish to GitHub Pages",
-    fullDescription:
-      "Build stunning landing pages with a visual drag-and-drop editor.\nAI writes your copy, you publish directly to GitHub Pages — zero hosting cost.\n\nFeatures:\n• Visual page builder\n• Product Display Pages integration\n• Advanced SEO tags\n• Mobile-responsive templates",
-    priceUSD: 0,
-    price: 0,
-    tier: "oss",
-    storeCategory: "design",
-    category: "panda-factory",
-    author: "Panda Factory",
-    version: "1.2.0",
-    popular: true,
-    badge: "panda-founder",
-    embedLinks: [],
-  },
 
   // ─── COMMUNITY EXTENSIONS (PAID / PRO) ───────────────────────
   {
@@ -165,23 +128,6 @@ export const STORE_ITEMS = [
     category: "community",
     author: "Panda Factory",
     version: "1.0.0",
-    badge: "panda-dev",
-    embedLinks: [],
-  },
-  {
-    id: "analytics-dashboard",
-    name: "Analytics",
-    icon: <PiChartLineUpBold size={28} color="#38bdf8" />,
-    description: "Visual dashboards and reports for your data",
-    fullDescription:
-      "Beautiful, customizable dashboards for all your business data.\nConnect multiple data sources and create stunning reports.",
-    priceUSD: 4.99,
-    price: 50,
-    tier: "freemium",
-    storeCategory: "analytics",
-    category: "community",
-    author: "@analytics_dev",
-    version: "1.2.0",
     badge: "panda-dev",
     embedLinks: [],
   },
@@ -299,11 +245,6 @@ function PFStore({
       id: "social",
       label: "📱 Social",
       count: STORE_ITEMS.filter((i) => i.storeCategory === "social").length,
-    },
-    {
-      id: "analytics",
-      label: "📊 Analytics",
-      count: STORE_ITEMS.filter((i) => i.storeCategory === "analytics").length,
     },
     {
       id: "automation",

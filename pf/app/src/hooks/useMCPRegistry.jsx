@@ -266,38 +266,6 @@ const BUILTIN_TOOLS = {
       },
     ],
   },
-  pdv: {
-    name: "Panda PDV",
-    icon: <BsBoxSeam size={22} color="#f59e0b" />,
-    textIcon: "🛒",
-    tools: [
-      {
-        name: "pdv_addItem",
-        description: "Adiciona item ao cardápio",
-        parameters: {
-          name: "string (required)",
-          price: "number (required)",
-          category: "string",
-          description: "string",
-        },
-      },
-      {
-        name: "pdv_addToCart",
-        description: "Adiciona item ao carrinho de venda",
-        parameters: { itemId: "string (required)", qty: "number" },
-      },
-      {
-        name: "pdv_checkout",
-        description: "Finaliza venda do carrinho atual",
-        parameters: { paymentMethod: "string (dinheiro|pix|cartao)" },
-      },
-      {
-        name: "pdv_listMenu",
-        description: "Lista todos os itens do cardápio",
-        parameters: { category: "string (optional)" },
-      },
-    ],
-  },
   "landing-pages": {
     name: "Landing Pages",
     icon: <MdOutlineStorefront size={24} color="#f472b6" />,

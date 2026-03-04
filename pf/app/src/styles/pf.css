@@ -193,19 +193,20 @@ body.light-mode .pf-skeleton {
 /* ============================================= */
 /* B.8 — STANDARD COMPONENT CLASSES             */
 /* ============================================= */
+/* B.8 — STANDARD COMPONENT CLASSES */
 .pf-card {
   background: var(--pf-elevation-1, #16213e);
   border-radius: var(--pf-radius-card, 12px);
   box-shadow: var(--pf-shadow-card);
   border: 1px solid var(--pf-border);
   padding: var(--pf-space-md, 16px);
-  transition: transform var(--pf-transition-base, 0.25s ease),
-              box-shadow var(--pf-transition-base, 0.25s ease);
+  transition: transform var(--pf-transition-base), box-shadow var(--pf-transition-base), border-color var(--pf-transition-fast);
 }
 
 .pf-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--pf-shadow-dock);
+  border-color: var(--pf-accent);
 }
 
 .pf-btn-primary {
@@ -216,17 +217,18 @@ body.light-mode .pf-skeleton {
   padding: var(--pf-space-sm, 8px) var(--pf-space-md, 16px);
   font-weight: 600;
   cursor: pointer;
-  transition: background var(--pf-transition-fast, 0.15s ease),
-              transform var(--pf-transition-fast, 0.15s ease);
+  transition: background var(--pf-transition-fast), transform var(--pf-transition-fast), box-shadow var(--pf-transition-fast);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .pf-btn-primary:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-card);
 }
 
 .pf-btn-primary:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0) scale(0.96);
 }
 
 .pf-input {
@@ -526,27 +528,28 @@ body {
 }
 
 .pf-dock-item {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 21px;
-  border-radius: 12px;
+  font-size: 18px;
+  border-radius: 10px;
   cursor: pointer;
   background: transparent;
   border: none;
   color: var(--pf-text);
-  transition: all 0.2s ease;
-  transform-origin: left center;
+  transition: transform var(--pf-transition-base), background var(--pf-transition-fast);
+  transform-origin: center;
 }
 
 .pf-dock-item:hover {
   background: rgba(102, 126, 234, 0.15);
+  transform: scale(1.12);
 }
 
 .pf-dock-item:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
 
 .pf-dock-item.dynamic {

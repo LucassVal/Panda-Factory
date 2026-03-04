@@ -1,15 +1,15 @@
 ---
 tool_context: panda/files
 description: Catálogo de arquivos — auditado 2026-03-03 LP05 inline→CSS migration
-version: 7.7.0
-updated: 2026-03-03
+version: 7.8.0
+updated: 2026-03-04
 ssot: CONTEXT.md §5 (Sistema Montesquieu)
 cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 ---
 
 # 📁 PF_FILE_REGISTRY - Catálogo de Arquivos
 
-> **Versão:** 7.7.0 | **Atualizado:** 2026-03-03 (LP04 Atualização do PF_UI_REFERENCE.md)
+> **Versão:** 7.8.0 | **Atualizado:** 2026-03-04 (LP07 Auditoria e Consolidação 12→2)
 > **Propósito:** Inventário COMPLETO de todos os arquivos do Panda Factory (auditado via fs scan)
 
 ---
@@ -27,7 +27,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `.md`    | 30  | Documentação + README      | 20 PF\_ + 10 outros        |
 | `.js`    | 79  | Frontend/SDK/Tentacles     | +facebook-messenger+tiktok |
 | `.jsx`   | 38  | React Components           | 36 PF + i18n + useAuth     |
-| `.html`  | 24  | UI/Components/Modules      | +CRM+IG+WA+Agenda+PDV+Est  |
+| `.html`  | 23  | UI/Components/Modules      | +CRM+IG+WA+Agenda+Est      |
 | `.css`   | 24  | Estilos (+ pf.css 4423 ln) | +PFEmptyState              |
 | `.json`  | 11  | Config                     |                            |
 | `.py`    | 28  | Scripts/Automação          |                            |
@@ -356,7 +356,6 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `Mod_Instagram.html`         | 🟢 REAL | Webview Instagram (MOD-02)         | 1.0.0 | 2026-02-21 |
 | `Mod_WhatsApp.html`          | 🟢 REAL | Webview WhatsApp (MOD-01)          | 1.0.0 | 2026-02-21 |
 | `Mod_Agenda.html`            | 🟢 REAL | Webview Agenda (MOD-05)            | 1.0.0 | 2026-02-21 |
-| `Mod_PDV.html`               | 🟢 REAL | Webview PDV (MOD-06)               | 1.0.0 | 2026-02-21 |
 | `Mod_Estoque.html`           | 🟢 REAL | Webview Estoque (MOD-07)           | 1.0.0 | 2026-02-21 |
 
 ### React Frontend (pf/app/src/) — Padronizado PF\*
@@ -444,14 +443,14 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 #### Modules
 
-| Arquivo                            | Descrição                                          | v     | Mod        |
-| ---------------------------------- | -------------------------------------------------- | ----- | ---------- |
-| `modules/crm/PandaCRM.jsx`         | 📱 Panda CRM v1.0 (Kanban + List + Form)           | 1.0.0 | 2026-02-21 |
-| `modules/crm/PandaCRM.css`         | CRM dark theme styles                              | 1.0.0 | 2026-02-21 |
-| `modules/crm/index.js`             | CRM module entry point                             | 1.0.0 | 2026-02-21 |
-| `modules/landing/PandaLanding.jsx` | 🚀 Landing Page Builder v1.0 (3 templates, export) | 1.0.0 | 2026-02-21 |
-| `modules/landing/PandaLanding.css` | Landing builder dark theme styles                  | 1.0.0 | 2026-02-21 |
-| `modules/landing/index.js`         | Landing module entry point                         | 1.0.0 | 2026-02-21 |
+| Arquivo                          | Descrição                                 | v     | Mod        |
+| -------------------------------- | ----------------------------------------- | ----- | ---------- |
+| `modules/crm/PandaCRM.jsx`       | 📱 Panda CRM v1.0 (Kanban + List + Form)  | 1.0.0 | 2026-02-21 |
+| `modules/crm/PandaCRM.css`       | CRM dark theme styles                     | 1.0.0 | 2026-02-21 |
+| `modules/crm/index.js`           | CRM module entry point                    | 1.0.0 | 2026-02-21 |
+| `modules/social/PandaSocial.jsx` | 💬 Panda Social Hub v1.0 (WA, IG, FB, TK) | 1.0.0 | 2026-03-04 |
+| `modules/social/PandaSocial.css` | Social Hub dark theme styles              | 1.0.0 | 2026-03-04 |
+| `modules/social/index.js`        | Social module entry point                 | 1.0.0 | 2026-03-04 |
 
 | Arquivo                  | Descrição                              | v     | Mod        |
 | ------------------------ | -------------------------------------- | ----- | ---------- |
@@ -730,7 +729,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 ---
 
 > 📖 **Mantido por:** Panda Council (PAT)
-> **Última atualização:** 2026-03-03 v7.6.0
+> **Última atualização:** 2026-03-04 v7.8.0
 
 ---
 
@@ -738,6 +737,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 | Versao | Data       | Alteracoes                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.8.0  | 2026-03-04 | LP07: Auditoria e Consolidação 12→2. Removido módulos físicos `landing` e `pdv`. Adicionado módulo `social` (React). Padronizado `social/index.js`. Atualizado SSoT.                                                                                                                                                                                                                                                                          |
 | 7.7.0  | 2026-03-03 | LP04: SSOT update `PF_UI_REFERENCE.md` v3.6.0 (+§16 Módulos documentados, +PFEmptyState no inventário G.2, corrigido PFDefendPanel).                                                                                                                                                                                                                                                                                                          |
 | 7.6.0  | 2026-03-03 | LP06: +`PFEmptyState.jsx` v1.0 (reusable empty state, 3 sizes), +`PFEmptyState.css` v1.0 (light mode). JSX 37→38, CSS 23→24.                                                                                                                                                                                                                                                                                                                  |
 | 7.5.0  | 2026-03-03 | LP05: +`PFDefendPanel.css` v1.0 (inline→CSS + light mode), +`PFMiningPanel.css` v1.0 (inline→CSS + light mode), `PFDefendPanel.jsx` v1.1 (className migration, -57% lines), `PFMiningPanel.jsx` v1.1 (className migration, -56% lines). CSS count 21→23.                                                                                                                                                                                      |

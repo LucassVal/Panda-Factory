@@ -62,64 +62,72 @@ export function CheckoutModal({
     ? `${pcPackage.badge} ${pcPackage.label} Package — ${pkgPC.toLocaleString()} PC`
     : item?.description;
 
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const handleCheckout = async () => {
     setIsProcessing(true);
     setError(null);
 
     try {
       if (isPcPurchase) {
-        // ── PC Package Purchase → always Stripe ──
         const result = await purchasePackage(pcPackage);
         if (result.redirecting) {
           onClose();
           return;
         }
-        if (result.mock) {
-          onPurchaseComplete?.({
-            type: "pc_purchase",
-            package: pcPackage,
-            mock: true,
-          });
-          onClose();
+        if (result.mock || result.success) {
+          setIsSuccess(true);
+          setTimeout(() => {
+            onPurchaseComplete?.({
+              type: "pc_purchase",
+              package: pcPackage,
+              mock: !!result.mock,
+            });
+            onClose();
+            setIsSuccess(false);
+          }, 2000);
         }
-        if (!result.success) {
-          throw new Error(result.error);
+        if (!result.success && !result.mock) {
+          throw new Error(result.error || "Erro na transação");
         }
       } else if (paymentMethod === "pc") {
-        // ── Store Item: PC debit ──
-        if (!hasSufficientPc) {
-          throw new Error("Saldo de PC insuficiente!");
-        }
+        if (!hasSufficientPc) throw new Error("Saldo de PC insuficiente!");
 
         if (processPayment) {
           const result = await processPayment(item, "pc");
-          if (!result.success) {
-            throw new Error(result.error);
-          }
-          onPurchaseComplete?.({
-            type: "store_purchase",
-            item,
-            paymentMethod: "pc",
-            transaction: result.transaction,
-          });
-          onClose();
-        }
-      } else {
-        // ── Store Item: USD via Stripe ──
-        if (processPayment) {
-          const result = await processPayment(item, "usd");
-          if (result.redirecting) return; // Page will redirect
-          if (result.mock) {
+          if (!result.success) throw new Error(result.error);
+
+          setIsSuccess(true);
+          setTimeout(() => {
             onPurchaseComplete?.({
               type: "store_purchase",
               item,
-              paymentMethod: "usd",
-              mock: true,
+              paymentMethod: "pc",
+              transaction: result.transaction,
             });
             onClose();
+            setIsSuccess(false);
+          }, 2000);
+        }
+      } else {
+        if (processPayment) {
+          const result = await processPayment(item, "usd");
+          if (result.redirecting) return;
+          if (result.mock || result.success) {
+            setIsSuccess(true);
+            setTimeout(() => {
+              onPurchaseComplete?.({
+                type: "store_purchase",
+                item,
+                paymentMethod: "usd",
+                mock: !!result.mock,
+              });
+              onClose();
+              setIsSuccess(false);
+            }, 2000);
           }
-          if (!result.success) {
-            throw new Error(result.error);
+          if (!result.success && !result.mock) {
+            throw new Error(result.error || "Erro no processamento");
           }
         }
       }
@@ -131,181 +139,197 @@ export function CheckoutModal({
     }
   };
 
-  if (!isOpen || (!item && !pcPackage)) return null;
-
   return (
     <div className="checkout-overlay" onClick={onClose}>
-      <div className="checkout-modal" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
-        <header className="checkout-header">
-          <h2>💳 Checkout</h2>
-          <button className="checkout-close" onClick={onClose}>
-            ×
-          </button>
-        </header>
-
-        {/* Product Info */}
-        <div className="checkout-product">
-          <span className="product-icon">{displayIcon}</span>
-          <div className="product-info">
-            <h3 className="product-name">{displayName}</h3>
-            <p className="product-desc">{displayDesc}</p>
-            {item?.author && (
-              <span className="product-author">por {item.author}</span>
-            )}
+      <div
+        className={`checkout-modal ${isSuccess ? "success-mode" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {isSuccess ? (
+          <div className="checkout-success-view">
+            <div className="success-icon">🎉</div>
+            <h3>Compra Concluída!</h3>
+            <p>Seu módulo está sendo ativado no Dock...</p>
+            <div className="success-confetti">✨✨✨</div>
           </div>
-        </div>
+        ) : (
+          <>
+            {/* Header */}
+            <header className="checkout-header">
+              <h2>💳 Checkout</h2>
+              <button className="checkout-close" onClick={onClose}>
+                ×
+              </button>
+            </header>
 
-        {/* Error Display */}
-        {error && (
-          <div className="checkout-error">
-            <span>⚠️ {error}</span>
-          </div>
-        )}
+            {/* ... restante do modal ... */}
 
-        {/* Pricing Display */}
-        <div className="checkout-pricing">
-          <div className="price-main">
-            <span className="price-currency">$</span>
-            <span className="price-amount">
-              {isPcPurchase ? pkgPrice.toFixed(2) : usdPrice.toFixed(2)}
-            </span>
-            <span className="price-label">USD</span>
-          </div>
-          {!isPcPurchase && (
-            <div className="price-equivalent">
-              = {pcPrice.toLocaleString()} PC
-              {discount > 0 && paymentMethod === "pc" && (
-                <span className="price-discount">
-                  ({Math.round(discount * 100)}% desconto ={" "}
-                  {discountedPc.toLocaleString()} PC)
-                </span>
-              )}
-            </div>
-          )}
-          {isPcPurchase && pcPackage.discount > 0 && (
-            <div className="price-equivalent">
-              <span className="price-discount">
-                {Math.round(pcPackage.discount * 100)}% bonus incluído
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Payment Methods — only for store items */}
-        {!isPcPurchase && (
-          <div className="checkout-methods">
-            <h4>Método de Pagamento</h4>
-
-            <label
-              className={`method-option ${paymentMethod === "usd" ? "selected" : ""}`}
-            >
-              <input
-                type="radio"
-                name="payment"
-                value="usd"
-                checked={paymentMethod === "usd"}
-                onChange={() => setPaymentMethod("usd")}
-              />
-              <span className="method-icon">💵</span>
-              <div className="method-info">
-                <span className="method-name">USD (Cartão/PIX)</span>
-                <span className="method-value">${usdPrice.toFixed(2)}</span>
+            {/* Product Info */}
+            <div className="checkout-product">
+              <span className="product-icon">{displayIcon}</span>
+              <div className="product-info">
+                <h3 className="product-name">{displayName}</h3>
+                <p className="product-desc">{displayDesc}</p>
+                {item?.author && (
+                  <span className="product-author">por {item.author}</span>
+                )}
               </div>
-            </label>
+            </div>
 
-            <label
-              className={`method-option ${paymentMethod === "pc" ? "selected" : ""} ${!hasSufficientPc ? "disabled" : ""}`}
-            >
-              <input
-                type="radio"
-                name="payment"
-                value="pc"
-                checked={paymentMethod === "pc"}
-                onChange={() => hasSufficientPc && setPaymentMethod("pc")}
-                disabled={!hasSufficientPc}
-              />
-              <span className="method-icon">🪙</span>
-              <div className="method-info">
-                <span className="method-name">Panda Coins (PC)</span>
-                <span className="method-value">
-                  {discountedPc.toLocaleString()} PC
-                  {discount > 0 && (
-                    <span className="badge-discount">
-                      -{Math.round(discount * 100)}%
+            {/* Error Display */}
+            {error && (
+              <div className="checkout-error">
+                <span>⚠️ {error}</span>
+              </div>
+            )}
+
+            {/* Pricing Display */}
+            <div className="checkout-pricing">
+              <div className="price-main">
+                <span className="price-currency">$</span>
+                <span className="price-amount">
+                  {isPcPurchase ? pkgPrice.toFixed(2) : usdPrice.toFixed(2)}
+                </span>
+                <span className="price-label">USD</span>
+              </div>
+              {!isPcPurchase && (
+                <div className="price-equivalent">
+                  = {pcPrice.toLocaleString()} PC
+                  {discount > 0 && paymentMethod === "pc" && (
+                    <span className="price-discount">
+                      ({Math.round(discount * 100)}% desconto ={" "}
+                      {discountedPc.toLocaleString()} PC)
                     </span>
                   )}
-                </span>
-              </div>
-              {!hasSufficientPc && (
-                <span className="method-insufficient">
-                  Saldo: {userPcBalance.toLocaleString()} PC
-                </span>
+                </div>
               )}
-            </label>
-          </div>
-        )}
-
-        {/* PC Balance Display */}
-        {!isPcPurchase && (
-          <div className="checkout-balance">
-            <span>Seu saldo:</span>
-            <span className="balance-value">
-              {userPcBalance.toLocaleString()} PC
-            </span>
-          </div>
-        )}
-
-        {/* Payment Info for PC Packages */}
-        {isPcPurchase && (
-          <div className="checkout-methods">
-            <h4>Pagar via Hotmart / Kiwify</h4>
-            <div className="method-option selected">
-              <span className="method-icon">🛒</span>
-              <div className="method-info">
-                <span className="method-name">Cartão, Pix ou Boleto</span>
-                <span className="method-value">${pkgPrice.toFixed(2)} USD</span>
-              </div>
+              {isPcPurchase && pcPackage.discount > 0 && (
+                <div className="price-equivalent">
+                  <span className="price-discount">
+                    {Math.round(pcPackage.discount * 100)}% bonus incluído
+                  </span>
+                </div>
+              )}
             </div>
-            <p className="checkout-stripe-note">
-              🔒 Você será redirecionado para o checkout seguro da nossa
-              plataforma de vendas.
-            </p>
-          </div>
+
+            {/* Payment Methods — only for store items */}
+            {!isPcPurchase && (
+              <div className="checkout-methods">
+                <h4>Método de Pagamento</h4>
+
+                <label
+                  className={`method-option ${paymentMethod === "usd" ? "selected" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="usd"
+                    checked={paymentMethod === "usd"}
+                    onChange={() => setPaymentMethod("usd")}
+                  />
+                  <span className="method-icon">💵</span>
+                  <div className="method-info">
+                    <span className="method-name">USD (Cartão/PIX)</span>
+                    <span className="method-value">${usdPrice.toFixed(2)}</span>
+                  </div>
+                </label>
+
+                <label
+                  className={`method-option ${paymentMethod === "pc" ? "selected" : ""} ${!hasSufficientPc ? "disabled" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="pc"
+                    checked={paymentMethod === "pc"}
+                    onChange={() => hasSufficientPc && setPaymentMethod("pc")}
+                    disabled={!hasSufficientPc}
+                  />
+                  <span className="method-icon">🪙</span>
+                  <div className="method-info">
+                    <span className="method-name">Panda Coins (PC)</span>
+                    <span className="method-value">
+                      {discountedPc.toLocaleString()} PC
+                      {discount > 0 && (
+                        <span className="badge-discount">
+                          -{Math.round(discount * 100)}%
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                  {!hasSufficientPc && (
+                    <span className="method-insufficient">
+                      Saldo: {userPcBalance.toLocaleString()} PC
+                    </span>
+                  )}
+                </label>
+              </div>
+            )}
+
+            {/* PC Balance Display */}
+            {!isPcPurchase && (
+              <div className="checkout-balance">
+                <span>Seu saldo:</span>
+                <span className="balance-value">
+                  {userPcBalance.toLocaleString()} PC
+                </span>
+              </div>
+            )}
+
+            {/* Payment Info for PC Packages */}
+            {isPcPurchase && (
+              <div className="checkout-methods">
+                <h4>Pagar via Hotmart / Kiwify</h4>
+                <div className="method-option selected">
+                  <span className="method-icon">🛒</span>
+                  <div className="method-info">
+                    <span className="method-name">Cartão, Pix ou Boleto</span>
+                    <span className="method-value">
+                      ${pkgPrice.toFixed(2)} USD
+                    </span>
+                  </div>
+                </div>
+                <p className="checkout-stripe-note">
+                  🔒 Você será redirecionado para o checkout seguro da nossa
+                  plataforma de vendas.
+                </p>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="checkout-actions">
+              <button
+                className="btn-cancel"
+                onClick={onClose}
+                disabled={processing}
+              >
+                Cancelar
+              </button>
+              <button
+                className="btn-confirm"
+                onClick={handleCheckout}
+                disabled={
+                  processing ||
+                  (!isPcPurchase && paymentMethod === "pc" && !hasSufficientPc)
+                }
+              >
+                {processing
+                  ? "⏳ Processando..."
+                  : isPcPurchase
+                    ? `Comprar ${pkgPC.toLocaleString()} PC — $${pkgPrice.toFixed(2)}`
+                    : paymentMethod === "usd"
+                      ? `Pagar $${usdPrice.toFixed(2)}`
+                      : `Pagar ${discountedPc.toLocaleString()} PC`}
+              </button>
+            </div>
+
+            {/* Footer */}
+            <footer className="checkout-footer">
+              <span>🔒 Pagamento 100% seguro (Kiwify/Hotmart)</span>
+              <span>📝 O Purchase Code será enviado no seu e-mail</span>
+            </footer>
+          </>
         )}
-
-        {/* Action Buttons */}
-        <div className="checkout-actions">
-          <button
-            className="btn-cancel"
-            onClick={onClose}
-            disabled={processing}
-          >
-            Cancelar
-          </button>
-          <button
-            className="btn-confirm"
-            onClick={handleCheckout}
-            disabled={
-              processing ||
-              (!isPcPurchase && paymentMethod === "pc" && !hasSufficientPc)
-            }
-          >
-            {processing
-              ? "⏳ Processando..."
-              : isPcPurchase
-                ? `Comprar ${pkgPC.toLocaleString()} PC — $${pkgPrice.toFixed(2)}`
-                : paymentMethod === "usd"
-                  ? `Pagar $${usdPrice.toFixed(2)}`
-                  : `Pagar ${discountedPc.toLocaleString()} PC`}
-          </button>
-        </div>
-
-        {/* Footer */}
-        <footer className="checkout-footer">
-          <span>🔒 Pagamento 100% seguro (Kiwify/Hotmart)</span>
-          <span>📝 O Purchase Code será enviado no seu e-mail</span>
-        </footer>
       </div>
     </div>
   );

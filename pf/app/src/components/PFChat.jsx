@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { injectContext, getUIContext } from "../services/uiContext";
 import { useFounderBrain } from "../hooks/useFounderBrain";
 import { Brain as GASBrain } from "../services/callGAS";
+import Orchestrator from "../services/PFOrchestrator";
 
 /**
  * Jam Chat v2.1 - Omnichannel AI Chat (Bottom Right)
@@ -303,10 +304,18 @@ function PFChat() {
     // AUTO-INJECT UI CONTEXT (all agents, all tiers)
     const messageWithContext = injectContext(currentInput);
 
+    // 🧠 [S1B] Inject Tool Format Instruction
+    const toolInstruction = `
+[REGRAS DE EXECUÇÃO MCP]
+Se precisar executar uma ferramenta, use EXATAMENTE este formato no final da sua resposta:
+<tool_call:nome_da_ferramenta>{"parametro": "valor"}</tool_call>
+Não use blocos de código markdown (\`\`\`) para a tag de ferramenta.
+`;
+
     // 🧠 Inject Founder Brain personality + MCP tool context into every call
     let enrichedMessage = messageWithContext;
     if (mcpContext) {
-      enrichedMessage = `[MCP Tools Available]\n${mcpContext}\n\n${enrichedMessage}`;
+      enrichedMessage = `[MCP Tools Available]\n${mcpContext}\n${toolInstruction}\n\n${enrichedMessage}`;
     }
     const messageWithBrain = systemPrompt
       ? `[System Context]\n${systemPrompt}\n\n[User Message]\n${enrichedMessage}`
@@ -357,26 +366,47 @@ function PFChat() {
         ? ` (${response.cost.toFixed(2)} PC)`
         : "";
 
-      // Handle insufficient balance
-      if (response.status === "INSUFFICIENT_BALANCE") {
+      const aiText = response.text || response.response;
+
+      // 🧠 [S1B] TOOL DISCOVERY & EXECUTION LOOP
+      const toolMatch = aiText.match(/<tool_call:(\w+)>(.*?)<\/tool_call>/s);
+
+      if (toolMatch) {
+        const toolName = toolMatch[1];
+        let args = {};
+        try {
+          args = JSON.parse(toolMatch[2]);
+        } catch (e) {
+          console.warn("Failed to parse tool args", e);
+        }
+
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            content: `> ⚠️ **Insufficient Panda Coins**\n\nYou need **${response.cost} PC** for this request but only have **${response.balance?.toFixed(2) || 0} PC**.\n\n💰 Top up your wallet to continue chatting!`,
+            content: `> 🛠️ **Executando:** \`${toolName}\`...`,
           },
         ]);
-        setIsLoading(false);
-        return;
-      }
 
-      const aiText = response.text || response.response;
+        const result = await Orchestrator.executeTool(toolName, args);
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              result.status === "SUCCESS"
+                ? `> ✅ **Sucesso:** Ação \`${toolName}\` concluída.`
+                : `> ❌ **Erro:** Falha ao executar \`${toolName}\`: ${result.message}`,
+          },
+        ]);
+      }
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: `> ${prefix}${billingInfo}\n\n${aiText}`,
+          content: `> ${prefix}${billingInfo}\n\n${aiText.replace(/<tool_call:.*?<\/tool_call>/gs, "").trim()}`,
           model: activeModel,
           gem: activeGem,
         },

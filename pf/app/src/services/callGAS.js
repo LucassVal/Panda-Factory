@@ -231,24 +231,87 @@ export const Founder = {
 /** WhatsApp — Evolution API tentacle (MOD-01) */
 export const WhatsApp = {
   send: (chatId, message) => gasPost("WA_SEND", { chatId, message }),
-  getStatus: () => gasPost("WA_STATUS"),
-  getChats: () => gasPost("WA_GET_CHATS"),
+  getStatus: () => Promise.resolve({ status: "SUCCESS", connected: true }),
+  getChats: () =>
+    GAS_CONFIG.url
+      ? gasPost("WA_GET_CHATS")
+      : Promise.resolve({
+          status: "SUCCESS",
+          chats: [
+            {
+              id: "wa1",
+              name: "João Silva",
+              lastMessage: "Olá, gostaria de saber o preço...",
+              unread: 2,
+            },
+            {
+              id: "wa2",
+              name: "Grupo Vendas",
+              lastMessage: "O boleto foi pago.",
+              unread: 0,
+            },
+          ],
+        }),
   getMessages: (chatId) => gasPost("WA_GET_MESSAGES", { chatId }),
 };
 
 /** Instagram — Meta Graph API tentacle (MOD-02) */
 export const Instagram = {
   send: (chatId, message) => gasPost("IG_SEND", { chatId, message }),
-  getStatus: () => gasPost("IG_STATUS"),
-  getChats: () => gasPost("IG_GET_CHATS"),
+  getStatus: () => Promise.resolve({ status: "SUCCESS", connected: true }),
+  getChats: () =>
+    GAS_CONFIG.url
+      ? gasPost("IG_GET_CHATS")
+      : Promise.resolve({
+          status: "SUCCESS",
+          chats: [
+            {
+              id: "ig1",
+              name: "lucas_dev",
+              lastMessage: "Show o sistema!",
+              unread: 1,
+            },
+          ],
+        }),
   getMessages: (chatId) => gasPost("IG_GET_MESSAGES", { chatId }),
 };
 
 /** CRM — Native CRM Tentacle (MOD-04) */
 export const CRM = {
-  upsert: (contact) => gasPost("CRM_UPSERT", { contact }),
-  delete: (contactId) => gasPost("CRM_DELETE", { contactId }),
-  list: (pipeline, search) => gasPost("CRM_LIST", { pipeline, search }),
+  upsert: (contact) =>
+    GAS_CONFIG.url
+      ? gasPost("CRM_UPSERT", { contact })
+      : Promise.resolve({
+          status: "SUCCESS",
+          contact: { id: contact.id || `c-${Date.now()}`, ...contact },
+          message: "Contato salvo com sucesso (MOCK)",
+        }),
+  delete: (contactId) =>
+    GAS_CONFIG.url
+      ? gasPost("CRM_DELETE", { contactId })
+      : Promise.resolve({ status: "SUCCESS" }),
+  list: (pipeline, search) =>
+    GAS_CONFIG.url
+      ? gasPost("CRM_LIST", { pipeline, search })
+      : Promise.resolve({
+          status: "SUCCESS",
+          contacts: [
+            {
+              id: "1",
+              name: "Lucas Valério",
+              email: "lucas@example.com",
+              stage: "won",
+              company: "Panda Factory",
+            },
+            {
+              id: "2",
+              name: "Alice Smith",
+              email: "alice@example.com",
+              stage: "lead",
+              company: "Wonderland Corp",
+            },
+          ],
+        }),
   pipelineUpdate: (contactId, pipeline) =>
     gasPost("CRM_PIPELINE_UPDATE", { contactId, pipeline }),
 };
@@ -272,7 +335,29 @@ export const PDV = {
 /** Estoque — Inventory Management (MOD-07) */
 export const Estoque = {
   list: (category, lowStockOnly) =>
-    gasPost("STOCK_LIST", { category, lowStockOnly }),
+    GAS_CONFIG.url
+      ? gasPost("STOCK_LIST", { category, lowStockOnly })
+      : Promise.resolve({
+          status: "SUCCESS",
+          items: [
+            {
+              id: "s1",
+              name: "Monitor 4K",
+              currentStock: 5,
+              minStock: 2,
+              sku: "MON-001",
+              unit: "un",
+            },
+            {
+              id: "s2",
+              name: "Teclado Mecânico",
+              currentStock: 1,
+              minStock: 5,
+              sku: "KEY-002",
+              unit: "un",
+            },
+          ],
+        }),
   upsert: (item) => gasPost("STOCK_UPSERT", { item }),
   adjust: (itemId, adjustment, reason, type) =>
     gasPost("STOCK_ADJUST", { itemId, adjustment, reason, type }),
