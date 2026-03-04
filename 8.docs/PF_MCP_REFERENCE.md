@@ -221,29 +221,20 @@ Dock installs module
   → callBrain: [MCP Tools Available] injected before user message
 ```
 
-#### BUILTIN_TOOLS (12 módulos, 46 tools)
+#### BUILTIN_TOOLS (3 super-módulos, ~42 tools)
 
-| Módulo        | ID              | Tools |
-| ------------- | --------------- | :---: |
-| Panda CRM     | `crm`           |   5   |
-| WhatsApp      | `whatsapp`      |   4   |
-| Instagram DM  | `instagram`     |   4   |
-| CRM Tentacle  | `crm-tentacle`  |   4   |
-| Panda Agenda  | `agenda`        |   4   |
-| Panda PDV     | `pdv`           |   4   |
-| Panda Estoque | `estoque`       |   4   |
-| Landing Pages | `landing-pages` |   5   |
-| Facebook      | `facebook`      |   3   |
-| TikTok        | `tiktok`        |   3   |
-| Twitter / X   | `twitter`       |   3   |
-| YouTube       | `youtube`       |   3   |
+| Módulo           | ID       | Tools | Descrição                               |
+| ---------------- | -------- | :---: | --------------------------------------- |
+| Panda CRM (Pro)  | `crm`    |  ~17  | Contatos, Funil, Agenda, Estoque        |
+| Panda Social Hub | `social` |  ~20  | Inbox unificado: WA, IG, FB, TK, TW, YT |
+| Panda Pages      | `pages`  |   5   | Engine de páginas e links               |
 
 #### Exemplo de Injeção no Prompt
 
 ```text
 [MCP Tools Available]
 MCP TOOLS DISPONÍVEIS:
-(12 tools de 3 módulos ativos)
+(42 tools de 3 módulos ativos)
 
 📱 Panda CRM:
   - crm_addContact(name, email, phone, tags): Adiciona novo contato
@@ -424,25 +415,16 @@ Todo plugin **DEVE** ter um `panda.mcp.json` na raiz:
 | `version`   | string | Versão semântica                     |
 | `mcp.tools` | array  | Lista de ferramentas expostas        |
 
-## B.3. Módulos Oficiais (12 módulos — todos FREE)
+## B.3. Módulos Oficiais (3 super-módulos — todos FREE)
 
 > **Modelo de negócio:** Módulos são gratuitos. Receita vem da venda de Panda Coins.
 > **Encapsulado:** Valor definido livremente pelo Founder (Kiwify/Hotmart).
 
-| Módulo           | Manifest ID     | Preço | Tools | Descrição                 |
-| ---------------- | --------------- | :---: | :---: | ------------------------- |
-| **CRM**          | `crm`           | FREE  |   5   | Gestão de contatos        |
-| **WhatsApp**     | `whatsapp`      | FREE  |   4   | Mensagens + auto-reply    |
-| **Instagram**    | `instagram`     | FREE  |   4   | DMs + auto-reply          |
-| **CRM Tentacle** | `crm-tentacle`  | FREE  |   4   | Funil avançado (Medusa)   |
-| **Agenda**       | `agenda`        | FREE  |   4   | Calendário e agendamento  |
-| **PDV**          | `pdv`           | FREE  |   4   | Ponto de venda + cardápio |
-| **Estoque**      | `estoque`       | FREE  |   4   | Controle de inventário    |
-| **Landing**      | `landing-pages` | FREE  |   5   | Builder drag-and-drop     |
-| **Facebook**     | `facebook`      | FREE  |   3   | Messenger integration     |
-| **TikTok**       | `tiktok`        | FREE  |   3   | DM + auto-reply           |
-| **Twitter/X**    | `twitter`       | FREE  |   3   | DM + auto-reply           |
-| **YouTube**      | `youtube`       | FREE  |   3   | Comments + auto-reply     |
+| Módulo               | Manifest ID | Preço | Tools | Descrição                             |
+| -------------------- | ----------- | :---: | :---: | ------------------------------------- |
+| **Panda CRM (Pro)**  | `crm`       | FREE  |  ~17  | Contatos, Funil, Agenda, Estoque      |
+| **Panda Social Hub** | `social`    | FREE  |  ~20  | Inbox Unificado + Auto-reply por rede |
+| **Panda Pages**      | `pages`     | FREE  |   5   | Builder drag-and-drop de páginas      |
 
 ## B.4. Validação (Panda Defend)
 
