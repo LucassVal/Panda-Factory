@@ -22,7 +22,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 | Extensão | Qtd | Domínio Principal          | Nota                       |
 | -------- | --- | -------------------------- | -------------------------- |
-| `.gs`    | 20  | Backend GAS                | 10 core + 10 domains       |
+| `.gs`    | 21  | Backend GAS                | 10 core + 11 domains       |
 | `.rs`    | 8   | Rust Agent                 | ⚠️ MOCKS (Phase 2)         |
 | `.md`    | 30  | Documentação + README      | 20 PF\_ + 10 outros        |
 | `.js`    | 79  | Frontend/SDK/Tentacles     | +facebook-messenger+tiktok |
@@ -36,7 +36,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 ---
 
-## 🔧 Backend GAS (18 arquivos — 10 core + 8 domains)
+## 🔧 Backend GAS (19 arquivos — 10 core + 9 domains)
 
 ### Core
 
@@ -73,11 +73,12 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 ### Automation & P2P
 
-| Arquivo       | Caminho                          | Descrição                        | v     | Mod        |
-| ------------- | -------------------------------- | -------------------------------- | ----- | ---------- |
-| `PF_Bots.gs`  | `1.core/1.2.domains/automation/` | Automação de tarefas             | 1.0.0 | 2026-01-15 |
-| `PF_P2P.gs`   | `1.core/1.2.domains/p2p/`        | 🌐 Node registry, tasks, rewards | 1.1.0 | 2026-02-18 |
-| `PF_Usage.gs` | `1.core/1.2.domains/billing/`    | 📈 Usage tracking & metering     | 1.0.0 | 2026-02-18 |
+| Arquivo                  | Caminho                          | Descrição                        | v     | Mod        |
+| ------------------------ | -------------------------------- | -------------------------------- | ----- | ---------- |
+| `PF_Bots.gs`             | `1.core/1.2.domains/automation/` | Automação de tarefas             | 1.0.0 | 2026-01-15 |
+| `PF_P2P.gs`              | `1.core/1.2.domains/p2p/`        | 🌐 Node registry, tasks, rewards | 1.1.0 | 2026-02-18 |
+| `PF_Usage.gs`            | `1.core/1.2.domains/billing/`    | 📈 Usage tracking & metering     | 1.0.0 | 2026-02-18 |
+| `PF_Tentacles_Social.gs` | `1.core/1.2.domains/tentacles/`  | 🐙 Webhooks (WhatsApp/Instagram) | 1.0.0 | 2026-03-05 |
 
 ### Payment SDKs (1.core/1.3.sdks/)
 

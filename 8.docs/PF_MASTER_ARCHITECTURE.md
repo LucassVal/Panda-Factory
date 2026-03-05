@@ -2170,6 +2170,8 @@ Organizamos o backend em "Domínios" (Chapéus) para escalar:
 │   ├── store/
 │   │   ├── PF_Registry.gs  # Catálogo
 │   │   └── PF_Sales.gs     # Split
+│   ├── tentacles/          # Webhooks de Canais Sociais
+│   │   └── PF_Tentacles_Social.gs # WhatsApp & Instagram
 │   └── automation/
 │       └── PF_Bots.gs      # Farms
 └── integrations/
