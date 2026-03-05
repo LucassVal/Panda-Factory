@@ -172,6 +172,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `pf.kill-switch.js`      | 🟢 REAL   | Kill switch (callGAS Founder auth)        | 1.0.0 | 2026-02-06 |
 | `pf.agent-telemetry.js`  | 🟢 REAL   | Telemetria event-based (Founder-only)     | 1.0.0 | 2026-02-06 |
 | `pf.workflow-builder.js` | 🟢 REAL   | Workflows (IndexedDB, AI learning)        | 1.0.0 | 2026-01-26 |
+| `usePWAInstall.jsx`      | 🟢 REAL   | Hook React para App Install prompt PWA    | 1.0.0 | 2026-03-05 |
 
 ### Kernel (2.system/core/)
 

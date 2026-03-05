@@ -269,7 +269,7 @@ LEGENDA DE STATUS:
 | [x]    | 17  | Onboarding pulsing dots (Phase 2 Wizard)                         | E1-S1D | §3. Frontend                | 1003-1385             | `CONTEXT.md §11`      |
 | [ ]    | 17a | Sub: Ativação Encapsulado pós-compra (Hotmart→link→Panda→ativar) | E1-S1D | §3. Frontend / §10.5        | —                     | `MEDUSA_REF §10.5`    |
 | [ ]    | 23  | MCP IPC Bridge (Rust ↔ SDK)                                      | E2-S2A | §5.3 Rust Agent / §6. Infra | 1777-1857 / 1858-2156 | `MCP_REF`             |
-| [ ]    | 37  | Security Hardening full (SRI + Firebase Rules)                   | E3     | §7. Segurança               | 2157-2496             | `SECURITY_REF`        |
+| [/]    | 37  | Security Hardening: Validação Quádrupla Zero-Trust (GAS + RTDB)  | E1-S1D | §7. Segurança               | 2157-2496             | `SECURITY_REF`        |
 
 ### PARTE III — ECOSSISTEMA ECONÔMICO (§8-§10)
 

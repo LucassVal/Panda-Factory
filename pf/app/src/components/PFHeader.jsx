@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import usePWAInstall from "../hooks/usePWAInstall";
 
 const STATUS_EMOJI = { ok: "🟢", degraded: "🟡", critical: "🔴" };
 
@@ -8,6 +9,7 @@ const STATUS_EMOJI = { ok: "🟢", degraded: "🟡", critical: "🔴" };
  */
 function PFHeader({ onStoreClick }) {
   const [hbStatus, setHbStatus] = useState("unknown");
+  const { isInstallable, installPWA } = usePWAInstall();
 
   useEffect(() => {
     try {
@@ -48,6 +50,20 @@ function PFHeader({ onStoreClick }) {
         <button className="pf-header-btn" onClick={onStoreClick}>
           📦 Store
         </button>
+        {isInstallable && (
+          <button
+            className="pf-header-btn pf-pwa-btn"
+            onClick={installPWA}
+            style={{
+              color: "#00FF9D",
+              fontWeight: "bold",
+              border: "1px solid #00FF9D22",
+              background: "#00FF9D11",
+            }}
+          >
+            ⬇ Instalar App
+          </button>
+        )}
         <button className="pf-header-btn">⬚ Fullscreen</button>
         <button className="pf-header-btn">⧉ Pop-out</button>
         <button className="pf-header-btn">⚙️</button>

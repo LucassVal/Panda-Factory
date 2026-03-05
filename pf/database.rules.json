@@ -27,7 +27,7 @@
         },
         "licenses": {
           "$moduleId": {
-            ".validate": "newData.hasChildren(['granted', 'version'])"
+            ".validate": "newData.hasChildren(['granted', 'version', '_wasm_sig']) && newData.child('_wasm_sig').val().matches(/^[a-fA-F0-9]{16,}$/)"
           }
         },
         "gasometer": {
@@ -71,7 +71,7 @@
         ".write": "auth != null && root.child('admins/' + auth.uid).exists()",
 
         "$saleId": {
-          ".validate": "newData.hasChildren(['userId', 'moduleId', 'amount', 'method', 'timestamp'])"
+          ".validate": "newData.hasChildren(['userId', 'moduleId', 'amount', 'method', 'timestamp', '_wasm_sig']) && newData.child('_wasm_sig').val().matches(/^[a-fA-F0-9]{16,}$/)"
         }
       }
     },
