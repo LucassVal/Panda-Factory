@@ -33,6 +33,20 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: 🦀 Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+          override: true
+
+      - name: 📦 Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: 🛡️ Build Wasm Shield
+        working-directory: 3.sdk/rust-core
+        run: wasm-pack build --target web --release
+
       - name: 📦 Install Dependencies
         working-directory: pf/app
         run: npm ci

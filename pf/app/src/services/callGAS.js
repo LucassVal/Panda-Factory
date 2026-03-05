@@ -109,11 +109,25 @@ export async function gasPost(action, payload = {}) {
     return { status: "MOCK", action, message: "GAS URL not set" };
   }
 
-  const body = JSON.stringify({
+  const basePayload = {
     action,
     userId: payload.userId || localStorage.getItem("panda_uid") || "anonymous",
     ...payload,
-  });
+  };
+
+  // 🛡️ Wasm Shield (Zero Trust Client) - Assina o Payload
+  if (window.PandaCore && window.PandaCore.sign_gas_payload) {
+    try {
+      const payloadString = JSON.stringify(basePayload);
+      const signature = window.PandaCore.sign_gas_payload(payloadString);
+      basePayload._wasm_sig = signature;
+      basePayload._wasm_timestamp = Date.now();
+    } catch (e) {
+      console.warn("🛡️ [Wasm Shield] Falha ao assinar payload", e);
+    }
+  }
+
+  const body = JSON.stringify(basePayload);
 
   for (let attempt = 0; attempt <= GAS_CONFIG.retries; attempt++) {
     try {
