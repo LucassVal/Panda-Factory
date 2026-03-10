@@ -5,13 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -23,74 +21,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: "pf/app/package-lock.json"
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: 🦀 Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
-
-      - name: 📦 Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: 🛡️ Build Wasm Shield
-        working-directory: 3.sdk/rust-core
-        run: wasm-pack build --target web --release
-
-      - name: 📦 Install Dependencies
-        working-directory: pf/app
-        run: npm ci
-
-      - name: 🔨 Build JAM React App
-        working-directory: pf/app
-        run: npm run build
-        env:
-          VITE_FIREBASE_API_KEY: AIzaSyDyWiRgNusHQ38mNbusKgWHmXYYOfa5gjM
-          VITE_FIREBASE_AUTH_DOMAIN: panda-factory.firebaseapp.com
-          VITE_FIREBASE_DATABASE_URL: https://panda-factory-default-rtdb.firebaseio.com
-          VITE_FIREBASE_PROJECT_ID: panda-factory
-          VITE_FIREBASE_STORAGE_BUCKET: panda-factory.firebasestorage.app
-          VITE_FIREBASE_MESSAGING_SENDER_ID: "980998365446"
-          VITE_FIREBASE_APP_ID: "1:980998365446:web:90200c58606a6238eebe87"
-          VITE_FIREBASE_MEASUREMENT_ID: G-RBZ0YWHSHN
-          VITE_GAS_URL: https://script.google.com/macros/s/AKfycbwaQ_8shY1czKSiT6nyxJLOtybG2133RUIrqnFdtIDVqinjFyXpzNXnNNtExPYWM7LV/exec
-
       - name: 📋 Assemble Deployment Directory
         run: |
           mkdir -p deploy/app
           # Landing page → root
           cp pf/index.html deploy/index.html
           # Assets (logo, images) → /assets/
-          cp -r pf/assets deploy/assets 2>/dev/null || true
-          # React app build → /app/
-          cp -r pf/dist/* deploy/app/
+          if [ -d "pf/assets" ]; then cp -r pf/assets deploy/assets; fi
+          # React app build (LOCAL PRE-BUILT) → /app/
+          if [ -d "pf/dist" ]; then cp -r pf/dist/* deploy/app/; fi
           # PWA assets
-          cp pf/manifest.json deploy/ 2>/dev/null || true
-          cp pf/favicon.ico deploy/ 2>/dev/null || true
+          if [ -f "pf/manifest.json" ]; then cp pf/manifest.json deploy/; fi
+          if [ -f "pf/favicon.ico" ]; then cp pf/favicon.ico deploy/; fi
           # Prevent Jekyll
           touch deploy/.nojekyll
-          echo "✅ Deployment directory assembled"
+          echo "✅ Deployment directory assembled from local artifacts"
 
-      - name: 📋 Verify Build Output
+      - name: 📋 Verify Artifacts
         run: |
           echo "=== deploy/ root ==="
           ls -la deploy/
-          echo "=== deploy/assets/ ==="
-          ls -la deploy/assets/ 2>/dev/null || echo "No assets dir"
           echo "=== deploy/app/ ==="
           ls -la deploy/app/
-          echo "=== Landing page head ==="
-          head -5 deploy/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -110,5 +62,4 @@ jobs:
 
       - name: 🎉 Deployment Complete
         run: |
-          echo "Panda Factory UI is LIVE!"
-          echo "URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "Panda Factory UI is LIVE (Sync Deploy)"
