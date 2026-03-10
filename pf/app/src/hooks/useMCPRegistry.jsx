@@ -127,6 +127,22 @@ const BUILTIN_TOOLS = {
         },
       },
       {
+        name: "agenda_checkAvailability",
+        description: "Verifica horários disponíveis em uma data específica",
+        parameters: { date: "ISO date (required)" },
+      },
+      {
+        name: "agenda_bookAppointment",
+        description: "Agenda um novo compromisso no calendário",
+        parameters: {
+          title: "string (required)",
+          start: "ISO datetime (required)",
+          end: "ISO datetime (required)",
+          contactName: "string",
+          contactPhone: "string",
+        },
+      },
+      {
         name: "estoque_addItem",
         description: "Cadastra novo item no estoque",
         parameters: {

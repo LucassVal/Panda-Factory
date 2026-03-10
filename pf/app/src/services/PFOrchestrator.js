@@ -21,6 +21,9 @@ const TOOL_MAPPING = {
   agenda_createEvent: (args) => callGAS.Agenda.create(args),
   agenda_listEvents: (args) =>
     callGAS.Agenda.list(args.startDate, args.endDate),
+  agenda_checkAvailability: (args) =>
+    callGAS.Agenda.checkAvailability(args.date),
+  agenda_bookAppointment: (args) => callGAS.Agenda.create(args),
   agenda_deleteEvent: (args) => callGAS.Agenda.remove(args.eventId),
 
   // 📦 Stock / Inventory

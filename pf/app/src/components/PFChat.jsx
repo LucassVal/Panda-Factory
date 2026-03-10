@@ -449,35 +449,7 @@ Não use blocos de código markdown (\`\`\`) para a tag de ferramenta.
 
   return (
     <>
-      {/* Trail Bubble — mascot greeting for returning users */}
-      {showTrailBubble && !isOpen && (
-        <div
-          className="pf-chat-trail-bubble"
-          onClick={() => {
-            setShowTrailBubble(false);
-            setIsOpen(true);
-          }}
-        >
-          {trailMessage}
-          <div className="pf-trail-arrow" />
-        </div>
-      )}
-
-      {/* Floating Button */}
-      <button
-        className={`pf-chat-fab ${isOpen ? "active" : ""}`}
-        onClick={() => {
-          setIsOpen(!isOpen);
-          setShowTrailBubble(false);
-        }}
-        title="PANDA AI CHAT"
-      >
-        {isOpen ? (
-          "✕"
-        ) : (
-          <img src="./panda-icon.png" alt="Chat" className="pf-chat-fab-logo" />
-        )}
-      </button>
+      {/* Floating Button Removed - Now triggered from Dock via pf:chat-toggle-internal */}
 
       {/* Chat Panel */}
       {isOpen && (

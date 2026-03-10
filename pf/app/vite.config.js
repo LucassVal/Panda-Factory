@@ -3,6 +3,11 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import wasm from "vite-plugin-wasm";
 import topLevelAwait from "vite-plugin-top-level-await";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = path.resolve(__dirname, "../..");
 
 export default defineConfig({
   plugins: [
@@ -118,6 +123,11 @@ export default defineConfig({
   server: {
     port: 3001,
     cors: true,
+    fs: {
+      // Allow serving files from the entire Panda Factory root (needed for panda-core WASM in 3.sdk/)
+      strict: false,
+      allow: [PROJECT_ROOT],
+    },
     headers: {
       // TICKET-06: CSP + Security Headers (mirrors index.html meta tag)
       "X-Content-Type-Options": "nosniff",

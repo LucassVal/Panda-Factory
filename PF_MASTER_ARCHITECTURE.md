@@ -151,7 +151,7 @@ cross_ref:
 ├── Constituição (14 Artigos)
 │   ├── Founder soberania, splits imutáveis, red lines
 │   └── 🔴 NUNCA alterar sem aprovação explícita do Founder
-│   📄 PF_PAT_FOUNDER_CONSTITUTION.md │ Keywords: artigo, soberania, veto
+│   📄 PF_AGENT_CONSTITUTION.md (incl. PAT) │ Keywords: artigo, soberania, veto
 │
 └── ❌ P0 Gaps: Firebase Rules, CSP Headers, HMAC webhooks
 
@@ -184,7 +184,7 @@ cross_ref:
 ══════════════════════════════════════════════════════════════════════════
 LEGENDA: 📄 = Doc SSoT  |  ✅ = Implementado  |  📋 = Planejado  |  ❌ = Gap/Removido
 17 DOCS: MASTER_ARCH, SDK, UI, BACKEND, GAS, GEMINI, MCP, P2P, COLAB,
-         ECONOMY, MEDUSA, SECURITY, PAT_CONST, AGENT_CONST, OPENSOURCE, FILE_REG,
+         ECONOMY, MEDUSA, SECURITY, AGENT_CONST (incl. PAT), OPENSOURCE, FILE_REG,
          GOOGLE_SUITE
 ══════════════════════════════════════════════════════════════════════════
 ```
@@ -343,7 +343,7 @@ LEGENDA DE STATUS:
 │                                                                            │
 │  GOVERNANÇA & SEGURANÇA                CATÁLOGO & ECOSYSTEM               │
 │  ├── PF_AGENT_CONSTITUTION.md          ├── PF_OPENSOURCE_CATALOG.md        │
-│  ├── PF_PAT_FOUNDER_CONSTITUTION.md    ├── PF_FILE_REGISTRY.md             │
+│  ├── PF_AGENT_CONSTITUTION.md          ├── PF_FILE_REGISTRY.md             │
 │  └── PF_SECURITY_REFERENCE.md          └── PF_GOOGLE_SUITE.md ●           │
 │                                                                            │
 │  ★ = DOCUMENTO MESTRE    ▸ = MEGA-DOC CONSOLIDADO                          │

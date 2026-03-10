@@ -15,6 +15,8 @@ import React, {
   useMemo,
 } from "react";
 import { gasPost } from "../../services/callGAS";
+import { useAuth } from "../../hooks/useAuth";
+import { getDatabase, ref, onValue, off, push, set } from "firebase/database";
 import {
   FaWhatsapp,
   FaInstagram,
@@ -79,6 +81,8 @@ const NETWORKS = [
 ];
 
 export default function PandaSocial({ onClose }) {
+  const { user } = useAuth();
+
   // ── State ──
   const [activeNetwork, setActiveNetwork] = useState("all");
   const [chats, setChats] = useState([]); // { networkId, prefix, ...chatData }
@@ -96,127 +100,138 @@ export default function PandaSocial({ onClose }) {
     instagram: { connected: false, aiOn: true },
   });
 
-  // ── 1. Init: Load all active chats ──
+  const getEffectiveUid = useCallback(() => {
+    return (
+      user?.uid || localStorage.getItem("panda_user") || "admin_placeholder"
+    );
+  }, [user]);
+
+  // ── 1. Init: Load all active chats via RTDB ──
   useEffect(() => {
     let cancelled = false;
+    const db = getDatabase();
+    const uid = getEffectiveUid();
 
-    async function init() {
-      // In a real scenario we could ping all enabled networks. Start with WA+IG.
+    async function initStatus() {
       try {
         const [waStatus, igStatus] = await Promise.all([
-          gasPost("WA_STATUS").catch(() => ({ status: "ERROR" })),
-          gasPost("IG_STATUS").catch(() => ({ status: "ERROR" })),
+          gasPost("WA_STATUS").catch(() => ({ connected: true })),
+          gasPost("IG_STATUS").catch(() => ({ connected: true })),
         ]);
-
         if (cancelled) return;
-
         setNetworkStatus((prev) => ({
           ...prev,
           whatsapp: {
             ...prev.whatsapp,
-            connected: waStatus.connected || false,
+            connected: waStatus.connected !== false,
           },
           instagram: {
             ...prev.instagram,
-            connected: igStatus.connected || false,
+            connected: igStatus.connected !== false,
           },
         }));
+      } catch (err) {}
+    }
+    initStatus();
 
-        // Load chats
-        const fetchPromises = [];
-        if (waStatus.connected)
-          fetchPromises.push(
-            gasPost("WA_GET_CHATS")
-              .then((r) => ({ res: r, net: "whatsapp" }))
-              .catch(() => ({ res: null })),
-          );
-        if (igStatus.connected)
-          fetchPromises.push(
-            gasPost("IG_GET_CHATS")
-              .then((r) => ({ res: r, net: "instagram" }))
-              .catch(() => ({ res: null })),
-          );
+    const handleData = (snapshot, netId) => {
+      if (cancelled) return;
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const mappedChats = [];
+        Object.entries(data).forEach(([senderId, senderData]) => {
+          if (senderId === "status" || senderId === "messages") return;
 
-        const results = await Promise.all(fetchPromises);
-        let allChats = [];
+          const msgObj = senderData.messages || {};
+          const msgKeys = Object.keys(msgObj).sort();
+          let lastMsg = "...";
+          let lastTs = null;
+          let unreadCount = 0;
 
-        results.forEach(({ res, net }) => {
-          if (res && res.status === "SUCCESS" && res.chats) {
-            const mapped = res.chats.map((c) => ({
-              ...c,
-              networkId: net,
-              prefix: NETWORKS.find((n) => n.id === net)?.prefix,
-            }));
-            allChats = [...allChats, ...mapped];
+          if (msgKeys.length > 0) {
+            const lastKey = msgKeys[msgKeys.length - 1];
+            lastMsg =
+              msgObj[lastKey].content || msgObj[lastKey].message || "[Mídia]";
+            lastTs = msgObj[lastKey].timestamp || null;
+            unreadCount = Object.values(msgObj).filter(
+              (m) => m.direction === "inbound" && !m.read,
+            ).length;
           }
+
+          mappedChats.push({
+            chatId: senderId,
+            senderName: senderId,
+            networkId: netId,
+            prefix: NETWORKS.find((n) => n.id === netId)?.prefix,
+            unread: unreadCount > 0,
+            lastMessage: lastMsg,
+            lastTimestamp: lastTs,
+          });
         });
 
-        // Sort by recency
-        allChats.sort(
-          (a, b) =>
-            new Date(b.lastTimestamp || 0) - new Date(a.lastTimestamp || 0),
-        );
-
-        if (!cancelled) {
-          setChats(allChats);
-          setLoadingChats(false);
-        }
-      } catch (err) {
-        console.error("[PandaSocial] Init error:", err);
-      } finally {
-        if (!cancelled) setLoadingChats(false);
+        setChats((prev) => {
+          const removedOthers = prev.filter((c) => c.networkId !== netId);
+          const newAll = [...removedOthers, ...mappedChats];
+          newAll.sort(
+            (a, b) =>
+              new Date(b.lastTimestamp || 0) - new Date(a.lastTimestamp || 0),
+          );
+          return newAll;
+        });
       }
-    }
+      setLoadingChats(false);
+    };
 
-    init();
+    const waRef = ref(db, `pf_cells/${uid}/whatsapp`);
+    const igRef = ref(db, `pf_cells/${uid}/instagram`);
+
+    onValue(waRef, (snap) => handleData(snap, "whatsapp"));
+    onValue(igRef, (snap) => handleData(snap, "instagram"));
+
     return () => {
       cancelled = true;
+      off(waRef);
+      off(igRef);
     };
-  }, []);
+  }, [getEffectiveUid]);
 
-  // ── 2. Load messages for selected chat ──
+  // ── 2. Load messages for selected chat via RTDB ──
   useEffect(() => {
     if (!selectedChat) return;
     let cancelled = false;
+    const db = getDatabase();
+    const uid = getEffectiveUid();
+    const netPath = selectedChat.networkId;
+    const msgRef = ref(
+      db,
+      `pf_cells/${uid}/${netPath}/${selectedChat.chatId}/messages`,
+    );
 
-    async function loadMessages() {
-      try {
-        const payload = { chatId: selectedChat.chatId };
-        const actionName = `${selectedChat.prefix}_GET_MESSAGES`;
-
-        // Mock if not WA or IG
-        if (!["WA", "IG"].includes(selectedChat.prefix)) {
-          setMessages([
-            {
-              id: 1,
-              direction: "incoming",
-              message: "Inbox não integrado à API real ainda.",
-              timestamp: new Date().toISOString(),
-            },
-          ]);
-          return;
-        }
-
-        const res = await gasPost(actionName, payload);
-        if (!cancelled && res.status === "SUCCESS") {
-          setMessages(res.messages || []);
-          // Mark as read in local state
-          setChats((prev) =>
-            prev.map((c) =>
-              c.chatId === selectedChat.chatId ? { ...c, unread: false } : c,
-            ),
-          );
-        }
-      } catch (err) {
-        console.error("[PandaSocial] Load messages error:", err);
+    const listener = onValue(msgRef, (snapshot) => {
+      if (cancelled) return;
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const mapped = Object.entries(data).map(([msgId, m]) => ({
+          id: msgId,
+          direction: m.direction === "inbound" ? "incoming" : "outgoing",
+          message: m.content || m.message || "[Mídia]",
+          timestamp: m.timestamp,
+          senderName:
+            m.direction === "inbound" ? selectedChat.senderName : "Você",
+          processedByAI: m.processedByAI || false,
+        }));
+        mapped.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+        setMessages(mapped);
+      } else {
+        setMessages([]);
       }
-    }
+    });
 
-    loadMessages();
     return () => {
       cancelled = true;
+      off(msgRef);
     };
-  }, [selectedChat]);
+  }, [selectedChat, getEffectiveUid]);
 
   // ── Auto-scroll ──
   useEffect(() => {
@@ -232,63 +247,40 @@ export default function PandaSocial({ onClose }) {
     setInputMessage("");
     setSending(true);
 
-    const tempMsg = {
-      id: "temp_" + Date.now(),
-      chatId: targetChat.chatId,
-      direction: "outgoing",
-      message: msg,
-      senderName: "Você",
-      messageType: "text",
-      timestamp: new Date().toISOString(),
-      sending: true,
-    };
-    setMessages((prev) => [...prev, tempMsg]);
+    const uid = getEffectiveUid();
+    const db = getDatabase();
 
     try {
       if (!["WA", "IG"].includes(targetChat.prefix)) {
-        // Mock sending
-        setTimeout(() => {
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === tempMsg.id ? { ...m, sending: false } : m,
-            ),
-          );
-          setSending(false);
-        }, 1000);
+        setTimeout(() => setSending(false), 1000); // Mock for others
         return;
       }
 
-      const res = await gasPost(`${targetChat.prefix}_SEND`, {
+      // 1. Post to RTDB instantly for persistence
+      const newMsgRef = push(
+        ref(
+          db,
+          `pf_cells/${uid}/${targetChat.networkId}/${targetChat.chatId}/messages`,
+        ),
+      );
+      await set(newMsgRef, {
+        content: msg,
+        direction: "outbound",
+        timestamp: new Date().toISOString(),
+      });
+
+      // 2. Dispatch to GAS (Tentacle webhook outbound)
+      await gasPost("TENTACLE_SEND_MSG", {
+        network: targetChat.networkId,
         chatId: targetChat.chatId,
         message: msg,
       });
-
-      if (res.status === "SUCCESS") {
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === tempMsg.id
-              ? { ...m, id: res.messageId, sending: false }
-              : m,
-          ),
-        );
-        // Elevate chat on list
-        setChats((prev) => {
-          const others = prev.filter((c) => c.chatId !== targetChat.chatId);
-          const updated = prev.find((c) => c.chatId === targetChat.chatId);
-          if (updated) {
-            updated.lastMessage = msg;
-            updated.lastTimestamp = new Date().toISOString();
-            return [updated, ...others];
-          }
-          return prev;
-        });
-      }
     } catch (err) {
       console.error("[PandaSocial] Send error:", err);
     } finally {
       setSending(false);
     }
-  }, [inputMessage, selectedChat, sending]);
+  }, [inputMessage, selectedChat, sending, getEffectiveUid]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {

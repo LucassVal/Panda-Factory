@@ -1,16 +1,16 @@
 ---
 tool_context: panda/files
-description: Catálogo de arquivos — auditado 2026-03-03 LP05 inline→CSS migration
-version: 7.8.0
-updated: 2026-03-04
+description: Catálogo de arquivos — auditado 2026-03-09 SSoT Alignment
+version: 8.1.0
+updated: 2026-03-09
 ssot: CONTEXT.md §5 (Sistema Montesquieu)
 cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 ---
 
 # 📁 PF_FILE_REGISTRY - Catálogo de Arquivos
 
-> **Versão:** 7.8.0 | **Atualizado:** 2026-03-04 (LP07 Auditoria e Consolidação 12→2)
-> **Propósito:** Inventário COMPLETO de todos os arquivos do Panda Factory (auditado via fs scan)
+> **Versão:** 8.1.0 | **Atualizado:** 2026-03-09 (Launch Alignment - Fixed Plans & Memory Registry)
+> **Propósito:** Inventário COMPLETO de todos os arquivos do Panda Factory.
 
 ---
 
@@ -24,12 +24,12 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | -------- | --- | -------------------------- | -------------------------- |
 | `.gs`    | 21  | Backend GAS                | 10 core + 11 domains       |
 | `.rs`    | 8   | Rust Agent                 | ⚠️ MOCKS (Phase 2)         |
-| `.md`    | 30  | Documentação + README      | 20 PF\_ + 10 outros        |
+| `.md`    | 28  | Documentação + README      | 20 PF\_ + 8 outros         |
 | `.js`    | 79  | Frontend/SDK/Tentacles     | +facebook-messenger+tiktok |
 | `.jsx`   | 38  | React Components           | 36 PF + i18n + useAuth     |
 | `.html`  | 23  | UI/Components/Modules      | +CRM+IG+WA+Agenda+Est      |
 | `.css`   | 24  | Estilos (+ pf.css 4423 ln) | +PFEmptyState              |
-| `.json`  | 11  | Config                     |                            |
+| `.json`  | 12  | Config                     |                            |
 | `.py`    | 28  | Scripts/Automação          |                            |
 | imagens  | 24  | Logos, ícones, favicons    |                            |
 | outros   | 19  | .bat, .ps1, .sh, .yml, etc |                            |
@@ -40,20 +40,28 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 ### Core
 
-| Arquivo                  | Caminho           | Descrição                                                                                       | v     | Mod        |
-| ------------------------ | ----------------- | ----------------------------------------------------------------------------------------------- | ----- | ---------- |
-| `PF_Dispatcher.gs`       | `1.core/1.1.gas/` | Router principal (doGet/doPost) + Brain AI + Store + Wallet RTDB + rtdbFetch() + Scoped Locking | 2.0.0 | 2026-02-22 |
-| `PF_Config.gs`           | `1.core/1.1.gas/` | Configurações globais (endpoint URL v22)                                                        | 1.2.0 | 2026-02-23 |
-| `appsscript.json`        | `1.core/1.1.gas/` | GAS manifest (access: ANYONE_ANONYMOUS)                                                         | 1.1.0 | 2026-02-23 |
-| `PF_Setup.gs`            | `1.core/1.1.gas/` | Setup & bootstrap (Stripe keys, env)                                                            | 1.0.0 | 2026-02-20 |
-| `PF_App_Init.gs`         | `1.core/1.1.gas/` | Inicialização do app                                                                            | 1.0.0 | 2026-01-15 |
-| `PF_Core_AI.gs`          | `1.core/1.1.gas/` | Dispatcher AI multimodal                                                                        | 1.0.0 | 2026-01-26 |
-| `PF_Core_Oracle.gs`      | `1.core/1.1.gas/` | Cotação USD/BRL                                                                                 | 1.0.0 | 2026-01-15 |
-| `PF_Core_Webhooks.gs`    | `1.core/1.1.gas/` | Webhooks B2B (Kiwify, Hotmart, Stripe)                                                          | 1.1.0 | 2026-02-19 |
-| `PF_Brain_Core.gs`       | `1.core/1.1.gas/` | Core do Brain AI                                                                                | 1.0.0 | 2026-01-26 |
-| `PF_Moltbook.gs`         | `1.core/1.1.gas/` | Integração Moltbook                                                                             | 1.0.0 | 2026-01-15 |
-| `PF_PAT_Core.gs`         | `1.core/1.1.gas/` | Panda Council (Governança)                                                                      | 1.0.0 | 2026-02-03 |
-| `PF_Heartbeat_Agents.gs` | `1.core/1.1.gas/` | 💓 6 monitoring agents + cron + log cleanup                                                     | 1.0.0 | 2026-02-21 |
+| Arquivo                  | Caminho                                 | Descrição                                                                      | v     | Mod        |
+| ------------------------ | --------------------------------------- | ------------------------------------------------------------------------------ | ----- | ---------- |
+| `PF_Dispatcher.gs`       | `1.core/1.1.gas/`                       | Router principal (doGet/doPost) + Brain AI + Store + Wallet RTDB + CRM Billing | 2.1.0 | 2026-03-10 |
+| `PF_Config.gs`           | `1.core/1.1.gas/`                       | Configurações globais (endpoint URL v22)                                       | 1.2.0 | 2026-02-23 |
+| `appsscript.json`        | `1.core/1.1.gas/`                       | GAS manifest (access: ANYONE_ANONYMOUS)                                        | 1.1.0 | 2026-02-23 |
+| `PF_Setup.gs`            | `1.core/1.1.gas/`                       | Setup & bootstrap (Stripe keys, env)                                           | 1.0.0 | 2026-02-20 |
+| `PF_App_Init.gs`         | `1.core/1.1.gas/`                       | Inicialização do app                                                           | 1.0.0 | 2026-01-15 |
+| `PF_Core_AI.gs`          | `1.core/1.1.gas/`                       | Dispatcher AI multimodal                                                       | 1.0.0 | 2026-01-26 |
+| `PF_Core_Oracle.gs`      | `1.core/1.1.gas/`                       | Cotação USD/BRL                                                                | 1.0.0 | 2026-01-15 |
+| `PF_Core_Webhooks.gs`    | `1.core/1.1.gas/`                       | Webhooks B2B (Kiwify, Hotmart, Stripe)                                         | 1.1.0 | 2026-02-19 |
+| `PF_Brain_Core.gs`       | `1.core/1.1.gas/`                       | Core do Brain AI                                                               | 1.0.0 | 2026-01-26 |
+| `CRMDetailModal.jsx`     | `pf/app/src/modules/crm/`               | Detalhes do contato.                                                           | 1.0.0 | 2026-02-09 |
+| `PandaAgenda.jsx`        | `pf/app/src/modules/agenda/`            | Componente principal da Agenda (react-big-calendar).                           | 1.0.0 | 2026-03-09 |
+| `PandaAgenda.css`        | `pf/app/src/modules/agenda/`            | Estilos para a Agenda, incluindo dark theme override.                          | 1.0.0 | 2026-03-09 |
+| `useAgenda.js`           | `pf/app/src/hooks/`                     | Hook para gerenciar estado e chamadas ao backend da Agenda.                    | 1.0.0 | 2026-03-09 |
+| `EventModal.jsx`         | `pf/app/src/modules/agenda/components/` | Modal para criação e edição de eventos na agenda.                              | 1.0.0 | 2026-03-09 |
+| `ConfigModal.jsx`        | `pf/app/src/modules/agenda/components/` | Modal para configuração de horários e slots da agenda.                         | 1.0.0 | 2026-03-09 |
+| `PandaSocial.jsx`        | `pf/app/src/modules/social/`            | Hub Central do Panda Social.                                                   | 1.1.0 | 2026-02-09 |
+| `PF_Moltbook.gs`         | `1.core/1.1.gas/`                       | Integração Moltbook                                                            | 1.0.0 | 2026-01-15 |
+| `PF_PAT_Core.gs`         | `1.core/1.1.gas/`                       | Panda Council (Governança)                                                     | 1.0.0 | 2026-02-03 |
+| `PF_Heartbeat_Agents.gs` | `1.core/1.1.gas/`                       | 💓 6 monitoring agents + cron + log cleanup                                    | 1.0.0 | 2026-02-21 |
+| `PF_Core_Agenda.gs`      | `1.core/1.1.gas/`                       | 📅 Core logic for Agenda, events & slot calculation                            | 1.1.0 | 2026-03-09 |
 
 ### Finance
 
@@ -114,42 +122,36 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 ## 📚 Documentação (32 arquivos em 8.docs/)
 
-| Arquivo                          | Descrição                                  | v     | Mod        |
-| -------------------------------- | ------------------------------------------ | ----- | ---------- |
-| `PF_MASTER_ARCHITECTURE.md`      | 🌟 Arquitetura completa (~192KB)           | 3.0.0 | 2026-02-14 |
-| `PF_FILE_REGISTRY.md`            | 📁 Este arquivo (catálogo)                 | 3.0.0 | 2026-02-14 |
-| `PF_SDK_REFERENCE.md`            | SDK, Tentacles, Social, Plugins            | 1.5.0 | 2026-02-14 |
-| `PF_UI_REFERENCE.md`             | Design System + Componentes                | 3.6.0 | 2026-03-03 |
-| `PF_BACKEND_REFERENCE.md`        | Backend geral + Firebase + Rust            | 2.1.0 | 2026-02-14 |
-| `PF_P2P_REFERENCE.md`            | P2P + Partner + Nodes + Mining             | 2.1.0 | 2026-02-14 |
-| `PF_GAS_REFERENCE.md`            | Google Apps Script (Tri-Mode)              | 1.3.0 | 2026-02-14 |
-| `PF_MCP_REFERENCE.md`            | Model Context Protocol                     | 1.0.0 | 2026-02-14 |
-| `PF_GEMINI_REFERENCE.md`         | Gemini 2.0/3.0 Flash                       | 3.0.0 | 2026-02-14 |
-| `PF_COLAB_REFERENCE.md`          | Google Colab BYOC                          | 1.0.0 | 2026-02-14 |
-| `PF_AGENT_CONSTITUTION.md`       | Persona IA pública                         | 1.1.0 | 2026-02-14 |
-| `PF_ECONOMY_REFERENCE.md`        | Panda Coin + Tokenomics                    | 2.0.0 | 2026-02-14 |
-| `PF_SECURITY_REFERENCE.md`       | 🛡️ Pipeline + Panda Defend                 | 1.1.0 | 2026-02-14 |
-| `PF_MEDUSA_REFERENCE.md`         | Marketplace Store                          | 2.0.0 | 2026-02-14 |
-| `PF_OPENSOURCE_CATALOG.md`       | Catálogo OSS                               | 1.2.0 | 2026-02-14 |
-| `PF_PAT_FOUNDER_CONSTITUTION.md` | Constituição PAT + Founder                 | 1.1.0 | 2026-02-14 |
-| `council_viability_report.md`    | Relatório de viabilidade Council           | 1.0.0 | 2026-02-14 |
-| `_BACKEND_FIREBASE.md`           | Insert: Firebase backend                   | 1.0.0 | 2026-02-14 |
-| `_BACKEND_POLYGLOT_B5.md`        | Insert: Polyglot B5                        | 1.0.0 | 2026-02-14 |
-| `_DUAL_PURPOSE_INSERT.md`        | Insert: Dual purpose                       | 1.0.0 | 2026-02-14 |
-| `_TENTACLE_INSERT.md`            | Insert: Tentacle system                    | 1.0.0 | 2026-02-14 |
-| `PF_KIWIFY_GATEWAY.md`           | 🥝 Kiwify taxas + webhook + flow           | 1.0.0 | 2026-02-18 |
-| `PF_HOTMART_GATEWAY.md`          | 🔥 Hotmart taxas + webhook v2.0 + API REST | 1.0.0 | 2026-02-18 |
-| `PF_STRIPE_GATEWAY.md`           | 💳 Stripe Checkout + PC packages + webhook | 1.0.0 | 2026-02-18 |
-| `PF_GOOGLE_SUITE.md`             | 🌐 Google Workspace integration guide      | 1.0.0 | 2026-02-18 |
-| `PF_GITHUB_REFERENCE.md`         | 🐙 GitHub Strategy + Panda Git App         | 1.0.0 | 2026-02-21 |
-| `PF_MODULE_AGENDA.md`            | 📅 Módulo Agenda — SSoT (MOD-05)           | 1.0.0 | 2026-02-21 |
-| `PF_MODULE_PDV.md`               | 🍽️ Módulo PDV — SSoT (MOD-06)              | 1.0.0 | 2026-02-21 |
-| `PF_MODULE_ESTOQUE.md`           | 📦 Módulo Estoque — SSoT (MOD-07)          | 1.0.0 | 2026-02-21 |
-| `SPRINT_ETAPA1.md`               | 🏃 Sprint E1 Phase 1 planning              | 1.4.0 | 2026-02-23 |
-| `SPRINT_ETAPA1_FASE2.md`         | 🏃 Sprint E1 Phase 2 planning              | 1.0.0 | 2026-02-19 |
-| `council_flywheel_analysis.md`   | 🐼 Council DR-008 Flywheel & Roadmap 2026  | 1.0.0 | 2026-02-20 |
-| `PF_DEPLOYMENT_CHANGELOG.md`     | 📦 Deploy history (GAS/RTDB/Frontend)      | 1.0.0 | 2026-02-23 |
-| `PF_PERFORMANCE_BASELINES.md`    | ⚡ Performance baselines (GAS v3.2.1)      | 1.0.0 | 2026-02-23 |
+| Arquivo                        | Caminho               | v     | Mod        |
+| ------------------------------ | --------------------- | ----- | ---------- |
+| `PF_MASTER_ARCHITECTURE.md`    | `8.docs/1.reference/` | 3.2.0 | 2026-03-10 |
+| `PF_FILE_REGISTRY.md`          | `8.docs/`             | 8.2.0 | 2026-03-10 |
+| `PF_SDK_REFERENCE.md`          | `8.docs/1.reference/` | 1.5.0 | 2026-02-14 |
+| `PF_UI_REFERENCE.md`           | `8.docs/1.reference/` | 3.7.0 | 2026-03-10 |
+| `PF_BACKEND_REFERENCE.md`      | `8.docs/1.reference/` | 3.0.0 | 2026-03-09 |
+| `PF_P2P_REFERENCE.md`          | `8.docs/1.reference/` | 2.1.0 | 2026-02-14 |
+| `PF_MCP_REFERENCE.md`          | `8.docs/1.reference/` | 1.0.0 | 2026-02-14 |
+| `PF_GEMINI_REFERENCE.md`       | `8.docs/1.reference/` | 3.0.0 | 2026-02-14 |
+| `PF_COLAB_REFERENCE.md`        | `8.docs/1.reference/` | 1.0.0 | 2026-02-14 |
+| `PF_AGENT_CONSTITUTION.md`     | `8.docs/1.reference/` | 1.2.0 | 2026-03-09 |
+| `PF_ECONOMY_REFERENCE.md`      | `8.docs/1.reference/` | 3.1.0 | 2026-03-09 |
+| `PF_SECURITY_REFERENCE.md`     | `8.docs/1.reference/` | 1.1.0 | 2026-02-14 |
+| `PF_MEDUSA_REFERENCE.md`       | `8.docs/1.reference/` | 2.0.0 | 2026-02-14 |
+| `PF_OPENSOURCE_CATALOG.md`     | `8.docs/1.reference/` | 1.2.0 | 2026-02-14 |
+| `council_viability_report.md`  | `8.docs/3.council/`   | 1.1.0 | 2026-03-09 |
+| `PF_KIWIFY_GATEWAY.md`         | `8.docs/1.reference/` | 1.0.0 | 2026-02-18 |
+| `PF_HOTMART_GATEWAY.md`        | `8.docs/1.reference/` | 1.0.0 | 2026-02-18 |
+| `PF_STRIPE_GATEWAY.md`         | `8.docs/1.reference/` | 1.0.0 | 2026-02-18 |
+| `PF_GOOGLE_SUITE.md`           | `8.docs/1.reference/` | 1.0.0 | 2026-02-18 |
+| `PF_GITHUB_REFERENCE.md`       | `8.docs/1.reference/` | 1.0.0 | 2026-02-21 |
+| `PF_MODULE_AGENDA.md`          | `8.docs/1.reference/` | 1.0.0 | 2026-02-21 |
+| `PF_MODULE_PDV.md`             | `8.docs/1.reference/` | 1.0.0 | 2026-02-21 |
+| `PF_MODULE_ESTOQUE.md`         | `8.docs/1.reference/` | 1.0.0 | 2026-02-21 |
+| `PF_MASTER_SPRINT.md`          | `8.docs/2.sprints/`   | 1.0.0 | 2026-03-09 |
+| `LEARNED_INSIGHTS.json`        | `8.docs/2.sprints/`   | 1.0.0 | 2026-03-09 |
+| `council_flywheel_analysis.md` | `8.docs/3.council/`   | 1.0.0 | 2026-02-20 |
+| `PF_DEPLOYMENT_CHANGELOG.md`   | `8.docs/1.reference/` | 1.0.0 | 2026-02-23 |
+| `PF_PERFORMANCE_BASELINES.md`  | `8.docs/1.reference/` | 1.0.0 | 2026-02-23 |
 
 ---
 
@@ -370,8 +372,9 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | ----------------------- | -------------------------------------------------------------------------- | ----- | ---------- |
 | `App.jsx`               | Container principal v6.5 (+GasometerPanel, Store v3.2)                     | 6.5.0 | 2026-02-13 |
 | `main.jsx`              | Entry point React                                                          | 1.0.0 | 2026-01-26 |
-| `PFCanvas.jsx`          | TLDraw canvas infinito + WelcomeOverlay                                    | 1.0.0 | 2026-02-06 |
+| `PFCanvas.jsx`          | TLDraw canvas infinito + WelcomeOverlay                                    | 1.1.0 | 2026-03-10 |
 | `PFDock.jsx`            | Dock esquerda v6.3 (🎨📁🐼⚙️🛠️ — 5 itens, lean dock, 📦 Casulo removido)   | 6.3.0 | 2026-02-23 |
+| `PFDrivePanel.jsx`      | Native Google Drive Explorer & Workspace manager                           | 1.0.0 | 2026-03-10 |
 | `PFNotifications.jsx`   | Centro de notificações v1.0 (slide-in panel, 4 tipos)                      | 1.0.0 | 2026-01-26 |
 | `PFStatusBar.jsx`       | Header v6.4: logo, pills (mapped to health keys), energy, treasury, logout | 6.4.0 | 2026-02-25 |
 | `PFHeader.jsx`          | Header + heartbeat status badge (🟢🟡🔴 RTDB)                              | 1.1.0 | 2026-02-21 |
@@ -480,6 +483,7 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 | `PFMiningPanel.css`      | ⛏️ Mining panel styles + light mode    | 1.0.0 | 2026-03-03 |
 | `PFEmptyState.css`       | 📦 Empty state component styles        | 1.0.0 | 2026-03-03 |
 | `PFWelcomeWizard.css`    | Estilos wizard v2 (close+finish btns)  | 2.0.0 | 2026-02-15 |
+| `PFDrivePanel.css`       | ☁️ Estilos do explorador de Drive      | 1.0.0 | 2026-03-10 |
 
 ---
 
@@ -498,24 +502,25 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 ### Root Project
 
-| Arquivo                       | Caminho | Vis | Descrição                                | v     | Mod        |
-| ----------------------------- | ------- | --- | ---------------------------------------- | ----- | ---------- |
-| `manifest.json`               | `/`     | 🟢  | PWA manifest                             | 1.0.0 | 2026-02-13 |
-| `package.json`                | `/`     | 🔒  | NPM dependencies (root) — gitignored     | 1.0.0 | 2026-02-06 |
-| `package-lock.json`           | `/`     | 🟢  | NPM lock (root)                          | 1.0.0 | 2026-02-06 |
-| `jsconfig.json`               | `/`     | 🔒  | JS/TS config — gitignored                | 1.0.0 | 2026-01-15 |
-| `PandaFactory.code-workspace` | `/`     | 🔒  | VS Code workspace — gitignored           | 1.0.0 | 2026-01-15 |
-| `sw.js`                       | `/`     | 🟢  | Service Worker                           | 1.0.0 | 2026-02-13 |
-| `_build_shell.ps1`            | `/`     | 🔒  | Build script PowerShell — gitignored     | 1.0.0 | 2026-01-15 |
-| `.nojekyll`                   | `/`     | 🟢  | Prevent Jekyll on GitHub Pages           | 1.0.0 | 2026-02-19 |
-| `.env`                        | `/`     | 🔒  | 🔒 Variáveis de ambiente (não commitar!) | 1.0.0 | 2026-01-15 |
-| `.gitignore`                  | `/`     | 🟢  | Git ignore rules                         | 1.0.0 | 2026-02-14 |
-| `.pandaignore`                | `/`     | 🟢  | Panda remote ignore rules                | 1.0.0 | 2026-02-19 |
-| `.antigravityignore`          | `/`     | 🔒  | Antigravity IDE ignore — gitignored      | 1.0.0 | 2026-02-14 |
-| `README.md`                   | `/`     | 🟢  | README principal do projeto              | 9.1.0 | 2026-02-18 |
-| `ROADMAP.md`                  | `/`     | 🟢  | Roadmap SSoT (42 tasks, 5 etapas)        | 1.3.0 | 2026-02-19 |
-| `index.html`                  | `/`     | 🟢  | Landing page (links to SPA)              | 2.0.0 | 2026-02-19 |
-| `PandaFactory.html`           | `/`     | 🔒  | App legado monolítico — gitignored       | 6.5.0 | 2026-02-13 |
+| Arquivo                       | Caminho   | Vis | Descrição                                | v     | Mod        |
+| ----------------------------- | --------- | --- | ---------------------------------------- | ----- | ---------- |
+| `manifest.json`               | `/`       | 🟢  | PWA manifest                             | 1.0.0 | 2026-02-13 |
+| `package.json`                | `/`       | 🔒  | NPM dependencies (root) — gitignored     | 1.0.0 | 2026-02-06 |
+| `package-lock.json`           | `/`       | 🟢  | NPM lock (root)                          | 1.0.0 | 2026-02-06 |
+| `jsconfig.json`               | `/`       | 🔒  | JS/TS config — gitignored                | 1.0.0 | 2026-01-15 |
+| `PandaFactory.code-workspace` | `/`       | 🔒  | VS Code workspace — gitignored           | 1.0.0 | 2026-01-15 |
+| `sw.js`                       | `/`       | 🟢  | Service Worker                           | 1.0.0 | 2026-02-13 |
+| `_build_shell.ps1`            | `/`       | 🔒  | Build script PowerShell — gitignored     | 1.0.0 | 2026-01-15 |
+| `.nojekyll`                   | `/`       | 🟢  | Prevent Jekyll on GitHub Pages           | 1.0.0 | 2026-02-19 |
+| `.env`                        | `/`       | 🔒  | 🔒 Variáveis de ambiente (não commitar!) | 1.0.0 | 2026-01-15 |
+| `.gitignore`                  | `/`       | 🟢  | Git ignore rules                         | 1.0.0 | 2026-02-14 |
+| `.pandaignore`                | `/`       | 🟢  | Panda remote ignore rules                | 1.0.0 | 2026-02-19 |
+| `.antigravityignore`          | `/`       | 🔒  | Antigravity IDE ignore — gitignored      | 1.0.0 | 2026-02-14 |
+| `README.md`                   | `/`       | 🟢  | README principal do projeto              | 9.1.0 | 2026-02-18 |
+| `ROADMAP.md`                  | `/`       | 🟢  | Roadmap SSoT (42 tasks, 5 etapas)        | 1.3.0 | 2026-02-19 |
+| `index.html`                  | `/`       | 🟢  | Landing page (links to SPA)              | 2.0.0 | 2026-02-19 |
+| `PandaFactory.html`           | `/`       | 🔒  | App legado monolítico — gitignored       | 6.5.0 | 2026-02-13 |
+| `CONTEXT.md`                  | `.agent/` | 🟢  | SSoT Central e Regras de Governança      | 2.1.0 | 2026-03-09 |
 
 > 🔒 **Segurança:** `.env` está listado como referência. Seu conteúdo é sensível e DEVE estar no `.gitignore`.
 > ❌ **Removido:** `_config.yml` (Jekyll theme) deletado em 2026-02-19 — conflitava com GitHub Actions deploy.
@@ -568,9 +573,10 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 ### 00.credentials
 
-| Arquivo     | Caminho           | Descrição                 | v     | Mod        |
-| ----------- | ----------------- | ------------------------- | ----- | ---------- |
-| `README.md` | `00.credentials/` | Instruções de credenciais | 1.0.0 | 2026-01-15 |
+| Arquivo      | Caminho           | Descrição                               | v     | Mod        |
+| ------------ | ----------------- | --------------------------------------- | ----- | ---------- |
+| `README.md`  | `00.credentials/` | Instruções de credenciais               | 1.0.0 | 2026-01-15 |
+| `Lucas.json` | `00.credentials/` | 🧠 Founder Brain Personality & Strategy | 1.1.0 | 2026-03-09 |
 
 ---
 
@@ -739,6 +745,9 @@ cross_ref: [PF_MASTER_ARCHITECTURE.md, PF_SDK_REFERENCE.md, PF_UI_REFERENCE.md]
 
 | Versao | Data       | Alteracoes                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 8.2.0  | 2026-03-10 | Drive Workspace Sync. Registered `PFDrivePanel.jsx/css` and synchronized folder structure between GAS Backend and Frontend. Updates to `PF_MASTER_ARCHITECTURE.md` and `PF_UI_REFERENCE.md`.                                                                                                                                                                                                                                                  |
+| 8.1.0  | 2026-03-09 | Docs cleanup: Unified `PF_AGENT_CONSTITUTION.md` and registered `LEARNED_INSIGHTS.json`.                                                                                                                                                                                                                                                                                                                                                      |
+| 8.0.0  | 2026-03-09 | LP08: SSoT Alignment Finalization. Alinhamento com Manifesto Técnico e Soberania Digital. Atualizados `CONTEXT.md`, `PF_MASTER_ARCHITECTURE.md`, `council_viability_report.md`, `Lucas.json` e `PF_ECONOMY_REFERENCE.md` (Fixed Plans).                                                                                                                                                                                                       |
 | 7.8.0  | 2026-03-04 | LP07: Auditoria e Consolidação 12→2. Removido módulos físicos `landing` e `pdv`. Adicionado módulo `social` (React). Padronizado `social/index.js`. Atualizado SSoT.                                                                                                                                                                                                                                                                          |
 | 7.7.0  | 2026-03-03 | LP04: SSOT update `PF_UI_REFERENCE.md` v3.6.0 (+§16 Módulos documentados, +PFEmptyState no inventário G.2, corrigido PFDefendPanel).                                                                                                                                                                                                                                                                                                          |
 | 7.6.0  | 2026-03-03 | LP06: +`PFEmptyState.jsx` v1.0 (reusable empty state, 3 sizes), +`PFEmptyState.css` v1.0 (light mode). JSX 37→38, CSS 23→24.                                                                                                                                                                                                                                                                                                                  |

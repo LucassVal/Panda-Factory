@@ -1,146 +1,295 @@
-/* ═══════════════════════════════════════
-   PFAgenda.css — MOD-05 Calendar Styles
-   Dark glassmorphism, week grid, modals
-   ═══════════════════════════════════════ */
+/* PandaAgenda.css - Design System Integration para react-big-calendar */
+/* Importante: Requer import na root ou no próprio arquivo: 'react-big-calendar/lib/css/react-big-calendar.css' */
 
-.pf-agenda {
-  display: flex; flex-direction: column; height: 100%;
-  background: linear-gradient(145deg, #0a0a14 0%, #0d0d1a 50%, #0f0f1e 100%);
-  color: #e2e8f0; font-family: 'Inter', 'Segoe UI', sans-serif;
-  border-radius: 12px; overflow: hidden;
+.pf-agenda-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: var(--pf-space-lg);
+  background: var(--pf-bg-100);
+  color: var(--pf-text-primary);
+  box-sizing: border-box;
 }
 
-/* Header */
 .pf-agenda-header {
-  padding: 16px 20px; border-bottom: 1px solid rgba(99,102,241,0.08);
-  background: rgba(15,15,26,0.6); backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-md);
 }
-.pf-agenda-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.pf-agenda-title {
-  margin: 0; font-size: 20px;
-  background: linear-gradient(90deg, #6366f1, #a855f7);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+
+.pf-agenda-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-sm);
 }
-.pf-agenda-badge { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(99,102,241,0.15); color: #818cf8; font-weight: 600; }
-.pf-agenda-close { margin-left: auto; background: none; border: none; color: #64748b; font-size: 18px; cursor: pointer; }
-.pf-agenda-close:hover { color: #ef4444; }
 
-/* Toolbar */
-.pf-agenda-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.pf-agenda-nav { display: flex; align-items: center; gap: 6px; }
-.pf-agenda-nav button { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.12); color: #94a3b8; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
-.pf-agenda-nav button:hover { background: rgba(99,102,241,0.18); color: #e2e8f0; }
-.pf-agenda-period { font-size: 14px; font-weight: 600; text-transform: capitalize; min-width: 160px; text-align: center; }
-.pf-agenda-today-btn { color: #818cf8 !important; font-weight: 600; }
-.pf-agenda-view-toggle { display: flex; gap: 4px; margin-left: auto; }
-.pf-agenda-view-toggle button { background: rgba(30,30,50,0.5); border: 1px solid rgba(99,102,241,0.08); color: #64748b; padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; }
-.pf-agenda-view-toggle button.active { background: rgba(99,102,241,0.15); color: #818cf8; border-color: rgba(99,102,241,0.3); }
-.pf-agenda-add-btn { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
-.pf-agenda-add-btn:hover { opacity: 0.9; }
+/* Sobrescritas do React Big Calendar (RBC) para o Panda Fabrics */
 
-/* Content */
-.pf-agenda-content { flex: 1; overflow-y: auto; padding: 12px; }
-
-/* Loading */
-.pf-agenda-loading { display: flex; align-items: center; justify-content: center; gap: 10px; height: 200px; color: #64748b; }
-.pf-agenda-spinner { width: 20px; height: 20px; border: 2px solid rgba(99,102,241,0.2); border-top-color: #6366f1; border-radius: 50%; animation: ag-spin 0.8s linear infinite; }
-@keyframes ag-spin { to { transform: rotate(360deg); } }
-
-/* ── Week View ── */
-.pf-agenda-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; height: 100%; }
-.pf-agenda-day-col {
-  background: rgba(15,15,26,0.3); border: 1px solid rgba(99,102,241,0.04);
-  border-radius: 8px; display: flex; flex-direction: column; min-height: 200px;
+.pf-agenda-calendar .rbc-calendar {
+  background: var(--pf-bg-200);
+  border-radius: var(--pf-radius-lg);
+  border: 1px solid var(--pf-border);
+  box-shadow: var(--pf-shadow-card);
+  overflow: hidden;
 }
-.pf-agenda-day-col.today { border-color: rgba(99,102,241,0.25); background: rgba(99,102,241,0.04); }
-.pf-agenda-day-header { padding: 8px; text-align: center; border-bottom: 1px solid rgba(99,102,241,0.04); }
-.pf-agenda-day-name { display: block; font-size: 10px; color: #64748b; font-weight: 600; letter-spacing: 0.5px; }
-.pf-agenda-day-num { font-size: 16px; font-weight: 700; }
-.today-num { color: #6366f1; }
-.pf-agenda-day-events { flex: 1; padding: 4px; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
-.pf-agenda-event-card {
-  padding: 6px 8px; border-radius: 6px; border-left: 3px solid #6366f1;
-  background: rgba(99,102,241,0.06); cursor: pointer; transition: background 0.15s;
-}
-.pf-agenda-event-card:hover { background: rgba(99,102,241,0.12); }
-.pf-agenda-event-time { font-size: 10px; color: #818cf8; display: block; }
-.pf-agenda-event-title { font-size: 11px; font-weight: 600; display: block; }
-.pf-agenda-event-client { font-size: 10px; color: #64748b; display: block; }
-.pf-agenda-day-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: #334155; font-size: 20px; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
-.pf-agenda-day-col:hover .pf-agenda-day-empty { opacity: 1; }
 
-/* ── List View ── */
-.pf-agenda-list { display: flex; flex-direction: column; gap: 4px; }
-.pf-agenda-list-item {
-  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-  border-radius: 8px; cursor: pointer; transition: background 0.15s;
-  border-bottom: 1px solid rgba(99,102,241,0.04);
+/* Headers de semana/dia */
+.pf-agenda-calendar .rbc-month-header,
+.pf-agenda-calendar .rbc-time-header {
+  background: var(--pf-bg-300);
+  border-bottom: 1px solid var(--pf-border);
 }
-.pf-agenda-list-item:hover { background: rgba(99,102,241,0.06); }
-.pf-agenda-list-color { width: 4px; height: 32px; border-radius: 2px; flex-shrink: 0; }
-.pf-agenda-list-info { flex: 1; min-width: 0; }
-.pf-agenda-list-title { font-size: 13px; font-weight: 600; }
-.pf-agenda-list-meta { font-size: 11px; color: #64748b; }
-.pf-agenda-list-date { font-size: 11px; color: #818cf8; font-weight: 600; flex-shrink: 0; }
-.pf-agenda-empty { text-align: center; padding: 60px 20px; color: #475569; }
-.pf-agenda-empty-icon { font-size: 48px; opacity: 0.3; margin-bottom: 8px; }
 
-/* ── Modal ── */
-.pf-agenda-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999; }
-.pf-agenda-modal {
-  background: rgba(15,15,30,0.95); border: 1px solid rgba(99,102,241,0.15);
-  border-radius: 14px; width: 90%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+.pf-agenda-calendar .rbc-header {
+  padding: var(--pf-space-sm);
+  font-weight: 600;
+  color: var(--pf-text-secondary);
+  border-bottom: none;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  border-left: 1px solid var(--pf-border);
 }
-.pf-agenda-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(99,102,241,0.08); }
-.pf-agenda-modal-header h3 { margin: 0; font-size: 16px; }
-.pf-agenda-modal-close { background: none; border: none; color: #64748b; font-size: 16px; cursor: pointer; }
-.pf-agenda-form { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
-.pf-agenda-form input, .pf-agenda-form textarea, .pf-agenda-form select {
-  background: rgba(30,30,50,0.6); border: 1px solid rgba(99,102,241,0.1); border-radius: 8px;
-  padding: 8px 12px; color: #e2e8f0; font-size: 13px; width: 100%; box-sizing: border-box;
-}
-.pf-agenda-form input:focus, .pf-agenda-form textarea:focus, .pf-agenda-form select:focus { border-color: rgba(99,102,241,0.4); outline: none; }
-.pf-agenda-form-row { display: flex; gap: 10px; }
-.pf-agenda-form-row > * { flex: 1; }
-.pf-agenda-form label { font-size: 11px; color: #64748b; display: flex; flex-direction: column; gap: 4px; }
-.pf-agenda-colors { display: flex; gap: 6px; padding: 4px 0; }
-.pf-agenda-color-dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.15s; }
-.pf-agenda-color-dot.active { border-color: #fff; transform: scale(1.2); }
-.pf-agenda-modal-actions { display: flex; gap: 8px; justify-content: flex-end; padding-top: 8px; border-top: 1px solid rgba(99,102,241,0.06); }
-.pf-agenda-cancel-btn { background: rgba(30,30,50,0.5); border: 1px solid rgba(99,102,241,0.1); color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; }
-.pf-agenda-save-btn { background: linear-gradient(135deg, #6366f1, #a855f7); border: none; color: #fff; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
-.pf-agenda-delete-btn { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-right: auto; }
 
-/* ══ Light Mode ══ */
-body.light-mode .pf-agenda { background: linear-gradient(145deg, #f5f5f7, #ffffff, #f5f5f7); color: #1a1a2e; }
-body.light-mode .pf-agenda-header { background: rgba(255,255,255,0.8); border-bottom-color: #e0e0e5; }
-body.light-mode .pf-agenda-close { color: #6a6a7a; }
-body.light-mode .pf-agenda-nav button { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
-body.light-mode .pf-agenda-nav button:hover { background: #ffffff; color: #1a1a2e; }
-body.light-mode .pf-agenda-period { color: #1a1a2e; }
-body.light-mode .pf-agenda-view-toggle button { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
-body.light-mode .pf-agenda-view-toggle button.active { background: rgba(99,102,241,0.1); color: #6366f1; border-color: rgba(99,102,241,0.3); }
-body.light-mode .pf-agenda-loading { color: #6a6a7a; }
-body.light-mode .pf-agenda-day-col { background: #ffffff; border-color: #e0e0e5; }
-body.light-mode .pf-agenda-day-col.today { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.04); }
-body.light-mode .pf-agenda-day-header { border-bottom-color: #e0e0e5; }
-body.light-mode .pf-agenda-day-name { color: #6a6a7a; }
-body.light-mode .pf-agenda-day-num { color: #1a1a2e; }
-body.light-mode .pf-agenda-event-card { background: rgba(99,102,241,0.06); }
-body.light-mode .pf-agenda-event-card:hover { background: rgba(99,102,241,0.12); }
-body.light-mode .pf-agenda-event-title { color: #1a1a2e; }
-body.light-mode .pf-agenda-event-client { color: #6a6a7a; }
-body.light-mode .pf-agenda-list-item { border-bottom-color: #e0e0e5; }
-body.light-mode .pf-agenda-list-item:hover { background: rgba(99,102,241,0.04); }
-body.light-mode .pf-agenda-list-title { color: #1a1a2e; }
-body.light-mode .pf-agenda-list-meta { color: #6a6a7a; }
-body.light-mode .pf-agenda-empty { color: #8a8a9a; }
-body.light-mode .pf-agenda-overlay { background: rgba(0,0,0,0.4); }
-body.light-mode .pf-agenda-modal { background: #ffffff; border-color: #e0e0e5; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-body.light-mode .pf-agenda-modal-header { border-bottom-color: #e0e0e5; }
-body.light-mode .pf-agenda-modal-header h3 { color: #1a1a2e; }
-body.light-mode .pf-agenda-modal-close { color: #6a6a7a; }
-body.light-mode .pf-agenda-form label { color: #6a6a7a; }
-body.light-mode .pf-agenda-form input, body.light-mode .pf-agenda-form textarea, body.light-mode .pf-agenda-form select { background: #f5f5f7; border-color: #e0e0e5; color: #1a1a2e; }
-body.light-mode .pf-agenda-modal-actions { border-top-color: #e0e0e5; }
-body.light-mode .pf-agenda-cancel-btn { background: #f5f5f7; border-color: #e0e0e5; color: #6a6a7a; }
+/* Células de tempo/dia */
+.pf-agenda-calendar .rbc-month-row,
+.pf-agenda-calendar .rbc-time-content {
+  border-top: 1px solid var(--pf-border);
+}
+
+.pf-agenda-calendar .rbc-day-bg,
+.pf-agenda-calendar .rbc-timeslot-group {
+  border-left: 1px solid var(--pf-border);
+  border-bottom: 1px solid var(--pf-border);
+}
+
+/* Dia atual */
+.pf-agenda-calendar .rbc-today {
+  background-color: var(--pf-bg-active, rgba(234, 183, 62, 0.05)); /* leve yellow wash */
+}
+
+/* Timeline (linha vermelha) */
+.pf-agenda-calendar .rbc-current-time-indicator {
+  background-color: var(--pf-error);
+}
+
+/* Eventos (Cards de reunião) */
+.pf-agenda-calendar .rbc-event {
+  background-color: var(--pf-accent-primary);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--pf-radius-sm);
+  padding: 2px 6px;
+  color: var(--pf-button-text);
+  font-size: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.pf-agenda-calendar .rbc-event:hover {
+  background-color: var(--pf-accent-primary-hover);
+  transform: scale(1.02);
+  z-index: 5;
+}
+
+.pf-agenda-calendar .rbc-event.rbc-selected {
+  background-color: var(--pf-accent-primary-active);
+  box-shadow: 0 0 0 2px var(--pf-text-inverted), 0 0 0 4px var(--pf-accent-primary);
+}
+
+/* Barra de ações (toolbar nativa do rbc) */
+.pf-agenda-calendar .rbc-toolbar {
+  margin-bottom: var(--pf-space-md);
+  padding: 0 var(--pf-space-sm);
+}
+
+.pf-agenda-calendar .rbc-toolbar button {
+  color: var(--pf-text-primary);
+  background: var(--pf-bg-300);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius-btn);
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all var(--pf-duration-base) var(--pf-ease-in-out);
+}
+
+.pf-agenda-calendar .rbc-toolbar button:hover {
+  background: var(--pf-bg-hover);
+  border-color: var(--pf-accent-primary);
+}
+
+.pf-agenda-calendar .rbc-toolbar button.rbc-active {
+  background: var(--pf-accent-primary);
+  color: var(--pf-button-text);
+  border-color: var(--pf-accent-primary);
+}
+
+.pf-agenda-calendar .rbc-btn-group {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.pf-agenda-calendar .rbc-btn-group button {
+  border-radius: 0;
+}
+.pf-agenda-calendar .rbc-btn-group button:first-child {
+  border-top-left-radius: var(--pf-radius-btn);
+  border-bottom-left-radius: var(--pf-radius-btn);
+}
+.pf-agenda-calendar .rbc-btn-group button:last-child {
+  border-top-right-radius: var(--pf-radius-btn);
+  border-bottom-right-radius: var(--pf-radius-btn);
+}
+
+/* Ocultar "all day" se n usarmos */
+.pf-agenda-calendar .rbc-allday-cell {
+  display: none;
+}
+
+/* Ajustes de scroll e tamanhos da Agenda diária/semanal */
+.pf-agenda-calendar .rbc-time-view {
+  border: none;
+  border-radius: var(--pf-radius-lg);
+  overflow: hidden;
+}
+
+/* EVENT MODAL */
+.pf-agenda-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fade-in 0.2s ease-out;
+}
+
+.pf-agenda-modal-content {
+  background: var(--pf-bg-200);
+  width: 400px;
+  max-width: 90%;
+  border-radius: var(--pf-radius-lg);
+  box-shadow: var(--pf-shadow-lg);
+  border: 1px solid var(--pf-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pf-agenda-modal-header {
+  padding: var(--pf-space-lg);
+  border-bottom: 1px solid var(--pf-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--pf-bg-300);
+}
+
+.pf-agenda-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.pf-agenda-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.pf-agenda-modal-close:hover {
+  color: var(--pf-error);
+}
+
+.pf-agenda-modal-body {
+  padding: var(--pf-space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-md);
+}
+
+.pf-agenda-modal-body .pf-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-xs);
+}
+
+.pf-agenda-modal-body label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-text-secondary);
+  text-transform: uppercase;
+}
+
+.pf-agenda-modal-body input,
+.pf-agenda-modal-body textarea,
+.pf-agenda-modal-body select {
+  padding: var(--pf-space-sm);
+  background: var(--pf-bg-100);
+  border: 1px solid var(--pf-border);
+  color: var(--pf-text-primary);
+  border-radius: var(--pf-radius-sm);
+  font-family: inherit;
+}
+
+.pf-agenda-modal-body input:focus,
+.pf-agenda-modal-body textarea:focus,
+.pf-agenda-modal-body select:focus {
+  outline: none;
+  border-color: var(--pf-accent-primary);
+}
+
+.pf-agenda-modal-footer {
+  padding: var(--pf-space-lg);
+  border-top: 1px solid var(--pf-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--pf-space-md);
+  background: var(--pf-bg-300);
+}
+
+.pf-agenda-modal-footer button {
+  padding: var(--pf-space-sm) var(--pf-space-lg);
+  border-radius: var(--pf-radius-btn);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.pf-btn-cancel {
+  background: transparent;
+  color: var(--pf-text-primary);
+  border: 1px solid var(--pf-border) !important;
+}
+.pf-btn-cancel:hover {
+  background: var(--pf-bg-hover);
+}
+
+.pf-btn-save {
+  background: var(--pf-accent-primary);
+  color: var(--pf-button-text);
+}
+.pf-btn-save:hover {
+  background: var(--pf-accent-primary-hover);
+}
+
+.pf-btn-delete {
+  background: transparent;
+  color: var(--pf-error);
+  border: 1px solid var(--pf-error) !important;
+  margin-right: auto;
+}
+.pf-btn-delete:hover {
+  background: rgba(220, 53, 69, 0.1);
+}

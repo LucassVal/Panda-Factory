@@ -13,8 +13,6 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
  * - Text: UPPERCASE standard
  */
 function PFDock({
-  onCatalogClick,
-  onToolsClick,
   onStoreClick,
   onSettingsClick,
   plugins = [],
@@ -211,27 +209,19 @@ function PFDock({
         <div className="pf-dock-items">
           {/* ── CORE TOOLS ─── */}
 
-          {/* Drawing Tools - Opens Right Toolbar */}
-          <button
-            className="pf-dock-item section-toggle"
-            onClick={onToolsClick}
-            title="FERRAMENTAS"
-            aria-label="Ferramentas de desenho"
-          >
-            🎨
-          </button>
-
-          {/* Catalog */}
+          {/* Panda Chat / AI */}
           <button
             className="pf-dock-item"
-            onClick={onCatalogClick}
-            title="MEU CATÁLOGO"
-            aria-label="Meu catálogo de apps"
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("panda:chat-toggle-internal"),
+              )
+            }
+            title="PANDA AI CHAT"
+            aria-label="Assistente de IA"
           >
-            📁
+            🧠
           </button>
-
-          <div className="pf-dock-separator" />
 
           {/* ── QUICK ACCESS ─── */}
 

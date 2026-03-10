@@ -6,6 +6,16 @@
  * Billing: free to 100 contacts, 0.1 PC above
  * ═══════════════════════════════════════════════════════════ */
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  update,
+  remove,
+  off,
+} from "firebase/database";
+import { useAuth } from "../../../hooks/useAuth";
 import "./PFFunnelView.css";
 
 // ── GAS communication ──
@@ -241,6 +251,13 @@ function ContactModal({ contact, onClose, onSave, onDelete }) {
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════
 export default function PFCRMTentacle() {
+  const { user } = useAuth();
+  const getEffectiveUid = useCallback(() => {
+    return (
+      user?.uid || localStorage.getItem("panda_user") || "admin_placeholder"
+    );
+  }, [user]);
+
   const [contacts, setContacts] = useState([]);
   const [pipelineCounts, setPipelineCounts] = useState({});
   const [total, setTotal] = useState(0);
@@ -253,37 +270,72 @@ export default function PFCRMTentacle() {
   const [dragOverStage, setDragOverStage] = useState(null);
 
   // ── Load contacts ──
-  const loadContacts = useCallback(async () => {
-    setLoading(true);
-    const res = await gasPost("CRM_LIST", { search });
-    if (res.status === "SUCCESS") {
-      setContacts(res.contacts || []);
-      setPipelineCounts(res.pipelineCounts || {});
-      setTotal(res.total || 0);
-      setFreeTier(res.freeTier !== false);
-    }
-    setLoading(false);
-  }, [search]);
-
   useEffect(() => {
-    loadContacts();
-  }, [loadContacts]);
+    let cancelled = false;
+    const db = getDatabase();
+    const uid = getEffectiveUid();
+    const contactsRef = ref(db, `pf_cells/${uid}/crm/contacts`);
+
+    setLoading(true);
+    onValue(contactsRef, (snapshot) => {
+      if (cancelled) return;
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const contactList = Object.entries(data).map(([id, c]) => ({
+          ...c,
+          id,
+        }));
+
+        // Count pipelines
+        const counts = {};
+        contactList.forEach((c) => {
+          const p = c.pipeline || "novo";
+          counts[p] = (counts[p] || 0) + 1;
+        });
+
+        setContacts(contactList);
+        setPipelineCounts(counts);
+        setTotal(contactList.length);
+        setFreeTier(contactList.length <= 100);
+      } else {
+        setContacts([]);
+        setPipelineCounts({});
+        setTotal(0);
+        setFreeTier(true);
+      }
+      setLoading(false);
+    });
+
+    return () => {
+      cancelled = true;
+      off(contactsRef);
+    };
+  }, [getEffectiveUid]);
 
   // ── Save contact ──
   const handleSave = useCallback(
     async (contactData) => {
-      const res = await gasPost("CRM_UPSERT", { contact: contactData });
-      if (res.status === "SUCCESS") {
+      try {
+        const db = getDatabase();
+        const uid = getEffectiveUid();
+        const isNew = !contactData.id;
+        const contactId = isNew ? "manual_" + Date.now() : contactData.id;
+
+        const contactRef = ref(db, `pf_cells/${uid}/crm/contacts/${contactId}`);
+        await update(contactRef, {
+          ...contactData,
+          id: contactId,
+          lastContact: new Date().toISOString(),
+        });
+        // Remoção da regra de billing, o CRM nativo não consumirá saldo PC em leads.
+
         setShowModal(false);
         setSelectedContact(null);
-        await loadContacts();
-      } else if (res.status === "INSUFFICIENT_FUNDS") {
-        alert(
-          `⚠️ Saldo insuficiente!\nNecessário: ${res.requiredPC} PC\nAtual: ${res.currentBalance} PC\n\n${res.message}`,
-        );
+      } catch (err) {
+        console.error("Save error:", err);
       }
     },
-    [loadContacts],
+    [getEffectiveUid],
   );
 
   // ── Delete contact ──
@@ -291,12 +343,13 @@ export default function PFCRMTentacle() {
     async (contactId) => {
       if (!window.confirm("Tem certeza que deseja excluir este contato?"))
         return;
-      await gasPost("CRM_DELETE", { contactId });
+      const db = getDatabase();
+      const uid = getEffectiveUid();
+      await remove(ref(db, `pf_cells/${uid}/crm/contacts/${contactId}`));
       setShowModal(false);
       setSelectedContact(null);
-      await loadContacts();
     },
-    [loadContacts],
+    [getEffectiveUid],
   );
 
   // ── Pipeline drag & drop ──
@@ -312,21 +365,28 @@ export default function PFCRMTentacle() {
       const contactId = e.dataTransfer.getData("text/plain");
       if (!contactId) return;
 
-      // Optimistic update
-      setContacts((prev) =>
-        prev.map((c) => (c.id === contactId ? { ...c, pipeline: stageId } : c)),
-      );
+      const db = getDatabase();
+      const uid = getEffectiveUid();
+      const contactRef = ref(db, `pf_cells/${uid}/crm/contacts/${contactId}`);
 
-      const res = await gasPost("CRM_PIPELINE_UPDATE", {
-        contactId,
-        pipeline: stageId,
-      });
-      if (res.status !== "SUCCESS") {
-        await loadContacts(); // Revert on error
-      }
+      // Update pipeline stage directly
+      await update(contactRef, { pipeline: stageId });
     },
-    [loadContacts],
+    [getEffectiveUid],
   );
+
+  // ── Filtered contacts ──
+  const filteredContacts = useMemo(() => {
+    const lowerSearch = search.toLowerCase();
+    return contacts.filter((c) => {
+      if (!lowerSearch) return true;
+      return (
+        (c.name || "").toLowerCase().includes(lowerSearch) ||
+        (c.phone || "").toLowerCase().includes(lowerSearch) ||
+        (c.email || "").toLowerCase().includes(lowerSearch)
+      );
+    });
+  }, [contacts, search]);
 
   // ── Filtered contacts per stage ──
   const contactsByStage = useMemo(() => {
@@ -334,17 +394,18 @@ export default function PFCRMTentacle() {
     PIPELINE_STAGES.forEach((s) => {
       map[s.id] = [];
     });
-    contacts.forEach((c) => {
+    filteredContacts.forEach((c) => {
       const stage = c.pipeline || "novo";
       if (map[stage]) map[stage].push(c);
     });
     return map;
-  }, [contacts]);
+  }, [filteredContacts]);
 
   // ── Pipeline total value ──
   const totalValue = useMemo(
-    () => contacts.reduce((sum, c) => sum + (parseFloat(c.value) || 0), 0),
-    [contacts],
+    () =>
+      filteredContacts.reduce((sum, c) => sum + (parseFloat(c.value) || 0), 0),
+    [filteredContacts],
   );
 
   // ── Open new contact modal ──
@@ -486,7 +547,7 @@ export default function PFCRMTentacle() {
               </tr>
             </thead>
             <tbody>
-              {contacts.map((c) => {
+              {filteredContacts.map((c) => {
                 const stage =
                   PIPELINE_STAGES.find((s) => s.id === c.pipeline) ||
                   PIPELINE_STAGES[0];
@@ -529,7 +590,7 @@ export default function PFCRMTentacle() {
               })}
             </tbody>
           </table>
-          {contacts.length === 0 && (
+          {filteredContacts.length === 0 && (
             <div className="crm-empty">
               <span style={{ fontSize: 48, opacity: 0.3 }}>📇</span>
               <p>Nenhum contato encontrado</p>

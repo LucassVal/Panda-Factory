@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useEffect } from "react";
 import * as FlexLayout from "flexlayout-react";
 import "flexlayout-react/style/dark.css";
 
@@ -36,9 +36,9 @@ const DEFAULT_LAYOUT = {
         children: [
           {
             type: "tab",
-            id: "canvas",
-            name: "CANVAS",
-            component: "canvas",
+            id: "drive",
+            name: "PANDA DRIVE",
+            component: "drive-bg",
             enableClose: false,
           },
         ],
@@ -53,6 +53,11 @@ const APP_REGISTRY = {
     icon: "📁",
     name: "Google Drive",
     url: "https://drive.google.com/embeddedfolderview?id=root#grid",
+  },
+  "panda-board": {
+    icon: "🎨",
+    name: "Panda Board",
+    component: "panda-board",
   },
   canva: {
     icon: "🎨",
@@ -102,7 +107,7 @@ const APP_REGISTRY = {
 };
 
 export function PFWindowManager({
-  canvasComponent,
+  backgroundComponent,
   componentFactory,
   onModelChange,
 }) {
@@ -115,9 +120,13 @@ export function PFWindowManager({
       const componentType = node.getComponent();
       const config = node.getConfig() || {};
 
-      // Canvas tab
-      if (componentType === "canvas") {
-        return canvasComponent || <div>Canvas Loading...</div>;
+      // Background tab (Drive)
+      if (componentType === "drive-bg") {
+        return (
+          backgroundComponent || (
+            <div style={{ padding: 20 }}>Drive Loading...</div>
+          )
+        );
       }
 
       // iframe-based apps (Google Drive, Canva, etc)
@@ -144,7 +153,7 @@ export function PFWindowManager({
 
       return <div style={{ padding: 16 }}>Unknown: {componentType}</div>;
     },
-    [canvasComponent, componentFactory],
+    [backgroundComponent, componentFactory],
   );
 
   // Public method: open an app as a new tab
@@ -221,7 +230,7 @@ export function PFWindowManager({
   );
 
   // Expose openApp + closeApp method via ref-like pattern
-  React.useEffect(() => {
+  useEffect(() => {
     // Store on window for global access (matches SDK pattern)
     window.__pfWindowManager = { openApp, closeApp };
     return () => {

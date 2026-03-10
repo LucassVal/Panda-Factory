@@ -77,18 +77,20 @@ const checkServiceHealth = async (serviceName) => {
       }
       try {
         const start = Date.now();
-        const resp = await fetch(`${url}?action=ping`, {
-          signal: AbortSignal.timeout(8000),
+        await fetch(`${url}?action=ping`, {
+          method: "GET",
+          mode: "no-cors",
+          signal: AbortSignal.timeout(5000), // Reduced timeout to 5s for faster feedback
         });
         const latency = Date.now() - start;
-        if (resp.ok) {
-          return {
-            status: "connected",
-            latency_ms: latency,
-            message: `${latency}ms`,
-          };
-        }
-        return { status: "unavailable", message: `HTTP ${resp.status}` };
+
+        // With mode 'no-cors', response is opaque (status 0, ok false),
+        // so if fetch didn't throw an exception, it reached the server.
+        return {
+          status: "connected",
+          latency_ms: latency,
+          message: `${latency}ms`,
+        };
       } catch {
         return { status: "unavailable", message: "Unreachable" };
       }

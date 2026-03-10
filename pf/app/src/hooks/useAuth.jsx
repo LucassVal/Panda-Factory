@@ -46,6 +46,14 @@ const MOCK_USERS = {
     userType: UserType.USER,
     pcBalance: 100,
   },
+  // Official Test Account for User Level (Firebase real auth mapping)
+  "lucassvalerio2@gmail.com": {
+    uid: "user-test-2",
+    email: "lucassvalerio2@gmail.com",
+    displayName: "Test User 2",
+    userType: UserType.USER,
+    pcBalance: 50,
+  },
 };
 
 /**

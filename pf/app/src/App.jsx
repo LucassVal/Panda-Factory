@@ -28,13 +28,16 @@ import { GasometerPanel } from "./components/PFGasometerPanel";
 import { MiningPanel } from "./components/PFMiningPanel";
 import { PFDefendPanel } from "./components/PFDefendPanel";
 import PFWelcomeWizard from "./components/PFWelcomeWizard";
+import PFProductDetail from "./components/PFProductDetail";
 import PluginManifestEditor from "./components/PFPluginEditor";
-import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
-import PandaCRM from "./modules/crm";
+import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts"; // Módulos Consolidados (v3.7.0)
+import PandaCRM from "./modules/crm/PandaCRM";
 import FounderHub from "./modules/founder";
-import PandaSocial from "./modules/social";
+import PandaSocial from "./modules/social/PandaSocial";
+import PandaAgenda from "./modules/agenda/PandaAgenda";
 import PFDiagnosticDashboard from "./components/PFDiagnosticDashboard";
 import PFErrorBoundary from "./components/PFErrorBoundary";
+import PFDrivePanel from "./components/PFDrivePanel";
 
 /**
  * PANDA FABRICS — MAIN APPLICATION v6.6
@@ -106,9 +109,15 @@ function AppContent() {
     };
     const handleOpenGasometer = () => setShowGasometer(true);
     const handleOpenOrchestrator = () => setShowOrchestrator(true);
+    const handleOpenDrive = () =>
+      openAppWindow("drive", { name: "Panda Drive", icon: "☁️" });
+    const handleOpenPandaBoard = () =>
+      openAppWindow("panda-board", { name: "Panda Board", icon: "🎨" });
 
     window.addEventListener("panda:open-store", handleOpenStore);
     window.addEventListener("panda:toggle-chat", handleToggleChat);
+    window.addEventListener("panda:open-drive", handleOpenDrive);
+    window.addEventListener("panda:open-board", handleOpenPandaBoard);
     window.addEventListener("panda:open-gasometer", handleOpenGasometer);
     window.addEventListener("panda:open-orchestrator", handleOpenOrchestrator);
     return () => {
@@ -119,6 +128,8 @@ function AppContent() {
         "panda:open-orchestrator",
         handleOpenOrchestrator,
       );
+      window.removeEventListener("panda:open-drive", handleOpenDrive);
+      window.removeEventListener("panda:open-board", handleOpenPandaBoard);
     };
   }, []);
 
@@ -149,7 +160,6 @@ function AppContent() {
     setShowStore(false);
   };
 
-  // Uninstall plugin
   const handleUninstallPlugin = (pluginId) => {
     // Also close the tab if it's open
     closeAppWindow(pluginId);
@@ -250,6 +260,13 @@ function AppContent() {
               </PFErrorBoundary>
             );
           }
+          if (componentType === "panda-board") {
+            return (
+              <PFErrorBoundary>
+                <PFCanvas plugins={installedPlugins} />
+              </PFErrorBoundary>
+            );
+          }
           if (componentType === "founder-hub") {
             return (
               <PFErrorBoundary>
@@ -274,6 +291,22 @@ function AppContent() {
               </PFErrorBoundary>
             );
           }
+          if (componentType === "agenda") {
+            return (
+              <PFErrorBoundary>
+                <PandaAgenda onClose={closeDefault} />
+              </PFErrorBoundary>
+            );
+          }
+          // Note: "drive" is handled natively as background now,
+          // but if someone tries to open it as a pop-out tab:
+          if (componentType === "drive") {
+            return (
+              <PFErrorBoundary>
+                <PFDrivePanel onClose={closeDefault} />
+              </PFErrorBoundary>
+            );
+          }
           return (
             <div style={{ padding: 20, color: "#aaa" }}>
               📱 {config?.name || componentType} — COMING SOON
@@ -285,8 +318,12 @@ function AppContent() {
     [installedPlugins],
   );
 
-  // Canvas component for the main tab
-  const canvasComponent = <PFCanvas plugins={installedPlugins} />;
+  // Drive component for the main background tab
+  const driveBackground = (
+    <PFErrorBoundary>
+      <PFDrivePanel />
+    </PFErrorBoundary>
+  );
 
   return (
     <div className="pf-container">
@@ -328,22 +365,16 @@ function AppContent() {
         isFounder={isFounder}
       />
 
-      {/* MAIN CANVAS */}
+      {/* MAIN CANVAS / MULTI-WINDOW */}
       <main className="pf-main" id="pf-main-content" role="main">
         <PFWindowManager
-          canvasComponent={canvasComponent}
+          backgroundComponent={driveBackground}
           componentFactory={componentFactory}
         />
       </main>
 
       {/* DOCK (Left Side) — Only in main window, NOT in pop-outs */}
       <PFDock
-        onCatalogClick={() => setShowCatalog(true)}
-        onToolsClick={() => {
-          const next = !showRightToolbar;
-          setShowRightToolbar(next);
-          if (next) setShowSettings(false);
-        }}
         onStoreClick={() => setShowStore(true)}
         onSettingsClick={() => setShowSettings(true)}
         onBundleClick={() => openAppWindow("bundle-creator")}

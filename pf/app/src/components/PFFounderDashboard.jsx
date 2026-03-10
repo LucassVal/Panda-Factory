@@ -203,7 +203,7 @@ function ConstitutionPanel() {
     {
       id: 6,
       text: "Art.6 — Founder tem voto de minerva em decisões PAT",
-      ref: "PAT_CONST §2",
+      ref: "AGENT_CONST §2",
     },
     {
       id: 7,

@@ -241,107 +241,97 @@ Panda Factory runs on a **FlexLayout-based window manager** — a full IDE-like 
 
 #### More Interactivity Examples
 
-| WebView Open        | Brain Suggests                                                               | Cross-Platform Data                                   |
-| ------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| **Google Calendar** | "Você tem 2 clientes VIP agendados amanhã. Enviar lembrete por WhatsApp?"    | CRM contacts → Calendar events → WhatsApp reminder    |
-| **Instagram DMs**   | "Este lead perguntou sobre preço 3x. Criar proposta no CRM?"                 | Instagram context → CRM pipeline → Follow-up schedule |
-| **iFood Painel**    | "Estoque de mussarela está em 2.5kg (mínimo: 5kg). Pausar item no cardápio?" | iFood orders → Estoque alerts → Menu auto-pause       |
-| **Bling ERP**       | "NF emitida para Cliente X. Atualizar status no CRM e enviar rastreio?"      | Bling invoice → CRM update → WhatsApp tracking        |
-| **Shopee Seller**   | "Este produto vendeu 15 unidades ontem. Reposição automática no fornecedor?" | Shopee sales → Estoque debit → Supplier alert         |
+| WebView Open | Brain Suggests | Cross-Platform Data |
+Este# 🐼 Panda Factory (v3.0.0)
 
-> **The external tool is the HEAVY OPERATION interface. Panda's internal UI is the STRATEGIC CONTROL layer.**
+### The 4th Layer: Connectivity, Orchestration & Social Power
 
-### 📋 Intelligent Manifests
+Panda Factory is a decentralized, high-performance ecosystem designed to bridge the gap between creative execution and massive distribution. Built on a "Connect, Don't Compete" philosophy, it empowers founders and developers to build, automate, and scale with zero infrastructure overhead.
 
-Each Tentacle has a JSON manifest that tells MCP exactly what data to extract:
+---
 
-```json
-{
-  "name": "mercadolivre",
-  "capabilities": {
-    "orders": { "read": true, "webhook": true },
-    "questions": { "read": true, "write": true }
-  },
-  "spine_mapping": {
-    "orders → estoque": "auto_debit",
-    "questions → crm": "auto_capture_lead"
-  }
-}
-```
+## 🛡️ Powered by WRACH & Rust Agent
 
-> The `spine_mapping` field is the **secret sauce** — it declares how data from external APIs automatically feeds CRM, Calendar, and Estoque without any user action.
+**WRACH (Wasm Rust Agent Connectivity Hub)** is the security and performance backbone of the Panda Factory.
 
-### 🦴 Spine + Tentacles Architecture
+- **🦀 Rust Agent (Local):** A native binary (Tauri-based) that provides local hardware access, GPU acceleration for AI, and secure file system operations.
+- **🛡️ WRACH Shield:** A WebAssembly-powered connectivity hub that ensures zero-knowledge security between the browser and local agent.
+- **⚡ Edge Performance:** Local AI processing (Whisper, NLLB) and high-speed data orchestration without cloud latency.
+
+---
+
+## 🗺️ Unified Roadmap 2026
+
+_Status: Phase 1 (Core Foundation) - 95% Complete_
+
+### 🟡 Phase 1: The Core Foundation (Current)
+
+- [x] **Universal SDK:** 100% functional auth, data, and AI bridge.
+- [x] **Native Drive Workspace:** Seamless Google Drive integration with "Protected" folder structure.
+- [x] **Cloud Integration:** Google Apps Script (GAS) real backend activated.
+- [x] **Modern UI/UX:** Renewed Login Screen with 4-tier Service Plans (Free, Start, Creator, Agency).
+- [x] **Security Shield:** WRACH v1.0 activation (Wasm/Rust tunnel).
+- [~] **Final Sprint:** Deploying Kill-Switch keys and CSP hardening.
+
+### ⚪ Phase 2: Distribution & Social Power (Next)
+
+- [ ] **Medusa Store:** One-click marketplace for Panda Modules.
+- [ ] **Tentacles (Social):** Real-time automation for WhatsApp, Instagram, and YouTube.
+- [ ] **Panda Coin Economy:** Implementation of Tokenomics and billing cycles.
+- [ ] **Multi-Hub:** Integrated Education (Kiwify/Hotmart) and CRM Hubs.
+
+### ⚪ Phase 3: Global Orchestration
+
+- [ ] **P2P Compute:** Community-driven GPU sharing for AI rendering.
+- [ ] **Panda Oracle:** Real-time liquidity and price monitoring.
+- [ ] **Enterprise Bridge:** Private Cloud connectors for Large Scale Agencies.
+
+---
+
+## 📂 Project Structure (SSoT)
 
 ```text
-                    🧠 Gemini (Brain)
-                         │
-          ┌──────────────┼──────────────┐
-          │              │              │
-     📇 CRM        📅 Calendar     📦 Inventory
-     (Contacts)    (Events)        (Products)
-          │              │              │
-          └──────────────┼──────────────┘
-                         │
-                   SPINE (backbone)
-                   (Native RTDB, auto-populated)
-                         │
-          ┌──────┬───────┼───────┬──────┐
-          │      │       │       │      │
-        WhApp  Insta    ML    Shopee  iFood
-                         │
-                   TENTACLES
-                   (External APIs via JSON manifests)
-                         │
-                   📊 Visual Dashboard
-                   (Canvas multiwindow, detachable)
+📁 00.credentials/   # 🔒 Secrets (firebase, GAS, keys)
+📁 1.core/           # ☁️ Google Apps Script Backend (1.1.gas, 1.2.domains)
+📁 2.system/         # 🔧 System-level utilities & Kernel
+📁 3.sdk/            # 🐼 Panda SDK (Auth, AI, Data, DRM)
+📁 4.ui/             # 🎨 UI Components & Pages
+📁 5.tentacles/      # 🔌 Integration Modules (Social, Google, Trading)
+📁 6.medusa/         # 🐙 Medusa Store Manifests
+📁 7.rust-agent/     # 🦀 Local Agent (Tauri, GPU, MCP)
+📁 8.docs/           # 📚 Reference Docs & Sprints
+📁 pf/               # 🍇 React Frontend (Vite + TLDraw)
 ```
 
-| Layer         | What                                        | Where                       | Strategy                                       |
-| ------------- | ------------------------------------------- | --------------------------- | ---------------------------------------------- |
-| **Spine**     | CRM + Calendar + Inventory                  | Panda's own RTDB            | Always present, auto-populated by tentacles    |
-| **Dashboard** | 🎯 **Fixed core icon in App Dock**          | Panda native (always on)    | Aggregates ALL connected services — the moat   |
-| **Tentacles** | WhatsApp, ML, Shopee, iFood, Calendar...    | External APIs via manifests | Panda connects — enhances, doesn't replace     |
-| **WebViews**  | Borrowed UI (Google Calendar, Bling, ML...) | iframe/webview in Canvas    | User sees the real tool, Panda operates behind |
+---
 
-> **Philosophy: "Connect, Don't Compete."** — If the user already has a tool, Panda connects to it. If not, Panda offers a basic native module.
-> **Dashboard = core, not optional.** Without it, Panda is just a browser with tabs. The Dashboard aggregates metrics from ALL connected services into one view.
+## 🏛️ Technical Thesis: The 4th Layer
 
-### 🎯 Templates by Niche (Kiwify/Hotmart Products)
+Most SaaS tools focus on **Production** (Layer 1), **Storage** (Layer 2), or **Communication** (Layer 3).
+**Panda Factory is Layer 4: Orchestration.**
 
-Each template = a ready-to-run AI employee for a specific business type:
+Instead of replacing your tools, we wrap them. Your code stays in GitHub, your data in Google Drive, and your AI logic in Gemini. Panda is the glue that makes it scale.
 
-| Template           | Tentacles                       | What the Panda Does                            |
-| ------------------ | ------------------------------- | ---------------------------------------------- |
-| 🍕 **Restaurant**  | WhatsApp + iFood + Sheets       | Orders, menu, inventory, auto-reply            |
-| 🛒 **E-commerce**  | WhatsApp + ML + Shopee + Bling  | Questions, tracking, stock, complaints         |
-| 🏥 **Clinic**      | WhatsApp + Calendar + Sheets    | Scheduling, confirmation, reminders, follow-up |
-| 🏠 **Real Estate** | WhatsApp + Instagram + Calendar | Leads, tours, follow-up, qualification         |
-| 🔧 **Services**    | WhatsApp + Calendar + Sheets    | Quotes, scheduling, billing                    |
+---
 
-> **Affiliate sells, client connects, Panda operates.** Zero onboarding friction.
+## 📜 Governance & Security
 
-### 🧠 AI Chat — 5 Models + 6 GEMs
+Managed by the **Panda Council**. Every change follows the **PF-SSOT-UPDATE** protocol.
 
-Real-time AI assistant with **model switching** and **specialized personas (GEMs)**:
+- **Zero-Knowledge:** Your data never leaves your controlled environment (Drive/Local Agent).
+- **Kill-Switch:** Remote capability to disable compromised modules via Ed25519 signature.
 
-| Feature               | Detail                                                                          |
-| --------------------- | ------------------------------------------------------------------------------- |
-| **5 AI Models**       | Flash (fast) · Pro (deep) · Think (strategy) · Research (web) · Imagen (images) |
-| **6 GEMs**            | Writer ✍️ · Analyst 📊 · Coder 💻 · Designer 🎨 · Planner 📋 · Researcher 🔬    |
-| **Context Injection** | Auto-injects current canvas state, open panels, and user profile                |
-| **Backend**           | GAS → Gemini API with energy cost tracking and context caching                  |
+---
 
-### ✏️ Infinite Canvas (TLDraw)
+## 🌐 Get Started
 
-Full **TLDraw v2** canvas as the foundation surface — not a gimmick, it's the UI itself:
+1. **Cloud:** Visit [Panda App](https://lucassval.github.io/Panda-Factory/)
+2. **Local:** Install the [Rust Agent](https://github.com/LucassVal/Panda-Factory/releases) for GPU power.
+3. **Build:** Check the [SDK Documentation](file:///8.docs/1.reference/PF_SDK_REFERENCE.md).
 
-- **Drawing tools** controlled from Panda's own dock (native TLDraw UI hidden)
-- **Theme-aware** — follows system dark/light mode automatically
-- **Grid toggle** — persistent grid visibility setting
-- **Persistence** — saved to localStorage per room/session
-- **Welcome Overlay** — guided onboarding when canvas is empty
-- **Plugin overlay** — active plugins shown on canvas
+---
+
+© 2026 Panda Factory by Lucas Valério. _Building the future of software orchestration._
 
 ### 🏪 Medusa Store — Extension Marketplace
 
@@ -795,7 +785,7 @@ Panda-Factory/
 ├── 5.tentacles/           # Medusa tentacle modules (37 integrations)
 ├── 6.medusa/              # Medusa manifests (12 integration manifests)
 ├── 7.rust-agent/          # Rust/Tauri desktop agent (GPU, P2P, license)
-├── 8.docs/                # Reference documentation (32 docs)
+├── 8.docs/                # Reference documentation (Subfolders 1-3)
 ├── 9.tools/               # Dev tools, scripts, utilities
 ├── 10.assets/             # Images, pages, pitch decks
 ├── pf/                    # React 18 application (Vite + pf/app/)

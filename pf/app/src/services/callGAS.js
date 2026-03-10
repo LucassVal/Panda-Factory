@@ -118,10 +118,14 @@ export async function gasPost(action, payload = {}) {
   // 🛡️ Wasm Shield (Zero Trust Client) - Assina o Payload
   if (window.PandaCore && window.PandaCore.sign_gas_payload) {
     try {
+      const timestampStr = Date.now().toString();
       const payloadString = JSON.stringify(basePayload);
-      const signature = window.PandaCore.sign_gas_payload(payloadString);
+      const signature = window.PandaCore.sign_gas_payload(
+        payloadString,
+        timestampStr,
+      );
       basePayload._wasm_sig = signature;
-      basePayload._wasm_timestamp = Date.now();
+      basePayload._wasm_timestamp = timestampStr;
     } catch (e) {
       console.warn("🛡️ [Wasm Shield] Falha ao assinar payload", e);
     }
@@ -230,10 +234,13 @@ export const Status = {
 
 /** Drive — Google Drive file management (Affiliate Materials) */
 export const Drive = {
-  listFiles: (folderId) => gasPost("DRIVE_LIST_FILES", { folderId }),
-  readFile: (fileId) => gasPost("DRIVE_READ", { fileId }),
-  getShareLink: (fileId) => gasPost("DRIVE_SHARE_LINK", { fileId }),
-  initFounderFolder: () => gasPost("DRIVE_INIT_FOUNDER"),
+  listFiles: (folderId) =>
+    gasPost("DISPATCH", { type: "DRIVE_LIST_FILES", payload: { folderId } }),
+  readFile: (fileId) =>
+    gasPost("DISPATCH", { type: "DRIVE_READ", payload: { fileId } }),
+  getShareLink: (fileId) =>
+    gasPost("DISPATCH", { type: "DRIVE_SHARE_LINK", payload: { fileId } }),
+  initFounderFolder: () => gasPost("DISPATCH", { type: "DRIVE_INIT_FOUNDER" }),
 };
 
 /** Founder — Sales & webhook dashboard */
@@ -246,26 +253,7 @@ export const Founder = {
 export const WhatsApp = {
   send: (chatId, message) => gasPost("WA_SEND", { chatId, message }),
   getStatus: () => Promise.resolve({ status: "SUCCESS", connected: true }),
-  getChats: () =>
-    GAS_CONFIG.url
-      ? gasPost("WA_GET_CHATS")
-      : Promise.resolve({
-          status: "SUCCESS",
-          chats: [
-            {
-              id: "wa1",
-              name: "João Silva",
-              lastMessage: "Olá, gostaria de saber o preço...",
-              unread: 2,
-            },
-            {
-              id: "wa2",
-              name: "Grupo Vendas",
-              lastMessage: "O boleto foi pago.",
-              unread: 0,
-            },
-          ],
-        }),
+  getChats: () => gasPost("WA_GET_CHATS"),
   getMessages: (chatId) => gasPost("WA_GET_MESSAGES", { chatId }),
 };
 
@@ -304,28 +292,7 @@ export const CRM = {
     GAS_CONFIG.url
       ? gasPost("CRM_DELETE", { contactId })
       : Promise.resolve({ status: "SUCCESS" }),
-  list: (pipeline, search) =>
-    GAS_CONFIG.url
-      ? gasPost("CRM_LIST", { pipeline, search })
-      : Promise.resolve({
-          status: "SUCCESS",
-          contacts: [
-            {
-              id: "1",
-              name: "Lucas Valério",
-              email: "lucas@example.com",
-              stage: "won",
-              company: "Panda Factory",
-            },
-            {
-              id: "2",
-              name: "Alice Smith",
-              email: "alice@example.com",
-              stage: "lead",
-              company: "Wonderland Corp",
-            },
-          ],
-        }),
+  list: (pipeline, search) => gasPost("CRM_LIST", { pipeline, search }),
   pipelineUpdate: (contactId, pipeline) =>
     gasPost("CRM_PIPELINE_UPDATE", { contactId, pipeline }),
 };
@@ -336,6 +303,8 @@ export const Agenda = {
   list: (dateFrom, dateTo) => gasPost("AGENDA_LIST", { dateFrom, dateTo }),
   update: (eventId, updates) => gasPost("AGENDA_UPDATE", { eventId, updates }),
   remove: (eventId) => gasPost("AGENDA_DELETE", { eventId }),
+  setConfig: (config) => gasPost("AGENDA_SET_CONFIG", { config }),
+  getSlots: (date) => gasPost("AGENDA_GET_SLOTS", { date }),
 };
 
 /** PDV — Point of Sale / Cardápio (MOD-06) */
@@ -349,29 +318,7 @@ export const PDV = {
 /** Estoque — Inventory Management (MOD-07) */
 export const Estoque = {
   list: (category, lowStockOnly) =>
-    GAS_CONFIG.url
-      ? gasPost("STOCK_LIST", { category, lowStockOnly })
-      : Promise.resolve({
-          status: "SUCCESS",
-          items: [
-            {
-              id: "s1",
-              name: "Monitor 4K",
-              currentStock: 5,
-              minStock: 2,
-              sku: "MON-001",
-              unit: "un",
-            },
-            {
-              id: "s2",
-              name: "Teclado Mecânico",
-              currentStock: 1,
-              minStock: 5,
-              sku: "KEY-002",
-              unit: "un",
-            },
-          ],
-        }),
+    gasPost("STOCK_LIST", { category, lowStockOnly }),
   upsert: (item) => gasPost("STOCK_UPSERT", { item }),
   adjust: (itemId, adjustment, reason, type) =>
     gasPost("STOCK_ADJUST", { itemId, adjustment, reason, type }),

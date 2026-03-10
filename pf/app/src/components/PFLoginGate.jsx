@@ -18,27 +18,10 @@ function LoginGate({ children }) {
   // Redirect to landing page when not authenticated
   useEffect(() => {
     if (!auth.isLoading && !auth.isAuthenticated) {
-      const isLocalDev =
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1";
-
       if (isLocalDev) {
-        // If user just logged out, don't auto-login — let them see the logged-out state
-        if (sessionStorage.getItem("panda_logout_pending")) {
-          sessionStorage.removeItem("panda_logout_pending");
-          console.warn("[LoginGate] logout pending — skipping auto-login");
-          return; // Show "Redirecting..." UI; user refreshes to re-login
-        }
-        // Dev mode: auto-login with mock user instead of redirect loop
-        // (Vite serves at / so redirect to landing → loop)
-        console.warn("[LoginGate] localhost detected — auto-login dev mode");
-        auth.loginWithGate({
-          uid: "dev-local",
-          email: "dev@panda.local",
-          displayName: "Dev Local",
-          userType: "user",
-          pcBalance: 999,
-        });
+        // DEV MODE LOGIN UI
+        // Instead of auto-logging in or infinite redirecting, pause here.
+        // We will render a DEV LOGIN UI below so the user can test real Google Auth.
         return;
       }
 
@@ -69,6 +52,85 @@ function LoginGate({ children }) {
   // Authenticated → render the app
   if (auth.isAuthenticated) {
     return <>{children}</>;
+  }
+
+  // Not authenticated → In Dev Mode, show a local login panel. In Prod, this shows briefly before redirecting.
+  const isLocalDev =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  if (isLocalDev) {
+    return (
+      <div
+        className="login-gate-loading"
+        style={{ flexDirection: "column", gap: "20px" }}
+      >
+        <img
+          src="./panda-icon.png"
+          alt="Panda"
+          style={{ width: "64px", height: "64px" }}
+        />
+        <h2 style={{ margin: 0 }}>Panda Dev Login</h2>
+        <p
+          style={{
+            color: "#aaa",
+            fontSize: "14px",
+            textAlign: "center",
+            maxWidth: "400px",
+          }}
+        >
+          Localhost bypass detected. To test official accounts
+          (lucassvalerio@gmail.com & lucassvalerio2@gmail.com), use the buttons
+          below.
+        </p>
+
+        <button
+          onClick={() => auth.loginWithGoogle()}
+          style={{
+            padding: "12px 24px",
+            background: "#fff",
+            color: "#000",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            width="18"
+            alt="G"
+          />
+          Testar com Conta Google Real
+        </button>
+
+        <button
+          onClick={() => {
+            auth.loginWithGate({
+              uid: "dev-local",
+              email: "dev@panda.local",
+              displayName: "Dev Mock",
+              userType: "user",
+              pcBalance: 999,
+            });
+          }}
+          style={{
+            padding: "12px 24px",
+            background: "transparent",
+            color: "#aaa",
+            border: "1px solid #444",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          Usar Conta Dev (Mock Local)
+        </button>
+      </div>
+    );
   }
 
   // Not authenticated → show spinner while redirecting

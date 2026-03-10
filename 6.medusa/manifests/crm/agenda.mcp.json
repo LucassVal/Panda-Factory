@@ -1,0 +1,38 @@
+{
+  "name": "panda-agenda",
+  "version": "1.0.0",
+  "description": "Módulo de Agendamento Inteligente para o Panda CRM",
+  "mcp": {
+    "tools": [
+      {
+        "name": "agenda_checkAvailability",
+        "description": "Verifica horários disponíveis em uma data específica",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "Data no formato ISO (YYYY-MM-DD)"
+            }
+          },
+          "required": ["date"]
+        }
+      },
+      {
+        "name": "agenda_bookAppointment",
+        "description": "Agenda um novo compromisso no calendário",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "start": { "type": "string", "description": "ISO Datetime" },
+            "end": { "type": "string", "description": "ISO Datetime" },
+            "contactName": { "type": "string" },
+            "contactPhone": { "type": "string" }
+          },
+          "required": ["title", "start", "end"]
+        }
+      }
+    ]
+  }
+}
