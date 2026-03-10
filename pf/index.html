@@ -1,1701 +1,846 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panda Factory — The 4th Digital Layer</title>
-    <meta
-      name="description"
-      content="Panda Factory — The 4th Digital Layer. Build, package &amp; monetize with 17 SDK namespaces, 6 AI specialists, up to 85% revenue share. WebView API, encapsulate modules, earn via P2P Panda Coins."
-    />
-    <meta
-      name="keywords"
-      content="Panda Factory, 4th Digital Layer, SDK, AI platform, no-code, low-code, WebView API, Gemini, MCP Protocol, plugin marketplace, P2P economy, Panda Coins, revenue share, digital democratization"
-    />
-    <meta name="author" content="Lucas Valério" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://lucassval.github.io/Panda-Factory/" />
-    <meta property="og:title" content="Panda Factory — The 4th Digital Layer" />
-    <meta
-      property="og:description"
-      content="Build, package & monetize. 17 SDK namespaces. 6 AI specialists. Up to 85% revenue share. Zero upfront cost."
-    />
-    <meta
-      property="og:image"
-      content="https://lucassval.github.io/Panda-Factory/assets/panda_logo.png"
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://lucassval.github.io/Panda-Factory/"
-    />
-    <meta property="og:site_name" content="Panda Factory" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="pt_BR" />
-    <meta property="og:locale:alternate" content="es_ES" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Panda Factory — The 4th Digital Layer"
-    />
-    <meta
-      name="twitter:description"
-      content="Build, package &amp; monetize. 17 SDK namespaces. 6 AI specialists. Up to 85% revenue share."
-    />
-    <meta
-      name="twitter:image"
-      content="https://lucassval.github.io/Panda-Factory/assets/panda_logo.png"
-    />
-    <link rel="icon" type="image/png" href="./assets/panda_logo.png" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Panda Factory",
-        "description": "The 4th Digital Layer — AI-first ecosystem where developers build, package & monetize software with 17 SDK namespaces, 6 Gemini AI specialists, and up to 85% revenue share.",
-        "url": "https://lucassval.github.io/Panda-Factory/",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Web",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "author": {
-          "@type": "Person",
-          "name": "Lucas Valério",
-          "url": "https://github.com/LucassVal"
-        }
-      }
-    </script>
+    <title>Panda Factory | 4th Digital Layer</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --pf-black: #0a0a1a;
-        --pf-dark: #0f172a;
-        --pf-surface: rgba(22, 33, 62, 0.95);
-        --pf-border: rgba(255, 255, 255, 0.08);
-        --pf-border-hover: rgba(16, 185, 129, 0.3);
-        --pf-emerald: #10b981;
-        --pf-emerald-glow: rgba(16, 185, 129, 0.15);
-        --pf-emerald-bright: #34d399;
-        --pf-purple: #8b5cf6;
-        --pf-purple-glow: rgba(139, 92, 246, 0.15);
-        --pf-orange: #f59e0b;
-        --pf-blue: #3b82f6;
-        --pf-text: #eaeaea;
-        --pf-text-muted: #8a8a9a;
-        --pf-text-dim: #6a6a7a;
+        --pf-bg: #09090b;
+        --pf-bg-elevated: #18181b;
+        --pf-text: #f4f4f5;
+        --pf-text-dim: #a1a1aa;
+        --pf-border: #27272a;
+        --pf-border-hover: #3f3f46;
+        --pf-primary: #8b5cf6; /* Main Purple */
+        --pf-primary-glow: rgba(139, 92, 246, 0.4);
+        --pf-dev: #ef4444; /* Developer Red/Orange */
+        --pf-user: #06b6d4; /* User Cyan/Blue */
+        --pf-success: #10b981;
+        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-display: "Outfit", var(--font-sans);
+        --font-mono: "JetBrains Mono", monospace;
       }
+
       * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
       }
-      html {
-        scroll-behavior: smooth;
-      }
+
       body {
-        font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        background: var(--pf-black);
-        min-height: 100vh;
+        font-family: var(--font-sans);
+        background-color: var(--pf-bg);
         color: var(--pf-text);
-        overflow-x: hidden;
-      }
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background:
-          radial-gradient(
-            ellipse 80% 50% at 50% -20%,
-            var(--pf-emerald-glow) 0%,
-            transparent 60%
-          ),
-          radial-gradient(
-            ellipse 60% 40% at 80% 50%,
-            var(--pf-purple-glow) 0%,
-            transparent 50%
-          );
-        pointer-events: none;
-        z-index: 0;
-      }
-      .landing-wrapper {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-
-      /* ── Header ── */
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px 40px;
-        max-width: 1200px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .header-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .header-logo {
-        width: 36px;
-        height: 36px;
-      }
-      .header-name {
-        font-size: 1.1rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-      .header-right {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-      }
-      .header-links {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-      }
-      .header-links a {
-        color: var(--pf-text-muted);
-        text-decoration: none;
-        font-size: 0.85rem;
-        font-weight: 500;
-        transition: color 0.2s;
-      }
-      .header-links a:hover {
-        color: var(--pf-text);
-      }
-      .lang-switcher {
-        display: flex;
-        gap: 6px;
-        padding: 4px;
-        background: rgba(15, 15, 35, 0.6);
-        border: 1px solid rgba(102, 126, 234, 0.15);
-        border-radius: 12px;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-      }
-      .lang-btn {
-        background: transparent;
-        border: 1px solid transparent;
-        color: rgba(255, 255, 255, 0.45);
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        font-family: inherit;
-      }
-      .lang-btn.active {
-        background: rgba(102, 126, 234, 0.2);
-        border-color: rgba(102, 126, 234, 0.4);
-        color: #a78bfa;
-        font-weight: 600;
-      }
-      .lang-btn:hover:not(.active) {
-        background: rgba(102, 126, 234, 0.1);
-        color: rgba(255, 255, 255, 0.7);
-      }
-      .header-cta {
-        background: var(--pf-surface);
-        border: 1px solid var(--pf-border);
-        color: var(--pf-text) !important;
-        padding: 8px 20px;
-        border-radius: 8px;
-        font-weight: 600 !important;
-        transition: all 0.25s !important;
-      }
-      .header-cta:hover {
-        background: var(--pf-emerald-glow) !important;
-        border-color: var(--pf-emerald) !important;
-        color: var(--pf-emerald-bright) !important;
-      }
-
-      /* ── Hero ── */
-      main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .hero {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 48px;
-        padding: 60px 24px 40px;
-        max-width: 1200px;
-        width: 100%;
-      }
-      .hero-left {
-        flex: 1;
-        text-align: center;
-        max-width: 620px;
-      }
-      /* ── Floating Login Card ── */
-      .hero-login {
-        width: 360px;
-        flex-shrink: 0;
-        background: rgba(15, 15, 35, 0.8);
-        border: 1px solid rgba(102, 126, 234, 0.15);
-        border-radius: 16px;
-        padding: 36px 28px;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        animation: fadeInUp 0.6s ease-out 0.3s both;
-        position: sticky;
-        top: 100px;
-      }
-      .hero-login h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 6px;
-        text-align: center;
-      }
-      .hero-login .login-subtitle {
-        font-size: 0.85rem;
-        color: var(--pf-text-muted);
-        text-align: center;
-        margin-bottom: 24px;
-        line-height: 1.5;
-      }
-      .login-google-btn {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #e0e0e0;
-        padding: 13px 16px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-family: inherit;
-        margin-bottom: 16px;
-      }
-      .login-google-btn:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-      .login-google-btn:disabled {
-        opacity: 0.7;
-        cursor: wait;
-      }
-      .login-google-btn svg {
-        width: 20px;
-        height: 20px;
-        flex-shrink: 0;
-      }
-      .login-divider {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 16px 0;
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 12px;
-      }
-      .login-divider::before,
-      .login-divider::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: rgba(255, 255, 255, 0.08);
-      }
-      .login-demo-btn {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        background: transparent;
-        border: 1px solid var(--pf-border);
-        color: var(--pf-text-muted);
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-family: inherit;
-      }
-      .login-demo-btn:hover {
-        border-color: rgba(255, 255, 255, 0.2);
-        color: var(--pf-text);
-        background: var(--pf-surface);
-      }
-      .login-status {
-        margin-top: 16px;
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        text-align: center;
-        display: none;
-      }
-      .login-status.error {
-        display: block;
-        background: rgba(239, 68, 68, 0.1);
-        border: 1px solid rgba(239, 68, 68, 0.2);
-        color: #fca5a5;
-      }
-      .login-status.success {
-        display: block;
-        background: var(--pf-emerald-glow);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        color: var(--pf-emerald-bright);
-      }
-      .login-hint {
-        margin-top: 16px;
-        font-size: 0.72rem;
-        color: var(--pf-text-dim);
-        text-align: center;
-        line-height: 1.5;
-      }
-      .login-user-info {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        background: var(--pf-emerald-glow);
-        border: 1px solid rgba(16, 185, 129, 0.2);
-        border-radius: 12px;
-        margin-bottom: 16px;
-      }
-      .login-user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--pf-surface);
-      }
-      .login-user-details {
-        flex: 1;
-        min-width: 0;
-      }
-      .login-user-name {
-        font-size: 0.9rem;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .login-user-email {
-        font-size: 0.75rem;
-        color: var(--pf-text-muted);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--pf-surface);
-        border: 1px solid var(--pf-border);
-        border-radius: 100px;
-        padding: 6px 18px;
-        font-size: 0.8rem;
-        color: var(--pf-emerald-bright);
-        font-weight: 500;
-        margin-bottom: 32px;
-        animation: fadeInDown 0.6s ease-out;
-      }
-      .hero-badge-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--pf-emerald);
-        animation: pulse-dot 2s infinite;
-      }
-      @keyframes pulse-dot {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.4;
-        }
-      }
-      .hero h1 {
-        font-size: clamp(2.5rem, 6vw, 4rem);
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-        margin-bottom: 24px;
-        animation: fadeInUp 0.6s ease-out 0.1s both;
-      }
-      .hero-gradient-text {
-        background: linear-gradient(
-          135deg,
-          var(--pf-emerald-bright) 0%,
-          var(--pf-purple) 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .hero-subtitle {
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        color: var(--pf-text-muted);
-        max-width: 620px;
-        line-height: 1.7;
-        margin-bottom: 40px;
-        animation: fadeInUp 0.6s ease-out 0.2s both;
-      }
-      .hero-actions {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: center;
-        animation: fadeInUp 0.6s ease-out 0.3s both;
-      }
-      .btn-primary {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: linear-gradient(135deg, var(--pf-emerald) 0%, #059669 100%);
-        color: white;
-        padding: 14px 32px;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        transition: all 0.3s;
-        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
-      }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
-      }
-      .btn-secondary {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: transparent;
-        color: var(--pf-text-muted);
-        padding: 14px 32px;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 500;
-        border: 1px solid var(--pf-border);
-        cursor: pointer;
-        text-decoration: none;
-        transition: all 0.3s;
-      }
-      .btn-secondary:hover {
-        color: var(--pf-text);
-        border-color: rgba(255, 255, 255, 0.2);
-        background: var(--pf-surface);
-      }
-
-      /* ── Social Proof ── */
-      .social-proof {
-        padding: 40px 24px;
-        text-align: center;
-        max-width: 960px;
-        width: 100%;
-        margin: 0 auto;
-        animation: fadeInUp 0.6s ease-out 0.5s both;
-      }
-      .social-proof-label {
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        color: var(--pf-text-dim);
-        margin-bottom: 20px;
-        font-weight: 500;
-      }
-      .tech-badges {
-        display: flex;
-        gap: 14px;
-        justify-content: center;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-      .tech-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: var(--pf-surface);
-        border: 1px solid var(--pf-border);
-        padding: 7px 14px;
-        border-radius: 8px;
-        font-size: 0.78rem;
-        color: var(--pf-text-muted);
-        font-weight: 500;
-        transition: border-color 0.2s;
-      }
-      .tech-badge:hover {
-        border-color: rgba(255, 255, 255, 0.15);
-      }
-
-      /* ── Stats ── */
-      .stats-section {
-        padding: 60px 24px;
-        max-width: 1000px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1px;
-        background: var(--pf-border);
-        border-radius: 16px;
-        overflow: hidden;
-      }
-      .stat-card {
-        background: var(--pf-black);
-        padding: 28px 16px;
-        text-align: center;
-        transition: background 0.3s;
-      }
-      .stat-card:hover {
-        background: var(--pf-surface);
-      }
-      .stat-number {
-        font-size: 1.8rem;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        background: linear-gradient(
-          135deg,
-          var(--pf-emerald-bright),
-          var(--pf-purple)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 4px;
-      }
-      .stat-label {
-        font-size: 0.78rem;
-        color: var(--pf-text-dim);
-        font-weight: 500;
-      }
-
-      /* ── Features Grid (12 cards) ── */
-      .features-section {
-        padding: 60px 24px 40px;
-        max-width: 1100px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .section-header {
-        text-align: center;
-        margin-bottom: 48px;
-      }
-      .section-header h2 {
-        font-size: 1.75rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 12px;
-      }
-      .section-header p {
-        color: var(--pf-text-muted);
-        font-size: 1rem;
-        max-width: 550px;
-        margin: 0 auto;
         line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
+
+      /* Navbar */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5%;
+        background: rgba(9, 9, 11, 0.7);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--pf-border);
+        z-index: 1000;
       }
-      .feat-card {
-        background: var(--pf-surface);
-        border: 1px solid var(--pf-border);
-        border-radius: 14px;
-        padding: 24px 20px;
-        transition: all 0.3s;
-      }
-      .feat-card:hover {
-        border-color: var(--pf-border-hover);
-        transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(16, 185, 129, 0.06);
-      }
-      .feat-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
+
+      .logo-area {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        margin-bottom: 14px;
-        background: var(--pf-emerald-glow);
+        gap: 12px;
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
       }
-      .feat-card h3 {
-        font-size: 0.92rem;
-        font-weight: 600;
-        margin-bottom: 6px;
-        letter-spacing: -0.01em;
-      }
-      .feat-card p {
-        font-size: 0.8rem;
-        color: var(--pf-text-muted);
-        line-height: 1.55;
-      }
-      .feat-highlight {
-        display: inline-block;
-        background: var(--pf-emerald-glow);
-        color: var(--pf-emerald-bright);
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 0.72rem;
-        font-weight: 600;
-        margin-top: 8px;
+      .logo-area img {
+        height: 32px;
       }
 
-      /* ── Revenue Section (5 streams) ── */
-      .revenue-section {
-        padding: 60px 24px 40px;
-        max-width: 1000px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .revenue-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1px;
-        background: var(--pf-border);
-        border-radius: 16px;
-        overflow: hidden;
-        margin-bottom: 32px;
-      }
-      .rev-card {
-        background: var(--pf-black);
-        padding: 28px 16px;
-        text-align: center;
-        transition: background 0.3s;
-      }
-      .rev-card:hover {
-        background: var(--pf-surface);
-      }
-      .rev-emoji {
-        font-size: 1.5rem;
-        margin-bottom: 8px;
-      }
-      .rev-pct {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: var(--pf-emerald-bright);
-        margin-bottom: 2px;
-      }
-      .rev-label {
-        font-size: 0.72rem;
-        color: var(--pf-text-dim);
-        font-weight: 500;
-        line-height: 1.4;
-      }
-      .rev-sublabel {
-        font-size: 0.65rem;
-        color: var(--pf-text-dim);
-        opacity: 0.7;
-        margin-top: 4px;
-      }
-      .revenue-compare {
-        max-width: 700px;
-        margin: 0 auto;
-      }
-      .revenue-compare-card {
-        background: linear-gradient(
-          135deg,
-          rgba(16, 185, 129, 0.05),
-          rgba(139, 92, 246, 0.05)
-        );
+      .nav-right button {
+        background: transparent;
+        color: var(--pf-text);
         border: 1px solid var(--pf-border);
-        border-radius: 16px;
-        padding: 36px 32px;
-        text-align: center;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
       }
-      .revenue-compare-card h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 8px;
-      }
-      .revenue-compare-card p {
-        color: var(--pf-text-muted);
-        font-size: 0.92rem;
-        line-height: 1.65;
-        margin-bottom: 24px;
-      }
-      .compare-row {
-        display: flex;
-        gap: 24px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 28px;
-      }
-      .compare-item {
-        text-align: center;
-      }
-      .compare-platform {
-        font-size: 0.72rem;
-        color: var(--pf-text-dim);
-        margin-bottom: 4px;
-      }
-      .compare-value {
-        font-size: 1.2rem;
-        font-weight: 700;
-      }
-      .compare-value.bad {
-        color: #ef4444;
-      }
-      .compare-value.good {
-        color: var(--pf-emerald-bright);
+      .nav-right button:hover {
+        border-color: var(--pf-border-hover);
+        background: var(--pf-bg-elevated);
       }
 
-      /* ── CTA Banner ── */
-      .cta-section {
-        padding: 40px 24px 80px;
-        max-width: 700px;
-        width: 100%;
-        margin: 0 auto;
-        text-align: center;
+      /* Sections & Routing logic */
+      .view-section {
+        display: none;
+        min-height: 100vh;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        animation: fadeIn 0.4s ease forwards;
       }
-      .cta-card {
-        background: linear-gradient(
-          135deg,
-          rgba(16, 185, 129, 0.08),
-          rgba(139, 92, 246, 0.08)
-        );
+      .view-section.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Main Hero (Selection) */
+      .hero-title {
+        text-align: center;
+        margin-top: 4vh;
+        margin-bottom: 60px;
+      }
+      .hero-title h1 {
+        font-family: var(--font-display);
+        font-size: 4rem;
+        line-height: 1.1;
+        background: linear-gradient(135deg, #fff, #a1a1aa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 16px;
+      }
+      .hero-title p {
+        font-size: 1.25rem;
+        color: var(--pf-text-dim);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .persona-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @media (max-width: 768px) {
+        .persona-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-title h1 {
+          font-size: 2.5rem;
+        }
+      }
+
+      .persona-card {
+        background: var(--pf-bg-elevated);
         border: 1px solid var(--pf-border);
         border-radius: 20px;
-        padding: 48px 40px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
       }
-      .cta-card h2 {
-        font-size: 1.5rem;
-        font-weight: 700;
+
+      .persona-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        opacity: 0.5;
+        transition: opacity 0.3s;
+      }
+      .persona-card:hover::before {
+        opacity: 1;
+      }
+      .persona-card.user-card::before {
+        background: var(--pf-user);
+      }
+      .persona-card.dev-card::before {
+        background: var(--pf-dev);
+      }
+
+      .persona-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--pf-border-hover);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+
+      .p-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+      .p-title {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
         margin-bottom: 12px;
       }
-      .cta-card p {
-        color: var(--pf-text-muted);
-        margin-bottom: 28px;
-        font-size: 0.95rem;
-        line-height: 1.7;
-      }
-      .cta-links {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 16px;
-      }
-      .cta-link {
+      .p-desc {
         color: var(--pf-text-dim);
-        font-size: 0.8rem;
-        text-decoration: none;
-        transition: color 0.2s;
+        margin-bottom: 24px;
+        font-size: 0.95rem;
       }
-      .cta-link:hover {
-        color: var(--pf-emerald-bright);
+      .p-list {
+        text-align: left;
+        list-style: none;
+        margin-bottom: 30px;
       }
-
-      /* ── Footer ── */
-      footer {
-        padding: 40px 24px;
-        text-align: center;
-        border-top: 1px solid var(--pf-border);
-        max-width: 1200px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .footer-content {
+      .p-list li {
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 8px;
+        font-size: 0.9rem;
       }
-      .footer-copy {
-        font-size: 0.78rem;
+      .p-list li::before {
+        content: "→";
+        color: var(--pf-primary);
+      }
+
+      .p-btn {
+        width: 100%;
+        padding: 14px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-size: 1rem;
+        transition: opacity 0.2s;
+      }
+      .p-btn:hover {
+        opacity: 0.9;
+      }
+      .user-card .p-btn {
+        background: var(--pf-user);
+        color: #000;
+      }
+      .dev-card .p-btn {
+        background: var(--pf-dev);
+        color: #fff;
+      }
+
+      /* User & Dev Paths Content */
+      .path-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .path-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      .path-header span {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 100px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+      }
+      .user-path .path-header span {
+        background: rgba(6, 182, 212, 0.1);
+        color: var(--pf-user);
+      }
+      .dev-path .path-header span {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--pf-dev);
+      }
+
+      .path-header h2 {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        margin-bottom: 16px;
+      }
+      .path-header p {
+        font-size: 1.2rem;
         color: var(--pf-text-dim);
+        max-width: 600px;
+        margin: 0 auto;
       }
-      .footer-links {
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 60px;
+      }
+      .f-card {
+        background: var(--pf-bg-elevated);
+        border: 1px solid var(--pf-border);
+        border-radius: 16px;
+        padding: 30px;
+      }
+      .f-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+      }
+      .f-card p {
+        color: var(--pf-text-dim);
+        font-size: 0.95rem;
+      }
+
+      .roadmap-box {
+        background: #121214;
+        border: 1px solid var(--pf-border);
+        border-radius: 16px;
+        padding: 40px;
+        margin-bottom: 60px;
+      }
+      .roadmap-box h3 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--pf-border);
+        padding-bottom: 12px;
+      }
+      .rm-phase {
+        margin-bottom: 24px;
+      }
+      .rm-phase h4 {
+        color: var(--pf-primary);
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+      }
+      .rm-list {
+        list-style: none;
+      }
+      .rm-list li {
+        margin-bottom: 8px;
+        color: var(--pf-text-dim);
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+      }
+
+      .cta-bar {
+        text-align: center;
+        background: linear-gradient(to right, var(--pf-bg-elevated), #1f1f22);
+        padding: 40px;
+        border-radius: 16px;
+        border: 1px solid var(--pf-border);
+      }
+      .cta-bar h3 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+      }
+      .cta-btn {
+        background: var(--pf-primary);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .cta-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px var(--pf-primary-glow);
+      }
+
+      /* Login Modal (WRACH Secured) */
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-backdrop.open {
         display: flex;
-        gap: 20px;
+        animation: fadeIn 0.2s;
       }
-      .footer-links a {
+
+      .login-modal {
+        background: var(--pf-bg);
+        border: 1px solid var(--pf-border);
+        border-radius: 24px;
+        width: 100%;
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        border: none;
         color: var(--pf-text-dim);
-        text-decoration: none;
-        font-size: 0.78rem;
-        transition: color 0.2s;
-      }
-      .footer-links a:hover {
-        color: var(--pf-text);
+        font-size: 1.5rem;
+        cursor: pointer;
       }
 
-      /* ── Animations ── */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .lm-header {
+        text-align: center;
+        padding: 40px 20px 20px;
       }
-      @keyframes fadeInDown {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+      .lm-header img {
+        height: 48px;
+        margin-bottom: 16px;
+      }
+      .lm-header h2 {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+
+      .wrach-shield {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(39, 39, 42, 0.5);
+        border: 1px solid var(--pf-border);
+        padding: 4px 12px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--pf-text-dim);
+        letter-spacing: 0.5px;
+        margin-top: 12px;
+      }
+
+      .plans-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        padding: 20px 40px;
+      }
+      @media (max-width: 800px) {
+        .plans-grid {
+          grid-template-columns: 1fr 1fr;
         }
       }
 
-      /* ── Responsive ── */
-      @media (max-width: 900px) {
-        .features-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-        .revenue-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
+      .plan-card {
+        background: var(--pf-bg-elevated);
+        border: 1px solid var(--pf-border);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
       }
-      @media (max-width: 960px) {
-        .hero {
-          flex-direction: column;
-          align-items: center;
-        }
-        .hero-left {
-          max-width: 100%;
-        }
-        .hero-login {
-          width: 100%;
-          max-width: 420px;
-          position: static;
-        }
+      .plan-card h4 {
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        margin-bottom: 8px;
       }
-      @media (max-width: 768px) {
-        header {
-          padding: 16px 20px;
-        }
-        .header-links a:not(.header-cta) {
-          display: none;
-        }
-        .hero {
-          padding: 40px 20px 30px;
-        }
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .features-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .revenue-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .footer-content {
-          flex-direction: column;
-          gap: 16px;
-        }
+      .plan-card .price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 16px;
       }
-      @media (max-width: 480px) {
-        .features-grid {
-          grid-template-columns: 1fr;
-        }
-        .revenue-grid {
-          grid-template-columns: 1fr;
-        }
-        .compare-row {
-          flex-direction: column;
-          gap: 16px;
-        }
+      .plan-card .p-feat {
+        font-size: 0.8rem;
+        color: var(--pf-text-dim);
+        margin-bottom: 4px;
+      }
+
+      .plan-free h4 {
+        color: #a1a1aa;
+      }
+      .plan-start h4 {
+        color: #06b6d4;
+      }
+      .plan-creator h4 {
+        color: #a855f7;
+      }
+      .plan-agency h4 {
+        color: #ef4444;
+      }
+
+      .auth-section {
+        padding: 30px 40px 40px;
+        border-top: 1px solid var(--pf-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(24, 24, 27, 0.5);
+      }
+
+      .google-btn {
+        background: white;
+        color: #000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+        transition: opacity 0.2s;
+      }
+      .google-btn:hover {
+        opacity: 0.9;
+      }
+      .google-btn img {
+        height: 20px;
+      }
+
+      #login-status {
+        margin-top: 16px;
+        font-size: 0.9rem;
+        height: 20px;
+      }
+      #login-status.error {
+        color: #ef4444;
+      }
+      #login-status.success {
+        color: #10b981;
       }
     </style>
   </head>
   <body>
-    <div class="landing-wrapper">
-      <!-- ── Header ── -->
-      <header>
-        <div class="header-brand">
-          <img
-            class="header-logo"
-            src="assets/panda_logo.png"
-            alt="Panda Factory"
-            onerror="this.style.display = 'none'"
-          />
-          <span class="header-name">Panda Factory</span>
-        </div>
-        <div class="header-right">
-          <div class="lang-switcher" id="lang-switcher">
-            <button
-              class="lang-btn active"
-              data-lang="en"
-              onclick="setLang('en')"
-            >
-              EN
-            </button>
-            <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">
-              PT
-            </button>
-            <button class="lang-btn" data-lang="es" onclick="setLang('es')">
-              ES
-            </button>
-          </div>
-          <nav class="header-links">
-            <a
-              href="https://github.com/LucassVal/Panda-Factory"
-              target="_blank"
-              rel="noopener"
-              >GitHub</a
-            >
-            <a
-              href="https://github.com/LucassVal/panda-sdk"
-              target="_blank"
-              rel="noopener"
-              >SDK</a
-            >
-            <a
-              href="https://github.com/LucassVal/panda-sdk-community"
-              target="_blank"
-              rel="noopener"
-              >Community</a
-            >
-            <a class="header-cta" href="#hero" id="nav-cta" data-i18n="nav_open"
-              >Sign In →</a
-            >
-          </nav>
-        </div>
-      </header>
+    <!-- Header -->
+    <header>
+      <div class="logo-area" onclick="showView('hero')">
+        <img src="assets/panda_logo.png" alt="Panda Logo" />
+        Panda Factory
+      </div>
+      <div class="nav-right">
+        <button onclick="openModal()">Founder Login</button>
+      </div>
+    </header>
 
-      <!-- ── Hero ── -->
-      <main>
-        <section class="hero" id="hero">
-          <!-- Left Column: Content -->
-          <div class="hero-left">
-            <div class="hero-badge">
-              <span class="hero-badge-dot"></span>
-              <span data-i18n="badge">Beta — Founder Solo Phase</span>
-            </div>
+    <!-- VIEWS -->
 
-            <h1>
-              <span class="hero-gradient-text" data-i18n="headline"
-                >The 4th Digital Layer</span
-              >
-            </h1>
+    <!-- View: Initial Hero Selection -->
+    <main id="view-hero" class="view-section active">
+      <div class="hero-title">
+        <h1>The 4th Digital Layer</h1>
+        <p>Acelerando negócios com Inteligência Artificial e Orquestração.</p>
+      </div>
 
-            <p class="hero-subtitle" data-i18n="subtitle">
-              Three layers exist: infrastructure, platforms, and tools. Panda
-              Factory is the 4th — an orchestration fabric that democratizes
-              creation, packaging &amp; monetization for everyone, with zero
-              upfront cost.
-            </p>
-
-            <div class="hero-actions">
-              <a
-                class="btn-secondary"
-                href="https://github.com/LucassVal/Panda-Factory"
-                target="_blank"
-                rel="noopener"
-                id="cta-github"
-              >
-                ⭐ <span data-i18n="cta_star">Star on GitHub</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Right Column: Login -->
-          <div class="hero-login" id="login-card">
-            <!-- Pre-login state -->
-            <div id="login-form">
-              <h3>🐼 Enter Panda Factory</h3>
-              <p class="login-subtitle">
-                Sign in with your Google account to access the workspace
-              </p>
-
-              <button
-                class="login-google-btn"
-                id="btn-google-login"
-                onclick="handleGoogleLogin()"
-              >
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-                    fill="#4285F4"
-                  />
-                  <path
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    fill="#34A853"
-                  />
-                  <path
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    fill="#FBBC05"
-                  />
-                  <path
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                    fill="#EA4335"
-                  />
-                </svg>
-                Sign in with Google
-              </button>
-
-              <div class="login-divider">or</div>
-
-              <button class="login-demo-btn" onclick="handleDemoAccess()">
-                👀 View Demo (read-only)
-              </button>
-
-              <div class="login-status" id="login-status"></div>
-
-              <p class="login-hint">
-                🔒 Secured by Firebase Auth · No password needed<br />
-                Your Google account is the only key to Panda Factory
-              </p>
-            </div>
-
-            <!-- Post-login state -->
-            <div id="login-success" style="display: none">
-              <div class="login-user-info">
-                <img class="login-user-avatar" id="user-avatar" alt="" src="" />
-                <div class="login-user-details">
-                  <div class="login-user-name" id="user-name"></div>
-                  <div class="login-user-email" id="user-email"></div>
-                </div>
-              </div>
-              <a
-                class="login-google-btn"
-                href="./app/"
-                style="text-decoration: none; text-align: center"
-              >
-                🐼 Open Workspace
-              </a>
-              <button class="login-demo-btn" onclick="handleSignOut()">
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- ── Social Proof ── -->
-        <section class="social-proof" id="trusted">
-          <p class="social-proof-label" data-i18n="proof_label">
-            Built 100% on Google infrastructure
+      <div class="persona-grid">
+        <!-- User Path -->
+        <div class="persona-card user-card" onclick="showView('user')">
+          <div class="p-icon">🛒</div>
+          <h2 class="p-title">Sou Empreendedor</h2>
+          <p class="p-desc">
+            Quero escalar minha operação usando ferramentas e templates
+            validados da Fábrica.
           </p>
-          <div class="tech-badges">
-            <span class="tech-badge">⚛️ React 19</span>
-            <span class="tech-badge">🤖 Gemini AI (5 models)</span>
-            <span class="tech-badge">🔥 Firebase</span>
-            <span class="tech-badge">🎨 tldraw v2</span>
-            <span class="tech-badge">🔐 Ed25519</span>
-            <span class="tech-badge">⚙️ GitHub Actions</span>
-            <span class="tech-badge">📡 Google Apps Script</span>
-          </div>
-        </section>
+          <ul class="p-list">
+            <li>Acesso à Loja Medusa</li>
+            <li>Templates e Automações Prontas</li>
+            <li>Proteção via WRACH Secured</li>
+          </ul>
+          <button class="p-btn">Explorar Soluções</button>
+        </div>
 
-        <!-- ── Stats ── -->
-        <section class="stats-section" id="stats">
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-number">17</div>
-              <div class="stat-label">SDK Namespaces</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">5</div>
-              <div class="stat-label" data-i18n="stat_ai">Gemini AI Models</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">13+</div>
-              <div class="stat-label" data-i18n="stat_google">
-                Google Services
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">∞</div>
-              <div class="stat-label" data-i18n="stat_canvas">
-                Canvas Workspace
-              </div>
-            </div>
-          </div>
-        </section>
+        <!-- Dev Path -->
+        <div class="persona-card dev-card" onclick="showView('dev')">
+          <div class="p-icon">💻</div>
+          <h2 class="p-title">Sou Desenvolvedor</h2>
+          <p class="p-desc">
+            Quero construir módulos na Camada 4 e monetizar com a melhor
+            estrutura de rev-share.
+          </p>
+          <ul class="p-list">
+            <li>Revenue Share (até 85%)</li>
+            <li>Acesso a 17 SDK Namespaces</li>
+            <li>Integração Firebase + GAS React</li>
+          </ul>
+          <button class="p-btn">Acessar Documentação</button>
+        </div>
+      </div>
+    </main>
 
-        <!-- ── 12 Feature Cards ── -->
-        <section class="features-section" id="features">
-          <div class="section-header">
-            <h2 data-i18n="features_title">Democratizing Digital Creation</h2>
-            <p data-i18n="features_sub">
-              No gatekeepers. No per-seat SaaS fees. Your tools stay the same —
-              Panda adds the orchestration layer that connects them all.
+    <!-- View: User Path -->
+    <main id="view-user" class="view-section user-path">
+      <div class="path-wrapper">
+        <div class="path-header">
+          <span>Para Empreendedores e Usuários</span>
+          <h2>Produtividade sem Limites</h2>
+          <p>
+            Não pague mensalidades por assento. Use o que a Fábrica produz em um
+            ambiente seguro, unificado e otimizado para pequenos e médios
+            negócios.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="f-card">
+            <h3>Loja Medusa</h3>
+            <p>
+              Descubra Landing Pages, CRMs, Automações de Redes Sociais e Funis
+              desenhados sob medida para o seu nicho. Instalação em 1-clique.
             </p>
           </div>
-
-          <div class="features-grid">
-            <!-- Row 1 -->
-            <div class="feat-card">
-              <div class="feat-icon">🎨</div>
-              <h3 data-i18n="f1_title">Infinite Canvas</h3>
-              <p data-i18n="f1_desc">
-                tldraw v2 workspace — draw, design, prototype. No boundaries, no
-                limits.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🤖</div>
-              <h3 data-i18n="f2_title">6 AI Specialists</h3>
-              <p data-i18n="f2_desc">
-                Writer, Analyst, Coder, Designer, Planner, Researcher — each
-                with a focused mission.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🏪</div>
-              <h3 data-i18n="f3_title">Medusa Store</h3>
-              <p data-i18n="f3_desc">
-                Publish modules, reach 34M+ buyers via Hotmart & Kiwify
-                affiliate armies.
-              </p>
-              <span class="feat-highlight" data-i18n="f3_hl"
-                >Up to 85% yours</span
-              >
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">⛏️</div>
-              <h3 data-i18n="f4_title">Usage Mining</h3>
-              <p data-i18n="f4_desc">
-                Earn every time someone USES your module — passive income, not
-                just sales.
-              </p>
-              <span class="feat-highlight" data-i18n="f4_hl"
-                >40% usage revenue</span
-              >
-            </div>
-            <!-- Row 2 -->
-            <div class="feat-card">
-              <div class="feat-icon">🧩</div>
-              <h3 data-i18n="f5_title">17 SDK Namespaces</h3>
-              <p data-i18n="f5_desc">
-                Auth, Brain, Canvas, Store, Wallet, Bridge — plug only what you
-                need.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🔄</div>
-              <h3 data-i18n="f6_title">Real-time Sync</h3>
-              <p data-i18n="f6_desc">
-                Firebase RTDB keeps data in sync. Work across devices
-                seamlessly.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🪟</div>
-              <h3 data-i18n="f7_title">Multi-Window Dock</h3>
-              <p data-i18n="f7_desc">
-                FlexLayout tabs, split panels, floating windows — IDE-like
-                workspace.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🐙</div>
-              <h3 data-i18n="f8_title">Medusa Distribution</h3>
-              <p data-i18n="f8_desc">
-                Publish via GitHub push or Google Drive. 11 payment hooks ready.
-              </p>
-            </div>
-            <!-- Row 3 -->
-            <div class="feat-card">
-              <div class="feat-icon">🛡️</div>
-              <h3 data-i18n="f9_title">Panda Defend</h3>
-              <p data-i18n="f9_desc">
-                14 security rules, Ed25519, kill switch. Your modules are
-                protected.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🔌</div>
-              <h3 data-i18n="f10_title">MCP Brain</h3>
-              <p data-i18n="f10_desc">
-                AI watches your WebViews and suggests actions. Cross-platform
-                intelligence.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🌍</div>
-              <h3 data-i18n="f11_title">Niche Verticals</h3>
-              <p data-i18n="f11_desc">
-                Restaurants, clinics, real estate, e-commerce — templates
-                BigTechs won't touch.
-              </p>
-            </div>
-            <div class="feat-card">
-              <div class="feat-icon">🔗</div>
-              <h3 data-i18n="f12_title">Bridge Reuse</h3>
-              <p data-i18n="f12_desc">
-                Build on top of @panda/ bridges. No OAuth, no rate limits —
-                focus on your product.
-              </p>
-              <span class="feat-highlight" data-i18n="f12_hl"
-                >9 weeks → 2 weeks</span
-              >
-            </div>
-          </div>
-        </section>
-
-        <!-- ── 5 Revenue Streams ── -->
-        <section class="revenue-section" id="revenue">
-          <div class="section-header">
-            <h2 data-i18n="rev_title">
-              6 Ways to Earn — We Only Win When You Win
-            </h2>
-            <p data-i18n="rev_sub">
-              Use the WebView API, start from ready-made templates, create &amp;
-              encapsulate modules — and earn even when others encapsulate yours.
-              Zero upfront cost. Co-production model.
+          <div class="f-card">
+            <h3>WRACH Secured</h3>
+            <p>
+              Segurança de nível militar. O Panda opera localmente e não
+              sequestra seus dados. Tudo encapsulado dentro da interface do
+              Panda Factory.
             </p>
           </div>
-
-          <div class="revenue-grid">
-            <div class="rev-card">
-              <div class="rev-emoji">🏪</div>
-              <div class="rev-pct">70%</div>
-              <div class="rev-label" data-i18n="rev1_label">Store Split</div>
-              <div class="rev-sublabel" data-i18n="rev1_sub">
-                Medusa marketplace
-              </div>
-            </div>
-            <div class="rev-card">
-              <div class="rev-emoji">🎯</div>
-              <div class="rev-pct">85%</div>
-              <div class="rev-label" data-i18n="rev2_label">Own Hook</div>
-              <div class="rev-sublabel" data-i18n="rev2_sub">
-                Your own audience
-              </div>
-            </div>
-            <div class="rev-card">
-              <div class="rev-emoji">🐙</div>
-              <div class="rev-pct">60%</div>
-              <div class="rev-label" data-i18n="rev3_label">Distributor</div>
-              <div class="rev-sublabel" data-i18n="rev3_sub">
-                Affiliate army
-              </div>
-            </div>
-            <div class="rev-card">
-              <div class="rev-emoji">⚡</div>
-              <div class="rev-pct">40%</div>
-              <div class="rev-label" data-i18n="rev4_label">Usage Mining</div>
-              <div class="rev-sublabel" data-i18n="rev4_sub">
-                Passive income
-              </div>
-            </div>
-            <div class="rev-card">
-              <div class="rev-emoji">💎</div>
-              <div class="rev-pct">P2P</div>
-              <div class="rev-label" data-i18n="rev5_label">Panda Coins</div>
-              <div class="rev-sublabel" data-i18n="rev5_sub">
-                Peer-to-peer economy
-              </div>
-            </div>
-            <div class="rev-card">
-              <div class="rev-emoji">📦</div>
-              <div class="rev-pct">+%</div>
-              <div class="rev-label" data-i18n="rev6_label">Encapsulated</div>
-              <div class="rev-sublabel" data-i18n="rev6_sub">
-                Earn when others repackage
-              </div>
-            </div>
-          </div>
-
-          <div class="revenue-compare">
-            <div class="revenue-compare-card">
-              <h3 data-i18n="compare_title">How Panda Compares</h3>
-              <p data-i18n="compare_desc">
-                Only Panda pays you when users USE your product — not just when
-                they buy it. Build via WebView API, encapsulate modules, and
-                earn royalties when others repackage yours.
-              </p>
-              <div class="compare-row">
-                <div class="compare-item">
-                  <div class="compare-platform">Apple / Steam</div>
-                  <div class="compare-value bad">70%</div>
-                </div>
-                <div class="compare-item">
-                  <div class="compare-platform">Shopify Apps</div>
-                  <div class="compare-value bad">80%</div>
-                </div>
-                <div class="compare-item">
-                  <div class="compare-platform" data-i18n="compare_panda">
-                    Panda (Own Hook)
-                  </div>
-                  <div class="compare-value good">85%</div>
-                </div>
-                <div class="compare-item">
-                  <div class="compare-platform" data-i18n="compare_usage">
-                    + Usage Mining
-                  </div>
-                  <div class="compare-value good">+40%</div>
-                </div>
-              </div>
-              <a class="btn-primary" href="#hero" id="cta-revenue">
-                <span data-i18n="cta_build">Start Building for Free →</span>
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <!-- ── Co-production CTA ── -->
-        <section class="cta-section" id="cta-co">
-          <div class="cta-card">
-            <h2 data-i18n="cta_title">Co-production · Published by Panda</h2>
-            <p data-i18n="cta_desc">
-              We handle infrastructure, AI, payments, distribution, compliance.
-              You bring domain knowledge and creativity. Together we create
-              products for niches BigTechs won't touch.
+          <div class="f-card">
+            <h3>Gemini AI Embutido</h3>
+            <p>
+              Esqueça abas do ChatGPT separadas. Com 6 Especialistas AI nativos,
+              a inteligência está exatamente no contexto onde você precisa.
             </p>
-            <a class="btn-primary" href="#hero" id="cta-final">
-              🐼 <span data-i18n="cta_enter">Enter Panda Factory</span>
-            </a>
-            <div class="cta-links">
-              <a
-                class="cta-link"
-                href="https://github.com/LucassVal/panda-sdk"
-                target="_blank"
-                rel="noopener"
-                >📦 panda-sdk</a
-              >
-              <a
-                class="cta-link"
-                href="https://github.com/LucassVal/panda-sdk-community"
-                target="_blank"
-                rel="noopener"
-                >🌐 panda-sdk-community</a
-              >
-              <a
-                class="cta-link"
-                href="https://github.com/LucassVal/Panda-Factory"
-                target="_blank"
-                rel="noopener"
-                >⭐ Panda-Factory</a
-              >
-            </div>
           </div>
-        </section>
-      </main>
-
-      <!-- ── Footer ── -->
-      <footer>
-        <div class="footer-content">
-          <span class="footer-copy"
-            >© 2026 Panda Factory — Layer 4 Orchestration Fabric</span
-          >
-          <div class="footer-links">
-            <a
-              href="https://github.com/LucassVal/Panda-Factory"
-              target="_blank"
-              rel="noopener"
-              >GitHub</a
-            >
-            <a
-              href="https://github.com/LucassVal/panda-sdk"
-              target="_blank"
-              rel="noopener"
-              >SDK</a
-            >
-            <a
-              href="https://github.com/LucassVal/panda-sdk-community"
-              target="_blank"
-              rel="noopener"
-              >Community</a
-            >
+          <div class="f-card">
+            <h3>Soluções Turnkey</h3>
+            <p>
+              Precisa de um chatbot de prospecção? Um gerador de conteúdo?
+              Soluções pré-montadas interconectam apps sem que você configure
+              integrações.
+            </p>
           </div>
         </div>
-      </footer>
+
+        <div class="cta-bar">
+          <h3>Pronto para transformar sua operação?</h3>
+          <button class="cta-btn" onclick="openModal()">
+            Entrar na Fábrica
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- View: Dev Path -->
+    <main id="view-dev" class="view-section dev-path">
+      <div class="path-wrapper">
+        <div class="path-header">
+          <span>Para Partners e Desenvolvedores</span>
+          <h2>Construa a Camada 4</h2>
+          <p>
+            Nós cuidamos da infraestrutura, auth, banco de dados e vitrine. Você
+            constrói a lógica e resolve problemas de nicho.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="f-card">
+            <h3>17 SDK Namespaces</h3>
+            <p>
+              Envolva Firebase (L1), Ferramentas (L3) e Plataformas(L2) com uma
+              única API. <code>Panda.Auth</code>, <code>Panda.Store</code>,
+              <code>Panda.Brain</code>.
+            </p>
+          </div>
+          <div class="f-card">
+            <h3>Economics & Rev Share</h3>
+            <p>
+              Até 85% de comissão de vendas. Única plataforma do mundo que paga
+              <strong>40% sobre o uso transitivo</strong>. Renda passiva real.
+            </p>
+          </div>
+        </div>
+
+        <!-- ROADMAP Injection -->
+        <div class="roadmap-box">
+          <h3>Unified Roadmap 2026</h3>
+
+          <div class="rm-phase">
+            <h4>🟡 Phase 1: The Core Foundation (Atual)</h4>
+            <ul class="rm-list">
+              <li>
+                [x] Universal SDK: 100% functional auth, data, and AI bridge.
+              </li>
+              <li>
+                [x] Native Drive Workspace: Seamless Google Drive integration.
+              </li>
+              <li>
+                [x] Cloud Integration: Google Apps Script (GAS) real backend
+                activated.
+              </li>
+              <li>[x] Modern UI/UX: Renewed Login Screen with 4-tier Plans.</li>
+              <li>
+                [x] Security Shield: WRACH v1.0 activation (Wasm/Rust tunnel).
+              </li>
+              <li>
+                [~] Final Sprint: Deploying Kill-Switch keys and CSP hardening.
+              </li>
+            </ul>
+          </div>
+
+          <div class="rm-phase">
+            <h4>⚪ Phase 2: Distribution & Social Power (Próximo)</h4>
+            <ul class="rm-list">
+              <li>
+                [ ] Medusa Store: One-click marketplace for Panda Modules.
+              </li>
+              <li>
+                [ ] Tentacles (Social): Real-time automation for WhatsApp/IG/YT.
+              </li>
+              <li>[ ] Panda Coin Economy: Tokenomics and billing cycles.</li>
+              <li>
+                [ ] Multi-Hub: Integrated Education (Kiwify/Hotmart) and CRM
+                Hubs.
+              </li>
+            </ul>
+          </div>
+
+          <div class="rm-phase">
+            <h4>⚪ Phase 3: Global Orchestration</h4>
+            <ul class="rm-list">
+              <li>
+                [ ] P2P Compute: Community-driven GPU sharing for AI rendering.
+              </li>
+              <li>
+                [ ] Panda Oracle: Real-time liquidity and price monitoring.
+              </li>
+              <li>
+                [ ] Enterprise Bridge: Private Cloud connectors for Large Scale
+                Agencies.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cta-bar">
+          <h3>Acesso via Convite ou Auditoria</h3>
+          <button class="cta-btn" onclick="openModal()">
+            Acessar SDK / Founder Login
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- WRACH SECURED LOGIN MODAL -->
+    <div
+      class="modal-backdrop"
+      id="login-modal-wrapper"
+      onclick="closeModal(event)"
+    >
+      <div class="login-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(event)">&times;</button>
+
+        <div class="lm-header">
+          <img src="assets/panda_logo.png" alt="Panda Logo" />
+          <h2>Welcome to the 4th Layer</h2>
+          <div class="wrach-shield">🛡️ WRACH SECURED</div>
+        </div>
+
+        <div class="plans-grid">
+          <!-- Free -->
+          <div class="plan-card plan-free">
+            <h4>FREE PLAN</h4>
+            <div class="price">R$ 0</div>
+            <div class="p-feat">1 Mi Tokens Gemini Pro</div>
+            <div class="p-feat">Basic Storage</div>
+            <div class="p-feat">Community Access</div>
+          </div>
+          <!-- Start -->
+          <div class="plan-card plan-start">
+            <h4>START PLAN</h4>
+            <div class="price">R$ 19,90<small>/mês</small></div>
+            <div class="p-feat">1 Mi Tokens Gemini Pro</div>
+            <div class="p-feat">5 Imagens/dia</div>
+            <div class="p-feat">SDK Access</div>
+          </div>
+          <!-- Creator -->
+          <div
+            class="plan-card plan-creator"
+            style="
+              border-color: #a855f7;
+              box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+            "
+          >
+            <h4>CREATOR</h4>
+            <div class="price">R$ 49,90<small>/mês</small></div>
+            <div class="p-feat">1 Mi Tokens Gemini Pro</div>
+            <div class="p-feat">Medusa Listing</div>
+            <div class="p-feat">Priority Support</div>
+          </div>
+          <!-- Agency -->
+          <div class="plan-card plan-agency">
+            <h4>AGENCY</h4>
+            <div class="price">R$ 97,00<small>/mês</small></div>
+            <div class="p-feat">1 Mi Tokens Gemini Pro</div>
+            <div class="p-feat">White-label options</div>
+            <div class="p-feat">Custom API Hooks</div>
+          </div>
+        </div>
+
+        <div class="auth-section">
+          <button
+            class="google-btn"
+            id="btn-google-login"
+            onclick="handleGoogleLogin()"
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+              alt="Google"
+            />
+            Connect with Founder ID
+          </button>
+
+          <div id="login-status"></div>
+        </div>
+      </div>
     </div>
 
-    <!-- ── i18n Engine ── -->
+    <!-- Scripts -->
     <script>
-      const T = {
-        en: {
-          nav_open: "Sign In →",
-          badge: "Beta — Founder Solo Phase",
-          headline: "The 4th Digital Layer",
-          subtitle:
-            "Three layers exist: infrastructure, platforms, and tools. Panda Factory is the 4th — an orchestration fabric that democratizes creation, packaging & monetization for everyone, with zero upfront cost.",
-          cta_enter: "Enter Panda Factory",
-          cta_star: "Star on GitHub",
-          proof_label: "Built 100% on Google infrastructure",
-          stat_ai: "Gemini AI Models",
-          stat_google: "Google Services",
-          stat_canvas: "Canvas Workspace",
-          features_title: "Democratizing Digital Creation",
-          features_sub:
-            "No gatekeepers. No per-seat SaaS fees. Your tools stay the same — Panda adds the orchestration layer that connects them all.",
-          f1_title: "Infinite Canvas",
-          f1_desc:
-            "tldraw v2 workspace — draw, design, prototype. No boundaries, no limits.",
-          f2_title: "6 AI Specialists",
-          f2_desc:
-            "Writer, Analyst, Coder, Designer, Planner, Researcher — each with a focused mission.",
-          f3_title: "Medusa Store",
-          f3_desc:
-            "Publish modules, reach 34M+ buyers via Hotmart & Kiwify affiliate armies.",
-          f3_hl: "Up to 85% yours",
-          f4_title: "Usage Mining",
-          f4_desc:
-            "Earn every time someone USES your module — passive income, not just sales.",
-          f4_hl: "40% usage revenue",
-          f5_title: "17 SDK Namespaces",
-          f5_desc:
-            "Auth, Brain, Canvas, Store, Wallet, Bridge — plug only what you need.",
-          f6_title: "Real-time Sync",
-          f6_desc:
-            "Firebase RTDB keeps data in sync. Work across devices seamlessly.",
-          f7_title: "Multi-Window Dock",
-          f7_desc:
-            "FlexLayout tabs, split panels, floating windows — IDE-like workspace.",
-          f8_title: "Medusa Distribution",
-          f8_desc:
-            "Publish via GitHub push or Google Drive. 11 payment hooks ready.",
-          f9_title: "Panda Defend",
-          f9_desc:
-            "14 security rules, Ed25519, kill switch. Your modules are protected.",
-          f10_title: "MCP Brain",
-          f10_desc:
-            "AI watches your WebViews and suggests actions. Cross-platform intelligence.",
-          f11_title: "Niche Verticals",
-          f11_desc:
-            "Restaurants, clinics, real estate, e-commerce — templates BigTechs won't touch.",
-          f12_title: "Bridge Reuse",
-          f12_desc:
-            "Build on top of @panda/ bridges. No OAuth, no rate limits — focus on your product.",
-          f12_hl: "9 weeks → 2 weeks",
-          rev_title: "6 Ways to Earn — We Only Win When You Win",
-          rev_sub:
-            "Use the WebView API, start from ready-made templates, create & encapsulate modules — and earn even when others encapsulate yours. Zero upfront cost. Co-production model.",
-          rev1_label: "Store Split",
-          rev1_sub: "Medusa marketplace",
-          rev2_label: "Own Hook",
-          rev2_sub: "Your own audience",
-          rev3_label: "Distributor",
-          rev3_sub: "Affiliate army",
-          rev4_label: "Usage Mining",
-          rev4_sub: "Passive income",
-          rev5_label: "Panda Coins",
-          rev5_sub: "Peer-to-peer economy",
-          rev6_label: "Encapsulated",
-          rev6_sub: "Earn when others repackage",
-          compare_title: "How Panda Compares",
-          compare_desc:
-            "Only Panda pays you when users USE your product — not just when they buy it. Build via WebView API, encapsulate modules, and earn royalties when others repackage yours.",
-          compare_panda: "Panda (Own Hook)",
-          compare_usage: "+ Usage Mining",
-          cta_build: "Start Building for Free →",
-          cta_title: "Co-production · Published by Panda",
-          cta_desc:
-            "We handle infrastructure, AI, payments, distribution, compliance. You bring domain knowledge and creativity. Together we create products for niches BigTechs won't touch.",
-        },
-        pt: {
-          nav_open: "Entrar →",
-          badge: "Beta — Fase Fundador Solo",
-          headline: "A 4ª Camada Digital",
-          subtitle:
-            "Existem 3 camadas digitais: infraestrutura, plataformas e ferramentas. Panda Factory é a 4ª — um tecido de orquestração que democratiza a criação, empacotamento e monetização para todos, com custo zero.",
-          cta_enter: "Entrar no Panda Factory",
-          cta_star: "Dar Estrela no GitHub",
-          proof_label: "Construído 100% com infraestrutura Google",
-          stat_ai: "Modelos Gemini AI",
-          stat_google: "Serviços Google",
-          stat_canvas: "Canvas Infinito",
-          features_title: "Democratizando a Criação Digital",
-          features_sub:
-            "Sem barreiras. Sem taxas por assento. Suas ferramentas continuam as mesmas — Panda adiciona a camada de orquestração que conecta tudo.",
-          f1_title: "Canvas Infinito",
-          f1_desc:
-            "Workspace tldraw v2 — desenhe, projete, prototipe. Sem fronteiras, sem limites.",
-          f2_title: "6 IAs Especialistas",
-          f2_desc:
-            "Escritor, Analista, Programador, Designer, Planejador, Pesquisador — cada um com sua missão.",
-          f3_title: "Loja Medusa",
-          f3_desc:
-            "Publique módulos, alcance 34M+ compradores via exércitos de afiliados Hotmart & Kiwify.",
-          f3_hl: "Até 85% é seu",
-          f4_title: "Mineração de Uso",
-          f4_desc:
-            "Ganhe sempre que alguém USA seu módulo — renda passiva, não só vendas.",
-          f4_hl: "40% receita de uso",
-          f5_title: "17 Namespaces SDK",
-          f5_desc:
-            "Auth, Brain, Canvas, Store, Wallet, Bridge — conecte só o que precisar.",
-          f6_title: "Sync em Tempo Real",
-          f6_desc:
-            "Firebase RTDB mantém tudo sincronizado. Trabalhe em qualquer dispositivo.",
-          f7_title: "Dock Multi-Janela",
-          f7_desc:
-            "Abas FlexLayout, painéis divididos, janelas flutuantes — workspace tipo IDE.",
-          f8_title: "Distribuição Medusa",
-          f8_desc:
-            "Publique via push no GitHub ou Google Drive. 11 hooks de pagamento prontos.",
-          f9_title: "Panda Defend",
-          f9_desc:
-            "14 regras de segurança, Ed25519, kill switch. Seus módulos estão protegidos.",
-          f10_title: "MCP Brain",
-          f10_desc:
-            "IA observa seus WebViews e sugere ações. Inteligência cross-platform.",
-          f11_title: "Verticais de Nicho",
-          f11_desc:
-            "Restaurantes, clínicas, imobiliárias, e-commerce — templates que BigTechs não atendem.",
-          f12_title: "Bridge Reuse",
-          f12_desc:
-            "Construa em cima dos bridges @panda/. Sem OAuth, sem rate limits — foque no seu produto.",
-          f12_hl: "9 semanas → 2 semanas",
-          rev_title: "6 Formas de Ganhar — Só Ganhamos Quando Você Ganha",
-          rev_sub:
-            "Use a WebView API, parta de templates prontos, crie e encapsule módulos — e ganhe até quando outros encapsulam os seus. Custo zero antecipado. Modelo co-produção.",
-          rev1_label: "Split da Loja",
-          rev1_sub: "Marketplace Medusa",
-          rev2_label: "Hook Próprio",
-          rev2_sub: "Sua audiência",
-          rev3_label: "Distribuidor",
-          rev3_sub: "Exército afiliados",
-          rev4_label: "Mineração de Uso",
-          rev4_sub: "Renda passiva",
-          rev5_label: "Panda Coins",
-          rev5_sub: "Economia peer-to-peer",
-          rev6_label: "Encapsulados",
-          rev6_sub: "Ganhe quando outros reempacotam",
-          compare_title: "Como Panda se Compara",
-          compare_desc:
-            "Só Panda te paga quando usuários USAM seu produto — não só quando compram. Crie via WebView API, encapsule módulos, e ganhe royalties quando outros reempacotam os seus.",
-          compare_panda: "Panda (Hook Próprio)",
-          compare_usage: "+ Mineração de Uso",
-          cta_build: "Comece a Construir de Graça →",
-          cta_title: "Co-produção · Publicado pela Panda",
-          cta_desc:
-            "Cuidamos de infraestrutura, IA, pagamentos, distribuição, compliance. Você traz conhecimento de domínio e criatividade. Juntos criamos produtos para nichos que BigTechs não atendem.",
-        },
-        es: {
-          nav_open: "Iniciar →",
-          badge: "Beta — Fase Fundador Solo",
-          headline: "La 4ª Capa Digital",
-          subtitle:
-            "Existen 3 capas digitales: infraestructura, plataformas y herramientas. Panda Factory es la 4ª — un tejido de orquestación que democratiza la creación, empaquetamiento y monetización para todos, sin costo inicial.",
-          cta_enter: "Entrar a Panda Factory",
-          cta_star: "Dar Estrella en GitHub",
-          proof_label: "Construido 100% con infraestructura Google",
-          stat_ai: "Modelos Gemini AI",
-          stat_google: "Servicios Google",
-          stat_canvas: "Canvas Infinito",
-          features_title: "Democratizando la Creación Digital",
-          features_sub:
-            "Sin barreras. Sin tarifas por puesto. Tus herramientas siguen iguales — Panda agrega la capa de orquestación que conecta todo.",
-          f1_title: "Canvas Infinito",
-          f1_desc:
-            "Workspace tldraw v2 — dibuja, diseña, prototipa. Sin fronteras, sin límites.",
-          f2_title: "6 IAs Especialistas",
-          f2_desc:
-            "Escritor, Analista, Programador, Diseñador, Planificador, Investigador — cada uno con su misión.",
-          f3_title: "Tienda Medusa",
-          f3_desc:
-            "Publica módulos, alcanza 34M+ compradores vía ejércitos de afiliados Hotmart & Kiwify.",
-          f3_hl: "Hasta 85% tuyo",
-          f4_title: "Minería de Uso",
-          f4_desc:
-            "Gana cada vez que alguien USA tu módulo — ingreso pasivo, no solo ventas.",
-          f4_hl: "40% ingreso de uso",
-          f5_title: "17 Namespaces SDK",
-          f5_desc:
-            "Auth, Brain, Canvas, Store, Wallet, Bridge — conecta solo lo que necesites.",
-          f6_title: "Sync en Tiempo Real",
-          f6_desc:
-            "Firebase RTDB mantiene todo sincronizado. Trabaja en cualquier dispositivo.",
-          f7_title: "Dock Multi-Ventana",
-          f7_desc:
-            "Pestañas FlexLayout, paneles divididos, ventanas flotantes — workspace tipo IDE.",
-          f8_title: "Distribución Medusa",
-          f8_desc:
-            "Publica vía push en GitHub o Google Drive. 11 hooks de pago listos.",
-          f9_title: "Panda Defend",
-          f9_desc:
-            "14 reglas de seguridad, Ed25519, kill switch. Tus módulos están protegidos.",
-          f10_title: "MCP Brain",
-          f10_desc:
-            "IA observa tus WebViews y sugiere acciones. Inteligencia cross-platform.",
-          f11_title: "Verticales de Nicho",
-          f11_desc:
-            "Restaurantes, clínicas, inmobiliarias, e-commerce — templates que BigTechs no atienden.",
-          f12_title: "Bridge Reuse",
-          f12_desc:
-            "Construye sobre los bridges @panda/. Sin OAuth, sin rate limits — enfócate en tu producto.",
-          f12_hl: "9 semanas → 2 semanas",
-          rev_title: "6 Formas de Ganar — Solo Ganamos Cuando Tú Ganas",
-          rev_sub:
-            "Usa la WebView API, parte de templates listos, crea y encapsula módulos — y gana incluso cuando otros encapsulan los tuyos. Sin costo inicial. Modelo co-producción.",
-          rev1_label: "Split de Tienda",
-          rev1_sub: "Marketplace Medusa",
-          rev2_label: "Hook Propio",
-          rev2_sub: "Tu audiencia",
-          rev3_label: "Distribuidor",
-          rev3_sub: "Ejército afiliados",
-          rev4_label: "Minería de Uso",
-          rev4_sub: "Ingreso pasivo",
-          rev5_label: "Panda Coins",
-          rev5_sub: "Economía peer-to-peer",
-          rev6_label: "Encapsulados",
-          rev6_sub: "Gana cuando otros reempaquetan",
-          compare_title: "Cómo se Compara Panda",
-          compare_desc:
-            "Solo Panda te paga cuando usuarios USAN tu producto — no solo cuando compran. Crea vía WebView API, encapsula módulos, y gana royalties cuando otros reempaquetan los tuyos.",
-          compare_panda: "Panda (Hook Propio)",
-          compare_usage: "+ Minería de Uso",
-          cta_build: "Comienza a Construir Gratis →",
-          cta_title: "Co-producción · Publicado por Panda",
-          cta_desc:
-            "Nosotros manejamos infraestructura, IA, pagos, distribución, compliance. Tú traes conocimiento de dominio y creatividad. Juntos creamos productos para nichos que BigTechs no atienden.",
-        },
-      };
-
-      function setLang(lang) {
+      // View router
+      function showView(viewId) {
         document
-          .querySelectorAll(".lang-btn")
-          .forEach((b) =>
-            b.classList.toggle("active", b.dataset.lang === lang),
-          );
-        document.querySelectorAll("[data-i18n]").forEach((el) => {
-          const key = el.getAttribute("data-i18n");
-          if (T[lang] && T[lang][key]) el.textContent = T[lang][key];
-        });
-        document.documentElement.lang =
-          lang === "pt" ? "pt-BR" : lang === "es" ? "es" : "en";
-        try {
-          localStorage.setItem("pf_lang", lang);
-        } catch (e) {}
+          .querySelectorAll(".view-section")
+          .forEach((sec) => sec.classList.remove("active"));
+        document.getElementById("view-" + viewId).classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // Auto-detect saved or browser language
-      (function () {
-        let lang = "en";
-        try {
-          lang = localStorage.getItem("pf_lang");
-        } catch (e) {}
-        if (!lang) {
-          const nav = (navigator.language || "").toLowerCase();
-          if (nav.startsWith("pt")) lang = "pt";
-          else if (nav.startsWith("es")) lang = "es";
-          else lang = "en";
-        }
-        if (T[lang]) setLang(lang);
-      })();
+      // Modal logic
+      const modal = document.getElementById("login-modal-wrapper");
+      function openModal() {
+        modal.classList.add("open");
+      }
+      function closeModal(e) {
+        if (e) e.preventDefault();
+        modal.classList.remove("open");
+      }
     </script>
 
-    <!-- ── Firebase SDK (CDN compat) ── -->
+    <!-- Firebase SDK (CDN compat) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script>
@@ -1705,109 +850,46 @@
         authDomain: "panda-factory.firebaseapp.com",
         databaseURL: "https://panda-factory-default-rtdb.firebaseio.com",
         projectId: "panda-factory",
-        storageBucket: "panda-factory.firebasestorage.app",
-        messagingSenderId: "980998365446",
         appId: "1:980998365446:web:90200c58606a6238eebe87",
-        measurementId: "G-RBZ0YWHSHN",
       };
-      firebase.initializeApp(firebaseConfig);
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
       const auth = firebase.auth();
       const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-      // DOM refs
-      const loginForm = document.getElementById("login-form");
-      const loginSuccess = document.getElementById("login-success");
-      const loginStatus = document.getElementById("login-status");
       const btnGoogle = document.getElementById("btn-google-login");
+      const loginStatus = document.getElementById("login-status");
 
-      // Show status message
       function showStatus(msg, type) {
         loginStatus.textContent = msg;
-        loginStatus.className = "login-status " + type;
+        loginStatus.className = type;
       }
 
-      // Show logged-in state
-      function showUser(user) {
-        document.getElementById("user-name").textContent =
-          user.displayName || "Panda User";
-        document.getElementById("user-email").textContent = user.email;
-        const avatar = document.getElementById("user-avatar");
-        if (user.photoURL) avatar.src = user.photoURL;
-        else avatar.style.display = "none";
-        loginForm.style.display = "none";
-        loginSuccess.style.display = "block";
-        // Update header CTA
-        const navCta = document.getElementById("nav-cta");
-        if (navCta) {
-          navCta.href = "./app/";
-          navCta.textContent = "🐼 Open App";
-        }
-      }
-
-      // Show logged-out state
-      function showLoggedOut() {
-        loginForm.style.display = "block";
-        loginSuccess.style.display = "none";
-        const navCta = document.getElementById("nav-cta");
-        if (navCta) {
-          navCta.href = "#hero";
-          navCta.textContent = "Sign In →";
-        }
-      }
-
-      // Google Sign-In
       async function handleGoogleLogin() {
         btnGoogle.disabled = true;
-        loginStatus.className = "login-status";
+        btnGoogle.style.opacity = "0.5";
+        showStatus("Conectando...", "");
+
         try {
           const result = await auth.signInWithPopup(googleProvider);
-          showStatus(
-            "✅ Welcome, " +
-              (result.user.displayName || "Panda") +
-              "! Redirecting...",
-            "success",
-          );
-          // Auto-redirect to the app
-          setTimeout(function () {
+          showStatus("✅ Autenticado! Redirecionando...", "success");
+          setTimeout(() => {
             window.location.href = "./app/";
-          }, 600);
+          }, 800);
         } catch (err) {
-          console.error("Google login error:", err);
+          console.error("Login error:", err);
           if (err.code === "auth/popup-closed-by-user") {
-            showStatus("Sign-in cancelled. Try again when ready.", "error");
-          } else if (err.code === "auth/unauthorized-domain") {
-            showStatus(
-              "Domain not authorized in Firebase. Add this domain to your Firebase Console > Auth > Settings > Authorized domains.",
-              "error",
-            );
+            showStatus("Login cancelado.", "error");
           } else {
-            showStatus("Login failed: " + err.message, "error");
+            showStatus("Erro: " + err.message, "error");
           }
         } finally {
           btnGoogle.disabled = false;
+          btnGoogle.style.opacity = "1";
         }
       }
-
-      // Demo access (read-only, no auth)
-      function handleDemoAccess() {
-        window.location.href = "./app/";
-      }
-
-      // Sign out
-      async function handleSignOut() {
-        await auth.signOut();
-        showLoggedOut();
-      }
-
-      // Listen for auth state changes (persists across page reloads)
-      auth.onAuthStateChanged(function (user) {
-        if (user) {
-          // Already logged in — go straight to the app
-          window.location.href = "./app/";
-        } else {
-          showLoggedOut();
-        }
-      });
     </script>
   </body>
 </html>
